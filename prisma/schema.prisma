@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model Group {
+  id           String        @id
+  name         String
+  participants Participant[]
+  expenses     Expense[]
+}
+
+model Participant {
+  id              String           @id
+  name            String
+  group           Group            @relation(fields: [groupId], references: [id])
+  groupId         String
+  expensesPaidBy  Expense[]
+  expensesPaidFor ExpensePaidFor[]
+}
+
+model Expense {
+  id       String           @id
+  group    Group            @relation(fields: [groupId], references: [id])
+  title    String
+  amount   Int
+  paidBy   Participant      @relation(fields: [paidById], references: [id])
+  paidById String
+  paidFor  ExpensePaidFor[]
+  groupId  String
+}
+
+model ExpensePaidFor {
+  expense       Expense     @relation(fields: [expenseId], references: [id])
+  participant   Participant @relation(fields: [participantId], references: [id])
+  expenseId     String
+  participantId String
+
+  @@id([expenseId, participantId])
+}
