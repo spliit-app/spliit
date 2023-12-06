@@ -56,12 +56,12 @@ export function ExpenseForm({ group, expense, onSubmit }: Props) {
           <CardHeader>
             <CardTitle>Expense information</CardTitle>
           </CardHeader>
-          <CardContent className="grid grid-cols-2 gap-6">
+          <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <FormField
               control={form.control}
               name="title"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="order-1">
                   <FormLabel>Expense title</FormLabel>
                   <FormControl>
                     <Input placeholder="Monday evening restaurant" {...field} />
@@ -78,7 +78,7 @@ export function ExpenseForm({ group, expense, onSubmit }: Props) {
               control={form.control}
               name="paidBy"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="order-3 sm:order-2">
                   <FormLabel>Paid by</FormLabel>
                   <Select
                     onValueChange={field.onChange}
@@ -107,7 +107,7 @@ export function ExpenseForm({ group, expense, onSubmit }: Props) {
               control={form.control}
               name="amount"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="order-2 sm:order-3">
                   <FormLabel>Amount</FormLabel>
                   <FormControl>
                     <Input
@@ -128,7 +128,7 @@ export function ExpenseForm({ group, expense, onSubmit }: Props) {
               control={form.control}
               name="paidFor"
               render={() => (
-                <FormItem>
+                <FormItem className="order-4">
                   <div className="mb-4">
                     <FormLabel>Paid for</FormLabel>
                     <FormDescription>

@@ -49,62 +49,67 @@ export default async function GroupPage({
             </Button>
           </CardHeader>
         </div>
+
         <CardContent className="p-0">
-          <Table className="">
-            <TableHeader>
-              <TableRow>
-                <TableHead>Title</TableHead>
-                <TableHead>Paid by</TableHead>
-                <TableHead>Paid for</TableHead>
-                <TableHead className="text-right">Amount</TableHead>
-                <TableHead className="w-0"></TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {expenses.map((expense) => (
-                <TableRow key={expense.id}>
-                  <TableCell>{expense.title}</TableCell>
-                  <TableCell>
-                    <Badge variant="secondary">
-                      {
-                        group.participants.find(
-                          (p) => p.id === expense.paidById,
-                        )?.name
-                      }
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="flex flex-wrap gap-1">
-                    {expense.paidFor.map((paidFor, index) => (
-                      <Badge variant="secondary" key={index}>
+          {expenses.length > 0 ? (
+            <Table className="">
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Title</TableHead>
+                  <TableHead>Paid by</TableHead>
+                  <TableHead>Paid for</TableHead>
+                  <TableHead className="text-right">Amount</TableHead>
+                  <TableHead className="w-0"></TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {expenses.map((expense) => (
+                  <TableRow key={expense.id}>
+                    <TableCell>{expense.title}</TableCell>
+                    <TableCell>
+                      <Badge variant="secondary">
                         {
                           group.participants.find(
-                            (p) => p.id === paidFor.participantId,
+                            (p) => p.id === expense.paidById,
                           )?.name
                         }
                       </Badge>
-                    ))}
-                  </TableCell>
-                  <TableCell className="text-right tabular-nums">
-                    $ {expense.amount.toFixed(2)}
-                  </TableCell>
-                  <TableCell>
-                    <Button
-                      size="icon"
-                      variant="link"
-                      className="-my-2"
-                      asChild
-                    >
-                      <Link
-                        href={`/groups/${groupId}/expenses/${expense.id}/edit`}
+                    </TableCell>
+                    <TableCell className="flex flex-wrap gap-1">
+                      {expense.paidFor.map((paidFor, index) => (
+                        <Badge variant="secondary" key={index}>
+                          {
+                            group.participants.find(
+                              (p) => p.id === paidFor.participantId,
+                            )?.name
+                          }
+                        </Badge>
+                      ))}
+                    </TableCell>
+                    <TableCell className="text-right tabular-nums">
+                      $&nbsp;{expense.amount.toFixed(2)}
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        size="icon"
+                        variant="link"
+                        className="-my-2"
+                        asChild
                       >
-                        <ChevronRight className="w-4 h-4" />
-                      </Link>
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+                        <Link
+                          href={`/groups/${groupId}/expenses/${expense.id}/edit`}
+                        >
+                          <ChevronRight className="w-4 h-4" />
+                        </Link>
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          ) : (
+            <div className="p-6">Your group doesn’t have any expense yet.</div>
+          )}
         </CardContent>
       </Card>
 
