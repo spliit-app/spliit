@@ -67,7 +67,11 @@ export function GroupForm({ group, onSubmit }: Props) {
                 <FormItem>
                   <FormLabel>Group name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Summer vacations" {...field} />
+                    <Input
+                      className="text-base"
+                      placeholder="Summer vacations"
+                      {...field}
+                    />
                   </FormControl>
                   <FormDescription>
                     Enter a name for your group.
@@ -99,7 +103,7 @@ export function GroupForm({ group, onSubmit }: Props) {
                         </FormLabel>
                         <FormControl>
                           <div className="flex gap-2">
-                            <Input {...field} />
+                            <Input className="text-base" {...field} />
                             <Button
                               variant="destructive"
                               onClick={() => remove(index)}

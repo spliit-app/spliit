@@ -64,7 +64,11 @@ export function ExpenseForm({ group, expense, onSubmit }: Props) {
                 <FormItem className="order-1">
                   <FormLabel>Expense title</FormLabel>
                   <FormControl>
-                    <Input placeholder="Monday evening restaurant" {...field} />
+                    <Input
+                      placeholder="Monday evening restaurant"
+                      className="text-base"
+                      {...field}
+                    />
                   </FormControl>
                   <FormDescription>
                     Enter a description for the expense.
@@ -111,6 +115,7 @@ export function ExpenseForm({ group, expense, onSubmit }: Props) {
                   <FormLabel>Amount</FormLabel>
                   <FormControl>
                     <Input
+                      className="text-base"
                       type="number"
                       min={0.01}
                       step={0.01}
