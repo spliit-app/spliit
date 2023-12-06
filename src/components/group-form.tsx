@@ -1,4 +1,5 @@
 'use client'
+import { SubmitButton } from '@/components/submit-button'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -25,7 +26,7 @@ import { useFieldArray, useForm } from 'react-hook-form'
 
 export type Props = {
   group?: NonNullable<Awaited<ReturnType<typeof getGroup>>>
-  onSubmit: (groupFormValues: GroupFormValues) => void
+  onSubmit: (groupFormValues: GroupFormValues) => Promise<void>
 }
 
 export function GroupForm({ group, onSubmit }: Props) {
@@ -49,8 +50,8 @@ export function GroupForm({ group, onSubmit }: Props) {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit((values) => {
-          onSubmit(values)
+        onSubmit={form.handleSubmit(async (values) => {
+          await onSubmit(values)
         })}
         className="space-y-8"
       >
@@ -129,7 +130,7 @@ export function GroupForm({ group, onSubmit }: Props) {
           </CardFooter>
         </Card>
 
-        <Button type="submit">Submit</Button>
+        <SubmitButton loadingContent="Submitting…">Submit</SubmitButton>
       </form>
     </Form>
   )

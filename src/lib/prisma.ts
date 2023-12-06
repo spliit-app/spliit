@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 
 let prisma: PrismaClient
 
-export function getPrisma() {
+export async function getPrisma() {
   if (!prisma) {
     if (process.env.NODE_ENV === 'production') {
       prisma = new PrismaClient()

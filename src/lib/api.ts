@@ -4,7 +4,8 @@ import { Expense } from '@prisma/client'
 import { v4 as uuidv4 } from 'uuid'
 
 export async function createGroup(groupFormValues: GroupFormValues) {
-  return getPrisma().group.create({
+  const prisma = await getPrisma()
+  return prisma.group.create({
     data: {
       id: uuidv4(),
       name: groupFormValues.name,
@@ -36,7 +37,8 @@ export async function createExpense(
       throw new Error(`Invalid participant ID: ${participant}`)
   }
 
-  return getPrisma().expense.create({
+  const prisma = await getPrisma()
+  return prisma.expense.create({
     data: {
       id: uuidv4(),
       groupId,
@@ -73,7 +75,8 @@ export async function updateExpense(
       throw new Error(`Invalid participant ID: ${participant}`)
   }
 
-  return getPrisma().expense.update({
+  const prisma = await getPrisma()
+  return prisma.expense.update({
     where: { id: expenseId },
     data: {
       amount: expenseFormValues.amount,
@@ -104,7 +107,8 @@ export async function updateGroup(
   const existingGroup = await getGroup(groupId)
   if (!existingGroup) throw new Error('Invalid group ID')
 
-  return getPrisma().group.update({
+  const prisma = await getPrisma()
+  return prisma.group.update({
     where: { id: groupId },
     data: {
       name: groupFormValues.name,
@@ -134,21 +138,24 @@ export async function updateGroup(
 }
 
 export async function getGroup(groupId: string) {
-  return getPrisma().group.findUnique({
+  const prisma = await getPrisma()
+  return prisma.group.findUnique({
     where: { id: groupId },
     include: { participants: true },
   })
 }
 
 export async function getGroupExpenses(groupId: string) {
-  return getPrisma().expense.findMany({
+  const prisma = await getPrisma()
+  return prisma.expense.findMany({
     where: { groupId },
     include: { paidFor: { include: { participant: true } }, paidBy: true },
   })
 }
 
 export async function getExpense(groupId: string, expenseId: string) {
-  return getPrisma().expense.findUnique({
+  const prisma = await getPrisma()
+  return prisma.expense.findUnique({
     where: { id: expenseId },
     include: { paidBy: true, paidFor: true },
   })

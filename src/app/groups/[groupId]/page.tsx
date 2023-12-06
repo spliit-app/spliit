@@ -17,7 +17,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { getGroup, getGroupExpenses } from '@/lib/api'
-import { ChevronLeft, ChevronRight, Edit, Plus } from 'lucide-react'
+import { ChevronRight, Plus } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
@@ -32,22 +32,7 @@ export default async function GroupPage({
   const expenses = await getGroupExpenses(groupId)
 
   return (
-    <main>
-      <div className="mb-4 flex justify-between">
-        <Button variant="ghost" asChild>
-          <Link href="/groups">
-            <ChevronLeft className="w-4 h-4 mr-2" /> Back to recent groups
-          </Link>
-        </Button>
-        <Button variant="secondary" asChild>
-          <Link href={`/groups/${groupId}/edit`}>
-            <Edit className="w-4 h-4 mr-2" /> Edit group settings
-          </Link>
-        </Button>
-      </div>
-
-      <h1 className="font-bold mb-4">{group.name}</h1>
-
+    <>
       <Card className="mb-4">
         <div className="flex flex-1">
           <CardHeader className="flex-1">
@@ -136,6 +121,6 @@ export default async function GroupPage({
         </CardContent>
       </Card>
       <SaveGroupLocally group={{ id: group.id, name: group.name }} />
-    </main>
+    </>
   )
 }

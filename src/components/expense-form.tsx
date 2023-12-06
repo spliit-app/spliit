@@ -1,5 +1,5 @@
 'use client'
-import { Button } from '@/components/ui/button'
+import { SubmitButton } from '@/components/submit-button'
 import {
   Card,
   CardContent,
@@ -175,9 +175,7 @@ export function ExpenseForm({ group, expense, onSubmit }: Props) {
           </CardContent>
 
           <CardFooter>
-            <Button variant="secondary" type="submit">
-              Submit
-            </Button>
+            <SubmitButton loadingContent="Submitting…">Submit</SubmitButton>
           </CardFooter>
         </Card>
       </form>
