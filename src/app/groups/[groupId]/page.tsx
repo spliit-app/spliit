@@ -86,8 +86,8 @@ export default async function GroupPage({
                         </Badge>
                       ))}
                     </TableCell>
-                    <TableCell className="text-right tabular-nums">
-                      $&nbsp;{expense.amount.toFixed(2)}
+                    <TableCell className="text-right tabular-nums whitespace-nowrap">
+                      {group.currency} {expense.amount.toFixed(2)}
                     </TableCell>
                     <TableCell>
                       <Button

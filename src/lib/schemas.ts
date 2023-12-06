@@ -6,6 +6,10 @@ export const groupFormSchema = z
       .string()
       .min(2, 'Enter at least two characters.')
       .max(50, 'Enter at most 50 characters.'),
+    currency: z
+      .string()
+      .min(1, 'Enter at least one character.')
+      .max(5, 'Enter at most five characters.'),
     participants: z
       .array(
         z.object({

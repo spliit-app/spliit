@@ -118,16 +118,19 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
               render={({ field }) => (
                 <FormItem className="order-2 sm:order-3">
                   <FormLabel>Amount</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="text-base"
-                      type="number"
-                      min={0.01}
-                      step={0.01}
-                      placeholder="0.00"
-                      {...field}
-                    />
-                  </FormControl>
+                  <div className="flex items-baseline gap-2">
+                    <span>{group.currency}</span>
+                    <FormControl>
+                      <Input
+                        className="text-base max-w-[120px]"
+                        type="number"
+                        min={0.01}
+                        step={0.01}
+                        placeholder="0.00"
+                        {...field}
+                      />
+                    </FormControl>
+                  </div>
                   <FormDescription>Enter the expense amount.</FormDescription>
                   <FormMessage />
                 </FormItem>

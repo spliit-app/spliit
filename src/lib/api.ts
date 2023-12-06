@@ -9,6 +9,7 @@ export async function createGroup(groupFormValues: GroupFormValues) {
     data: {
       id: uuidv4(),
       name: groupFormValues.name,
+      currency: groupFormValues.currency,
       participants: {
         createMany: {
           data: groupFormValues.participants.map(({ name }) => ({
@@ -120,6 +121,7 @@ export async function updateGroup(
     where: { id: groupId },
     data: {
       name: groupFormValues.name,
+      currency: groupFormValues.currency,
       participants: {
         deleteMany: existingGroup.participants.filter(
           (p) => !groupFormValues.participants.some((p2) => p2.id === p.id),

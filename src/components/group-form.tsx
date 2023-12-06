@@ -36,10 +36,12 @@ export function GroupForm({ group, onSubmit }: Props) {
     defaultValues: group
       ? {
           name: group.name,
+          currency: group.currency,
           participants: group.participants,
         }
       : {
           name: '',
+          currency: '',
           participants: [{ name: 'John' }, { name: 'Jane' }, { name: 'Jack' }],
         },
   })
@@ -60,7 +62,7 @@ export function GroupForm({ group, onSubmit }: Props) {
           <CardHeader>
             <CardTitle>Group information</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <FormField
               control={form.control}
               name="name"
@@ -76,6 +78,28 @@ export function GroupForm({ group, onSubmit }: Props) {
                   </FormControl>
                   <FormDescription>
                     Enter a name for your group.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="currency"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Currency symbol</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="text-base"
+                      placeholder="$, €, £…"
+                      max={5}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    We’ll used it to display amounts.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
