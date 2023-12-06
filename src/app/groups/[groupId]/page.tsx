@@ -1,3 +1,4 @@
+import { BalancesList } from '@/app/groups/[groupId]/balances-list'
 import { SaveGroupLocally } from '@/app/groups/[groupId]/save-recent-group'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -17,6 +18,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { getGroup, getGroupExpenses } from '@/lib/api'
+import { getBalances } from '@/lib/balances'
 import { ChevronRight, Plus } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -30,6 +32,7 @@ export default async function GroupPage({
   if (!group) notFound()
 
   const expenses = await getGroupExpenses(groupId)
+  const balances = getBalances(expenses)
 
   return (
     <>
@@ -52,7 +55,7 @@ export default async function GroupPage({
 
         <CardContent className="p-0">
           {expenses.length > 0 ? (
-            <Table className="">
+            <Table>
               <TableHeader>
                 <TableRow>
                   <TableHead>Title</TableHead>
@@ -115,14 +118,17 @@ export default async function GroupPage({
 
       <Card className="mb-4">
         <CardHeader>
-          <CardTitle>Participants</CardTitle>
+          <CardTitle>Balances</CardTitle>
+          <CardDescription>
+            This is the amount that each participant paid or was paid for.
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <ul>
-            {group.participants.map((participant) => (
-              <li key={participant.id}>{participant.name}</li>
-            ))}
-          </ul>
+          <BalancesList
+            balances={balances}
+            participants={group.participants}
+            currency={group.currency}
+          />
         </CardContent>
       </Card>
       <SaveGroupLocally group={{ id: group.id, name: group.name }} />
