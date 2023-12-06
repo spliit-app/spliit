@@ -29,9 +29,9 @@ export default async function GroupLayout({
           <Link href={`/groups/${groupId}`}>{group.name}</Link>
         </h1>
 
-        <Button variant="secondary" asChild>
+        <Button variant="outline" asChild size="icon">
           <Link href={`/groups/${groupId}/edit`}>
-            <Edit className="w-4 h-4 mr-2" /> Edit group settings
+            <Edit className="w-4 h-4" />
           </Link>
         </Button>
       </div>
