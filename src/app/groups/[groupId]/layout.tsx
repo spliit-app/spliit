@@ -1,6 +1,8 @@
+import { GroupTabs } from '@/app/groups/[groupId]/group-tabs'
+import { SaveGroupLocally } from '@/app/groups/[groupId]/save-recent-group'
 import { Button } from '@/components/ui/button'
 import { getGroup } from '@/lib/api'
-import { ChevronLeft, Edit } from 'lucide-react'
+import { ChevronLeft } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { PropsWithChildren } from 'react'
@@ -24,19 +26,15 @@ export default async function GroupLayout({
         </Button>
       </div>
 
-      <div className="flex justify-between items-baseline mb-4">
-        <h1 className="font-bold text-2xl">
-          <Link href={`/groups/${groupId}`}>{group.name}</Link>
-        </h1>
+      <h1 className="font-bold text-2xl mb-4">
+        <Link href={`/groups/${groupId}`}>{group.name}</Link>
+      </h1>
 
-        <Button variant="outline" asChild size="icon">
-          <Link href={`/groups/${groupId}/edit`}>
-            <Edit className="w-4 h-4" />
-          </Link>
-        </Button>
-      </div>
+      <GroupTabs groupId={groupId} />
 
       {children}
+
+      <SaveGroupLocally group={{ id: group.id, name: group.name }} />
     </>
   )
 }

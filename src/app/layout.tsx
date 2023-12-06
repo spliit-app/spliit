@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-slate-50">
+      <body className="">
         <ProgressBar />
         <div className="max-w-screen-md mx-auto p-4">{children}</div>
       </body>
