@@ -1,3 +1,4 @@
+import { ProgressBar } from '@/components/progress-bar'
 import type { Metadata } from 'next'
 import './globals.css'
 
@@ -14,6 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <ProgressBar />
         <div className="max-w-screen-md mx-auto p-4">{children}</div>
       </body>
     </html>

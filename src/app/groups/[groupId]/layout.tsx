@@ -15,13 +15,20 @@ export default async function GroupLayout({
   if (!group) notFound()
 
   return (
-    <main>
+    <>
       <div className="mb-4 flex justify-between">
         <Button variant="ghost" asChild>
           <Link href="/groups">
             <ChevronLeft className="w-4 h-4 mr-2" /> Back to recent groups
           </Link>
         </Button>
+      </div>
+
+      <div className="flex justify-between items-baseline mb-4">
+        <h1 className="font-bold text-2xl">
+          <Link href={`/groups/${groupId}`}>{group.name}</Link>
+        </h1>
+
         <Button variant="secondary" asChild>
           <Link href={`/groups/${groupId}/edit`}>
             <Edit className="w-4 h-4 mr-2" /> Edit group settings
@@ -29,9 +36,7 @@ export default async function GroupLayout({
         </Button>
       </div>
 
-      <h1 className="font-bold mb-4">{group.name}</h1>
-
       {children}
-    </main>
+    </>
   )
 }
