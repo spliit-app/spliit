@@ -1,16 +1,16 @@
-import { Button } from '@/components/ui/button'
+import { Button, ButtonProps } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
-import { PropsWithChildren, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { useFormState } from 'react-hook-form'
 
-type Props = PropsWithChildren<{
+type Props = {
   loadingContent: ReactNode
-}>
+} & ButtonProps
 
-export function SubmitButton({ children, loadingContent }: Props) {
+export function SubmitButton({ children, loadingContent, ...props }: Props) {
   const { isSubmitting } = useFormState()
   return (
-    <Button type="submit" disabled={isSubmitting}>
+    <Button type="submit" disabled={isSubmitting} {...props}>
       {isSubmitting ? (
         <>
           <Loader2 className="w-4 h-4 mr-2 animate-spin" /> {loadingContent}

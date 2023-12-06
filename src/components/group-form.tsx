@@ -22,6 +22,7 @@ import { Input } from '@/components/ui/input'
 import { getGroup } from '@/lib/api'
 import { GroupFormValues, groupFormSchema } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Trash2 } from 'lucide-react'
 import { useFieldArray, useForm } from 'react-hook-form'
 
 export type Props = {
@@ -105,11 +106,13 @@ export function GroupForm({ group, onSubmit }: Props) {
                           <div className="flex gap-2">
                             <Input className="text-base" {...field} />
                             <Button
-                              variant="destructive"
+                              variant="ghost"
+                              className="text-destructive"
                               onClick={() => remove(index)}
                               type="button"
+                              size="icon"
                             >
-                              Remove
+                              <Trash2 className="w-4 h-4" />
                             </Button>
                           </div>
                         </FormControl>

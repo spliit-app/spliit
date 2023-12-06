@@ -56,6 +56,14 @@ export async function createExpense(
   })
 }
 
+export async function deleteExpense(expenseId: string) {
+  const prisma = await getPrisma()
+  await prisma.expense.delete({
+    where: { id: expenseId },
+    include: { paidFor: true, paidBy: true },
+  })
+}
+
 export async function updateExpense(
   groupId: string,
   expenseId: string,

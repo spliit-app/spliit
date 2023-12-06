@@ -1,5 +1,5 @@
 import { ExpenseForm } from '@/components/expense-form'
-import { getExpense, getGroup, updateExpense } from '@/lib/api'
+import { deleteExpense, getExpense, getGroup, updateExpense } from '@/lib/api'
 import { expenseFormSchema } from '@/lib/schemas'
 import { notFound, redirect } from 'next/navigation'
 
@@ -20,11 +20,18 @@ export default async function EditExpensePage({
     redirect(`/groups/${groupId}`)
   }
 
+  async function deleteExpenseAction() {
+    'use server'
+    await deleteExpense(expenseId)
+    redirect(`/groups/${groupId}`)
+  }
+
   return (
     <ExpenseForm
       group={group}
       expense={expense}
       onSubmit={updateExpenseAction}
+      onDelete={deleteExpenseAction}
     />
   )
 }

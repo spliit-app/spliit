@@ -1,4 +1,5 @@
 'use client'
+import { AsyncButton } from '@/components/async-button'
 import { SubmitButton } from '@/components/submit-button'
 import {
   Card,
@@ -33,10 +34,12 @@ import { useForm } from 'react-hook-form'
 export type Props = {
   group: NonNullable<Awaited<ReturnType<typeof getGroup>>>
   expense?: NonNullable<Awaited<ReturnType<typeof getExpense>>>
-  onSubmit: (values: ExpenseFormValues) => void
+  onSubmit: (values: ExpenseFormValues) => Promise<void>
+  onDelete?: () => Promise<void>
 }
 
-export function ExpenseForm({ group, expense, onSubmit }: Props) {
+export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
+  const isCreate = expense === undefined
   const form = useForm<ExpenseFormValues>({
     resolver: zodResolver(expenseFormSchema),
     defaultValues: expense
@@ -54,7 +57,9 @@ export function ExpenseForm({ group, expense, onSubmit }: Props) {
       <form onSubmit={form.handleSubmit((values) => onSubmit(values))}>
         <Card>
           <CardHeader>
-            <CardTitle>Expense information</CardTitle>
+            <CardTitle>
+              {isCreate ? <>Create expense</> : <>Edit expense</>}
+            </CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <FormField
@@ -179,8 +184,20 @@ export function ExpenseForm({ group, expense, onSubmit }: Props) {
             />
           </CardContent>
 
-          <CardFooter>
-            <SubmitButton loadingContent="Submitting…">Submit</SubmitButton>
+          <CardFooter className="gap-2">
+            <SubmitButton loadingContent="Submitting…">
+              {isCreate ? <>Create</> : <>Save</>}
+            </SubmitButton>
+            {!isCreate && onDelete && (
+              <AsyncButton
+                type="button"
+                variant="destructive"
+                loadingContent="Deleting…"
+                action={onDelete}
+              >
+                Delete
+              </AsyncButton>
+            )}
           </CardFooter>
         </Card>
       </form>

@@ -21,7 +21,7 @@ model Group {
 model Participant {
   id              String           @id
   name            String
-  group           Group            @relation(fields: [groupId], references: [id])
+  group           Group            @relation(fields: [groupId], references: [id], onDelete: Cascade)
   groupId         String
   expensesPaidBy  Expense[]
   expensesPaidFor ExpensePaidFor[]
@@ -39,7 +39,7 @@ model Expense {
 }
 
 model ExpensePaidFor {
-  expense       Expense     @relation(fields: [expenseId], references: [id])
+  expense       Expense     @relation(fields: [expenseId], references: [id], onDelete: Cascade)
   participant   Participant @relation(fields: [participantId], references: [id])
   expenseId     String
   participantId String
