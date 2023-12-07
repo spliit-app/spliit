@@ -6,6 +6,12 @@ export type Balances = Record<
   { paid: number; paidFor: number; total: number }
 >
 
+export type Reimbursement = {
+  from: Participant['id']
+  to: Participant['id']
+  amount: number
+}
+
 export function getBalances(
   expenses: NonNullable<Awaited<ReturnType<typeof getGroupExpenses>>>,
 ): Balances {
@@ -39,4 +45,38 @@ function divide(total: number, count: number, isLast: boolean): number {
   if (!isLast) return Math.floor((total * 100) / count) / 100
 
   return total - divide(total, count, false) * (count - 1)
+}
+
+export function getSuggestedReimbursements(
+  balances: Balances,
+): Reimbursement[] {
+  const balancesArray = Object.entries(balances).map(
+    ([participantId, { total }]) => ({ participantId, total }),
+  )
+  balancesArray.sort((b1, b2) => b2.total - b1.total)
+  console.log(balancesArray)
+  const reimbursements: Reimbursement[] = []
+  while (balancesArray.length > 1) {
+    const first = balancesArray[0]
+    const last = balancesArray[balancesArray.length - 1]
+    const amount = Math.round(first.total * 100 + last.total * 100) / 100
+    if (first.total > -last.total) {
+      reimbursements.push({
+        from: last.participantId,
+        to: first.participantId,
+        amount: -last.total,
+      })
+      first.total = amount
+      balancesArray.pop()
+    } else {
+      reimbursements.push({
+        from: last.participantId,
+        to: first.participantId,
+        amount: first.total,
+      })
+      last.total = amount
+      balancesArray.shift()
+    }
+  }
+  return reimbursements
 }

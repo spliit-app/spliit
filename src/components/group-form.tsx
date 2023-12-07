@@ -56,9 +56,8 @@ export function GroupForm({ group, onSubmit }: Props) {
         onSubmit={form.handleSubmit(async (values) => {
           await onSubmit(values)
         })}
-        className="space-y-8"
       >
-        <Card>
+        <Card className="mb-4">
           <CardHeader>
             <CardTitle>Group information</CardTitle>
           </CardHeader>
@@ -99,7 +98,7 @@ export function GroupForm({ group, onSubmit }: Props) {
                     />
                   </FormControl>
                   <FormDescription>
-                    We’ll used it to display amounts.
+                    We’ll use it to display amounts.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -107,7 +106,7 @@ export function GroupForm({ group, onSubmit }: Props) {
             />
           </CardContent>
         </Card>
-        <Card>
+        <Card className="mb-4">
           <CardHeader>
             <CardTitle>Participants</CardTitle>
             <CardDescription>
