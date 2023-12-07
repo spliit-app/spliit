@@ -47,7 +47,7 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
     defaultValues: expense
       ? {
           title: expense.title,
-          amount: expense.amount,
+          amount: String(expense.amount / 100) as unknown as number, // hack
           paidBy: expense.paidById,
           paidFor: expense.paidFor.map(({ participantId }) => participantId),
           isReimbursement: expense.isReimbursement,
@@ -55,7 +55,9 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
       : searchParams.get('reimbursement')
       ? {
           title: 'Reimbursement',
-          amount: Number(searchParams.get('amount')) || 0,
+          amount: String(
+            (Number(searchParams.get('amount')) || 0) / 100,
+          ) as unknown as number, // hack
           paidBy: searchParams.get('from') ?? undefined,
           paidFor: [searchParams.get('to') ?? undefined],
           isReimbursement: true,

@@ -53,7 +53,7 @@ export function ExpenseList({
         </div>
         <div className="flex items-center">
           <div className="tabular-nums whitespace-nowrap font-bold">
-            {currency} {expense.amount.toFixed(2)}
+            {currency} {(expense.amount / 100).toFixed(2)}
           </div>
           <Button size="icon" variant="link" className="-my-2" asChild>
             <Link href={`/groups/${groupId}/expenses/${expense.id}/edit`}>

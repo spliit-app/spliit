@@ -15,51 +15,38 @@ export function BalancesList({ balances, participants, currency }: Props) {
 
   return (
     <div className="text-sm">
-      {participants.map((participant) => (
-        <div
-          key={participant.id}
-          className={cn(
-            'flex',
-            balances[participant.id]?.total >= 0 || 'flex-row-reverse',
-          )}
-        >
+      {participants.map((participant) => {
+        const balance = balances[participant.id]?.total ?? 0
+        const isLeft = balance >= 0
+        return (
           <div
-            className={cn(
-              'w-1/2 p-2',
-              balances[participant.id]?.total >= 0 && 'text-right',
-            )}
+            key={participant.id}
+            className={cn('flex', isLeft || 'flex-row-reverse')}
           >
-            {participant.name}
-          </div>
-          <div
-            className={cn(
-              'w-1/2 relative',
-              balances[participant.id]?.total >= 0 || 'text-right',
-            )}
-          >
-            <div className="absolute inset-0 p-2 z-20">
-              {currency} {(balances[participant.id]?.total ?? 0).toFixed(2)}
+            <div className={cn('w-1/2 p-2', isLeft && 'text-right')}>
+              {participant.name}
             </div>
-            {balances[participant.id]?.total !== 0 && (
-              <div
-                className={cn(
-                  'absolute top-1 h-7 z-10',
-                  balances[participant.id]?.total > 0
-                    ? 'bg-green-200 left-0 rounded-r-lg border border-green-300'
-                    : 'bg-red-200 right-0 rounded-l-lg border  border-red-300',
-                )}
-                style={{
-                  width:
-                    (Math.abs(balances[participant.id]?.total ?? 0) /
-                      maxBalance) *
-                      100 +
-                    '%',
-                }}
-              ></div>
-            )}
+            <div className={cn('w-1/2 relative', isLeft || 'text-right')}>
+              <div className="absolute inset-0 p-2 z-20">
+                {currency} {(balance / 100).toFixed(2)}
+              </div>
+              {balance !== 0 && (
+                <div
+                  className={cn(
+                    'absolute top-1 h-7 z-10',
+                    isLeft
+                      ? 'bg-green-200 left-0 rounded-r-lg border border-green-300'
+                      : 'bg-red-200 right-0 rounded-l-lg border  border-red-300',
+                  )}
+                  style={{
+                    width: (Math.abs(balance) / maxBalance) * 100 + '%',
+                  }}
+                ></div>
+              )}
+            </div>
           </div>
-        </div>
-      ))}
+        )
+      })}
     </div>
   )
 }

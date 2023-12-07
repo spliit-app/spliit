@@ -42,9 +42,27 @@ export const expenseFormSchema = z.object({
   title: z
     .string({ required_error: 'Please enter a title.' })
     .min(2, 'Enter at least two characters.'),
-  amount: z.coerce
-    .number({ required_error: 'You must enter an amount.' })
-    .min(0.01, 'The amount must be higher than 0.01.'),
+  amount: z
+    .union(
+      [
+        z.number(),
+        z.string().transform((value, ctx) => {
+          const valueAsNumber = Number(value)
+          if (Number.isNaN(valueAsNumber))
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: 'Invalid number.',
+            })
+          return Math.floor(valueAsNumber * 100)
+        }),
+      ],
+      { required_error: 'You must enter an amount.' },
+    )
+    .refine((amount) => amount >= 1, 'The amount must be higher than 0.01.')
+    .refine(
+      (amount) => amount <= 10_000_000_00,
+      'The amount must be lower than 10,000,000.',
+    ),
   paidBy: z.string({ required_error: 'You must select a participant.' }),
   paidFor: z
     .array(z.string())

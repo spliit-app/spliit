@@ -42,7 +42,7 @@ export function getBalances(
 }
 
 function divide(total: number, count: number, isLast: boolean): number {
-  if (!isLast) return Math.floor((total * 100) / count) / 100
+  if (!isLast) return Math.floor(total / count)
 
   return total - divide(total, count, false) * (count - 1)
 }
@@ -58,7 +58,7 @@ export function getSuggestedReimbursements(
   while (balancesArray.length > 1) {
     const first = balancesArray[0]
     const last = balancesArray[balancesArray.length - 1]
-    const amount = Math.round(first.total * 100 + last.total * 100) / 100
+    const amount = first.total + last.total
     if (first.total > -last.total) {
       reimbursements.push({
         from: last.participantId,
@@ -77,5 +77,5 @@ export function getSuggestedReimbursements(
       balancesArray.shift()
     }
   }
-  return reimbursements
+  return reimbursements.filter(({ amount }) => amount !== 0)
 }

@@ -16,6 +16,14 @@ export function ReimbursementList({
   currency,
   groupId,
 }: Props) {
+  if (reimbursements.length === 0) {
+    return (
+      <p className="px-6 text-sm pb-6">
+        It looks like your group doesn’t need any reimbursement 😁
+      </p>
+    )
+  }
+
   const getParticipant = (id: string) => participants.find((p) => p.id === id)
   return (
     <div className="text-sm">
@@ -35,7 +43,7 @@ export function ReimbursementList({
             </Button>
           </div>
           <div>
-            {currency} {reimbursement.amount.toFixed(2)}
+            {currency} {(reimbursement.amount / 100).toFixed(2)}
           </div>
         </div>
       ))}
