@@ -7,14 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
 import { getGroup, getGroupExpenses } from '@/lib/api'
 import { cn } from '@/lib/utils'
 import { ChevronRight, Plus } from 'lucide-react'
@@ -51,7 +43,58 @@ export default async function GroupExpensesPage({
 
       <CardContent className="p-0">
         {expenses.length > 0 ? (
-          <Table>
+          expenses.map((expense) => (
+            <div
+              className={cn(
+                'border-t flex justify-between pl-6 pr-2 py-4 text-sm',
+                expense.isReimbursement && 'italic',
+              )}
+            >
+              <div>
+                <div>{expense.title}</div>
+                <div className="text-xs text-muted-foreground">
+                  Paid by{' '}
+                  <Badge variant="secondary">
+                    {
+                      group.participants.find((p) => p.id === expense.paidById)
+                        ?.name
+                    }
+                  </Badge>{' '}
+                  for{' '}
+                  {expense.paidFor.map((paidFor, index) => (
+                    <Badge variant="secondary" key={index} className="mr-1">
+                      {
+                        group.participants.find(
+                          (p) => p.id === paidFor.participantId,
+                        )?.name
+                      }
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+              <div className="flex items-center">
+                <div className="tabular-nums whitespace-nowrap font-bold">
+                  {group.currency} {expense.amount.toFixed(2)}
+                </div>
+                <Button size="icon" variant="link" className="-my-2" asChild>
+                  <Link href={`/groups/${groupId}/expenses/${expense.id}/edit`}>
+                    <ChevronRight className="w-4 h-4" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p className="px-6 text-sm py-6">
+            Your group doesn’t contain any expense yet.{' '}
+            <Button variant="link" asChild className="-m-3">
+              <Link href={`/groups/${groupId}/expenses/create`}>
+                Create the first one
+              </Link>
+            </Button>
+          </p>
+        )}
+        {/* <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>Title</TableHead>
@@ -111,7 +154,7 @@ export default async function GroupExpensesPage({
           </Table>
         ) : (
           <div className="p-6">Your group doesn’t have any expense yet.</div>
-        )}
+        )} */}
       </CardContent>
     </Card>
   )
