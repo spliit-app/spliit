@@ -9,13 +9,13 @@ import './globals.css'
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_BASE_URL),
   title: {
-    default: 'Spliit · Share expenses with friends and family',
+    default: 'Spliit · Share Expenses with Friends & Family',
     template: '%s · Spliit',
   },
   description:
     'Spliit is a minimalist web application to share expenses with friends and family. No ads, no account, no problem.',
   openGraph: {
-    title: 'Spliit · Share expenses with friends and family',
+    title: 'Spliit · Share Expenses with Friends & Family',
     description:
       'Spliit is a minimalist web application to share expenses with friends and family. No ads, no account, no problem.',
     images: `/banner.png`,
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     creator: '@scastiel',
     site: '@scastiel',
     images: `/banner.png`,
-    title: 'Spliit · Share expenses with friends and family',
+    title: 'Spliit · Share Expenses with Friends & Family',
     description:
       'Spliit is a minimalist web application to share expenses with friends and family. No ads, no account, no problem.',
   },
@@ -40,12 +40,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="">
+      <body className="bg-slate-50">
         <ProgressBar />
         <header className="fixed top-0 left-0 right-0 flex justify-between bg-white bg-opacity-50 p-2 border-b backdrop-blur-sm">
           <Link className="flex items-center gap-2" href="/">
-            <Image src="/logo.svg" width={30} height={30} alt="" />
-            <h1 className="font-bold text-primary">Spliit</h1>
+            <h1>
+              <Image
+                src="/logo-with-text.png"
+                width={(30 * 522) / 180}
+                height={30}
+                alt="Spliit"
+              />
+            </h1>
           </Link>
           <ul role="nav" className="flex items-center text-sm">
             <li>
