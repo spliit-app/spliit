@@ -47,8 +47,9 @@ export default function RootLayout({
             <h1>
               <Image
                 src="/logo-with-text.png"
-                width={(30 * 522) / 180}
-                height={30}
+                className="m-1"
+                width={(35 * 522) / 180}
+                height={35}
                 alt="Spliit"
               />
             </h1>
@@ -61,7 +62,7 @@ export default function RootLayout({
             </li>
           </ul>
         </header>
-        <div className="max-w-screen-md mx-auto p-4 pt-16">{children}</div>
+        <div className="max-w-screen-md mx-auto p-4 pt-20">{children}</div>
       </body>
     </html>
   )
