@@ -50,9 +50,9 @@ function divide(total: number, count: number, isLast: boolean): number {
 export function getSuggestedReimbursements(
   balances: Balances,
 ): Reimbursement[] {
-  const balancesArray = Object.entries(balances).map(
-    ([participantId, { total }]) => ({ participantId, total }),
-  )
+  const balancesArray = Object.entries(balances)
+    .map(([participantId, { total }]) => ({ participantId, total }))
+    .filter((b) => b.total !== 0)
   balancesArray.sort((b1, b2) => b2.total - b1.total)
   const reimbursements: Reimbursement[] = []
   while (balancesArray.length > 1) {

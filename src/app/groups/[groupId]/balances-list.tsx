@@ -40,21 +40,23 @@ export function BalancesList({ balances, participants, currency }: Props) {
             <div className="absolute inset-0 p-2 z-20">
               {currency} {(balances[participant.id]?.total ?? 0).toFixed(2)}
             </div>
-            <div
-              className={cn(
-                'absolute top-1 h-7 z-10',
-                balances[participant.id]?.total > 0
-                  ? 'bg-green-200 left-0 rounded-r-lg border border-green-300'
-                  : 'bg-red-200 right-0 rounded-l-lg border  border-red-300',
-              )}
-              style={{
-                width:
-                  (Math.abs(balances[participant.id]?.total ?? 0) /
-                    maxBalance) *
-                    100 +
-                  '%',
-              }}
-            ></div>
+            {balances[participant.id]?.total !== 0 && (
+              <div
+                className={cn(
+                  'absolute top-1 h-7 z-10',
+                  balances[participant.id]?.total > 0
+                    ? 'bg-green-200 left-0 rounded-r-lg border border-green-300'
+                    : 'bg-red-200 right-0 rounded-l-lg border  border-red-300',
+                )}
+                style={{
+                  width:
+                    (Math.abs(balances[participant.id]?.total ?? 0) /
+                      maxBalance) *
+                      100 +
+                    '%',
+                }}
+              ></div>
+            )}
           </div>
         </div>
       ))}
