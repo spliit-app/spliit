@@ -6,7 +6,7 @@ export function ProgressBar() {
     <Next13ProgressBar
       height="2px"
       color="#64748b"
-      options={{ showSpinner: true }}
+      options={{ showSpinner: false }}
       showOnShallow
     />
   )

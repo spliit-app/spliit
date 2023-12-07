@@ -9,7 +9,12 @@ import {
 } from '@/components/ui/card'
 import { getGroup, getGroupExpenses } from '@/lib/api'
 import { getBalances, getSuggestedReimbursements } from '@/lib/balances'
+import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+
+export const metadata: Metadata = {
+  title: 'Balances',
+}
 
 export default async function GroupPage({
   params: { groupId },

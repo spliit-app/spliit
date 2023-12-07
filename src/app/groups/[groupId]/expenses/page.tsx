@@ -9,8 +9,13 @@ import {
 } from '@/components/ui/card'
 import { getGroup, getGroupExpenses } from '@/lib/api'
 import { Plus } from 'lucide-react'
+import { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+
+export const metadata: Metadata = {
+  title: 'Expenses',
+}
 
 export default async function GroupExpensesPage({
   params: { groupId },

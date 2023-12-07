@@ -66,7 +66,7 @@ export function ExpenseList({
   ) : (
     <p className="px-6 text-sm py-6">
       Your group doesn’t contain any expense yet.{' '}
-      <Button variant="link" asChild className="-m-3">
+      <Button variant="link" asChild className="-m-4">
         <Link href={`/groups/${groupId}/expenses/create`}>
           Create the first one
         </Link>
