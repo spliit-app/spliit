@@ -1,4 +1,6 @@
 import { ProgressBar } from '@/components/progress-bar'
+import { ThemeProvider } from '@/components/theme-provider'
+import { ThemeToggle } from '@/components/theme-toggle'
 import { Button } from '@/components/ui/button'
 import { env } from '@/lib/env'
 import type { Metadata } from 'next'
@@ -39,30 +41,40 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className="bg-slate-50">
-        <ProgressBar />
-        <header className="fixed top-0 left-0 right-0 flex justify-between bg-white bg-opacity-50 p-2 border-b backdrop-blur-sm">
-          <Link className="flex items-center gap-2" href="/">
-            <h1>
-              <Image
-                src="/logo-with-text.png"
-                className="m-1"
-                width={(35 * 522) / 180}
-                height={35}
-                alt="Spliit"
-              />
-            </h1>
-          </Link>
-          <ul role="nav" className="flex items-center text-sm">
-            <li>
-              <Button variant="link" asChild className="-my-3">
-                <Link href="/groups">Groups</Link>
-              </Button>
-            </li>
-          </ul>
-        </header>
-        <div className="max-w-screen-md mx-auto p-4 pt-20">{children}</div>
+    <html lang="en" suppressHydrationWarning>
+      <body className="light:bg-slate-50">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ProgressBar />
+          <header className="fixed top-0 left-0 right-0 flex justify-between bg-white dark:bg-slate-800 bg-opacity-50 dark:bg-opacity-50 p-2 border-b backdrop-blur-sm">
+            <Link className="flex items-center gap-2" href="/">
+              <h1>
+                <Image
+                  src="/logo-with-text.png"
+                  className="m-1"
+                  width={(35 * 522) / 180}
+                  height={35}
+                  alt="Spliit"
+                />
+              </h1>
+            </Link>
+            <ul role="nav" className="flex items-center text-sm">
+              <li>
+                <Button variant="link" asChild className="-my-3">
+                  <Link href="/groups">Groups</Link>
+                </Button>
+              </li>
+              <li>
+                <ThemeToggle />
+              </li>
+            </ul>
+          </header>
+          <div className="max-w-screen-md mx-auto p-4 pt-20">{children}</div>
+        </ThemeProvider>
       </body>
     </html>
   )
