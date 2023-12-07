@@ -20,13 +20,13 @@ export function BalancesList({ balances, participants, currency }: Props) {
           key={participant.id}
           className={cn(
             'flex',
-            balances[participant.id]?.total > 0 || 'flex-row-reverse',
+            balances[participant.id]?.total >= 0 || 'flex-row-reverse',
           )}
         >
           <div
             className={cn(
               'w-1/2 p-2',
-              balances[participant.id]?.total > 0 && 'text-right',
+              balances[participant.id]?.total >= 0 && 'text-right',
             )}
           >
             {participant.name}
@@ -34,7 +34,7 @@ export function BalancesList({ balances, participants, currency }: Props) {
           <div
             className={cn(
               'w-1/2 relative',
-              balances[participant.id]?.total > 0 || 'text-right',
+              balances[participant.id]?.total >= 0 || 'text-right',
             )}
           >
             <div className="absolute inset-0 p-2 z-20">
