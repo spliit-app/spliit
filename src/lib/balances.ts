@@ -54,7 +54,6 @@ export function getSuggestedReimbursements(
     ([participantId, { total }]) => ({ participantId, total }),
   )
   balancesArray.sort((b1, b2) => b2.total - b1.total)
-  console.log(balancesArray)
   const reimbursements: Reimbursement[] = []
   while (balancesArray.length > 1) {
     const first = balancesArray[0]

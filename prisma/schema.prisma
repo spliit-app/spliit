@@ -29,14 +29,15 @@ model Participant {
 }
 
 model Expense {
-  id       String           @id
-  group    Group            @relation(fields: [groupId], references: [id])
-  title    String
-  amount   Int
-  paidBy   Participant      @relation(fields: [paidById], references: [id])
-  paidById String
-  paidFor  ExpensePaidFor[]
-  groupId  String
+  id              String           @id
+  group           Group            @relation(fields: [groupId], references: [id])
+  title           String
+  amount          Int
+  paidBy          Participant      @relation(fields: [paidById], references: [id])
+  paidById        String
+  paidFor         ExpensePaidFor[]
+  groupId         String
+  isReimbursement Boolean          @default(false)
 }
 
 model ExpensePaidFor {

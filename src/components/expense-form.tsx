@@ -29,6 +29,7 @@ import {
 import { getExpense, getGroup } from '@/lib/api'
 import { ExpenseFormValues, expenseFormSchema } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 
 export type Props = {
@@ -40,6 +41,7 @@ export type Props = {
 
 export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
   const isCreate = expense === undefined
+  const searchParams = useSearchParams()
   const form = useForm<ExpenseFormValues>({
     resolver: zodResolver(expenseFormSchema),
     defaultValues: expense
@@ -48,8 +50,17 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
           amount: expense.amount,
           paidBy: expense.paidById,
           paidFor: expense.paidFor.map(({ participantId }) => participantId),
+          isReimbursement: expense.isReimbursement,
         }
-      : { title: '', amount: 0, paidFor: [] },
+      : searchParams.get('reimbursement')
+      ? {
+          title: 'Reimbursement',
+          amount: Number(searchParams.get('amount')) || 0,
+          paidBy: searchParams.get('from') ?? undefined,
+          paidFor: [searchParams.get('to') ?? undefined],
+          isReimbursement: true,
+        }
+      : { title: '', amount: 0, paidFor: [], isReimbursement: false },
   })
 
   return (
@@ -131,8 +142,25 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
                       />
                     </FormControl>
                   </div>
-                  <FormDescription>Enter the expense amount.</FormDescription>
                   <FormMessage />
+
+                  <FormField
+                    control={form.control}
+                    name="isReimbursement"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row gap-2 items-center space-y-0 pt-2">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <div>
+                          <FormLabel>This is a reimbursement</FormLabel>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
                 </FormItem>
               )}
             />
@@ -141,7 +169,7 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
               control={form.control}
               name="paidFor"
               render={() => (
-                <FormItem className="order-4">
+                <FormItem className="order-5">
                   <div className="mb-4">
                     <FormLabel>Paid for</FormLabel>
                     <FormDescription>

@@ -16,6 +16,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { getGroup, getGroupExpenses } from '@/lib/api'
+import { cn } from '@/lib/utils'
 import { ChevronRight, Plus } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -62,7 +63,10 @@ export default async function GroupExpensesPage({
             </TableHeader>
             <TableBody>
               {expenses.map((expense) => (
-                <TableRow key={expense.id}>
+                <TableRow
+                  key={expense.id}
+                  className={cn(expense.isReimbursement && 'italic')}
+                >
                   <TableCell>{expense.title}</TableCell>
                   <TableCell>
                     <Badge variant="secondary">

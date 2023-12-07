@@ -22,7 +22,6 @@ export default async function GroupPage({
   const expenses = await getGroupExpenses(groupId)
   const balances = getBalances(expenses)
   const reimbursements = getSuggestedReimbursements(balances)
-  console.log(reimbursements)
 
   return (
     <>
@@ -54,6 +53,7 @@ export default async function GroupPage({
             reimbursements={reimbursements}
             participants={group.participants}
             currency={group.currency}
+            groupId={groupId}
           />
         </CardContent>
       </Card>

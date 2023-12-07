@@ -49,6 +49,7 @@ export const expenseFormSchema = z.object({
   paidFor: z
     .array(z.string())
     .min(1, 'The expense must be paid for at least 1 participant.'),
+  isReimbursement: z.boolean(),
 })
 
 export type ExpenseFormValues = z.infer<typeof expenseFormSchema>

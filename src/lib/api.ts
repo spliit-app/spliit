@@ -53,6 +53,7 @@ export async function createExpense(
           })),
         },
       },
+      isReimbursement: expenseFormValues.isReimbursement,
     },
   })
 }
@@ -105,6 +106,7 @@ export async function updateExpense(
             ),
         ),
       },
+      isReimbursement: expenseFormValues.isReimbursement,
     },
   })
 }
