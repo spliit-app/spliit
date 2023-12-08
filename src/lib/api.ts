@@ -1,19 +1,22 @@
 import { getPrisma } from '@/lib/prisma'
 import { ExpenseFormValues, GroupFormValues } from '@/lib/schemas'
 import { Expense } from '@prisma/client'
-import { v4 as uuidv4 } from 'uuid'
+
+function randomId() {
+  return Math.random().toString(36).slice(2, 9)
+}
 
 export async function createGroup(groupFormValues: GroupFormValues) {
   const prisma = await getPrisma()
   return prisma.group.create({
     data: {
-      id: uuidv4(),
+      id: randomId(),
       name: groupFormValues.name,
       currency: groupFormValues.currency,
       participants: {
         createMany: {
           data: groupFormValues.participants.map(({ name }) => ({
-            id: uuidv4(),
+            id: randomId(),
             name,
           })),
         },
@@ -41,7 +44,7 @@ export async function createExpense(
   const prisma = await getPrisma()
   return prisma.expense.create({
     data: {
-      id: uuidv4(),
+      id: randomId(),
       groupId,
       amount: expenseFormValues.amount,
       title: expenseFormValues.title,
@@ -160,7 +163,7 @@ export async function updateGroup(
           data: groupFormValues.participants
             .filter((participant) => participant.id === undefined)
             .map((participant) => ({
-              id: uuidv4(),
+              id: randomId(),
               name: participant.name,
             })),
         },
