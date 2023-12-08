@@ -33,6 +33,23 @@ export const metadata: Metadata = {
     description:
       'Spliit is a minimalist web application to share expenses with friends and family. No ads, no account, no problem.',
   },
+  appleWebApp: {
+    capable: true,
+    title: 'Spliit',
+  },
+  applicationName: 'Spliit',
+  icons: [
+    {
+      url: '/public/android-chrome-192x192.png',
+      sizes: '192x192',
+      type: 'image/png',
+    },
+    {
+      url: '/public/android-chrome-512x512.png',
+      sizes: '512x512',
+      type: 'image/png',
+    },
+  ],
 }
 
 export default function RootLayout({
