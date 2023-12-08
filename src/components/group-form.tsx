@@ -128,7 +128,7 @@ export function GroupForm({
           <CardContent>
             <ul className="flex flex-col gap-2">
               {fields.map((item, index) => (
-                <li key={item.id}>
+                <li key={item.key}>
                   <FormField
                     control={form.control}
                     name={`participants.${index}.name`}

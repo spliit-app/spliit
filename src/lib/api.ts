@@ -1,5 +1,6 @@
 import { getPrisma } from '@/lib/prisma'
 import { ExpenseFormValues, GroupFormValues } from '@/lib/schemas'
+import { delay } from '@/lib/utils'
 import { Expense } from '@prisma/client'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -76,6 +77,15 @@ export async function getGroupExpensesParticipants(groupId: string) {
       ]),
     ),
   )
+}
+
+export async function getGroups(groupIds: string[]) {
+  await delay(2000)
+  const prisma = await getPrisma()
+  return prisma.group.findMany({
+    where: { id: { in: groupIds } },
+    include: { _count: { select: { participants: true } } },
+  })
 }
 
 export async function updateExpense(
