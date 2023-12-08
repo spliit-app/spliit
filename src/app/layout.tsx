@@ -59,7 +59,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="">
+      <body className="pt-16 min-h-[100dvh] flex flex-col items-stretch">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -67,7 +67,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ProgressBar />
-          <header className="fixed top-0 left-0 right-0 flex justify-between bg-white dark:bg-gray-950 bg-opacity-50 dark:bg-opacity-50 p-2 border-b backdrop-blur-sm">
+          <header className="fixed top-0 left-0 right-0 h-16 flex justify-between bg-white dark:bg-gray-950 bg-opacity-50 dark:bg-opacity-50 p-2 border-b backdrop-blur-sm">
             <Link className="flex items-center gap-2" href="/">
               <h1>
                 <Image
@@ -90,7 +90,31 @@ export default function RootLayout({
               </li>
             </ul>
           </header>
-          <div className="max-w-screen-md mx-auto p-4 pt-20">{children}</div>
+
+          {children}
+
+          <footer className="sm:p-8 md:p-16 sm:mt-16 sm:text-sm md:text-base md:mt-32 bg-slate-50 dark:bg-slate-800 border-t p-6 mt-8 flex flex-col space-y-2 text-xs [&_a]:underline">
+            <div className="sm:text-lg font-semibold text-base flex space-x-2 items-center">
+              <Link className="flex items-center gap-2" href="/">
+                <Image
+                  src="/logo-with-text.png"
+                  className="m-1 h-auto"
+                  width={(35 * 522) / 180}
+                  height={35}
+                  alt="Spliit"
+                />
+              </Link>
+            </div>
+            <div className="flex flex-col space-y a--no-underline-text-white">
+              <span>Made in Montréal, Québec 🇨🇦</span>
+              <span>
+                Built by{' '}
+                <a href="https://scastiel.dev" target="_blank" rel="noopener">
+                  Sebastien Castiel
+                </a>
+              </span>
+            </div>
+          </footer>
         </ThemeProvider>
       </body>
     </html>
