@@ -1,5 +1,6 @@
 import { GroupTabs } from '@/app/groups/[groupId]/group-tabs'
 import { SaveGroupLocally } from '@/app/groups/[groupId]/save-recent-group'
+import { ShareButton } from '@/app/groups/[groupId]/share-button'
 import { getGroup } from '@/lib/api'
 import { Metadata } from 'next'
 import Link from 'next/link'
@@ -34,11 +35,16 @@ export default async function GroupLayout({
 
   return (
     <>
-      <h1 className="font-bold text-2xl mb-4">
-        <Link href={`/groups/${groupId}`}>{group.name}</Link>
-      </h1>
+      <div className="flex flex-col sm:flex-row justify-between">
+        <h1 className="font-bold text-2xl mb-4">
+          <Link href={`/groups/${groupId}`}>{group.name}</Link>
+        </h1>
 
-      <GroupTabs groupId={groupId} />
+        <div className="flex gap-2 justify-between">
+          <GroupTabs groupId={groupId} />
+          <ShareButton groupId={groupId} />
+        </div>
+      </div>
 
       {children}
 

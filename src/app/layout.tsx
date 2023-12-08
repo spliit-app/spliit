@@ -55,7 +55,7 @@ export default function RootLayout({
               <h1>
                 <Image
                   src="/logo-with-text.png"
-                  className="m-1"
+                  className="m-1 h-auto"
                   width={(35 * 522) / 180}
                   height={35}
                   alt="Spliit"

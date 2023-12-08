@@ -29,7 +29,7 @@ export function ExpenseList({
       <div
         key={expense.id}
         className={cn(
-          'border-t flex justify-between pl-6 pr-2 py-4 text-sm cursor-pointer hover:bg-slate-50',
+          'border-t flex justify-between pl-6 pr-2 py-4 text-sm cursor-pointer hover:bg-accent',
           expense.isReimbursement && 'italic',
         )}
         onClick={() => {
