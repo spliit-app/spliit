@@ -2,7 +2,7 @@
 import { getRecentGroups } from '@/app/groups/recent-groups-helpers'
 import { Button } from '@/components/ui/button'
 import { getGroups } from '@/lib/api'
-import { Loader2 } from 'lucide-react'
+import { Calendar, Loader2, Users } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { z } from 'zod'
@@ -58,14 +58,24 @@ export function RecentGroupList({ getGroupsAction }: Props) {
           <li key={group.id}>
             <Button variant="outline" className="h-fit w-full py-3" asChild>
               <Link href={`/groups/${group.id}`} className="text-base">
-                <div className="w-full flex flex-col items-start gap-1">
+                <div className="w-full flex flex-col gap-1">
                   <div className="text-base">{group.name}</div>
                   <div className="text-muted-foreground font-normal text-xs">
                     {details ? (
-                      <>
-                        {details._count.participants} participants ·{' '}
-                        {details.currency}
-                      </>
+                      <div className="w-full flex items-center justify-between">
+                        <div className="flex items-center">
+                          <Users className="w-3 h-3 inline mr-1" />
+                          <span>{details._count.participants}</span>
+                        </div>
+                        <div className="flex items-center">
+                          <Calendar className="w-3 h-3 inline mx-1" />
+                          <span>
+                            {details.createdAt.toLocaleDateString('en-US', {
+                              dateStyle: 'medium',
+                            })}
+                          </span>
+                        </div>
+                      </div>
                     ) : (
                       <>
                         <Loader2 className="w-3 h-3 mr-1 inline animate-spin" />

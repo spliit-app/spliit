@@ -2,7 +2,7 @@ import { getPrisma } from '@/lib/prisma'
 import { ExpenseFormValues, GroupFormValues } from '@/lib/schemas'
 import { Expense } from '@prisma/client'
 
-function randomId() {
+export function randomId() {
   return Math.random().toString(36).slice(2, 9)
 }
 
@@ -185,6 +185,7 @@ export async function getGroupExpenses(groupId: string) {
   return prisma.expense.findMany({
     where: { groupId },
     include: { paidFor: { include: { participant: true } }, paidBy: true },
+    orderBy: { createdAt: 'desc' },
   })
 }
 

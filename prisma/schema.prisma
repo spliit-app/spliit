@@ -17,6 +17,7 @@ model Group {
   currency     String        @default("$")
   participants Participant[]
   expenses     Expense[]
+  createdAt    DateTime      @default(now())
 }
 
 model Participant {
@@ -30,19 +31,20 @@ model Participant {
 
 model Expense {
   id              String           @id
-  group           Group            @relation(fields: [groupId], references: [id])
+  group           Group            @relation(fields: [groupId], references: [id], onDelete: Cascade)
   title           String
   amount          Int
-  paidBy          Participant      @relation(fields: [paidById], references: [id])
+  paidBy          Participant      @relation(fields: [paidById], references: [id], onDelete: Cascade)
   paidById        String
   paidFor         ExpensePaidFor[]
   groupId         String
   isReimbursement Boolean          @default(false)
+  createdAt       DateTime         @default(now())
 }
 
 model ExpensePaidFor {
   expense       Expense     @relation(fields: [expenseId], references: [id], onDelete: Cascade)
-  participant   Participant @relation(fields: [participantId], references: [id])
+  participant   Participant @relation(fields: [participantId], references: [id], onDelete: Cascade)
   expenseId     String
   participantId String
 

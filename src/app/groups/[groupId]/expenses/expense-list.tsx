@@ -1,5 +1,4 @@
 'use client'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { getGroupExpenses } from '@/lib/api'
 import { cn } from '@/lib/utils'
@@ -7,6 +6,7 @@ import { Participant } from '@prisma/client'
 import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { Fragment } from 'react'
 
 type Props = {
   expenses: Awaited<ReturnType<typeof getGroupExpenses>>
@@ -37,22 +37,32 @@ export function ExpenseList({
         }}
       >
         <div>
-          <div className="mb-1">{expense.title}</div>
+          <div className={cn('mb-1', expense.isReimbursement && 'italic')}>
+            {expense.title}
+          </div>
           <div className="text-xs text-muted-foreground">
-            Paid by{' '}
-            <Badge variant="secondary">
-              {getParticipant(expense.paidById)?.name}
-            </Badge>{' '}
+            Paid by <strong>{getParticipant(expense.paidById)?.name}</strong>{' '}
             for{' '}
             {expense.paidFor.map((paidFor, index) => (
-              <Badge variant="secondary" key={index} className="mr-1 mb-1">
-                {participants.find((p) => p.id === paidFor.participantId)?.name}
-              </Badge>
+              <Fragment key={index}>
+                {index !== 0 && <>, </>}
+                <strong>
+                  {
+                    participants.find((p) => p.id === paidFor.participantId)
+                      ?.name
+                  }
+                </strong>
+              </Fragment>
             ))}
           </div>
         </div>
         <div className="flex items-center">
-          <div className="tabular-nums whitespace-nowrap font-bold">
+          <div
+            className={cn(
+              'tabular-nums whitespace-nowrap',
+              expense.isReimbursement ? 'italic' : 'font-bold',
+            )}
+          >
             {currency} {(expense.amount / 100).toFixed(2)}
           </div>
           <Button size="icon" variant="link" className="-my-2" asChild>
