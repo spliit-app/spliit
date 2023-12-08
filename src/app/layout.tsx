@@ -42,7 +42,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="light:bg-slate-50">
+      <body className="">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -50,7 +50,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ProgressBar />
-          <header className="fixed top-0 left-0 right-0 flex justify-between bg-white dark:bg-slate-800 bg-opacity-50 dark:bg-opacity-50 p-2 border-b backdrop-blur-sm">
+          <header className="fixed top-0 left-0 right-0 flex justify-between bg-white dark:bg-gray-950 bg-opacity-50 dark:bg-opacity-50 p-2 border-b backdrop-blur-sm">
             <Link className="flex items-center gap-2" href="/">
               <h1>
                 <Image
