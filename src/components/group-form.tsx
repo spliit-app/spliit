@@ -18,6 +18,11 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '@/components/ui/hover-card'
 import { Input } from '@/components/ui/input'
 import { getGroup } from '@/lib/api'
 import { GroupFormValues, groupFormSchema } from '@/lib/schemas'
@@ -28,9 +33,14 @@ import { useFieldArray, useForm } from 'react-hook-form'
 export type Props = {
   group?: NonNullable<Awaited<ReturnType<typeof getGroup>>>
   onSubmit: (groupFormValues: GroupFormValues) => Promise<void>
+  protectedParticipantIds?: string[]
 }
 
-export function GroupForm({ group, onSubmit }: Props) {
+export function GroupForm({
+  group,
+  onSubmit,
+  protectedParticipantIds = [],
+}: Props) {
   const form = useForm<GroupFormValues>({
     resolver: zodResolver(groupFormSchema),
     defaultValues: group
@@ -48,6 +58,7 @@ export function GroupForm({ group, onSubmit }: Props) {
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: 'participants',
+    keyName: 'key',
   })
 
   return (
@@ -115,7 +126,7 @@ export function GroupForm({ group, onSubmit }: Props) {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ul className="flex flex-col gap-4">
+            <ul className="flex flex-col gap-2">
               {fields.map((item, index) => (
                 <li key={item.id}>
                   <FormField
@@ -129,15 +140,39 @@ export function GroupForm({ group, onSubmit }: Props) {
                         <FormControl>
                           <div className="flex gap-2">
                             <Input className="text-base" {...field} />
-                            <Button
-                              variant="ghost"
-                              className="text-destructive"
-                              onClick={() => remove(index)}
-                              type="button"
-                              size="icon"
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </Button>
+                            {item.id &&
+                            protectedParticipantIds.includes(item.id) ? (
+                              <HoverCard>
+                                <HoverCardTrigger>
+                                  <Button
+                                    variant="ghost"
+                                    className="text-destructive-"
+                                    type="button"
+                                    size="icon"
+                                    disabled
+                                  >
+                                    <Trash2 className="w-4 h-4 text-destructive opacity-50" />
+                                  </Button>
+                                </HoverCardTrigger>
+                                <HoverCardContent
+                                  align="end"
+                                  className="text-sm"
+                                >
+                                  This participant is part of expenses, and can
+                                  not be removed.
+                                </HoverCardContent>
+                              </HoverCard>
+                            ) : (
+                              <Button
+                                variant="ghost"
+                                className="text-destructive"
+                                onClick={() => remove(index)}
+                                type="button"
+                                size="icon"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            )}
                           </div>
                         </FormControl>
                         <FormMessage />

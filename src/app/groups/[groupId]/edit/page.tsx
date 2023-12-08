@@ -1,5 +1,5 @@
 import { GroupForm } from '@/components/group-form'
-import { getGroup, updateGroup } from '@/lib/api'
+import { getGroup, getGroupExpensesParticipants, updateGroup } from '@/lib/api'
 import { groupFormSchema } from '@/lib/schemas'
 import { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
@@ -23,5 +23,12 @@ export default async function EditGroupPage({
     redirect(`/groups/${group.id}`)
   }
 
-  return <GroupForm group={group} onSubmit={updateGroupAction} />
+  const protectedParticipantIds = await getGroupExpensesParticipants(groupId)
+  return (
+    <GroupForm
+      group={group}
+      onSubmit={updateGroupAction}
+      protectedParticipantIds={protectedParticipantIds}
+    />
+  )
 }
