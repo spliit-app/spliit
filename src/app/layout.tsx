@@ -79,16 +79,18 @@ export default function RootLayout({
                 />
               </h1>
             </Link>
-            <ul role="nav" className="flex items-center text-sm">
-              <li>
-                <Button variant="link" asChild className="-my-3">
-                  <Link href="/groups">Groups</Link>
-                </Button>
-              </li>
-              <li>
-                <ThemeToggle />
-              </li>
-            </ul>
+            <div role="navigation" aria-label="Menu" className="flex">
+              <ul className="flex items-center text-sm">
+                <li>
+                  <Button variant="link" asChild className="-my-3">
+                    <Link href="/groups">Groups</Link>
+                  </Button>
+                </li>
+                <li>
+                  <ThemeToggle />
+                </li>
+              </ul>
+            </div>
           </header>
 
           {children}
