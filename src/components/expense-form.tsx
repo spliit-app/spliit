@@ -137,6 +137,7 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
                       <Input
                         className="text-base max-w-[120px]"
                         type="number"
+                        inputMode="decimal"
                         min={0.01}
                         step={0.01}
                         placeholder="0.00"
