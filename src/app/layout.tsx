@@ -3,7 +3,7 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { Button } from '@/components/ui/button'
 import { env } from '@/lib/env'
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import './globals.css'
@@ -40,16 +40,20 @@ export const metadata: Metadata = {
   applicationName: 'Spliit',
   icons: [
     {
-      url: '/public/android-chrome-192x192.png',
+      url: '/android-chrome-192x192.png',
       sizes: '192x192',
       type: 'image/png',
     },
     {
-      url: '/public/android-chrome-512x512.png',
+      url: '/android-chrome-512x512.png',
       sizes: '512x512',
       type: 'image/png',
     },
   ],
+}
+
+export const viewport: Viewport = {
+  themeColor: '#047857',
 }
 
 export default function RootLayout({
