@@ -83,10 +83,13 @@ export async function getGroupExpensesParticipants(groupId: string) {
 
 export async function getGroups(groupIds: string[]) {
   const prisma = await getPrisma()
-  return prisma.group.findMany({
+  return (await prisma.group.findMany({
     where: { id: { in: groupIds } },
     include: { _count: { select: { participants: true } } },
-  })
+  })).map(group => ({
+    ...group,
+    createdAt: group.createdAt.toISOString()
+  }))
 }
 
 export async function updateExpense(

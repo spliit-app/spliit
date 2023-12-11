@@ -1,4 +1,5 @@
 'use client'
+import { getGroupsAction } from '@/app/groups/actions'
 import { getRecentGroups } from '@/app/groups/recent-groups-helpers'
 import { Button } from '@/components/ui/button'
 import { getGroups } from '@/lib/api'
@@ -28,7 +29,7 @@ type Props = {
   getGroupsAction: (groupIds: string[]) => ReturnType<typeof getGroups>
 }
 
-export function RecentGroupList({ getGroupsAction }: Props) {
+export function RecentGroupList() {
   const [state, setState] = useState<State>({ status: 'pending' })
 
   useEffect(() => {
@@ -37,15 +38,30 @@ export function RecentGroupList({ getGroupsAction }: Props) {
     getGroupsAction(groupsInStorage.map((g) => g.id)).then((groupsDetails) => {
       setState({ status: 'complete', groups: groupsInStorage, groupsDetails })
     })
-  }, [getGroupsAction])
+  }, [])
 
-  if (state.status === 'pending')
+  if (state.status === 'pending') {
     return (
       <p>
         <Loader2 className="w-4 m-4 mr-2 inline animate-spin" /> Loading recent
         groups…
       </p>
     )
+  }
+
+  if (state.groups.length === 0) {
+    return (
+      <div className="text-sm space-y-2">
+        <p>You have not visited any group recently.</p>
+        <p>
+          <Button variant="link" asChild className="-m-4">
+            <Link href={`/groups/create`}>Create one</Link>
+          </Button>{' '}
+          or ask a friend to send you the link to an existing one.
+        </p>
+      </div>
+    )
+  }
 
   return (
     <ul className="grid grid-cols-1 gap-2 mt-2 sm:grid-cols-3">
@@ -70,9 +86,12 @@ export function RecentGroupList({ getGroupsAction }: Props) {
                         <div className="flex items-center">
                           <Calendar className="w-3 h-3 inline mx-1" />
                           <span>
-                            {details.createdAt.toLocaleDateString('en-US', {
-                              dateStyle: 'medium',
-                            })}
+                            {new Date(details.createdAt).toLocaleDateString(
+                              'en-US',
+                              {
+                                dateStyle: 'medium',
+                              },
+                            )}
                           </span>
                         </div>
                       </div>
