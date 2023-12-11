@@ -20,6 +20,7 @@ Spliit is a free and open source alternative to Splitwise. I created it back in 
 - [Next.js](https://nextjs.org/) for the web application
 - [TailwindCSS](https://tailwindcss.com/) for the styling
 - [shadcn/UI](https://ui.shadcn.com/) for the UI components
+- [Prisma](https://prisma.io) to access the database
 - [Vercel](https://vercel.com/) for hosting (application and database)
 
 ## Contribute

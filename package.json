@@ -25,6 +25,7 @@
     "clsx": "^2.0.0",
     "lucide-react": "^0.290.0",
     "next": "^14.0.4",
+    "next-plausible": "^3.12.0",
     "next-themes": "^0.2.1",
     "next13-progressbar": "^1.1.1",
     "pg": "^8.11.3",

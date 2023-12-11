@@ -4,6 +4,7 @@ import { ThemeToggle } from '@/components/theme-toggle'
 import { Button } from '@/components/ui/button'
 import { env } from '@/lib/env'
 import type { Metadata, Viewport } from 'next'
+import PlausibleProvider from 'next-plausible'
 import Image from 'next/image'
 import Link from 'next/link'
 import './globals.css'
@@ -63,6 +64,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      {env.PLAUSIBLE_DOMAIN && (
+        <PlausibleProvider domain={env.PLAUSIBLE_DOMAIN} trackOutboundLinks />
+      )}
       <body className="pt-16 min-h-[100dvh] flex flex-col items-stretch">
         <ThemeProvider
           attribute="class"
