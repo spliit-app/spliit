@@ -33,16 +33,6 @@ export default function HomePage() {
                 Create a group
               </Link>
             </Button>
-            <Button asChild variant="secondary" size="lg">
-              <a
-                target="_blank"
-                rel="noreferrer"
-                href="https://github.com/scastiel/spliit2"
-              >
-                <Github className="w-4 h-4 mr-2" />
-                GitHub
-              </a>
-            </Button>
           </div>
         </div>
       </section>

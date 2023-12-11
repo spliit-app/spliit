@@ -10,12 +10,19 @@ async function main() {
   withClient(async (client) => {
     const prisma = await getPrisma()
 
+    // console.log('Deleting all groups…')
+    // await prisma.group.deleteMany({})
+
     const { rows: groupRows } = await client.query<{
       id: string
       name: string
       currency: string
       created_at: Date
     }>('select id, name, currency, created_at from groups')
+
+    const existingGroups = (
+      await prisma.group.findMany({ select: { id: true } })
+    ).map((group) => group.id)
 
     for (const groupRow of groupRows) {
       const participants: Prisma.ParticipantCreateManyInput[] = []
@@ -24,10 +31,7 @@ async function main() {
       const participantIdsMapping: Record<number, string> = {}
       const expenseIdsMapping: Record<number, string> = {}
 
-      const existingGroup = await prisma.group.findUnique({
-        where: { id: groupRow.id },
-      })
-      if (existingGroup) {
+      if (existingGroups.includes(groupRow.id)) {
         console.log(`Group ${groupRow.id} already exists, skipping.`)
         continue
       }
@@ -65,7 +69,7 @@ async function main() {
         paid_by_participant_id: number
         is_reimbursement: boolean
       }>(
-        'select id, created_at, description, amount, paid_by_participant_id, is_reimbursement from expenses where group_id = $1::text',
+        'select id, created_at, description, amount, paid_by_participant_id, is_reimbursement from expenses where group_id = $1::text and deleted_at is null',
         [groupRow.id],
       )
       for (const expenseRow of expenseRows) {
