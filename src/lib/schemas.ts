@@ -53,7 +53,7 @@ export const expenseFormSchema = z.object({
               code: z.ZodIssueCode.custom,
               message: 'Invalid number.',
             })
-          return Math.floor(valueAsNumber * 100)
+          return Math.round(valueAsNumber * 100)
         }),
       ],
       { required_error: 'You must enter an amount.' },
