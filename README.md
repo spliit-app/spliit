@@ -9,10 +9,10 @@ Spliit is a free and open source alternative to Splitwise. I created it back in 
 - [x] Display group balances
 - [x] Create reimbursement expenses
 - [x] Progressive Web App
+- [x] Select all/no participant for expenses
 
 ### Work in progress
 
-- [ ] Select all/no participant for expenses
 - [ ] Tell the application who you are when opening a group
 
 ## Stack

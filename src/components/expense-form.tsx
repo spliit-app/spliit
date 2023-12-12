@@ -1,6 +1,7 @@
 'use client'
 import { AsyncButton } from '@/components/async-button'
 import { SubmitButton } from '@/components/submit-button'
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -138,7 +139,6 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
                         className="text-base max-w-[120px]"
                         type="number"
                         inputMode="decimal"
-                        min={0.01}
                         step={0.01}
                         placeholder="0.00"
                         {...field}
@@ -174,7 +174,34 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
               render={() => (
                 <FormItem className="order-5">
                   <div className="mb-4">
-                    <FormLabel>Paid for</FormLabel>
+                    <FormLabel>
+                      Paid for
+                      <Button
+                        variant="link"
+                        type="button"
+                        className="-m-2"
+                        onClick={() => {
+                          const paidFor = form.getValues().paidFor
+                          const allSelected =
+                            paidFor.length === group.participants.length
+                          const newPairFor = allSelected
+                            ? []
+                            : group.participants.map((p) => p.id)
+                          form.setValue('paidFor', newPairFor, {
+                            shouldDirty: true,
+                            shouldTouch: true,
+                            shouldValidate: true,
+                          })
+                        }}
+                      >
+                        {form.getValues().paidFor.length ===
+                        group.participants.length ? (
+                          <>Select none</>
+                        ) : (
+                          <>Select all</>
+                        )}
+                      </Button>
+                    </FormLabel>
                     <FormDescription>
                       Select who the expense was paid for.
                     </FormDescription>
@@ -219,7 +246,9 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
           </CardContent>
 
           <CardFooter className="gap-2">
-            <SubmitButton loadingContent="Submitting…">
+            <SubmitButton
+              loadingContent={isCreate ? <>Creating…</> : <>Saving…</>}
+            >
               {isCreate ? <>Create</> : <>Save</>}
             </SubmitButton>
             {!isCreate && onDelete && (
