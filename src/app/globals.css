@@ -57,3 +57,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+.landing-header {
+  @apply bg-gradient-to-br from-emerald-800 to-emerald-600 dark:from-emerald-300 dark:to-emerald-600 bg-clip-text;
+}
+
+.landing-header strong {
+  @apply font-bold text-transparent;
+}

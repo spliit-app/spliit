@@ -33,8 +33,9 @@ export default function HomePage() {
               </a>
             </div>
           )}
-          <h1 className="!leading-none font-bold text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
-            Share Expenses <br /> with Friends & Family
+          <h1 className="!leading-none font-bold text-3xl sm:text-5xl md:text-6xl lg:text-7xl landing-header">
+            Share <strong>Expenses</strong> <br /> with <strong>Friends</strong>{' '}
+            & <strong>Family</strong>
           </h1>
           <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
             No ads. No account. <br className="sm:hidden" /> Open Source.
