@@ -1,4 +1,5 @@
 import { CopyButton } from '@/components/copy-button'
+import { ShareUrlButton } from '@/components/share-url-button'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -7,14 +8,15 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { env } from '@/lib/env'
+import { Group } from '@prisma/client'
 import { Share } from 'lucide-react'
 
 type Props = {
-  groupId: string
+  group: Group
 }
 
-export function ShareButton({ groupId }: Props) {
-  const url = `${env.NEXT_PUBLIC_BASE_URL}/groups/${groupId}`
+export function ShareButton({ group }: Props) {
+  const url = `${env.NEXT_PUBLIC_BASE_URL}/groups/${group.id}`
 
   return (
     <Popover>
@@ -31,6 +33,10 @@ export function ShareButton({ groupId }: Props) {
         <div className="flex gap-2">
           <Input className="flex-1" defaultValue={url} readOnly />
           <CopyButton text={url} />
+          <ShareUrlButton
+            text={`Join my group ${group.name} on Spliit`}
+            url={url}
+          />
         </div>
         <p>
           <strong>Warning!</strong> Every person with the group URL will be able

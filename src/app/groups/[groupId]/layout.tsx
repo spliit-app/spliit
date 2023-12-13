@@ -42,7 +42,7 @@ export default async function GroupLayout({
 
         <div className="flex gap-2 justify-between">
           <GroupTabs groupId={groupId} />
-          <ShareButton groupId={groupId} />
+          <ShareButton group={group} />
         </div>
       </div>
 
