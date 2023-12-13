@@ -1,9 +1,10 @@
 import { getPrisma } from '@/lib/prisma'
 import { ExpenseFormValues, GroupFormValues } from '@/lib/schemas'
 import { Expense } from '@prisma/client'
+import { nanoid } from 'nanoid'
 
 export function randomId() {
-  return Math.random().toString(36).slice(2, 9)
+  return nanoid()
 }
 
 export async function createGroup(groupFormValues: GroupFormValues) {
