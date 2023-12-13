@@ -27,6 +27,14 @@ Spliit is a free and open source alternative to Splitwise. I created it back in 
 
 The project is open to contributions. Feel free to open an issue or even a pull-request!
 
+## Run locally
+
+1. Clone the repository (or fork it if you intend to contribute)
+2. `npm install`
+3. Start a PostgreSQL server. You can run `./start-local-db.sh` if you don’t have a server already.
+4. Copy the file `.env.example` as `.env`
+5. `npm run dev`
+
 ## License
 
 MIT, see [LICENSE](./LICENSE).
