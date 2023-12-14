@@ -33,7 +33,9 @@ export function ExpenseList({
           expense.isReimbursement && 'italic',
         )}
         onClick={() => {
-          router.push(`/groups/${groupId}/expenses/${expense.id}/edit`)
+          router.push(`/groups/${groupId}/expenses/${expense.id}/edit`, {
+            scroll: false,
+          })
         }}
       >
         <div>
@@ -66,7 +68,10 @@ export function ExpenseList({
             {currency} {(expense.amount / 100).toFixed(2)}
           </div>
           <Button size="icon" variant="link" className="-my-2" asChild>
-            <Link href={`/groups/${groupId}/expenses/${expense.id}/edit`}>
+            <Link
+              href={`/groups/${groupId}/expenses/${expense.id}/edit`}
+              scroll={false}
+            >
               <ChevronRight className="w-4 h-4" />
             </Link>
           </Button>

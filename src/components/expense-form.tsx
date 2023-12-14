@@ -65,11 +65,13 @@ export function ExpenseForm({ group, expense }: Props) {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit((values) =>
-          expense
-            ? updateExpenseAction(group.id, expense.id, values)
-            : createExpenseAction(group.id, values),
-        )}
+        onSubmit={form.handleSubmit(async (values) => {
+          if (expense) {
+            await updateExpenseAction(group.id, expense.id, values)
+          } else {
+            await createExpenseAction(group.id, values)
+          }
+        })}
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <FormField
