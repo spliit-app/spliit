@@ -1,4 +1,4 @@
-import { ExpensePage } from '@/app/groups/[groupId]/expenses/expense-page'
+import { ExpenseModal } from '@/app/groups/[groupId]/@modal/expense-modal'
 import { ExpenseForm } from '@/components/expense-form'
 import { getExpense, getGroup } from '@/lib/api'
 import { Metadata } from 'next'
@@ -19,8 +19,8 @@ export default async function EditExpensePage({
   if (!expense) notFound()
 
   return (
-    <ExpensePage title="Edit expense">
+    <ExpenseModal title="Edit expense">
       <ExpenseForm group={group} expense={expense} />
-    </ExpensePage>
+    </ExpenseModal>
   )
 }

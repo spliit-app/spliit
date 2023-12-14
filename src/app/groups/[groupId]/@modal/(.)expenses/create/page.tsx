@@ -1,4 +1,4 @@
-import { ExpensePage } from '@/app/groups/[groupId]/expenses/expense-page'
+import { ExpenseModal } from '@/app/groups/[groupId]/@modal/expense-modal'
 import { ExpenseForm } from '@/components/expense-form'
 import { getGroup } from '@/lib/api'
 import { Metadata } from 'next'
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: 'Create expense',
 }
 
-export default async function CreateExpensePage({
+export default async function ExpensePage({
   params: { groupId },
 }: {
   params: { groupId: string }
@@ -17,8 +17,8 @@ export default async function CreateExpensePage({
   if (!group) notFound()
 
   return (
-    <ExpensePage title="Create expense">
+    <ExpenseModal title="Create expense">
       <ExpenseForm group={group} />
-    </ExpensePage>
+    </ExpenseModal>
   )
 }
