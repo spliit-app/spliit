@@ -1,4 +1,4 @@
-# [Spliit](https://spliit.app)
+[<img alt="Spliit" height="60" src="https://github.com/scastiel/spliit2/blob/main/public/logo-with-text.png?raw=true" />](https://spliit.app)
 
 Spliit is a free and open source alternative to Splitwise. I created it back in 2022 as a side project to learn the Go language, but rewrote it with Next.js since.
 
