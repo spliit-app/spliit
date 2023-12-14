@@ -1,4 +1,3 @@
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   BarChartHorizontalBig,
@@ -18,21 +17,6 @@ export default function HomePage() {
     <main>
       <section className="py-16 md:py-24 lg:py-32">
         <div className="container flex max-w-screen-md flex-col items-center gap-4 text-center">
-          {new Date().toISOString().startsWith('2023-12-13') && (
-            <div>
-              <a
-                href="https://www.producthunt.com/posts/spliit"
-                target="_blank"
-              >
-                <Badge
-                  variant="secondary"
-                  className="font-semibold sm:text-base sm:px-4 sm:py-1"
-                >
-                  🚀 We’re live on ProductHunt today! 🚀
-                </Badge>
-              </a>
-            </div>
-          )}
           <h1 className="!leading-none font-bold text-3xl sm:text-5xl md:text-6xl lg:text-7xl landing-header">
             Share <strong>Expenses</strong> <br /> with <strong>Friends</strong>{' '}
             & <strong>Family</strong>
