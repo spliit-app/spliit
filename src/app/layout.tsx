@@ -76,7 +76,10 @@ export default function RootLayout({
         >
           <ProgressBar />
           <header className="fixed top-0 left-0 right-0 h-16 flex justify-between bg-white dark:bg-gray-950 bg-opacity-50 dark:bg-opacity-50 p-2 border-b backdrop-blur-sm">
-            <Link className="flex items-center gap-2" href="/">
+            <Link
+              className="flex items-center gap-2 hover:scale-105 transition-transform"
+              href="/"
+            >
               <h1>
                 <Image
                   src="/logo-with-text.png"
@@ -90,7 +93,11 @@ export default function RootLayout({
             <div role="navigation" aria-label="Menu" className="flex">
               <ul className="flex items-center text-sm">
                 <li>
-                  <Button variant="link" asChild className="-my-3">
+                  <Button
+                    variant="ghost"
+                    asChild
+                    className="-my-3 text-primary"
+                  >
                     <Link href="/groups">Groups</Link>
                   </Button>
                 </li>
@@ -103,7 +110,7 @@ export default function RootLayout({
 
           {children}
 
-          <footer className="sm:p-8 md:p-16 sm:mt-16 sm:text-sm md:text-base md:mt-32 bg-slate-50 dark:bg-slate-800 border-t p-6 mt-8 flex flex-col space-y-2 text-xs [&_a]:underline">
+          <footer className="sm:p-8 md:p-16 sm:mt-16 sm:text-sm md:text-base md:mt-32 bg-slate-50 dark:bg-card border-t p-6 mt-8 flex flex-col space-y-2 text-xs [&_a]:underline">
             <div className="sm:text-lg font-semibold text-base flex space-x-2 items-center">
               <Link className="flex items-center gap-2" href="/">
                 <Image
