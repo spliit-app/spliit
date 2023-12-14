@@ -38,7 +38,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-slate-50 dark:bg-slate-800 py-16 md:py-24 lg:py-32">
+      <section className="bg-slate-50 dark:bg-card py-16 md:py-24 lg:py-32">
         <div className="p-4 flex mx-auto max-w-screen-md flex-col items-center text-center">
           <h2 className="font-bold text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
             Features
