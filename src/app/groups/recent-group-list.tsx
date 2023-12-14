@@ -2,6 +2,7 @@
 import { getGroupsAction } from '@/app/groups/actions'
 import { getRecentGroups } from '@/app/groups/recent-groups-helpers'
 import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
 import { getGroups } from '@/lib/api'
 import { Calendar, Loader2, Users } from 'lucide-react'
 import Link from 'next/link'
@@ -96,9 +97,10 @@ export function RecentGroupList() {
                         </div>
                       </div>
                     ) : (
-                      <>
-                        <Loader2 className="w-3 h-3 mr-1 inline animate-spin" />
-                      </>
+                      <div className="flex justify-between">
+                        <Skeleton className="h-4 w-6 rounded-full" />
+                        <Skeleton className="h-4 w-24 rounded-full" />
+                      </div>
                     )}
                   </div>
                 </div>

@@ -7,11 +7,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
 import { getGroup, getGroupExpenses } from '@/lib/api'
 import { Plus } from 'lucide-react'
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
 
 export const metadata: Metadata = {
   title: 'Expenses',
@@ -22,11 +24,6 @@ export default async function GroupExpensesPage({
 }: {
   params: { groupId: string }
 }) {
-  const group = await getGroup(groupId)
-  if (!group) notFound()
-
-  const expenses = await getGroupExpenses(groupId)
-
   return (
     <Card className="mb-4">
       <div className="flex flex-1">
@@ -46,13 +43,40 @@ export default async function GroupExpensesPage({
       </div>
 
       <CardContent className="p-0">
-        <ExpenseList
-          expenses={expenses}
-          groupId={groupId}
-          currency={group.currency}
-          participants={group.participants}
-        />
+        <Suspense
+          fallback={[0, 1, 2].map((i) => (
+            <div
+              key={i}
+              className="border-t flex justify-between items-center px-6 py-4 text-sm"
+            >
+              <div className="flex flex-col gap-2">
+                <Skeleton className="h-4 w-16 rounded-full" />
+                <Skeleton className="h-4 w-32 rounded-full" />
+              </div>
+              <div>
+                <Skeleton className="h-4 w-16 rounded-full" />
+              </div>
+            </div>
+          ))}
+        >
+          <Expenses groupId={groupId} />
+        </Suspense>
       </CardContent>
     </Card>
+  )
+}
+
+async function Expenses({ groupId }: { groupId: string }) {
+  const group = await getGroup(groupId)
+  if (!group) notFound()
+  const expenses = await getGroupExpenses(group.id)
+
+  return (
+    <ExpenseList
+      expenses={expenses}
+      groupId={group.id}
+      currency={group.currency}
+      participants={group.participants}
+    />
   )
 }
