@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 export default async function GroupsPage() {
   return (
     <>
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-2">
-        <h1 className="font-bold text-2xl mb-4">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 items-start">
+        <h1 className="font-bold text-2xl">
           <Link href="/groups">Recently visited groups</Link>
         </h1>
         <Button asChild>

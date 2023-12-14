@@ -65,7 +65,7 @@ export function RecentGroupList() {
   }
 
   return (
-    <ul className="grid grid-cols-1 gap-2 mt-2 sm:grid-cols-3">
+    <ul className="grid grid-cols-1 gap-2 sm:grid-cols-3">
       {state.groups.map((group) => {
         const details =
           state.status === 'complete'
