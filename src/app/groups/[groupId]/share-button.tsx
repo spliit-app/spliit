@@ -16,7 +16,7 @@ type Props = {
 }
 
 export function ShareButton({ group }: Props) {
-  const url = `${env.NEXT_PUBLIC_BASE_URL}/groups/${group.id}`
+  const url = `${env.NEXT_PUBLIC_BASE_URL}/groups/${group.id}/expenses?ref=share`
 
   return (
     <Popover>
