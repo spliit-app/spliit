@@ -32,6 +32,7 @@ import { ExpenseFormValues, expenseFormSchema } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
+import { match } from 'ts-pattern'
 
 export type Props = {
   group: NonNullable<Awaited<ReturnType<typeof getGroup>>>
@@ -50,7 +51,11 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
           title: expense.title,
           amount: String(expense.amount / 100) as unknown as number, // hack
           paidBy: expense.paidById,
-          paidFor: expense.paidFor.map(({ participantId }) => participantId),
+          paidFor: expense.paidFor.map(({ participantId, shares }) => ({
+            participant: participantId,
+            shares,
+          })),
+          splitMode: expense.splitMode,
           isReimbursement: expense.isReimbursement,
         }
       : searchParams.get('reimbursement')
@@ -60,7 +65,11 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
             (Number(searchParams.get('amount')) || 0) / 100,
           ) as unknown as number, // hack
           paidBy: searchParams.get('from') ?? undefined,
-          paidFor: [searchParams.get('to') ?? undefined],
+          paidFor: [
+            searchParams.get('to')
+              ? { participant: searchParams.get('to')!, shares: 1 }
+              : undefined,
+          ],
           isReimbursement: true,
         }
       : { title: '', amount: 0, paidFor: [], isReimbursement: false },
@@ -130,7 +139,7 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
               control={form.control}
               name="amount"
               render={({ field }) => (
-                <FormItem className="order-2 sm:order-3">
+                <FormItem className="order-3 sm:order-4">
                   <FormLabel>Amount</FormLabel>
                   <div className="flex items-baseline gap-2">
                     <span>{group.currency}</span>
@@ -173,6 +182,41 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
               name="paidFor"
               render={() => (
                 <FormItem className="order-5">
+                  <FormField
+                    control={form.control}
+                    name="splitMode"
+                    render={({ field }) => (
+                      <FormItem className="order-2 sm:order-3 mb-4">
+                        <FormLabel>Split mode</FormLabel>
+                        <FormControl>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="EVENLY">Evenly</SelectItem>
+                              <SelectItem value="BY_SHARES">
+                                Unevenly – By shares
+                              </SelectItem>
+                              <SelectItem value="BY_PERCENTAGE">
+                                Unevenly – By percentage
+                              </SelectItem>
+                              <SelectItem value="BY_AMOUNT">
+                                Unevenly – By amount
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormDescription>
+                          Select how to split the expense.
+                        </FormDescription>
+                      </FormItem>
+                    )}
+                  />
+
                   <div className="mb-4">
                     <FormLabel>
                       Paid for
@@ -184,10 +228,13 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
                           const paidFor = form.getValues().paidFor
                           const allSelected =
                             paidFor.length === group.participants.length
-                          const newPairFor = allSelected
+                          const newPaidFor = allSelected
                             ? []
-                            : group.participants.map((p) => p.id)
-                          form.setValue('paidFor', newPairFor, {
+                            : group.participants.map((p) => ({
+                                participant: p.id,
+                                shares: 1,
+                              }))
+                          form.setValue('paidFor', newPaidFor, {
                             shouldDirty: true,
                             shouldTouch: true,
                             shouldValidate: true,
@@ -213,28 +260,80 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
                       name="paidFor"
                       render={({ field }) => {
                         return (
-                          <FormItem
-                            key={id}
-                            className="flex flex-row items-start space-x-3 space-y-0"
-                          >
-                            <FormControl>
-                              <Checkbox
-                                checked={field.value?.includes(id)}
-                                onCheckedChange={(checked) => {
-                                  return checked
-                                    ? field.onChange([...field.value, id])
-                                    : field.onChange(
-                                        field.value?.filter(
-                                          (value) => value !== id,
-                                        ),
-                                      )
-                                }}
-                              />
-                            </FormControl>
-                            <FormLabel className="text-sm font-normal">
-                              {name}
-                            </FormLabel>
-                          </FormItem>
+                          <div className="flex items-center">
+                            <FormItem
+                              key={id}
+                              className="flex-1 flex flex-row items-start space-x-3 space-y-0"
+                            >
+                              <FormControl>
+                                <Checkbox
+                                  checked={field.value?.some(
+                                    ({ participant }) => participant === id,
+                                  )}
+                                  onCheckedChange={(checked) => {
+                                    return checked
+                                      ? field.onChange([
+                                          ...field.value,
+                                          { participant: id, shares: 1 },
+                                        ])
+                                      : field.onChange(
+                                          field.value?.filter(
+                                            (value) => value.participant !== id,
+                                          ),
+                                        )
+                                  }}
+                                />
+                              </FormControl>
+                              <FormLabel className="text-sm font-normal">
+                                {name}
+                              </FormLabel>
+                            </FormItem>
+                            {field.value?.some(
+                              ({ participant }) => participant === id,
+                            ) &&
+                              form.getValues().splitMode !== 'EVENLY' && (
+                                <div className="flex gap-1 items-baseline">
+                                  <FormControl>
+                                    <Input
+                                      className="w-[100px]"
+                                      type="number"
+                                      value={
+                                        field.value?.find(
+                                          ({ participant }) =>
+                                            participant === id,
+                                        )?.shares
+                                      }
+                                      onChange={(event) =>
+                                        field.onChange(
+                                          field.value.map((p) =>
+                                            p.participant === id
+                                              ? {
+                                                  participant: id,
+                                                  shares: Number(
+                                                    event.target.value,
+                                                  ),
+                                                }
+                                              : p,
+                                          ),
+                                        )
+                                      }
+                                      inputMode="numeric"
+                                      step={1}
+                                    />
+                                  </FormControl>
+                                  <span className="text-sm">
+                                    {match(form.getValues().splitMode)
+                                      .with('EVENLY', () => <></>)
+                                      .with('BY_SHARES', () => <>share(s)</>)
+                                      .with('BY_PERCENTAGE', () => <>%</>)
+                                      .with('BY_AMOUNT', () => (
+                                        <>{group.currency}</>
+                                      ))
+                                      .exhaustive()}
+                                  </span>
+                                </div>
+                              )}
+                          </div>
                         )
                       }}
                     />

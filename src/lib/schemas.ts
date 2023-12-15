@@ -1,3 +1,4 @@
+import { SplitMode } from '@prisma/client'
 import * as z from 'zod'
 
 export const groupFormSchema = z
@@ -65,8 +66,13 @@ export const expenseFormSchema = z.object({
     ),
   paidBy: z.string({ required_error: 'You must select a participant.' }),
   paidFor: z
-    .array(z.string())
+    .array(z.object({ participant: z.string(), shares: z.number().int() }))
     .min(1, 'The expense must be paid for at least one participant.'),
+  splitMode: z
+    .enum<SplitMode, [SplitMode, ...SplitMode[]]>(
+      Object.values(SplitMode) as any,
+    )
+    .default('EVENLY'),
   isReimbursement: z.boolean(),
 })
 
