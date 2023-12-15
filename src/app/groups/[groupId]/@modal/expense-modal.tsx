@@ -6,7 +6,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { useRouter } from 'next/navigation'
-import { ReactNode } from 'react'
+import { ReactNode, useState } from 'react'
 
 export function ExpenseModal({
   children,
@@ -16,9 +16,16 @@ export function ExpenseModal({
   title: ReactNode
 }) {
   const router = useRouter()
+  const [open, setOpen] = useState(true)
 
   return (
-    <Dialog open onOpenChange={() => router.back()}>
+    <Dialog
+      open={open}
+      onOpenChange={(open) => {
+        setOpen(open)
+        if (!open) router.back()
+      }}
+    >
       <DialogContent className="w-full max-w-screen-sm">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>

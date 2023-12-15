@@ -28,7 +28,7 @@ import {
 import { getExpense, getGroup } from '@/lib/api'
 import { ExpenseFormValues, expenseFormSchema } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 
 export type Props = {
@@ -61,6 +61,7 @@ export function ExpenseForm({ group, expense }: Props) {
         }
       : { title: '', amount: 0, paidFor: [], isReimbursement: false },
   })
+  const router = useRouter()
 
   return (
     <Form {...form}>
@@ -71,6 +72,7 @@ export function ExpenseForm({ group, expense }: Props) {
           } else {
             await createExpenseAction(group.id, values)
           }
+          router.back()
         })}
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -254,7 +256,10 @@ export function ExpenseForm({ group, expense }: Props) {
               type="button"
               variant="destructive"
               loadingContent="Deleting…"
-              action={() => deleteExpenseAction(group.id, expense.id)}
+              action={async () => {
+                await deleteExpenseAction(group.id, expense.id)
+                router.back()
+              }}
             >
               Delete
             </AsyncButton>
