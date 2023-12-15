@@ -44,13 +44,11 @@ export function ExpenseVaul({ children, title }: Props) {
     <Drawer.Root open onClose={() => router.back()}>
       <Drawer.Portal>
         <Drawer.Title>{title}</Drawer.Title>
-        <Drawer.Overlay
-          className="fixed inset-0 bg-background/80 backdrop-blur-sm"
-          onClick={() => router.back()}
-        />
-        <Drawer.Content className="bg-background border flex flex-col rounded-t-[10px] h-fit mt-24 fixed bottom-0 left-0 right-0 p-4 z-50">
-          <div className="text-xl font-bold mb-4">{title}</div>
-          {children}
+        <Drawer.Overlay className="fixed inset-0 bg-background/80 backdrop-blur-sm" />
+        <Drawer.Content className="bg-background border flex flex-col rounded-t-[10px] max-h-[90dvh] mt-24 fixed bottom-0 left-0 right-0 z-50">
+          <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-gray-300 dark:bg-gray-700 mt-4"></div>
+          <div className="text-xl font-bold p-4">{title}</div>
+          <div className="flex-1 overflow-y-auto p-4 pt-0">{children}</div>
         </Drawer.Content>
       </Drawer.Portal>
     </Drawer.Root>
