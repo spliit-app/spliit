@@ -295,7 +295,7 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
                                 <div className="flex gap-1 items-baseline">
                                   <FormControl>
                                     <Input
-                                      className="w-[100px]"
+                                      className="w-[80px]"
                                       type="number"
                                       value={
                                         field.value?.find(
