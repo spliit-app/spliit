@@ -35,7 +35,7 @@ export default async function GroupExpensesPage({
         </CardHeader>
         <CardHeader>
           <Button asChild size="icon">
-            <Link href={`/groups/${groupId}/expenses/create`}>
+            <Link href={`/groups/${groupId}/expenses/create`} scroll={false}>
               <Plus />
             </Link>
           </Button>

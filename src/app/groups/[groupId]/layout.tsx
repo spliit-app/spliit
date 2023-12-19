@@ -5,12 +5,13 @@ import { getGroup } from '@/lib/api'
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { PropsWithChildren } from 'react'
+import { PropsWithChildren, ReactNode } from 'react'
 
 type Props = {
   params: {
     groupId: string
   }
+  modal: ReactNode
 }
 
 export async function generateMetadata({
@@ -28,6 +29,7 @@ export async function generateMetadata({
 
 export default async function GroupLayout({
   children,
+  modal,
   params: { groupId },
 }: PropsWithChildren<Props>) {
   const group = await getGroup(groupId)
@@ -47,6 +49,7 @@ export default async function GroupLayout({
       </div>
 
       {children}
+      {modal}
 
       <SaveGroupLocally group={{ id: group.id, name: group.name }} />
     </>
