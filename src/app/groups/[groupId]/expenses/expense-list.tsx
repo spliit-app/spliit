@@ -21,6 +21,20 @@ export function ExpenseList({
   participants,
   groupId,
 }: Props) {
+
+  if (typeof window !== "undefined") {
+    const activeUser = localStorage.getItem('newGroup-activeUser');
+    const newUser = localStorage.getItem(`${groupId}-newUser`);
+    if (activeUser || newUser) {
+      localStorage.removeItem('newGroup-activeUser');
+      localStorage.removeItem(`${groupId}-newUser`);
+      const userId = participants.find(p => p.name === (activeUser || newUser))?.id;
+      if (userId) {
+        localStorage.setItem(`${groupId}-activeUser`, userId);
+      }
+    }
+  }
+
   const getParticipant = (id: string) => participants.find((p) => p.id === id)
   const router = useRouter()
 

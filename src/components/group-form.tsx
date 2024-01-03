@@ -29,6 +29,8 @@ import { GroupFormValues, groupFormSchema } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Save, Trash2 } from 'lucide-react'
 import { useFieldArray, useForm } from 'react-hook-form'
+import {Checkbox} from "@/components/ui/checkbox";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 
 export type Props = {
   group?: NonNullable<Awaited<ReturnType<typeof getGroup>>>
@@ -60,6 +62,21 @@ export function GroupForm({
     name: 'participants',
     keyName: 'key',
   })
+
+  let activeUser = 'None';
+
+  const updateActiveUser = () => {
+    if (group?.id) {
+      const participant = group.participants.find(p => p.name === activeUser);
+      if (participant?.id) {
+        localStorage.setItem(`${group.id}-activeUser`, participant.id);
+      } else {
+        localStorage.setItem(`${group.id}-newUser`, activeUser);
+      }
+    } else {
+      localStorage.setItem('newGroup-activeUser', activeUser);
+    }
+  }
 
   return (
     <Form {...form}>
@@ -196,9 +213,38 @@ export function GroupForm({
           </CardFooter>
         </Card>
 
+        <Card className="mb-4">
+          <CardHeader>
+            <CardTitle>Active User</CardTitle>
+            <CardDescription>
+              Pick the user to be used as a default for paying expenses (set per device)
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Select
+              onValueChange={(value) => {
+                activeUser = value;
+              }}
+              defaultValue={fields.find(f => f.id === localStorage.getItem(`${group?.id}-activeUser`))?.name || 'None'}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select a participant"/>
+              </SelectTrigger>
+              <SelectContent>
+                {[{name: 'None'}, ...form.watch('participants')].filter(item => item.name.length > 0).map(({name}) => (
+                  <SelectItem key={name} value={name}>
+                    {name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </CardContent>
+        </Card>
+
         <SubmitButton
           size="lg"
           loadingContent={group ? 'Saving…' : 'Creating…'}
+          onClick={updateActiveUser}
         >
           <Save className="w-4 h-4 mr-2" /> {group ? <>Save</> : <> Create</>}
         </SubmitButton>
