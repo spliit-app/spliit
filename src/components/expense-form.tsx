@@ -48,6 +48,7 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
     defaultValues: expense
       ? {
           title: expense.title,
+          expenseDate: (expense.expenseDate ?? new Date()).toISOString().substring(0, 10),
           amount: String(expense.amount / 100) as unknown as number, // hack
           paidBy: expense.paidById,
           paidFor: expense.paidFor.map(({ participantId }) => participantId),
@@ -56,6 +57,7 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
       : searchParams.get('reimbursement')
       ? {
           title: 'Reimbursement',
+          expenseDate: new Date().toISOString().substring(0, 10),
           amount: String(
             (Number(searchParams.get('amount')) || 0) / 100,
           ) as unknown as number, // hack
@@ -63,7 +65,13 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
           paidFor: [searchParams.get('to') ?? undefined],
           isReimbursement: true,
         }
-      : { title: '', amount: 0, paidFor: [], isReimbursement: false },
+      : {
+        title: '',
+        expenseDate: new Date().toISOString().substring(0, 10),
+        amount: 0,
+        paidFor: [],
+        isReimbursement: false
+      },
   })
 
   return (
@@ -91,6 +99,27 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
                   </FormControl>
                   <FormDescription>
                     Enter a description for the expense.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="expenseDate"
+              render={({ field }) => (
+                <FormItem className="sm:order-1">
+                  <FormLabel>Expense Date</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="date-base"
+                      type="date"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Select the expense Date.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

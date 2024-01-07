@@ -47,6 +47,7 @@ export async function createExpense(
     data: {
       id: randomId(),
       groupId,
+      expenseDate: expenseFormValues.expenseDate,
       amount: expenseFormValues.amount,
       title: expenseFormValues.title,
       paidById: expenseFormValues.paidBy,
@@ -116,6 +117,7 @@ export async function updateExpense(
   return prisma.expense.update({
     where: { id: expenseId },
     data: {
+      expenseDate: expenseFormValues.expenseDate,
       amount: expenseFormValues.amount,
       title: expenseFormValues.title,
       paidById: expenseFormValues.paidBy,
@@ -189,7 +191,7 @@ export async function getGroupExpenses(groupId: string) {
   return prisma.expense.findMany({
     where: { groupId },
     include: { paidFor: { include: { participant: true } }, paidBy: true },
-    orderBy: { createdAt: 'desc' },
+    orderBy: { expenseDate: 'desc' },
   })
 }
 
