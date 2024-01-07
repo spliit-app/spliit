@@ -48,6 +48,7 @@ export async function createExpense(
       id: randomId(),
       groupId,
       amount: expenseFormValues.amount,
+      categoryId: expenseFormValues.category,
       title: expenseFormValues.title,
       paidById: expenseFormValues.paidBy,
       paidFor: {
@@ -118,6 +119,7 @@ export async function updateExpense(
     data: {
       amount: expenseFormValues.amount,
       title: expenseFormValues.title,
+      categoryId: expenseFormValues.category,
       paidById: expenseFormValues.paidBy,
       paidFor: {
         connectOrCreate: expenseFormValues.paidFor.map((paidFor) => ({
@@ -184,11 +186,16 @@ export async function getGroup(groupId: string) {
   })
 }
 
+export async function getCategories() {
+  const prisma = await getPrisma()
+  return prisma.category.findMany()
+}
+
 export async function getGroupExpenses(groupId: string) {
   const prisma = await getPrisma()
   return prisma.expense.findMany({
     where: { groupId },
-    include: { paidFor: { include: { participant: true } }, paidBy: true },
+    include: { paidFor: { include: { participant: true } }, paidBy: true, category: true },
     orderBy: { createdAt: 'desc' },
   })
 }
@@ -197,6 +204,6 @@ export async function getExpense(groupId: string, expenseId: string) {
   const prisma = await getPrisma()
   return prisma.expense.findUnique({
     where: { id: expenseId },
-    include: { paidBy: true, paidFor: true },
+    include: { paidBy: true, paidFor: true, category: true },
   })
 }
