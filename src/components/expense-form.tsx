@@ -49,7 +49,7 @@ export function ExpenseForm({ group, expense, categories, onSubmit, onDelete }: 
     defaultValues: expense
       ? {
           title: expense.title,
-          expenseDate: (expense.expenseDate ?? new Date()).toISOString().substring(0, 10),
+          expenseDate: expense.expenseDate ?? new Date(),
           amount: String(expense.amount / 100) as unknown as number, // hack
           category: expense.categoryId,
           paidBy: expense.paidById,
@@ -59,7 +59,7 @@ export function ExpenseForm({ group, expense, categories, onSubmit, onDelete }: 
       : searchParams.get('reimbursement')
       ? {
           title: 'Reimbursement',
-          expenseDate: new Date().toISOString().substring(0, 10),
+          expenseDate: new Date(),
           amount: String(
             (Number(searchParams.get('amount')) || 0) / 100,
           ) as unknown as number, // hack
@@ -70,7 +70,7 @@ export function ExpenseForm({ group, expense, categories, onSubmit, onDelete }: 
         }
       : {
         title: '',
-        expenseDate: new Date().toISOString().substring(0, 10),
+        expenseDate: new Date(),
         category: 1,
         amount: 0,
         paidFor: [],
@@ -119,7 +119,10 @@ export function ExpenseForm({ group, expense, categories, onSubmit, onDelete }: 
                     <Input
                       className="date-base"
                       type="date"
-                      {...field}
+                      value={(field.value ?? new Date()).toISOString().substring(0,10)}
+                      onChange={(event) => {
+                        return field.onChange(new Date(event.target.value))
+                      }}
                     />
                   </FormControl>
                   <FormDescription>
