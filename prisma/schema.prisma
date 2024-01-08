@@ -39,7 +39,15 @@ model Expense {
   paidFor         ExpensePaidFor[]
   groupId         String
   isReimbursement Boolean          @default(false)
+  splitMode       SplitMode        @default(EVENLY)
   createdAt       DateTime         @default(now())
+}
+
+enum SplitMode {
+  EVENLY
+  BY_SHARES
+  BY_PERCENTAGE
+  BY_AMOUNT
 }
 
 model ExpensePaidFor {
@@ -47,6 +55,7 @@ model ExpensePaidFor {
   participant   Participant @relation(fields: [participantId], references: [id], onDelete: Cascade)
   expenseId     String
   participantId String
+  shares        Int         @default(1)
 
   @@id([expenseId, participantId])
 }

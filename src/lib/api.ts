@@ -36,7 +36,7 @@ export async function createExpense(
 
   for (const participant of [
     expenseFormValues.paidBy,
-    ...expenseFormValues.paidFor,
+    ...expenseFormValues.paidFor.map((p) => p.participant),
   ]) {
     if (!group.participants.some((p) => p.id === participant))
       throw new Error(`Invalid participant ID: ${participant}`)
@@ -50,10 +50,12 @@ export async function createExpense(
       amount: expenseFormValues.amount,
       title: expenseFormValues.title,
       paidById: expenseFormValues.paidBy,
+      splitMode: expenseFormValues.splitMode,
       paidFor: {
         createMany: {
           data: expenseFormValues.paidFor.map((paidFor) => ({
-            participantId: paidFor,
+            participantId: paidFor.participant,
+            shares: paidFor.shares,
           })),
         },
       },
@@ -84,12 +86,14 @@ export async function getGroupExpensesParticipants(groupId: string) {
 
 export async function getGroups(groupIds: string[]) {
   const prisma = await getPrisma()
-  return (await prisma.group.findMany({
-    where: { id: { in: groupIds } },
-    include: { _count: { select: { participants: true } } },
-  })).map(group => ({
+  return (
+    await prisma.group.findMany({
+      where: { id: { in: groupIds } },
+      include: { _count: { select: { participants: true } } },
+    })
+  ).map((group) => ({
     ...group,
-    createdAt: group.createdAt.toISOString()
+    createdAt: group.createdAt.toISOString(),
   }))
 }
 
@@ -106,7 +110,7 @@ export async function updateExpense(
 
   for (const participant of [
     expenseFormValues.paidBy,
-    ...expenseFormValues.paidFor,
+    ...expenseFormValues.paidFor.map((p) => p.participant),
   ]) {
     if (!group.participants.some((p) => p.id === participant))
       throw new Error(`Invalid participant ID: ${participant}`)
@@ -119,17 +123,34 @@ export async function updateExpense(
       amount: expenseFormValues.amount,
       title: expenseFormValues.title,
       paidById: expenseFormValues.paidBy,
+      splitMode: expenseFormValues.splitMode,
       paidFor: {
-        connectOrCreate: expenseFormValues.paidFor.map((paidFor) => ({
+        create: expenseFormValues.paidFor
+          .filter(
+            (p) =>
+              !existingExpense.paidFor.some(
+                (pp) => pp.participantId === p.participant,
+              ),
+          )
+          .map((paidFor) => ({
+            participantId: paidFor.participant,
+            shares: paidFor.shares,
+          })),
+        update: expenseFormValues.paidFor.map((paidFor) => ({
           where: {
-            expenseId_participantId: { expenseId, participantId: paidFor },
+            expenseId_participantId: {
+              expenseId,
+              participantId: paidFor.participant,
+            },
           },
-          create: { participantId: paidFor },
+          data: {
+            shares: paidFor.shares,
+          },
         })),
         deleteMany: existingExpense.paidFor.filter(
           (paidFor) =>
             !expenseFormValues.paidFor.some(
-              (pf) => pf === paidFor.participantId,
+              (pf) => pf.participant === paidFor.participantId,
             ),
         ),
       },
