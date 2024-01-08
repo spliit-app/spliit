@@ -80,6 +80,7 @@ async function main() {
           amount: Math.round(expenseRow.amount * 100),
           groupId: groupRow.id,
           title: expenseRow.description,
+          expenseDate: new Date(expenseRow.created_at.toDateString()),
           createdAt: expenseRow.created_at,
           isReimbursement: expenseRow.is_reimbursement === true,
           paidById: participantIdsMapping[expenseRow.paid_by_participant_id],
