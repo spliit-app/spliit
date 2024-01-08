@@ -81,6 +81,7 @@ async function main() {
           groupId: groupRow.id,
           title: expenseRow.description,
           expenseDate: new Date(expenseRow.created_at.toDateString()),
+          category: 1,
           createdAt: expenseRow.created_at,
           isReimbursement: expenseRow.is_reimbursement === true,
           paidById: participantIdsMapping[expenseRow.paid_by_participant_id],
