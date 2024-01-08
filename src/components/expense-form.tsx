@@ -76,7 +76,7 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
           paidBy: searchParams.get('from') ?? undefined,
           paidFor: [
             searchParams.get('to')
-              ? { participant: searchParams.get('to')! }
+              ? { participant: searchParams.get('to')!, shares: 1 }
               : undefined,
           ],
           isReimbursement: true,
