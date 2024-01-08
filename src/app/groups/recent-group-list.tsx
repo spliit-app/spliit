@@ -1,11 +1,18 @@
 'use client'
 import { getGroupsAction } from '@/app/groups/actions'
-import { getRecentGroups } from '@/app/groups/recent-groups-helpers'
+import {
+  getRecentGroups,
+  getStarredGroups,
+  starGroup,
+  unstarGroup,
+} from '@/app/groups/recent-groups-helpers'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getGroups } from '@/lib/api'
-import { Calendar, Loader2, Users } from 'lucide-react'
+import { StarFilledIcon } from '@radix-ui/react-icons'
+import { Calendar, Loader2, Star, Users } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { z } from 'zod'
 
@@ -19,11 +26,12 @@ type RecentGroups = z.infer<typeof recentGroupsSchema>
 
 type State =
   | { status: 'pending' }
-  | { status: 'partial'; groups: RecentGroups }
+  | { status: 'partial'; groups: RecentGroups; starredGroups: string[] }
   | {
       status: 'complete'
       groups: RecentGroups
       groupsDetails: Awaited<ReturnType<typeof getGroups>>
+      starredGroups: string[]
     }
 
 type Props = {
@@ -35,11 +43,19 @@ export function RecentGroupList() {
 
   useEffect(() => {
     const groupsInStorage = getRecentGroups()
-    setState({ status: 'partial', groups: groupsInStorage })
+    const starredGroups = getStarredGroups()
+    setState({ status: 'partial', groups: groupsInStorage, starredGroups })
     getGroupsAction(groupsInStorage.map((g) => g.id)).then((groupsDetails) => {
-      setState({ status: 'complete', groups: groupsInStorage, groupsDetails })
+      setState({
+        status: 'complete',
+        groups: groupsInStorage,
+        groupsDetails,
+        starredGroups,
+      })
     })
   }, [])
+
+  const router = useRouter()
 
   if (state.status === 'pending') {
     return (
@@ -66,49 +82,85 @@ export function RecentGroupList() {
 
   return (
     <ul className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-      {state.groups.map((group) => {
-        const details =
-          state.status === 'complete'
-            ? state.groupsDetails.find((d) => d.id === group.id)
-            : null
-        return (
-          <li key={group.id}>
-            <Button variant="outline" className="h-fit w-full py-3" asChild>
-              <Link href={`/groups/${group.id}`} className="text-base">
-                <div className="w-full flex flex-col gap-1">
-                  <div className="text-base">{group.name}</div>
-                  <div className="text-muted-foreground font-normal text-xs">
-                    {details ? (
-                      <div className="w-full flex items-center justify-between">
-                        <div className="flex items-center">
-                          <Users className="w-3 h-3 inline mr-1" />
-                          <span>{details._count.participants}</span>
+      {state.groups
+        .toSorted(
+          (first, second) =>
+            (state.starredGroups.includes(second.id) ? 2 : 0) -
+            (state.starredGroups.includes(first.id) ? 1 : 0),
+        )
+        .map((group) => {
+          const details =
+            state.status === 'complete'
+              ? state.groupsDetails.find((d) => d.id === group.id)
+              : null
+          return (
+            <li key={group.id}>
+              <Button variant="outline" className="h-fit w-full py-3" asChild>
+                <div
+                  className="text-base"
+                  onClick={() => router.push(`/groups/${group.id}`)}
+                >
+                  <div className="w-full flex flex-col gap-1">
+                    <div className="text-base flex justify-between">
+                      <Link href={`/groups/${group.id}`}>{group.name}</Link>
+                      <span>
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          className="-m-3"
+                          onClick={(event) => {
+                            event.stopPropagation()
+                            if (state.starredGroups.includes(group.id)) {
+                              unstarGroup(group.id)
+                            } else {
+                              starGroup(group.id)
+                            }
+                            setState({
+                              ...state,
+                              starredGroups: getStarredGroups(),
+                            })
+                          }}
+                        >
+                          {state.starredGroups.includes(group.id) ? (
+                            <StarFilledIcon className="w-4 h-4 text-orange-400" />
+                          ) : (
+                            <Star className="w-4 h-4 text-muted-foreground" />
+                          )}
+                        </Button>
+                      </span>
+                    </div>
+                    <div className="text-muted-foreground font-normal text-xs">
+                      {details ? (
+                        <div className="w-full flex items-center justify-between">
+                          <div className="flex items-center">
+                            <Users className="w-3 h-3 inline mr-1" />
+                            <span>{details._count.participants}</span>
+                          </div>
+                          <div className="flex items-center">
+                            <Calendar className="w-3 h-3 inline mx-1" />
+                            <span>
+                              {new Date(details.createdAt).toLocaleDateString(
+                                'en-US',
+                                {
+                                  dateStyle: 'medium',
+                                },
+                              )}
+                            </span>
+                          </div>
                         </div>
-                        <div className="flex items-center">
-                          <Calendar className="w-3 h-3 inline mx-1" />
-                          <span>
-                            {new Date(details.createdAt).toLocaleDateString(
-                              'en-US',
-                              {
-                                dateStyle: 'medium',
-                              },
-                            )}
-                          </span>
+                      ) : (
+                        <div className="flex justify-between">
+                          <Skeleton className="h-4 w-6 rounded-full" />
+                          <Skeleton className="h-4 w-24 rounded-full" />
                         </div>
-                      </div>
-                    ) : (
-                      <div className="flex justify-between">
-                        <Skeleton className="h-4 w-6 rounded-full" />
-                        <Skeleton className="h-4 w-24 rounded-full" />
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
                 </div>
-              </Link>
-            </Button>
-          </li>
-        )
-      })}
+              </Button>
+            </li>
+          )
+        })}
     </ul>
   )
 }
