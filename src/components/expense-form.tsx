@@ -80,6 +80,7 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
               : undefined,
           ],
           isReimbursement: true,
+          splitMode: 'EVENLY',
         }
       : {
           title: '',
