@@ -5,11 +5,16 @@ import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
-  CardFooter,
+  CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible'
 import {
   Form,
   FormControl,
@@ -31,6 +36,7 @@ import { getExpense, getGroup } from '@/lib/api'
 import { ExpenseFormValues, expenseFormSchema } from '@/lib/schemas'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Save, Trash2 } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { match } from 'ts-pattern'
@@ -177,89 +183,52 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
                 </FormItem>
               )}
             />
+          </CardContent>
+        </Card>
 
-            <FormField
-              control={form.control}
-              name="splitMode"
-              render={({ field }) => (
-                <FormItem className="sm:order-2">
-                  <FormLabel>Split mode</FormLabel>
-                  <FormControl>
-                    <Select
-                      onValueChange={(value) => {
-                        form.setValue('splitMode', value as any, {
-                          shouldDirty: true,
-                          shouldTouch: true,
-                          shouldValidate: true,
-                        })
-                      }}
-                      defaultValue={field.value}
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="EVENLY">Evenly</SelectItem>
-                        <SelectItem value="BY_SHARES">
-                          Unevenly – By shares
-                        </SelectItem>
-                        <SelectItem value="BY_PERCENTAGE">
-                          Unevenly – By percentage
-                        </SelectItem>
-                        {/* <SelectItem value="BY_AMOUNT">
-                                Unevenly – By amount
-                              </SelectItem> */}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormDescription>
-                    Select how to split the expense.
-                  </FormDescription>
-                </FormItem>
-              )}
-            />
-
+        <Card className="mt-4">
+          <CardHeader>
+            <CardTitle className="flex justify-between">
+              <span>Paid for</span>
+              <Button
+                variant="link"
+                type="button"
+                className="-my-2 -mx-4"
+                onClick={() => {
+                  const paidFor = form.getValues().paidFor
+                  const allSelected =
+                    paidFor.length === group.participants.length
+                  const newPaidFor = allSelected
+                    ? []
+                    : group.participants.map((p) => ({
+                        participant: p.id,
+                        shares: 1,
+                      }))
+                  form.setValue('paidFor', newPaidFor, {
+                    shouldDirty: true,
+                    shouldTouch: true,
+                    shouldValidate: true,
+                  })
+                }}
+              >
+                {form.getValues().paidFor.length ===
+                group.participants.length ? (
+                  <>Select none</>
+                ) : (
+                  <>Select all</>
+                )}
+              </Button>
+            </CardTitle>
+            <CardDescription>
+              Select who the expense was paid for.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
             <FormField
               control={form.control}
               name="paidFor"
               render={() => (
-                <FormItem className="sm:order-4 row-span-2">
-                  <div className="">
-                    <FormLabel>
-                      Paid for
-                      <Button
-                        variant="link"
-                        type="button"
-                        className="-m-2"
-                        onClick={() => {
-                          const paidFor = form.getValues().paidFor
-                          const allSelected =
-                            paidFor.length === group.participants.length
-                          const newPaidFor = allSelected
-                            ? []
-                            : group.participants.map((p) => ({
-                                participant: p.id,
-                                shares: 1,
-                              }))
-                          form.setValue('paidFor', newPaidFor, {
-                            shouldDirty: true,
-                            shouldTouch: true,
-                            shouldValidate: true,
-                          })
-                        }}
-                      >
-                        {form.getValues().paidFor.length ===
-                        group.participants.length ? (
-                          <>Select none</>
-                        ) : (
-                          <>Select all</>
-                        )}
-                      </Button>
-                    </FormLabel>
-                    <FormDescription>
-                      Select who the expense was paid for.
-                    </FormDescription>
-                  </div>
+                <FormItem className="sm:order-4 row-span-2 space-y-0">
                   {group.participants.map(({ id, name }) => (
                     <FormField
                       key={id}
@@ -271,7 +240,7 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
                             data-id={`${id}/${form.getValues().splitMode}/${
                               group.currency
                             }`}
-                            className="flex items-center"
+                            className="flex items-center border-t last-of-type:border-b last-of-type:!mb-4 -mx-6 px-6 py-3"
                           >
                             <FormItem className="flex-1 flex flex-row items-start space-x-3 space-y-0">
                               <FormControl>
@@ -293,7 +262,7 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
                                   }}
                                 />
                               </FormControl>
-                              <FormLabel className="text-sm font-normal">
+                              <FormLabel className="text-sm font-normal flex-1">
                                 {name}
                               </FormLabel>
                             </FormItem>
@@ -313,7 +282,7 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
                                                 participant === id,
                                             ),
                                           )}
-                                          className="text-base w-[80px]"
+                                          className="text-base w-[80px] -my-2"
                                           type="number"
                                           disabled={
                                             !field.value?.some(
@@ -379,26 +348,78 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
                 </FormItem>
               )}
             />
-          </CardContent>
 
-          <CardFooter className="gap-2">
-            <SubmitButton
-              loadingContent={isCreate ? <>Creating…</> : <>Saving…</>}
-            >
-              {isCreate ? <>Create</> : <>Save</>}
-            </SubmitButton>
-            {!isCreate && onDelete && (
-              <AsyncButton
-                type="button"
-                variant="destructive"
-                loadingContent="Deleting…"
-                action={onDelete}
-              >
-                Delete
-              </AsyncButton>
-            )}
-          </CardFooter>
+            <Collapsible className="mt-5">
+              <CollapsibleTrigger asChild>
+                <Button variant="link" className="-mx-4">
+                  Advanced splitting options…
+                </Button>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="grid sm:grid-cols-2 gap-6 pt-3">
+                <FormField
+                  control={form.control}
+                  name="splitMode"
+                  render={({ field }) => (
+                    <FormItem className="sm:order-2">
+                      <FormLabel>Split mode</FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={(value) => {
+                            form.setValue('splitMode', value as any, {
+                              shouldDirty: true,
+                              shouldTouch: true,
+                              shouldValidate: true,
+                            })
+                          }}
+                          defaultValue={field.value}
+                        >
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="EVENLY">Evenly</SelectItem>
+                            <SelectItem value="BY_SHARES">
+                              Unevenly – By shares
+                            </SelectItem>
+                            <SelectItem value="BY_PERCENTAGE">
+                              Unevenly – By percentage
+                            </SelectItem>
+                            {/* <SelectItem value="BY_AMOUNT">
+                                Unevenly – By amount
+                              </SelectItem> */}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormDescription>
+                        Select how to split the expense.
+                      </FormDescription>
+                    </FormItem>
+                  )}
+                />
+              </CollapsibleContent>
+            </Collapsible>
+          </CardContent>
         </Card>
+
+        <div className="flex mt-4 gap-2">
+          <SubmitButton
+            loadingContent={isCreate ? <>Creating…</> : <>Saving…</>}
+          >
+            <Save className="w-4 h-4 mr-2" />
+            {isCreate ? <>Create</> : <>Save</>}
+          </SubmitButton>
+          {!isCreate && onDelete && (
+            <AsyncButton
+              type="button"
+              variant="destructive"
+              loadingContent="Deleting…"
+              action={onDelete}
+            >
+              <Trash2 className="w-4 h-4 mr-2" />
+              Delete
+            </AsyncButton>
+          )}
+        </div>
       </form>
     </Form>
   )
