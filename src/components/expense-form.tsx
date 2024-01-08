@@ -123,28 +123,30 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
             />
 
             <FormField
-               control={form.control}
-               name="expenseDate"
-               render={({ field }) => (
-                 <FormItem className="sm:order-1">
-                   <FormLabel>Expense Date</FormLabel>
-                   <FormControl>
-                     <Input
-                       className="date-base"
-                       type="date"
-                       value={(field.value ?? new Date()).toISOString().substring(0,10)}
-                       onChange={(event) => {
-                         return field.onChange(new Date(event.target.value))
-                       }}
-                     />
-                   </FormControl>
-                   <FormDescription>
-                     Select the expense Date.
-                   </FormDescription>
-                   <FormMessage />
-                 </FormItem>
-               )}
-             />
+              control={form.control}
+              name="expenseDate"
+              render={({ field }) => (
+                <FormItem className="sm:order-1">
+                  <FormLabel>Expense Date</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="date-base"
+                      type="date"
+                      value={(field.value ?? new Date())
+                        .toISOString()
+                        .substring(0, 10)}
+                      onChange={(event) => {
+                        return field.onChange(new Date(event.target.value))
+                      }}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Enter the date the expense was made.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <FormField
               control={form.control}
