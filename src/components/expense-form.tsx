@@ -305,7 +305,7 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
                                   )
                                   return (
                                     <div>
-                                      <div className="flex gap-1 items-baseline">
+                                      <div className="flex gap-1 items-center">
                                         {form.getValues().splitMode ===
                                           'BY_AMOUNT' && sharesLabel}
                                         <FormControl>
