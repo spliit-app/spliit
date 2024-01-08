@@ -9,6 +9,9 @@
     "lint": "next lint",
     "postinstall": "prisma migrate deploy && prisma generate"
   },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
     "@prisma/client": "5.6.0",

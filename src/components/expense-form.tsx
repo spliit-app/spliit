@@ -32,7 +32,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { getExpense, getGroup } from '@/lib/api'
+import { getExpense, getGroup, getCategories } from '@/lib/api'
 import { ExpenseFormValues, expenseFormSchema } from '@/lib/schemas'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -44,11 +44,12 @@ import { match } from 'ts-pattern'
 export type Props = {
   group: NonNullable<Awaited<ReturnType<typeof getGroup>>>
   expense?: NonNullable<Awaited<ReturnType<typeof getExpense>>>
+  categories?: NonNullable<Awaited<ReturnType<typeof getCategories>>>
   onSubmit: (values: ExpenseFormValues) => Promise<void>
   onDelete?: () => Promise<void>
 }
 
-export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
+export function ExpenseForm({ group, expense, categories, onSubmit, onDelete }: Props) {
   const isCreate = expense === undefined
   const searchParams = useSearchParams()
   const getSelectedPayer = (field?: { value: string }) => {
@@ -67,6 +68,7 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
           title: expense.title,
           expenseDate: expense.expenseDate ?? new Date(),
           amount: String(expense.amount / 100) as unknown as number, // hack
+          category: expense.categoryId,
           paidBy: expense.paidById,
           paidFor: expense.paidFor.map(({ participantId, shares }) => ({
             participant: participantId,
@@ -82,6 +84,7 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
           amount: String(
             (Number(searchParams.get('amount')) || 0) / 100,
           ) as unknown as number, // hack
+          category: 1,
           paidBy: searchParams.get('from') ?? undefined,
           paidFor: [
             searchParams.get('to')
@@ -95,6 +98,7 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
           title: '',
           expenseDate: new Date(),
           amount: 0,
+          category: 1,
           paidFor: [],
           paidBy: getSelectedPayer(),
           isReimbursement: false,
@@ -200,6 +204,35 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
                 </FormItem>
               )}
             />
+
+            <FormField
+               control={form.control}
+               name="category"
+               render={({ field }) => (
+                 <FormItem className="order-3 sm:order-2">
+                   <FormLabel>Category</FormLabel>
+                   <Select
+                     onValueChange={field.onChange}
+                     defaultValue={field.value.toString()}
+                   >
+                     <SelectTrigger>
+                       <SelectValue placeholder="Select a category" />
+                     </SelectTrigger>
+                     <SelectContent>
+                       {categories?.map(({ id, name }) => (
+                         <SelectItem key={id.toString()} value={id.toString()}>
+                           {name}
+                         </SelectItem>
+                       ))}
+                     </SelectContent>
+                   </Select>
+                   <FormDescription>
+                     Select the expense category.
+                   </FormDescription>
+                   <FormMessage />
+                 </FormItem>
+               )}
+             />
 
             <FormField
               control={form.control}
