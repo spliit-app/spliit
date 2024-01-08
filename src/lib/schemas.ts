@@ -42,6 +42,9 @@ export const expenseFormSchema = z.object({
   title: z
     .string({ required_error: 'Please enter a title.' })
     .min(2, 'Enter at least two characters.'),
+  category: z
+    .coerce.number()
+    .default(1),
   amount: z
     .union(
       [
