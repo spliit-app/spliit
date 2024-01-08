@@ -70,13 +70,24 @@ export const expenseFormSchema = z
       .array(
         z.object({
           participant: z.string(),
-          shares: z.number().int(),
+          shares: z.union([
+            z.number(),
+            z.string().transform((value, ctx) => {
+              const valueAsNumber = Number(value)
+              if (Number.isNaN(valueAsNumber))
+                ctx.addIssue({
+                  code: z.ZodIssueCode.custom,
+                  message: 'Invalid number.',
+                })
+              return Math.round(valueAsNumber * 100)
+            }),
+          ]),
         }),
       )
       .min(1, 'The expense must be paid for at least one participant.')
       .superRefine((paidFor, ctx) => {
         let sum = 0
-        for (const { participant, shares } of paidFor) {
+        for (const { shares } of paidFor) {
           sum += shares
           if (shares < 1) {
             ctx.addIssue({
@@ -95,20 +106,21 @@ export const expenseFormSchema = z
   })
   .superRefine((expense, ctx) => {
     let sum = 0
-    for (const { participant, shares } of expense.paidFor) {
-      sum += shares
+    for (const { shares } of expense.paidFor) {
+      sum +=
+        typeof shares === 'number' ? shares : Math.round(Number(shares) * 100)
     }
     switch (expense.splitMode) {
       case 'EVENLY':
         break // noop
       case 'BY_SHARES':
         break // noop
-      case 'BY_AMOUNT':
+      case 'BY_AMOUNT': {
         if (sum !== expense.amount) {
           const detail =
             sum < expense.amount
-              ? `${expense.amount - sum} missing`
-              : `${sum - expense.amount} surplus`
+              ? `${((expense.amount - sum) / 100).toFixed(2)} missing`
+              : `${((sum - expense.amount) / 100).toFixed(2)} surplus`
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: `Sum of amounts must equal the expense amount (${detail}).`,
@@ -116,10 +128,13 @@ export const expenseFormSchema = z
           })
         }
         break
-      case 'BY_PERCENTAGE':
-        if (sum !== 100) {
+      }
+      case 'BY_PERCENTAGE': {
+        if (sum !== 10000) {
           const detail =
-            sum < 100 ? `${100 - sum}% missing` : `${sum - 100}% surplus`
+            sum < 10000
+              ? `${((10000 - sum) / 100).toFixed(0)}% missing`
+              : `${((sum - 10000) / 100).toFixed(0)}% surplus`
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: `Sum of percentages must equal 100 (${detail})`,
@@ -127,6 +142,7 @@ export const expenseFormSchema = z
           })
         }
         break
+      }
     }
   })
 
