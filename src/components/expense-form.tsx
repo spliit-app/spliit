@@ -84,7 +84,7 @@ export function ExpenseForm({ group, expense, categories, onSubmit, onDelete }: 
           amount: String(
             (Number(searchParams.get('amount')) || 0) / 100,
           ) as unknown as number, // hack
-          category: 1,
+          category: 2, // category with Id 2 is Payment
           paidBy: searchParams.get('from') ?? undefined,
           paidFor: [
             searchParams.get('to')
@@ -98,7 +98,7 @@ export function ExpenseForm({ group, expense, categories, onSubmit, onDelete }: 
           title: '',
           expenseDate: new Date(),
           amount: 0,
-          category: 1,
+          category: 1, // category with Id 1 is General
           paidFor: [],
           paidBy: getSelectedPayer(),
           isReimbursement: false,
