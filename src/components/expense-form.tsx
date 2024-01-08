@@ -56,6 +56,7 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
     defaultValues: expense
       ? {
           title: expense.title,
+          expenseDate: expense.expenseDate ?? new Date(),
           amount: String(expense.amount / 100) as unknown as number, // hack
           paidBy: expense.paidById,
           paidFor: expense.paidFor.map(({ participantId, shares }) => ({
@@ -68,6 +69,7 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
       : searchParams.get('reimbursement')
       ? {
           title: 'Reimbursement',
+          expenseDate: new Date(),
           amount: String(
             (Number(searchParams.get('amount')) || 0) / 100,
           ) as unknown as number, // hack
@@ -81,6 +83,7 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
         }
       : {
           title: '',
+          expenseDate: new Date(),
           amount: 0,
           paidFor: [],
           isReimbursement: false,
@@ -118,6 +121,30 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
                 </FormItem>
               )}
             />
+
+            <FormField
+               control={form.control}
+               name="expenseDate"
+               render={({ field }) => (
+                 <FormItem className="sm:order-1">
+                   <FormLabel>Expense Date</FormLabel>
+                   <FormControl>
+                     <Input
+                       className="date-base"
+                       type="date"
+                       value={(field.value ?? new Date()).toISOString().substring(0,10)}
+                       onChange={(event) => {
+                         return field.onChange(new Date(event.target.value))
+                       }}
+                     />
+                   </FormControl>
+                   <FormDescription>
+                     Select the expense Date.
+                   </FormDescription>
+                   <FormMessage />
+                 </FormItem>
+               )}
+             />
 
             <FormField
               control={form.control}

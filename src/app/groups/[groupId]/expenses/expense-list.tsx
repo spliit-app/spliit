@@ -42,6 +42,7 @@ export function ExpenseList({
           </div>
           <div className="text-xs text-muted-foreground">
             Paid by <strong>{getParticipant(expense.paidById)?.name}</strong>{' '}
+            on {expense.expenseDate.toISOString().substring(0,10)}{' '}
             for{' '}
             {expense.paidFor.map((paidFor, index) => (
               <Fragment key={index}>
