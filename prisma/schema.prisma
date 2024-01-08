@@ -32,6 +32,7 @@ model Participant {
 model Expense {
   id              String           @id
   group           Group            @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  expenseDate     DateTime         @db.Date @default(dbgenerated("CURRENT_DATE"))
   title           String
   amount          Int
   paidBy          Participant      @relation(fields: [paidById], references: [id], onDelete: Cascade)

@@ -41,6 +41,7 @@ export type GroupFormValues = z.infer<typeof groupFormSchema>
 
 export const expenseFormSchema = z
   .object({
+    expenseDate: z.coerce.date(),
     title: z
       .string({ required_error: 'Please enter a title.' })
       .min(2, 'Enter at least two characters.'),

@@ -41,7 +41,10 @@ export function ExpenseList({
             {expense.title}
           </div>
           <div className="text-xs text-muted-foreground">
-            Paid by <strong>{getParticipant(expense.paidById)?.name}</strong>{' '}
+            Paid by <strong>{getParticipant(expense.paidById)?.name}</strong> on{' '}
+            {expense.expenseDate.toLocaleDateString('en-US', {
+              dateStyle: 'medium',
+            })}{' '}
             for{' '}
             {expense.paidFor.map((paidFor, index) => (
               <Fragment key={index}>
