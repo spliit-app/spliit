@@ -12,11 +12,12 @@ Spliit is a free and open source alternative to Splitwise. I created it back in 
 - [x] Select all/no participant for expenses
 - [x] Split expenses unevenly [(#6)](https://github.com/scastiel/spliit2/issues/6)
 - [x] Mark a group as favorite [(#29)](https://github.com/scastiel/spliit2/issues/29)
+- [x] Tell the application who you are when opening a group [(#7)](https://github.com/scastiel/spliit2/issues/7)
 
 ### Possible incoming features
 
-- [ ] Tell the application who you are when opening a group [(#7)](https://github.com/scastiel/spliit2/issues/7)
 - [ ] Ability to create recurring expenses [(#5)](https://github.com/scastiel/spliit2/issues/5)
+- [ ] Import expenses from Splitwise [(#22)](https://github.com/scastiel/spliit2/issues/22)
 
 ## Stack
 
