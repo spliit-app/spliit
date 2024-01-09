@@ -24,13 +24,18 @@ import {
   HoverCardTrigger,
 } from '@/components/ui/hover-card'
 import { Input } from '@/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { getGroup } from '@/lib/api'
 import { GroupFormValues, groupFormSchema } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Save, Trash2 } from 'lucide-react'
 import { useFieldArray, useForm } from 'react-hook-form'
-import {Checkbox} from "@/components/ui/checkbox";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 
 export type Props = {
   group?: NonNullable<Awaited<ReturnType<typeof getGroup>>>
@@ -63,18 +68,18 @@ export function GroupForm({
     keyName: 'key',
   })
 
-  let activeUser = 'None';
+  let activeUser = 'None'
 
   const updateActiveUser = () => {
     if (group?.id) {
-      const participant = group.participants.find(p => p.name === activeUser);
+      const participant = group.participants.find((p) => p.name === activeUser)
       if (participant?.id) {
-        localStorage.setItem(`${group.id}-activeUser`, participant.id);
+        localStorage.setItem(`${group.id}-activeUser`, participant.id)
       } else {
-        localStorage.setItem(`${group.id}-newUser`, activeUser);
+        localStorage.setItem(`${group.id}-newUser`, activeUser)
       }
     } else {
-      localStorage.setItem('newGroup-activeUser', activeUser);
+      localStorage.setItem('newGroup-activeUser', activeUser)
     }
   }
 
@@ -215,29 +220,48 @@ export function GroupForm({
 
         <Card className="mb-4">
           <CardHeader>
-            <CardTitle>Active User</CardTitle>
+            <CardTitle>Local settings</CardTitle>
             <CardDescription>
-              Pick the user to be used as a default for paying expenses (set per device)
+              These settings are set per-device, and are used to customize your
+              experience.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Select
-              onValueChange={(value) => {
-                activeUser = value;
-              }}
-              defaultValue={fields.find(f => f.id === localStorage.getItem(`${group?.id}-activeUser`))?.name || 'None'}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select a participant"/>
-              </SelectTrigger>
-              <SelectContent>
-                {[{name: 'None'}, ...form.watch('participants')].filter(item => item.name.length > 0).map(({name}) => (
-                  <SelectItem key={name} value={name}>
-                    {name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <FormItem>
+                <FormLabel>Active user</FormLabel>
+                <FormControl>
+                  <Select
+                    onValueChange={(value) => {
+                      activeUser = value
+                    }}
+                    defaultValue={
+                      fields.find(
+                        (f) =>
+                          f.id ===
+                          localStorage.getItem(`${group?.id}-activeUser`),
+                      )?.name || 'None'
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a participant" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {[{ name: 'None' }, ...form.watch('participants')]
+                        .filter((item) => item.name.length > 0)
+                        .map(({ name }) => (
+                          <SelectItem key={name} value={name}>
+                            {name}
+                          </SelectItem>
+                        ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormDescription>
+                  User used as default for paying expenses.
+                </FormDescription>
+              </FormItem>
+            </div>
           </CardContent>
         </Card>
 

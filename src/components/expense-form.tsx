@@ -53,12 +53,12 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
   const searchParams = useSearchParams()
   const getSelectedPayer = (field?: { value: string }) => {
     if (isCreate && typeof window !== 'undefined') {
-      const activeUser = localStorage.getItem(`${group.id}-activeUser`);
+      const activeUser = localStorage.getItem(`${group.id}-activeUser`)
       if (activeUser && activeUser !== 'None') {
-        return activeUser;
+        return activeUser
       }
     }
-    return field?.value;
+    return field?.value
   }
   const form = useForm<ExpenseFormValues>({
     resolver: zodResolver(expenseFormSchema),
