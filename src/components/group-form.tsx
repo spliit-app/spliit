@@ -24,6 +24,13 @@ import {
   HoverCardTrigger,
 } from '@/components/ui/hover-card'
 import { Input } from '@/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { getGroup } from '@/lib/api'
 import { GroupFormValues, groupFormSchema } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -60,6 +67,21 @@ export function GroupForm({
     name: 'participants',
     keyName: 'key',
   })
+
+  let activeUser = 'None'
+
+  const updateActiveUser = () => {
+    if (group?.id) {
+      const participant = group.participants.find((p) => p.name === activeUser)
+      if (participant?.id) {
+        localStorage.setItem(`${group.id}-activeUser`, participant.id)
+      } else {
+        localStorage.setItem(`${group.id}-newUser`, activeUser)
+      }
+    } else {
+      localStorage.setItem('newGroup-activeUser', activeUser)
+    }
+  }
 
   return (
     <Form {...form}>
@@ -196,9 +218,57 @@ export function GroupForm({
           </CardFooter>
         </Card>
 
+        <Card className="mb-4">
+          <CardHeader>
+            <CardTitle>Local settings</CardTitle>
+            <CardDescription>
+              These settings are set per-device, and are used to customize your
+              experience.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <FormItem>
+                <FormLabel>Active user</FormLabel>
+                <FormControl>
+                  <Select
+                    onValueChange={(value) => {
+                      activeUser = value
+                    }}
+                    defaultValue={
+                      fields.find(
+                        (f) =>
+                          f.id ===
+                          localStorage.getItem(`${group?.id}-activeUser`),
+                      )?.name || 'None'
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a participant" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {[{ name: 'None' }, ...form.watch('participants')]
+                        .filter((item) => item.name.length > 0)
+                        .map(({ name }) => (
+                          <SelectItem key={name} value={name}>
+                            {name}
+                          </SelectItem>
+                        ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormDescription>
+                  User used as default for paying expenses.
+                </FormDescription>
+              </FormItem>
+            </div>
+          </CardContent>
+        </Card>
+
         <SubmitButton
           size="lg"
           loadingContent={group ? 'Saving…' : 'Creating…'}
+          onClick={updateActiveUser}
         >
           <Save className="w-4 h-4 mr-2" /> {group ? <>Save</> : <> Create</>}
         </SubmitButton>
