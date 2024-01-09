@@ -32,7 +32,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { getExpense, getGroup, getCategories } from '@/lib/api'
+import { getCategories, getExpense, getGroup } from '@/lib/api'
 import { ExpenseFormValues, expenseFormSchema } from '@/lib/schemas'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -49,7 +49,13 @@ export type Props = {
   onDelete?: () => Promise<void>
 }
 
-export function ExpenseForm({ group, expense, categories, onSubmit, onDelete }: Props) {
+export function ExpenseForm({
+  group,
+  expense,
+  categories,
+  onSubmit,
+  onDelete,
+}: Props) {
   const isCreate = expense === undefined
   const searchParams = useSearchParams()
   const getSelectedPayer = (field?: { value: string }) => {
@@ -84,7 +90,7 @@ export function ExpenseForm({ group, expense, categories, onSubmit, onDelete }: 
           amount: String(
             (Number(searchParams.get('amount')) || 0) / 100,
           ) as unknown as number, // hack
-          category: 2, // category with Id 2 is Payment
+          category: 1, // category with Id 1 is Payment
           paidBy: searchParams.get('from') ?? undefined,
           paidFor: [
             searchParams.get('to')
@@ -98,7 +104,7 @@ export function ExpenseForm({ group, expense, categories, onSubmit, onDelete }: 
           title: '',
           expenseDate: new Date(),
           amount: 0,
-          category: 1, // category with Id 1 is General
+          category: 0, // category with Id 0 is General
           paidFor: [],
           paidBy: getSelectedPayer(),
           isReimbursement: false,
@@ -206,33 +212,33 @@ export function ExpenseForm({ group, expense, categories, onSubmit, onDelete }: 
             />
 
             <FormField
-               control={form.control}
-               name="category"
-               render={({ field }) => (
-                 <FormItem className="order-3 sm:order-2">
-                   <FormLabel>Category</FormLabel>
-                   <Select
-                     onValueChange={field.onChange}
-                     defaultValue={field.value.toString()}
-                   >
-                     <SelectTrigger>
-                       <SelectValue placeholder="Select a category" />
-                     </SelectTrigger>
-                     <SelectContent>
-                       {categories?.map(({ id, name }) => (
-                         <SelectItem key={id.toString()} value={id.toString()}>
-                           {name}
-                         </SelectItem>
-                       ))}
-                     </SelectContent>
-                   </Select>
-                   <FormDescription>
-                     Select the expense category.
-                   </FormDescription>
-                   <FormMessage />
-                 </FormItem>
-               )}
-             />
+              control={form.control}
+              name="category"
+              render={({ field }) => (
+                <FormItem className="order-3 sm:order-2">
+                  <FormLabel>Category</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value.toString()}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categories?.map(({ id, name }) => (
+                        <SelectItem key={id.toString()} value={id.toString()}>
+                          {name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    Select the expense category.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <FormField
               control={form.control}
