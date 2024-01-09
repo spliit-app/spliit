@@ -28,7 +28,9 @@ import { Input } from '@/components/ui/input'
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
@@ -36,6 +38,7 @@ import { getCategories, getExpense, getGroup } from '@/lib/api'
 import { ExpenseFormValues, expenseFormSchema } from '@/lib/schemas'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Category } from '@prisma/client'
 import { Save, Trash2 } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
@@ -44,7 +47,7 @@ import { match } from 'ts-pattern'
 export type Props = {
   group: NonNullable<Awaited<ReturnType<typeof getGroup>>>
   expense?: NonNullable<Awaited<ReturnType<typeof getExpense>>>
-  categories?: NonNullable<Awaited<ReturnType<typeof getCategories>>>
+  categories: NonNullable<Awaited<ReturnType<typeof getCategories>>>
   onSubmit: (values: ExpenseFormValues) => Promise<void>
   onDelete?: () => Promise<void>
 }
@@ -112,6 +115,14 @@ export function ExpenseForm({
         },
   })
 
+  const categoriesByGroup = categories.reduce<Record<string, Category[]>>(
+    (acc, category) => ({
+      ...acc,
+      [category.grouping]: [...(acc[category.grouping] ?? []), category],
+    }),
+    {},
+  )
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit((values) => onSubmit(values))}>
@@ -148,7 +159,7 @@ export function ExpenseForm({
               name="expenseDate"
               render={({ field }) => (
                 <FormItem className="sm:order-1">
-                  <FormLabel>Expense Date</FormLabel>
+                  <FormLabel>Expense date</FormLabel>
                   <FormControl>
                     <Input
                       className="date-base"
@@ -225,10 +236,18 @@ export function ExpenseForm({
                       <SelectValue placeholder="Select a category" />
                     </SelectTrigger>
                     <SelectContent>
-                      {categories?.map(({ id, name }) => (
-                        <SelectItem key={id.toString()} value={id.toString()}>
-                          {name}
-                        </SelectItem>
+                      {Object.keys(categoriesByGroup).map((group) => (
+                        <SelectGroup key={group}>
+                          <SelectLabel className="-ml-6">{group}</SelectLabel>
+                          {categoriesByGroup[group].map(({ id, name }) => (
+                            <SelectItem
+                              key={id.toString()}
+                              value={id.toString()}
+                            >
+                              {name}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
                       ))}
                     </SelectContent>
                   </Select>
