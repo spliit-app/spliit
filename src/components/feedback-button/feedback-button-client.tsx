@@ -160,7 +160,11 @@ function FeedbackForm({
               <FormItem>
                 <FormLabel>Your email address</FormLabel>
                 <FormControl>
-                  <Input placeholder="your@email.com" {...field} />
+                  <Input
+                    placeholder="your@email.com"
+                    className="text-base"
+                    {...field}
+                  />
                 </FormControl>
                 <FormDescription>
                   Optional. Provide it if you want us to get back to you.
@@ -176,7 +180,11 @@ function FeedbackForm({
               <FormItem>
                 <FormLabel>Your feedback</FormLabel>
                 <FormControl>
-                  <Textarea placeholder="Enter your feedback" {...field} />
+                  <Textarea
+                    placeholder="Enter your feedback"
+                    className="text-base"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
