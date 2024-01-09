@@ -6,7 +6,7 @@ import { Participant } from '@prisma/client'
 import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 
 type Props = {
   expenses: Awaited<ReturnType<typeof getGroupExpenses>>
@@ -21,6 +21,21 @@ export function ExpenseList({
   participants,
   groupId,
 }: Props) {
+  useEffect(() => {
+    const activeUser = localStorage.getItem('newGroup-activeUser')
+    const newUser = localStorage.getItem(`${groupId}-newUser`)
+    if (activeUser || newUser) {
+      localStorage.removeItem('newGroup-activeUser')
+      localStorage.removeItem(`${groupId}-newUser`)
+      const userId = participants.find(
+        (p) => p.name === (activeUser || newUser),
+      )?.id
+      if (userId) {
+        localStorage.setItem(`${groupId}-activeUser`, userId)
+      }
+    }
+  }, [groupId, participants])
+
   const getParticipant = (id: string) => participants.find((p) => p.id === id)
   const router = useRouter()
 

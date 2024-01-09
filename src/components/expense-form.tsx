@@ -51,6 +51,15 @@ export type Props = {
 export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
   const isCreate = expense === undefined
   const searchParams = useSearchParams()
+  const getSelectedPayer = (field?: { value: string }) => {
+    if (isCreate && typeof window !== 'undefined') {
+      const activeUser = localStorage.getItem(`${group.id}-activeUser`)
+      if (activeUser && activeUser !== 'None') {
+        return activeUser
+      }
+    }
+    return field?.value
+  }
   const form = useForm<ExpenseFormValues>({
     resolver: zodResolver(expenseFormSchema),
     defaultValues: expense
@@ -87,6 +96,7 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
           expenseDate: new Date(),
           amount: 0,
           paidFor: [],
+          paidBy: getSelectedPayer(),
           isReimbursement: false,
           splitMode: 'EVENLY',
         },
@@ -199,7 +209,7 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
                   <FormLabel>Paid by</FormLabel>
                   <Select
                     onValueChange={field.onChange}
-                    defaultValue={field.value}
+                    defaultValue={getSelectedPayer(field)}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Select a participant" />
