@@ -29,7 +29,7 @@ export function ExpenseList({
       <div
         key={expense.id}
         className={cn(
-          'border-t flex justify-between pl-6 pr-2 py-4 text-sm cursor-pointer hover:bg-accent',
+          'border-t flex justify-between pl-6 pr-2 py-4 text-sm cursor-pointer hover:bg-accent gap-1',
           expense.isReimbursement && 'italic',
         )}
         onClick={() => {
@@ -42,10 +42,7 @@ export function ExpenseList({
           </div>
           <div className="text-xs text-muted-foreground">
             Paid by <strong>{getParticipant(expense.paidById)?.name}</strong> on{' '}
-            {expense.expenseDate.toLocaleDateString('en-US', {
-              dateStyle: 'medium',
-            })}{' '}
-            for{' '}
+            {formatDate(expense.expenseDate)} for{' '}
             {expense.paidFor.map((paidFor, index) => (
               <Fragment key={index}>
                 {index !== 0 && <>, </>}
@@ -86,4 +83,11 @@ export function ExpenseList({
       </Button>
     </p>
   )
+}
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-US', {
+    dateStyle: 'medium',
+    timeZone: 'UTC',
+  })
 }
