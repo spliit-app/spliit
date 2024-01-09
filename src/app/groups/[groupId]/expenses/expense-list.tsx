@@ -27,11 +27,15 @@ export function ExpenseList({
     if (activeUser || newUser) {
       localStorage.removeItem('newGroup-activeUser')
       localStorage.removeItem(`${groupId}-newUser`)
-      const userId = participants.find(
-        (p) => p.name === (activeUser || newUser),
-      )?.id
-      if (userId) {
-        localStorage.setItem(`${groupId}-activeUser`, userId)
+      if (activeUser === 'None') {
+        localStorage.setItem(`${groupId}-activeUser`, 'None')
+      } else {
+        const userId = participants.find(
+          (p) => p.name === (activeUser || newUser),
+        )?.id
+        if (userId) {
+          localStorage.setItem(`${groupId}-activeUser`, userId)
+        }
       }
     }
   }, [groupId, participants])
