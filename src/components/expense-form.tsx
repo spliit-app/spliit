@@ -52,6 +52,7 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
           paidBy: expense.paidById,
           paidFor: expense.paidFor.map(({ participantId }) => participantId),
           isReimbursement: expense.isReimbursement,
+          paidAt: expense.paidAt.toJSON().split("T")[0],
         }
       : searchParams.get('reimbursement')
       ? {
@@ -61,6 +62,7 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
           ) as unknown as number, // hack
           paidBy: searchParams.get('from') ?? undefined,
           paidFor: [searchParams.get('to') ?? undefined],
+          paidAt: new Date().toJSON().split("T")[0],
           isReimbursement: true,
         }
       : { title: '', amount: 0, paidFor: [], isReimbursement: false },
@@ -91,6 +93,28 @@ export function ExpenseForm({ group, expense, onSubmit, onDelete }: Props) {
                   </FormControl>
                   <FormDescription>
                     Enter a description for the expense.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="paidAt"
+              render={({ field }) => (
+                <FormItem className="order-1">
+                  <FormLabel>Paid At</FormLabel>
+                  <FormControl>
+                    <Input
+                      type='date'
+                      className="text-base"
+                      
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    The date for the expense.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

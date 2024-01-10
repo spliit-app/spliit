@@ -64,6 +64,7 @@ export const expenseFormSchema = z.object({
       'The amount must be lower than 10,000,000.',
     ),
   paidBy: z.string({ required_error: 'You must select a participant.' }),
+  paidAt: z.string({ required_error: 'You must select a Date.' }),
   paidFor: z
     .array(z.string())
     .min(1, 'The expense must be paid for at least one participant.'),

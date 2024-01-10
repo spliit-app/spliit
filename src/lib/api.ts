@@ -50,6 +50,7 @@ export async function createExpense(
       amount: expenseFormValues.amount,
       title: expenseFormValues.title,
       paidById: expenseFormValues.paidBy,
+      paidAt: new Date(expenseFormValues.paidAt),
       paidFor: {
         createMany: {
           data: expenseFormValues.paidFor.map((paidFor) => ({
@@ -119,6 +120,7 @@ export async function updateExpense(
       amount: expenseFormValues.amount,
       title: expenseFormValues.title,
       paidById: expenseFormValues.paidBy,
+      paidAt: new Date(expenseFormValues.paidAt),
       paidFor: {
         connectOrCreate: expenseFormValues.paidFor.map((paidFor) => ({
           where: {
@@ -195,7 +197,7 @@ export async function getGroupExpenses(groupId: string) {
 
 export async function getExpense(groupId: string, expenseId: string) {
   const prisma = await getPrisma()
-  return prisma.expense.findUnique({
+  return  prisma.expense.findUnique({
     where: { id: expenseId },
     include: { paidBy: true, paidFor: true },
   })
