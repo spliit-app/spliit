@@ -30,15 +30,15 @@ export default async function GroupExpensesPage({
 
   return (
     <>
-      <Card className="mb-4">
+      <Card className="mb-4 rounded-none -mx-4 border-x-0 sm:border-x sm:rounded-lg sm:mx-0">
         <div className="flex flex-1">
-          <CardHeader className="flex-1">
+          <CardHeader className="flex-1 p-4 sm:p-6">
             <CardTitle>Expenses</CardTitle>
             <CardDescription>
               Here are the expenses that you created for your group.
             </CardDescription>
           </CardHeader>
-          <CardHeader>
+          <CardHeader className="p-4 sm:p-6">
             <Button asChild size="icon">
               <Link href={`/groups/${groupId}/expenses/create`}>
                 <Plus />
