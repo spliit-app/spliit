@@ -48,20 +48,20 @@ export function ExpenseList({
       <div
         key={expense.id}
         className={cn(
-          'border-t flex justify-between pl-6 pr-2 py-4 text-sm cursor-pointer hover:bg-accent gap-1',
+          'border-t flex justify-between px-4 sm:pr-2 sm:pl-6 py-4 text-sm cursor-pointer hover:bg-accent gap-1 items-stretch',
           expense.isReimbursement && 'italic',
         )}
         onClick={() => {
           router.push(`/groups/${groupId}/expenses/${expense.id}/edit`)
         }}
       >
-        <div>
+        <div className="flex-1">
           <div className={cn('mb-1', expense.isReimbursement && 'italic')}>
             {expense.title}
           </div>
           <div className="text-xs text-muted-foreground">
-            Paid by <strong>{getParticipant(expense.paidById)?.name}</strong> on{' '}
-            {formatDate(expense.expenseDate)} for{' '}
+            Paid by <strong>{getParticipant(expense.paidById)?.name}</strong>{' '}
+            for{' '}
             {expense.paidFor.map((paidFor, index) => (
               <Fragment key={index}>
                 {index !== 0 && <>, </>}
@@ -75,7 +75,7 @@ export function ExpenseList({
             ))}
           </div>
         </div>
-        <div className="flex items-center">
+        <div className="flex flex-col justify-between items-end">
           <div
             className={cn(
               'tabular-nums whitespace-nowrap',
@@ -84,12 +84,20 @@ export function ExpenseList({
           >
             {currency} {(expense.amount / 100).toFixed(2)}
           </div>
-          <Button size="icon" variant="link" className="-my-2" asChild>
-            <Link href={`/groups/${groupId}/expenses/${expense.id}/edit`}>
-              <ChevronRight className="w-4 h-4" />
-            </Link>
-          </Button>
+          <div className="text-xs text-muted-foreground">
+            {formatDate(expense.expenseDate)}
+          </div>
         </div>
+        <Button
+          size="icon"
+          variant="link"
+          className="self-center hidden sm:flex"
+          asChild
+        >
+          <Link href={`/groups/${groupId}/expenses/${expense.id}/edit`}>
+            <ChevronRight className="w-4 h-4" />
+          </Link>
+        </Button>
       </div>
     ))
   ) : (
