@@ -13,6 +13,7 @@ Spliit is a free and open source alternative to Splitwise. I created it back in 
 - [x] Split expenses unevenly [(#6)](https://github.com/scastiel/spliit2/issues/6)
 - [x] Mark a group as favorite [(#29)](https://github.com/scastiel/spliit2/issues/29)
 - [x] Tell the application who you are when opening a group [(#7)](https://github.com/scastiel/spliit2/issues/7)
+- [x] Assign a category to expenses [(#35)](https://github.com/scastiel/spliit2/issues/35)
 
 ### Possible incoming features
 
@@ -40,10 +41,11 @@ The project is open to contributions. Feel free to open an issue or even a pull-
 5. `npm run dev`
 
 ## Run in a container
+
 1. Run `npm run build-image` to build the docker image from the Dockerfile
 2. Copy the file `container.env.example` as `container.env`
 3. Run `npm run start-container` to start the postgres and the spliit2 containers
-3. You can access the app by browsing to http://localhost:3000
+4. You can access the app by browsing to http://localhost:3000
 
 ## License
 
