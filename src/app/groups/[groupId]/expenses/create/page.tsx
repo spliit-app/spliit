@@ -1,5 +1,5 @@
 import { ExpenseForm } from '@/components/expense-form'
-import { createExpense, getGroup } from '@/lib/api'
+import { createExpense, getGroup, getCategories } from '@/lib/api'
 import { expenseFormSchema } from '@/lib/schemas'
 import { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
@@ -13,6 +13,7 @@ export default async function ExpensePage({
 }: {
   params: { groupId: string }
 }) {
+  const categories = await getCategories()
   const group = await getGroup(groupId)
   if (!group) notFound()
 
@@ -23,5 +24,5 @@ export default async function ExpensePage({
     redirect(`/groups/${groupId}`)
   }
 
-  return <ExpenseForm group={group} onSubmit={createExpenseAction} />
+  return <ExpenseForm group={group} categories={categories} onSubmit={createExpenseAction} />
 }

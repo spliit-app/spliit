@@ -1,5 +1,5 @@
 import { ExpenseForm } from '@/components/expense-form'
-import { deleteExpense, getExpense, getGroup, updateExpense } from '@/lib/api'
+import { deleteExpense, getExpense, getCategories, getGroup, updateExpense } from '@/lib/api'
 import { expenseFormSchema } from '@/lib/schemas'
 import { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
@@ -13,6 +13,7 @@ export default async function EditExpensePage({
 }: {
   params: { groupId: string; expenseId: string }
 }) {
+  const categories = await getCategories()
   const group = await getGroup(groupId)
   if (!group) notFound()
   const expense = await getExpense(groupId, expenseId)
@@ -35,6 +36,7 @@ export default async function EditExpensePage({
     <ExpenseForm
       group={group}
       expense={expense}
+      categories={categories}
       onSubmit={updateExpenseAction}
       onDelete={deleteExpenseAction}
     />
