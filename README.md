@@ -39,6 +39,12 @@ The project is open to contributions. Feel free to open an issue or even a pull-
 4. Copy the file `.env.example` as `.env`
 5. `npm run dev`
 
+## Run in a container
+1. Run `npm run build-image` to build the docker image from the Dockerfile
+2. Copy the file `container.env.example` as `container.env`
+3. Run `docker compose --env-file container.env up` to start the postgres and the spliit2 containers
+3. You can access the app by browsing to http://localhost:3000
+
 ## License
 
 MIT, see [LICENSE](./LICENSE).

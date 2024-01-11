@@ -1,12 +1,10 @@
 services:
-  spliit2:
+  app:
     image: spliit2:latest
     ports:
       - 3000:3000
-    environment:
-      - POSTGRES_PRISMA_URL=postgresql://postgres:1234@db
-      - POSTGRES_URL_NON_POOLING=postgresql://postgres:1234@db
-      - NEXT_PUBLIC_BASE_URL=http://localhost:3000
+    env_file:
+      - container.env
     depends_on:
       db:
         condition: service_healthy
@@ -15,8 +13,8 @@ services:
     image: postgres:latest
     ports:
       - 5432:5432
-    environment:
-      - POSTGRES_PASSWORD=1234
+    env_file:
+      - container.env
     volumes:
       - /var/lib/postgresql/data:/var/lib/postgresql/data
     healthcheck:
