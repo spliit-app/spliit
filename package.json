@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma migrate deploy && prisma generate"
+    "postinstall": "prisma migrate deploy && prisma generate",
+    "build-image": "sudo docker buildx build --no-cache -t spliit2 .",
+    "run-image": "sudo docker run --name spliit2-app -d -p 3000:3000 spliit2"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
