@@ -129,6 +129,14 @@ export default function RootLayout({
                 Built by{' '}
                 <a href="https://scastiel.dev" target="_blank" rel="noopener">
                   Sebastien Castiel
+                </a>{' '}
+                and{' '}
+                <a
+                  href="https://github.com/scastiel/spliit2/graphs/contributors"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  contributors
                 </a>
               </span>
             </div>
