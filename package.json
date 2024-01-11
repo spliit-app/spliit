@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma migrate deploy && prisma generate"
+    "postinstall": "prisma migrate deploy && prisma generate",
+    "build-image": "./scripts/build-image.sh",
+    "start-container": "docker compose --env-file container.env up"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",

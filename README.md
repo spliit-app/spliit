@@ -35,9 +35,15 @@ The project is open to contributions. Feel free to open an issue or even a pull-
 
 1. Clone the repository (or fork it if you intend to contribute)
 2. `npm install`
-3. Start a PostgreSQL server. You can run `./start-local-db.sh` if you don’t have a server already.
+3. Start a PostgreSQL server. You can run `./scripts/start-local-db.sh` if you don’t have a server already.
 4. Copy the file `.env.example` as `.env`
 5. `npm run dev`
+
+## Run in a container
+1. Run `npm run build-image` to build the docker image from the Dockerfile
+2. Copy the file `container.env.example` as `container.env`
+3. Run `npm run start-container` to start the postgres and the spliit2 containers
+3. You can access the app by browsing to http://localhost:3000
 
 ## License
 
