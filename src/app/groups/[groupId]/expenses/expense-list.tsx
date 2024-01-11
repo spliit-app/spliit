@@ -1,4 +1,5 @@
 'use client'
+import { CategoryIcon } from '@/app/groups/[groupId]/expenses/category-icon'
 import { Button } from '@/components/ui/button'
 import { getGroupExpenses } from '@/lib/api'
 import { cn } from '@/lib/utils'
@@ -55,6 +56,10 @@ export function ExpenseList({
           router.push(`/groups/${groupId}/expenses/${expense.id}/edit`)
         }}
       >
+        <CategoryIcon
+          category={expense.category}
+          className="w-4 h-4 mr-2 mt-0.5 text-muted-foreground"
+        />
         <div className="flex-1">
           <div className={cn('mb-1', expense.isReimbursement && 'italic')}>
             {expense.title}

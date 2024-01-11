@@ -1,4 +1,5 @@
 'use client'
+import { CategoryIcon } from '@/app/groups/[groupId]/expenses/category-icon'
 import { AsyncButton } from '@/components/async-button'
 import { SubmitButton } from '@/components/submit-button'
 import { Button } from '@/components/ui/button'
@@ -239,12 +240,18 @@ export function ExpenseForm({
                       {Object.keys(categoriesByGroup).map((group) => (
                         <SelectGroup key={group}>
                           <SelectLabel className="-ml-6">{group}</SelectLabel>
-                          {categoriesByGroup[group].map(({ id, name }) => (
+                          {categoriesByGroup[group].map((category) => (
                             <SelectItem
-                              key={id.toString()}
-                              value={id.toString()}
+                              key={category.id.toString()}
+                              value={category.id.toString()}
                             >
-                              {name}
+                              <div className="flex items-center gap-3">
+                                <CategoryIcon
+                                  category={category}
+                                  className="w-4 h-4"
+                                />
+                                {category.name}
+                              </div>
                             </SelectItem>
                           ))}
                         </SelectGroup>
