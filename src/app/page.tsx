@@ -124,6 +124,12 @@ export default function HomePage() {
               },
               {
                 avatar:
+                  'https://avatars.githubusercontent.com/u/24687853?s=120&v=4',
+                user: 'Max-TheCat',
+                name: 'Max',
+              },
+              {
+                avatar:
                   'https://avatars.githubusercontent.com/u/10518723?s=120&v=4',
                 user: 'ankitbahl',
                 name: 'Ankit Bahl',
@@ -146,7 +152,7 @@ export default function HomePage() {
                     width={60}
                     height={60}
                     alt={contributor.user}
-                    className="rounded-full"
+                    className="rounded-full border hover:scale-110 transition-transform"
                   />
                 </a>
               </li>
