@@ -2,6 +2,8 @@ import { Button } from '@/components/ui/button'
 import {
   BarChartHorizontalBig,
   CircleDollarSign,
+  Divide,
+  FolderTree,
   Github,
   List,
   LucideIcon,
@@ -64,6 +66,16 @@ export default function HomePage() {
               Icon={List}
               name="Expenses"
               description="Create and list expenses in your group."
+            />
+            <Feature
+              Icon={FolderTree}
+              name="Categories"
+              description="Assign categories to your expenses."
+            />
+            <Feature
+              Icon={Divide}
+              name="Advanced split"
+              description="Split expenses by percentage, shares or amount."
             />
             <Feature
               Icon={Share}
