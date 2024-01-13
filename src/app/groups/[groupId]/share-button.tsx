@@ -9,7 +9,6 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { importKeyForGroup, exportKeyForGroup } from '@/lib/cryptography'
-import { env } from '@/lib/env'
 import { Group } from '@prisma/client'
 import { Share } from 'lucide-react'
 import { useState, useEffect } from 'react'
@@ -17,10 +16,11 @@ import { useSearchParams } from 'next/navigation'
 
 type Props = {
   group: Group
+  baseUrl: string
 }
 
-export function ShareButton({ group }: Props) {
-  const [url, setUrl] = useState<string>()
+export function ShareButton({ group, baseUrl }: Props) {
+  const [url, setUrl] = useState<string>("")
   const params = useSearchParams()
 
   useEffect(() => {
@@ -34,11 +34,11 @@ export function ShareButton({ group }: Props) {
         }
 
         const privateKey = await exportKeyForGroup(group.id, "12345678901234567890")
-        setUrl(`http://localhost:3000/groups/${group.id}/expenses?ref=share&privateKey=${privateKey}`)
+        setUrl(`${baseUrl}/groups/${group.id}/expenses?ref=share&privateKey=${privateKey}`)
       }
     }
     getUrl()    
-  }, [group, params])
+  }, [group, params, baseUrl])
 
 
   return (
@@ -55,10 +55,10 @@ export function ShareButton({ group }: Props) {
         </p>
         <div className="flex gap-2">
           <Input className="flex-1" defaultValue={url} readOnly />
-          <CopyButton text={url ? url : ""} />
+          <CopyButton text={url} />
           <ShareUrlButton
             text={`Join my group ${group.name} on Spliit`}
-            url={url ? url : ""}
+            url={url}
           />
         </div>
         <p>

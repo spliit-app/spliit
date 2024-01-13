@@ -6,6 +6,7 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { PropsWithChildren } from 'react'
+import { env } from '@/lib/env'
 
 type Props = {
   params: {
@@ -42,7 +43,7 @@ export default async function GroupLayout({
 
         <div className="flex gap-2 justify-between">
           <GroupTabs groupId={groupId} />
-          <ShareButton group={group} />
+          <ShareButton group={group} baseUrl={env.NEXT_PUBLIC_BASE_URL}/>
         </div>
       </div>
 
