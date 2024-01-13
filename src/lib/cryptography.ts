@@ -91,10 +91,18 @@ export async function getCryptography() {
   return cryptography
 }
 
+export async function importKeyForGroup(groupId: string, privateKey: string, passcode: string){
+  const crypto = await getCryptography()
+  await crypto.importKey(groupId, privateKey, passcode)
+}
+
+export async function exportKeyForGroup(groupId: string, passcode: string) : Promise<string> {
+  const crypto = await getCryptography()
+  return await crypto.exportKey(groupId, passcode)
+}
+
 export async function encryptGroup(group: NonNullable<Awaited<ReturnType<typeof getGroup>>>, passcode: string, values: GroupFormValues) : Promise<GroupFormValues> {
   const crypto = await getCryptography()
-  await crypto.exportKey(group.id, passcode)
-
   return {
     name: await crypto.encryptValue(group.id, passcode, values.name),
     currency: group.currency,
@@ -112,7 +120,6 @@ export async function decryptGroup(group: NonNullable<Awaited<ReturnType<typeof 
 
 export async function encryptExpense(groupId: string, passcode: string, expense: ExpenseFormValues) : Promise<ExpenseFormValues> {
   const crypto = await getCryptography()
-  await crypto.exportKey(groupId, passcode)
   const e =  {
     ...expense,
     title: await crypto.encryptValue(groupId, passcode, expense.title)    
@@ -124,8 +131,6 @@ export async function encryptExpense(groupId: string, passcode: string, expense:
 export async function decryptExpenses(groupId: string, passcode: string, expenses: Awaited<ReturnType<typeof getGroupExpenses>>): Promise<Awaited<ReturnType<typeof getGroupExpenses>>> {
   const crypto = await getCryptography()
   const retVal: Awaited<ReturnType<typeof getGroupExpenses>> = []
-  await crypto.exportKey(groupId, passcode)
-
   for (const expense of expenses) {
     retVal.push(
       {
@@ -139,9 +144,7 @@ export async function decryptExpenses(groupId: string, passcode: string, expense
 
 export async function decryptExpense(groupId: string, passcode: string, expense: Awaited<ReturnType<typeof getExpense>>): Promise<Awaited<ReturnType<typeof getExpense>>> {
   const crypto = await getCryptography()
-  const retVal: Awaited<ReturnType<typeof getGroupExpenses>> = []
-  await crypto.exportKey(groupId, passcode)
-  
+  const retVal: Awaited<ReturnType<typeof getGroupExpenses>> = []  
   return {
     ...expense!,
     title: await crypto.decryptValue(passcode, expense!.title)
