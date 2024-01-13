@@ -36,6 +36,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { getCategories, getExpense, getGroup } from '@/lib/api'
+import { encryptExpense, decryptExpense } from '@/lib/cryptography'
 import { ExpenseFormValues, expenseFormSchema } from '@/lib/schemas'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -44,6 +45,7 @@ import { Save, Trash2 } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { match } from 'ts-pattern'
+import { useEffect, useState } from "react"
 
 export type Props = {
   group: NonNullable<Awaited<ReturnType<typeof getGroup>>>
@@ -71,6 +73,21 @@ export function ExpenseForm({
     }
     return field?.value
   }
+
+  const [decryptedExpense, setDecryptedExpense] = useState<NonNullable<Awaited<ReturnType<typeof getExpense>>>>();
+
+  useEffect(() => {
+    async function decrypt() {
+      if (expense) {
+        const decrypted = await decryptExpense(group.id, "12345678901234567890", expense)
+        console.log(decrypted)
+        setDecryptedExpense(decrypted!)
+      }
+    }
+    decrypt()    
+  }, [group, expense])
+
+
   const form = useForm<ExpenseFormValues>({
     resolver: zodResolver(expenseFormSchema),
     defaultValues: expense
@@ -114,6 +131,20 @@ export function ExpenseForm({
           isReimbursement: false,
           splitMode: 'EVENLY',
         },
+      values: decryptedExpense
+      ? {
+          title: decryptedExpense.title,
+          expenseDate: decryptedExpense.expenseDate ?? new Date(),
+          amount: String(decryptedExpense.amount / 100) as unknown as number, // hack
+          category: decryptedExpense.categoryId,
+          paidBy: decryptedExpense.paidById,
+          paidFor: decryptedExpense.paidFor.map(({ participantId, shares }) => ({
+            participant: participantId,
+            shares: String(shares / 100) as unknown as number,
+          })),
+          splitMode: decryptedExpense.splitMode,
+          isReimbursement: decryptedExpense.isReimbursement,
+        }: null
   })
 
   const categoriesByGroup = categories.reduce<Record<string, Category[]>>(
@@ -126,7 +157,7 @@ export function ExpenseForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit((values) => onSubmit(values))}>
+      <form onSubmit={form.handleSubmit(async (values) => onSubmit(await encryptExpense(group.id, "12345678901234567890", values)))}>
         <Card>
           <CardHeader>
             <CardTitle>

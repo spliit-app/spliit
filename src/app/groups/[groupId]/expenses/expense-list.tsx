@@ -7,7 +7,8 @@ import { Participant } from '@prisma/client'
 import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Fragment, useEffect } from 'react'
+import { Fragment, useEffect, useState } from 'react'
+import { decryptExpenses } from '@/lib/cryptography'
 
 type Props = {
   expenses: Awaited<ReturnType<typeof getGroupExpenses>>
@@ -22,6 +23,9 @@ export function ExpenseList({
   participants,
   groupId,
 }: Props) {
+
+  const [decryptedExpenses, setDecryptedExpenses] = useState<Awaited<ReturnType<typeof getGroupExpenses>>>([]);
+
   useEffect(() => {
     const activeUser = localStorage.getItem('newGroup-activeUser')
     const newUser = localStorage.getItem(`${groupId}-newUser`)
@@ -39,13 +43,24 @@ export function ExpenseList({
         }
       }
     }
-  }, [groupId, participants])
+
+    async function decrypt() {
+      if (expenses) {
+        const decrypted = await decryptExpenses(groupId, "12345678901234567890", expenses)
+        console.log(decrypted)
+        setDecryptedExpenses(decrypted)
+      }
+    }
+
+    decrypt()  
+
+  }, [groupId, participants, expenses])
 
   const getParticipant = (id: string) => participants.find((p) => p.id === id)
   const router = useRouter()
 
-  return expenses.length > 0 ? (
-    expenses.map((expense) => (
+  return decryptedExpenses.length > 0 ? (
+    decryptedExpenses.map((expense) => (
       <div
         key={expense.id}
         className={cn(

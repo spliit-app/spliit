@@ -6,7 +6,7 @@ export const groupFormSchema = z
     name: z
       .string()
       .min(2, 'Enter at least two characters.')
-      .max(50, 'Enter at most 50 characters.'),
+      .max(5000, 'Enter at most 50 characters.'),
     currency: z
       .string()
       .min(1, 'Enter at least one character.')
