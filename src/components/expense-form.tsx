@@ -165,9 +165,7 @@ export function ExpenseForm({
                     <Input
                       className="date-base"
                       type="date"
-                      value={(field.value ?? new Date())
-                        .toISOString()
-                        .substring(0, 10)}
+                      defaultValue={formatDate(field.value)}
                       onChange={(event) => {
                         return field.onChange(new Date(event.target.value))
                       }}
@@ -551,4 +549,9 @@ export function ExpenseForm({
       </form>
     </Form>
   )
+}
+
+function formatDate(date?: Date) {
+  if (!date || isNaN(date as any)) date = new Date()
+  return date.toISOString().substring(0, 10)
 }
