@@ -31,6 +31,7 @@
     "@react-email/html": "^0.0.7",
     "@react-email/preview": "^0.0.8",
     "@react-email/text": "^0.0.7",
+    "@tailwindcss/typography": "^0.5.10",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "lucide-react": "^0.290.0",
