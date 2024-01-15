@@ -65,8 +65,6 @@ export function RecentGroupList() {
     })
   }, [])
 
-  console.log("state", state);
-
   const router = useRouter()
   const toast = useToast()
 
