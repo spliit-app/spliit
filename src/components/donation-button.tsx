@@ -39,7 +39,7 @@ function DonationDrawer({ donationUrl }: Props) {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button className="bg-pink-700 hover:bg-pink-600">
+        <Button className="bg-pink-700 hover:bg-pink-600 dark:bg-pink-500 dark:hover:bg-pink-600">
           <Heart className="w-4 h-4 mr-2" /> Support us
         </Button>
       </DrawerTrigger>
@@ -64,7 +64,7 @@ function DonationDialog({ donationUrl }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-pink-700 hover:bg-pink-600">
+        <Button className="bg-pink-700 hover:bg-pink-600 dark:bg-pink-500 dark:hover:bg-pink-600">
           <Heart className="w-4 h-4 mr-2" /> Support us
         </Button>
       </DialogTrigger>
@@ -84,7 +84,7 @@ function DonationDialog({ donationUrl }: Props) {
 function DonationForm({ donationUrl }: Props) {
   return (
     <>
-      <div className="prose prose-sm">
+      <div className="prose prose-sm dark:prose-invert">
         <p>
           Spliit is offered for free, but costs money and energy. If you like
           the app, you can choose to support it by buying me (Sebastien) a
@@ -112,7 +112,7 @@ function DonationForm({ donationUrl }: Props) {
         </p>
       </div>
       <div className="mt-4 text-center">
-        <Button asChild className="bg-pink-700 hover:bg-pink-600">
+        <Button asChild className="bg-pink-700 hover:bg-pink-600 dark:bg-pink-500 dark:hover:bg-pink-600">
           <a href={donationUrl} target="_blank">
             <Heart className="w-4 h-4 mr-2" /> Support us
           </a>
