@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getGroup, getGroupExpenses } from '@/lib/api'
-import { Plus } from 'lucide-react'
+import { Download, DownloadCloud, Plus } from 'lucide-react'
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -38,10 +38,15 @@ export default async function GroupExpensesPage({
               Here are the expenses that you created for your group.
             </CardDescription>
           </CardHeader>
-          <CardHeader className="p-4 sm:p-6">
+          <CardHeader className="p-4 sm:p-6 flex flex-row space-y-0 gap-2">
+            <Button variant="secondary" size="icon" asChild>
+              <Link href={`/groups/${groupId}/expenses/export/json`} target="_blank">
+                <Download className="w-4 h-4" />
+              </Link>
+            </Button>
             <Button asChild size="icon">
               <Link href={`/groups/${groupId}/expenses/create`}>
-                <Plus />
+                <Plus className="w-4 h-4" />
               </Link>
             </Button>
           </CardHeader>
