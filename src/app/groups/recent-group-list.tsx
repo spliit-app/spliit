@@ -20,7 +20,7 @@ import { ToastAction } from '@/components/ui/toast'
 import { useToast } from '@/components/ui/use-toast'
 import { getGroups } from '@/lib/api'
 import { StarFilledIcon } from '@radix-ui/react-icons'
-import { Calendar, Loader2, MoreHorizontal, Star, Users } from 'lucide-react'
+import { Calendar, Loader2, MoreHorizontal, Star, Users, CheckCircle } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -38,11 +38,11 @@ type State =
   | { status: 'pending' }
   | { status: 'partial'; groups: RecentGroups; starredGroups: string[] }
   | {
-      status: 'complete'
-      groups: RecentGroups
-      groupsDetails: Awaited<ReturnType<typeof getGroups>>
-      starredGroups: string[]
-    }
+    status: 'complete'
+    groups: RecentGroups
+    groupsDetails: Awaited<ReturnType<typeof getGroups>>
+    starredGroups: string[]
+  }
 
 type Props = {
   getGroupsAction: (groupIds: string[]) => ReturnType<typeof getGroups>
@@ -64,6 +64,8 @@ export function RecentGroupList() {
       })
     })
   }, [])
+
+  console.log("state", state);
 
   const router = useRouter()
   const toast = useToast()
@@ -104,6 +106,9 @@ export function RecentGroupList() {
             state.status === 'complete'
               ? state.groupsDetails.find((d) => d.id === group.id)
               : null
+
+          const groupIsSettledUp = details?.expenses?.length > 0 && Object.values(details.balances).every(({ total }) => total === 0)
+
           return (
             <li key={group.id}>
               <Button variant="outline" className="h-fit w-full py-3" asChild>
@@ -194,23 +199,32 @@ export function RecentGroupList() {
                     </div>
                     <div className="text-muted-foreground font-normal text-xs">
                       {details ? (
-                        <div className="w-full flex items-center justify-between">
-                          <div className="flex items-center">
-                            <Users className="w-3 h-3 inline mr-1" />
-                            <span>{details._count.participants}</span>
+                        <>
+                          <div className="w-full flex items-center justify-between">
+                            <div className="flex items-center">
+                              <Users className="w-3 h-3 inline mr-1" />
+                              <span>{details._count.participants}</span>
+                            </div>
+                            <div className="flex items-center">
+                              <Calendar className="w-3 h-3 inline mx-1" />
+                              <span>
+                                {new Date(details.createdAt).toLocaleDateString(
+                                  'en-US',
+                                  {
+                                    dateStyle: 'medium',
+                                  },
+                                )}
+                              </span>
+                            </div>
                           </div>
-                          <div className="flex items-center">
-                            <Calendar className="w-3 h-3 inline mx-1" />
-                            <span>
-                              {new Date(details.createdAt).toLocaleDateString(
-                                'en-US',
-                                {
-                                  dateStyle: 'medium',
-                                },
-                              )}
-                            </span>
+                          <div className="w-full flex items-center justify-between mt-2">
+                            {groupIsSettledUp && <div className="flex items-center">
+                              <CheckCircle className="w-3 h-3 inline mr-1" />
+                              <span>Settled up</span>
+                            </div>
+                            }
                           </div>
-                        </div>
+                        </>
                       ) : (
                         <div className="flex justify-between">
                           <Skeleton className="h-4 w-6 rounded-full" />
