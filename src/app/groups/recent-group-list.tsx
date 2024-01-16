@@ -2,6 +2,7 @@
 import { getGroupsAction } from '@/app/groups/actions'
 import {
   deleteRecentGroup,
+  getArchivedGroups,
   getRecentGroups,
   getStarredGroups,
   saveRecentGroup,
@@ -42,6 +43,7 @@ type State =
     groups: RecentGroups
     groupsDetails: Awaited<ReturnType<typeof getGroups>>
     starredGroups: string[]
+    archivedGroups: string[]
   }
 
 type Props = {
@@ -54,13 +56,15 @@ export function RecentGroupList() {
   useEffect(() => {
     const groupsInStorage = getRecentGroups()
     const starredGroups = getStarredGroups()
-    setState({ status: 'partial', groups: groupsInStorage, starredGroups })
+    const archivedGroups = getArchivedGroups()
+    setState({ status: 'partial', groups: groupsInStorage, starredGroups, archivedGroups })
     getGroupsAction(groupsInStorage.map((g) => g.id)).then((groupsDetails) => {
       setState({
         status: 'complete',
         groups: groupsInStorage,
         groupsDetails,
         starredGroups,
+        archivedGroups,
       })
     })
   }, [])
@@ -92,150 +96,168 @@ export function RecentGroupList() {
   }
 
   return (
-    <ul className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-      {state.groups
-        .toSorted(
-          (first, second) =>
-            (state.starredGroups.includes(second.id) ? 2 : 0) -
-            (state.starredGroups.includes(first.id) ? 1 : 0),
-        )
-        .map((group) => {
-          const details =
-            state.status === 'complete'
-              ? state.groupsDetails.find((d) => d.id === group.id)
-              : null
+    <>
+      {/* {state.groups.starredGroups.length > 0 && (
+        <>
+          <h1 className="font-bold text-xl">Starred</h1>
+          {state.groups.starredGroups.map(groupId => {
+            const details =
+              state.status === 'complete'
+                ? state.groupsDetails.find((details) => details.id === groupId.id)
+                : null
+            return (
+              <ul className="grid grid-cols-1 gap-2 sm:grid-cols-3"></ul>
+            )
+          })}
+        </>
+      )} */}
+      <ul className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+        {state.groups
+          .toSorted(
+            (first, second) =>
+              (state.starredGroups.includes(second.id) ? 2 : 0) -
+              (state.starredGroups.includes(first.id) ? 1 : 0),
+          )
+          .map((group) => {
+            const details =
+              state.status === 'complete'
+                ? state.groupsDetails.find((d) => d.id === group.id)
+                : null
 
-          const groupIsSettledUp = details?.expenses?.length > 0 && Object.values(details.balances).every(({ total }) => total === 0)
+            const groupIsSettledUp = details?.expenses?.length > 0 && Object.values(details.balances).every(({ total }) => total === 0)
 
-          return (
-            <li key={group.id}>
-              <Button variant="outline" className="h-fit w-full py-3" asChild>
-                <div
-                  className="text-base"
-                  onClick={() => router.push(`/groups/${group.id}`)}
-                >
-                  <div className="w-full flex flex-col gap-1">
-                    <div className="text-base flex gap-2 justify-between">
-                      <Link
-                        href={`/groups/${group.id}`}
-                        className="flex-1 overflow-hidden text-ellipsis"
-                      >
-                        {group.name}
-                      </Link>
-                      <span className="flex-shrink-0">
-                        <Button
-                          size="icon"
-                          variant="ghost"
-                          className="-my-3 -ml-3 -mr-1.5"
-                          onClick={(event) => {
-                            event.stopPropagation()
-                            if (state.starredGroups.includes(group.id)) {
-                              unstarGroup(group.id)
-                            } else {
-                              starGroup(group.id)
-                            }
-                            setState({
-                              ...state,
-                              starredGroups: getStarredGroups(),
-                            })
-                          }}
+            if (!details) return null;
+
+            return (
+              <li key={details.id}>
+                <Button variant="outline" className="h-fit w-full py-3" asChild>
+                  <div
+                    className="text-base"
+                    onClick={() => router.push(`/groups/${details.id}`)}
+                  >
+                    <div className="w-full flex flex-col gap-1">
+                      <div className="text-base flex gap-2 justify-between">
+                        <Link
+                          href={`/groups/${details.id}`}
+                          className="flex-1 overflow-hidden text-ellipsis"
                         >
-                          {state.starredGroups.includes(group.id) ? (
-                            <StarFilledIcon className="w-4 h-4 text-orange-400" />
-                          ) : (
-                            <Star className="w-4 h-4 text-muted-foreground" />
-                          )}
-                        </Button>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button
-                              size="icon"
-                              variant="ghost"
-                              className="-my-3 -mr-3 -ml-1.5"
-                            >
-                              <MoreHorizontal className="w-4 h-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem
-                              className="text-destructive"
-                              onClick={(event) => {
-                                event.stopPropagation()
-                                deleteRecentGroup(group)
-                                setState({
-                                  ...state,
-                                  groups: state.groups.filter(
-                                    (g) => g.id !== group.id,
-                                  ),
-                                })
-                                toast.toast({
-                                  title: 'Group has been removed',
-                                  description:
-                                    'The group was removed from your recent groups list.',
-                                  action: (
-                                    <ToastAction
-                                      altText="Undo group removal"
-                                      onClick={() => {
-                                        saveRecentGroup(group)
-                                        setState({
-                                          ...state,
-                                          groups: state.groups,
-                                        })
-                                      }}
-                                    >
-                                      Undo
-                                    </ToastAction>
-                                  ),
-                                })
-                              }}
-                            >
-                              Remove from recent groups
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </span>
-                    </div>
-                    <div className="text-muted-foreground font-normal text-xs">
-                      {details ? (
-                        <>
-                          <div className="w-full flex items-center justify-between">
-                            <div className="flex items-center">
-                              <Users className="w-3 h-3 inline mr-1" />
-                              <span>{details._count.participants}</span>
+                          {details.name}
+                        </Link>
+                        <span className="flex-shrink-0">
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            className="-my-3 -ml-3 -mr-1.5"
+                            onClick={(event) => {
+                              event.stopPropagation()
+                              if (state.starredGroups.includes(details.id)) {
+                                unstarGroup(details.id)
+                              } else {
+                                starGroup(details.id)
+                              }
+                              setState({
+                                ...state,
+                                starredGroups: getStarredGroups(),
+                              })
+                            }}
+                          >
+                            {state.starredGroups.includes(details.id) ? (
+                              <StarFilledIcon className="w-4 h-4 text-orange-400" />
+                            ) : (
+                              <Star className="w-4 h-4 text-muted-foreground" />
+                            )}
+                          </Button>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button
+                                size="icon"
+                                variant="ghost"
+                                className="-my-3 -mr-3 -ml-1.5"
+                              >
+                                <MoreHorizontal className="w-4 h-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem
+                                className="text-destructive"
+                                onClick={(event) => {
+                                  event.stopPropagation()
+                                  deleteRecentGroup(details)
+                                  setState({
+                                    ...state,
+                                    groups: state.groups.filter(
+                                      (g) => g.id !== details.id,
+                                    ),
+                                  })
+                                  toast.toast({
+                                    title: 'Group has been removed',
+                                    description:
+                                      'The group was removed from your recent groups list.',
+                                    action: (
+                                      <ToastAction
+                                        altText="Undo group removal"
+                                        onClick={() => {
+                                          saveRecentGroup(details)
+                                          setState({
+                                            ...state,
+                                            groups: state.groups,
+                                          })
+                                        }}
+                                      >
+                                        Undo
+                                      </ToastAction>
+                                    ),
+                                  })
+                                }}
+                              >
+                                Remove from recent groups
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </span>
+                      </div>
+                      <div className="text-muted-foreground font-normal text-xs">
+                        {details ? (
+                          <>
+                            <div className="w-full flex items-center justify-between">
+                              <div className="flex items-center">
+                                <Users className="w-3 h-3 inline mr-1" />
+                                <span>{details._count.participants}</span>
+                              </div>
+                              <div className="flex items-center">
+                                <Calendar className="w-3 h-3 inline mx-1" />
+                                <span>
+                                  {new Date(details.createdAt).toLocaleDateString(
+                                    'en-US',
+                                    {
+                                      dateStyle: 'medium',
+                                    },
+                                  )}
+                                </span>
+                              </div>
                             </div>
-                            <div className="flex items-center">
-                              <Calendar className="w-3 h-3 inline mx-1" />
-                              <span>
-                                {new Date(details.createdAt).toLocaleDateString(
-                                  'en-US',
-                                  {
-                                    dateStyle: 'medium',
-                                  },
-                                )}
-                              </span>
+                            <div className="w-full flex items-center justify-between mt-2">
+                              {groupIsSettledUp && <div className="flex items-center">
+                                <CheckCircle className="w-3 h-3 inline mr-1" />
+                                <span>Settled up</span>
+                              </div>
+                              }
                             </div>
+                          </>
+                        ) : (
+                          <div className="flex justify-between">
+                            <Skeleton className="h-4 w-6 rounded-full" />
+                            <Skeleton className="h-4 w-24 rounded-full" />
                           </div>
-                          <div className="w-full flex items-center justify-between mt-2">
-                            {groupIsSettledUp && <div className="flex items-center">
-                              <CheckCircle className="w-3 h-3 inline mr-1" />
-                              <span>Settled up</span>
-                            </div>
-                            }
-                          </div>
-                        </>
-                      ) : (
-                        <div className="flex justify-between">
-                          <Skeleton className="h-4 w-6 rounded-full" />
-                          <Skeleton className="h-4 w-24 rounded-full" />
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Button>
-            </li>
-          )
-        })}
-    </ul>
+                </Button>
+              </li>
+            )
+          })}
+      </ul>
+    </>
   )
 }

@@ -8,12 +8,14 @@ export const recentGroupsSchema = z.array(
 )
 
 export const starredGroupsSchema = z.array(z.string())
+export const archivedGroupsSchema = z.array(z.string())
 
 export type RecentGroups = z.infer<typeof recentGroupsSchema>
 export type RecentGroup = RecentGroups[number]
 
 const STORAGE_KEY = 'recentGroups'
 const STARRED_GROUPS_STORAGE_KEY = 'starredGroups'
+const ARCHIVED_GROUPS_STORAGE_KEY = 'archivedGroups'
 
 export function getRecentGroups() {
   const groupsInStorageJson = localStorage.getItem(STORAGE_KEY)
@@ -46,6 +48,15 @@ export function getStarredGroups() {
     ? JSON.parse(starredGroupsJson)
     : []
   const parseResult = starredGroupsSchema.safeParse(starredGroupsRaw)
+  return parseResult.success ? parseResult.data : []
+}
+
+export function getArchivedGroups() {
+  const archivedGroupsJson = localStorage.getItem(ARCHIVED_GROUPS_STORAGE_KEY)
+  const archivedGroupsRaw = archivedGroupsJson
+    ? JSON.parse(archivedGroupsJson)
+    : []
+  const parseResult = archivedGroupsSchema.safeParse(archivedGroupsRaw)
   return parseResult.success ? parseResult.data : []
 }
 
