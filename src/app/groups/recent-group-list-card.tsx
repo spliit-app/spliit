@@ -1,10 +1,11 @@
 'use client'
-import { getGroupsAction } from '@/app/groups/actions'
+import { useRouter } from 'next/navigation'
+import { ToastAction } from '@/components/ui/toast'
+import { useToast } from '@/components/ui/use-toast'
 import {
   archiveGroup,
   deleteRecentGroup,
   getArchivedGroups,
-  getRecentGroups,
   getStarredGroups,
   saveRecentGroup,
   starGroup,
@@ -19,17 +20,14 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Skeleton } from '@/components/ui/skeleton'
-import { ToastAction } from '@/components/ui/toast'
-import { useToast } from '@/components/ui/use-toast'
-import { getGroups } from '@/lib/api'
 import { StarFilledIcon } from '@radix-ui/react-icons'
-import { Calendar, Loader2, MoreHorizontal, Star, Users } from 'lucide-react'
+import { Calendar, MoreHorizontal, Star, Users } from 'lucide-react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { z } from 'zod'
 
 export function RecentGroupListCard({ group, state, setState }) {
+
+  const router = useRouter();
+  const toast = useToast();
 
   const details =
     state.status === 'complete'
