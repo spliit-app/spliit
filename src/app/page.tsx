@@ -136,6 +136,12 @@ export default function HomePage() {
               },
               {
                 avatar:
+                  'https://avatars.githubusercontent.com/u/11523186?s=120&v=4',
+                user: 'acuteengle',
+                name: 'Brandon Eng',
+              },
+              {
+                avatar:
                   'https://avatars.githubusercontent.com/u/24687853?s=120&v=4',
                 user: 'Max-TheCat',
                 name: 'Max',
