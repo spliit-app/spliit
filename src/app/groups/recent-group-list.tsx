@@ -135,10 +135,13 @@ export function RecentGroupList() {
         }
       </ul>
       {archivedGroupInfo.length > 0 && (
-        <ul className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-          {archivedGroupInfo.map(group => <RecentGroupListCard group={group} state={state} setState={setState} />)
-          }
-        </ul>
+        <>
+          <h1 className="font-bold text-xl">Archived groups</h1>
+          <ul className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+            {archivedGroupInfo.map(group => <RecentGroupListCard group={group} state={state} setState={setState} />)
+            }
+          </ul>
+        </>
       )}
     </>
   )

@@ -1,6 +1,7 @@
 'use client'
 import { getGroupsAction } from '@/app/groups/actions'
 import {
+  archiveGroup,
   deleteRecentGroup,
   getArchivedGroups,
   getRecentGroups,
@@ -117,6 +118,18 @@ export function RecentGroupListCard({ group, state, setState }) {
                       }}
                     >
                       Remove from recent groups
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        archiveGroup(group.id)
+                        setState({
+                          ...state,
+                          archivedGroups: getArchivedGroups(),
+                        })
+                      }}
+                    >
+                      Archive group
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
