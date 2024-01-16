@@ -51,6 +51,28 @@ type Props = {
   getGroupsAction: (groupIds: string[]) => ReturnType<typeof getGroups>
 }
 
+function sortGroups(state: State) {
+  const starredGroupInfo = [];
+  const groupInfo = [];
+  const archivedGroupInfo = [];
+  for (const group of state.groups) {
+    if (state.starredGroups.includes(group.id)) {
+      starredGroupInfo.push(group);
+    }
+    else if (state.archivedGroups.includes(group.id)) {
+      archivedGroupInfo.push(group);
+    }
+    else {
+      groupInfo.push(group);
+    }
+  }
+  return {
+    starredGroupInfo,
+    groupInfo,
+    archivedGroupInfo,
+  }
+}
+
 export function RecentGroupList() {
   const [state, setState] = useState<State>({ status: 'pending' })
 
@@ -96,34 +118,28 @@ export function RecentGroupList() {
     )
   }
 
-  console.log("state.groups", state.groups);
+  console.log("state", state);
+
+  const { starredGroupInfo, groupInfo, archivedGroupInfo } = sortGroups(state);
 
   return (
     <>
-      {/* {state.groups.starredGroups.length > 0 && (
-        <>
-          <h1 className="font-bold text-xl">Starred</h1>
-          {state.groups.starredGroups.map(groupId => {
-            const details =
-              state.status === 'complete'
-                ? state.groupsDetails.find((details) => details.id === groupId.id)
-                : null
-            return (
-              <ul className="grid grid-cols-1 gap-2 sm:grid-cols-3"></ul>
-            )
-          })}
-        </>
-      )} */}
+      {starredGroupInfo.length > 0 && (
+        <ul className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+          {starredGroupInfo.map(group => <RecentGroupListCard group={group} state={state} setState={setState} />)
+          }
+        </ul>
+      )}
       <ul className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-        {state.groups
-          .toSorted(
-            (first, second) =>
-              (state.starredGroups.includes(second.id) ? 2 : 0) -
-              (state.starredGroups.includes(first.id) ? 1 : 0),
-          )
-          .map(group => <RecentGroupListCard group={group} state={state} setState={setState} />)
+        {groupInfo.map(group => <RecentGroupListCard group={group} state={state} setState={setState} />)
         }
       </ul>
+      {archivedGroupInfo.length > 0 && (
+        <ul className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+          {archivedGroupInfo.map(group => <RecentGroupListCard group={group} state={state} setState={setState} />)
+          }
+        </ul>
+      )}
     </>
   )
 }
