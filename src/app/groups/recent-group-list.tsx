@@ -124,24 +124,20 @@ export function RecentGroupList() {
                 ? state.groupsDetails.find((d) => d.id === group.id)
                 : null
 
-            const groupIsSettledUp = details?.expenses?.length > 0 && Object.values(details.balances).every(({ total }) => total === 0)
-
-            if (!details) return null;
-
             return (
-              <li key={details.id}>
+              <li key={group.id}>
                 <Button variant="outline" className="h-fit w-full py-3" asChild>
                   <div
                     className="text-base"
-                    onClick={() => router.push(`/groups/${details.id}`)}
+                    onClick={() => router.push(`/groups/${group.id}`)}
                   >
                     <div className="w-full flex flex-col gap-1">
                       <div className="text-base flex gap-2 justify-between">
                         <Link
-                          href={`/groups/${details.id}`}
+                          href={`/groups/${group.id}`}
                           className="flex-1 overflow-hidden text-ellipsis"
                         >
-                          {details.name}
+                          {group.name}
                         </Link>
                         <span className="flex-shrink-0">
                           <Button
@@ -150,10 +146,10 @@ export function RecentGroupList() {
                             className="-my-3 -ml-3 -mr-1.5"
                             onClick={(event) => {
                               event.stopPropagation()
-                              if (state.starredGroups.includes(details.id)) {
-                                unstarGroup(details.id)
+                              if (state.starredGroups.includes(group.id)) {
+                                unstarGroup(group.id)
                               } else {
-                                starGroup(details.id)
+                                starGroup(group.id)
                               }
                               setState({
                                 ...state,
@@ -161,7 +157,7 @@ export function RecentGroupList() {
                               })
                             }}
                           >
-                            {state.starredGroups.includes(details.id) ? (
+                            {state.starredGroups.includes(group.id) ? (
                               <StarFilledIcon className="w-4 h-4 text-orange-400" />
                             ) : (
                               <Star className="w-4 h-4 text-muted-foreground" />
@@ -182,11 +178,11 @@ export function RecentGroupList() {
                                 className="text-destructive"
                                 onClick={(event) => {
                                   event.stopPropagation()
-                                  deleteRecentGroup(details)
+                                  deleteRecentGroup(group)
                                   setState({
                                     ...state,
                                     groups: state.groups.filter(
-                                      (g) => g.id !== details.id,
+                                      (g) => g.id !== group.id,
                                     ),
                                   })
                                   toast.toast({
@@ -197,7 +193,7 @@ export function RecentGroupList() {
                                       <ToastAction
                                         altText="Undo group removal"
                                         onClick={() => {
-                                          saveRecentGroup(details)
+                                          saveRecentGroup(group)
                                           setState({
                                             ...state,
                                             groups: state.groups,
@@ -218,32 +214,23 @@ export function RecentGroupList() {
                       </div>
                       <div className="text-muted-foreground font-normal text-xs">
                         {details ? (
-                          <>
-                            <div className="w-full flex items-center justify-between">
-                              <div className="flex items-center">
-                                <Users className="w-3 h-3 inline mr-1" />
-                                <span>{details._count.participants}</span>
-                              </div>
-                              <div className="flex items-center">
-                                <Calendar className="w-3 h-3 inline mx-1" />
-                                <span>
-                                  {new Date(details.createdAt).toLocaleDateString(
-                                    'en-US',
-                                    {
-                                      dateStyle: 'medium',
-                                    },
-                                  )}
-                                </span>
-                              </div>
+                          <div className="w-full flex items-center justify-between">
+                            <div className="flex items-center">
+                              <Users className="w-3 h-3 inline mr-1" />
+                              <span>{details._count.participants}</span>
                             </div>
-                            <div className="w-full flex items-center justify-between mt-2">
-                              {groupIsSettledUp && <div className="flex items-center">
-                                <CheckCircle className="w-3 h-3 inline mr-1" />
-                                <span>Settled up</span>
-                              </div>
-                              }
+                            <div className="flex items-center">
+                              <Calendar className="w-3 h-3 inline mx-1" />
+                              <span>
+                                {new Date(details.createdAt).toLocaleDateString(
+                                  'en-US',
+                                  {
+                                    dateStyle: 'medium',
+                                  },
+                                )}
+                              </span>
                             </div>
-                          </>
+                          </div>
                         ) : (
                           <div className="flex justify-between">
                             <Skeleton className="h-4 w-6 rounded-full" />
