@@ -218,7 +218,11 @@ export async function getGroupExpenses(groupId: string) {
   const prisma = await getPrisma()
   return prisma.expense.findMany({
     where: { groupId },
-    include: { paidFor: { include: { participant: true } }, paidBy: true, category: true },
+    include: {
+      paidFor: { include: { participant: true } },
+      paidBy: true,
+      category: true,
+    },
     orderBy: { expenseDate: 'desc' },
   })
 }
