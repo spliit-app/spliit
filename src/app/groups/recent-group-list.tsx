@@ -21,7 +21,7 @@ import { ToastAction } from '@/components/ui/toast'
 import { useToast } from '@/components/ui/use-toast'
 import { getGroups } from '@/lib/api'
 import { StarFilledIcon } from '@radix-ui/react-icons'
-import { Calendar, Loader2, MoreHorizontal, Star, Users, CheckCircle } from 'lucide-react'
+import { Calendar, Loader2, MoreHorizontal, Star, Users } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -94,6 +94,8 @@ export function RecentGroupList() {
       </div>
     )
   }
+
+  console.log("state.groups", state.groups);
 
   return (
     <>

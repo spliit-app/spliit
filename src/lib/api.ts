@@ -2,7 +2,6 @@ import { getPrisma } from '@/lib/prisma'
 import { ExpenseFormValues, GroupFormValues } from '@/lib/schemas'
 import { Expense } from '@prisma/client'
 import { nanoid } from 'nanoid'
-import { getBalances } from './balances'
 
 export function randomId() {
   return nanoid()
@@ -89,18 +88,15 @@ export async function getGroupExpensesParticipants(groupId: string) {
 
 export async function getGroups(groupIds: string[]) {
   const prisma = await getPrisma()
-  const groups = await prisma.group.findMany({
-    where: { id: { in: groupIds } },
-    include: { _count: { select: { participants: true } } },
-  })
-
-  for (const group of groups) {
-    group.expenses = await getGroupExpenses(group.id)
-    group.balances = getBalances(group.expenses)
-    group.createdAt = group.createdAt.toISOString();
-  }
-
-  return groups;
+  return (
+    await prisma.group.findMany({
+      where: { id: { in: groupIds } },
+      include: { _count: { select: { participants: true } } },
+    })
+  ).map((group) => ({
+    ...group,
+    createdAt: group.createdAt.toISOString(),
+  }))
 }
 
 export async function updateExpense(
