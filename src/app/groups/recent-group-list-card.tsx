@@ -8,6 +8,7 @@ import {
   getStarredGroups,
   saveRecentGroup,
   starGroup,
+  unarchiveGroup,
   unstarGroup,
 } from '@/app/groups/recent-groups-helpers'
 import { Button } from '@/components/ui/button'
@@ -119,18 +120,34 @@ export function RecentGroupListCard({ group, state, setState }) {
                     >
                       Remove from recent groups
                     </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={(event) => {
-                        event.stopPropagation()
-                        archiveGroup(group.id)
-                        setState({
-                          ...state,
-                          archivedGroups: getArchivedGroups(),
-                        })
-                      }}
-                    >
-                      Archive group
-                    </DropdownMenuItem>
+                    {!state.archivedGroups.includes(group.id) && (
+                      <DropdownMenuItem
+                        onClick={(event) => {
+                          event.stopPropagation()
+                          archiveGroup(group.id)
+                          setState({
+                            ...state,
+                            archivedGroups: getArchivedGroups(),
+                          })
+                        }}
+                      >
+                        Archive group
+                      </DropdownMenuItem>
+                    )}
+                    {state.archivedGroups.includes(group.id) && (
+                      <DropdownMenuItem
+                        onClick={(event) => {
+                          event.stopPropagation()
+                          unarchiveGroup(group.id)
+                          setState({
+                            ...state,
+                            archivedGroups: getArchivedGroups(),
+                          })
+                        }}
+                      >
+                        Unarchive group
+                      </DropdownMenuItem>
+                    )}
                   </DropdownMenuContent>
                 </DropdownMenu>
               </span>
