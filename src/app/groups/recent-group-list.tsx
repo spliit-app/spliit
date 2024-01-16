@@ -1,7 +1,4 @@
 'use client'
-import { useEffect, useState } from 'react'
-import { z } from 'zod'
-import Link from 'next/link'
 import { getGroupsAction } from '@/app/groups/actions'
 import {
   getArchivedGroups,
@@ -11,6 +8,9 @@ import {
 import { Button } from '@/components/ui/button'
 import { getGroups } from '@/lib/api'
 import { Loader2 } from 'lucide-react'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import { z } from 'zod'
 import { RecentGroupListCard } from './recent-group-list-card'
 
 const recentGroupsSchema = z.array(
