@@ -1,8 +1,7 @@
 'use client'
-import { useRouter } from 'next/navigation'
-import { ToastAction } from '@/components/ui/toast'
-import { useToast } from '@/components/ui/use-toast'
+import { RecentGroupsState } from '@/app/groups/recent-group-list'
 import {
+  RecentGroup,
   archiveGroup,
   deleteRecentGroup,
   getArchivedGroups,
@@ -20,19 +19,42 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Skeleton } from '@/components/ui/skeleton'
+import { ToastAction } from '@/components/ui/toast'
+import { useToast } from '@/components/ui/use-toast'
 import { StarFilledIcon } from '@radix-ui/react-icons'
 import { Calendar, MoreHorizontal, Star, Users } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { SetStateAction } from 'react'
 
-export function RecentGroupListCard({ group, state, setState }) {
-
-  const router = useRouter();
-  const toast = useToast();
+export function RecentGroupListCard({
+  group,
+  state,
+  setState,
+}: {
+  group: RecentGroup
+  state: RecentGroupsState
+  setState: (state: SetStateAction<RecentGroupsState>) => void
+}) {
+  const router = useRouter()
+  const toast = useToast()
 
   const details =
     state.status === 'complete'
       ? state.groupsDetails.find((d) => d.id === group.id)
       : null
+
+  if (state.status === 'pending') return null
+
+  const refreshGroupsFromStorage = () =>
+    setState({
+      ...state,
+      starredGroups: getStarredGroups(),
+      archivedGroups: getArchivedGroups(),
+    })
+
+  const isStarred = state.starredGroups.includes(group.id)
+  const isArchived = state.archivedGroups.includes(group.id)
 
   return (
     <li key={group.id}>
@@ -56,18 +78,16 @@ export function RecentGroupListCard({ group, state, setState }) {
                   className="-my-3 -ml-3 -mr-1.5"
                   onClick={(event) => {
                     event.stopPropagation()
-                    if (state.starredGroups.includes(group.id)) {
+                    if (isStarred) {
                       unstarGroup(group.id)
                     } else {
                       starGroup(group.id)
+                      unarchiveGroup(group.id)
                     }
-                    setState({
-                      ...state,
-                      starredGroups: getStarredGroups(),
-                    })
+                    refreshGroupsFromStorage()
                   }}
                 >
-                  {state.starredGroups.includes(group.id) ? (
+                  {isStarred ? (
                     <StarFilledIcon className="w-4 h-4 text-orange-400" />
                   ) : (
                     <Star className="w-4 h-4 text-muted-foreground" />
@@ -91,9 +111,7 @@ export function RecentGroupListCard({ group, state, setState }) {
                         deleteRecentGroup(group)
                         setState({
                           ...state,
-                          groups: state.groups.filter(
-                            (g) => g.id !== group.id,
-                          ),
+                          groups: state.groups.filter((g) => g.id !== group.id),
                         })
                         toast.toast({
                           title: 'Group has been removed',
@@ -118,34 +136,20 @@ export function RecentGroupListCard({ group, state, setState }) {
                     >
                       Remove from recent groups
                     </DropdownMenuItem>
-                    {!state.archivedGroups.includes(group.id) && (
-                      <DropdownMenuItem
-                        onClick={(event) => {
-                          event.stopPropagation()
-                          archiveGroup(group.id)
-                          setState({
-                            ...state,
-                            archivedGroups: getArchivedGroups(),
-                          })
-                        }}
-                      >
-                        Archive group
-                      </DropdownMenuItem>
-                    )}
-                    {state.archivedGroups.includes(group.id) && (
-                      <DropdownMenuItem
-                        onClick={(event) => {
-                          event.stopPropagation()
+                    <DropdownMenuItem
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        if (isArchived) {
                           unarchiveGroup(group.id)
-                          setState({
-                            ...state,
-                            archivedGroups: getArchivedGroups(),
-                          })
-                        }}
-                      >
-                        Unarchive group
-                      </DropdownMenuItem>
-                    )}
+                        } else {
+                          archiveGroup(group.id)
+                          unstarGroup(group.id)
+                        }
+                        refreshGroupsFromStorage()
+                      }}
+                    >
+                      {isArchived ? <>Unarchive group</> : <>Archive group</>}
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </span>
@@ -160,12 +164,9 @@ export function RecentGroupListCard({ group, state, setState }) {
                   <div className="flex items-center">
                     <Calendar className="w-3 h-3 inline mx-1" />
                     <span>
-                      {new Date(details.createdAt).toLocaleDateString(
-                        'en-US',
-                        {
-                          dateStyle: 'medium',
-                        },
-                      )}
+                      {new Date(details.createdAt).toLocaleDateString('en-US', {
+                        dateStyle: 'medium',
+                      })}
                     </span>
                   </div>
                 </div>
