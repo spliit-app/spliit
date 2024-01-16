@@ -112,7 +112,10 @@ function DonationForm({ donationUrl }: Props) {
         </p>
       </div>
       <div className="mt-4 text-center">
-        <Button asChild className="bg-pink-700 hover:bg-pink-600 dark:bg-pink-500 dark:hover:bg-pink-600">
+        <Button
+          asChild
+          className="bg-pink-700 hover:bg-pink-600 dark:bg-pink-500 dark:hover:bg-pink-600"
+        >
           <a href={donationUrl} target="_blank">
             <Heart className="w-4 h-4 mr-2" /> Support us
           </a>
