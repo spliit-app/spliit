@@ -11,18 +11,19 @@ export const metadata: Metadata = {
 export default async function GroupsPage() {
   return (
     <>
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 items-start">
+      <div className="flex justify-between items-center gap-4">
         <h1 className="font-bold text-2xl">
-          <Link href="/groups">Recently visited groups</Link>
+          <Link href="/groups">My groups</Link>
         </h1>
-        <Button asChild>
+        <Button asChild size="icon">
           <Link href="/groups/create">
-            <Plus className="w-4 h-4 mr-2" />
-            Create group
+            <Plus className="w-4 h-4" />
           </Link>
         </Button>
       </div>
-      <RecentGroupList />
+      <div>
+        <RecentGroupList />
+      </div>
     </>
   )
 }
