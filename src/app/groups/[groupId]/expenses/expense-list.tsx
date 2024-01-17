@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { getGroupExpenses } from '@/lib/api'
 import { cn } from '@/lib/utils'
 import { Expense, Participant } from '@prisma/client'
+import dayjs, { type Dayjs } from 'dayjs'
 import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -20,8 +21,9 @@ const EXPENSE_GROUPS = {
   THIS_WEEK: 'This week',
   EARLIER_THIS_MONTH: 'Earlier this month',
   LAST_MONTH: 'Last month',
+  EARLIER_THIS_YEAR: 'Earlier this year',
   LAST_YEAR: 'Last year',
-  OLDER: 'Older,',
+  OLDER: 'Older',
 }
 
 function getDifferenceInDays(earlierDate: Date, laterDate: Date) {
@@ -29,14 +31,16 @@ function getDifferenceInDays(earlierDate: Date, laterDate: Date) {
   return Math.round(differenceInTime / (1000 * 3600 * 24)) // convert milliseconds to days
 }
 
-function getExpenseGroup(days: number) {
-  if (days <= 7) {
+function getExpenseGroup(date: Dayjs, today: Dayjs) {
+  if (today.isSame(date, 'week')) {
     return EXPENSE_GROUPS.THIS_WEEK
-  } else if (days <= 31) {
+  } else if (today.isSame(date, 'month')) {
     return EXPENSE_GROUPS.EARLIER_THIS_MONTH
-  } else if (days <= 62) {
+  } else if (today.subtract(1, 'month').isSame(date, 'month')) {
     return EXPENSE_GROUPS.LAST_MONTH
-  } else if (days <= 365) {
+  } else if (today.isSame(date, 'year')) {
+    return EXPENSE_GROUPS.EARLIER_THIS_YEAR
+  } else if (today.subtract(1, 'year').isSame(date, 'year')) {
     return EXPENSE_GROUPS.LAST_YEAR
   } else {
     return EXPENSE_GROUPS.OLDER
@@ -46,11 +50,10 @@ function getExpenseGroup(days: number) {
 function getGroupedExpensesByDate(
   expenses: Awaited<ReturnType<typeof getGroupExpenses>>,
 ) {
-  const today = new Date()
+  const today = dayjs()
   return expenses.reduce(
     (result: { [key: string]: Expense[] }, expense: Expense) => {
-      const differenceInDays = getDifferenceInDays(today, expense.expenseDate)
-      const expenseGroup = getExpenseGroup(differenceInDays)
+      const expenseGroup = getExpenseGroup(dayjs(expense.expenseDate), today)
       result[expenseGroup] = result[expenseGroup] ?? []
       result[expenseGroup].push(expense)
       return result
