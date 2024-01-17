@@ -26,11 +26,6 @@ const EXPENSE_GROUPS = {
   OLDER: 'Older',
 }
 
-function getDifferenceInDays(earlierDate: Date, laterDate: Date) {
-  const differenceInTime = laterDate.getTime() - earlierDate.getTime()
-  return Math.round(differenceInTime / (1000 * 3600 * 24)) // convert milliseconds to days
-}
-
 function getExpenseGroup(date: Dayjs, today: Dayjs) {
   if (today.isSame(date, 'week')) {
     return EXPENSE_GROUPS.THIS_WEEK
