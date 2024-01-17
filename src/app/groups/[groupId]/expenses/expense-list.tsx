@@ -16,24 +16,47 @@ type Props = {
   groupId: string
 }
 
+const EXPENSE_GROUPS = {
+  THIS_WEEK: 'This week',
+  EARLIER_THIS_MONTH: 'Earlier this month',
+  LAST_MONTH: 'Last month',
+  LAST_YEAR: 'Last year',
+  OLDER: 'Older,',
+}
+
+function getDifferenceInDays(earlierDate: Date, laterDate: Date) {
+  const differenceInTime = laterDate.getTime() - earlierDate.getTime()
+  return Math.round(differenceInTime / (1000 * 3600 * 24)) // convert milliseconds to days
+}
+
+function getExpenseGroup(days: number) {
+  if (days <= 7) {
+    return EXPENSE_GROUPS.THIS_WEEK
+  } else if (days <= 31) {
+    return EXPENSE_GROUPS.EARLIER_THIS_MONTH
+  } else if (days <= 62) {
+    return EXPENSE_GROUPS.LAST_MONTH
+  } else if (days <= 365) {
+    return EXPENSE_GROUPS.LAST_YEAR
+  } else {
+    return EXPENSE_GROUPS.OLDER
+  }
+}
+
 function getGroupedExpensesByDate(
   expenses: Awaited<ReturnType<typeof getGroupExpenses>>,
 ) {
+  const today = new Date()
   return expenses.reduce(
     (result: { [key: string]: Expense[] }, expense: Expense) => {
-      const dateString = formatDate(expense.expenseDate)
-      result[dateString] = result[dateString] ?? []
-      result[dateString].push(expense)
+      const differenceInDays = getDifferenceInDays(today, expense.expenseDate)
+      const expenseGroup = getExpenseGroup(differenceInDays)
+      result[expenseGroup] = result[expenseGroup] ?? []
+      result[expenseGroup].push(expense)
       return result
     },
     {},
   )
-}
-
-function getOrderedDates(dates: string[]) {
-  return dates.sort(function (a: string, b: string) {
-    return new Date(b).getTime() - new Date(a).getTime()
-  })
 }
 
 export function ExpenseList({
@@ -67,82 +90,80 @@ export function ExpenseList({
   const groupedExpensesByDate = getGroupedExpensesByDate(expenses)
 
   return expenses.length > 0 ? (
-    getOrderedDates(Object.keys(groupedExpensesByDate)).map(
-      (dateString: string) => {
-        const dateExpenses = groupedExpensesByDate[dateString]
-        return (
-          <Fragment key={dateString}>
-            <div className={'border-t text-md pl-3 py-2 font-semibold'}>
-              {dateString}
-            </div>
-            {dateExpenses.map((expense: any) => (
-              <div
-                key={expense.id}
-                className={cn(
-                  'border-t flex justify-between px-4 sm:pr-2 sm:pl-6 py-4 text-sm cursor-pointer hover:bg-accent gap-1 items-stretch',
-                  expense.isReimbursement && 'italic',
-                )}
-                onClick={() => {
-                  router.push(`/groups/${groupId}/expenses/${expense.id}/edit`)
-                }}
-              >
-                <CategoryIcon
-                  category={expense.category}
-                  className="w-4 h-4 mr-2 mt-0.5 text-muted-foreground"
-                />
-                <div className="flex-1">
-                  <div
-                    className={cn('mb-1', expense.isReimbursement && 'italic')}
-                  >
-                    {expense.title}
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    Paid by{' '}
-                    <strong>{getParticipant(expense.paidById)?.name}</strong>{' '}
-                    for{' '}
-                    {expense.paidFor.map((paidFor: any, index: number) => (
-                      <Fragment key={index}>
-                        {index !== 0 && <>, </>}
-                        <strong>
-                          {
-                            participants.find(
-                              (p) => p.id === paidFor.participantId,
-                            )?.name
-                          }
-                        </strong>
-                      </Fragment>
-                    ))}
-                  </div>
-                </div>
-                <div className="flex flex-col justify-between items-end">
-                  <div
-                    className={cn(
-                      'tabular-nums whitespace-nowrap',
-                      expense.isReimbursement ? 'italic' : 'font-bold',
-                    )}
-                  >
-                    {currency} {(expense.amount / 100).toFixed(2)}
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    {formatDate(expense.expenseDate)}
-                  </div>
-                </div>
-                <Button
-                  size="icon"
-                  variant="link"
-                  className="self-center hidden sm:flex"
-                  asChild
+    Object.values(EXPENSE_GROUPS).map((expenseGroup: string) => {
+      const groupExpenses = groupedExpensesByDate[expenseGroup]
+      if (!groupExpenses) return null
+      return (
+        <Fragment key={expenseGroup}>
+          <div className={'border-t text-md pl-3 py-2 font-semibold'}>
+            {expenseGroup}
+          </div>
+          {groupExpenses.map((expense: any) => (
+            <div
+              key={expense.id}
+              className={cn(
+                'border-t flex justify-between px-4 sm:pr-2 sm:pl-6 py-4 text-sm cursor-pointer hover:bg-accent gap-1 items-stretch',
+                expense.isReimbursement && 'italic',
+              )}
+              onClick={() => {
+                router.push(`/groups/${groupId}/expenses/${expense.id}/edit`)
+              }}
+            >
+              <CategoryIcon
+                category={expense.category}
+                className="w-4 h-4 mr-2 mt-0.5 text-muted-foreground"
+              />
+              <div className="flex-1">
+                <div
+                  className={cn('mb-1', expense.isReimbursement && 'italic')}
                 >
-                  <Link href={`/groups/${groupId}/expenses/${expense.id}/edit`}>
-                    <ChevronRight className="w-4 h-4" />
-                  </Link>
-                </Button>
+                  {expense.title}
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  Paid by{' '}
+                  <strong>{getParticipant(expense.paidById)?.name}</strong> for{' '}
+                  {expense.paidFor.map((paidFor: any, index: number) => (
+                    <Fragment key={index}>
+                      {index !== 0 && <>, </>}
+                      <strong>
+                        {
+                          participants.find(
+                            (p) => p.id === paidFor.participantId,
+                          )?.name
+                        }
+                      </strong>
+                    </Fragment>
+                  ))}
+                </div>
               </div>
-            ))}
-          </Fragment>
-        )
-      },
-    )
+              <div className="flex flex-col justify-between items-end">
+                <div
+                  className={cn(
+                    'tabular-nums whitespace-nowrap',
+                    expense.isReimbursement ? 'italic' : 'font-bold',
+                  )}
+                >
+                  {currency} {(expense.amount / 100).toFixed(2)}
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  {formatDate(expense.expenseDate)}
+                </div>
+              </div>
+              <Button
+                size="icon"
+                variant="link"
+                className="self-center hidden sm:flex"
+                asChild
+              >
+                <Link href={`/groups/${groupId}/expenses/${expense.id}/edit`}>
+                  <ChevronRight className="w-4 h-4" />
+                </Link>
+              </Button>
+            </div>
+          ))}
+        </Fragment>
+      )
+    })
   ) : (
     <p className="px-6 text-sm py-6">
       Your group doesn’t contain any expense yet.{' '}
