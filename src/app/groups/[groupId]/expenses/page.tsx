@@ -55,7 +55,7 @@ export default async function GroupExpensesPage({
           </CardHeader>
         </div>
 
-        <CardContent className="p-0">
+        <CardContent className="p-0 pt-2 pb-4 sm:pb-6 flex flex-col gap-4 relative">
           <Suspense
             fallback={[0, 1, 2].map((i) => (
               <div

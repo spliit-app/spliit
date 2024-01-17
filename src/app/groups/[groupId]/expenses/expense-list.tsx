@@ -92,15 +92,19 @@ export function ExpenseList({
       const groupExpenses = groupedExpensesByDate[expenseGroup]
       if (!groupExpenses) return null
       return (
-        <Fragment key={expenseGroup}>
-          <div className={'border-t text-md pl-3 py-2 font-semibold'}>
+        <div key={expenseGroup}>
+          <div
+            className={
+              'text-muted-foreground text-xs pl-4 sm:pl-6 py-1 font-semibold sticky top-16 bg-white dark:bg-[#1b1917]'
+            }
+          >
             {expenseGroup}
           </div>
           {groupExpenses.map((expense: any) => (
             <div
               key={expense.id}
               className={cn(
-                'border-t flex justify-between px-4 sm:pr-2 sm:pl-6 py-4 text-sm cursor-pointer hover:bg-accent gap-1 items-stretch',
+                'flex justify-between sm:mx-6 px-4 sm:rounded-lg sm:pr-2 sm:pl-4 py-4 text-sm cursor-pointer hover:bg-accent gap-1 items-stretch',
                 expense.isReimbursement && 'italic',
               )}
               onClick={() => {
@@ -159,7 +163,7 @@ export function ExpenseList({
               </Button>
             </div>
           ))}
-        </Fragment>
+        </div>
       )
     })
   ) : (
