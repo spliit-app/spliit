@@ -3,7 +3,7 @@ import { CategoryIcon } from '@/app/groups/[groupId]/expenses/category-icon'
 import { Button } from '@/components/ui/button'
 import { getGroupExpenses } from '@/lib/api'
 import { cn } from '@/lib/utils'
-import { Participant } from '@prisma/client'
+import { Expense, ExpensePaidFor, Participant } from '@prisma/client'
 import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -16,8 +16,8 @@ type Props = {
   groupId: string
 }
 
-function getGroupedExpensesByDate(expenses) {
-  return expenses.reduce((result, expense) => {
+function getGroupedExpensesByDate(expenses: Awaited<ReturnType<typeof getGroupExpenses>>) {
+  return expenses.reduce((result: { [key: string]: Expense[] }, expense: Expense) => {
     const dateString = formatDate(expense.expenseDate)
     result[dateString] = result[dateString] ?? []
     result[dateString].push(expense)
@@ -25,9 +25,9 @@ function getGroupedExpensesByDate(expenses) {
   }, {})
 }
 
-function getOrderedDates(dates) {
-  return dates.sort(function (a, b) {
-    return new Date(b) - new Date(a);
+function getOrderedDates(dates: string[]) {
+  return dates.sort(function (a: string, b: string) {
+    return new Date(b).getTime() - new Date(a).getTime()
   });
 }
 
@@ -62,7 +62,7 @@ export function ExpenseList({
   const groupedExpensesByDate = getGroupedExpensesByDate(expenses)
 
   return expenses.length > 0 ? (
-    getOrderedDates(Object.keys(groupedExpensesByDate)).map(dateString => {
+    getOrderedDates(Object.keys(groupedExpensesByDate)).map((dateString: string) => {
       const dateExpenses = groupedExpensesByDate[dateString];
       return (
         <Fragment key={dateString}>
@@ -71,7 +71,7 @@ export function ExpenseList({
           >
             {dateString}
           </div>
-          {dateExpenses.map((expense) => (
+          {dateExpenses.map((expense: any) => (
             <div
               key={expense.id}
               className={cn(
@@ -93,7 +93,7 @@ export function ExpenseList({
                 <div className="text-xs text-muted-foreground">
                   Paid by <strong>{getParticipant(expense.paidById)?.name}</strong>{' '}
                   for{' '}
-                  {expense.paidFor.map((paidFor, index) => (
+                  {expense.paidFor.map((paidFor: any, index: number) => (
                     <Fragment key={index}>
                       {index !== 0 && <>, </>}
                       <strong>
