@@ -88,32 +88,32 @@ export function ExpenseForm({
           isReimbursement: expense.isReimbursement,
         }
       : searchParams.get('reimbursement')
-      ? {
-          title: 'Reimbursement',
-          expenseDate: new Date(),
-          amount: String(
-            (Number(searchParams.get('amount')) || 0) / 100,
-          ) as unknown as number, // hack
-          category: 1, // category with Id 1 is Payment
-          paidBy: searchParams.get('from') ?? undefined,
-          paidFor: [
-            searchParams.get('to')
-              ? { participant: searchParams.get('to')!, shares: 1 }
-              : undefined,
-          ],
-          isReimbursement: true,
-          splitMode: 'EVENLY',
-        }
-      : {
-          title: '',
-          expenseDate: new Date(),
-          amount: 0,
-          category: 0, // category with Id 0 is General
-          paidFor: [],
-          paidBy: getSelectedPayer(),
-          isReimbursement: false,
-          splitMode: 'EVENLY',
-        },
+        ? {
+            title: 'Reimbursement',
+            expenseDate: new Date(),
+            amount: String(
+              (Number(searchParams.get('amount')) || 0) / 100,
+            ) as unknown as number, // hack
+            category: 1, // category with Id 1 is Payment
+            paidBy: searchParams.get('from') ?? undefined,
+            paidFor: [
+              searchParams.get('to')
+                ? { participant: searchParams.get('to')!, shares: 1 }
+                : undefined,
+            ],
+            isReimbursement: true,
+            splitMode: 'EVENLY',
+          }
+        : {
+            title: '',
+            expenseDate: new Date(),
+            amount: 0,
+            category: 0, // category with Id 0 is General
+            paidFor: [],
+            paidBy: getSelectedPayer(),
+            isReimbursement: false,
+            splitMode: 'EVENLY',
+          },
   })
 
   const categoriesByGroup = categories.reduce<Record<string, Category[]>>(

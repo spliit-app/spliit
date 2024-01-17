@@ -100,9 +100,10 @@ export const expenseFormSchema = z
         }
       }),
     splitMode: z
-      .enum<SplitMode, [SplitMode, ...SplitMode[]]>(
-        Object.values(SplitMode) as any,
-      )
+      .enum<
+        SplitMode,
+        [SplitMode, ...SplitMode[]]
+      >(Object.values(SplitMode) as any)
       .default('EVENLY'),
     isReimbursement: z.boolean(),
   })
