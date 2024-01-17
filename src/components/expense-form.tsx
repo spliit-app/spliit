@@ -1,6 +1,6 @@
 'use client'
-import { CategoryIcon } from '@/app/groups/[groupId]/expenses/category-icon'
 import { AsyncButton } from '@/components/async-button'
+import { CategorySelector } from '@/components/category-selector'
 import { SubmitButton } from '@/components/submit-button'
 import { Button } from '@/components/ui/button'
 import {
@@ -29,9 +29,7 @@ import { Input } from '@/components/ui/input'
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
@@ -227,35 +225,11 @@ export function ExpenseForm({
               render={({ field }) => (
                 <FormItem className="order-3 sm:order-2">
                   <FormLabel>Category</FormLabel>
-                  <Select
+                  <CategorySelector
+                    categories={categories}
+                    defaultValue={field.value}
                     onValueChange={field.onChange}
-                    defaultValue={field.value.toString()}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {Object.keys(categoriesByGroup).map((group) => (
-                        <SelectGroup key={group}>
-                          <SelectLabel className="-ml-6">{group}</SelectLabel>
-                          {categoriesByGroup[group].map((category) => (
-                            <SelectItem
-                              key={category.id.toString()}
-                              value={category.id.toString()}
-                            >
-                              <div className="flex items-center gap-3">
-                                <CategoryIcon
-                                  category={category}
-                                  className="w-4 h-4"
-                                />
-                                {category.name}
-                              </div>
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  />
                   <FormDescription>
                     Select the expense category.
                   </FormDescription>
