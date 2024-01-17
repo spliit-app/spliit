@@ -8,7 +8,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-  
+
   db:
     image: postgres:latest
     ports:
@@ -18,7 +18,7 @@ services:
     volumes:
       - /var/lib/postgresql/data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
       interval: 5s
       timeout: 5s
       retries: 5
