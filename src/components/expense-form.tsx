@@ -411,8 +411,18 @@ export function ExpenseForm({
                                                 ),
                                               )
                                             }
-                                            inputMode="numeric"
-                                            step={1}
+                                            inputMode={
+                                              form.getValues().splitMode ===
+                                              'BY_AMOUNT'
+                                                ? 'decimal'
+                                                : 'numeric'
+                                            }
+                                            step={
+                                              form.getValues().splitMode ===
+                                              'BY_AMOUNT'
+                                                ? 0.01
+                                                : 1
+                                            }
                                           />
                                         </FormControl>
                                         {[
