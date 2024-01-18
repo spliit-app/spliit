@@ -37,7 +37,6 @@ import { getCategories, getExpense, getGroup } from '@/lib/api'
 import { ExpenseFormValues, expenseFormSchema } from '@/lib/schemas'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Category } from '@prisma/client'
 import { Save, Trash2 } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
@@ -113,14 +112,6 @@ export function ExpenseForm({
           splitMode: 'EVENLY',
         },
   })
-
-  const categoriesByGroup = categories.reduce<Record<string, Category[]>>(
-    (acc, category) => ({
-      ...acc,
-      [category.grouping]: [...(acc[category.grouping] ?? []), category],
-    }),
-    {},
-  )
 
   return (
     <Form {...form}>
