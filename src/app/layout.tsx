@@ -1,10 +1,11 @@
-import { DonationButton } from '@/components/donation-button'
+import { FeedbackModal } from '@/components/feedback-button/feedback-button'
 import { ProgressBar } from '@/components/progress-bar'
 import { ThemeProvider } from '@/components/theme-provider'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { Button } from '@/components/ui/button'
 import { Toaster } from '@/components/ui/toaster'
 import { env } from '@/lib/env'
+import { HeartFilledIcon } from '@radix-ui/react-icons'
 import type { Metadata, Viewport } from 'next'
 import PlausibleProvider from 'next-plausible'
 import Image from 'next/image'
@@ -141,13 +142,19 @@ export default function RootLayout({
                     contributors
                   </a>
                 </span>
+                <span>
+                  <FeedbackModal
+                    donationUrl={env.STRIPE_DONATION_LINK}
+                    defaultTab="support"
+                  >
+                    <Button variant="link" className="text-pink-600 -mx-4">
+                      <HeartFilledIcon className="w-4 h-4 mr-2" />
+                      Support us
+                    </Button>
+                  </FeedbackModal>
+                </span>
               </div>
             </div>
-            {env.STRIPE_DONATION_LINK && (
-              <div>
-                <DonationButton donationUrl={env.STRIPE_DONATION_LINK} />
-              </div>
-            )}
           </footer>
           <Toaster />
         </ThemeProvider>
