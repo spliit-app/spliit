@@ -8,7 +8,7 @@ const envSchema = z.object({
   FEEDBACK_EMAIL_FROM: z.string().email().optional(),
   FEEDBACK_EMAIL_TO: z.string().email().optional(),
   RESEND_API_KEY: z.string().optional(),
-  STRIPE_DONATION_LINK: z.string().optional(),
+  STRIPE_DONATION_LINK: z.string().optional().default('https://example.com'),
 })
 
 export const env = envSchema.parse(process.env)
