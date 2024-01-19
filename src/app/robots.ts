@@ -1,3 +1,4 @@
+import { env } from '@/lib/env'
 import { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
@@ -7,8 +8,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: '/groups/',
     },
-    sitemap: process.env.VERCEL_URL
-      ? `${process.env.VERCEL_URL}/sitemap.xml`
-      : undefined,
+    sitemap: `${env.NEXT_PUBLIC_BASE_URL}/sitemap.xml`,
   }
 }
