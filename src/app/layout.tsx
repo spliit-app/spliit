@@ -1,13 +1,10 @@
-import { FeedbackModal } from '@/components/feedback-button/feedback-button'
 import { ProgressBar } from '@/components/progress-bar'
 import { ThemeProvider } from '@/components/theme-provider'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { Button } from '@/components/ui/button'
 import { Toaster } from '@/components/ui/toaster'
 import { env } from '@/lib/env'
-import { HeartFilledIcon } from '@radix-ui/react-icons'
 import type { Metadata, Viewport } from 'next'
-import PlausibleProvider from 'next-plausible'
 import Image from 'next/image'
 import Link from 'next/link'
 import './globals.css'
@@ -67,9 +64,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      {env.PLAUSIBLE_DOMAIN && (
-        <PlausibleProvider domain={env.PLAUSIBLE_DOMAIN} trackOutboundLinks />
-      )}
       <body className="pt-16 min-h-[100dvh] flex flex-col items-stretch bg-slate-50 bg-opacity-30 dark:bg-background">
         <ThemeProvider
           attribute="class"
@@ -111,7 +105,7 @@ export default function RootLayout({
             </div>
           </header>
 
-          {children}
+          <div className="flex-1 flex flex-col">{children}</div>
 
           <footer className="sm:p-8 md:p-16 sm:mt-16 sm:text-sm md:text-base md:mt-32 bg-slate-50 dark:bg-card border-t p-6 mt-8 flex flex-col sm:flex-row sm:justify-between gap-4 text-xs [&_a]:underline">
             <div className="flex flex-col space-y-2">
@@ -141,17 +135,6 @@ export default function RootLayout({
                   >
                     contributors
                   </a>
-                </span>
-                <span>
-                  <FeedbackModal
-                    donationUrl={env.STRIPE_DONATION_LINK}
-                    defaultTab="support"
-                  >
-                    <Button variant="link" className="text-pink-600 -mx-4">
-                      <HeartFilledIcon className="w-4 h-4 mr-2" />
-                      Support us
-                    </Button>
-                  </FeedbackModal>
                 </span>
               </div>
             </div>
