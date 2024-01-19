@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button'
-import { Github, LucideIcon } from 'lucide-react'
+import { Github } from 'lucide-react'
 import Link from 'next/link'
-import { ReactNode } from 'react'
 
 // FIX for https://github.com/vercel/next.js/issues/58615
 export const dynamic = 'force-dynamic'
@@ -33,30 +32,5 @@ export default function HomePage() {
         </div>
       </section>
     </main>
-  )
-}
-
-function Feature({
-  name,
-  Icon,
-  description,
-}: {
-  name: ReactNode
-  Icon: LucideIcon
-  description: ReactNode
-}) {
-  return (
-    <div className="bg-card border rounded-md p-4 flex flex-col gap-2">
-      <Icon className="w-8 h-8" />
-      <div>
-        <strong>{name}</strong>
-      </div>
-      <div
-        className="text-sm text-muted-foreground"
-        style={{ textWrap: 'balance' } as any}
-      >
-        {description}
-      </div>
-    </div>
   )
 }

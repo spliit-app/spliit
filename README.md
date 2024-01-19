@@ -1,4 +1,4 @@
-[<img alt="Spliit" height="60" src="https://github.com/scastiel/spliit2/blob/main/public/logo-with-text.png?raw=true" />](https://spliit.app)
+[<img alt="Spliit" height="60" src="https://github.com/spliit-app/spliit/blob/main/public/logo-with-text.png?raw=true" />](https://spliit.app)
 
 Spliit is a free and open source alternative to Splitwise. You can either use the official instance at [Spliit.app](https://spliit.app), or deploy your own instance:
 
@@ -12,15 +12,15 @@ Spliit is a free and open source alternative to Splitwise. You can either use th
 - [x] Create reimbursement expenses
 - [x] Progressive Web App
 - [x] Select all/no participant for expenses
-- [x] Split expenses unevenly [(#6)](https://github.com/scastiel/spliit2/issues/6)
-- [x] Mark a group as favorite [(#29)](https://github.com/scastiel/spliit2/issues/29)
-- [x] Tell the application who you are when opening a group [(#7)](https://github.com/scastiel/spliit2/issues/7)
-- [x] Assign a category to expenses [(#35)](https://github.com/scastiel/spliit2/issues/35)
+- [x] Split expenses unevenly [(#6)](https://github.com/spliit-app/spliit/issues/6)
+- [x] Mark a group as favorite [(#29)](https://github.com/spliit-app/spliit/issues/29)
+- [x] Tell the application who you are when opening a group [(#7)](https://github.com/spliit-app/spliit/issues/7)
+- [x] Assign a category to expenses [(#35)](https://github.com/spliit-app/spliit/issues/35)
 
 ### Possible incoming features
 
-- [ ] Ability to create recurring expenses [(#5)](https://github.com/scastiel/spliit2/issues/5)
-- [ ] Import expenses from Splitwise [(#22)](https://github.com/scastiel/spliit2/issues/22)
+- [ ] Ability to create recurring expenses [(#5)](https://github.com/spliit-app/spliit/issues/5)
+- [ ] Import expenses from Splitwise [(#22)](https://github.com/spliit-app/spliit/issues/22)
 
 ## Stack
 
