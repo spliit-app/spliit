@@ -12,16 +12,16 @@ export interface InputProps
 const SearchBar = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, ...props }, ref) => {
     return (
-      <div className="flex relative">
-        <Search className="absolute top-1/2 -translate-y-1/2 py-0 px-2.5 w-12" />
+      <div className="mx-4 sm:mx-6 flex relative">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
         <Input
           type={type}
           className={cn(
-            "pl-12",
+            "pl-10 text-sm focus:text-base bg-muted border-none text-muted-foreground",
             className
           )}
           ref={ref}
-          placeholder="Search for an expense"
+          placeholder="Search for an expense…"
           {...props}
         />
       </div>
