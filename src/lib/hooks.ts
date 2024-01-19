@@ -40,3 +40,11 @@ export function useMediaQuery(query: string): boolean {
 
   return matches
 }
+
+export function useBaseUrl() {
+  const [baseUrl, setBaseUrl] = useState<string | null>(null)
+  useEffect(() => {
+    setBaseUrl(window.location.origin)
+  }, [])
+  return baseUrl
+}

@@ -3,14 +3,12 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { Button } from '@/components/ui/button'
 import { Toaster } from '@/components/ui/toaster'
-import { env } from '@/lib/env'
 import type { Metadata, Viewport } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import './globals.css'
 
 export const metadata: Metadata = {
-  metadataBase: new URL(env.NEXT_PUBLIC_BASE_URL),
   title: {
     default: 'Spliit · Share Expenses with Friends & Family',
     template: '%s · Spliit',
