@@ -16,6 +16,7 @@ Spliit is a free and open source alternative to Splitwise. You can either use th
 - [x] Mark a group as favorite [(#29)](https://github.com/spliit-app/spliit/issues/29)
 - [x] Tell the application who you are when opening a group [(#7)](https://github.com/spliit-app/spliit/issues/7)
 - [x] Assign a category to expenses [(#35)](https://github.com/spliit-app/spliit/issues/35)
+- [x] Search for expenses in a group [(#51)](https://github.com/spliit-app/spliit/issues/51)
 
 ### Possible incoming features
 
