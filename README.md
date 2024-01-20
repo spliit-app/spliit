@@ -35,7 +35,10 @@ Spliit is a free and open source alternative to Splitwise. You can either use th
 
 The project is open to contributions. Feel free to open an issue or even a pull-request!
 
-If you want to contribute financially and help us keep the application free and without ads, you can also [make a small one-time donation](https://donate.stripe.com/28o3eh96G7hH8k89Ba) ❤️.
+If you want to contribute financially and help us keep the application free and without ads, you can also:
+
+* 💜 [Sponsor me (Sebastien)](https://github.com/sponsors/scastiel), or
+* 💙 [Make a small one-time donation](https://donate.stripe.com/28o3eh96G7hH8k89Ba).
 
 ## Run locally
 
