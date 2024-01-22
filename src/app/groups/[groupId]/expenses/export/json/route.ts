@@ -33,7 +33,7 @@ export async function GET(
   return NextResponse.json(group, {
     headers: {
       'content-type': 'application/json',
-      'content-disposition': `attachment; filename="${group.name}.json"`,
+      'content-disposition': `attachment; filename="Spliit Export.json"`,
     },
   })
 }
