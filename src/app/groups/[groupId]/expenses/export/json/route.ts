@@ -1,4 +1,5 @@
 import { getPrisma } from '@/lib/prisma'
+import contentDisposition from 'content-disposition'
 import { NextResponse } from 'next/server'
 
 export async function GET(
@@ -30,10 +31,13 @@ export async function GET(
   })
   if (!group)
     return NextResponse.json({ error: 'Invalid group ID' }, { status: 404 })
+
+  const date = new Date().toISOString().split('T')[0]
+  const filename = `Spliit Export - ${group.name} - ${date}`
   return NextResponse.json(group, {
     headers: {
       'content-type': 'application/json',
-      'content-disposition': `attachment; filename="Spliit Export.json"`,
+      'content-disposition': contentDisposition(`${filename}.json`),
     },
   })
 }

@@ -33,6 +33,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
+    "content-disposition": "^0.5.4",
     "dayjs": "^1.11.10",
     "lucide-react": "^0.290.0",
     "nanoid": "^5.0.4",
@@ -52,6 +53,7 @@
   },
   "devDependencies": {
     "@total-typescript/ts-reset": "^0.5.1",
+    "@types/content-disposition": "^0.5.8",
     "@types/node": "^20",
     "@types/pg": "^8.10.9",
     "@types/react": "^18",
