@@ -9,6 +9,7 @@ import {
 import { expenseFormSchema } from '@/lib/schemas'
 import { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
+import { Suspense } from 'react'
 
 export const metadata: Metadata = {
   title: 'Edit expense',
@@ -39,12 +40,14 @@ export default async function EditExpensePage({
   }
 
   return (
-    <ExpenseForm
-      group={group}
-      expense={expense}
-      categories={categories}
-      onSubmit={updateExpenseAction}
-      onDelete={deleteExpenseAction}
-    />
+    <Suspense>
+      <ExpenseForm
+        group={group}
+        expense={expense}
+        categories={categories}
+        onSubmit={updateExpenseAction}
+        onDelete={deleteExpenseAction}
+      />
+    </Suspense>
   )
 }

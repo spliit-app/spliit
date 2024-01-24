@@ -6,7 +6,6 @@ export async function GET(
   req: Request,
   { params: { groupId } }: { params: { groupId: string } },
 ) {
-  console.log({ groupId })
   const prisma = await getPrisma()
   const group = await prisma.group.findUnique({
     where: { id: groupId },
