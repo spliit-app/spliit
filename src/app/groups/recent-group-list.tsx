@@ -1,5 +1,6 @@
 'use client'
 import { getGroupsAction } from '@/app/groups/actions'
+import { AddGroupByUrlButton } from '@/app/groups/add-group-by-url-button'
 import {
   RecentGroups,
   getArchivedGroups,
@@ -10,7 +11,7 @@ import { Button } from '@/components/ui/button'
 import { getGroups } from '@/lib/api'
 import { Loader2 } from 'lucide-react'
 import Link from 'next/link'
-import { SetStateAction, useEffect, useState } from 'react'
+import { PropsWithChildren, SetStateAction, useEffect, useState } from 'react'
 import { RecentGroupListCard } from './recent-group-list-card'
 
 export type RecentGroupsState =
@@ -54,7 +55,7 @@ function sortGroups(
 export function RecentGroupList() {
   const [state, setState] = useState<RecentGroupsState>({ status: 'pending' })
 
-  useEffect(() => {
+  function loadGroups() {
     const groupsInStorage = getRecentGroups()
     const starredGroups = getStarredGroups()
     const archivedGroups = getArchivedGroups()
@@ -73,35 +74,43 @@ export function RecentGroupList() {
         archivedGroups,
       })
     })
+  }
+
+  useEffect(() => {
+    loadGroups()
   }, [])
 
   if (state.status === 'pending') {
     return (
-      <p>
-        <Loader2 className="w-4 m-4 mr-2 inline animate-spin" /> Loading recent
-        groups…
-      </p>
+      <GroupsPage reload={loadGroups}>
+        <p>
+          <Loader2 className="w-4 m-4 mr-2 inline animate-spin" /> Loading
+          recent groups…
+        </p>
+      </GroupsPage>
     )
   }
 
   if (state.groups.length === 0) {
     return (
-      <div className="text-sm space-y-2">
-        <p>You have not visited any group recently.</p>
-        <p>
-          <Button variant="link" asChild className="-m-4">
-            <Link href={`/groups/create`}>Create one</Link>
-          </Button>{' '}
-          or ask a friend to send you the link to an existing one.
-        </p>
-      </div>
+      <GroupsPage reload={loadGroups}>
+        <div className="text-sm space-y-2">
+          <p>You have not visited any group recently.</p>
+          <p>
+            <Button variant="link" asChild className="-m-4">
+              <Link href={`/groups/create`}>Create one</Link>
+            </Button>{' '}
+            or ask a friend to send you the link to an existing one.
+          </p>
+        </div>
+      </GroupsPage>
     )
   }
 
   const { starredGroupInfo, groupInfo, archivedGroupInfo } = sortGroups(state)
 
   return (
-    <>
+    <GroupsPage reload={loadGroups}>
       {starredGroupInfo.length > 0 && (
         <>
           <h2 className="mb-2">Starred groups</h2>
@@ -132,7 +141,7 @@ export function RecentGroupList() {
           </div>
         </>
       )}
-    </>
+    </GroupsPage>
   )
 }
 
@@ -156,5 +165,30 @@ function GroupList({
         />
       ))}
     </ul>
+  )
+}
+
+function GroupsPage({
+  children,
+  reload,
+}: PropsWithChildren<{ reload: () => void }>) {
+  return (
+    <>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <h1 className="font-bold text-2xl flex-1">
+          <Link href="/groups">My groups</Link>
+        </h1>
+        <div className="flex gap-2">
+          <AddGroupByUrlButton reload={reload} />
+          <Button asChild>
+            <Link href="/groups/create">
+              {/* <Plus className="w-4 h-4 mr-2" /> */}
+              <>Create</>
+            </Link>
+          </Button>
+        </div>
+      </div>
+      <div>{children}</div>
+    </>
   )
 }
