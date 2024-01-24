@@ -80,7 +80,7 @@ export default function RootLayout({
               <h1>
                 <Image
                   src="/logo-with-text.png"
-                  className="m-1 h-auto"
+                  className="m-1 h-auto w-auto"
                   width={(35 * 522) / 180}
                   height={35}
                   alt="Spliit"
@@ -113,7 +113,7 @@ export default function RootLayout({
                 <Link className="flex items-center gap-2" href="/">
                   <Image
                     src="/logo-with-text.png"
-                    className="m-1 h-auto"
+                    className="m-1 h-auto w-auto"
                     width={(35 * 522) / 180}
                     height={35}
                     alt="Spliit"
