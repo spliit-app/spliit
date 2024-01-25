@@ -15,12 +15,11 @@ RUN npm install -g prisma
 
 FROM base as build
 RUN npm run build
-RUN npm postinstall
 
 FROM build as production
 WORKDIR /app
-CMD ["npm", "run", "start"]
+CMD ["/bin/bash", "-c", "scripts/image-startup.sh"]
 
 FROM base as development
 WORKDIR /app
-CMD ["npm", "run", "dev"]
+CMD ["/bin/bash", "-c", "scripts/image-startup.sh"]
