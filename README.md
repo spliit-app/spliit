@@ -49,15 +49,18 @@ If you want to contribute financially and help us keep the application free and 
 5. `npm run dev`
 
 ## Run in a container
+
 You can choose to either run the docker image as a built Next.js app or in development mode (with hot reloading etc). If you are self hosting a docker container it is recommended to use production mode, as you won't care about the dev features, and running a built version greatly reduce memory usage.
 
 ### Self hosted version (production mode)
+
 1. Run `npm run build-image` to build the docker image from the Dockerfile
 2. Copy the file `container.env.example` as `container.env`
 3. Run `npm run start-container` to start the postgres and the spliit2 containers
 4. You can access the app by browsing to http://localhost:3000
 
 ### Development version
+
 1. Run `npm run build-image-dev` to build the docker image from the Dockerfile
 2. Follow step 2 and onward from the self hosted steps above
 
