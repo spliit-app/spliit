@@ -18,9 +18,9 @@ WORKDIR /usr/app
 RUN npm run build
 
 FROM build as production
-WORKDIR /app
+WORKDIR /usr/app
 CMD ["/bin/bash", "-c", "scripts/image-startup.sh"]
 
 FROM base as development
-WORKDIR /app
+WORKDIR /usr/app
 CMD ["/bin/bash", "-c", "scripts/image-startup.sh"]
