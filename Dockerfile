@@ -27,9 +27,10 @@ RUN npm run build
 
 FROM build as production
 WORKDIR /usr/app
-CMD ["npm", "run", "start"]
+ENTRYPOINT ["/usr/app/scripts/container-entrypoint.sh"]
 
 
 FROM base as development
 WORKDIR /usr/app
-CMD ["/bin/bash", "-c", "scripts/image-startup.sh"]
+ENTRYPOINT ["/usr/app/scripts/container-entrypoint.sh"]
+CMD ["dev"]
