@@ -49,7 +49,7 @@ If you want to contribute financially and help us keep the application free and 
 5. `npm run dev`
 
 ## Run in a container
-You can choose to either run the docker image as a build Next.js app or in development mode (with hot reloading etc). If you are self hosting a docker container it is recommended to use production mode, as you won't care about the dev features, and running a build version will both use less resources and take up less space.
+You can choose to either run the docker image as a built Next.js app or in development mode (with hot reloading etc). If you are self hosting a docker container it is recommended to use production mode, as you won't care about the dev features, and running a built version greatly reduce memory usage.
 
 ### Self hosted version (production mode)
 1. Run `npm run build-image` to build the docker image from the Dockerfile
