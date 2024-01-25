@@ -35,6 +35,7 @@ import { getGroup } from '@/lib/api'
 import { GroupFormValues, groupFormSchema } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Save, Trash2 } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 
 export type Props = {
@@ -68,15 +69,25 @@ export function GroupForm({
     keyName: 'key',
   })
 
-  let activeUser = 'None'
+  const [activeUser, setActiveUser] = useState<string | null>(null)
+  useEffect(() => {
+    if (activeUser === null) {
+      const currentActiveUser =
+        fields.find(
+          (f) => f.id === localStorage.getItem(`${group?.id}-activeUser`),
+        )?.name || 'None'
+      setActiveUser(currentActiveUser)
+    }
+  }, [activeUser, fields, group?.id])
 
   const updateActiveUser = () => {
+    if (!activeUser) return
     if (group?.id) {
       const participant = group.participants.find((p) => p.name === activeUser)
       if (participant?.id) {
         localStorage.setItem(`${group.id}-activeUser`, participant.id)
       } else {
-        localStorage.setItem(`${group.id}-newUser`, activeUser)
+        localStorage.setItem(`${group.id}-activeUser`, activeUser)
       }
     } else {
       localStorage.setItem('newGroup-activeUser', activeUser)
@@ -228,39 +239,35 @@ export function GroupForm({
           </CardHeader>
           <CardContent>
             <div className="grid sm:grid-cols-2 gap-4">
-              <FormItem>
-                <FormLabel>Active user</FormLabel>
-                <FormControl>
-                  <Select
-                    onValueChange={(value) => {
-                      activeUser = value
-                    }}
-                    defaultValue={
-                      fields.find(
-                        (f) =>
-                          f.id ===
-                          localStorage.getItem(`${group?.id}-activeUser`),
-                      )?.name || 'None'
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a participant" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {[{ name: 'None' }, ...form.watch('participants')]
-                        .filter((item) => item.name.length > 0)
-                        .map(({ name }) => (
-                          <SelectItem key={name} value={name}>
-                            {name}
-                          </SelectItem>
-                        ))}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormDescription>
-                  User used as default for paying expenses.
-                </FormDescription>
-              </FormItem>
+              {activeUser !== null && (
+                <FormItem>
+                  <FormLabel>Active user</FormLabel>
+                  <FormControl>
+                    <Select
+                      onValueChange={(value) => {
+                        setActiveUser(value)
+                      }}
+                      defaultValue={activeUser}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a participant" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {[{ name: 'None' }, ...form.watch('participants')]
+                          .filter((item) => item.name.length > 0)
+                          .map(({ name }) => (
+                            <SelectItem key={name} value={name}>
+                              {name}
+                            </SelectItem>
+                          ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormDescription>
+                    User used as default for paying expenses.
+                  </FormDescription>
+                </FormItem>
+              )}
             </div>
           </CardContent>
         </Card>

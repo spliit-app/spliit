@@ -7,6 +7,7 @@ import { env } from '@/lib/env'
 import type { Metadata, Viewport } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
+import { Suspense } from 'react'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -71,7 +72,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ProgressBar />
+          <Suspense>
+            <ProgressBar />
+          </Suspense>
           <header className="fixed top-0 left-0 right-0 h-16 flex justify-between bg-white dark:bg-gray-950 bg-opacity-50 dark:bg-opacity-50 p-2 border-b backdrop-blur-sm z-50">
             <Link
               className="flex items-center gap-2 hover:scale-105 transition-transform"
@@ -80,7 +83,7 @@ export default function RootLayout({
               <h1>
                 <Image
                   src="/logo-with-text.png"
-                  className="m-1 h-auto"
+                  className="m-1 h-auto w-auto"
                   width={(35 * 522) / 180}
                   height={35}
                   alt="Spliit"
@@ -113,7 +116,7 @@ export default function RootLayout({
                 <Link className="flex items-center gap-2" href="/">
                   <Image
                     src="/logo-with-text.png"
-                    className="m-1 h-auto"
+                    className="m-1 h-auto w-auto"
                     width={(35 * 522) / 180}
                     height={35}
                     alt="Spliit"

@@ -3,6 +3,7 @@ import { createExpense, getCategories, getGroup } from '@/lib/api'
 import { expenseFormSchema } from '@/lib/schemas'
 import { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
+import { Suspense } from 'react'
 
 export const metadata: Metadata = {
   title: 'Create expense',
@@ -25,10 +26,12 @@ export default async function ExpensePage({
   }
 
   return (
-    <ExpenseForm
-      group={group}
-      categories={categories}
-      onSubmit={createExpenseAction}
-    />
+    <Suspense>
+      <ExpenseForm
+        group={group}
+        categories={categories}
+        onSubmit={createExpenseAction}
+      />
+    </Suspense>
   )
 }

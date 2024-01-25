@@ -5,7 +5,7 @@ import { getGroup } from '@/lib/api'
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { PropsWithChildren } from 'react'
+import { PropsWithChildren, Suspense } from 'react'
 
 type Props = {
   params: {
@@ -41,7 +41,9 @@ export default async function GroupLayout({
         </h1>
 
         <div className="flex gap-2 justify-between">
-          <GroupTabs groupId={groupId} />
+          <Suspense>
+            <GroupTabs groupId={groupId} />
+          </Suspense>
           <ShareButton group={group} />
         </div>
       </div>
