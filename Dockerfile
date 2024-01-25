@@ -1,17 +1,19 @@
-FROM node:slim
+FROM node:21 as base
 
 EXPOSE 3000/tcp
 WORKDIR /usr/app
 COPY ./ ./
+RUN npm ci
+RUN npm install -g prisma
 
-SHELL ["/bin/bash", "-c"]
+FROM base as build
+RUN npm run build
+RUN npm postinstall
 
-RUN apt update && \
-    apt install openssl -y && \
-    apt clean && \
-    apt autoclean && \
-    apt autoremove && \
-    npm install --ignore-scripts && \
-    npm install -g prisma
+FROM build as production
+WORKDIR /app
+CMD ["npm", "run", "start"]
 
-ENTRYPOINT ["/bin/bash", "-c", "scripts/image-startup.sh"]
+FROM base as development
+WORKDIR /app
+CMD ["npm", "run", "dev"]
