@@ -8,11 +8,10 @@ RUN apt update && \
     apt install openssl -y && \
     apt clean && \
     apt autoclean && \
-    apt autoremove
-
-RUN npm ci --ignore-scripts
-RUN npm install -g prisma
-RUN prisma generate
+    apt autoremove && \
+    npm ci --ignore-scripts && \
+    npm install -g prisma && \
+    prisma generate
 
 
 FROM base as build
