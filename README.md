@@ -62,7 +62,8 @@ You can choose to either run the docker image as a built Next.js app or in devel
 ### Development version
 
 1. Run `npm run build-image-dev` to build the docker image from the Dockerfile
-2. Follow step 2 and onward from the self hosted steps above
+2. Add `- ./src:/usr/app/src` (and any other directories/files you want hot reloaded) as volumes to the `compose.yaml` file for the app service.
+3. Follow step 2 and onward from the self hosted steps above
 
 
 ## License
