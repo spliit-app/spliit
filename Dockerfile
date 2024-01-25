@@ -10,7 +10,7 @@ RUN apt update && \
     apt autoclean && \
     apt autoremove
 
-RUN npm ci
+RUN npm ci --ignore-scripts
 RUN npm install -g prisma
 
 FROM base as build
