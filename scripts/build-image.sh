@@ -1,11 +1,11 @@
 #!/bin/bash
 
-if [ -f container.env ]; then
+if [ -f container.env.example ]; then
     set -a
-    source container.env
+    source container.env.example
     set +a
 else
-    echo "container.env needed to build"
+    echo "container.env.example needed to build"
     exit
 fi
 
