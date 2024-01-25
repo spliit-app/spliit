@@ -16,10 +16,12 @@ RUN prisma generate
 
 
 FROM base as build
-ARG POSTGRES_PASSWORD
+WORKDIR /usr/app
+
+# env vars needed for build not to fail
 ARG POSTGRES_PRISMA_URL
 ARG POSTGRES_URL_NON_POOLING
-WORKDIR /usr/app
+
 RUN npm run build
 
 
