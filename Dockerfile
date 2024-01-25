@@ -14,6 +14,7 @@ RUN npm ci --ignore-scripts
 RUN npm install -g prisma
 
 FROM base as build
+WORKDIR /usr/app
 RUN npm run build
 
 FROM build as production
