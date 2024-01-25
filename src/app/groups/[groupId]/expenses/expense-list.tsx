@@ -104,10 +104,8 @@ export function ExpenseList({
               {expenseGroup}
             </div>
             {groupExpenses
-              .filter(
-                (exp) =>
-                  exp.title.toLowerCase().match(searchText.toLowerCase()) !==
-                  null,
+              .filter(({ title }) =>
+                title.toLowerCase().includes(searchText.toLowerCase()),
               )
               .map((expense: any) => (
                 <div
