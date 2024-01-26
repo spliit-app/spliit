@@ -105,6 +105,7 @@ export const expenseFormSchema = z
       )
       .default('EVENLY'),
     isReimbursement: z.boolean(),
+    documentUrls: z.array(z.string().url()).default([]),
   })
   .superRefine((expense, ctx) => {
     let sum = 0

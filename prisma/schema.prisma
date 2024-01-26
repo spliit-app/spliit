@@ -51,6 +51,7 @@ model Expense {
   isReimbursement Boolean          @default(false)
   splitMode       SplitMode        @default(EVENLY)
   createdAt       DateTime         @default(now())
+  documentUrls    String[]         @default([])
 }
 
 enum SplitMode {
