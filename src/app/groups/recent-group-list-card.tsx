@@ -58,7 +58,11 @@ export function RecentGroupListCard({
 
   return (
     <li key={group.id}>
-      <Button variant="outline" className="h-fit w-full py-3" asChild>
+      <Button
+        variant="secondary"
+        className="h-fit w-full py-3 rounded-lg border bg-card shadow-sm"
+        asChild
+      >
         <div
           className="text-base"
           onClick={() => router.push(`/groups/${group.id}`)}
