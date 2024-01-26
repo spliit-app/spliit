@@ -41,6 +41,7 @@ export default async function GroupExpensesPage({
           <CardHeader className="p-4 sm:p-6 flex flex-row space-y-0 gap-2">
             <Button variant="secondary" size="icon" asChild>
               <Link
+                prefetch={false}
                 href={`/groups/${groupId}/expenses/export/json`}
                 target="_blank"
               >
