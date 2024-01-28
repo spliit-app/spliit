@@ -5,42 +5,64 @@ import {
   DialogContent,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { ToastAction } from '@/components/ui/toast'
+import { useToast } from '@/components/ui/use-toast'
+import { randomId } from '@/lib/api'
+import { ExpenseFormValues } from '@/lib/schemas'
 import { Loader2, Plus, Trash, X } from 'lucide-react'
-import { useS3Upload } from 'next-s3-upload'
+import { getImageData, useS3Upload } from 'next-s3-upload'
 import Image from 'next/image'
 import { useState } from 'react'
 
 type Props = {
-  documentUrls: string[]
-  updateDocumentUrls: (documentUrls: string[]) => void
+  documents: ExpenseFormValues['documents']
+  updateDocuments: (documents: ExpenseFormValues['documents']) => void
 }
 
-export function ExpenseDocumentsInput({
-  documentUrls: documents,
-  updateDocumentUrls: updateDocuments,
-}: Props) {
+export function ExpenseDocumentsInput({ documents, updateDocuments }: Props) {
   const [pending, setPending] = useState(false)
   const { FileInput, openFileDialog, uploadToS3 } = useS3Upload()
+  const { toast } = useToast()
 
   const handleFileChange = async (file: File) => {
-    setPending(true)
-    let { url } = await uploadToS3(file)
-    // setDocUrls(urls => [...urls, url])
-    updateDocuments([...documents, url])
-    setPending(false)
+    const upload = async () => {
+      try {
+        setPending(true)
+        const { width, height } = await getImageData(file)
+        if (!width || !height) throw new Error('Cannot get image dimensions')
+        const { url } = await uploadToS3(file)
+        updateDocuments([...documents, { id: randomId(), url, width, height }])
+      } catch (err) {
+        console.error(err)
+        toast({
+          title: 'Error while uploading document',
+          description:
+            'Something wrong happened when uploading the document. Please retry later or select a different file.',
+          variant: 'destructive',
+          action: (
+            <ToastAction altText="Retry" onClick={() => upload()}>
+              Retry
+            </ToastAction>
+          ),
+        })
+      } finally {
+        setPending(false)
+      }
+    }
+    upload()
   }
 
   return (
     <div>
-      <FileInput onChange={handleFileChange} />
+      <FileInput onChange={handleFileChange} accept="image/jpeg,image/png" />
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 [&_*]:aspect-square">
-        {documents.map((url) => (
+        {documents.map((doc) => (
           <DocumentThumbnail
-            key={url}
-            document={url}
+            key={doc.id}
+            document={doc}
             deleteDocument={() => {
-              updateDocuments(documents.filter((doc) => doc !== url))
+              updateDocuments(documents.filter((d) => d.id !== doc.id))
             }}
           />
         ))}
@@ -69,7 +91,7 @@ export function DocumentThumbnail({
   document,
   deleteDocument,
 }: {
-  document: string
+  document: ExpenseFormValues['documents'][number]
   deleteDocument: () => void
 }) {
   const [open, setOpen] = useState(false)
@@ -77,15 +99,20 @@ export function DocumentThumbnail({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Image
-          width={300}
-          height={300}
-          className="object-contain border overflow-hidden rounded shadow-inner"
-          src={document}
-          alt=""
-        />
+        <Button
+          variant="secondary"
+          className="w-full h-full border overflow-hidden rounded shadow-inner"
+        >
+          <Image
+            width={300}
+            height={300}
+            className="object-contain"
+            src={document.url}
+            alt=""
+          />
+        </Button>
       </DialogTrigger>
-      <DialogContent className="p-4 w-fit max-w-full [&>:last-child]:hidden">
+      <DialogContent className="p-4 w-fit min-w-[300px] min-h-[300px] max-w-full [&>:last-child]:hidden">
         <div className="flex justify-end">
           <Button
             variant="ghost"
@@ -105,9 +132,11 @@ export function DocumentThumbnail({
           </DialogClose>
         </div>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           className="object-contain w-[100vw] h-[100dvh] max-w-[calc(100vw-32px)] max-h-[calc(100dvh-32px-40px-16px)] sm:w-fit sm:h-fit sm:max-w-[calc(100vw-32px-32px)] sm:max-h-[calc(100dvh-32px-40px-32px)]"
-          src={document}
+          src={document.url}
+          width={document.width}
+          height={document.height}
           alt=""
         />
       </DialogContent>

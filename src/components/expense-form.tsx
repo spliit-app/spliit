@@ -84,7 +84,7 @@ export function ExpenseForm({
           })),
           splitMode: expense.splitMode,
           isReimbursement: expense.isReimbursement,
-          documentUrls: expense.documentUrls,
+          documents: expense.documents,
         }
       : searchParams.get('reimbursement')
       ? {
@@ -102,7 +102,7 @@ export function ExpenseForm({
           ],
           isReimbursement: true,
           splitMode: 'EVENLY',
-          documentUrls: [],
+          documents: [],
         }
       : {
           title: '',
@@ -117,7 +117,7 @@ export function ExpenseForm({
           paidBy: getSelectedPayer(),
           isReimbursement: false,
           splitMode: 'EVENLY',
-          documentUrls: [],
+          documents: [],
         },
   })
 
@@ -522,11 +522,11 @@ export function ExpenseForm({
           <CardContent>
             <FormField
               control={form.control}
-              name="documentUrls"
+              name="documents"
               render={({ field }) => (
                 <ExpenseDocumentsInput
-                  documentUrls={field.value}
-                  updateDocumentUrls={field.onChange}
+                  documents={field.value}
+                  updateDocuments={field.onChange}
                 />
               )}
             />
