@@ -62,6 +62,16 @@ export async function createExpense(
         },
       },
       isReimbursement: expenseFormValues.isReimbursement,
+      documents: {
+        createMany: {
+          data: expenseFormValues.documents.map((doc) => ({
+            id: randomId(),
+            url: doc.url,
+            width: doc.width,
+            height: doc.height,
+          })),
+        },
+      },
     },
   })
 }
@@ -159,6 +169,22 @@ export async function updateExpense(
         ),
       },
       isReimbursement: expenseFormValues.isReimbursement,
+      documents: {
+        connectOrCreate: expenseFormValues.documents.map((doc) => ({
+          create: doc,
+          where: { id: doc.id },
+        })),
+        deleteMany: existingExpense.documents
+          .filter(
+            (existingDoc) =>
+              !expenseFormValues.documents.some(
+                (doc) => doc.id === existingDoc.id,
+              ),
+          )
+          .map((doc) => ({
+            id: doc.id,
+          })),
+      },
     },
   })
 }
@@ -231,6 +257,6 @@ export async function getExpense(groupId: string, expenseId: string) {
   const prisma = await getPrisma()
   return prisma.expense.findUnique({
     where: { id: expenseId },
-    include: { paidBy: true, paidFor: true, category: true },
+    include: { paidBy: true, paidFor: true, category: true, documents: true },
   })
 }
