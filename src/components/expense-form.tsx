@@ -510,28 +510,30 @@ export function ExpenseForm({
           </CardContent>
         </Card>
 
-        <Card className="mt-4">
-          <CardHeader>
-            <CardTitle className="flex justify-between">
-              <span>Attach documents</span>
-            </CardTitle>
-            <CardDescription>
-              See and attach receipts to the expense.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <FormField
-              control={form.control}
-              name="documents"
-              render={({ field }) => (
-                <ExpenseDocumentsInput
-                  documents={field.value}
-                  updateDocuments={field.onChange}
-                />
-              )}
-            />
-          </CardContent>
-        </Card>
+        {process.env.NEXT_PUBLIC_ENABLE_EXPENSE_DOCUMENTS && (
+          <Card className="mt-4">
+            <CardHeader>
+              <CardTitle className="flex justify-between">
+                <span>Attach documents</span>
+              </CardTitle>
+              <CardDescription>
+                See and attach receipts to the expense.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <FormField
+                control={form.control}
+                name="documents"
+                render={({ field }) => (
+                  <ExpenseDocumentsInput
+                    documents={field.value}
+                    updateDocuments={field.onChange}
+                  />
+                )}
+              />
+            </CardContent>
+          </Card>
+        )}
 
         <div className="flex mt-4 gap-2">
           <SubmitButton
