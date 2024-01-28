@@ -37,20 +37,30 @@ model Category {
 }
 
 model Expense {
-  id              String           @id
-  group           Group            @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  expenseDate     DateTime         @default(dbgenerated("CURRENT_DATE")) @db.Date
+  id              String            @id
+  group           Group             @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  expenseDate     DateTime          @default(dbgenerated("CURRENT_DATE")) @db.Date
   title           String
-  category        Category?        @relation(fields: [categoryId], references: [id])
-  categoryId      Int              @default(0)
+  category        Category?         @relation(fields: [categoryId], references: [id])
+  categoryId      Int               @default(0)
   amount          Int
-  paidBy          Participant      @relation(fields: [paidById], references: [id], onDelete: Cascade)
+  paidBy          Participant       @relation(fields: [paidById], references: [id], onDelete: Cascade)
   paidById        String
   paidFor         ExpensePaidFor[]
   groupId         String
-  isReimbursement Boolean          @default(false)
-  splitMode       SplitMode        @default(EVENLY)
-  createdAt       DateTime         @default(now())
+  isReimbursement Boolean           @default(false)
+  splitMode       SplitMode         @default(EVENLY)
+  createdAt       DateTime          @default(now())
+  documents       ExpenseDocument[]
+}
+
+model ExpenseDocument {
+  id        String   @id
+  url       String
+  width     Int
+  height    Int
+  Expense   Expense? @relation(fields: [expenseId], references: [id])
+  expenseId String?
 }
 
 enum SplitMode {

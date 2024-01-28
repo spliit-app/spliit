@@ -17,6 +17,7 @@ Spliit is a free and open source alternative to Splitwise. You can either use th
 - [x] Tell the application who you are when opening a group [(#7)](https://github.com/spliit-app/spliit/issues/7)
 - [x] Assign a category to expenses [(#35)](https://github.com/spliit-app/spliit/issues/35)
 - [x] Search for expenses in a group [(#51)](https://github.com/spliit-app/spliit/issues/51)
+- [x] Upload and attach images to expenses [(#63)](https://github.com/spliit-app/spliit/issues/63)
 
 ### Possible incoming features
 
@@ -37,8 +38,8 @@ The project is open to contributions. Feel free to open an issue or even a pull-
 
 If you want to contribute financially and help us keep the application free and without ads, you can also:
 
-* 💜 [Sponsor me (Sebastien)](https://github.com/sponsors/scastiel), or
-* 💙 [Make a small one-time donation](https://donate.stripe.com/28o3eh96G7hH8k89Ba).
+- 💜 [Sponsor me (Sebastien)](https://github.com/sponsors/scastiel), or
+- 💙 [Make a small one-time donation](https://donate.stripe.com/28o3eh96G7hH8k89Ba).
 
 ## Run locally
 
@@ -54,6 +55,23 @@ If you want to contribute financially and help us keep the application free and 
 2. Copy the file `container.env.example` as `container.env`
 3. Run `npm run start-container` to start the postgres and the spliit2 containers
 4. You can access the app by browsing to http://localhost:3000
+
+## Opt-in features
+
+### Expense documents
+
+Spliit offers users to upload images (to an AWS S3 bucket) and attach them to expenses. To enable this feature:
+
+- Follow the instructions in the _S3 bucket_ and _IAM user_ sections of [next-s3-upload](https://next-s3-upload.codingvalue.com/setup#s3-bucket) to create and set up an S3 bucket where images will be stored.
+- Update your environments variables with appropriate values:
+
+```.env
+NEXT_PUBLIC_ENABLE_EXPENSE_DOCUMENTS=true
+S3_UPLOAD_KEY=AAAAAAAAAAAAAAAAAAAA
+S3_UPLOAD_SECRET=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+S3_UPLOAD_BUCKET=name-of-s3-bucket
+S3_UPLOAD_REGION=us-east-1
+```
 
 ## License
 
