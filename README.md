@@ -73,6 +73,20 @@ S3_UPLOAD_BUCKET=name-of-s3-bucket
 S3_UPLOAD_REGION=us-east-1
 ```
 
+### Create expense from receipt
+
+You can offer users to create expense by uploading a receipt. This feature relies on [OpenAI GPT-4 with Vision](https://platform.openai.com/docs/guides/vision).
+
+To enable the feature:
+
+- Subscribe to OpenAI API and get access to GPT4 (you might need to buy credits in advance).
+- Update your environment variables with appropriate values:
+
+```.env
+NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT=true
+OPENAI_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```
+
 ## License
 
 MIT, see [LICENSE](./LICENSE).

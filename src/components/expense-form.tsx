@@ -34,7 +34,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { getCategories, getExpense, getGroup } from '@/lib/api'
+import { getCategories, getExpense, getGroup, randomId } from '@/lib/api'
 import { ExpenseFormValues, expenseFormSchema } from '@/lib/schemas'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -105,10 +105,14 @@ export function ExpenseForm({
           documents: [],
         }
       : {
-          title: '',
-          expenseDate: new Date(),
-          amount: 0,
-          category: 0, // category with Id 0 is General
+          title: searchParams.get('title') ?? '',
+          expenseDate: searchParams.get('date')
+            ? new Date(searchParams.get('date') as string)
+            : new Date(),
+          amount: (searchParams.get('amount') || 0) as unknown as number, // hack,
+          category: searchParams.get('categoryId')
+            ? Number(searchParams.get('categoryId'))
+            : 0, // category with Id 0 is General
           // paid for all, split evenly
           paidFor: group.participants.map(({ id }) => ({
             participant: id,
@@ -117,7 +121,16 @@ export function ExpenseForm({
           paidBy: getSelectedPayer(),
           isReimbursement: false,
           splitMode: 'EVENLY',
-          documents: [],
+          documents: searchParams.get('imageUrl')
+            ? [
+                {
+                  id: randomId(),
+                  url: searchParams.get('imageUrl') as string,
+                  width: Number(searchParams.get('imageWidth')),
+                  height: Number(searchParams.get('imageHeight')),
+                },
+              ]
+            : [],
         },
   })
 
