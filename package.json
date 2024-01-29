@@ -35,6 +35,7 @@
     "cmdk": "^0.2.0",
     "content-disposition": "^0.5.4",
     "dayjs": "^1.11.10",
+    "embla-carousel-react": "^8.0.0-rc21",
     "lucide-react": "^0.290.0",
     "nanoid": "^5.0.4",
     "next": "^14.1.0",

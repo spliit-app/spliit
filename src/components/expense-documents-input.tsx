@@ -1,5 +1,13 @@
 import { Button } from '@/components/ui/button'
 import {
+  Carousel,
+  CarouselApi,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel'
+import {
   Dialog,
   DialogClose,
   DialogContent,
@@ -12,7 +20,7 @@ import { ExpenseFormValues } from '@/lib/schemas'
 import { Loader2, Plus, Trash, X } from 'lucide-react'
 import { getImageData, useS3Upload } from 'next-s3-upload'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 type Props = {
   documents: ExpenseFormValues['documents']
@@ -61,8 +69,9 @@ export function ExpenseDocumentsInput({ documents, updateDocuments }: Props) {
           <DocumentThumbnail
             key={doc.id}
             document={doc}
-            deleteDocument={() => {
-              updateDocuments(documents.filter((d) => d.id !== doc.id))
+            documents={documents}
+            deleteDocument={(document) => {
+              updateDocuments(documents.filter((d) => d.id !== document.id))
             }}
           />
         ))}
@@ -89,12 +98,27 @@ export function ExpenseDocumentsInput({ documents, updateDocuments }: Props) {
 
 export function DocumentThumbnail({
   document,
+  documents,
   deleteDocument,
 }: {
   document: ExpenseFormValues['documents'][number]
-  deleteDocument: () => void
+  documents: ExpenseFormValues['documents']
+  deleteDocument: (document: ExpenseFormValues['documents'][number]) => void
 }) {
   const [open, setOpen] = useState(false)
+  const [api, setApi] = useState<CarouselApi>()
+  const [currentDocument, setCurrentDocument] = useState<number | null>(null)
+
+  useEffect(() => {
+    if (!api) return
+
+    api.on('slidesInView', () => {
+      const index = api.slidesInView()[0]
+      if (index !== undefined) {
+        setCurrentDocument(index)
+      }
+    })
+  }, [api])
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -112,33 +136,54 @@ export function DocumentThumbnail({
           />
         </Button>
       </DialogTrigger>
-      <DialogContent className="p-4 w-fit min-w-[300px] min-h-[300px] max-w-full [&>:last-child]:hidden">
-        <div className="flex justify-end">
-          <Button
-            variant="ghost"
-            className="text-destructive"
-            onClick={() => {
-              deleteDocument()
-              setOpen(false)
-            }}
-          >
-            <Trash className="w-4 h-4 mr-2" />
-            Delete document
-          </Button>
-          <DialogClose asChild>
-            <Button variant="ghost">
-              <X className="w-4 h-4 mr-2" /> Close
+      <DialogContent className="p-4 w-[100vw] max-w-[100vw] h-[100dvh] max-h-[100dvh] sm:max-w-[calc(100vw-32px)] sm:max-h-[calc(100dvh-32px)] [&>:last-child]:hidden">
+        <div className="flex flex-col gap-4">
+          <div className="flex justify-end">
+            <Button
+              variant="ghost"
+              className="text-destructive"
+              onClick={() => {
+                if (currentDocument !== null) {
+                  deleteDocument(documents[currentDocument])
+                }
+                setOpen(false)
+              }}
+            >
+              <Trash className="w-4 h-4 mr-2" />
+              Delete document
             </Button>
-          </DialogClose>
+            <DialogClose asChild>
+              <Button variant="ghost">
+                <X className="w-4 h-4 mr-2" /> Close
+              </Button>
+            </DialogClose>
+          </div>
+
+          <Carousel
+            opts={{
+              startIndex: documents.indexOf(document),
+              loop: true,
+              align: 'center',
+            }}
+            setApi={setApi}
+          >
+            <CarouselContent>
+              {documents.map((document, index) => (
+                <CarouselItem key={index}>
+                  <Image
+                    className="object-contain w-[calc(100vw-32px)] h-[calc(100dvh-32px-40px-16px)] sm:w-[calc(100vw-32px-32px)] sm:h-[calc(100dvh-32px-40px-16px-32px)]"
+                    src={document.url}
+                    width={document.width}
+                    height={document.height}
+                    alt=""
+                  />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-0 top-auto bottom-0" />
+            <CarouselNext className="right-0 top-auto bottom-0" />
+          </Carousel>
         </div>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <Image
-          className="object-contain w-[100vw] h-[100dvh] max-w-[calc(100vw-32px)] max-h-[calc(100dvh-32px-40px-16px)] sm:w-fit sm:h-fit sm:max-w-[calc(100vw-32px-32px)] sm:max-h-[calc(100dvh-32px-40px-32px)]"
-          src={document.url}
-          width={document.width}
-          height={document.height}
-          alt=""
-        />
       </DialogContent>
     </Dialog>
   )
