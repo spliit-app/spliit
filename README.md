@@ -37,8 +37,8 @@ The project is open to contributions. Feel free to open an issue or even a pull-
 
 If you want to contribute financially and help us keep the application free and without ads, you can also:
 
-* 💜 [Sponsor me (Sebastien)](https://github.com/sponsors/scastiel), or
-* 💙 [Make a small one-time donation](https://donate.stripe.com/28o3eh96G7hH8k89Ba).
+- 💜 [Sponsor me (Sebastien)](https://github.com/sponsors/scastiel), or
+- 💙 [Make a small one-time donation](https://donate.stripe.com/28o3eh96G7hH8k89Ba).
 
 ## Run locally
 
@@ -54,7 +54,6 @@ If you want to contribute financially and help us keep the application free and 
 2. Copy the file `container.env.example` as `container.env`
 3. Run `npm run start-container` to start the postgres and the spliit2 containers
 4. You can access the app by browsing to http://localhost:3000
-
 
 ## License
 
