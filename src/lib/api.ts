@@ -249,7 +249,7 @@ export async function getGroupExpenses(groupId: string) {
       paidBy: true,
       category: true,
     },
-    orderBy: { expenseDate: 'desc' },
+    orderBy: [{ expenseDate: 'desc' }, { createdAt: 'desc' }],
   })
 }
 
