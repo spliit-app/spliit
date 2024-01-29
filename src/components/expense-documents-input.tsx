@@ -171,7 +171,7 @@ export function DocumentThumbnail({
               {documents.map((document, index) => (
                 <CarouselItem key={index}>
                   <Image
-                    className="object-contain w-[calc(100vw-32px)] h-[calc(100dvh-32px-40px-16px)] sm:w-[calc(100vw-32px-32px)] sm:h-[calc(100dvh-32px-40px-16px-32px)]"
+                    className="object-contain w-[calc(100vw-32px)] h-[calc(100dvh-32px-40px-16px-48px)] sm:w-[calc(100vw-32px-32px)] sm:h-[calc(100dvh-32px-40px-16px-32px-48px)]"
                     src={document.url}
                     width={document.width}
                     height={document.height}
@@ -180,8 +180,8 @@ export function DocumentThumbnail({
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="left-0 top-auto bottom-0" />
-            <CarouselNext className="right-0 top-auto bottom-0" />
+            <CarouselPrevious className="left-0 top-auto -bottom-16" />
+            <CarouselNext className="right-0 top-auto -bottom-16" />
           </Carousel>
         </div>
       </DialogContent>
