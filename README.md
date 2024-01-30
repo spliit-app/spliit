@@ -18,6 +18,7 @@ Spliit is a free and open source alternative to Splitwise. You can either use th
 - [x] Assign a category to expenses [(#35)](https://github.com/spliit-app/spliit/issues/35)
 - [x] Search for expenses in a group [(#51)](https://github.com/spliit-app/spliit/issues/51)
 - [x] Upload and attach images to expenses [(#63)](https://github.com/spliit-app/spliit/issues/63)
+- [x] Create expense by scanning a receipt [(#23)](https://github.com/spliit-app/spliit/issues/23)
 
 ### Possible incoming features
 
@@ -71,6 +72,21 @@ S3_UPLOAD_KEY=AAAAAAAAAAAAAAAAAAAA
 S3_UPLOAD_SECRET=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 S3_UPLOAD_BUCKET=name-of-s3-bucket
 S3_UPLOAD_REGION=us-east-1
+```
+
+### Create expense from receipt
+
+You can offer users to create expense by uploading a receipt. This feature relies on [OpenAI GPT-4 with Vision](https://platform.openai.com/docs/guides/vision).
+
+To enable the feature:
+
+- You must enable expense documents feature as well (see section above). That might change in the future, but for now we need to store images to make receipt scanning work.
+- Subscribe to OpenAI API and get access to GPT 4 with Vision (you might need to buy credits in advance).
+- Update your environment variables with appropriate values:
+
+```.env
+NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT=true
+OPENAI_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
 ## License
