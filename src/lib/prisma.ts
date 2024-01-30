@@ -9,7 +9,9 @@ export async function getPrisma() {
       prisma = new PrismaClient()
     } else {
       if (!(global as any).prisma) {
-        ;(global as any).prisma = new PrismaClient()
+        ;(global as any).prisma = new PrismaClient({
+          // log: [{ emit: 'stdout', level: 'query' }],
+        })
       }
       prisma = (global as any).prisma
     }
