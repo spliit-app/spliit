@@ -12,6 +12,8 @@ import { getBalances, getSuggestedReimbursements } from '@/lib/balances'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
+export const dynamic = 'force-static'
+
 export const metadata: Metadata = {
   title: 'Balances',
 }

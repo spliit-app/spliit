@@ -16,6 +16,8 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 
+export const dynamic = 'force-static'
+
 export const metadata: Metadata = {
   title: 'Expenses',
 }

@@ -8,6 +8,7 @@ import {
 } from '@/lib/api'
 import { expenseFormSchema } from '@/lib/schemas'
 import { Metadata } from 'next'
+import { revalidatePath } from 'next/cache'
 import { notFound, redirect } from 'next/navigation'
 import { Suspense } from 'react'
 
@@ -30,7 +31,9 @@ export default async function EditExpensePage({
     'use server'
     const expenseFormValues = expenseFormSchema.parse(values)
     await updateExpense(groupId, expenseId, expenseFormValues)
-    redirect(`/groups/${groupId}`)
+    revalidatePath(`/groups/${groupId}/expenses`)
+    revalidatePath(`/groups/${groupId}/balances`)
+    redirect(`/groups/${groupId}/expenses`)
   }
 
   async function deleteExpenseAction() {

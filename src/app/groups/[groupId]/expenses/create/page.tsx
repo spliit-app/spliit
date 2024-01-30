@@ -5,6 +5,8 @@ import { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
 import { Suspense } from 'react'
 
+export const dynamic = 'force-static'
+
 export const metadata: Metadata = {
   title: 'Create expense',
 }
