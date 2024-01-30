@@ -73,6 +73,12 @@ S3_UPLOAD_BUCKET=name-of-s3-bucket
 S3_UPLOAD_REGION=us-east-1
 ```
 
+You can also use other S3 providers by providing a custom endpoint:
+
+```.env
+S3_UPLOAD_ENDPOINT=http://localhost:9000
+```
+
 ## License
 
 MIT, see [LICENSE](./LICENSE).
