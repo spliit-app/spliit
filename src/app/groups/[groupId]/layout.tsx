@@ -1,7 +1,7 @@
+import { cached } from '@/app/cached-functions'
 import { GroupTabs } from '@/app/groups/[groupId]/group-tabs'
 import { SaveGroupLocally } from '@/app/groups/[groupId]/save-recent-group'
 import { ShareButton } from '@/app/groups/[groupId]/share-button'
-import { getGroup } from '@/lib/api'
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -16,7 +16,7 @@ type Props = {
 export async function generateMetadata({
   params: { groupId },
 }: Props): Promise<Metadata> {
-  const group = await getGroup(groupId)
+  const group = await cached.getGroup(groupId)
 
   return {
     title: {
@@ -30,7 +30,7 @@ export default async function GroupLayout({
   children,
   params: { groupId },
 }: PropsWithChildren<Props>) {
-  const group = await getGroup(groupId)
+  const group = await cached.getGroup(groupId)
   if (!group) notFound()
 
   return (

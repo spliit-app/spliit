@@ -1,5 +1,6 @@
+import { cached } from '@/app/cached-functions'
 import { GroupForm } from '@/components/group-form'
-import { getGroup, getGroupExpensesParticipants, updateGroup } from '@/lib/api'
+import { getGroupExpensesParticipants, updateGroup } from '@/lib/api'
 import { groupFormSchema } from '@/lib/schemas'
 import { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
@@ -13,7 +14,7 @@ export default async function EditGroupPage({
 }: {
   params: { groupId: string }
 }) {
-  const group = await getGroup(groupId)
+  const group = await cached.getGroup(groupId)
   if (!group) notFound()
 
   async function updateGroupAction(values: unknown) {

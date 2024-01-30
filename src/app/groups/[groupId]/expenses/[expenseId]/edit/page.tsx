@@ -1,9 +1,9 @@
+import { cached } from '@/app/cached-functions'
 import { ExpenseForm } from '@/components/expense-form'
 import {
   deleteExpense,
   getCategories,
   getExpense,
-  getGroup,
   updateExpense,
 } from '@/lib/api'
 import { expenseFormSchema } from '@/lib/schemas'
@@ -21,7 +21,7 @@ export default async function EditExpensePage({
   params: { groupId: string; expenseId: string }
 }) {
   const categories = await getCategories()
-  const group = await getGroup(groupId)
+  const group = await cached.getGroup(groupId)
   if (!group) notFound()
   const expense = await getExpense(groupId, expenseId)
   if (!expense) notFound()
