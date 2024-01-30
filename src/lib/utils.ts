@@ -8,3 +8,10 @@ export function cn(...inputs: ClassValue[]) {
 export function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
+
+export function formatExpenseDate(date: Date) {
+  return date.toLocaleDateString('en-US', {
+    dateStyle: 'medium',
+    timeZone: 'UTC',
+  })
+}
