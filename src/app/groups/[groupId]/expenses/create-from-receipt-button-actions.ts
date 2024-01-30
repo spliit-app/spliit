@@ -42,3 +42,7 @@ export async function extractExpenseInformationFromImage(imageUrl: string) {
     ?.message.content?.split(',') ?? [null, null, null, null]
   return { amount: Number(amountString), categoryId, date, title }
 }
+
+export type ReceiptExtractedInfo = Awaited<
+  ReturnType<typeof extractExpenseInformationFromImage>
+>

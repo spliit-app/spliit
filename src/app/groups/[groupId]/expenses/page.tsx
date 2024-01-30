@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { getGroupExpenses } from '@/lib/api'
+import { getCategories, getGroupExpenses } from '@/lib/api'
 import { env } from '@/lib/env'
 import { Download, Plus } from 'lucide-react'
 import { Metadata } from 'next'
@@ -32,6 +32,8 @@ export default async function GroupExpensesPage({
 }) {
   const group = await cached.getGroup(groupId)
   if (!group) notFound()
+
+  const categories = await getCategories()
 
   return (
     <>
@@ -54,7 +56,11 @@ export default async function GroupExpensesPage({
               </Link>
             </Button>
             {env.NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT && (
-              <CreateFromReceiptButton groupId={groupId} />
+              <CreateFromReceiptButton
+                groupId={groupId}
+                groupCurrency={group.currency}
+                categories={categories}
+              />
             )}
             <Button asChild size="icon">
               <Link href={`/groups/${groupId}/expenses/create`}>
