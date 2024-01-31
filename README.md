@@ -74,6 +74,12 @@ S3_UPLOAD_BUCKET=name-of-s3-bucket
 S3_UPLOAD_REGION=us-east-1
 ```
 
+You can also use other S3 providers by providing a custom endpoint:
+
+```.env
+S3_UPLOAD_ENDPOINT=http://localhost:9000
+```
+
 ### Create expense from receipt
 
 You can offer users to create expense by uploading a receipt. This feature relies on [OpenAI GPT-4 with Vision](https://platform.openai.com/docs/guides/vision).
