@@ -1,4 +1,6 @@
+import { cached } from '@/app/cached-functions'
 import { ActiveUserModal } from '@/app/groups/[groupId]/expenses/active-user-modal'
+import { CreateFromReceiptButton } from '@/app/groups/[groupId]/expenses/create-from-receipt-button'
 import { ExpenseList } from '@/app/groups/[groupId]/expenses/expense-list'
 import { Button } from '@/components/ui/button'
 import {
@@ -9,12 +11,15 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { getGroup, getGroupExpenses } from '@/lib/api'
+import { getCategories, getGroupExpenses } from '@/lib/api'
+import { env } from '@/lib/env'
 import { Download, Plus } from 'lucide-react'
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
+
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'Expenses',
@@ -25,8 +30,10 @@ export default async function GroupExpensesPage({
 }: {
   params: { groupId: string }
 }) {
-  const group = await getGroup(groupId)
+  const group = await cached.getGroup(groupId)
   if (!group) notFound()
+
+  const categories = await getCategories()
 
   return (
     <>
@@ -48,6 +55,13 @@ export default async function GroupExpensesPage({
                 <Download className="w-4 h-4" />
               </Link>
             </Button>
+            {env.NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT && (
+              <CreateFromReceiptButton
+                groupId={groupId}
+                groupCurrency={group.currency}
+                categories={categories}
+              />
+            )}
             <Button asChild size="icon">
               <Link href={`/groups/${groupId}/expenses/create`}>
                 <Plus className="w-4 h-4" />
@@ -84,7 +98,7 @@ export default async function GroupExpensesPage({
 }
 
 async function Expenses({ groupId }: { groupId: string }) {
-  const group = await getGroup(groupId)
+  const group = await cached.getGroup(groupId)
   if (!group) notFound()
   const expenses = await getGroupExpenses(group.id)
 

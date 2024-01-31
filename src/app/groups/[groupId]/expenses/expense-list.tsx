@@ -3,7 +3,7 @@ import { CategoryIcon } from '@/app/groups/[groupId]/expenses/category-icon'
 import { Button } from '@/components/ui/button'
 import { SearchBar } from '@/components/ui/search-bar'
 import { getGroupExpenses } from '@/lib/api'
-import { cn } from '@/lib/utils'
+import { cn, formatExpenseDate } from '@/lib/utils'
 import { Expense, Participant } from '@prisma/client'
 import dayjs, { type Dayjs } from 'dayjs'
 import { ChevronRight } from 'lucide-react'
@@ -159,7 +159,7 @@ export function ExpenseList({
                     {currency} {(expense.amount / 100).toFixed(2)}
                   </div>
                   <div className="text-xs text-muted-foreground">
-                    {formatDate(expense.expenseDate)}
+                    {formatExpenseDate(expense.expenseDate)}
                   </div>
                 </div>
                 <Button
@@ -188,11 +188,4 @@ export function ExpenseList({
       </Button>
     </p>
   )
-}
-
-function formatDate(date: Date) {
-  return date.toLocaleDateString('en-US', {
-    dateStyle: 'medium',
-    timeZone: 'UTC',
-  })
 }

@@ -1,3 +1,4 @@
+import { cached } from '@/app/cached-functions'
 import { BalancesList } from '@/app/groups/[groupId]/balances-list'
 import { ReimbursementList } from '@/app/groups/[groupId]/reimbursement-list'
 import {
@@ -7,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { getGroup, getGroupExpenses } from '@/lib/api'
+import { getGroupExpenses } from '@/lib/api'
 import { getBalances, getSuggestedReimbursements } from '@/lib/balances'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
@@ -21,7 +22,7 @@ export default async function GroupPage({
 }: {
   params: { groupId: string }
 }) {
-  const group = await getGroup(groupId)
+  const group = await cached.getGroup(groupId)
   if (!group) notFound()
 
   const expenses = await getGroupExpenses(groupId)

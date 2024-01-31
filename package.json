@@ -42,6 +42,7 @@
     "next-s3-upload": "^0.3.4",
     "next-themes": "^0.2.1",
     "next13-progressbar": "^1.1.1",
+    "openai": "^4.25.0",
     "pg": "^8.11.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
