@@ -28,7 +28,7 @@ import { useToast } from '@/components/ui/use-toast'
 import { useMediaQuery } from '@/lib/hooks'
 import { formatExpenseDate } from '@/lib/utils'
 import { Category } from '@prisma/client'
-import { ChevronRight, Loader2, Receipt } from 'lucide-react'
+import { ChevronRight, FileQuestion, Loader2, Receipt } from 'lucide-react'
 import { getImageData, useS3Upload } from 'next-s3-upload'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -154,21 +154,27 @@ export function CreateFromReceiptButton({
             </Button>
             <div className="col-span-2">
               <strong>Title:</strong>
-              <div>{receiptInfo?.title ?? '…'}</div>
+              <div>{receiptInfo ? receiptInfo.title ?? <Unknown /> : '…'}</div>
             </div>
             <div className="col-span-2">
               <strong>Category:</strong>
               <div>
-                {receiptInfoCategory ? (
-                  <div className="flex items-center">
-                    <CategoryIcon
-                      category={receiptInfoCategory}
-                      className="inline w-4 h-4 mr-2"
-                    />
-                    <span className="mr-1">{receiptInfoCategory.grouping}</span>
-                    <ChevronRight className="inline w-3 h-3 mr-1" />
-                    <span>{receiptInfoCategory.name}</span>
-                  </div>
+                {receiptInfo ? (
+                  receiptInfoCategory ? (
+                    <div className="flex items-center">
+                      <CategoryIcon
+                        category={receiptInfoCategory}
+                        className="inline w-4 h-4 mr-2"
+                      />
+                      <span className="mr-1">
+                        {receiptInfoCategory.grouping}
+                      </span>
+                      <ChevronRight className="inline w-3 h-3 mr-1" />
+                      <span>{receiptInfoCategory.name}</span>
+                    </div>
+                  ) : (
+                    <Unknown />
+                  )
                 ) : (
                   '' || '…'
                 )}
@@ -177,10 +183,14 @@ export function CreateFromReceiptButton({
             <div>
               <strong>Amount:</strong>
               <div>
-                {receiptInfo?.amount ? (
-                  <>
-                    {groupCurrency} {receiptInfo.amount.toFixed(2)}
-                  </>
+                {receiptInfo ? (
+                  receiptInfo.amount ? (
+                    <>
+                      {groupCurrency} {receiptInfo.amount.toFixed(2)}
+                    </>
+                  ) : (
+                    <Unknown />
+                  )
                 ) : (
                   '…'
                 )}
@@ -189,16 +199,22 @@ export function CreateFromReceiptButton({
             <div>
               <strong>Date:</strong>
               <div>
-                {receiptInfo?.date
-                  ? formatExpenseDate(
+                {receiptInfo ? (
+                  receiptInfo.date ? (
+                    formatExpenseDate(
                       new Date(`${receiptInfo?.date}T12:00:00.000Z`),
                     )
-                  : '…'}
+                  ) : (
+                    <Unknown />
+                  )
+                ) : (
+                  '…'
+                )}
               </div>
             </div>
           </div>
         </div>
-        <p>You’ll be able to edit the expense information after creating it.</p>
+        <p>You’ll be able to edit the expense information next.</p>
         <div className="text-center">
           <Button
             disabled={pending || !receiptInfo}
@@ -217,11 +233,20 @@ export function CreateFromReceiptButton({
               )
             }}
           >
-            Create expense
+            Continue
           </Button>
         </div>
       </div>
     </DialogOrDrawer>
+  )
+}
+
+function Unknown() {
+  return (
+    <div className="flex gap-1 items-center text-muted-foreground">
+      <FileQuestion className="w-4 h-4" />
+      <em>Unknown</em>
+    </div>
   )
 }
 
