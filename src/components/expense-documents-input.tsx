@@ -18,7 +18,7 @@ import { useToast } from '@/components/ui/use-toast'
 import { randomId } from '@/lib/api'
 import { ExpenseFormValues } from '@/lib/schemas'
 import { Loader2, Plus, Trash, X } from 'lucide-react'
-import { getImageData, useS3Upload } from 'next-s3-upload'
+import { getImageData, usePresignedUpload } from 'next-s3-upload'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
@@ -29,7 +29,7 @@ type Props = {
 
 export function ExpenseDocumentsInput({ documents, updateDocuments }: Props) {
   const [pending, setPending] = useState(false)
-  const { FileInput, openFileDialog, uploadToS3 } = useS3Upload()
+  const { FileInput, openFileDialog, uploadToS3 } = usePresignedUpload() // use presigned uploads to addtionally support providers other than AWS
   const { toast } = useToast()
 
   const handleFileChange = async (file: File) => {
