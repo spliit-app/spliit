@@ -4,6 +4,10 @@ EXPOSE 3000/tcp
 WORKDIR /usr/app
 COPY ./ ./
 
+# remove any local env files and replace with build.env
+RUN rm .env*
+COPY scripts/build.env .env
+
 RUN apt update && \
     apt install openssl -y && \
     apt clean && \
@@ -12,10 +16,6 @@ RUN apt update && \
     npm ci --ignore-scripts && \
     npm install -g prisma && \
     prisma generate
-
-# env vars needed for build not to fail
-ARG POSTGRES_PRISMA_URL
-ARG POSTGRES_URL_NON_POOLING
 
 RUN npm run build
 
