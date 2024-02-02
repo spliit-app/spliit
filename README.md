@@ -95,6 +95,15 @@ NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT=true
 OPENAI_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
+### Deduce category from title
+
+You can offer users to automatically deduce the expense category from the title. Since this feature relies on a OpenAI subscription, follow the signup instructions above and configure the following environment variables:
+
+```.env
+NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT=true
+OPENAI_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```
+
 ## License
 
 MIT, see [LICENSE](./LICENSE).
