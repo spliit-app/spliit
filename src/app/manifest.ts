@@ -6,7 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: 'Spliit',
     description:
       'A minimalist web application to share expenses with friends and family. No ads, no account, no problem.',
-    start_url: '/',
+    start_url: '/groups',
     display: 'standalone',
     background_color: '#fff',
     theme_color: '#047857',
