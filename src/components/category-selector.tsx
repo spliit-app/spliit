@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/popover'
 import { useMediaQuery } from '@/lib/hooks'
 import { Category } from '@prisma/client'
-import { forwardRef, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 
 type Props = {
   categories: Category[]
@@ -33,6 +33,13 @@ export function CategorySelector({
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState<number>(defaultValue)
   const isDesktop = useMediaQuery('(min-width: 768px)')
+
+  // allow overwriting currently selected category from outside
+  // TODO: find a more streamlined way
+  useEffect(() => {
+    setValue(defaultValue)
+    onValueChange(defaultValue)
+  }, [defaultValue])
 
   const selectedCategory =
     categories.find((category) => category.id === value) ?? categories[0]

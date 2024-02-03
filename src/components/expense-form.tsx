@@ -40,6 +40,7 @@ import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Save, Trash2 } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { match } from 'ts-pattern'
 
@@ -134,6 +135,10 @@ export function ExpenseForm({
         },
   })
 
+  // custom control of category so we can overwrite it
+  // TODO: find a more streamlined way
+  const [category, setCategory] = useState<number>(form.getValues("category"));
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit((values) => onSubmit(values))}>
@@ -155,6 +160,10 @@ export function ExpenseForm({
                       placeholder="Monday evening restaurant"
                       className="text-base"
                       {...field}
+                      onBlur={() => {
+                        field.onBlur() // to avoid skipping other events
+                        setCategory(Math.round(Math.random() * 10)); // TODO: replace
+                      }}
                     />
                   </FormControl>
                   <FormDescription>
@@ -239,7 +248,7 @@ export function ExpenseForm({
                   <FormLabel>Category</FormLabel>
                   <CategorySelector
                     categories={categories}
-                    defaultValue={field.value}
+                    defaultValue={category}
                     onValueChange={field.onChange}
                   />
                   <FormDescription>
