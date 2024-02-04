@@ -15,3 +15,12 @@ export function formatExpenseDate(date: Date) {
     timeZone: 'UTC',
   })
 }
+
+export function formatCurrency(currency: string, amount: number) {
+  const format = new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })
+  const formattedAmount = format.format(amount / 100)
+  return `${currency} ${formattedAmount}`
+}
