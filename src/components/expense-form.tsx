@@ -248,7 +248,7 @@ export function ExpenseForm({
                   <CategorySelector
                     categories={categories}
                     defaultValue={
-                      form.watch('category') // may be overwritten externally
+                      form.watch(field.name) // may be overwritten externally
                     }
                     onValueChange={field.onChange}
                   />
