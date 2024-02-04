@@ -40,7 +40,6 @@ import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Save, Trash2 } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { match } from 'ts-pattern'
 import { extractCategoryFromTitle } from './expense-form-actions'
@@ -136,10 +135,6 @@ export function ExpenseForm({
         },
   })
 
-  // custom control of category so we can overwrite it
-  // TODO: find a more streamlined way
-  const [category, setCategory] = useState<number>(form.getValues('category'))
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit((values) => onSubmit(values))}>
@@ -166,7 +161,7 @@ export function ExpenseForm({
                         const { categoryId } = await extractCategoryFromTitle(
                           field.value,
                         )
-                        setCategory(categoryId)
+                        form.setValue('category', categoryId)
                       }}
                     />
                   </FormControl>
@@ -252,7 +247,9 @@ export function ExpenseForm({
                   <FormLabel>Category</FormLabel>
                   <CategorySelector
                     categories={categories}
-                    defaultValue={category}
+                    defaultValue={
+                      form.watch('category') // may be overwritten externally
+                    }
                     onValueChange={field.onChange}
                   />
                   <FormDescription>
