@@ -43,6 +43,7 @@ import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { match } from 'ts-pattern'
+import { extractCategoryFromTitle } from './expense-form-actions'
 
 export type Props = {
   group: NonNullable<Awaited<ReturnType<typeof getGroup>>>
@@ -137,7 +138,7 @@ export function ExpenseForm({
 
   // custom control of category so we can overwrite it
   // TODO: find a more streamlined way
-  const [category, setCategory] = useState<number>(form.getValues("category"));
+  const [category, setCategory] = useState<number>(form.getValues('category'))
 
   return (
     <Form {...form}>
@@ -160,9 +161,12 @@ export function ExpenseForm({
                       placeholder="Monday evening restaurant"
                       className="text-base"
                       {...field}
-                      onBlur={() => {
-                        field.onBlur() // to avoid skipping other events
-                        setCategory(Math.round(Math.random() * 10)); // TODO: replace
+                      onBlur={async () => {
+                        field.onBlur() // avoid skipping other blur event listeners since we overwrite `field`
+                        const { categoryId } = await extractCategoryFromTitle(
+                          field.value,
+                        )
+                        setCategory(categoryId)
                       }}
                     />
                   </FormControl>

@@ -2,6 +2,7 @@
 import { getCategories } from '@/lib/api'
 import { env } from '@/lib/env'
 import OpenAI from 'openai'
+import { ChatCompletionCreateParamsNonStreaming } from 'openai/resources/index.mjs'
 
 const openai = new OpenAI({ apiKey: env.OPENAI_API_KEY })
 
@@ -9,7 +10,7 @@ export async function extractExpenseInformationFromImage(imageUrl: string) {
   'use server'
   const categories = await getCategories()
 
-  const body = {
+  const body: ChatCompletionCreateParamsNonStreaming = {
     model: 'gpt-4-vision-preview',
     messages: [
       {
@@ -35,7 +36,7 @@ export async function extractExpenseInformationFromImage(imageUrl: string) {
       },
     ],
   }
-  const completion = await openai.chat.completions.create(body as any)
+  const completion = await openai.chat.completions.create(body)
 
   const [amountString, categoryId, date, title] = completion.choices
     .at(0)
