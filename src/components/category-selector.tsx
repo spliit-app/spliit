@@ -1,4 +1,4 @@
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, Loader2 } from 'lucide-react'
 
 import { CategoryIcon } from '@/app/groups/[groupId]/expenses/category-icon'
 import { Button, ButtonProps } from '@/components/ui/button'
@@ -17,22 +17,31 @@ import {
 } from '@/components/ui/popover'
 import { useMediaQuery } from '@/lib/hooks'
 import { Category } from '@prisma/client'
-import { forwardRef, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 
 type Props = {
   categories: Category[]
   onValueChange: (categoryId: Category['id']) => void
+  /** Category ID to be selected by default. Overwriting this value will update current selection, too. */
   defaultValue: Category['id']
+  isLoading: boolean
 }
 
 export function CategorySelector({
   categories,
   onValueChange,
   defaultValue,
+  isLoading,
 }: Props) {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState<number>(defaultValue)
   const isDesktop = useMediaQuery('(min-width: 768px)')
+
+  // allow overwriting currently selected category from outside
+  useEffect(() => {
+    setValue(defaultValue)
+    onValueChange(defaultValue)
+  }, [defaultValue])
 
   const selectedCategory =
     categories.find((category) => category.id === value) ?? categories[0]
@@ -41,7 +50,11 @@ export function CategorySelector({
     return (
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <CategoryButton category={selectedCategory} open={open} />
+          <CategoryButton
+            category={selectedCategory}
+            open={open}
+            isLoading={isLoading}
+          />
         </PopoverTrigger>
         <PopoverContent className="p-0" align="start">
           <CategoryCommand
@@ -60,7 +73,11 @@ export function CategorySelector({
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <CategoryButton category={selectedCategory} open={open} />
+        <CategoryButton
+          category={selectedCategory}
+          open={open}
+          isLoading={isLoading}
+        />
       </DrawerTrigger>
       <DrawerContent className="p-0">
         <CategoryCommand
@@ -122,9 +139,14 @@ function CategoryCommand({
 type CategoryButtonProps = {
   category: Category
   open: boolean
+  isLoading: boolean
 }
 const CategoryButton = forwardRef<HTMLButtonElement, CategoryButtonProps>(
-  ({ category, open, ...props }: ButtonProps & CategoryButtonProps, ref) => {
+  (
+    { category, open, isLoading, ...props }: ButtonProps & CategoryButtonProps,
+    ref,
+  ) => {
+    const iconClassName = 'ml-2 h-4 w-4 shrink-0 opacity-50'
     return (
       <Button
         variant="outline"
@@ -135,7 +157,11 @@ const CategoryButton = forwardRef<HTMLButtonElement, CategoryButtonProps>(
         {...props}
       >
         <CategoryLabel category={category} />
-        <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+        {isLoading ? (
+          <Loader2 className={`animate-spin ${iconClassName}`} />
+        ) : (
+          <ChevronDown className={iconClassName} />
+        )}
       </Button>
     )
   },
