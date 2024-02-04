@@ -1,4 +1,4 @@
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, Loader2 } from 'lucide-react'
 
 import { CategoryIcon } from '@/app/groups/[groupId]/expenses/category-icon'
 import { Button, ButtonProps } from '@/components/ui/button'
@@ -24,12 +24,14 @@ type Props = {
   onValueChange: (categoryId: Category['id']) => void
   /** Category ID to be selected by default. Overwriting this value will update current selection, too. */
   defaultValue: Category['id']
+  isLoading: boolean
 }
 
 export function CategorySelector({
   categories,
   onValueChange,
   defaultValue,
+  isLoading,
 }: Props) {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState<number>(defaultValue)
@@ -48,7 +50,7 @@ export function CategorySelector({
     return (
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <CategoryButton category={selectedCategory} open={open} />
+          <CategoryButton category={selectedCategory} open={open} isLoading={isLoading} />
         </PopoverTrigger>
         <PopoverContent className="p-0" align="start">
           <CategoryCommand
@@ -67,7 +69,7 @@ export function CategorySelector({
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <CategoryButton category={selectedCategory} open={open} />
+        <CategoryButton category={selectedCategory} open={open} isLoading={isLoading} />
       </DrawerTrigger>
       <DrawerContent className="p-0">
         <CategoryCommand
@@ -129,9 +131,10 @@ function CategoryCommand({
 type CategoryButtonProps = {
   category: Category
   open: boolean
+  isLoading: boolean
 }
 const CategoryButton = forwardRef<HTMLButtonElement, CategoryButtonProps>(
-  ({ category, open, ...props }: ButtonProps & CategoryButtonProps, ref) => {
+  ({ category, open, isLoading, ...props }: ButtonProps & CategoryButtonProps, ref) => {
     return (
       <Button
         variant="outline"
@@ -142,7 +145,7 @@ const CategoryButton = forwardRef<HTMLButtonElement, CategoryButtonProps>(
         {...props}
       >
         <CategoryLabel category={category} />
-        <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+        { isLoading ?  <Loader2 className="animate-spin"/> : <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" /> }
       </Button>
     )
   },

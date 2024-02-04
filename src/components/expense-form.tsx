@@ -43,6 +43,7 @@ import { useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { match } from 'ts-pattern'
 import { extractCategoryFromTitle } from './expense-form-actions'
+import { useState } from 'react'
 
 export type Props = {
   group: NonNullable<Awaited<ReturnType<typeof getGroup>>>
@@ -134,6 +135,7 @@ export function ExpenseForm({
             : [],
         },
   })
+  const [isCategoryLoading, setCategoryLoading] = useState(false);
 
   return (
     <Form {...form}>
@@ -159,10 +161,12 @@ export function ExpenseForm({
                       onBlur={async () => {
                         field.onBlur() // avoid skipping other blur event listeners since we overwrite `field`
                         if (process.env.NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT) {
+                          setCategoryLoading(true);
                           const { categoryId } = await extractCategoryFromTitle(
                             field.value,
                           )
                           form.setValue('category', categoryId)
+                          setCategoryLoading(false);
                         }
                       }}
                     />
@@ -253,6 +257,7 @@ export function ExpenseForm({
                       form.watch(field.name) // may be overwritten externally
                     }
                     onValueChange={field.onChange}
+                    isLoading={isCategoryLoading}
                   />
                   <FormDescription>
                     Select the expense category.
