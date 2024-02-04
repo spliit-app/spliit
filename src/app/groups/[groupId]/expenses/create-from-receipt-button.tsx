@@ -29,7 +29,7 @@ import { useMediaQuery } from '@/lib/hooks'
 import { formatExpenseDate } from '@/lib/utils'
 import { Category } from '@prisma/client'
 import { ChevronRight, FileQuestion, Loader2, Receipt } from 'lucide-react'
-import { getImageData, useS3Upload } from 'next-s3-upload'
+import { getImageData, usePresignedUpload } from 'next-s3-upload'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { PropsWithChildren, ReactNode, useState } from 'react'
@@ -46,7 +46,7 @@ export function CreateFromReceiptButton({
   categories,
 }: Props) {
   const [pending, setPending] = useState(false)
-  const { uploadToS3, FileInput, openFileDialog } = useS3Upload()
+  const { uploadToS3, FileInput, openFileDialog } = usePresignedUpload()
   const { toast } = useToast()
   const router = useRouter()
   const [receiptInfo, setReceiptInfo] = useState<
