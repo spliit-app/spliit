@@ -1,3 +1,4 @@
+import { ApplePwaSplash } from '@/app/apple-pwa-splash'
 import { ProgressBar } from '@/components/progress-bar'
 import { ThemeProvider } from '@/components/theme-provider'
 import { ThemeToggle } from '@/components/theme-toggle'
@@ -65,6 +66,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <ApplePwaSplash icon="/logo-with-text.png" color="#027756" />
       <body className="pt-16 min-h-[100dvh] flex flex-col items-stretch bg-slate-50 bg-opacity-30 dark:bg-background">
         <ThemeProvider
           attribute="class"
