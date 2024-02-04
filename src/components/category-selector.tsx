@@ -141,12 +141,12 @@ type CategoryButtonProps = {
   open: boolean
   isLoading: boolean
 }
-const iconClassName = 'ml-2 h-4 w-4 shrink-0 opacity-50'
 const CategoryButton = forwardRef<HTMLButtonElement, CategoryButtonProps>(
   (
     { category, open, isLoading, ...props }: ButtonProps & CategoryButtonProps,
     ref,
   ) => {
+    const iconClassName = 'ml-2 h-4 w-4 shrink-0 opacity-50'
     return (
       <Button
         variant="outline"
@@ -158,7 +158,7 @@ const CategoryButton = forwardRef<HTMLButtonElement, CategoryButtonProps>(
       >
         <CategoryLabel category={category} />
         {isLoading ? (
-          <Loader2 className={'animate-spin ' + iconClassName} />
+          <Loader2 className={`animate-spin ${iconClassName}`} />
         ) : (
           <ChevronDown className={iconClassName} />
         )}
