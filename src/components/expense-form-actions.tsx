@@ -27,7 +27,9 @@ export async function extractCategoryFromTitle(description: string) {
         role: 'system',
         content: `
         Task: Receive expense titles. Respond with the most relevant category ID from the list below. Respond with the ID only.
-        Categories: ${categories.map((category) => formatCategoryForAIPrompt(category))}
+        Categories: ${categories.map((category) =>
+          formatCategoryForAIPrompt(category),
+        )}
         Fallback: If no category fits, default to ${formatCategoryForAIPrompt(
           categories[0],
         )}.
