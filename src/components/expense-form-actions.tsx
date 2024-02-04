@@ -42,7 +42,6 @@ export async function extractCategoryFromTitle(description: string) {
   }
   const completion = await openai.chat.completions.create(body)
   const messageContent = completion.choices.at(0)?.message.content
-  console.debug(messageContent)
   // ensure the returned id actually exists
   const category = categories.find((category) => {
     return category.id === Number(messageContent)
