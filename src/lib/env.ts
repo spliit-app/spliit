@@ -37,7 +37,11 @@ const envSchema = z
           'If NEXT_PUBLIC_ENABLE_EXPENSE_DOCUMENTS is specified, then S3_* must be specified too',
       })
     }
-    if ((env.NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT || env.NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT) && !env.OPENAI_API_KEY) {
+    if (
+      (env.NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT ||
+        env.NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT) &&
+      !env.OPENAI_API_KEY
+    ) {
       ctx.addIssue({
         code: ZodIssueCode.custom,
         message:
