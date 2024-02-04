@@ -1,6 +1,7 @@
 'use server'
 import { getCategories } from '@/lib/api'
 import { env } from '@/lib/env'
+import { formatCategory } from '@/lib/utils'
 import OpenAI from 'openai'
 import { ChatCompletionCreateParamsNonStreaming } from 'openai/resources/index.mjs'
 
@@ -22,7 +23,7 @@ export async function extractExpenseInformationFromImage(imageUrl: string) {
               This image contains a receipt.
               Read the total amount and store it as a non-formatted number without any other text or currency.
               Then guess the category for this receipt amoung the following categories and store its ID: ${categories.map(
-                ({ id, grouping, name }) => `"${grouping}/${name}" (ID: ${id})`,
+                (category) => formatCategory(category)
               )}.
               Guess the expense’s date and store it as yyyy-mm-dd.
               Guess a title for the expense.

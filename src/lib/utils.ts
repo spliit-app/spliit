@@ -1,3 +1,4 @@
+import { Category } from '@prisma/client'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
@@ -14,4 +15,9 @@ export function formatExpenseDate(date: Date) {
     dateStyle: 'medium',
     timeZone: 'UTC',
   })
+}
+
+/** Format category, e.g. for use in AI prompts */
+export function formatCategory(category: Category) {
+  return `"${category.grouping}/${category.name}" (ID: ${category.id})`
 }
