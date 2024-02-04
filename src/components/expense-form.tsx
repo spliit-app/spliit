@@ -35,7 +35,6 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { getCategories, getExpense, getGroup, randomId } from '@/lib/api'
-import { env } from '@/lib/env'
 import { ExpenseFormValues, expenseFormSchema } from '@/lib/schemas'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -159,7 +158,7 @@ export function ExpenseForm({
                       {...field}
                       onBlur={async () => {
                         field.onBlur() // avoid skipping other blur event listeners since we overwrite `field`
-                        if (env.NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT) {
+                        if (process.env.NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT) {
                           const { categoryId } = await extractCategoryFromTitle(
                             field.value,
                           )
