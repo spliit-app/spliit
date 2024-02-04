@@ -17,7 +17,6 @@ export function formatExpenseDate(date: Date) {
   })
 }
 
-/** Format category, e.g. for use in AI prompts */
-export function formatCategory(category: Category) {
+export function formatCategoryForAIPrompt(category: Category) {
   return `"${category.grouping}/${category.name}" (ID: ${category.id})`
 }
