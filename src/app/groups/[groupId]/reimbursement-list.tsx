@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Reimbursement } from '@/lib/balances'
+import { formatCurrency } from '@/lib/utils'
 import { Participant } from '@prisma/client'
 import Link from 'next/link'
 
@@ -42,9 +43,7 @@ export function ReimbursementList({
               </Link>
             </Button>
           </div>
-          <div>
-            {currency} {(reimbursement.amount / 100).toFixed(2)}
-          </div>
+          <div>{formatCurrency(currency, reimbursement.amount)}</div>
         </div>
       ))}
     </div>
