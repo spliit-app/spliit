@@ -1,5 +1,5 @@
 import { Balances } from '@/lib/balances'
-import { cn } from '@/lib/utils'
+import { cn, formatCurrency } from '@/lib/utils'
 import { Participant } from '@prisma/client'
 
 type Props = {
@@ -28,7 +28,7 @@ export function BalancesList({ balances, participants, currency }: Props) {
             </div>
             <div className={cn('w-1/2 relative', isLeft || 'text-right')}>
               <div className="absolute inset-0 p-2 z-20">
-                {currency} {(balance / 100).toFixed(2)}
+                {formatCurrency(currency, balance)}
               </div>
               {balance !== 0 && (
                 <div

@@ -26,7 +26,7 @@ import {
 import { ToastAction } from '@/components/ui/toast'
 import { useToast } from '@/components/ui/use-toast'
 import { useMediaQuery } from '@/lib/hooks'
-import { formatExpenseDate } from '@/lib/utils'
+import { formatCurrency, formatExpenseDate } from '@/lib/utils'
 import { Category } from '@prisma/client'
 import { ChevronRight, FileQuestion, Loader2, Receipt } from 'lucide-react'
 import { getImageData, usePresignedUpload } from 'next-s3-upload'
@@ -185,9 +185,7 @@ export function CreateFromReceiptButton({
               <div>
                 {receiptInfo ? (
                   receiptInfo.amount ? (
-                    <>
-                      {groupCurrency} {receiptInfo.amount.toFixed(2)}
-                    </>
+                    <>{formatCurrency(groupCurrency, receiptInfo.amount)}</>
                   ) : (
                     <Unknown />
                   )
