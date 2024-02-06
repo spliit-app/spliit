@@ -26,7 +26,7 @@ import {
 import { ToastAction } from '@/components/ui/toast'
 import { useToast } from '@/components/ui/use-toast'
 import { useMediaQuery } from '@/lib/hooks'
-import { formatCurrency, formatExpenseDate } from '@/lib/utils'
+import { formatCurrency, formatExpenseDate, formatFileSize } from '@/lib/utils'
 import { Category } from '@prisma/client'
 import { ChevronRight, FileQuestion, Loader2, Receipt } from 'lucide-react'
 import { getImageData, usePresignedUpload } from 'next-s3-upload'
@@ -39,6 +39,8 @@ type Props = {
   groupCurrency: string
   categories: Category[]
 }
+
+const MAX_FILE_SIZE = 5 * 1024 ** 2
 
 export function CreateFromReceiptButton({
   groupId,
@@ -56,6 +58,17 @@ export function CreateFromReceiptButton({
   const isDesktop = useMediaQuery('(min-width: 640px)')
 
   const handleFileChange = async (file: File) => {
+    if (file.size > MAX_FILE_SIZE) {
+      toast({
+        title: 'The file is too big',
+        description: `The maximum file size you can upload is ${formatFileSize(
+          MAX_FILE_SIZE,
+        )}. Yours is ${formatFileSize(file.size)}.`,
+        variant: 'destructive',
+      })
+      return
+    }
+
     const upload = async () => {
       try {
         setPending(true)
