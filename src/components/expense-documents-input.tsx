@@ -17,6 +17,7 @@ import { ToastAction } from '@/components/ui/toast'
 import { useToast } from '@/components/ui/use-toast'
 import { randomId } from '@/lib/api'
 import { ExpenseFormValues } from '@/lib/schemas'
+import { formatFileSize } from '@/lib/utils'
 import { Loader2, Plus, Trash, X } from 'lucide-react'
 import { getImageData, usePresignedUpload } from 'next-s3-upload'
 import Image from 'next/image'
@@ -27,12 +28,25 @@ type Props = {
   updateDocuments: (documents: ExpenseFormValues['documents']) => void
 }
 
+const MAX_FILE_SIZE = 5 * 1024 ** 2
+
 export function ExpenseDocumentsInput({ documents, updateDocuments }: Props) {
   const [pending, setPending] = useState(false)
   const { FileInput, openFileDialog, uploadToS3 } = usePresignedUpload() // use presigned uploads to addtionally support providers other than AWS
   const { toast } = useToast()
 
   const handleFileChange = async (file: File) => {
+    if (file.size > MAX_FILE_SIZE) {
+      toast({
+        title: 'The file is too big',
+        description: `The maximum file size you can upload is ${formatFileSize(
+          MAX_FILE_SIZE,
+        )}. Yours is ${formatFileSize(file.size)}.`,
+        variant: 'destructive',
+      })
+      return
+    }
+
     const upload = async () => {
       try {
         setPending(true)
