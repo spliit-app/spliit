@@ -46,13 +46,19 @@ export function getBalances(
 
       const dividedAmount = isLast
         ? remaining
-        : Math.floor((expense.amount * shares) / totalShares)
+        : (expense.amount * shares) / totalShares
       remaining -= dividedAmount
       balances[paidFor.participantId].paidFor += dividedAmount
       balances[paidFor.participantId].total -= dividedAmount
     })
   }
 
+  for (const participantId in balances) {
+    balances[participantId].total =
+      Math.floor(Math.round(balances[participantId].total)) + 0 // added +0 to avoid negative zero
+    balances[participantId].paidFor =
+      Math.round(balances[participantId].paidFor) + 0
+  }
   return balances
 }
 
@@ -86,5 +92,5 @@ export function getSuggestedReimbursements(
       balancesArray.shift()
     }
   }
-  return reimbursements.filter(({ amount }) => amount !== 0)
+  return reimbursements.filter(({ amount }) => Math.round(amount) + 0 !== 0)
 }
