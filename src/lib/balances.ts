@@ -24,7 +24,6 @@ export function getBalances(
 
     if (!balances[paidBy]) balances[paidBy] = { paid: 0, paidFor: 0, total: 0 }
     balances[paidBy].paid += expense.amount
-    balances[paidBy].total += expense.amount
 
     const totalPaidForShares = paidFors.reduce(
       (sum, paidFor) => sum + paidFor.shares,
@@ -49,15 +48,18 @@ export function getBalances(
         : (expense.amount * shares) / totalShares
       remaining -= dividedAmount
       balances[paidFor.participantId].paidFor += dividedAmount
-      balances[paidFor.participantId].total -= dividedAmount
     })
   }
 
+  // rounding and add total
   for (const participantId in balances) {
-    balances[participantId].total =
-      Math.floor(Math.round(balances[participantId].total)) + 0 // added +0 to avoid negative zero
+    // add +0 to avoid negative zeros
     balances[participantId].paidFor =
       Math.round(balances[participantId].paidFor) + 0
+    balances[participantId].paid =
+      Math.round(balances[participantId].paid) + 0
+
+    balances[participantId].total = balances[participantId].paid - balances[participantId].paidFor
   }
   return balances
 }
@@ -71,10 +73,10 @@ export function getPublicBalances(reimbursements: Reimbursement[]): Balances {
     if (!balances[reimbursement.to])
       balances[reimbursement.to] = { paid: 0, paidFor: 0, total: 0 }
 
-    balances[reimbursement.from].paid += reimbursement.amount
-    balances[reimbursement.from].total += reimbursement.amount
+    balances[reimbursement.from].paidFor += reimbursement.amount
+    balances[reimbursement.from].total -= reimbursement.amount
 
-    balances[reimbursement.to].paidFor += reimbursement.amount
+    balances[reimbursement.to].paid += reimbursement.amount
     balances[reimbursement.to].total += reimbursement.amount
   })
   return balances
