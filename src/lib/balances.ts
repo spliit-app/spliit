@@ -62,6 +62,24 @@ export function getBalances(
   return balances
 }
 
+export function getPublicBalances(reimbursements: Reimbursement[]): Balances {
+  const balances: Balances = {}
+  reimbursements.forEach((reimbursement) => {
+    if (!balances[reimbursement.from])
+      balances[reimbursement.from] = { paid: 0, paidFor: 0, total: 0 }
+
+    if (!balances[reimbursement.to])
+      balances[reimbursement.to] = { paid: 0, paidFor: 0, total: 0 }
+
+    balances[reimbursement.from].paid += reimbursement.amount
+    balances[reimbursement.from].total += reimbursement.amount
+
+    balances[reimbursement.to].paidFor += reimbursement.amount
+    balances[reimbursement.to].total += reimbursement.amount
+  })
+  return balances
+}
+
 export function getSuggestedReimbursements(
   balances: Balances,
 ): Reimbursement[] {
