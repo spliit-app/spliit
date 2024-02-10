@@ -14,8 +14,8 @@ RUN apt update && \
     prisma generate
 
 # env vars needed for build not to fail
-ARG POSTGRES_PRISMA_URL
-ARG POSTGRES_URL_NON_POOLING
+ARG PRISMA_URL
+ARG PRISMA_URL_NON_POOLING
 
 RUN npm run build
 
