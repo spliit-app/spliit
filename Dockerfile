@@ -27,25 +27,22 @@ RUN rm -r .next/cache
 FROM node:21-alpine as runtime-deps
 
 WORKDIR /usr/app
-RUN apk add --no-cache zstd
 COPY --from=base /usr/app/package.json /usr/app/package-lock.json ./
-COPY --from=base /usr/app/.next ./.next
 COPY --from=base /usr/app/prisma ./prisma
-COPY ./public ./public
 
 RUN npm ci --omit=dev --omit=optional --ignore-scripts && \
     npx prisma generate
 
-RUN tar cvf - . | zstd -o app.tar.zst
-
 FROM node:21-alpine as runner
 
-WORKDIR /usr/app
-RUN apk add --no-cache zstd
-
-COPY ./scripts ./scripts
-COPY --from=runtime-deps /usr/app/app.tar.zst ./app.tar.zst
-
 EXPOSE 3000/tcp
+WORKDIR /usr/app
+
+COPY --from=base /usr/app/package.json /usr/app/package-lock.json ./
+COPY --from=runtime-deps /usr/app/node_modules ./node_modules
+COPY ./public ./public
+COPY ./scripts ./scripts
+COPY --from=base /usr/app/prisma ./prisma
+COPY --from=base /usr/app/.next ./.next
 
 ENTRYPOINT ["/bin/sh", "/usr/app/scripts/container-entrypoint.sh"]
