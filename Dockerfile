@@ -4,7 +4,6 @@ WORKDIR /usr/app
 COPY ./package.json \
      ./package-lock.json \
      ./next.config.js \
-     ./next-env.d.ts \
      ./tsconfig.json \
      ./tailwind.config.js \
      ./postcss.config.js ./
