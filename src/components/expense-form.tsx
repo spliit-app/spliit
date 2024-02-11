@@ -44,6 +44,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { match } from 'ts-pattern'
 import { extractCategoryFromTitle } from './expense-form-actions'
+import type { FeatureFlags } from '@/lib/serverActions'
 
 export type Props = {
   group: NonNullable<Awaited<ReturnType<typeof getGroup>>>
@@ -51,11 +52,7 @@ export type Props = {
   categories: NonNullable<Awaited<ReturnType<typeof getCategories>>>
   onSubmit: (values: ExpenseFormValues) => Promise<void>
   onDelete?: () => Promise<void>
-  featureFlags: {
-    enableExpenseDocuments: boolean,
-    enableCategoryExtract: boolean,
-    enableReceiptExtract: boolean,
-  }
+  featureFlags: FeatureFlags
 }
 
 export function ExpenseForm({

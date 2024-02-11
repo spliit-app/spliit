@@ -2,7 +2,7 @@ import { cached } from '@/app/cached-functions'
 import { ExpenseForm } from '@/components/expense-form'
 import { createExpense, getCategories } from '@/lib/api'
 import { expenseFormSchema } from '@/lib/schemas'
-import { getRuntimeFlags } from '@/lib/serverActions'
+import { getFeatureFlags } from '@/lib/serverActions'
 import { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
 import { Suspense } from 'react'
@@ -27,7 +27,7 @@ export default async function ExpensePage({
     redirect(`/groups/${groupId}`)
   }
 
-  const runtimeFlags = await getRuntimeFlags()
+  const featureFlags = await getFeatureFlags()
 
   return (
     <Suspense>
@@ -35,7 +35,7 @@ export default async function ExpensePage({
         group={group}
         categories={categories}
         onSubmit={createExpenseAction}
-        featureFlags={runtimeFlags}
+        featureFlags={featureFlags}
       />
     </Suspense>
   )

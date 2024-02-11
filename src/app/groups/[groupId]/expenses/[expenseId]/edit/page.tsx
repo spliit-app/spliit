@@ -7,7 +7,7 @@ import {
   updateExpense,
 } from '@/lib/api'
 import { expenseFormSchema } from '@/lib/schemas'
-import { getRuntimeFlags } from '@/lib/serverActions'
+import { getFeatureFlags } from '@/lib/serverActions'
 import { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
 import { Suspense } from 'react'
@@ -40,7 +40,7 @@ export default async function EditExpensePage({
     redirect(`/groups/${groupId}`)
   }
 
-  const runtimeFlags = await getRuntimeFlags()
+  const featureFlags = await getFeatureFlags()
 
   return (
     <Suspense>
@@ -50,7 +50,7 @@ export default async function EditExpensePage({
         categories={categories}
         onSubmit={updateExpenseAction}
         onDelete={deleteExpenseAction}
-        featureFlags={runtimeFlags}
+        featureFlags={featureFlags}
       />
     </Suspense>
   )

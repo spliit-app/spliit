@@ -1,4 +1,4 @@
-export async function getRuntimeFlags() {
+export async function getFeatureFlags() {
   'use server'
 
   const asBoolean = (value: string | undefined) =>
@@ -10,3 +10,5 @@ export async function getRuntimeFlags() {
     enableReceiptExtract: asBoolean(global.process.env.NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT),
   }
 }
+
+export type FeatureFlags = Awaited<ReturnType<typeof getFeatureFlags>>
