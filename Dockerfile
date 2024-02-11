@@ -8,6 +8,7 @@ COPY ./package.json \
      ./reset.d.ts \
      ./tailwind.config.js \
      ./postcss.config.js ./
+COPY ./scripts ./scripts
 COPY ./prisma ./prisma
 COPY ./src ./src
 
@@ -15,11 +16,9 @@ RUN apk add --no-cache openssl && \
     npm ci --ignore-scripts && \
     npx prisma generate
 
-# env vars needed for build not to fail
-ENV POSTGRES_PRISMA_URL=http://temporary.build.url
-ENV POSTGRES_URL_NON_POOLING=http://temporary.build.url
-
 ENV NEXT_TELEMETRY_DISABLED=1
+
+COPY scripts/build.env .env
 RUN npm run build
 
 RUN rm -r .next/cache
