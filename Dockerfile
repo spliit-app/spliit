@@ -5,6 +5,7 @@ COPY ./package.json \
      ./package-lock.json \
      ./next.config.js \
      ./tsconfig.json \
+     ./reset.d.ts \
      ./tailwind.config.js \
      ./postcss.config.js ./
 COPY ./prisma ./prisma
