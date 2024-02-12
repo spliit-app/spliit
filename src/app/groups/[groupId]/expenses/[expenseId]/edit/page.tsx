@@ -6,7 +6,7 @@ import {
   getExpense,
   updateExpense,
 } from '@/lib/api'
-import { env } from '@/lib/env'
+import { getRuntimeFeatureFlags } from '@/lib/featureFlags'
 import { expenseFormSchema } from '@/lib/schemas'
 import { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
@@ -40,11 +40,6 @@ export default async function EditExpensePage({
     redirect(`/groups/${groupId}`)
   }
 
-  async function getEnvOnServer() {
-    'use server'
-    return env;
-  }
-
   return (
     <Suspense>
       <ExpenseForm
@@ -53,7 +48,7 @@ export default async function EditExpensePage({
         categories={categories}
         onSubmit={updateExpenseAction}
         onDelete={deleteExpenseAction}
-        env={await getEnvOnServer()}
+        runtimeFeatureFlags={await getRuntimeFeatureFlags()}
       />
     </Suspense>
   )

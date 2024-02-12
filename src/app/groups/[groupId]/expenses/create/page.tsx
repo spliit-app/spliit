@@ -1,7 +1,7 @@
 import { cached } from '@/app/cached-functions'
 import { ExpenseForm } from '@/components/expense-form'
 import { createExpense, getCategories } from '@/lib/api'
-import { env } from '@/lib/env'
+import { getRuntimeFeatureFlags } from '@/lib/featureFlags'
 import { expenseFormSchema } from '@/lib/schemas'
 import { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
@@ -27,18 +27,13 @@ export default async function ExpensePage({
     redirect(`/groups/${groupId}`)
   }
 
-  async function getEnvOnServer() {
-    'use server'
-    return env;
-  }
-
   return (
     <Suspense>
       <ExpenseForm
         group={group}
         categories={categories}
         onSubmit={createExpenseAction}
-        env={await getEnvOnServer()}
+        runtimeFeatureFlags={await getRuntimeFeatureFlags()}
       />
     </Suspense>
   )
