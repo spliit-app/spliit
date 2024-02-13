@@ -9,7 +9,11 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { getGroupExpenses } from '@/lib/api'
-import { getBalances, getSuggestedReimbursements } from '@/lib/balances'
+import {
+  getBalances,
+  getPublicBalances,
+  getSuggestedReimbursements,
+} from '@/lib/balances'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
@@ -28,6 +32,7 @@ export default async function GroupPage({
   const expenses = await getGroupExpenses(groupId)
   const balances = getBalances(expenses)
   const reimbursements = getSuggestedReimbursements(balances)
+  const publicBalances = getPublicBalances(reimbursements)
 
   return (
     <>
@@ -40,7 +45,7 @@ export default async function GroupPage({
         </CardHeader>
         <CardContent>
           <BalancesList
-            balances={balances}
+            balances={publicBalances}
             participants={group.participants}
             currency={group.currency}
           />
