@@ -84,7 +84,8 @@ ALTER TABLE `ExpensePaidFor` ADD CONSTRAINT `ExpensePaidFor_expenseId_fkey` FORE
 ALTER TABLE `ExpensePaidFor` ADD CONSTRAINT `ExpensePaidFor_participantId_fkey` FOREIGN KEY (`participantId`) REFERENCES `Participant`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- Insert categories
-INSERT INTO `Category` (`grouping`, `name`) VALUES ('Uncategorized', 'General');
+SET SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
+INSERT INTO `Category` (`id`, `grouping`, `name`) VALUES (0, 'Uncategorized', 'General');
 INSERT INTO `Category` (`grouping`, `name`) VALUES ('Uncategorized', 'Payment');
 INSERT INTO `Category` (`grouping`, `name`) VALUES ('Entertainment', 'Entertainment');
 INSERT INTO `Category` (`grouping`, `name`) VALUES ('Entertainment', 'Games');
