@@ -51,7 +51,8 @@ export const expenseFormSchema = z
         [
           z.number(),
           z.string().transform((value, ctx) => {
-            const valueAsNumber = Number(value)
+            const normalizedValue = value.replace(/,/g, '.')
+            const valueAsNumber = Number(normalizedValue)
             if (Number.isNaN(valueAsNumber))
               ctx.addIssue({
                 code: z.ZodIssueCode.custom,
@@ -75,7 +76,8 @@ export const expenseFormSchema = z
           shares: z.union([
             z.number(),
             z.string().transform((value, ctx) => {
-              const valueAsNumber = Number(value)
+              const normalizedValue = value.replace(/,/g, '.')
+              const valueAsNumber = Number(normalizedValue)
               if (Number.isNaN(valueAsNumber))
                 ctx.addIssue({
                   code: z.ZodIssueCode.custom,
