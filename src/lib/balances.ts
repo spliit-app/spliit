@@ -24,7 +24,6 @@ export function getBalances(
 
     if (!balances[paidBy]) balances[paidBy] = { paid: 0, paidFor: 0, total: 0 }
     balances[paidBy].paid += expense.amount
-    balances[paidBy].total += expense.amount
 
     const totalPaidForShares = paidFors.reduce(
       (sum, paidFor) => sum + paidFor.shares,
@@ -46,13 +45,40 @@ export function getBalances(
 
       const dividedAmount = isLast
         ? remaining
-        : Math.floor((expense.amount * shares) / totalShares)
+        : (expense.amount * shares) / totalShares
       remaining -= dividedAmount
       balances[paidFor.participantId].paidFor += dividedAmount
-      balances[paidFor.participantId].total -= dividedAmount
     })
   }
 
+  // rounding and add total
+  for (const participantId in balances) {
+    // add +0 to avoid negative zeros
+    balances[participantId].paidFor =
+      Math.round(balances[participantId].paidFor) + 0
+    balances[participantId].paid = Math.round(balances[participantId].paid) + 0
+
+    balances[participantId].total =
+      balances[participantId].paid - balances[participantId].paidFor
+  }
+  return balances
+}
+
+export function getPublicBalances(reimbursements: Reimbursement[]): Balances {
+  const balances: Balances = {}
+  reimbursements.forEach((reimbursement) => {
+    if (!balances[reimbursement.from])
+      balances[reimbursement.from] = { paid: 0, paidFor: 0, total: 0 }
+
+    if (!balances[reimbursement.to])
+      balances[reimbursement.to] = { paid: 0, paidFor: 0, total: 0 }
+
+    balances[reimbursement.from].paidFor += reimbursement.amount
+    balances[reimbursement.from].total -= reimbursement.amount
+
+    balances[reimbursement.to].paid += reimbursement.amount
+    balances[reimbursement.to].total += reimbursement.amount
+  })
   return balances
 }
 
@@ -86,5 +112,5 @@ export function getSuggestedReimbursements(
       balancesArray.shift()
     }
   }
-  return reimbursements.filter(({ amount }) => amount !== 0)
+  return reimbursements.filter(({ amount }) => Math.round(amount) + 0 !== 0)
 }

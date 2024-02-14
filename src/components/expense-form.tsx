@@ -35,10 +35,12 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { getCategories, getExpense, getGroup, randomId } from '@/lib/api'
+import { RuntimeFeatureFlags } from '@/lib/featureFlags'
 import { ExpenseFormValues, expenseFormSchema } from '@/lib/schemas'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Save, Trash2 } from 'lucide-react'
+import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -51,6 +53,7 @@ export type Props = {
   categories: NonNullable<Awaited<ReturnType<typeof getCategories>>>
   onSubmit: (values: ExpenseFormValues) => Promise<void>
   onDelete?: () => Promise<void>
+  runtimeFeatureFlags: RuntimeFeatureFlags
 }
 
 export function ExpenseForm({
@@ -59,6 +62,7 @@ export function ExpenseForm({
   categories,
   onSubmit,
   onDelete,
+  runtimeFeatureFlags,
 }: Props) {
   const isCreate = expense === undefined
   const searchParams = useSearchParams()
@@ -160,7 +164,7 @@ export function ExpenseForm({
                       {...field}
                       onBlur={async () => {
                         field.onBlur() // avoid skipping other blur event listeners since we overwrite `field`
-                        if (process.env.NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT) {
+                        if (runtimeFeatureFlags.enableCategoryExtract) {
                           setCategoryLoading(true)
                           const { categoryId } = await extractCategoryFromTitle(
                             field.value,
@@ -540,7 +544,7 @@ export function ExpenseForm({
           </CardContent>
         </Card>
 
-        {process.env.NEXT_PUBLIC_ENABLE_EXPENSE_DOCUMENTS && (
+        {runtimeFeatureFlags.enableExpenseDocuments && (
           <Card className="mt-4">
             <CardHeader>
               <CardTitle className="flex justify-between">
@@ -583,6 +587,9 @@ export function ExpenseForm({
               Delete
             </AsyncButton>
           )}
+          <Button variant="ghost" asChild>
+            <Link href={`/groups/${group.id}`}>Cancel</Link>
+          </Button>
         </div>
       </form>
     </Form>
