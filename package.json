@@ -54,8 +54,7 @@
     "ts-pattern": "^5.0.6",
     "uuid": "^9.0.1",
     "vaul": "^0.8.0",
-    "zod": "^3.22.4",
-    "prisma": "^5.7.0"
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@total-typescript/ts-reset": "^0.5.1",
