@@ -6,6 +6,7 @@ import {
   getExpense,
   updateExpense,
 } from '@/lib/api'
+import { getRuntimeFeatureFlags } from '@/lib/featureFlags'
 import { expenseFormSchema } from '@/lib/schemas'
 import { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
@@ -47,6 +48,7 @@ export default async function EditExpensePage({
         categories={categories}
         onSubmit={updateExpenseAction}
         onDelete={deleteExpenseAction}
+        runtimeFeatureFlags={await getRuntimeFeatureFlags()}
       />
     </Suspense>
   )

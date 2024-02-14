@@ -1,6 +1,7 @@
 import { cached } from '@/app/cached-functions'
 import { ExpenseForm } from '@/components/expense-form'
 import { createExpense, getCategories } from '@/lib/api'
+import { getRuntimeFeatureFlags } from '@/lib/featureFlags'
 import { expenseFormSchema } from '@/lib/schemas'
 import { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
@@ -32,6 +33,7 @@ export default async function ExpensePage({
         group={group}
         categories={categories}
         onSubmit={createExpenseAction}
+        runtimeFeatureFlags={await getRuntimeFeatureFlags()}
       />
     </Suspense>
   )
