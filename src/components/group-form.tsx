@@ -35,6 +35,7 @@ import { getGroup } from '@/lib/api'
 import { GroupFormValues, groupFormSchema } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Save, Trash2 } from 'lucide-react'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 
@@ -272,13 +273,19 @@ export function GroupForm({
           </CardContent>
         </Card>
 
-        <SubmitButton
-          size="lg"
-          loadingContent={group ? 'Saving…' : 'Creating…'}
-          onClick={updateActiveUser}
-        >
-          <Save className="w-4 h-4 mr-2" /> {group ? <>Save</> : <> Create</>}
-        </SubmitButton>
+        <div className="flex mt-4 gap-2">
+          <SubmitButton
+            loadingContent={group ? 'Saving…' : 'Creating…'}
+            onClick={updateActiveUser}
+          >
+            <Save className="w-4 h-4 mr-2" /> {group ? <>Save</> : <> Create</>}
+          </SubmitButton>
+          {!group && (
+            <Button variant="ghost" asChild>
+              <Link href="/groups">Cancel</Link>
+            </Button>
+          )}
+        </div>
       </form>
     </Form>
   )

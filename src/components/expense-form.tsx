@@ -39,6 +39,7 @@ import { ExpenseFormValues, expenseFormSchema } from '@/lib/schemas'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Save, Trash2 } from 'lucide-react'
+import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -583,6 +584,9 @@ export function ExpenseForm({
               Delete
             </AsyncButton>
           )}
+          <Button variant="ghost" asChild>
+            <Link href={`/groups/${group.id}`}>Cancel</Link>
+          </Button>
         </div>
       </form>
     </Form>
