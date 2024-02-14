@@ -1,10 +1,7 @@
 import { ZodIssueCode, z } from 'zod'
 
 const tryParsingAsBool = (val: unknown): boolean | unknown => {
-  if (val === "true" || val === "1") return true;
-  if (val === "false" || val === "0") return false;
-  // If not parseable, return the original value that will be caught in the zod validation
-  return val;
+  return ['true', 'yes', '1', 'on'].includes(val.toLowerCase())
 };
 
 const envSchema = z
