@@ -1,6 +1,7 @@
 import { ZodIssueCode, z } from 'zod'
 
-const tryParsingAsBool = (val: unknown): boolean | unknown => {
+const interpretEnvVarAsBool = (val: unknown): boolean => {
+  if (typeof val !== 'string') return false
   return ['true', 'yes', '1', 'on'].includes(val.toLowerCase())
 }
 
@@ -17,7 +18,7 @@ const envSchema = z
           : 'http://localhost:3000',
       ),
     NEXT_PUBLIC_ENABLE_EXPENSE_DOCUMENTS: z.preprocess(
-      tryParsingAsBool,
+      interpretEnvVarAsBool,
       z.boolean().default(false),
     ),
     S3_UPLOAD_KEY: z.string().optional(),
@@ -26,11 +27,11 @@ const envSchema = z
     S3_UPLOAD_REGION: z.string().optional(),
     S3_UPLOAD_ENDPOINT: z.string().optional(),
     NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT: z.preprocess(
-      tryParsingAsBool,
+      interpretEnvVarAsBool,
       z.boolean().default(false),
     ),
     NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT: z.preprocess(
-      tryParsingAsBool,
+      interpretEnvVarAsBool,
       z.boolean().default(false),
     ),
     OPENAI_API_KEY: z.string().optional(),
