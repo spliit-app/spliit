@@ -87,7 +87,7 @@ export default async function GroupExpensesPage({
               </div>
             ))}
           >
-            <Expenses groupId={groupId} />
+            <Expenses group={group} />
           </Suspense>
         </CardContent>
       </Card>
@@ -97,9 +97,11 @@ export default async function GroupExpensesPage({
   )
 }
 
-async function Expenses({ groupId }: { groupId: string }) {
-  const group = await cached.getGroup(groupId)
-  if (!group) notFound()
+type Props = {
+  group: NonNullable<Awaited<ReturnType<typeof cached.getGroup>>>
+}
+
+async function Expenses({ group }: Props) {
   const expenses = await getGroupExpenses(group.id)
 
   return (

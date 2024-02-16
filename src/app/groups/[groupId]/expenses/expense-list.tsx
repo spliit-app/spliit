@@ -1,15 +1,17 @@
 'use client'
+import { ExpenseCard } from '@/app/groups/[groupId]/expenses/expense-card'
 import { Button } from '@/components/ui/button'
 import { SearchBar } from '@/components/ui/search-bar'
 import { getGroupExpenses } from '@/lib/api'
 import { Participant } from '@prisma/client'
 import dayjs, { type Dayjs } from 'dayjs'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import { ExpenseCard } from '@/app/groups/[groupId]/expenses/expense-card'
+import { useEffect, useMemo, useState } from 'react'
+
+type ExpensesType = Awaited<ReturnType<typeof getGroupExpenses>>
 
 type Props = {
-  expenses: Awaited<ReturnType<typeof getGroupExpenses>>
+  expenses: ExpensesType
   participants: Participant[]
   currency: string
   groupId: string
@@ -40,19 +42,14 @@ function getExpenseGroup(date: Dayjs, today: Dayjs) {
   }
 }
 
-function getGroupedExpensesByDate(
-  expenses: Awaited<ReturnType<typeof getGroupExpenses>>,
-) {
+function getGroupedExpensesByDate(expenses: ExpensesType) {
   const today = dayjs()
-  return expenses.reduce(
-    (result: { [key: string]: Awaited<ReturnType<typeof getGroupExpenses>> }, expense) => {
-      const expenseGroup = getExpenseGroup(dayjs(expense.expenseDate), today)
-      result[expenseGroup] = result[expenseGroup] ?? []
-      result[expenseGroup].push(expense)
-      return result
-    },
-    {},
-  )
+  return expenses.reduce((result: { [key: string]: ExpensesType }, expense) => {
+    const expenseGroup = getExpenseGroup(dayjs(expense.expenseDate), today)
+    result[expenseGroup] = result[expenseGroup] ?? []
+    result[expenseGroup].push(expense)
+    return result
+  }, {})
 }
 
 export function ExpenseList({
@@ -81,11 +78,25 @@ export function ExpenseList({
     }
   }, [groupId, participants])
 
-  const groupedExpensesByDate = getGroupedExpensesByDate(expenses)
+  const groupedExpensesByDate = useMemo(
+    () => getGroupedExpensesByDate(expenses),
+    [expenses],
+  )
+  const [showAll, setShowAll] = useState(
+    !groupedExpensesByDate[EXPENSE_GROUPS.LAST_YEAR],
+  )
+
   return expenses.length > 0 ? (
     <>
       <SearchBar onChange={(e) => setSearchText(e.target.value)} />
       {Object.values(EXPENSE_GROUPS).map((expenseGroup: string) => {
+        if (
+          !showAll &&
+          (expenseGroup === EXPENSE_GROUPS.LAST_YEAR ||
+            expenseGroup === EXPENSE_GROUPS.OLDER)
+        )
+          return null
+
         let groupExpenses = groupedExpensesByDate[expenseGroup]
         if (!groupExpenses) return null
 
@@ -116,6 +127,11 @@ export function ExpenseList({
           </div>
         )
       })}
+      {!showAll && (
+        <Button variant="secondary" onClick={() => setShowAll(true)}>
+          Show more...
+        </Button>
+      )}
     </>
   ) : (
     <p className="px-6 text-sm py-6">
