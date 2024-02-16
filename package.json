@@ -4,14 +4,24 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "prebuild": "./scripts/pre-build.sh nightly",
+    "build": "./scripts/package.sh",
+    "postbuild": "./scripts/post-build.sh",
+    "prebuild-prod": "./scripts/pre-build.sh prod",
+    "build-prod": "./scripts/package.sh",
+    "postbuild-prod": "./scripts/post-build.sh",
+    "prebuild-image": "./scripts/pre-build.sh nightly",
+    "build-image": "./scripts/build-image.sh",
+    "postbuild-image": "./scripts/post-build.sh",
+    "prebuild-image-prod": "./scripts/pre-build.sh prod",
+    "build-image-prod": "./scripts/build-image.sh",
+    "postbuild-image-prod": "./scripts/post-build.sh",
     "start": "next start",
     "lint": "next lint",
     "check-types": "tsc --noEmit",
     "check-formatting": "prettier -c src",
     "prisma-init": "prisma migrate deploy && prisma generate",
-    "build-image": "./scripts/build-image.sh",
-    "start-container": "docker compose --env-file container.env up"
+    "start-container": "docker compose --env-file .env up"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
