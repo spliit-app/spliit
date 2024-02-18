@@ -82,21 +82,11 @@ export function ExpenseList({
     () => getGroupedExpensesByDate(expenses),
     [expenses],
   )
-  const [showAll, setShowAll] = useState(
-    !groupedExpensesByDate[EXPENSE_GROUPS.LAST_YEAR],
-  )
 
   return expenses.length > 0 ? (
     <>
       <SearchBar onChange={(e) => setSearchText(e.target.value)} />
       {Object.values(EXPENSE_GROUPS).map((expenseGroup: string) => {
-        if (
-          !showAll &&
-          (expenseGroup === EXPENSE_GROUPS.LAST_YEAR ||
-            expenseGroup === EXPENSE_GROUPS.OLDER)
-        )
-          return null
-
         let groupExpenses = groupedExpensesByDate[expenseGroup]
         if (!groupExpenses) return null
 
@@ -126,11 +116,6 @@ export function ExpenseList({
           </div>
         )
       })}
-      {!showAll && (
-        <Button variant="secondary" onClick={() => setShowAll(true)}>
-          Show more...
-        </Button>
-      )}
     </>
   ) : (
     <p className="px-6 text-sm py-6">
