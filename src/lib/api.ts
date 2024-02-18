@@ -86,8 +86,8 @@ export async function getGroupExpensesParticipants(groupId: string) {
   return Array.from(
     new Set(
       expenses.flatMap((e) => [
-        e.paidById,
-        ...e.paidFor.map((pf) => pf.participantId),
+        e.paidBy.id,
+        ...e.paidFor.map((pf) => pf.participant.id),
       ]),
     ),
   )
@@ -234,12 +234,24 @@ export async function getCategories() {
 
 export async function getGroupExpenses(groupId: string) {
   return prisma.expense.findMany({
-    where: { groupId },
-    include: {
-      paidFor: { include: { participant: true } },
-      paidBy: true,
+    select: {
+      amount: true,
       category: true,
+      createdAt: true,
+      expenseDate: true,
+      id: true,
+      isReimbursement: true,
+      paidBy: { select: { id: true, name: true } },
+      paidFor: {
+        select: {
+          participant: { select: { id: true, name: true } },
+          shares: true,
+        },
+      },
+      splitMode: true,
+      title: true,
     },
+    where: { groupId },
     orderBy: [{ expenseDate: 'desc' }, { createdAt: 'desc' }],
   })
 }

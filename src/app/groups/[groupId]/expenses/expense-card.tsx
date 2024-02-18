@@ -45,12 +45,12 @@ export function ExpenseCard({
           {expense.title}
         </div>
         <div className="text-xs text-muted-foreground">
-          Paid by <strong>{getParticipant(expense.paidById)?.name}</strong> for{' '}
-          {expense.paidFor.map((paidFor: any, index: number) => (
+          Paid by <strong>{getParticipant(expense.paidBy.id)?.name}</strong> for{' '}
+          {expense.paidFor.map((paidFor, index) => (
             <Fragment key={index}>
               {index !== 0 && <>, </>}
               <strong>
-                {participants.find((p) => p.id === paidFor.participantId)?.name}
+                {participants.find((p) => p.id === paidFor.participant.id)?.name}
               </strong>
             </Fragment>
           ))}
