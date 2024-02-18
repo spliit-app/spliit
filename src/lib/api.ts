@@ -232,7 +232,10 @@ export async function getCategories() {
   return prisma.category.findMany()
 }
 
-export async function getGroupExpenses(groupId: string) {
+export async function getGroupExpenses(
+  groupId: string,
+  options?: { offset: number; length: number },
+) {
   return prisma.expense.findMany({
     select: {
       amount: true,
@@ -253,7 +256,13 @@ export async function getGroupExpenses(groupId: string) {
     },
     where: { groupId },
     orderBy: [{ expenseDate: 'desc' }, { createdAt: 'desc' }],
+    skip: options && options.offset,
+    take: options && options.length,
   })
+}
+
+export async function getGroupExpenseCount(groupId: string) {
+  return prisma.expense.count({ where: { groupId } })
 }
 
 export async function getExpense(groupId: string, expenseId: string) {
