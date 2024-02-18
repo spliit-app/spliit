@@ -1,16 +1,16 @@
 'use client'
 import { ExpenseCard } from '@/app/groups/[groupId]/expenses/expense-card'
+import { getGroupExpensesAction } from '@/app/groups/[groupId]/expenses/expense-list-fetch-action'
 import { Button } from '@/components/ui/button'
 import { SearchBar } from '@/components/ui/search-bar'
 import { Skeleton } from '@/components/ui/skeleton'
-import { getGroupExpenses } from '@/lib/api'
 import { Participant } from '@prisma/client'
 import dayjs, { type Dayjs } from 'dayjs'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 
-type ExpensesType = Awaited<ReturnType<typeof getGroupExpenses>>
+type ExpensesType = NonNullable<Awaited<ReturnType<typeof getGroupExpensesAction>>>
 
 type Props = {
   expensesFirstPage: ExpensesType
@@ -55,25 +55,6 @@ function getGroupedExpensesByDate(expenses: ExpensesType) {
   }, {})
 }
 
-async function fetchExpenses(
-  groupId: string,
-  offset: number,
-  length: number,
-): Promise<ExpensesType> {
-  const resp = await fetch(
-    `/api/groups/${groupId}/expenses?offset=${offset}&length=${length}`,
-  )
-
-  const expenses = resp.ok && ((await resp.json()) as ExpensesType)
-  if (expenses === false) throw 'internal error'
-
-  expenses.forEach((e) => {
-    e.createdAt = new Date(e.createdAt)
-    e.expenseDate = new Date(e.expenseDate)
-  })
-  return expenses
-}
-
 export function ExpenseList({
   expensesFirstPage,
   expenseCount,
@@ -113,15 +94,18 @@ export function ExpenseList({
     const fetchNextPage = async () => {
       setIsFetching(true)
 
-      try {
-        const newExpenses = expenses.concat(
-          await fetchExpenses(groupId, dataIndex, dataLen),
-        )
-        setExpenses(newExpenses)
-        setHasMoreData(newExpenses.length < expenseCount)
+      const newExpenses = await getGroupExpensesAction(groupId, {
+        offset: dataIndex,
+        length: dataLen,
+      })
+
+      if (newExpenses !== null) {
+        const exp = expenses.concat(newExpenses)
+        setExpenses(exp)
+        setHasMoreData(exp.length < expenseCount)
         setDataIndex(dataIndex + dataLen)
         setDataLen(Math.ceil(1.5 * dataLen))
-      } catch {}
+      }
 
       setTimeout(() => setIsFetching(false), 500)
     }
