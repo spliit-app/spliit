@@ -3,7 +3,6 @@ import { CategoryIcon } from '@/app/groups/[groupId]/expenses/category-icon'
 import { Button } from '@/components/ui/button'
 import { getGroupExpenses } from '@/lib/api'
 import { cn, formatCurrency, formatExpenseDate } from '@/lib/utils'
-import { Participant } from '@prisma/client'
 import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -11,18 +10,11 @@ import { Fragment } from 'react'
 
 type Props = {
   expense: Awaited<ReturnType<typeof getGroupExpenses>>[number]
-  participants: Participant[]
   currency: string
   groupId: string
 }
 
-export function ExpenseCard({
-  expense,
-  currency,
-  participants,
-  groupId,
-}: Props) {
-  const getParticipant = (id: string) => participants.find((p) => p.id === id)
+export function ExpenseCard({ expense, currency, groupId }: Props) {
   const router = useRouter()
 
   return (
@@ -45,13 +37,11 @@ export function ExpenseCard({
           {expense.title}
         </div>
         <div className="text-xs text-muted-foreground">
-          Paid by <strong>{getParticipant(expense.paidBy.id)?.name}</strong> for{' '}
+          Paid by <strong>{expense.paidBy.name}</strong> for{' '}
           {expense.paidFor.map((paidFor, index) => (
             <Fragment key={index}>
               {index !== 0 && <>, </>}
-              <strong>
-                {participants.find((p) => p.id === paidFor.participant.id)?.name}
-              </strong>
+              <strong>{paidFor.participant.name}</strong>
             </Fragment>
           ))}
         </div>

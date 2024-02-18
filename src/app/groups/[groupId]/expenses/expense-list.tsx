@@ -120,7 +120,6 @@ export function ExpenseList({
                 key={expense.id}
                 expense={expense}
                 currency={currency}
-                participants={participants}
                 groupId={groupId}
               />
             ))}
