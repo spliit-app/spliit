@@ -7,8 +7,13 @@ type Props = {
 
 export function TotalsGroupSpending({ totalGroupSpendings, currency }: Props) {
     return (
-        <div className="text-lg">
-            {formatCurrency(currency, totalGroupSpendings)}
-        </div>
+        <>  
+            <div className="text-lg text-muted-foreground">
+                Total group spendings
+            </div>
+            <div className="text-lg">
+                {formatCurrency(currency, totalGroupSpendings)}
+            </div>
+        </>
     )
 }

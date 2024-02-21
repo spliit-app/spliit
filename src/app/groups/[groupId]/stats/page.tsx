@@ -11,8 +11,9 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { TotalsGroupSpending } from '@/app/groups/[groupId]/totals-group-spending'
 import { getTotalGroupSpending } from '@/lib/totals'
-import { TotalsYourSpendings } from '@/app/groups/[groupId]/total-your-spending'
-import { TotalsYourShare } from '@/app/groups/[groupId]/total-your-share'
+import { TotalsYourSpendings } from '@/app/groups/[groupId]/totals-your-spending'
+import { TotalsYourShare } from '@/app/groups/[groupId]/totals-your-share'
+import { Space } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Totals',
@@ -33,9 +34,9 @@ export default async function TotalsPage({
     <>
       <Card className="mb-4">
         <CardHeader>
-          <CardTitle>Total group spending</CardTitle>
+          <CardTitle>Totals</CardTitle>
           <CardDescription>
-          Combined amount of all expenses recorded by the members
+          Spending summary of the entire group
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -43,36 +44,17 @@ export default async function TotalsPage({
                 totalGroupSpendings={totalGroupSpendings}
                 currency={group.currency}
             />
-        </CardContent>
-      </Card>
-      <Card className="mb-4">
-        <CardHeader>
-          <CardTitle>Total you paid for</CardTitle>
-          <CardDescription>
-          Total amount of money that you have paid on behalf of the group
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
             <TotalsYourSpendings
             group={group}
             expenses={expenses}
             />
-        </CardContent>
-      </Card>
-      <Card className="mb-4">
-        <CardHeader>
-          <CardTitle>Your total share</CardTitle>
-          <CardDescription>
-          Total amount of money that you are responsible for paying
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
             <TotalsYourShare
             group={group}
             expenses={expenses}
             />
         </CardContent>
       </Card>
+    
     </>
   )
 }

@@ -23,7 +23,7 @@ export function GroupTabs({ groupId }: Props) {
       <TabsList>
         <TabsTrigger value="expenses">Expenses</TabsTrigger>
         <TabsTrigger value="balances">Balances</TabsTrigger>
-        <TabsTrigger value="totals">Totals</TabsTrigger>
+        <TabsTrigger value="stats">Stats</TabsTrigger>
         <TabsTrigger value="edit">Settings</TabsTrigger>
       </TabsList>
     </Tabs>

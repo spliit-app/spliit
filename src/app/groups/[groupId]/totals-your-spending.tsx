@@ -16,21 +16,23 @@ export function TotalsYourSpendings({ group, expenses }: Props) {
 
     useEffect(() => {
         const activeUser = localStorage.getItem(`${group.id}-activeUser`)
-        if (activeUser) setActiveUser(activeUser) 
+        if (activeUser) setActiveUser(activeUser)
 
-      }, [group, expenses])
+    }, [group, expenses])
 
-    const totalYourSpendings = getTotalActiveUserPaidFor(activeUser, expenses)
+    const totalYourSpendings = (activeUser === '' || activeUser === 'None') ? 0 : getTotalActiveUserPaidFor(activeUser, expenses)
     const currency = group.currency
 
-    return activeUser === '' ?
-    (
-        <div className="text-lg">
-            'No active user set!!'
-        </div>
-    ) : (
-        <div className="text-lg">
-            {formatCurrency(currency, totalYourSpendings)}
-        </div>
+    return (
+        <>
+            <div className="text-lg text-muted-foreground">
+                Total you paid for
+            </div>
+
+            <div className="text-lg">
+                {formatCurrency(currency, totalYourSpendings)}
+            </div>
+        </>
+
     )
 }
