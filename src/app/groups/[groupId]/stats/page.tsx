@@ -39,7 +39,7 @@ export default async function TotalsPage({
           Spending summary of the entire group
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className='flex flex-col space-y-4'>
             <TotalsGroupSpending
                 totalGroupSpendings={totalGroupSpendings}
                 currency={group.currency}

@@ -24,15 +24,15 @@ export function TotalsYourShare({ group, expenses }: Props) {
     const currency = group.currency
 
     return (
-        <>
-            <div className="text-lg text-muted-foreground">
+        <div>
+            <div className="text-muted-foreground">
                 Your total share
 
             </div>
             <div className="text-lg">
                 {formatCurrency(currency, totalActiveUserShare)}
             </div>
-        </>
+        </div>
 
     )
 }

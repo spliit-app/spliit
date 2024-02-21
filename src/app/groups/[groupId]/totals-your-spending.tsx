@@ -24,15 +24,15 @@ export function TotalsYourSpendings({ group, expenses }: Props) {
     const currency = group.currency
 
     return (
-        <>
-            <div className="text-lg text-muted-foreground">
+        <div>
+            <div className="text-muted-foreground">
                 Total you paid for
             </div>
 
             <div className="text-lg">
                 {formatCurrency(currency, totalYourSpendings)}
             </div>
-        </>
+        </div>
 
     )
 }
