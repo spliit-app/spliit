@@ -107,6 +107,8 @@ export const expenseFormSchema = z
       .default('EVENLY'),
     saveDefaultSplittingOptions: z.boolean(),
     isReimbursement: z.boolean(),
+    recurringDays: z.string({ required_error: 'You must select recurring days.' }),
+    isArchive: z.boolean(),
     documents: z
       .array(
         z.object({
