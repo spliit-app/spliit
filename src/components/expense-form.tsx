@@ -164,6 +164,10 @@ export function ExpenseForm({
     return field?.value
   }
   const defaultSplittingOptions = getDefaultSplittingOptions(group)
+
+  const getRecurringField = (field?: { value: string }) => {
+    return field?.value
+  }
   const form = useForm<ExpenseFormValues>({
     resolver: zodResolver(expenseFormSchema),
     defaultValues: expense
@@ -182,6 +186,8 @@ export function ExpenseForm({
           isReimbursement: expense.isReimbursement,
           documents: expense.documents,
           notes: expense.notes ?? '',
+          recurringDays: String(expense.recurringDays),
+          isArchive: expense.isArchive,
         }
       : searchParams.get('reimbursement')
       ? {
@@ -205,6 +211,8 @@ export function ExpenseForm({
           saveDefaultSplittingOptions: false,
           documents: [],
           notes: '',
+          recurringDays: "0",
+          isArchive: false,
         }
       : {
           title: searchParams.get('title') ?? '',
@@ -232,7 +240,10 @@ export function ExpenseForm({
               ]
             : [],
           notes: '',
+          recurringDays: "0",
+          isArchive: false,
         },
+        
   })
   const [isCategoryLoading, setCategoryLoading] = useState(false)
 
@@ -241,6 +252,7 @@ export function ExpenseForm({
     return onSubmit(values)
   }
 
+  const recurringDays = [{ "key": "Never","value": "0"}, { "key":"weekly", "value": "7"}, {"key": "fortnightly", "value": "14"}, {"key": "monthly", "value": "30"}, {"key": "bimonthly", "value": "60"}]
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(submit)}>
@@ -413,6 +425,34 @@ export function ExpenseForm({
                   <FormControl>
                     <Textarea className="text-base" {...field} />
                   </FormControl>
+                  </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="recurringDays"
+              render={({ field }) => (
+                <FormItem className="sm:order-5">
+                  <FormLabel>Recurring Days</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={getRecurringField(field)}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Never" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {recurringDays.map(({ key, value }) => (
+                        <SelectItem key={key} value={value}>
+                          {key}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    Select recursive days.
+                  </FormDescription>
+                  <FormMessage />
                 </FormItem>
               )}
             />

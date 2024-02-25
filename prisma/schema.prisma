@@ -53,6 +53,8 @@ model Expense {
   createdAt       DateTime          @default(now())
   documents       ExpenseDocument[]
   notes           String?
+  recurringDays  Int               @default(0)
+  isArchive      Boolean           @default(false)
 }
 
 model ExpenseDocument {
@@ -79,4 +81,14 @@ model ExpensePaidFor {
   shares        Int         @default(1)
 
   @@id([expenseId, participantId])
+}
+
+model RecurringTransactions {
+  groupId         String
+  expenseId       String
+  createNextAt    Int
+  lockId          String?  @unique
+
+  @@id([groupId, expenseId])
+  @@index([groupId, expenseId, createNextAt(sort: Desc)])
 }
