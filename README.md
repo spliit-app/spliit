@@ -54,7 +54,7 @@ If you want to contribute financially and help us keep the application free and 
 ## Run in a container
 
 1. Run `npm run build-image` to build the docker image from the Dockerfile
-2. Copy the file `container.env.example` as `container.env`
+2. Copy the file `.env.example` as `.env`
 3. Run `npm run start-container` to start the postgres and the spliit2 containers
 4. You can access the app by browsing to http://localhost:3000
 
