@@ -122,7 +122,7 @@ export function ExpenseForm({
           // paid for all, split evenly
           paidFor: group.participants.map(({ id }) => ({
             participant: id,
-            shares: 1,
+            shares: ('1' as unknown as number),
           })),
           paidBy: getSelectedPayer(),
           isReimbursement: false,
