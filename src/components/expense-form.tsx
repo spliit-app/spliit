@@ -103,7 +103,7 @@ export function ExpenseForm({
           paidBy: searchParams.get('from') ?? undefined,
           paidFor: [
             searchParams.get('to')
-              ? { participant: searchParams.get('to')!, shares: 1 }
+              ? { participant: searchParams.get('to')!, shares: ('1' as unknown as number) }
               : undefined,
           ],
           isReimbursement: true,
