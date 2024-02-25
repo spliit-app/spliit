@@ -45,15 +45,16 @@ If you want to contribute financially and help us keep the application free and 
 ## Run locally
 
 1. Clone the repository (or fork it if you intend to contribute)
-2. Start a PostgreSQL server. You can run `./scripts/start-local-db.sh` if you don’t have a server already.
-3. Copy the file `.env.example` as `.env`
-4. Run `npm install` to install dependencies. This will also apply database migrations and update Prisma Client.
-5. Run `npm run dev` to start the development server
+2. `npm install`
+3. Start a PostgreSQL server. You can run `./scripts/start-local-db.sh` if you don’t have a server already.
+4. Copy the file `.env.example` as `.env`
+5. `npm run prisma-init`
+6. `npm run dev`
 
 ## Run in a container
 
 1. Run `npm run build-image` to build the docker image from the Dockerfile
-2. Copy the file `container.env.example` as `container.env`
+2. Copy the file `.env.example` as `.env`
 3. Run `npm run start-container` to start the postgres and the spliit2 containers
 4. You can access the app by browsing to http://localhost:3000
 

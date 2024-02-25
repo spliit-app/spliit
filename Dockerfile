@@ -1,47 +1,22 @@
-FROM node:21-alpine as base
+ARG SPLIIT_NODE_VERSION="21-alpine"
+
+FROM node:${SPLIIT_NODE_VERSION}
+
+ARG SPLIIT_APP_NAME="spliit2"
+ARG SPLIIT_VERSION=""
+ARG SPLIIT_DEST_DIR="./"
 
 WORKDIR /usr/app
-COPY ./package.json \
-     ./package-lock.json \
-     ./next.config.js \
-     ./tsconfig.json \
-     ./reset.d.ts \
-     ./tailwind.config.js \
-     ./postcss.config.js ./
-COPY ./scripts ./scripts
-COPY ./prisma ./prisma
-COPY ./src ./src
 
-RUN apk add --no-cache openssl && \
-    npm ci --ignore-scripts && \
-    npx prisma generate
+COPY ${SPLIIT_DEST_DIR} ./
+COPY ./scripts/container-entrypoint.sh ./
+
+RUN apk add --no-cache openssl
 
 ENV NEXT_TELEMETRY_DISABLED=1
-
-COPY scripts/build.env .env
-RUN npm run build
-
-RUN rm -r .next/cache
-
-FROM node:21-alpine as runtime-deps
-
-WORKDIR /usr/app
-COPY --from=base /usr/app/package.json /usr/app/package-lock.json ./
-COPY --from=base /usr/app/prisma ./prisma
-
-RUN npm ci --omit=dev --omit=optional --ignore-scripts && \
-    npx prisma generate
-
-FROM node:21-alpine as runner
+ENV SPLIIT_APP_NAME=${SPLIIT_APP_NAME}
+ENV SPLIIT_VERSION=${SPLIIT_VERSION}
 
 EXPOSE 3000/tcp
-WORKDIR /usr/app
 
-COPY --from=base /usr/app/package.json /usr/app/package-lock.json ./
-COPY --from=runtime-deps /usr/app/node_modules ./node_modules
-COPY ./public ./public
-COPY ./scripts ./scripts
-COPY --from=base /usr/app/prisma ./prisma
-COPY --from=base /usr/app/.next ./.next
-
-ENTRYPOINT ["/bin/sh", "/usr/app/scripts/container-entrypoint.sh"]
+ENTRYPOINT ["/bin/sh", "/usr/app/container-entrypoint.sh"]

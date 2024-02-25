@@ -4,7 +4,7 @@ services:
     ports:
       - 3000:3000
     env_file:
-      - container.env
+      - .env
     depends_on:
       db:
         condition: service_healthy
@@ -14,7 +14,7 @@ services:
     ports:
       - 5432:5432
     env_file:
-      - container.env
+      - .env
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
     healthcheck:
