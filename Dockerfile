@@ -10,11 +10,12 @@ COPY ./package.json \
      ./postcss.config.js ./
 COPY ./scripts ./scripts
 COPY ./prisma ./prisma
-COPY ./src ./src
 
 RUN apk add --no-cache openssl && \
     npm ci --ignore-scripts && \
     npx prisma generate
+
+COPY ./src ./src
 
 ENV NEXT_TELEMETRY_DISABLED=1
 
