@@ -435,7 +435,7 @@ export function ExpenseForm({
                                               ),
                                             )}
                                             className="text-base w-[80px] -my-2"
-                                            type="number"
+                                            type="text"
                                             disabled={
                                               !field.value?.some(
                                                 ({ participant }) =>
@@ -448,19 +448,23 @@ export function ExpenseForm({
                                                   participant === id,
                                               )?.shares
                                             }
-                                            onChange={(event) =>
-                                              field.onChange(
+                                            onChange={(event) => {
+                                              const value = event.target.value
+                                              const fixedValue = typeof value === "string"
+                                                ? value.replace(/,/g, '.')
+                                                : value
+
+                                              return field.onChange(
                                                 field.value.map((p) =>
                                                   p.participant === id
                                                     ? {
                                                         participant: id,
-                                                        shares:
-                                                          event.target.value,
+                                                        shares: fixedValue,
                                                       }
                                                     : p,
                                                 ),
                                               )
-                                            }
+                                            }}
                                             inputMode={
                                               form.getValues().splitMode ===
                                               'BY_AMOUNT'
