@@ -217,12 +217,20 @@ export function ExpenseForm({
                     <span>{group.currency}</span>
                     <FormControl>
                       <Input
+                        {...field}
                         className="text-base max-w-[120px]"
-                        type="number"
+                        type="text"
                         inputMode="decimal"
                         step={0.01}
                         placeholder="0.00"
-                        {...field}
+                        onChange={(event) => {
+                          const value = event.target.value
+                          const fixedValue = typeof value === "string"
+                            ? value.replace(/,/g, '.')
+                            : value
+
+                          return field.onChange(fixedValue)
+                        }}
                       />
                     </FormControl>
                   </div>
