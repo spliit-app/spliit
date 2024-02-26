@@ -225,9 +225,10 @@ export function ExpenseForm({
                         placeholder="0.00"
                         onChange={(event) => {
                           const value = event.target.value
-                          const fixedValue = typeof value === "string"
-                            ? value.replace(/,/g, '.')
-                            : value
+                          const fixedValue =
+                            typeof value === 'string'
+                              ? value.replace(/,/g, '.')
+                              : value
 
                           return field.onChange(fixedValue)
                         }}
@@ -450,9 +451,10 @@ export function ExpenseForm({
                                             }
                                             onChange={(event) => {
                                               const value = event.target.value
-                                              const fixedValue = typeof value === "string"
-                                                ? value.replace(/,/g, '.')
-                                                : value
+                                              const fixedValue =
+                                                typeof value === 'string'
+                                                  ? value.replace(/,/g, '.')
+                                                  : value
 
                                               return field.onChange(
                                                 field.value.map((p) =>
