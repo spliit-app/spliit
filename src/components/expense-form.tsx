@@ -56,6 +56,18 @@ export type Props = {
   runtimeFeatureFlags: RuntimeFeatureFlags
 }
 
+const enforceCurrencyPattern = (
+  onChange: (value: string) => void,
+  value: string,
+) =>
+  onChange(
+    value
+      // replace commas with dots
+      .replace(/,/g, '.')
+      // remove all non-numeric and non-dot characters
+      .replace(/[^\d.]/g, ''),
+  )
+
 export function ExpenseForm({
   group,
   expense,
@@ -223,15 +235,12 @@ export function ExpenseForm({
                         inputMode="decimal"
                         step={0.01}
                         placeholder="0.00"
-                        onChange={(event) => {
-                          const value = event.target.value
-                          const fixedValue =
-                            typeof value === 'string'
-                              ? value.replace(/,/g, '.')
-                              : value
-
-                          return field.onChange(fixedValue)
-                        }}
+                        onChange={(event) =>
+                          enforceCurrencyPattern(
+                            field.onChange,
+                            event.target.value,
+                          )
+                        }
                       />
                     </FormControl>
                   </div>
@@ -449,24 +458,13 @@ export function ExpenseForm({
                                                   participant === id,
                                               )?.shares
                                             }
-                                            onChange={(event) => {
-                                              const value = event.target.value
-                                              const fixedValue =
-                                                typeof value === 'string'
-                                                  ? value.replace(/,/g, '.')
-                                                  : value
-
-                                              return field.onChange(
-                                                field.value.map((p) =>
-                                                  p.participant === id
-                                                    ? {
-                                                        participant: id,
-                                                        shares: fixedValue,
-                                                      }
-                                                    : p,
-                                                ),
+                                            pattern="[0-9]+([,\.][0-9]+)?"
+                                            onChange={(event) =>
+                                              enforceCurrencyPattern(
+                                                field.onChange,
+                                                event.target.value,
                                               )
-                                            }}
+                                            }
                                             inputMode={
                                               form.getValues().splitMode ===
                                               'BY_AMOUNT'
