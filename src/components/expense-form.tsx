@@ -56,17 +56,16 @@ export type Props = {
   runtimeFeatureFlags: RuntimeFeatureFlags
 }
 
-const enforceCurrencyPattern = (
-  onChange: (value: string) => void,
-  value: string,
-) =>
-  onChange(
-    value
-      // replace commas with dots
-      .replace(/,/g, '.')
-      // remove all non-numeric and non-dot characters
-      .replace(/[^\d.]/g, ''),
-  )
+const enforceCurrencyPattern = (value: string) =>
+  value
+    // replace first comma with #
+    .replace(/[.,]/, '#')
+    // remove all other commas
+    .replace(/[.,]/g, '')
+    // change back # to dot
+    .replace(/#/, '.')
+    // remove all non-numeric and non-dot characters
+    .replace(/[^\d.]/g, '')
 
 export function ExpenseForm({
   group,
@@ -236,9 +235,8 @@ export function ExpenseForm({
                         step={0.01}
                         placeholder="0.00"
                         onChange={(event) =>
-                          enforceCurrencyPattern(
-                            field.onChange,
-                            event.target.value,
+                          field.onChange(
+                            enforceCurrencyPattern(event.target.value),
                           )
                         }
                       />
@@ -458,11 +456,19 @@ export function ExpenseForm({
                                                   participant === id,
                                               )?.shares
                                             }
-                                            pattern="[0-9]+([,\.][0-9]+)?"
                                             onChange={(event) =>
-                                              enforceCurrencyPattern(
-                                                field.onChange,
-                                                event.target.value,
+                                              field.onChange(
+                                                field.value.map((p) =>
+                                                  p.participant === id
+                                                    ? {
+                                                        participant: id,
+                                                        shares:
+                                                          enforceCurrencyPattern(
+                                                            event.target.value,
+                                                          ),
+                                                      }
+                                                    : p,
+                                                ),
                                               )
                                             }
                                             inputMode={
