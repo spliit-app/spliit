@@ -222,6 +222,7 @@ export function ExpenseForm({
                         inputMode="decimal"
                         step={0.01}
                         placeholder="0.00"
+                        onClick={(e) => e.currentTarget.select()}
                         {...field}
                       />
                     </FormControl>
