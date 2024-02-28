@@ -239,6 +239,8 @@ export function ExpenseForm({
                             enforceCurrencyPattern(event.target.value),
                           )
                         }
+                        onClick={(e) => e.currentTarget.select()}
+                        {...field}
                       />
                     </FormControl>
                   </div>
