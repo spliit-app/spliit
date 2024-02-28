@@ -9,6 +9,7 @@
     "lint": "next lint",
     "check-types": "tsc --noEmit",
     "check-formatting": "prettier -c src",
+    "prettier": "prettier -w src",
     "postinstall": "prisma migrate deploy && prisma generate",
     "build-image": "./scripts/build-image.sh",
     "start-container": "docker compose --env-file container.env up"
