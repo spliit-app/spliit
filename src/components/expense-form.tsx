@@ -114,7 +114,10 @@ export function ExpenseForm({
           paidBy: searchParams.get('from') ?? undefined,
           paidFor: [
             searchParams.get('to')
-              ? { participant: searchParams.get('to')!, shares: 1 }
+              ? {
+                  participant: searchParams.get('to')!,
+                  shares: '1' as unknown as number,
+                }
               : undefined,
           ],
           isReimbursement: true,
@@ -133,7 +136,7 @@ export function ExpenseForm({
           // paid for all, split evenly
           paidFor: group.participants.map(({ id }) => ({
             participant: id,
-            shares: 1,
+            shares: '1' as unknown as number,
           })),
           paidBy: getSelectedPayer(),
           isReimbursement: false,
