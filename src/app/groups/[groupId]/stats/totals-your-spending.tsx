@@ -1,8 +1,8 @@
 'use client'
 import { getGroup, getGroupExpenses } from '@/lib/api'
+import { useActiveUser } from '@/lib/hooks'
 import { getTotalActiveUserPaidFor } from '@/lib/totals'
 import { formatCurrency } from '@/lib/utils'
-import { useEffect, useState } from 'react'
 
 type Props = {
   group: NonNullable<Awaited<ReturnType<typeof getGroup>>>
@@ -10,12 +10,7 @@ type Props = {
 }
 
 export function TotalsYourSpendings({ group, expenses }: Props) {
-  const [activeUser, setActiveUser] = useState('')
-
-  useEffect(() => {
-    const activeUser = localStorage.getItem(`${group.id}-activeUser`)
-    if (activeUser) setActiveUser(activeUser)
-  }, [group, expenses])
+  const activeUser = useActiveUser(group.id)
 
   const totalYourSpendings =
     activeUser === '' || activeUser === 'None'

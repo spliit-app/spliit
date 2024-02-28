@@ -1,7 +1,5 @@
 import { cached } from '@/app/cached-functions'
-import { TotalsGroupSpending } from '@/app/groups/[groupId]/totals-group-spending'
-import { TotalsYourShare } from '@/app/groups/[groupId]/totals-your-share'
-import { TotalsYourSpendings } from '@/app/groups/[groupId]/totals-your-spending'
+import { Totals } from '@/app/groups/[groupId]/stats/totals'
 import {
   Card,
   CardContent,
@@ -39,12 +37,11 @@ export default async function TotalsPage({
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col space-y-4">
-          <TotalsGroupSpending
+          <Totals
+            group={group}
+            expenses={expenses}
             totalGroupSpendings={totalGroupSpendings}
-            currency={group.currency}
           />
-          <TotalsYourSpendings group={group} expenses={expenses} />
-          <TotalsYourShare group={group} expenses={expenses} />
         </CardContent>
       </Card>
     </>
