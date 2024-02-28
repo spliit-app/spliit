@@ -51,8 +51,7 @@ export const expenseFormSchema = z
         [
           z.number(),
           z.string().transform((value, ctx) => {
-            const normalizedValue = value.replace(/,/g, '.')
-            const valueAsNumber = Number(normalizedValue)
+            const valueAsNumber = Number(value)
             if (Number.isNaN(valueAsNumber))
               ctx.addIssue({
                 code: z.ZodIssueCode.custom,
