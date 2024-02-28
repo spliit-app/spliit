@@ -221,7 +221,7 @@ export function ExpenseForm({
             <FormField
               control={form.control}
               name="amount"
-              render={({ field }) => (
+              render={({ field: { onChange, ...field } }) => (
                 <FormItem className="sm:order-3">
                   <FormLabel>Amount</FormLabel>
                   <div className="flex items-baseline gap-2">
@@ -235,9 +235,7 @@ export function ExpenseForm({
                         step={0.01}
                         placeholder="0.00"
                         onChange={(event) =>
-                          field.onChange(
-                            enforceCurrencyPattern(event.target.value),
-                          )
+                          onChange(enforceCurrencyPattern(event.target.value))
                         }
                         onClick={(e) => e.currentTarget.select()}
                         {...field}
