@@ -9,14 +9,14 @@
     "lint": "next lint",
     "check-types": "tsc --noEmit",
     "check-formatting": "prettier -c src",
+    "postinstall": "./scripts/generate-prisma-schema.sh && prisma migrate deploy && prisma generate",
     "prettier": "prettier -w src",
-    "postinstall": "prisma migrate deploy && prisma generate",
     "build-image": "./scripts/build-image.sh",
     "start-container": "docker compose --env-file container.env up"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
-    "@prisma/client": "^5.6.0",
+    "@prisma/client": "^5.9.0",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-collapsible": "^1.0.3",
     "@radix-ui/react-dialog": "^1.0.5",
@@ -45,6 +45,7 @@
     "next13-progressbar": "^1.1.1",
     "openai": "^4.25.0",
     "pg": "^8.11.3",
+    "prisma": "^5.9.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.47.0",
@@ -54,8 +55,7 @@
     "ts-pattern": "^5.0.6",
     "uuid": "^9.0.1",
     "vaul": "^0.8.0",
-    "zod": "^3.22.4",
-    "prisma": "^5.7.0"
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@total-typescript/ts-reset": "^0.5.1",
