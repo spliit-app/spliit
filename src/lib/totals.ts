@@ -5,7 +5,7 @@ export function getTotalGroupSpending(
 ): number {
   return expenses.reduce(
     (total, expense) =>
-      !expense.isReimbursement ? total + expense.amount : total + 0,
+      expense.isReimbursement ? total : total + expense.amount,
     0,
   )
 }
@@ -16,7 +16,9 @@ export function getTotalActiveUserPaidFor(
 ): number {
   return expenses.reduce(
     (total, expense) =>
-      expense.paidBy.id === activeUserId ? total + expense.amount : total + 0,
+      expense.paidBy.id === activeUserId && !expense.isReimbursement
+        ? total + expense.amount
+        : total,
     0,
   )
 }
@@ -28,6 +30,8 @@ export function getTotalActiveUserShare(
   let total = 0
 
   expenses.forEach((expense) => {
+    if (expense.isReimbursement) return
+
     const paidFors = expense.paidFor
     const userPaidFor = paidFors.find(
       (paidFor) => paidFor.participantId === activeUserId,
