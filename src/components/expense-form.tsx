@@ -73,7 +73,7 @@ const enforceCurrencyPattern = (value: string) =>
 
 const getDefaultSplittingOptions = (
   group: Props['group'],
-): SplittingOptions => {
+) => {
   const defaultValue = {
     splitMode: 'EVENLY' as const,
     paidFor: group.participants.map(({ id }) => ({
