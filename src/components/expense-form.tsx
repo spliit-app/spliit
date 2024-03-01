@@ -71,9 +71,7 @@ const enforceCurrencyPattern = (value: string) =>
     // remove all non-numeric and non-dot characters
     .replace(/[^\d.]/g, '')
 
-const getDefaultSplittingOptions = (
-  group: Props['group'],
-) => {
+const getDefaultSplittingOptions = (group: Props['group']) => {
   const defaultValue = {
     splitMode: 'EVENLY' as const,
     paidFor: group.participants.map(({ id }) => ({
@@ -120,17 +118,15 @@ async function persistDefaultSplittingOptions(
   expenseFormValues: ExpenseFormValues,
 ) {
   if (localStorage && expenseFormValues.saveDefaultSplittingOptions) {
-    const computePaidFor = (): SplittingOptions["paidFor"] => {
+    const computePaidFor = (): SplittingOptions['paidFor'] => {
       if (expenseFormValues.splitMode === 'EVENLY') {
         return expenseFormValues.paidFor.map(({ participant }) => ({
           participant,
           shares: '100' as unknown as number,
         }))
-      }
-      else if (expenseFormValues.splitMode === 'BY_AMOUNT' ) {
-        return null;
-      }
-      else {
+      } else if (expenseFormValues.splitMode === 'BY_AMOUNT') {
+        return null
+      } else {
         return expenseFormValues.paidFor
       }
     }
