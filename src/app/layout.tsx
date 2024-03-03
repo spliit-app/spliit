@@ -126,20 +126,12 @@ export default function RootLayout({
                 </Link>
               </div>
               <div className="flex flex-col space-y a--no-underline-text-white">
-                <span>Made in Montréal, Québec 🇨🇦</span>
+                <span>Privately hosted</span>
                 <span>
-                  Built by{' '}
-                  <a href="https://scastiel.dev" target="_blank" rel="noopener">
-                    Sebastien Castiel
+                  Forked from{' '}
+                  <a href="https://splitt.app" target="_blank" rel="noopener">
+                    Spliit.app
                   </a>{' '}
-                  and{' '}
-                  <a
-                    href="https://github.com/spliit-app/spliit/graphs/contributors"
-                    target="_blank"
-                    rel="noopener"
-                  >
-                    contributors
-                  </a>
                 </span>
               </div>
             </div>

@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button'
-import { Github } from 'lucide-react'
 import Link from 'next/link'
 
 // FIX for https://github.com/vercel/next.js/issues/58615
@@ -15,18 +14,12 @@ export default function HomePage() {
             & <strong>Family</strong>
           </h1>
           <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-            Welcome to your new <strong>Spliit</strong> instance! <br />
-            Customize this page by editing <em>src/app/page.tsx</em>.
+            Welcome to <strong>Splitdumb</strong>, not Splitwise!
+            <br />
           </p>
           <div className="flex gap-2">
             <Button asChild>
               <Link href="/groups">Go to groups</Link>
-            </Button>
-            <Button asChild variant="secondary">
-              <Link href="https://github.com/spliit-app/spliit">
-                <Github className="w-4 h-4 mr-2" />
-                GitHub
-              </Link>
             </Button>
           </div>
         </div>
