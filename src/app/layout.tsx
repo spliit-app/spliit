@@ -11,36 +11,36 @@ import Link from 'next/link'
 import { Suspense } from 'react'
 import './globals.css'
 
+const name = 'Splitdumb'
+const title = 'Splitdumb · Because Splitwise is dumb and should be free!'
+const description =
+  'Splitdumb is forked off of Spliit, a minimalist web application to share expenses with friends and family. No ads, no account, no problem.'
+
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_BASE_URL),
   title: {
-    default: 'Spliit · Share Expenses with Friends & Family',
-    template: '%s · Spliit',
+    default: title,
+    template: `%s · ${name}`,
   },
-  description:
-    'Spliit is a minimalist web application to share expenses with friends and family. No ads, no account, no problem.',
+  description: description,
   openGraph: {
-    title: 'Spliit · Share Expenses with Friends & Family',
-    description:
-      'Spliit is a minimalist web application to share expenses with friends and family. No ads, no account, no problem.',
+    title: title,
+    description: description,
     images: `/banner.png`,
     type: 'website',
     url: '/',
   },
   twitter: {
     card: 'summary_large_image',
-    creator: '@scastiel',
-    site: '@scastiel',
     images: `/banner.png`,
-    title: 'Spliit · Share Expenses with Friends & Family',
-    description:
-      'Spliit is a minimalist web application to share expenses with friends and family. No ads, no account, no problem.',
+    title: title,
+    description: description,
   },
   appleWebApp: {
     capable: true,
-    title: 'Spliit',
+    title: name,
   },
-  applicationName: 'Spliit',
+  applicationName: name,
   icons: [
     {
       url: '/android-chrome-192x192.png',
