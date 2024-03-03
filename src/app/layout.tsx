@@ -118,7 +118,7 @@ export default function RootLayout({
           <div className="flex-1 flex flex-col">{children}</div>
 
           <footer className="sm:text-sm md:text-base bg-slate-50 dark:bg-card border-t p-4 mt-8 text-xs [&_a]:underline text-center">
-            Splitdumb • Forked from{' '}
+            Splitdumb • Powered by{' '}
             <a href="https://splitt.app" target="_blank" rel="noopener">
               Spliit.app
             </a>{' '}
