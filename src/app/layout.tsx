@@ -14,7 +14,7 @@ import './globals.css'
 const name = 'Splitdumb'
 const title = 'Splitdumb · Because Splitwise is dumb and should be free!'
 const description =
-  'Splitdumb is forked off of Spliit, a minimalist web application to share expenses with friends and family. No ads, no account, no problem.'
+  'Splitdumb is powered by Spliit, a minimalist web application to share expenses with friends and family. No ads, no account, no problem.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_BASE_URL),
