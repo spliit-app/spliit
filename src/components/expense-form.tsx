@@ -1,5 +1,4 @@
 'use client'
-import { AsyncButton } from '@/components/async-button'
 import { CategorySelector } from '@/components/category-selector'
 import { ExpenseDocumentsInput } from '@/components/expense-documents-input'
 import { SubmitButton } from '@/components/submit-button'
@@ -45,6 +44,7 @@ import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { match } from 'ts-pattern'
+import { DeletePopup } from './delete-popup'
 import { extractCategoryFromTitle } from './expense-form-actions'
 
 export type Props = {
@@ -577,15 +577,7 @@ export function ExpenseForm({
             {isCreate ? <>Create</> : <>Save</>}
           </SubmitButton>
           {!isCreate && onDelete && (
-            <AsyncButton
-              type="button"
-              variant="destructive"
-              loadingContent="Deleting…"
-              action={onDelete}
-            >
-              <Trash2 className="w-4 h-4 mr-2" />
-              Delete
-            </AsyncButton>
+            <DeletePopup onDelete={onDelete}></DeletePopup>
           )}
           <Button variant="ghost" asChild>
             <Link href={`/groups/${group.id}`}>Cancel</Link>
