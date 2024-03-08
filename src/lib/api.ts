@@ -1,7 +1,15 @@
 import { getPrisma } from '@/lib/prisma'
 import { ExpenseFormValues, GroupFormValues } from '@/lib/schemas'
-import { Expense } from '@prisma/client'
+import { Expense, RecurringTransactions } from '@prisma/client'
 import { nanoid } from 'nanoid'
+import * as z from 'zod';
+// import { setTimeout } from "timers/promises";
+
+function sleep(duration: number) {
+  return new Promise((resolve: any) => {
+    setTimeout(resolve, duration)
+  })
+}
 
 export function randomId() {
   return nanoid()
@@ -27,6 +35,134 @@ export async function createGroup(groupFormValues: GroupFormValues) {
   })
 }
 
+export async function acquireLockRecurringTransaction(groupId:string, expenseId:string, lockId: string): Promise<RecurringTransactions[]> {
+  const prisma = await getPrisma()
+  let retryCnt = 5
+  let getRecTxn:RecurringTransactions[] = []
+  while(--retryCnt) {
+    const existingLock = await prisma.recurringTransactions.findMany({
+      where: {
+        groupId,
+        expenseId
+      }
+    })
+    if (!existingLock.length) {
+      const query = `
+        INSERT INTO "RecurringTransactions"
+          ("groupId", "expenseId", "createNextAt", "lockId")
+          VALUES
+          ('${groupId}', '${expenseId}', 0, '${lockId}')
+          ON CONFLICT("groupId", "expenseId")
+          DO NOTHING;
+      `
+      await prisma.$queryRawUnsafe(query)
+    }
+    await prisma.recurringTransactions.updateMany({
+      where: {
+          groupId,
+          expenseId,
+          lockId: null
+      },
+      data: {
+        lockId
+      }
+    })
+    getRecTxn = await prisma.recurringTransactions.findMany({
+      where: {
+        expenseId: expenseId,
+        groupId,
+        lockId
+      }
+    })
+    const receivedLockId = getRecTxn?.[0]?.lockId
+    if (receivedLockId === lockId) break;
+    await sleep(500);
+  }
+  return getRecTxn
+}
+
+export async function releaseLockRecurringTransaction(groupId:string, expenseId:string, lockId: string): Promise<void>{
+  const prisma = await getPrisma()
+  await prisma.recurringTransactions.updateMany({
+    where: {
+      groupId,
+      expenseId: expenseId,
+      lockId,
+    },
+    data: {
+      lockId: null
+    }
+  })
+}
+
+export async function createOrUpdateRecurringTransaction(
+  expenseFormValues: ExpenseFormValues,
+  groupId: string,
+  expenseId: string,
+  expenseRef: string|null = null
+): Promise<RecurringTransactions | undefined> {
+  let expenseDate = expenseFormValues.expenseDate
+  const prisma = await getPrisma()
+  if (!+expenseFormValues.recurringDays) {
+    await prisma.recurringTransactions.deleteMany({
+      where: {
+        groupId,
+        expenseId: expenseRef || expenseId
+      }
+    })
+    return Promise.resolve(undefined)
+  }
+  const lockId:string = randomId();
+  const receivedLockId = (await acquireLockRecurringTransaction(groupId, expenseRef || expenseId, lockId))?.[0]?.lockId
+  let recTxn;
+  if (!receivedLockId) return recTxn
+  const epochTime = Math.floor((new Date(expenseDate)).getTime() / 1000)
+  const nextAt: number = epochTime + (+expenseFormValues.recurringDays * 86400)
+  if (!isNaN(nextAt)) {
+    if (expenseRef) {
+      expenseDate = new Date(nextAt*1000)
+      await prisma.recurringTransactions.updateMany({
+        where: {
+          groupId,
+          expenseId: expenseRef,
+          lockId
+        },
+        data: {
+          createNextAt: nextAt,
+          expenseId
+        }
+      })
+      recTxn = (await prisma.recurringTransactions.findMany({
+        where: {
+          groupId,
+          expenseId
+        }
+      }))?.[0]
+    } else {
+      recTxn = await prisma.recurringTransactions.upsert({
+        where: {
+          groupId_expenseId: {
+            groupId,
+            expenseId: expenseId
+          },
+          lockId
+        },
+        update: {
+          createNextAt: nextAt,
+        },
+        create: {
+          groupId,
+          expenseId,
+          createNextAt: nextAt,
+          lockId
+        }
+      })
+    }
+  }
+  await releaseLockRecurringTransaction(groupId, expenseId, lockId)
+  return recTxn;
+}
+
 export async function createExpense(
   expenseFormValues: ExpenseFormValues,
   groupId: string,
@@ -45,34 +181,11 @@ export async function createExpense(
   const expenseId = randomId()
   const prisma = await getPrisma()
   let expenseDate = expenseFormValues.expenseDate
-  if (+expenseFormValues.recurringDays) {
-    const nextAt: number = Math.floor((new Date(expenseDate)).getTime() / 1000) + (+expenseFormValues.recurringDays * 86400)
-    if (!isNaN(nextAt)) {
-      if (expenseRef) {
-        expenseDate = new Date(nextAt*1000)
-        await prisma.recurringTransactions.updateMany({
-          where: {
-            groupId,
-            expenseId: expenseRef
-          },
-          data: {
-            createNextAt: nextAt,
-            expenseId
-          }
-        })
-      } else {
-        await prisma.recurringTransactions.create({
-          data: {
-            groupId,
-            expenseId,
-            createNextAt: nextAt,
-            lockId: null
-          }
-        })
-      }
-    }
-  }
+  const recurringTxn = await createOrUpdateRecurringTransaction(expenseFormValues, groupId, expenseId, expenseRef)
+  if (recurringTxn) {
+    expenseDate = new Date(recurringTxn.createNextAt*1000)
 
+  }
   return prisma.expense.create({
     data: {
       id: expenseId,
@@ -108,11 +221,32 @@ export async function createExpense(
   })
 }
 
-export async function deleteExpense(expenseId: string) {
+export async function deleteExpense(groupId: string, expenseId: string) {
   const prisma = await getPrisma()
+  const lockId = randomId()
+  const recurringTxns = await prisma.recurringTransactions.findMany({
+    where: {groupId, expenseId}
+  })
+  const receivedRecurringTxn = () => acquireLockRecurringTransaction(groupId, expenseId, lockId)
+  if (recurringTxns.length && (await receivedRecurringTxn())?.[0]?.lockId) {
+    await prisma.recurringTransactions.deleteMany({
+      where: {groupId, expenseId}
+    })
+  }
+  await releaseLockRecurringTransaction(groupId, expenseId, lockId)
   await prisma.expense.delete({
-    where: { id: expenseId },
+    where: { id: expenseId, groupId },
     include: { paidFor: true, paidBy: true },
+  })
+}
+
+export async function archiveExpenseStateUpdate(expenseId: string, state: boolean) {
+  const prisma = await getPrisma()
+  await prisma.expense.updateMany({
+    where: { id: expenseId },
+    data: {
+      isArchive: state
+    }
   })
 }
 
@@ -159,7 +293,7 @@ export async function updateExpense(
     if (!group.participants.some((p) => p.id === participant))
       throw new Error(`Invalid participant ID: ${participant}`)
   }
-
+  await createOrUpdateRecurringTransaction(expenseFormValues, groupId, expenseId, expenseId)
   const prisma = await getPrisma()
   return prisma.expense.update({
     where: { id: expenseId },
@@ -217,6 +351,8 @@ export async function updateExpense(
             id: doc.id,
           })),
       },
+      recurringDays: +expenseFormValues.recurringDays,
+      isArchive: expenseFormValues.isArchive
     },
   })
 }
@@ -302,56 +438,27 @@ export async function getGroupExpenses(groupId: string) {
       },
     })
     for (let i=0; i<relatedExpenses.length; ++i) {
-      const lockId =  randomId()
       if (now < new Date(relatedExpenses[i].expenseDate).getTime()/1000 + (+relatedExpenses[i].recurringDays * 86400)) {
         ignoreExpenseId.push(relatedExpenses[i].id)
         continue
       }
-      await prisma.recurringTransactions.updateMany({
-        where: {
-          groupId,
-          expenseId: relatedExpenses[i].id,
-          lockId: null
-        },
-        data: {
-          lockId
-        }
-      })
-      const getRecTxn = await prisma.recurringTransactions.findMany({
-        where: {
-          expenseId: relatedExpenses[i].id,
-          groupId,
-          lockId
-        }
-      })
-      if (getRecTxn.length) {
-        const newExpense = await createExpense({
-          expenseDate: relatedExpenses[i].expenseDate,
-          title: relatedExpenses[i].title,
-          category: relatedExpenses[i].category?.id || 0,
-          amount: relatedExpenses[i].amount,
-          paidBy: relatedExpenses[i].paidBy.id,
-          splitMode: relatedExpenses[i].splitMode,
-          paidFor: relatedExpenses[i].paidFor
-          .map((paidFor) =>  ({
-            participant: paidFor.participant.id,
-            shares: paidFor.shares,
-          })),
-          isReimbursement: relatedExpenses[i].isReimbursement,
-          documents: relatedExpenses[i].documents,
-          recurringDays: String(relatedExpenses[i].recurringDays),
-          isArchive: relatedExpenses[i].isArchive,
-        }, groupId, relatedExpenses[i].id);
-        await prisma.recurringTransactions.updateMany({
-          where: {
-            groupId,
-            expenseId: newExpense.id,
-          },
-          data: {
-            lockId: null
-          }
-        })
-      }
+      await createExpense({
+        expenseDate: relatedExpenses[i].expenseDate,
+        title: relatedExpenses[i].title,
+        category: relatedExpenses[i].category?.id || 0,
+        amount: relatedExpenses[i].amount,
+        paidBy: relatedExpenses[i].paidBy.id,
+        splitMode: relatedExpenses[i].splitMode,
+        paidFor: relatedExpenses[i].paidFor
+        .map((paidFor) =>  ({
+          participant: paidFor.participant.id,
+          shares: paidFor.shares,
+        })),
+        isReimbursement: relatedExpenses[i].isReimbursement,
+        documents: relatedExpenses[i].documents,
+        recurringDays: String(relatedExpenses[i].recurringDays),
+        isArchive: relatedExpenses[i].isArchive,
+      }, groupId, relatedExpenses[i].id);
     }
     allPendingRecurringTxns = await prisma.recurringTransactions.findMany({
       where: {

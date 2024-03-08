@@ -100,7 +100,7 @@ export default async function GroupExpensesPage({
 async function Expenses({ groupId }: { groupId: string }) {
   const group = await cached.getGroup(groupId)
   if (!group) notFound()
-  const expenses = await getGroupExpenses(group.id)
+  const expenses = (await getGroupExpenses(group.id))// .filter(e => !e.isArchive)
 
   return (
     <ExpenseList
