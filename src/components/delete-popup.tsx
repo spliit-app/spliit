@@ -8,8 +8,7 @@ import {
   DialogClose,
   DialogContent,
   DialogDescription,
-  DialogOverlay,
-  DialogPortal,
+  DialogFooter,
   DialogTitle,
   DialogTrigger,
 } from './ui/dialog'
@@ -23,29 +22,26 @@ export function DeletePopup({ onDelete }: { onDelete: () => Promise<void> }) {
           Delete
         </Button>
       </DialogTrigger>
-      <DialogPortal>
-        <DialogOverlay />
-        <DialogContent>
-          <DialogTitle>Delete this expense?</DialogTitle>
-          <DialogDescription>
-            Do you really want to delete this expense? This action is
-            irreversible.
-          </DialogDescription>
-          <div className="flex gap-2">
-            <AsyncButton
-              type="button"
-              variant="destructive"
-              loadingContent="Deleting…"
-              action={onDelete}
-            >
-              Yes
-            </AsyncButton>
-            <DialogClose>
-              <Button variant={'secondary'}>Cancel</Button>
-            </DialogClose>
-          </div>
-        </DialogContent>
-      </DialogPortal>
+      <DialogContent>
+        <DialogTitle>Delete this expense?</DialogTitle>
+        <DialogDescription>
+          Do you really want to delete this expense? This action is
+          irreversible.
+        </DialogDescription>
+        <DialogFooter className="flex flex-col gap-2">
+          <AsyncButton
+            type="button"
+            variant="destructive"
+            loadingContent="Deleting…"
+            action={onDelete}
+          >
+            Yes
+          </AsyncButton>
+          <Button variant={'secondary'}>
+            <DialogClose>Cancel</DialogClose>
+          </Button>
+        </DialogFooter>
+      </DialogContent>
     </Dialog>
   )
 }
