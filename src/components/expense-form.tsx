@@ -56,6 +56,17 @@ export type Props = {
   runtimeFeatureFlags: RuntimeFeatureFlags
 }
 
+const enforceCurrencyPattern = (value: string) =>
+  value
+    // replace first comma with #
+    .replace(/[.,]/, '#')
+    // remove all other commas
+    .replace(/[.,]/g, '')
+    // change back # to dot
+    .replace(/#/, '.')
+    // remove all non-numeric and non-dot characters
+    .replace(/[^\d.]/g, '')
+
 export function ExpenseForm({
   group,
   expense,
@@ -103,7 +114,10 @@ export function ExpenseForm({
           paidBy: searchParams.get('from') ?? undefined,
           paidFor: [
             searchParams.get('to')
-              ? { participant: searchParams.get('to')!, shares: 1 }
+              ? {
+                  participant: searchParams.get('to')!,
+                  shares: '1' as unknown as number,
+                }
               : undefined,
           ],
           isReimbursement: true,
@@ -122,7 +136,7 @@ export function ExpenseForm({
           // paid for all, split evenly
           paidFor: group.participants.map(({ id }) => ({
             participant: id,
-            shares: 1,
+            shares: '1' as unknown as number,
           })),
           paidBy: getSelectedPayer(),
           isReimbursement: false,
@@ -210,18 +224,23 @@ export function ExpenseForm({
             <FormField
               control={form.control}
               name="amount"
-              render={({ field }) => (
+              render={({ field: { onChange, ...field } }) => (
                 <FormItem className="sm:order-3">
                   <FormLabel>Amount</FormLabel>
                   <div className="flex items-baseline gap-2">
                     <span>{group.currency}</span>
                     <FormControl>
                       <Input
+                        {...field}
                         className="text-base max-w-[120px]"
-                        type="number"
+                        type="text"
                         inputMode="decimal"
                         step={0.01}
                         placeholder="0.00"
+                        onChange={(event) =>
+                          onChange(enforceCurrencyPattern(event.target.value))
+                        }
+                        onClick={(e) => e.currentTarget.select()}
                         {...field}
                       />
                     </FormControl>
@@ -427,7 +446,7 @@ export function ExpenseForm({
                                               ),
                                             )}
                                             className="text-base w-[80px] -my-2"
-                                            type="number"
+                                            type="text"
                                             disabled={
                                               !field.value?.some(
                                                 ({ participant }) =>
@@ -447,7 +466,9 @@ export function ExpenseForm({
                                                     ? {
                                                         participant: id,
                                                         shares:
-                                                          event.target.value,
+                                                          enforceCurrencyPattern(
+                                                            event.target.value,
+                                                          ),
                                                       }
                                                     : p,
                                                 ),
