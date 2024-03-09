@@ -19,7 +19,7 @@ type Props = {
 }
 
 const EXPENSE_GROUPS = {
-  PLANNED_PURCHASES: 'Planned purchases',
+  UPCOMING: 'Upcoming',
   THIS_WEEK: 'This week',
   EARLIER_THIS_MONTH: 'Earlier this month',
   LAST_MONTH: 'Last month',
@@ -30,7 +30,7 @@ const EXPENSE_GROUPS = {
 
 function getExpenseGroup(date: Dayjs, today: Dayjs) {
   if (today.isBefore(date)) {
-    return EXPENSE_GROUPS.PLANNED_PURCHASES
+    return EXPENSE_GROUPS.UPCOMING
   } else if (today.isSame(date, 'week')) {
     return EXPENSE_GROUPS.THIS_WEEK
   } else if (today.isSame(date, 'month')) {
