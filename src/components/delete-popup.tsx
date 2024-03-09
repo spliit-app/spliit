@@ -37,9 +37,9 @@ export function DeletePopup({ onDelete }: { onDelete: () => Promise<void> }) {
           >
             Yes
           </AsyncButton>
-          <Button variant={'secondary'}>
-            <DialogClose>Cancel</DialogClose>
-          </Button>
+          <DialogClose asChild>
+            <Button variant={'secondary'}>Cancel</Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>
