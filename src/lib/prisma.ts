@@ -1,20 +1,21 @@
 import { PrismaClient } from '@prisma/client'
 
-let prisma: PrismaClient
+declare const global: Global & { prisma?: PrismaClient }
 
-export async function getPrisma() {
+export let p: PrismaClient = undefined as any as PrismaClient
+
+if (typeof window === 'undefined') {
   // await delay(1000)
-  if (!prisma) {
-    if (process.env.NODE_ENV === 'production') {
-      prisma = new PrismaClient()
-    } else {
-      if (!(global as any).prisma) {
-        ;(global as any).prisma = new PrismaClient({
-          // log: [{ emit: 'stdout', level: 'query' }],
-        })
-      }
-      prisma = (global as any).prisma
+  if (process.env['NODE_ENV'] === 'production') {
+    p = new PrismaClient()
+  } else {
+    if (!global.prisma) {
+      global.prisma = new PrismaClient({
+        // log: [{ emit: 'stdout', level: 'query' }],
+      })
     }
+    p = global.prisma
   }
-  return prisma
 }
+
+export const prisma = p
