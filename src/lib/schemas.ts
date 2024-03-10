@@ -116,6 +116,7 @@ export const expenseFormSchema = z
         }),
       )
       .default([]),
+    notes: z.string().optional()
   })
   .superRefine((expense, ctx) => {
     let sum = 0
