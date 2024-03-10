@@ -105,6 +105,7 @@ export const expenseFormSchema = z
         Object.values(SplitMode) as any,
       )
       .default('EVENLY'),
+    saveDefaultSplittingOptions: z.boolean(),
     isReimbursement: z.boolean(),
     documents: z
       .array(
@@ -161,3 +162,9 @@ export const expenseFormSchema = z
   })
 
 export type ExpenseFormValues = z.infer<typeof expenseFormSchema>
+
+export type SplittingOptions = {
+  // Used for saving default splitting options in localStorage
+  splitMode: SplitMode
+  paidFor: ExpenseFormValues['paidFor'] | null
+}
