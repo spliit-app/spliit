@@ -156,7 +156,7 @@ export function ExpenseForm({
   const getSelectedPayer = (field?: { value: string }) => {
     if (isCreate && typeof window !== 'undefined') {
       const activeUser = localStorage.getItem(`${group.id}-activeUser`)
-      if (activeUser && activeUser !== 'None') {
+      if (activeUser && activeUser !== 'None' && field?.value === undefined) {
         return activeUser
       }
     }
