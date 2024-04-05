@@ -181,6 +181,7 @@ export function ExpenseForm({
           saveDefaultSplittingOptions: false,
           isReimbursement: expense.isReimbursement,
           documents: expense.documents,
+          notes: expense.notes ?? '',
         }
       : searchParams.get('reimbursement')
       ? {
@@ -203,6 +204,7 @@ export function ExpenseForm({
           splitMode: defaultSplittingOptions.splitMode,
           saveDefaultSplittingOptions: false,
           documents: [],
+          notes: '',
         }
       : {
           title: searchParams.get('title') ?? '',
@@ -229,6 +231,7 @@ export function ExpenseForm({
                 },
               ]
             : [],
+          notes: '',
         },
   })
   const [isCategoryLoading, setCategoryLoading] = useState(false)
