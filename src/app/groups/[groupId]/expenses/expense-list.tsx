@@ -151,7 +151,7 @@ export function ExpenseList({
                         </strong>
                       </Fragment>
                     ))}
-                    <ActiveUserBalance {...{groupId, currency, expense}} />
+                    <ActiveUserBalance {...{ groupId, currency, expense }} />
                   </div>
                 </div>
                 <div className="flex flex-col justify-between items-end">
