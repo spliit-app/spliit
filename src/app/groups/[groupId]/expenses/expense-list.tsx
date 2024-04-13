@@ -151,6 +151,8 @@ export function ExpenseList({
                         </strong>
                       </Fragment>
                     ))}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
                     <ActiveUserBalance {...{ groupId, currency, expense }} />
                   </div>
                 </div>
