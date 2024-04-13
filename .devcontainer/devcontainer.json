@@ -1,0 +1,42 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/javascript-node-postgres
+{
+    "name": "spliit",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "app",
+
+    // Features to add to the dev container. More info: https://containers.dev/features.
+    // "features": {
+    // 	   "ghcr.io/frntn/devcontainers-features/prism:1": {}
+    // },
+
+    // Use 'postCreateCommand' to run commands after the container is created.
+    "postCreateCommand": "cp container.env.example .env && npm install",
+    "postAttachCommand": {
+    	"npm": "npm run dev"
+    },
+
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    // This can be used to network with other containers or with the host.
+    "forwardPorts": [3000, 5432],
+    "portsAttributes": {
+            "3000": {
+                "label": "App"
+            },
+            "5432": {
+                "label": "PostgreSQL"
+            }
+    },
+
+    // Configure tool-specific properties.
+    "customizations": {
+        "codespaces": {
+            "openFiles": [
+                "README.md"
+            ]
+        }
+    }
+
+    // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+    // "remoteUser": "root"
+}
