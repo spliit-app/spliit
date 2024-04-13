@@ -1,4 +1,5 @@
 'use client'
+import { ActiveUserBalance } from '@/app/groups/[groupId]/expenses/active-user-balance'
 import { CategoryIcon } from '@/app/groups/[groupId]/expenses/category-icon'
 import { Button } from '@/components/ui/button'
 import { SearchBar } from '@/components/ui/search-bar'
@@ -150,6 +151,9 @@ export function ExpenseList({
                         </strong>
                       </Fragment>
                     ))}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    <ActiveUserBalance {...{ groupId, currency, expense }} />
                   </div>
                 </div>
                 <div className="flex flex-col justify-between items-end">
