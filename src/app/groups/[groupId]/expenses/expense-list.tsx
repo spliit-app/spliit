@@ -4,7 +4,7 @@ import { CategoryIcon } from '@/app/groups/[groupId]/expenses/category-icon'
 import { Button } from '@/components/ui/button'
 import { SearchBar } from '@/components/ui/search-bar'
 import { getGroupExpenses } from '@/lib/api'
-import { cn, formatCurrency, formatExpenseDate } from '@/lib/utils'
+import { cn, formatCurrency, formatDate } from '@/lib/utils'
 import { Expense, Participant } from '@prisma/client'
 import dayjs, { type Dayjs } from 'dayjs'
 import { ChevronRight } from 'lucide-react'
@@ -166,7 +166,7 @@ export function ExpenseList({
                     {formatCurrency(currency, expense.amount)}
                   </div>
                   <div className="text-xs text-muted-foreground">
-                    {formatExpenseDate(expense.expenseDate)}
+                    {formatDate(expense.expenseDate, { dateStyle: 'medium' })}
                   </div>
                 </div>
                 <Button

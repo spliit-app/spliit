@@ -27,16 +27,16 @@ export default async function EditExpensePage({
   const expense = await getExpense(groupId, expenseId)
   if (!expense) notFound()
 
-  async function updateExpenseAction(values: unknown) {
+  async function updateExpenseAction(values: unknown, participantId?: string) {
     'use server'
     const expenseFormValues = expenseFormSchema.parse(values)
-    await updateExpense(groupId, expenseId, expenseFormValues)
+    await updateExpense(groupId, expenseId, expenseFormValues, participantId)
     redirect(`/groups/${groupId}`)
   }
 
-  async function deleteExpenseAction() {
+  async function deleteExpenseAction(participantId?: string) {
     'use server'
-    await deleteExpense(expenseId)
+    await deleteExpense(groupId, expenseId, participantId)
     redirect(`/groups/${groupId}`)
   }
 
