@@ -27,7 +27,7 @@ import { ToastAction } from '@/components/ui/toast'
 import { useToast } from '@/components/ui/use-toast'
 import { useMediaQuery } from '@/lib/hooks'
 import { formatCurrency, formatExpenseDate, formatFileSize } from '@/lib/utils'
-import { Category } from '@prisma/client'
+import { Category, Participant } from '@prisma/client'
 import { ChevronRight, FileQuestion, Loader2, Receipt } from 'lucide-react'
 import { getImageData, usePresignedUpload } from 'next-s3-upload'
 import Image from 'next/image'
@@ -38,6 +38,7 @@ type Props = {
   groupId: string
   groupCurrency: string
   categories: Category[]
+  participants: Participant[];
 }
 
 const MAX_FILE_SIZE = 5 * 1024 ** 2
@@ -46,6 +47,7 @@ export function CreateFromReceiptButton({
   groupId,
   groupCurrency,
   categories,
+  participants
 }: Props) {
   const [pending, setPending] = useState(false)
   const { uploadToS3, FileInput, openFileDialog } = usePresignedUpload()
@@ -75,10 +77,10 @@ export function CreateFromReceiptButton({
         console.log('Uploading image…')
         let { url } = await uploadToS3(file)
         console.log('Extracting information from receipt…')
-        const { amount, categoryId, date, title } =
-          await extractExpenseInformationFromImage(url)
+        const { amount, categoryId, date, title, receiptParticipants } =
+          await extractExpenseInformationFromImage(url, participants)
         const { width, height } = await getImageData(file)
-        setReceiptInfo({ amount, categoryId, date, title, url, width, height })
+        setReceiptInfo({ amount, categoryId, date, title, url, width, height, receiptParticipants })
       } catch (err) {
         console.error(err)
         toast({
@@ -223,6 +225,12 @@ export function CreateFromReceiptButton({
                 )}
               </div>
             </div>
+            <div>
+              <strong>Participants:</strong>
+              <div>
+                {receiptInfo?.receiptParticipants.map(participant => <div key={participant.participantId}><span>{participant.participantName}</span> <span>{participant.amount}</span></div>)}
+              </div>
+            </div>
           </div>
         </div>
         <p>You’ll be able to edit the expense information next.</p>
@@ -240,7 +248,8 @@ export function CreateFromReceiptButton({
                   receiptInfo.title ?? '',
                 )}&imageUrl=${encodeURIComponent(receiptInfo.url)}&imageWidth=${
                   receiptInfo.width
-                }&imageHeight=${receiptInfo.height}`,
+                }&imageHeight=${receiptInfo.height}
+                 &participants=${encodeURIComponent(JSON.stringify(receiptInfo.receiptParticipants))}`,
               )
             }}
           >

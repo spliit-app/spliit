@@ -34,7 +34,7 @@ export default async function GroupExpensesPage({
   if (!group) notFound()
 
   const categories = await getCategories()
-
+  
   return (
     <>
       <Card className="mb-4 rounded-none -mx-4 border-x-0 sm:border-x sm:rounded-lg sm:mx-0">
@@ -60,6 +60,7 @@ export default async function GroupExpensesPage({
               <CreateFromReceiptButton
                 groupId={groupId}
                 groupCurrency={group.currency}
+                participants={group.participants}
                 categories={categories}
               />
             )}
