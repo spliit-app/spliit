@@ -66,7 +66,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <ApplePwaSplash icon="/logo-with-text.png" color="#027756" />
+      <ApplePwaSplash icon="/logo-demon.webp" color="#027756" />
       <body className="pt-16 min-h-[100dvh] flex flex-col items-stretch bg-slate-50 bg-opacity-30 dark:bg-background">
         <ThemeProvider
           attribute="class"
@@ -84,10 +84,10 @@ export default function RootLayout({
             >
               <h1>
                 <Image
-                  src="/logo-with-text.png"
-                  className="m-1 h-auto w-auto"
-                  width={(35 * 522) / 180}
-                  height={35}
+                  src="/logo-demon.webp"
+                  className="m-1 h-auto w-auto logo-demon"
+                  width={(15 * 522) / 180}
+                  height={10}
                   alt="Spliit"
                 />
               </h1>
@@ -111,39 +111,6 @@ export default function RootLayout({
           </header>
 
           <div className="flex-1 flex flex-col">{children}</div>
-
-          <footer className="sm:p-8 md:p-16 sm:mt-16 sm:text-sm md:text-base md:mt-32 bg-slate-50 dark:bg-card border-t p-6 mt-8 flex flex-col sm:flex-row sm:justify-between gap-4 text-xs [&_a]:underline">
-            <div className="flex flex-col space-y-2">
-              <div className="sm:text-lg font-semibold text-base flex space-x-2 items-center">
-                <Link className="flex items-center gap-2" href="/">
-                  <Image
-                    src="/logo-with-text.png"
-                    className="m-1 h-auto w-auto"
-                    width={(35 * 522) / 180}
-                    height={35}
-                    alt="Spliit"
-                  />
-                </Link>
-              </div>
-              <div className="flex flex-col space-y a--no-underline-text-white">
-                <span>Made in Montréal, Québec 🇨🇦</span>
-                <span>
-                  Built by{' '}
-                  <a href="https://scastiel.dev" target="_blank" rel="noopener">
-                    Sebastien Castiel
-                  </a>{' '}
-                  and{' '}
-                  <a
-                    href="https://github.com/spliit-app/spliit/graphs/contributors"
-                    target="_blank"
-                    rel="noopener"
-                  >
-                    contributors
-                  </a>
-                </span>
-              </div>
-            </div>
-          </footer>
           <Toaster />
         </ThemeProvider>
       </body>
