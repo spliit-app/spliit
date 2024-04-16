@@ -1,4 +1,5 @@
 import { ApplePwaSplash } from '@/app/apple-pwa-splash'
+import { auth } from '@/auth'
 import { ProgressBar } from '@/components/progress-bar'
 import { ThemeProvider } from '@/components/theme-provider'
 import { ThemeToggle } from '@/components/theme-toggle'
@@ -6,7 +7,6 @@ import { Button } from '@/components/ui/button'
 import { Toaster } from '@/components/ui/toaster'
 import { env } from '@/lib/env'
 import type { Metadata, Viewport } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 import { Suspense } from 'react'
 import './globals.css'
@@ -59,11 +59,15 @@ export const viewport: Viewport = {
   themeColor: '#047857',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const session = await auth()
+
+  const img = session?.user?.image
+
   return (
     <html lang="en" suppressHydrationWarning>
       <ApplePwaSplash icon="/logo-demon.webp" color="#027756" />
@@ -83,11 +87,10 @@ export default function RootLayout({
               href="/"
             >
               <h1>
-                <Image
-                  src="/logo-demon.webp"
+                <img
+                  src={img ? img : 'logo-demon.webp'}
                   className="m-1 h-auto w-auto logo-demon"
-                  width={(15 * 522) / 180}
-                  height={10}
+                  style={{ width: '90px', height: '90px' }}
                   alt="Spliit"
                 />
               </h1>
