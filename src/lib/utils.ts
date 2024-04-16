@@ -46,3 +46,12 @@ export function formatFileSize(size: number) {
   if (size > 1024) return `${formatNumber(size / 1024)} kB`
   return `${formatNumber(size)} B`
 }
+
+export function isWhitelisted(email: string) {
+  const emails = process.env.NEXT_PUBLIC_WHITELISTED_EMAILS?.split(',')
+
+  if (!emails) return false
+  if (emails.includes(email)) return true
+
+  return false
+}

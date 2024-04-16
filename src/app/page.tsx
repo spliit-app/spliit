@@ -1,3 +1,5 @@
+import { SignIn } from '@/components/signin'
+import { SignOut } from '@/components/signout'
 import { Button } from '@/components/ui/button'
 import { Github } from 'lucide-react'
 import Link from 'next/link'
@@ -17,11 +19,11 @@ export default function HomePage() {
             U carstvu Vile Kamenjarke, gde se hrabri momci rađaju kao legende, jedan izuzetan alat se povisuje iz magle, poput velikog Lisana al Gaiba, koji kroz život korača sa odlučnošću i hrabrošću.
           </p>
           <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-          Ova epska aplikacija, nazvana "Lisan Deoba", osvaja srca mladih ratnika koji dele krov pod kojim odraštaju. Svojom moćnom magijom, omogućava im da se zajednički suoče s najvećim izazovom - finansijskim troškovima.          </p>
+            Ova epska aplikacija, nazvana "Lisan Deoba", osvaja srca mladih ratnika koji dele krov pod kojim odraštaju. Svojom moćnom magijom, omogućava im da se zajednički suoče s najvećim izazovom - finansijskim troškovima.          </p>
           <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-          U dubinama šuma Kamenjarke, aplikacija plete mrežu veza među momcima, omogućavajući im da lako dele troškove hrane, pića, i avantura koje im pruža ovo mitsko okruženje. Svim čarobnim moćima koje poseduje, Lisan Deoba osigurava da nijedan trošak ne ostane neuhvaćen, niti nepravedno raspodeljen.          </p>
+            U dubinama šuma Kamenjarke, aplikacija plete mrežu veza među momcima, omogućavajući im da lako dele troškove hrane, pića, i avantura koje im pruža ovo mitsko okruženje. Svim čarobnim moćima koje poseduje, Lisan Deoba osigurava da nijedan trošak ne ostane neuhvaćen, niti nepravedno raspodeljen.          </p>
           <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-          Jednako kao što Lisan al Gaib hrabro korača kroz avanture, ova aplikacija hrabro prolazi kroz izazove troškova mladih ratnika, nudeći im štit u borbi protiv finansijskih nevolja. Svojom mudrošću, Lisan Deoba osigurava da momci iz Vile Kamenjarke nastave svoj put ka epskim podvizima, neopterećeni brizganjem zlatnika.          </p>
+            Jednako kao što Lisan al Gaib hrabro korača kroz avanture, ova aplikacija hrabro prolazi kroz izazove troškova mladih ratnika, nudeći im štit u borbi protiv finansijskih nevolja. Svojom mudrošću, Lisan Deoba osigurava da momci iz Vile Kamenjarke nastave svoj put ka epskim podvizima, neopterećeni brizganjem zlatnika.          </p>
           <div className="flex gap-2">
             <Button asChild>
               <Link href="/groups/CuCEvILvwIjfEDuooMm6j/expenses">Vila Deoba</Link>
@@ -31,6 +33,8 @@ export default function HomePage() {
                 Vila Kirija
               </Link>
             </Button>
+            <SignIn></SignIn>
+            <SignOut></SignOut>
           </div>
         </div>
       </section>
