@@ -7,7 +7,7 @@ export const POST = route.configure({
     const [, extension] = filename.match(/(\.[^\.]*)$/) ?? [null, '']
     const timestamp = new Date().toISOString()
     const random = randomId()
-    return `document-${timestamp}-${random}${extension.toLowerCase()}`
+    return `document-${random}${extension.toLowerCase()}`
   },
   endpoint: env.S3_UPLOAD_ENDPOINT,
   // forcing path style is only necessary for providers other than AWS

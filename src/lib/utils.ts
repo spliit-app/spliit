@@ -1,4 +1,4 @@
-import { Category } from '@prisma/client'
+import { Category, Participant } from '@prisma/client'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
@@ -21,6 +21,10 @@ export function formatCategoryForAIPrompt(category: Category) {
   return `"${category.grouping}/${category.name}" (ID: ${category.id})`
 }
 
+export function formatParticipantForAIPrompt(participant: Participant) {
+  return `"${participant.name}" (ID: ${participant.id})`
+}
+
 export function formatCurrency(currency: string, amount: number) {
   const format = new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 2,
@@ -41,4 +45,13 @@ export function formatFileSize(size: number) {
   if (size > 1024 ** 2) return `${formatNumber(size / 1024 ** 2)} MB`
   if (size > 1024) return `${formatNumber(size / 1024)} kB`
   return `${formatNumber(size)} B`
+}
+
+export function isWhitelisted(email: string) {
+  const emails = process.env.NEXT_PUBLIC_WHITELISTED_EMAILS?.split(',')
+
+  if (!emails) return false
+  if (emails.includes(email)) return true
+
+  return false
 }

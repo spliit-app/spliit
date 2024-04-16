@@ -65,3 +65,28 @@
 .landing-header strong {
   @apply font-bold text-transparent;
 }
+
+@keyframes rotating {
+  from{
+      -webkit-transform: rotate(0deg);
+  }
+  to{
+      -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes invert {
+  0% {
+    filter: invert(0%);
+  }
+  50% {
+    filter: invert(100%);
+  }
+  100% {
+    filter: invert(0%);
+  }
+}
+
+.logo-demon {
+  animation: rotating 2s linear infinite, invert 1s infinite;
+}
