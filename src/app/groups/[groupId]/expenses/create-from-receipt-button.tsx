@@ -77,10 +77,10 @@ export function CreateFromReceiptButton({
         console.log('Uploading image…')
         let { url } = await uploadToS3(file)
         console.log('Extracting information from receipt…')
-        const { amount, categoryId, date, title, receiptParticipants } =
+        const { amount, categoryId, date, title, receiptParticipants, from } =
           await extractExpenseInformationFromImage(url, participants)
         const { width, height } = await getImageData(file)
-        setReceiptInfo({ amount, categoryId, date, title, url, width, height, receiptParticipants })
+        setReceiptInfo({ amount, categoryId, date, title, url, width, height, receiptParticipants, from })
       } catch (err) {
         console.error(err)
         toast({
@@ -228,7 +228,7 @@ export function CreateFromReceiptButton({
             <div>
               <strong>Participants:</strong>
               <div>
-                {receiptInfo?.receiptParticipants.map(participant => <div key={participant.participantId}><span>{participant.participantName}</span> <span>{participant.amount}</span></div>)}
+                {receiptInfo?.receiptParticipants.map(participant => <div key={participant.participant}><span>{participant.participantName}</span> <span>{participant.shares}</span></div>)}
               </div>
             </div>
           </div>
@@ -249,6 +249,7 @@ export function CreateFromReceiptButton({
                 )}&imageUrl=${encodeURIComponent(receiptInfo.url)}&imageWidth=${
                   receiptInfo.width
                 }&imageHeight=${receiptInfo.height}
+                &from=${receiptInfo.from}
                  &participants=${encodeURIComponent(JSON.stringify(receiptInfo.receiptParticipants))}`,
               )
             }}

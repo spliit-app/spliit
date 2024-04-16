@@ -30,8 +30,9 @@ export async function extractExpenseInformationFromImage(imageUrl: string, parti
               Guess a title for the expense.
               Return the amount, the category, the date and the title with just a comma between them, without anything else in one line. At the end of that line write BABABINGO
 
-              Then in next  line read the names of the people involved and store them together with the amounts they owe in a JSON array format of participantId, participantName and amount;
-              You can guess the participantId from the name using this list ${participants.map(participant => formatParticipantForAIPrompt(participant))}`,
+              Then in next  line read the names of the people involved and store them together with the amounts they owe in a JSON array format of participant, participantName and shares;
+              You can guess the participant which is the ID from the name using this list ${participants.map(participant => formatParticipantForAIPrompt(participant))} shares is the amount.
+              Find the participant with the HOST tag and add a boolean to their object that says host: true`,
           },
         ],
       },
@@ -45,9 +46,9 @@ export async function extractExpenseInformationFromImage(imageUrl: string, parti
 
   const [basicInfoString, participantString] = completion.choices.at(0)?.message.content?.split('BABABINGO') as string[];
   const [amountString, categoryId, date, title] = basicInfoString.split(',') ?? [null, null, null, null];
-  const receiptParticipants = JSON.parse(participantString) as { participantId: string, participantName: string, amount: number }[];
+  const receiptParticipants = JSON.parse(participantString) as { participant: string, participantName: string, shares: number, host?: boolean }[];
 
-  return { amount: Number(amountString), categoryId, date, title, receiptParticipants }
+  return { amount: Number(amountString), categoryId, date, title, receiptParticipants, from: receiptParticipants.find(parcitipant => parcitipant.host)?.participant }
 }
 
 export type ReceiptExtractedInfo = Awaited<
