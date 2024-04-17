@@ -329,9 +329,9 @@ export function ExpenseForm({
                         onFocus={(e) => {
                           {
                             // we're adding a small delay to get around safaris issue with onMouseUp deselecting things again
-                            let evt = e.currentTarget
+                            let target = e.currentTarget
                             setTimeout(function () {
-                              evt.select()
+                              target.select()
                             }, 1)
                           }
                         }}
