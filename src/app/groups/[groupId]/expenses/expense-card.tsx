@@ -16,6 +16,16 @@ type Props = {
 }
 
 export function ExpenseCard({ expense, currency, groupId }: Props) {
+  const getParticipantList = (ps: { participant: { name: string } }[]) => (
+    <>
+      {ps.map(({ participant }, index) => (
+        <Fragment key={index}>
+          {index !== 0 && <>, </>}
+          <strong>{participant.name}</strong>
+        </Fragment>
+      ))}
+    </>
+  )
   const router = useRouter()
 
   return (
@@ -39,13 +49,8 @@ export function ExpenseCard({ expense, currency, groupId }: Props) {
         </div>
         <div className="text-xs text-muted-foreground">
           {expense.amount > 0 ? 'Paid by ' : 'Received by '}
-          <strong>{expense.paidBy.name}</strong> for{' '}
-          {expense.paidFor.map((paidFor, index) => (
-            <Fragment key={index}>
-              {index !== 0 && <>, </>}
-              <strong>{paidFor.participant.name}</strong>
-            </Fragment>
-          ))}
+          {getParticipantList(expense.paidBy)} for{' '}
+          {getParticipantList(expense.paidFor)}
         </div>
         <div className="text-xs text-muted-foreground">
           <ActiveUserBalance {...{ groupId, currency, expense }} />

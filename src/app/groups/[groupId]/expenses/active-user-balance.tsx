@@ -20,7 +20,7 @@ export function ActiveUserBalance({ groupId, currency, expense }: Props) {
   if (Object.hasOwn(balances, activeUserId)) {
     const balance = balances[activeUserId]
     let balanceDetail = <></>
-    if (balance.paid > 0 && balance.paidFor > 0) {
+    if (balance.paid != 0 && balance.paidFor != 0) {
       balanceDetail = (
         <>
           {' ('}
