@@ -173,7 +173,7 @@ export function GroupForm({
                         </FormLabel>
                         <FormControl>
                           <div className="flex gap-2">
-                            <Input className="text-base" {...field} />
+                            <Input className="text-base" {...field} placeholder="New"/>
                             {item.id &&
                             protectedParticipantIds.includes(item.id) ? (
                               <HoverCard>
@@ -221,7 +221,7 @@ export function GroupForm({
             <Button
               variant="secondary"
               onClick={() => {
-                append({ name: 'New' })
+                append({ name: '' })
               }}
               type="button"
             >
