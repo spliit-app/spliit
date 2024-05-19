@@ -6,6 +6,7 @@ type Props = {
   amount: number
   bold?: boolean
   colored?: boolean
+  negative?: boolean
 }
 
 export function Money({
@@ -13,11 +14,13 @@ export function Money({
   amount,
   bold = false,
   colored = false,
+  negative = false,
 }: Props) {
   return (
     <span
       className={cn(
-        colored && amount <= 1
+        // For reimbursements, we want to be able to force the color
+        colored && (amount <= 1 || negative)
           ? 'text-red-600'
           : colored && amount >= 1
           ? 'text-green-600'
