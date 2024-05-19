@@ -27,6 +27,12 @@ export function formatCurrency(currency: string, amount: number) {
     maximumFractionDigits: 2,
   })
   const formattedAmount = format.format(amount / 100)
+
+  // Some currencies have the symbol after the amount
+  const suffixCurrencies = ['€', 'kr']
+  if (suffixCurrencies.includes(currency))
+    return `${formattedAmount} ${currency}`
+
   return `${currency} ${formattedAmount}`
 }
 
