@@ -51,7 +51,6 @@ import { match } from 'ts-pattern'
 import { DeletePopup } from './delete-popup'
 import { extractCategoryFromTitle } from './expense-form-actions'
 import { Textarea } from './ui/textarea'
-import { AsyncButton } from './async-button'
 
 export type Props = {
   group: NonNullable<Awaited<ReturnType<typeof getGroup>>>

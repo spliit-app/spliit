@@ -53,7 +53,7 @@ model Expense {
   createdAt       DateTime          @default(now())
   documents       ExpenseDocument[]
   notes           String?
-  recurringDays  Int               @default(0)
+  recurringDays   Int               @default(0)
 }
 
 model ExpenseDocument {
