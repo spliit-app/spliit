@@ -249,7 +249,7 @@ export function ExpenseForm({
     return onSubmit(values)
   }
 
-  const recurringDays = [{ "key": "Never","value": "0"}, { "key":"weekly", "value": "7"}, {"key": "fortnightly", "value": "14"}, {"key": "monthly", "value": "30"}, {"key": "bimonthly", "value": "60"}]
+  const recurringDays = [{ "key": "Never","value": "0"}, { "key":"Weekly", "value": "7"}, {"key": "Every 14 days", "value": "14"}, {"key": "Every 30 days", "value": "30"}, {"key": "Every 60 days", "value": "60"}]
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(submit)}>
@@ -447,7 +447,7 @@ export function ExpenseForm({
                     </SelectContent>
                   </Select>
                   <FormDescription>
-                    Select recursive days.
+                    Repeat:  {'<'}Never|Every Day|Every...{'>'}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
