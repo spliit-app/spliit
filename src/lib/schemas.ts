@@ -51,8 +51,7 @@ export const expenseFormSchema = z
         [
           z.number(),
           z.string().transform((value, ctx) => {
-            const normalizedValue = value.replace(/,/g, '.')
-            const valueAsNumber = Number(normalizedValue)
+            const valueAsNumber = Number(value)
             if (Number.isNaN(valueAsNumber))
               ctx.addIssue({
                 code: z.ZodIssueCode.custom,
@@ -106,6 +105,7 @@ export const expenseFormSchema = z
         Object.values(SplitMode) as any,
       )
       .default('EVENLY'),
+    saveDefaultSplittingOptions: z.boolean(),
     isReimbursement: z.boolean(),
     documents: z
       .array(
@@ -117,6 +117,7 @@ export const expenseFormSchema = z
         }),
       )
       .default([]),
+    notes: z.string().optional(),
   })
   .superRefine((expense, ctx) => {
     let sum = 0
@@ -161,3 +162,9 @@ export const expenseFormSchema = z
   })
 
 export type ExpenseFormValues = z.infer<typeof expenseFormSchema>
+
+export type SplittingOptions = {
+  // Used for saving default splitting options in localStorage
+  splitMode: SplitMode
+  paidFor: ExpenseFormValues['paidFor'] | null
+}

@@ -70,6 +70,7 @@ export async function createExpense(
           })),
         },
       },
+      notes: expenseFormValues.notes,
     },
   })
 }
@@ -180,6 +181,7 @@ export async function updateExpense(
             id: doc.id,
           })),
       },
+      notes: expenseFormValues.notes,
     },
   })
 }

@@ -55,6 +55,7 @@ export default async function GroupExpensesPage({
                 prefetch={false}
                 href={`/groups/${groupId}/expenses/export/json`}
                 target="_blank"
+                title="Export to JSON"
               >
                 <Download className="w-4 h-4" />
               </Link>
@@ -67,7 +68,10 @@ export default async function GroupExpensesPage({
               />
             )}
             <Button asChild size="icon">
-              <Link href={`/groups/${groupId}/expenses/create`}>
+              <Link
+                href={`/groups/${groupId}/expenses/create`}
+                title="Create expense"
+              >
                 <Plus className="w-4 h-4" />
               </Link>
             </Button>

@@ -1,4 +1,5 @@
 'use client'
+import { ActiveUserBalance } from '@/app/groups/[groupId]/expenses/active-user-balance'
 import { CategoryIcon } from '@/app/groups/[groupId]/expenses/category-icon'
 import { Button } from '@/components/ui/button'
 import { getGroupExpenses } from '@/lib/api'
@@ -44,6 +45,9 @@ export function ExpenseCard({ expense, currency, groupId }: Props) {
               <strong>{paidFor.participant.name}</strong>
             </Fragment>
           ))}
+        </div>
+        <div className="text-xs text-muted-foreground">
+          <ActiveUserBalance {...{ groupId, currency, expense }} />
         </div>
       </div>
       <div className="flex flex-col justify-between items-end">
