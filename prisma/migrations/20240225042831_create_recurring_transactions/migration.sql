@@ -12,5 +12,4 @@ CREATE INDEX "idx_recurring_transactions_group_expense_next_create" ON "Recurrin
 CREATE UNIQUE INDEX "idx_unq_recurring_transactions_lock_id" ON "RecurringTransactions" ("lockId");
 
 -- AlterTable
-ALTER TABLE "Expense" ADD COLUMN     "recurringDays" TEXT NOT NULL DEFAULT 0,
-                      ADD COLUMN     "isArchive" BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE "Expense" ADD COLUMN     "recurringDays" TEXT NOT NULL DEFAULT 0;

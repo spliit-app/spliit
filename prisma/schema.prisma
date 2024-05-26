@@ -54,7 +54,6 @@ model Expense {
   documents       ExpenseDocument[]
   notes           String?
   recurringDays  Int               @default(0)
-  isArchive      Boolean           @default(false)
 }
 
 model ExpenseDocument {

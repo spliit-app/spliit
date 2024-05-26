@@ -231,7 +231,6 @@ export async function createExpense(
       },
       notes: expenseFormValues.notes,
       recurringDays: +expenseFormValues.recurringDays,
-      isArchive: false,
     },
   })
 }
@@ -252,16 +251,6 @@ export async function deleteExpense(groupId: string, expenseId: string) {
   await prisma.expense.delete({
     where: { id: expenseId, groupId },
     include: { paidFor: true, paidBy: true },
-  })
-}
-
-export async function archiveExpenseStateUpdate(expenseId: string, state: boolean) {
-  const prisma = await getPrisma()
-  await prisma.expense.updateMany({
-    where: { id: expenseId },
-    data: {
-      isArchive: state
-    }
   })
 }
 
@@ -368,7 +357,6 @@ export async function updateExpense(
       },
       notes: expenseFormValues.notes,
       recurringDays: +expenseFormValues.recurringDays,
-      isArchive: expenseFormValues.isArchive
     },
   })
 }
@@ -473,7 +461,6 @@ export async function getGroupExpenses(groupId: string) {
         isReimbursement: relatedExpenses[i].isReimbursement,
         documents: relatedExpenses[i].documents,
         recurringDays: String(relatedExpenses[i].recurringDays),
-        isArchive: relatedExpenses[i].isArchive,
       }, groupId, relatedExpenses[i].id);
     }
     allPendingRecurringTxns = await prisma.recurringTransactions.findMany({

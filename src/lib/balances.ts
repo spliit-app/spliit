@@ -19,7 +19,6 @@ export function getBalances(
   const balances: Balances = {}
 
   for (const expense of expenses) {
-    if (expense.isArchive) continue;
     const paidBy = expense.paidById
     const paidFors = expense.paidFor
 

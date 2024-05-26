@@ -54,7 +54,6 @@ export function RecentGroupListCard({
     })
 
   const isStarred = state.starredGroups.includes(group.id)
-  const isArchived = state.archivedGroups.includes(group.id)
 
   return (
     <li key={group.id}>

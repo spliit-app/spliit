@@ -42,7 +42,7 @@ import {
 } from '@/lib/schemas'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Save, Trash2, Archive } from 'lucide-react'
+import { Save } from 'lucide-react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
@@ -59,7 +59,6 @@ export type Props = {
   categories: NonNullable<Awaited<ReturnType<typeof getCategories>>>
   onSubmit: (values: ExpenseFormValues) => Promise<void>
   onDelete?: () => Promise<void>
-  onArchive?: (state: boolean) => Promise<void>
   runtimeFeatureFlags: RuntimeFeatureFlags
 }
 
@@ -152,11 +151,9 @@ export function ExpenseForm({
   categories,
   onSubmit,
   onDelete,
-  onArchive,
   runtimeFeatureFlags,
 }: Props) {
   const isCreate = expense === undefined
-  const isArchived = expense?.isArchive
   const searchParams = useSearchParams()
   const getSelectedPayer = (field?: { value: string }) => {
     if (isCreate && typeof window !== 'undefined') {
@@ -191,7 +188,6 @@ export function ExpenseForm({
           documents: expense.documents,
           notes: expense.notes ?? '',
           recurringDays: String(expense.recurringDays),
-          isArchive: expense.isArchive,
         }
       : searchParams.get('reimbursement')
       ? {
@@ -216,7 +212,6 @@ export function ExpenseForm({
           documents: [],
           notes: '',
           recurringDays: "0",
-          isArchive: false,
         }
       : {
           title: searchParams.get('title') ?? '',
@@ -245,7 +240,6 @@ export function ExpenseForm({
             : [],
           notes: '',
           recurringDays: "0",
-          isArchive: false,
         },
         
   })
@@ -761,28 +755,6 @@ export function ExpenseForm({
             <Save className="w-4 h-4 mr-2" />
             {isCreate ? <>Create</> : <>Save</>}
           </SubmitButton>
-          {!isCreate && !isArchived && onArchive && (
-            <AsyncButton
-            type="button"
-            variant="secondary"
-            loadingContent="Archiving…"
-            action={() => onArchive(true)}
-          >
-            <Archive className="w-4 h-4 mr-2" />
-            Archive
-          </AsyncButton>
-          )}
-          {!isCreate && isArchived && onArchive && (
-            <AsyncButton
-            type="button"
-            variant="secondary"
-            loadingContent="Unarchiving…"
-            action={() => onArchive(false)}
-          >
-            <Archive className="w-4 h-4 mr-2" />
-            Unarchive
-          </AsyncButton>
-          )}
           {!isCreate && onDelete && (
             <DeletePopup onDelete={onDelete}></DeletePopup>
           )}
