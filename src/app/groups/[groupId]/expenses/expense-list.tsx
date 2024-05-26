@@ -133,6 +133,11 @@ export function ExpenseList({
                   <div
                     className={cn('mb-1', expense.isReimbursement && 'italic')}
                   >
+                    <span>
+                      <strong>
+                      {(expense.isArchive ? "Archived \u00B7 " :"")}
+                      </strong>
+                    </span>
                     {expense.title}
                   </div>
                   <div className="text-xs text-muted-foreground">

@@ -5,6 +5,7 @@ import {
   getCategories,
   getExpense,
   updateExpense,
+  archiveExpenseStateUpdate,
 } from '@/lib/api'
 import { getRuntimeFeatureFlags } from '@/lib/featureFlags'
 import { expenseFormSchema } from '@/lib/schemas'
@@ -36,7 +37,13 @@ export default async function EditExpensePage({
 
   async function deleteExpenseAction() {
     'use server'
-    await deleteExpense(expenseId)
+    await deleteExpense(groupId, expenseId)
+    redirect(`/groups/${groupId}`)
+  }
+
+  async function archiveExpenseStateUpdateAction(state: boolean) {
+    'use server'
+    await archiveExpenseStateUpdate(expenseId, state)
     redirect(`/groups/${groupId}`)
   }
 
@@ -48,6 +55,7 @@ export default async function EditExpensePage({
         categories={categories}
         onSubmit={updateExpenseAction}
         onDelete={deleteExpenseAction}
+        onArchive={archiveExpenseStateUpdateAction}
         runtimeFeatureFlags={await getRuntimeFeatureFlags()}
       />
     </Suspense>
