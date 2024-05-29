@@ -136,8 +136,10 @@ export function ExpenseList({
                     {expense.title}
                   </div>
                   <div className="text-xs text-muted-foreground">
-                    Paid by{' '}
-                    <strong>{getParticipant(expense.paidById)?.name}</strong>{' '}
+                    {expense.amount > 0 ? 'Paid by ' : 'Received by '}
+                    <strong>
+                      {getParticipant(expense.paidById)?.name}
+                    </strong>{' '}
                     for{' '}
                     {expense.paidFor.map((paidFor: any, index: number) => (
                       <Fragment key={index}>
