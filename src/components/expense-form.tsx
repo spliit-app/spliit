@@ -63,14 +63,12 @@ export type Props = {
 
 const enforceCurrencyPattern = (value: string) =>
   value
-    // replace first comma with #
-    .replace(/[.,]/, '#')
-    // remove all other commas
-    .replace(/[.,]/g, '')
-    // change back # to dot
-    .replace(/#/, '.')
-    // remove all non-numeric and non-dot characters
-    .replace(/[^\d.]/g, '')
+    .replace(/^\s*-/, '_') // replace leading minus with _
+    .replace(/[.,]/, '#') // replace first comma with #
+    .replace(/[-.,]/g, '') // remove other minus and commas characters
+    .replace(/_/, '-') // change back _ to minus
+    .replace(/#/, '.') // change back # to dot
+    .replace(/[^-\d.]/g, '') // remove all non-numeric characters
 
 const getDefaultSplittingOptions = (group: Props['group']) => {
   const defaultValue = {
