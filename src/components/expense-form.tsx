@@ -70,6 +70,9 @@ const enforceCurrencyPattern = (value: string) =>
     .replace(/#/, '.') // change back # to dot
     .replace(/[^-\d.]/g, '') // remove all non-numeric characters
 
+const capitalize = (value: string) =>
+  value.charAt(0).toUpperCase() + value.slice(1)
+
 const getDefaultSplittingOptions = (group: Props['group']) => {
   const defaultValue = {
     splitMode: 'EVENLY' as const,
@@ -240,15 +243,15 @@ export function ExpenseForm({
   }
 
   const [isIncome, setIsIncome] = useState(Number(form.getValues().amount) < 0)
+  const sExpense = isIncome ? 'income' : 'expense'
+  const sPaid = isIncome ? 'received' : 'payed'
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(submit)}>
         <Card>
           <CardHeader>
-            <CardTitle>
-              {isCreate ? <>Create expense</> : <>Edit expense</>}
-            </CardTitle>
+            <CardTitle>{(isCreate ? 'Create ' : 'Edit ') + sExpense}</CardTitle>
           </CardHeader>
           <CardContent className="grid sm:grid-cols-2 gap-6">
             <FormField
@@ -256,7 +259,7 @@ export function ExpenseForm({
               name="title"
               render={({ field }) => (
                 <FormItem className="">
-                  <FormLabel>Expense title</FormLabel>
+                  <FormLabel>{capitalize(sExpense)} title</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Monday evening restaurant"
@@ -276,7 +279,7 @@ export function ExpenseForm({
                     />
                   </FormControl>
                   <FormDescription>
-                    Enter a description for the expense.
+                    Enter a description for the {sExpense}.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -288,7 +291,7 @@ export function ExpenseForm({
               name="expenseDate"
               render={({ field }) => (
                 <FormItem className="sm:order-1">
-                  <FormLabel>Expense date</FormLabel>
+                  <FormLabel>{capitalize(sExpense)} date</FormLabel>
                   <FormControl>
                     <Input
                       className="date-base"
@@ -300,7 +303,7 @@ export function ExpenseForm({
                     />
                   </FormControl>
                   <FormDescription>
-                    Enter the date the expense was made.
+                    Enter the date the {sExpense} was {sPaid}.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -373,7 +376,7 @@ export function ExpenseForm({
                     isLoading={isCategoryLoading}
                   />
                   <FormDescription>
-                    Select the expense category.
+                    Select the {sExpense} category.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -385,7 +388,7 @@ export function ExpenseForm({
               name="paidBy"
               render={({ field }) => (
                 <FormItem className="sm:order-5">
-                  <FormLabel>Paid by</FormLabel>
+                  <FormLabel>{capitalize(sPaid)} by</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={getSelectedPayer(field)}
@@ -402,7 +405,7 @@ export function ExpenseForm({
                     </SelectContent>
                   </Select>
                   <FormDescription>
-                    Select the participant who paid the expense.
+                    Select the participant who {sPaid} the {sExpense}.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -426,7 +429,7 @@ export function ExpenseForm({
         <Card className="mt-4">
           <CardHeader>
             <CardTitle className="flex justify-between">
-              <span>Paid for</span>
+              <span>{capitalize(sPaid)} for</span>
               <Button
                 variant="link"
                 type="button"
@@ -459,7 +462,7 @@ export function ExpenseForm({
               </Button>
             </CardTitle>
             <CardDescription>
-              Select who the expense was paid for.
+              Select who the {sExpense} was {sPaid} for.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -659,7 +662,7 @@ export function ExpenseForm({
                           </Select>
                         </FormControl>
                         <FormDescription>
-                          Select how to split the expense.
+                          Select how to split the {sExpense}.
                         </FormDescription>
                       </FormItem>
                     )}
@@ -696,7 +699,7 @@ export function ExpenseForm({
                 <span>Attach documents</span>
               </CardTitle>
               <CardDescription>
-                See and attach receipts to the expense.
+                See and attach receipts to the {sExpense}.
               </CardDescription>
             </CardHeader>
             <CardContent>
