@@ -244,7 +244,7 @@ export function ExpenseForm({
 
   const [isIncome, setIsIncome] = useState(Number(form.getValues().amount) < 0)
   const sExpense = isIncome ? 'income' : 'expense'
-  const sPaid = isIncome ? 'received' : 'payed'
+  const sPaid = isIncome ? 'received' : 'paid'
 
   return (
     <Form {...form}>
