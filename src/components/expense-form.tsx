@@ -239,6 +239,8 @@ export function ExpenseForm({
     return onSubmit(values)
   }
 
+  const [isIncome, setIsIncome] = useState(Number(form.getValues().amount) < 0)
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(submit)}>
@@ -315,15 +317,17 @@ export function ExpenseForm({
                     <span>{group.currency}</span>
                     <FormControl>
                       <Input
-                        {...field}
                         className="text-base max-w-[120px]"
                         type="text"
                         inputMode="decimal"
-                        step={0.01}
                         placeholder="0.00"
-                        onChange={(event) =>
-                          onChange(enforceCurrencyPattern(event.target.value))
-                        }
+                        onChange={(event) => {
+                          const v = enforceCurrencyPattern(event.target.value)
+                          const income = Number(v) < 0
+                          setIsIncome(income)
+                          if (income) form.setValue('isReimbursement', false)
+                          onChange(v)
+                        }}
                         onClick={(e) => e.currentTarget.select()}
                         {...field}
                       />
@@ -331,23 +335,25 @@ export function ExpenseForm({
                   </div>
                   <FormMessage />
 
-                  <FormField
-                    control={form.control}
-                    name="isReimbursement"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-row gap-2 items-center space-y-0 pt-2">
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
-                        </FormControl>
-                        <div>
-                          <FormLabel>This is a reimbursement</FormLabel>
-                        </div>
-                      </FormItem>
-                    )}
-                  />
+                  {!isIncome && (
+                    <FormField
+                      control={form.control}
+                      name="isReimbursement"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row gap-2 items-center space-y-0 pt-2">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div>
+                            <FormLabel>This is a reimbursement</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+                  )}
                 </FormItem>
               )}
             />
