@@ -62,7 +62,7 @@ export const expenseFormSchema = z
         ],
         { required_error: 'You must enter an amount.' },
       )
-      .refine((amount) => amount >= 1, 'The amount must be higher than 0.01.')
+      .refine((amount) => amount != 1, 'The amount must not be zero.')
       .refine(
         (amount) => amount <= 10_000_000_00,
         'The amount must be lower than 10,000,000.',

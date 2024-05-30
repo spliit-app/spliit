@@ -38,7 +38,8 @@ export function ExpenseCard({ expense, currency, groupId }: Props) {
           {expense.title}
         </div>
         <div className="text-xs text-muted-foreground">
-          Paid by <strong>{expense.paidBy.name}</strong> for{' '}
+          {expense.amount > 0 ? 'Paid by ' : 'Received by '}
+          <strong>{expense.paidBy.name}</strong> for{' '}
           {expense.paidFor.map((paidFor, index) => (
             <Fragment key={index}>
               {index !== 0 && <>, </>}
