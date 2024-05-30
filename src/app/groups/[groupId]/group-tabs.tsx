@@ -15,7 +15,7 @@ export function GroupTabs({ groupId }: Props) {
   return (
     <Tabs
       value={value}
-      className="[&>*]:border"
+      className="[&>*]:border overflow-x-auto"
       onValueChange={(value) => {
         router.push(`/groups/${groupId}/${value}`)
       }}
