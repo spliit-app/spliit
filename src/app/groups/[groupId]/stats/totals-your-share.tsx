@@ -1,7 +1,7 @@
 'use client'
 import { getGroup, getGroupExpenses } from '@/lib/api'
 import { getTotalActiveUserShare } from '@/lib/totals'
-import { formatCurrency } from '@/lib/utils'
+import { cn, formatCurrency } from '@/lib/utils'
 import { useEffect, useState } from 'react'
 
 type Props = {
@@ -26,8 +26,13 @@ export function TotalsYourShare({ group, expenses }: Props) {
   return (
     <div>
       <div className="text-muted-foreground">Your total share</div>
-      <div className="text-lg">
-        {formatCurrency(currency, totalActiveUserShare)}
+      <div
+        className={cn(
+          'text-lg',
+          totalActiveUserShare < 0 ? 'text-green-600' : 'text-red-600',
+        )}
+      >
+        {formatCurrency(currency, Math.abs(totalActiveUserShare))}
       </div>
     </div>
   )
