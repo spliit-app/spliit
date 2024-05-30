@@ -35,7 +35,7 @@ export default async function GroupLayout({
 
   return (
     <>
-      <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3">
+      <div className="flex flex-col justify-between gap-3">
         <h1 className="font-bold text-2xl">
           <Link href={`/groups/${groupId}`}>{group.name}</Link>
         </h1>

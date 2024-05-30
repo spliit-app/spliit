@@ -23,7 +23,7 @@ export function ShareButton({ group }: Props) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button title="Share" size="icon">
+        <Button title="Share" size="icon" className="flex-shrink-0">
           <Share className="w-4 h-4" />
         </Button>
       </PopoverTrigger>

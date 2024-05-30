@@ -10,9 +10,15 @@ export function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
-export function formatExpenseDate(date: Date) {
-  return date.toLocaleDateString('en-US', {
-    dateStyle: 'medium',
+export type DateTimeStyle = NonNullable<
+  ConstructorParameters<typeof Intl.DateTimeFormat>[1]
+>['dateStyle']
+export function formatDate(
+  date: Date,
+  options: { dateStyle?: DateTimeStyle; timeStyle?: DateTimeStyle } = {},
+) {
+  return date.toLocaleString('en-GB', {
+    ...options,
     timeZone: 'UTC',
   })
 }

@@ -3,7 +3,7 @@ import { ActiveUserBalance } from '@/app/groups/[groupId]/expenses/active-user-b
 import { CategoryIcon } from '@/app/groups/[groupId]/expenses/category-icon'
 import { Button } from '@/components/ui/button'
 import { getGroupExpenses } from '@/lib/api'
-import { cn, formatCurrency, formatExpenseDate } from '@/lib/utils'
+import { cn, formatCurrency, formatDate } from '@/lib/utils'
 import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -60,7 +60,7 @@ export function ExpenseCard({ expense, currency, groupId }: Props) {
           {formatCurrency(currency, expense.amount)}
         </div>
         <div className="text-xs text-muted-foreground">
-          {formatExpenseDate(expense.expenseDate)}
+          {formatDate(expense.expenseDate, { dateStyle: 'medium' })}
         </div>
       </div>
       <Button
