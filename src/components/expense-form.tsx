@@ -1,5 +1,6 @@
 'use client'
 import { CategorySelector } from '@/components/category-selector'
+import { ExpenseActivityList } from '@/components/expense-activity-list'
 import { ExpenseDocumentsInput } from '@/components/expense-documents-input'
 import { SubmitButton } from '@/components/submit-button'
 import { Button } from '@/components/ui/button'
@@ -33,7 +34,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { getActivities, getCategories, getExpense, getGroup, randomId } from '@/lib/api'
+import {
+  getActivities,
+  getCategories,
+  getExpense,
+  getGroup,
+  randomId,
+} from '@/lib/api'
 import { RuntimeFeatureFlags } from '@/lib/featureFlags'
 import { useActiveUser } from '@/lib/hooks'
 import {
@@ -51,7 +58,6 @@ import { useForm } from 'react-hook-form'
 import { match } from 'ts-pattern'
 import { DeletePopup } from './delete-popup'
 import { extractCategoryFromTitle } from './expense-form-actions'
-import { ExpenseActivityList } from '@/components/expense-activity-list'
 import { Textarea } from './ui/textarea'
 
 export type Props = {
@@ -745,9 +751,11 @@ export function ExpenseForm({
       </form>
 
       {!isCreate && activities && (
-      <Card className="mb-4">
+        <Card className="mb-4">
           <CardHeader>
-            <CardTitle className="flex justify-between">Expense History</CardTitle>
+            <CardTitle className="flex justify-between">
+              Expense History
+            </CardTitle>
             <CardDescription>
               Previous Activity for this expense.
             </CardDescription>
@@ -757,7 +765,7 @@ export function ExpenseForm({
               {...{
                 group,
                 expense,
-                activities
+                activities,
               }}
             />
           </CardContent>

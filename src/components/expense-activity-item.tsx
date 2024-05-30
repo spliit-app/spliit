@@ -1,10 +1,10 @@
 'use client'
+import { getSummary } from '@/app/groups/[groupId]/activity/activity-item'
 import { Button } from '@/components/ui/button'
 import { getExpense, getGroup } from '@/lib/api'
 import { DateTimeStyle, cn, formatDate } from '@/lib/utils'
-import { Activity, ActivityType, Participant } from '@prisma/client'
+import { Activity, Participant } from '@prisma/client'
 import { useRouter } from 'next/navigation'
-import { getSummary } from '@/app/groups/[groupId]/activity/activity-item'
 
 type Props = {
   group: NonNullable<Awaited<ReturnType<typeof getGroup>>>
@@ -44,13 +44,12 @@ export function ExpenseActivityItem({
       <div className="flex-1">
         <div className="m-1">{summary}</div>
       </div>
-        <Button
-          size="icon"
-          variant="link"
-          className="self-center hidden sm:flex w-5 h-5"
-          asChild
-        >
-        </Button>
+      <Button
+        size="icon"
+        variant="link"
+        className="self-center hidden sm:flex w-5 h-5"
+        asChild
+      ></Button>
     </div>
   )
 }

@@ -1,7 +1,10 @@
-import { ExpenseActivityItem } from './expense-activity-item'
-import { getGroup, getExpense, getActivities } from '@/lib/api'
+import {
+  DATE_GROUPS,
+  getGroupedActivitiesByDate,
+} from '@/app/groups/[groupId]/activity/activity-list'
+import { getActivities, getExpense, getGroup } from '@/lib/api'
 import { Activity } from '@prisma/client'
-import { DATE_GROUPS, getGroupedActivitiesByDate } from '@/app/groups/[groupId]/activity/activity-list'
+import { ExpenseActivityItem } from './expense-activity-item'
 
 type Props = {
   group: NonNullable<Awaited<ReturnType<typeof getGroup>>>
@@ -9,11 +12,7 @@ type Props = {
   activities: NonNullable<Awaited<ReturnType<typeof getActivities>>>
 }
 
-export function ExpenseActivityList({
-  group,
-  expense,
-  activities,
-}: Props) {
+export function ExpenseActivityList({ group, expense, activities }: Props) {
   const groupedActivitiesByDate = getGroupedActivitiesByDate(activities)
 
   return activities.length > 0 ? (
@@ -38,7 +37,9 @@ export function ExpenseActivityList({
             {groupActivities.map((activity: Activity) => {
               const participant =
                 activity.participantId !== null
-                  ? group.participants.find((p) => p.id === activity.participantId)
+                  ? group.participants.find(
+                      (p) => p.id === activity.participantId,
+                    )
                   : undefined
               return (
                 <ExpenseActivityItem
