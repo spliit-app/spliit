@@ -41,7 +41,10 @@ import { useFieldArray, useForm } from 'react-hook-form'
 
 export type Props = {
   group?: NonNullable<Awaited<ReturnType<typeof getGroup>>>
-  onSubmit: (groupFormValues: GroupFormValues) => Promise<void>
+  onSubmit: (
+    groupFormValues: GroupFormValues,
+    participantId?: string,
+  ) => Promise<void>
   protectedParticipantIds?: string[]
 }
 
@@ -99,7 +102,11 @@ export function GroupForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(async (values) => {
-          await onSubmit(values)
+          await onSubmit(
+            values,
+            group?.participants.find((p) => p.name === activeUser)?.id ??
+              undefined,
+          )
         })}
       >
         <Card className="mb-4">
