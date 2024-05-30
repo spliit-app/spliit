@@ -34,7 +34,7 @@ export function getTotalActiveUserShare(
 
     const paidFors = expense.paidFor
     const userPaidFor = paidFors.find(
-      (paidFor) => paidFor.participantId === activeUserId,
+      (paidFor) => paidFor.participant.id === activeUserId,
     )
 
     if (!userPaidFor) {

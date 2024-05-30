@@ -1,4 +1,4 @@
-import { getPrisma } from '@/lib/prisma'
+import { prisma } from '@/lib/prisma'
 import contentDisposition from 'content-disposition'
 import { NextResponse } from 'next/server'
 
@@ -6,7 +6,6 @@ export async function GET(
   req: Request,
   { params: { groupId } }: { params: { groupId: string } },
 ) {
-  const prisma = await getPrisma()
   const group = await prisma.group.findUnique({
     where: { id: groupId },
     select: {
