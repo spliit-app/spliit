@@ -1,11 +1,12 @@
 import { ActivityItem } from '@/app/groups/[groupId]/activity/activity-item'
-import { Activity, Expense, Participant } from '@prisma/client'
+import { getGroupExpenses } from '@/lib/api'
+import { Activity, Participant } from '@prisma/client'
 import dayjs, { type Dayjs } from 'dayjs'
 
 type Props = {
   groupId: string
   participants: Participant[]
-  expenses: Expense[]
+  expenses: Awaited<ReturnType<typeof getGroupExpenses>>
   activities: Activity[]
 }
 

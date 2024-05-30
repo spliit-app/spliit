@@ -1,7 +1,8 @@
 'use client'
 import { Button } from '@/components/ui/button'
+import { getGroupExpenses } from '@/lib/api'
 import { DateTimeStyle, cn, formatDate } from '@/lib/utils'
-import { Activity, ActivityType, Expense, Participant } from '@prisma/client'
+import { Activity, ActivityType, Participant } from '@prisma/client'
 import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -10,7 +11,7 @@ type Props = {
   groupId: string
   activity: Activity
   participant?: Participant
-  expense?: Expense
+  expense?: Awaited<ReturnType<typeof getGroupExpenses>>[number]
   dateStyle: DateTimeStyle
 }
 
