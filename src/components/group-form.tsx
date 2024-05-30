@@ -173,7 +173,11 @@ export function GroupForm({
                         </FormLabel>
                         <FormControl>
                           <div className="flex gap-2">
-                            <Input className="text-base" {...field} placeholder="New"/>
+                            <Input
+                              className="text-base"
+                              {...field}
+                              placeholder="New"
+                            />
                             {item.id &&
                             protectedParticipantIds.includes(item.id) ? (
                               <HoverCard>
