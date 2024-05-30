@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { randomId } from '@/lib/api'
-import { getPrisma } from '@/lib/prisma'
+import { prisma } from '@/lib/prisma'
 import { Prisma } from '@prisma/client'
 import { Client } from 'pg'
 
@@ -8,8 +8,6 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 async function main() {
   withClient(async (client) => {
-    const prisma = await getPrisma()
-
     // console.log('Deleting all groups…')
     // await prisma.group.deleteMany({})
 
