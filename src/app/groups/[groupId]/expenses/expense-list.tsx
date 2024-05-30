@@ -10,7 +10,9 @@ import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 
-type ExpensesType = NonNullable<Awaited<ReturnType<typeof getGroupExpensesAction>>>
+type ExpensesType = NonNullable<
+  Awaited<ReturnType<typeof getGroupExpensesAction>>
+>
 
 type Props = {
   expensesFirstPage: ExpensesType
