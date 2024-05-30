@@ -327,13 +327,9 @@ export function ExpenseForm({
                           onChange(enforceCurrencyPattern(event.target.value))
                         }
                         onFocus={(e) => {
-                          {
-                            // we're adding a small delay to get around safaris issue with onMouseUp deselecting things again
-                            let target = e.currentTarget
-                            setTimeout(function () {
-                              target.select()
-                            }, 1)
-                          }
+                          // we're adding a small delay to get around safaris issue with onMouseUp deselecting things again
+                          const target = e.currentTarget
+                          setTimeout(() => target.select(), 1)
                         }}
                         {...field}
                       />
