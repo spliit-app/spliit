@@ -35,6 +35,7 @@ import {
 } from '@/components/ui/select'
 import { getCategories, getExpense, getGroup, randomId } from '@/lib/api'
 import { RuntimeFeatureFlags } from '@/lib/featureFlags'
+import { useActiveUser } from '@/lib/hooks'
 import {
   ExpenseFormValues,
   SplittingOptions,
@@ -56,8 +57,8 @@ export type Props = {
   group: NonNullable<Awaited<ReturnType<typeof getGroup>>>
   expense?: NonNullable<Awaited<ReturnType<typeof getExpense>>>
   categories: NonNullable<Awaited<ReturnType<typeof getCategories>>>
-  onSubmit: (values: ExpenseFormValues) => Promise<void>
-  onDelete?: () => Promise<void>
+  onSubmit: (values: ExpenseFormValues, participantId?: string) => Promise<void>
+  onDelete?: (participantId?: string) => Promise<void>
   runtimeFeatureFlags: RuntimeFeatureFlags
 }
 
@@ -236,10 +237,11 @@ export function ExpenseForm({
         },
   })
   const [isCategoryLoading, setCategoryLoading] = useState(false)
+  const activeUserId = useActiveUser(group.id)
 
   const submit = async (values: ExpenseFormValues) => {
     await persistDefaultSplittingOptions(group.id, values)
-    return onSubmit(values)
+    return onSubmit(values, activeUserId ?? undefined)
   }
 
   const [isIncome, setIsIncome] = useState(Number(form.getValues().amount) < 0)
@@ -331,7 +333,11 @@ export function ExpenseForm({
                           if (income) form.setValue('isReimbursement', false)
                           onChange(v)
                         }}
-                        onClick={(e) => e.currentTarget.select()}
+                        onFocus={(e) => {
+                          // we're adding a small delay to get around safaris issue with onMouseUp deselecting things again
+                          const target = e.currentTarget
+                          setTimeout(() => target.select(), 1)
+                        }}
                         {...field}
                       />
                     </FormControl>
@@ -725,7 +731,9 @@ export function ExpenseForm({
             {isCreate ? <>Create</> : <>Save</>}
           </SubmitButton>
           {!isCreate && onDelete && (
-            <DeletePopup onDelete={onDelete}></DeletePopup>
+            <DeletePopup
+              onDelete={() => onDelete(activeUserId ?? undefined)}
+            ></DeletePopup>
           )}
           <Button variant="ghost" asChild>
             <Link href={`/groups/${group.id}`}>Cancel</Link>
