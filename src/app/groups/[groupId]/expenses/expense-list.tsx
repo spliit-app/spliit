@@ -94,7 +94,7 @@ export function ExpenseList({
   const groupedExpensesByDate = getGroupedExpensesByDate(expenses)
   return expenses.length > 0 ? (
     <>
-      <SearchBar onChange={(e) => setSearchText(e.target.value)} />
+      <SearchBar onValueChange={(value) => setSearchText(value)} />
       {Object.values(EXPENSE_GROUPS).map((expenseGroup: string) => {
         let groupExpenses = groupedExpensesByDate[expenseGroup]
         if (!groupExpenses) return null
