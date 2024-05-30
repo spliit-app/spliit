@@ -5,6 +5,7 @@ import {
   getCategories,
   getExpense,
   updateExpense,
+  getExpenseActivity
 } from '@/lib/api'
 import { getRuntimeFeatureFlags } from '@/lib/featureFlags'
 import { expenseFormSchema } from '@/lib/schemas'
@@ -40,12 +41,15 @@ export default async function EditExpensePage({
     redirect(`/groups/${groupId}`)
   }
 
+  const activities = await getExpenseActivity(expenseId);
+
   return (
     <Suspense>
       <ExpenseForm
         group={group}
         expense={expense}
         categories={categories}
+        activities={activities}
         onSubmit={updateExpenseAction}
         onDelete={deleteExpenseAction}
         runtimeFeatureFlags={await getRuntimeFeatureFlags()}

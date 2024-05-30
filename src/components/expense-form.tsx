@@ -33,7 +33,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { getCategories, getExpense, getGroup, randomId } from '@/lib/api'
+import { getActivities, getCategories, getExpense, getGroup, randomId } from '@/lib/api'
 import { RuntimeFeatureFlags } from '@/lib/featureFlags'
 import { useActiveUser } from '@/lib/hooks'
 import {
@@ -51,12 +51,14 @@ import { useForm } from 'react-hook-form'
 import { match } from 'ts-pattern'
 import { DeletePopup } from './delete-popup'
 import { extractCategoryFromTitle } from './expense-form-actions'
+import { ExpenseActivityList } from '@/components/expense-activity-list'
 import { Textarea } from './ui/textarea'
 
 export type Props = {
   group: NonNullable<Awaited<ReturnType<typeof getGroup>>>
   expense?: NonNullable<Awaited<ReturnType<typeof getExpense>>>
   categories: NonNullable<Awaited<ReturnType<typeof getCategories>>>
+  activities?: NonNullable<Awaited<ReturnType<typeof getActivities>>>
   onSubmit: (values: ExpenseFormValues, participantId?: string) => Promise<void>
   onDelete?: (participantId?: string) => Promise<void>
   runtimeFeatureFlags: RuntimeFeatureFlags
@@ -150,6 +152,7 @@ export function ExpenseForm({
   group,
   expense,
   categories,
+  activities,
   onSubmit,
   onDelete,
   runtimeFeatureFlags,
@@ -740,6 +743,26 @@ export function ExpenseForm({
           </Button>
         </div>
       </form>
+
+      {!isCreate && activities && (
+      <Card className="mb-4">
+          <CardHeader>
+            <CardTitle className="flex justify-between">Expense History</CardTitle>
+            <CardDescription>
+              Previous Activity for this expense.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col space-y-4">
+            <ExpenseActivityList
+              {...{
+                group,
+                expense,
+                activities
+              }}
+            />
+          </CardContent>
+        </Card>
+      )}
     </Form>
   )
 }
