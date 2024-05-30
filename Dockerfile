@@ -27,7 +27,7 @@ RUN rm -r .next/cache
 FROM node:21-alpine as runtime-deps
 
 WORKDIR /usr/app
-COPY --from=base /usr/app/package.json /usr/app/package-lock.json ./
+COPY --from=base /usr/app/package.json /usr/app/package-lock.json /usr/app/next.config.js ./
 COPY --from=base /usr/app/prisma ./prisma
 
 RUN npm ci --omit=dev --omit=optional --ignore-scripts && \
@@ -38,7 +38,7 @@ FROM node:21-alpine as runner
 EXPOSE 3000/tcp
 WORKDIR /usr/app
 
-COPY --from=base /usr/app/package.json /usr/app/package-lock.json ./
+COPY --from=base /usr/app/package.json /usr/app/package-lock.json /usr/app/next.config.js ./
 COPY --from=runtime-deps /usr/app/node_modules ./node_modules
 COPY ./public ./public
 COPY ./scripts ./scripts
