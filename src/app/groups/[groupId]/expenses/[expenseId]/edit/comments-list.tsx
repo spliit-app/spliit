@@ -23,7 +23,8 @@ export function CommentsList({
   onUpdate,
   onDelete,
 }: Props) {
-  const [selectedComment, setSelectedComment] = useState<NonNullable<Awaited<ReturnType<typeof getComment>>>>()
+  const [selectedComment, setSelectedComment] =
+    useState<NonNullable<Awaited<ReturnType<typeof getComment>>>>()
 
   return (
     <>
@@ -39,9 +40,14 @@ export function CommentsList({
               ) => (
                 <CommentItem
                   key={comment.id}
+                  group={group}
                   comment={comment}
                   onDelete={onDelete}
-                  onClick={(comment: NonNullable<Awaited<ReturnType<typeof getComment>>>) => {
+                  onClick={(
+                    comment: NonNullable<
+                      Awaited<ReturnType<typeof getComment>>
+                    >,
+                  ) => {
                     setSelectedComment(comment)
                   }}
                 />
