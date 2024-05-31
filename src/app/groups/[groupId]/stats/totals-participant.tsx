@@ -20,7 +20,7 @@ export function ParticipantSummary({ expensesByParticipant }: Props) {
     <Card className="mb-4">
       <CardHeader>
         <CardTitle>Spending by Participant</CardTitle>
-        <CardDescription>Total spending in each category.</CardDescription>
+        <CardDescription>Total spending by each participant.</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col space-y-4">
         <VictoryPie
