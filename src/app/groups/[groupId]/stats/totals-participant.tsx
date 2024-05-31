@@ -6,44 +6,31 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { getGroupExpensesByCategory } from '@/lib/api'
+import { getGroupExpensesByParticipant } from '@/lib/api'
 import { LineSegment, VictoryPie, VictoryTheme } from 'victory'
 
 type Props = {
-  expenseByCategory: NonNullable<
-    Awaited<ReturnType<typeof getGroupExpensesByCategory>>
+  expensesByParticipant: NonNullable<
+    Awaited<ReturnType<typeof getGroupExpensesByParticipant>>
   >
 }
 
-export function CategorySummary({ expenseByCategory }: Props) {
-  const maxCategories = 12
-  const data = expenseByCategory.slice(
-    0,
-    Math.min(expenseByCategory.length, maxCategories),
-  )
-
-  if (expenseByCategory.length > maxCategories) {
-    data.push({
-      category: 'Other Categories',
-      amount: expenseByCategory
-        .slice(maxCategories, expenseByCategory.length)
-        .reduce((p, d) => p + (d.amount ?? 0), 0),
-    })
-  }
-
+export function ParticipantSummary({ expensesByParticipant }: Props) {
   return (
     <Card className="mb-4">
       <CardHeader>
-        <CardTitle>Spending by Category</CardTitle>
+        <CardTitle>Spending by Participant</CardTitle>
         <CardDescription>Total spending in each category.</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col space-y-4">
         <VictoryPie
           theme={VictoryTheme.material}
           name="expenseByCategory"
-          data={data}
-          x="category"
+          data={expensesByParticipant}
+          x="participant"
           y="amount"
+          sortKey="amount"
+          sortOrder="descending"
           colorScale="qualitative"
           labelIndicator={
             <LineSegment
@@ -54,7 +41,7 @@ export function CategorySummary({ expenseByCategory }: Props) {
           labelIndicatorOuterOffset={5}
           style={{
             labels: {
-              fontSize: 6,
+              fontSize: 4,
             },
           }}
         />
