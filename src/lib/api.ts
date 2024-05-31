@@ -292,6 +292,30 @@ export async function getGroupExpenses(
   })
 }
 
+export async function getGroupExpensesByCategory(groupId: string) {
+  const expensesByCategory = await prisma.expense.groupBy({
+    by: ['categoryId'],
+    where: {
+      groupId,
+    },
+    _sum: {
+      amount: true,
+    },
+    orderBy: {
+      _sum: { amount: 'desc' },
+    },
+  })
+
+  const categories = await getCategories()
+  return expensesByCategory.map((expenseCategory) => {
+    return {
+      category: categories.find((c) => c.id === expenseCategory.categoryId)
+        ?.name,
+      amount: expenseCategory._sum.amount,
+    }
+  })
+}
+
 export async function getGroupExpenseCount(groupId: string) {
   return prisma.expense.count({ where: { groupId } })
 }
