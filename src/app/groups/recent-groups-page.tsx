@@ -2,9 +2,10 @@
 import { AddGroupByUrlButton } from '@/app/groups/add-group-by-url-button'
 import { RecentGroupList } from '@/app/groups/recent-group-list'
 import { Button } from '@/components/ui/button'
+import { getGlobalGroups } from '@/lib/api'
 import Link from 'next/link'
 
-export function RecentGroupsPage() {
+export async function RecentGroupsPage() {
   return (
     <>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
@@ -22,7 +23,7 @@ export function RecentGroupsPage() {
         </div>
       </div>
       <div>
-        <RecentGroupList />
+        <RecentGroupList globalGroups={await getGlobalGroups()} />
       </div>
     </>
   )

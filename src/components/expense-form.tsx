@@ -1,5 +1,6 @@
 'use client'
 import { CategorySelector } from '@/components/category-selector'
+import { ExpenseActivityList } from '@/components/expense-activity-list'
 import { ExpenseDocumentsInput } from '@/components/expense-documents-input'
 import { SubmitButton } from '@/components/submit-button'
 import { Button } from '@/components/ui/button'
@@ -33,7 +34,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { getCategories, getExpense, getGroup, randomId } from '@/lib/api'
+import {
+  getActivities,
+  getCategories,
+  getExpense,
+  getGroup,
+  randomId,
+} from '@/lib/api'
 import { RuntimeFeatureFlags } from '@/lib/featureFlags'
 import { useActiveUser } from '@/lib/hooks'
 import {
@@ -57,6 +64,7 @@ export type Props = {
   group: NonNullable<Awaited<ReturnType<typeof getGroup>>>
   expense?: NonNullable<Awaited<ReturnType<typeof getExpense>>>
   categories: NonNullable<Awaited<ReturnType<typeof getCategories>>>
+  activities?: NonNullable<Awaited<ReturnType<typeof getActivities>>>
   onSubmit: (values: ExpenseFormValues, participantId?: string) => Promise<void>
   onDelete?: (participantId?: string) => Promise<void>
   runtimeFeatureFlags: RuntimeFeatureFlags
@@ -150,6 +158,7 @@ export function ExpenseForm({
   group,
   expense,
   categories,
+  activities,
   onSubmit,
   onDelete,
   runtimeFeatureFlags,
@@ -740,6 +749,28 @@ export function ExpenseForm({
           </Button>
         </div>
       </form>
+
+      {!isCreate && activities && (
+        <Card className="mb-4">
+          <CardHeader>
+            <CardTitle className="flex justify-between">
+              Expense History
+            </CardTitle>
+            <CardDescription>
+              Previous Activity for this expense.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col space-y-4">
+            <ExpenseActivityList
+              {...{
+                group,
+                expense,
+                activities,
+              }}
+            />
+          </CardContent>
+        </Card>
+      )}
     </Form>
   )
 }

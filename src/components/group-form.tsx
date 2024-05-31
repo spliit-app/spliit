@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   Form,
   FormControl,
@@ -32,6 +33,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { getGroup } from '@/lib/api'
+import { RuntimeFeatureFlags } from '@/lib/featureFlags'
 import { GroupFormValues, groupFormSchema } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Save, Trash2 } from 'lucide-react'
@@ -46,12 +48,14 @@ export type Props = {
     participantId?: string,
   ) => Promise<void>
   protectedParticipantIds?: string[]
+  runtimeFeatureFlags: RuntimeFeatureFlags
 }
 
 export function GroupForm({
   group,
   onSubmit,
   protectedParticipantIds = [],
+  runtimeFeatureFlags,
 }: Props) {
   const form = useForm<GroupFormValues>({
     resolver: zodResolver(groupFormSchema),
@@ -60,11 +64,13 @@ export function GroupForm({
           name: group.name,
           currency: group.currency,
           participants: group.participants,
+          isGlobal: group.isGlobal,
         }
       : {
           name: '',
           currency: '',
           participants: [{ name: 'John' }, { name: 'Jane' }, { name: 'Jack' }],
+          isGlobal: false,
         },
   })
   const { fields, append, remove } = useFieldArray({
@@ -156,6 +162,28 @@ export function GroupForm({
                 </FormItem>
               )}
             />
+
+            {runtimeFeatureFlags.enableGlobalGroups && (
+              <FormField
+                control={form.control}
+                name="isGlobal"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row gap-2 items-center space-y-0 pt-2">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <div>
+                      <FormLabel>
+                        Show in global groups list for all users.
+                      </FormLabel>
+                    </div>
+                  </FormItem>
+                )}
+              />
+            )}
           </CardContent>
         </Card>
 

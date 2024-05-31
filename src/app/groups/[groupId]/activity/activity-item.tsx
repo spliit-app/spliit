@@ -15,7 +15,7 @@ type Props = {
   dateStyle: DateTimeStyle
 }
 
-function getSummary(activity: Activity, participantName?: string) {
+export function getSummary(activity: Activity, participantName?: string) {
   const participant = participantName ?? 'Someone'
   const expense = activity.data ?? ''
   if (activity.activityType == ActivityType.UPDATE_GROUP) {

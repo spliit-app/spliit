@@ -35,6 +35,10 @@ const envSchema = z
       z.boolean().default(false),
     ),
     OPENAI_API_KEY: z.string().optional(),
+    GLOBAL_GROUPS_ENABLE: z.preprocess(
+      interpretEnvVarAsBool,
+      z.boolean().default(false),
+    ),
   })
   .superRefine((env, ctx) => {
     if (
