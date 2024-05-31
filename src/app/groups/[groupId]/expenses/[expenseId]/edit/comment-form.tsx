@@ -1,13 +1,7 @@
 'use client'
 import { SubmitButton } from '@/components/submit-button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Textarea } from '@/components/ui/textarea'
 import { getComment, getGroup } from '@/lib/api'
 import { useActiveUser } from '@/lib/hooks'
@@ -53,8 +47,7 @@ export function CommentForm({ group, comment, onSubmit }: Props) {
               control={form.control}
               name="comment"
               render={({ field }) => (
-                <FormItem className="sm:order-6">
-                  <FormLabel>Comment</FormLabel>
+                <FormItem className="sm:order-1">
                   <FormControl>
                     <Textarea
                       className="text-base"
@@ -65,7 +58,7 @@ export function CommentForm({ group, comment, onSubmit }: Props) {
                 </FormItem>
               )}
             />
-            <div>
+            <div className="sm:order-2">
               <SubmitButton
                 loadingContent={isCreate ? <>Adding</> : <>Saving…</>}
               >
