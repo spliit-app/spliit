@@ -34,7 +34,9 @@ export default async function InformationPage({
         <CardContent className="flex flex-col space-y-4">
           {group.information && (
             <div className="flex gap-2 justify-between">
-              <div className="text-xs text-foreground">{group.information}</div>
+              <div className="text-xs text-foreground whitespace-break-spaces">
+                {group.information}
+              </div>
             </div>
           )}
         </CardContent>
