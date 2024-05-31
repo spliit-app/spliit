@@ -243,7 +243,7 @@ export async function addComment(
 }
 
 export async function updateComment(commentId: string, comment: string) {
-  const existingComment = await getGroup(commentId)
+  const existingComment = await getComment(commentId)
   if (!existingComment) throw new Error('Invalid Comment ID')
 
   return prisma.expenseComment.update({
