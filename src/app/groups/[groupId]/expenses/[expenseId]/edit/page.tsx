@@ -1,14 +1,17 @@
 import { cached } from '@/app/cached-functions'
 import { ExpenseForm } from '@/components/expense-form'
 import {
+  addComment,
+  deleteComment,
   deleteExpense,
   getCategories,
   getComments,
   getExpense,
+  updateComment,
   updateExpense,
 } from '@/lib/api'
 import { getRuntimeFeatureFlags } from '@/lib/featureFlags'
-import { expenseFormSchema } from '@/lib/schemas'
+import { commentFormSchema, expenseFormSchema } from '@/lib/schemas'
 import { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
 import { Suspense } from 'react'
@@ -43,6 +46,26 @@ export default async function EditExpensePage({
     redirect(`/groups/${groupId}`)
   }
 
+  async function addCommentAction(values: unknown, participantId: string) {
+    'use server'
+    const commentFormValues = commentFormSchema.parse(values)
+    await addComment(expense!.id, participantId, commentFormValues.comment)
+    redirect(`/groups/${group!.id}/expenses/${expense!.id}/edit`)
+  }
+
+  async function updateCommentAction(values: unknown, commentId: string) {
+    'use server'
+    const commentFormValues = commentFormSchema.parse(values)
+    await updateComment(commentId, commentFormValues.comment)
+    redirect(`/groups/${group!.id}/expenses/${expense!.id}/edit`)
+  }
+
+  async function deleteCommentAction(commentId: string) {
+    'use server'
+    await deleteComment(commentId)
+    redirect(`/groups/${group!.id}/expenses/${expense!.id}/edit`)
+  }
+
   return (
     <Suspense>
       <ExpenseForm
@@ -53,7 +76,14 @@ export default async function EditExpensePage({
         onDelete={deleteExpenseAction}
         runtimeFeatureFlags={await getRuntimeFeatureFlags()}
       />
-      <CommentsList group={group} expense={expense} comments={comments} />
+      <CommentsList
+        group={group}
+        expense={expense}
+        comments={comments}
+        onCreate={addCommentAction}
+        onUpdate={updateCommentAction}
+        onDelete={deleteCommentAction}
+      />
     </Suspense>
   )
 }

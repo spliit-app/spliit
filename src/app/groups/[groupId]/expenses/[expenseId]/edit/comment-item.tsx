@@ -6,12 +6,20 @@ import { Trash2 } from 'lucide-react'
 
 export type Props = {
   comment: NonNullable<Awaited<ReturnType<typeof getComment>>>
-  onDelete: (commentID: string) => Promise<void>
+  onDelete: (commentId: string) => Promise<void>
+  onClick: (
+    comment: NonNullable<Awaited<ReturnType<typeof getComment>>>,
+  ) => void
 }
 
-export function CommentItem({ comment, onDelete }: Props) {
+export function CommentItem({ comment, onDelete, onClick }: Props) {
   return (
-    <div className="flex justify-between sm:mx-6 px-4 sm:rounded-lg sm:pr-2 sm:pl-4 py-4 text-sm cursor-pointer hover:bg-accent gap-1 items-stretch">
+    <div
+      className="flex justify-between sm:mx-6 px-4 sm:rounded-lg sm:pr-2 sm:pl-4 py-4 text-sm cursor-pointer hover:bg-accent gap-1 items-stretch"
+      onClick={() => {
+        onClick(comment)
+      }}
+    >
       <div className="flex-1">
         <div className="mb-1">{comment.comment}</div>
         <div className="text-xs text-muted-foreground">
@@ -22,7 +30,7 @@ export function CommentItem({ comment, onDelete }: Props) {
           })}
         </div>
       </div>
-      <Button variant="destructive" onClick={() => onDelete(comment.id)}>
+      <Button variant="ghost" onClick={() => onDelete(comment.id)}>
         <Trash2 className="w-4 h-4" />
       </Button>
     </div>

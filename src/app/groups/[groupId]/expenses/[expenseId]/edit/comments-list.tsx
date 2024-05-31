@@ -1,13 +1,8 @@
+'use client'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import {
-  addComment,
-  deleteComment,
-  getComments,
-  getExpense,
-  getGroup,
-} from '@/lib/api'
-import { commentFormSchema } from '@/lib/schemas'
-import { redirect } from 'next/navigation'
+import { getComment, getComments, getExpense, getGroup } from '@/lib/api'
+import { CommentFormValues } from '@/lib/schemas'
+import { useState } from 'react'
 import { CommentForm } from './comment-form'
 import { CommentItem } from './comment-item'
 
@@ -15,21 +10,20 @@ type Props = {
   group: NonNullable<Awaited<ReturnType<typeof getGroup>>>
   expense: NonNullable<Awaited<ReturnType<typeof getExpense>>>
   comments: NonNullable<Awaited<ReturnType<typeof getComments>>>
+  onCreate: (values: CommentFormValues, participantId: string) => Promise<void>
+  onUpdate: (values: CommentFormValues, commentId: string) => Promise<void>
+  onDelete: (commentId: string) => Promise<void>
 }
 
-export function CommentsList({ group, expense, comments }: Props) {
-  async function addCommentAction(values: unknown, participantId: string) {
-    'use server'
-    const commentFormValues = commentFormSchema.parse(values)
-    await addComment(expense.id, participantId, commentFormValues.comment)
-    redirect(`/groups/${group.id}/expenses/${expense.id}/edit`)
-  }
-
-  async function onDeleteAction(commentId: string) {
-    'use server'
-    await deleteComment(commentId)
-    redirect(`/groups/${group.id}/expenses/${expense.id}/edit`)
-  }
+export function CommentsList({
+  group,
+  expense,
+  comments,
+  onCreate,
+  onUpdate,
+  onDelete,
+}: Props) {
+  const [selectedComment, setSelectedComment] = useState<NonNullable<Awaited<ReturnType<typeof getComment>>>>()
 
   return (
     <>
@@ -39,13 +33,20 @@ export function CommentsList({ group, expense, comments }: Props) {
         </CardHeader>
         <CardContent>
           {comments.length > 0 ? (
-            comments.map((comment) => (
-              <CommentItem
-                key={comment.id}
-                comment={comment}
-                onDelete={onDeleteAction}
-              />
-            ))
+            comments.map(
+              (
+                comment: NonNullable<Awaited<ReturnType<typeof getComment>>>,
+              ) => (
+                <CommentItem
+                  key={comment.id}
+                  comment={comment}
+                  onDelete={onDelete}
+                  onClick={(comment: NonNullable<Awaited<ReturnType<typeof getComment>>>) => {
+                    setSelectedComment(comment)
+                  }}
+                />
+              ),
+            )
           ) : (
             <p className="px-6 text-sm py-6">
               This expense does not contain any comments yet.{' '}
@@ -53,7 +54,13 @@ export function CommentsList({ group, expense, comments }: Props) {
           )}
         </CardContent>
       </Card>
-      <CommentForm group={group} onSubmit={addCommentAction} />
+      <CommentForm
+        group={group}
+        onCreate={onCreate}
+        onUpdate={onUpdate}
+        onCancel={() => setSelectedComment(undefined)}
+        comment={selectedComment}
+      />
     </>
   )
 }
