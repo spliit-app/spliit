@@ -1,3 +1,4 @@
+import { getRuntimeFeatureFlags } from '@/lib/featureFlags'
 import { prisma } from '@/lib/prisma'
 import { ExpenseFormValues, GroupFormValues } from '@/lib/schemas'
 import { ActivityType, Expense } from '@prisma/client'
@@ -5,6 +6,15 @@ import { nanoid } from 'nanoid'
 
 export function randomId() {
   return nanoid()
+}
+
+export async function getGlobalGroups() {
+  if (!(await getRuntimeFeatureFlags()).enableGlobalGroups) {
+    return []
+  }
+  return await prisma.group.findMany({
+    where: { isGlobal: true },
+  })
 }
 
 export async function createGroup(groupFormValues: GroupFormValues) {
@@ -21,6 +31,7 @@ export async function createGroup(groupFormValues: GroupFormValues) {
           })),
         },
       },
+      isGlobal: groupFormValues.isGlobal,
     },
     include: { participants: true },
   })
@@ -248,6 +259,7 @@ export async function updateGroup(
             })),
         },
       },
+      isGlobal: groupFormValues.isGlobal,
     },
   })
 }

@@ -22,6 +22,7 @@ export const groupFormSchema = z
         }),
       )
       .min(1),
+    isGlobal: z.boolean().default(false),
   })
   .superRefine(({ participants }, ctx) => {
     participants.forEach((participant, i) => {
