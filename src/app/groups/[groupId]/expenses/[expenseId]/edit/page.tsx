@@ -3,6 +3,7 @@ import { ExpenseForm } from '@/components/expense-form'
 import {
   deleteExpense,
   getCategories,
+  getComments,
   getExpense,
   updateExpense,
 } from '@/lib/api'
@@ -11,6 +12,7 @@ import { expenseFormSchema } from '@/lib/schemas'
 import { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
 import { Suspense } from 'react'
+import { CommentsList } from './comments-list'
 
 export const metadata: Metadata = {
   title: 'Edit expense',
@@ -22,6 +24,7 @@ export default async function EditExpensePage({
   params: { groupId: string; expenseId: string }
 }) {
   const categories = await getCategories()
+  const comments = await getComments(expenseId)
   const group = await cached.getGroup(groupId)
   if (!group) notFound()
   const expense = await getExpense(groupId, expenseId)
@@ -50,6 +53,7 @@ export default async function EditExpensePage({
         onDelete={deleteExpenseAction}
         runtimeFeatureFlags={await getRuntimeFeatureFlags()}
       />
+      <CommentsList group={group} expense={expense} comments={comments} />
     </Suspense>
   )
 }
