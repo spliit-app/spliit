@@ -104,6 +104,15 @@ NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT=true
 OPENAI_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
+For using other LLMs such as llama3 on locally-hosted APIs such as that provided by https://github.com/ollama/ollama, set the following environment variables:
+
+```.env
+NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT=true
+LOCAL_AI_URL=http://127.0.0.1:11434/api/chat
+LOCAL_AI_MODEL=llama3
+OPEN_API_KEY=
+```
+
 ## License
 
 MIT, see [LICENSE](./LICENSE).
