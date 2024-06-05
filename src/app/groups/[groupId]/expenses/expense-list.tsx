@@ -1,19 +1,22 @@
 'use client'
-import { ActiveUserBalance } from '@/app/groups/[groupId]/expenses/active-user-balance'
-import { CategoryIcon } from '@/app/groups/[groupId]/expenses/category-icon'
+import { ExpenseCard } from '@/app/groups/[groupId]/expenses/expense-card'
+import { getGroupExpensesAction } from '@/app/groups/[groupId]/expenses/expense-list-fetch-action'
 import { Button } from '@/components/ui/button'
 import { SearchBar } from '@/components/ui/search-bar'
-import { getGroupExpenses } from '@/lib/api'
-import { cn, formatCurrency, formatExpenseDate } from '@/lib/utils'
-import { Expense, Participant } from '@prisma/client'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Participant } from '@prisma/client'
 import dayjs, { type Dayjs } from 'dayjs'
-import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { Fragment, useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { useInView } from 'react-intersection-observer'
+
+type ExpensesType = NonNullable<
+  Awaited<ReturnType<typeof getGroupExpensesAction>>
+>
 
 type Props = {
-  expenses: Awaited<ReturnType<typeof getGroupExpenses>>
+  expensesFirstPage: ExpensesType
+  expenseCount: number
   participants: Participant[]
   currency: string
   groupId: string
@@ -47,28 +50,32 @@ function getExpenseGroup(date: Dayjs, today: Dayjs) {
   }
 }
 
-function getGroupedExpensesByDate(
-  expenses: Awaited<ReturnType<typeof getGroupExpenses>>,
-) {
+function getGroupedExpensesByDate(expenses: ExpensesType) {
   const today = dayjs()
-  return expenses.reduce(
-    (result: { [key: string]: Expense[] }, expense: Expense) => {
-      const expenseGroup = getExpenseGroup(dayjs(expense.expenseDate), today)
-      result[expenseGroup] = result[expenseGroup] ?? []
-      result[expenseGroup].push(expense)
-      return result
-    },
-    {},
-  )
+  return expenses.reduce((result: { [key: string]: ExpensesType }, expense) => {
+    const expenseGroup = getExpenseGroup(dayjs(expense.expenseDate), today)
+    result[expenseGroup] = result[expenseGroup] ?? []
+    result[expenseGroup].push(expense)
+    return result
+  }, {})
 }
 
 export function ExpenseList({
-  expenses,
+  expensesFirstPage,
+  expenseCount,
   currency,
   participants,
   groupId,
 }: Props) {
+  const firstLen = expensesFirstPage.length
   const [searchText, setSearchText] = useState('')
+  const [dataIndex, setDataIndex] = useState(firstLen)
+  const [dataLen, setDataLen] = useState(firstLen)
+  const [hasMoreData, setHasMoreData] = useState(expenseCount > firstLen)
+  const [isFetching, setIsFetching] = useState(false)
+  const [expenses, setExpenses] = useState(expensesFirstPage)
+  const { ref, inView } = useInView()
+
   useEffect(() => {
     const activeUser = localStorage.getItem('newGroup-activeUser')
     const newUser = localStorage.getItem(`${groupId}-newUser`)
@@ -88,13 +95,46 @@ export function ExpenseList({
     }
   }, [groupId, participants])
 
-  const getParticipant = (id: string) => participants.find((p) => p.id === id)
-  const router = useRouter()
+  useEffect(() => {
+    const fetchNextPage = async () => {
+      setIsFetching(true)
 
-  const groupedExpensesByDate = getGroupedExpensesByDate(expenses)
+      const newExpenses = await getGroupExpensesAction(groupId, {
+        offset: dataIndex,
+        length: dataLen,
+      })
+
+      if (newExpenses !== null) {
+        const exp = expenses.concat(newExpenses)
+        setExpenses(exp)
+        setHasMoreData(exp.length < expenseCount)
+        setDataIndex(dataIndex + dataLen)
+        setDataLen(Math.ceil(1.5 * dataLen))
+      }
+
+      setTimeout(() => setIsFetching(false), 500)
+    }
+
+    if (inView && hasMoreData && !isFetching) fetchNextPage()
+  }, [
+    dataIndex,
+    dataLen,
+    expenseCount,
+    expenses,
+    groupId,
+    hasMoreData,
+    inView,
+    isFetching,
+  ])
+
+  const groupedExpensesByDate = useMemo(
+    () => getGroupedExpensesByDate(expenses),
+    [expenses],
+  )
+
   return expenses.length > 0 ? (
     <>
-      <SearchBar onChange={(e) => setSearchText(e.target.value)} />
+      <SearchBar onValueChange={(value) => setSearchText(value)} />
       {Object.values(EXPENSE_GROUPS).map((expenseGroup: string) => {
         let groupExpenses = groupedExpensesByDate[expenseGroup]
         if (!groupExpenses) return null
@@ -114,76 +154,33 @@ export function ExpenseList({
             >
               {expenseGroup}
             </div>
-            {groupExpenses.map((expense: any) => (
-              <div
+            {groupExpenses.map((expense) => (
+              <ExpenseCard
                 key={expense.id}
-                className={cn(
-                  'flex justify-between sm:mx-6 px-4 sm:rounded-lg sm:pr-2 sm:pl-4 py-4 text-sm cursor-pointer hover:bg-accent gap-1 items-stretch',
-                  expense.isReimbursement && 'italic',
-                )}
-                onClick={() => {
-                  router.push(`/groups/${groupId}/expenses/${expense.id}/edit`)
-                }}
-              >
-                <CategoryIcon
-                  category={expense.category}
-                  className="w-4 h-4 mr-2 mt-0.5 text-muted-foreground"
-                />
-                <div className="flex-1">
-                  <div
-                    className={cn('mb-1', expense.isReimbursement && 'italic')}
-                  >
-                    {expense.title}
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    Paid by{' '}
-                    <strong>{getParticipant(expense.paidById)?.name}</strong>{' '}
-                    for{' '}
-                    {expense.paidFor.map((paidFor: any, index: number) => (
-                      <Fragment key={index}>
-                        {index !== 0 && <>, </>}
-                        <strong>
-                          {
-                            participants.find(
-                              (p) => p.id === paidFor.participantId,
-                            )?.name
-                          }
-                        </strong>
-                      </Fragment>
-                    ))}
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    <ActiveUserBalance {...{ groupId, currency, expense }} />
-                  </div>
-                </div>
-                <div className="flex flex-col justify-between items-end">
-                  <div
-                    className={cn(
-                      'tabular-nums whitespace-nowrap',
-                      expense.isReimbursement ? 'italic' : 'font-bold',
-                    )}
-                  >
-                    {formatCurrency(currency, expense.amount)}
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    {formatExpenseDate(expense.expenseDate)}
-                  </div>
-                </div>
-                <Button
-                  size="icon"
-                  variant="link"
-                  className="self-center hidden sm:flex"
-                  asChild
-                >
-                  <Link href={`/groups/${groupId}/expenses/${expense.id}/edit`}>
-                    <ChevronRight className="w-4 h-4" />
-                  </Link>
-                </Button>
-              </div>
+                expense={expense}
+                currency={currency}
+                groupId={groupId}
+              />
             ))}
           </div>
         )
       })}
+      {expenses.length < expenseCount &&
+        [0, 1, 2].map((i) => (
+          <div
+            key={i}
+            className="border-t flex justify-between items-center px-6 py-4 text-sm"
+            ref={i === 0 ? ref : undefined}
+          >
+            <div className="flex flex-col gap-2">
+              <Skeleton className="h-4 w-16 rounded-full" />
+              <Skeleton className="h-4 w-32 rounded-full" />
+            </div>
+            <div>
+              <Skeleton className="h-4 w-16 rounded-full" />
+            </div>
+          </div>
+        ))}
     </>
   ) : (
     <p className="px-6 text-sm py-6">

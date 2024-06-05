@@ -12,7 +12,11 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { getCategories, getGroupExpenses } from '@/lib/api'
+import {
+  getCategories,
+  getGroupExpenseCount,
+  getGroupExpenses,
+} from '@/lib/api'
 import { getBalances, getSuggestedReimbursements } from '@/lib/balances'
 import { env } from '@/lib/env'
 import { Download, Plus } from 'lucide-react'
@@ -103,7 +107,7 @@ export default async function GroupExpensesPage({
               </div>
             ))}
           >
-            <Expenses groupId={groupId} />
+            <Expenses group={group} />
           </Suspense>
         </CardContent>
       </Card>
@@ -113,14 +117,22 @@ export default async function GroupExpensesPage({
   )
 }
 
-async function Expenses({ groupId }: { groupId: string }) {
-  const group = await cached.getGroup(groupId)
-  if (!group) notFound()
-  const expenses = await getGroupExpenses(group.id)
+type Props = {
+  group: NonNullable<Awaited<ReturnType<typeof cached.getGroup>>>
+}
+
+async function Expenses({ group }: Props) {
+  const expenseCount = await getGroupExpenseCount(group.id)
+
+  const expenses = await getGroupExpenses(group.id, {
+    offset: 0,
+    length: 200,
+  })
 
   return (
     <ExpenseList
-      expenses={expenses}
+      expensesFirstPage={expenses}
+      expenseCount={expenseCount}
       groupId={group.id}
       currency={group.currency}
       participants={group.participants}

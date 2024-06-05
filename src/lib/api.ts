@@ -1,6 +1,6 @@
-import { getPrisma } from '@/lib/prisma'
+import { prisma } from '@/lib/prisma'
 import { ExpenseFormValues, GroupFormValues } from '@/lib/schemas'
-import { Expense } from '@prisma/client'
+import { ActivityType, Expense } from '@prisma/client'
 import { nanoid } from 'nanoid'
 
 export function randomId() {
@@ -8,7 +8,6 @@ export function randomId() {
 }
 
 export async function createGroup(groupFormValues: GroupFormValues) {
-  const prisma = await getPrisma()
   return prisma.group.create({
     data: {
       id: randomId(),
@@ -30,6 +29,7 @@ export async function createGroup(groupFormValues: GroupFormValues) {
 export async function createExpense(
   expenseFormValues: ExpenseFormValues,
   groupId: string,
+  participantId?: string,
 ): Promise<Expense> {
   const group = await getGroup(groupId)
   if (!group) throw new Error(`Invalid group ID: ${groupId}`)
@@ -42,10 +42,16 @@ export async function createExpense(
       throw new Error(`Invalid participant ID: ${participant}`)
   }
 
-  const prisma = await getPrisma()
+  const expenseId = randomId()
+  await logActivity(groupId, ActivityType.CREATE_EXPENSE, {
+    participantId,
+    expenseId,
+    data: expenseFormValues.title,
+  })
+
   return prisma.expense.create({
     data: {
-      id: randomId(),
+      id: expenseId,
       groupId,
       expenseDate: expenseFormValues.expenseDate,
       categoryId: expenseFormValues.category,
@@ -77,8 +83,18 @@ export async function createExpense(
   })
 }
 
-export async function deleteExpense(expenseId: string) {
-  const prisma = await getPrisma()
+export async function deleteExpense(
+  groupId: string,
+  expenseId: string,
+  participantId?: string,
+) {
+  const existingExpense = await getExpense(groupId, expenseId)
+  await logActivity(groupId, ActivityType.DELETE_EXPENSE, {
+    participantId,
+    expenseId,
+    data: existingExpense?.title,
+  })
+
   await prisma.expense.delete({
     where: { id: expenseId },
     include: { paidFor: true, paidBy: true },
@@ -90,15 +106,14 @@ export async function getGroupExpensesParticipants(groupId: string) {
   return Array.from(
     new Set(
       expenses.flatMap((e) => [
-        e.paidById,
-        ...e.paidFor.map((pf) => pf.participantId),
+        e.paidBy.id,
+        ...e.paidFor.map((pf) => pf.participant.id),
       ]),
     ),
   )
 }
 
 export async function getGroups(groupIds: string[]) {
-  const prisma = await getPrisma()
   return (
     await prisma.group.findMany({
       where: { id: { in: groupIds } },
@@ -114,6 +129,7 @@ export async function updateExpense(
   groupId: string,
   expenseId: string,
   expenseFormValues: ExpenseFormValues,
+  participantId?: string,
 ) {
   const group = await getGroup(groupId)
   if (!group) throw new Error(`Invalid group ID: ${groupId}`)
@@ -129,7 +145,12 @@ export async function updateExpense(
       throw new Error(`Invalid participant ID: ${participant}`)
   }
 
-  const prisma = await getPrisma()
+  await logActivity(groupId, ActivityType.UPDATE_EXPENSE, {
+    participantId,
+    expenseId,
+    data: expenseFormValues.title,
+  })
+
   return prisma.expense.update({
     where: { id: expenseId },
     data: {
@@ -194,11 +215,13 @@ export async function updateExpense(
 export async function updateGroup(
   groupId: string,
   groupFormValues: GroupFormValues,
+  participantId?: string,
 ) {
   const existingGroup = await getGroup(groupId)
   if (!existingGroup) throw new Error('Invalid group ID')
 
-  const prisma = await getPrisma()
+  await logActivity(groupId, ActivityType.UPDATE_GROUP, { participantId })
+
   return prisma.group.update({
     where: { id: groupId },
     data: {
@@ -230,7 +253,6 @@ export async function updateGroup(
 }
 
 export async function getGroup(groupId: string) {
-  const prisma = await getPrisma()
   return prisma.group.findUnique({
     where: { id: groupId },
     include: { participants: true },
@@ -238,27 +260,67 @@ export async function getGroup(groupId: string) {
 }
 
 export async function getCategories() {
-  const prisma = await getPrisma()
   return prisma.category.findMany()
 }
 
-export async function getGroupExpenses(groupId: string) {
-  const prisma = await getPrisma()
+export async function getGroupExpenses(
+  groupId: string,
+  options?: { offset: number; length: number },
+) {
   return prisma.expense.findMany({
-    where: { groupId },
-    include: {
-      paidFor: { include: { participant: true } },
-      paidBy: true,
+    select: {
+      amount: true,
       category: true,
+      createdAt: true,
+      expenseDate: true,
+      id: true,
+      isReimbursement: true,
+      paidBy: { select: { id: true, name: true } },
+      paidFor: {
+        select: {
+          participant: { select: { id: true, name: true } },
+          shares: true,
+        },
+      },
+      splitMode: true,
+      title: true,
     },
+    where: { groupId },
     orderBy: [{ expenseDate: 'desc' }, { createdAt: 'desc' }],
+    skip: options && options.offset,
+    take: options && options.length,
   })
 }
 
+export async function getGroupExpenseCount(groupId: string) {
+  return prisma.expense.count({ where: { groupId } })
+}
+
 export async function getExpense(groupId: string, expenseId: string) {
-  const prisma = await getPrisma()
   return prisma.expense.findUnique({
     where: { id: expenseId },
     include: { paidBy: true, paidFor: true, category: true, documents: true },
+  })
+}
+
+export async function getActivities(groupId: string) {
+  return prisma.activity.findMany({
+    where: { groupId },
+    orderBy: [{ time: 'desc' }],
+  })
+}
+
+export async function logActivity(
+  groupId: string,
+  activityType: ActivityType,
+  extra?: { participantId?: string; expenseId?: string; data?: string },
+) {
+  return prisma.activity.create({
+    data: {
+      id: randomId(),
+      groupId,
+      activityType,
+      ...extra,
+    },
   })
 }
