@@ -93,7 +93,7 @@ export function ActiveUserReimbursementList({
       if (r.from === activeUserId) {
         return (
           <div key={r.from + r.to} className="text-sm">
-            You owes {to.name}{' '}
+            You owe {to.name}{' '}
             <Money
               currency={currency}
               amount={amount}
