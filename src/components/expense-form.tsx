@@ -51,6 +51,7 @@ import { useForm } from 'react-hook-form'
 import { match } from 'ts-pattern'
 import { DeletePopup } from './delete-popup'
 import { extractCategoryFromTitle } from './expense-form-actions'
+import { ExpenseLocationInput } from './expense-location-input'
 import { Textarea } from './ui/textarea'
 
 export type Props = {
@@ -426,6 +427,31 @@ export function ExpenseForm({
                   <FormControl>
                     <Textarea className="text-base" {...field} />
                   </FormControl>
+                </FormItem>
+              )}
+            />
+          </CardContent>
+        </Card>
+
+        <Card className="mt-4">
+          <CardHeader>
+            <CardTitle className="flex justify-between">
+              <span>Set location</span>
+            </CardTitle>
+            <CardDescription>
+              See and change location of the {sExpense}.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <FormField
+              control={form.control}
+              name="location"
+              render={({ field }) => (
+                <FormItem className="sm:order-6">
+                  <ExpenseLocationInput
+                    location={field.value}
+                    updateLocation={field.onChange}
+                  />
                 </FormItem>
               )}
             />
