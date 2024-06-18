@@ -123,7 +123,9 @@ export const expenseFormSchema = z
         latitude: z.number().refine((val) => val > -90 && val < 90),
         longitude: z.number().refine((val) => val > -180 && val < 180),
       })
+      // .optional -> location is undefined on new expense entries
       .optional()
+      // .nullable -> location needs to be set to null to remove existing location
       .nullable(),
   })
   .superRefine((expense, ctx) => {

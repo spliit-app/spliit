@@ -452,7 +452,17 @@ export function ExpenseForm({
                   <FormItem className="sm:order-6">
                     <ExpenseLocationInput
                       location={field.value}
-                      updateLocation={field.onChange}
+                      updateLocation={(
+                        location: ExpenseFormValues['location'],
+                      ): void => {
+                        // Calling onChange(undefined) has no effect
+                        // so pass null to unset an already set location
+                        if (!location) {
+                          field.onChange(null)
+                        } else {
+                          field.onChange(location)
+                        }
+                      }}
                     />
                   </FormItem>
                 )

@@ -1,14 +1,11 @@
 import { ExpenseFormValues } from '@/lib/schemas'
 import { AsyncButton } from './async-button'
+import { MapComponent } from './map'
 import { Button } from './ui/button'
 
 type Props = {
   location: ExpenseFormValues['location']
-  updateLocation: (
-    // Calling onChange() with undefined has no effect
-    // so to unset an already set location use null as parameter
-    location: Exclude<ExpenseFormValues['location'], undefined>,
-  ) => void
+  updateLocation: (location: ExpenseFormValues['location']) => void
 }
 
 export function ExpenseLocationInput({ location, updateLocation }: Props) {
@@ -24,13 +21,17 @@ export function ExpenseLocationInput({ location, updateLocation }: Props) {
   }
 
   function unsetCoordinates() {
-    updateLocation(null)
+    updateLocation(undefined)
   }
 
   return (
     <>
-      <p> Latitude: {location?.latitude} </p>
-      <p> Longitude: {location?.longitude} </p>
+      {location && (
+        <MapComponent
+          latitude={location.latitude}
+          longitude={location.longitude}
+        />
+      )}
       <div className="flex mt-4 gap-2">
         <AsyncButton
           type="button"
