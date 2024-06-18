@@ -1,3 +1,4 @@
+import { useToast } from '@/components/ui/use-toast'
 import { ExpenseFormValues } from '@/lib/schemas'
 import { AsyncButton } from './async-button'
 import { MapComponent } from './map'
@@ -9,6 +10,8 @@ type Props = {
 }
 
 export function ExpenseLocationInput({ location, updateLocation }: Props) {
+  const { toast } = useToast()
+
   async function getCoordinates(): Promise<GeolocationPosition> {
     return new Promise(function (resolve, reject) {
       navigator.geolocation.getCurrentPosition(resolve, reject)
@@ -16,8 +19,18 @@ export function ExpenseLocationInput({ location, updateLocation }: Props) {
   }
 
   async function setCoordinates(): Promise<undefined> {
-    const { latitude, longitude } = (await getCoordinates()).coords
-    updateLocation({ latitude, longitude })
+    try {
+      const { latitude, longitude } = (await getCoordinates()).coords
+      updateLocation({ latitude, longitude })
+    } catch (error) {
+      console.error(error)
+      toast({
+        title: 'Error while determining location',
+        description:
+          'Something wrong happened when determining your current location. Please approve potential authorisation dialogues or try again later.',
+        variant: 'destructive',
+      })
+    }
   }
 
   function unsetCoordinates() {
