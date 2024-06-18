@@ -185,6 +185,7 @@ export function ExpenseForm({
           isReimbursement: expense.isReimbursement,
           documents: expense.documents,
           notes: expense.notes ?? '',
+          location: expense.location ?? undefined,
         }
       : searchParams.get('reimbursement')
       ? {
@@ -446,14 +447,16 @@ export function ExpenseForm({
             <FormField
               control={form.control}
               name="location"
-              render={({ field }) => (
-                <FormItem className="sm:order-6">
-                  <ExpenseLocationInput
-                    location={field.value}
-                    updateLocation={field.onChange}
-                  />
-                </FormItem>
-              )}
+              render={({ field }) => {
+                return (
+                  <FormItem className="sm:order-6">
+                    <ExpenseLocationInput
+                      location={field.value}
+                      updateLocation={field.onChange}
+                    />
+                  </FormItem>
+                )
+              }}
             />
           </CardContent>
         </Card>

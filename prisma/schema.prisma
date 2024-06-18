@@ -54,15 +54,14 @@ model Expense {
   createdAt       DateTime          @default(now())
   documents       ExpenseDocument[]
   notes           String?
-  location        Point?            @relation(fields: [pointId], references: [id])
-  pointId         String?
+  location        Point?
 }
 
 model Point {
-  id        String    @id
+  id        String   @id
   latitude  Float
   longitude Float
-  Expense   Expense[]
+  Expense   Expense? @relation(fields: [id], references: [id])
 }
 
 model ExpenseDocument {

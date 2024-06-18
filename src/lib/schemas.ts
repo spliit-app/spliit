@@ -123,7 +123,8 @@ export const expenseFormSchema = z
         latitude: z.number().refine((val) => val > -90 && val < 90),
         longitude: z.number().refine((val) => val > -180 && val < 180),
       })
-      .optional(),
+      .optional()
+      .nullable(),
   })
   .superRefine((expense, ctx) => {
     let sum = 0
