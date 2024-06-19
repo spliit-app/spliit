@@ -1,43 +1,62 @@
-import { LatLngExpression } from 'leaflet'
+import { ExpenseFormValues } from '@/lib/schemas'
 import 'leaflet-defaulticon-compatibility'
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css'
 import 'leaflet/dist/leaflet.css'
-import React from 'react'
-import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet'
+import React, { useState } from 'react'
+import { MapContainer, TileLayer } from 'react-leaflet'
+import MapSection from './map-section'
+import LocationMarker from './marker'
+import { MapSectionType } from './types'
+
+const noLocationMapSection: MapSectionType = {
+  location: { latitude: 0, longitude: 0 },
+  zoom: 1,
+}
+
+const DEFAULT_ZOOM_ON_LOCATION = 13
 
 type MapProps = {
-  latitude: number
-  longitude: number
+  location: ExpenseFormValues['location']
+  updateLocation: (location: ExpenseFormValues['location']) => void
 }
 
-type KeepMapCenteredProps = {
-  center: LatLngExpression
-  zoom?: number | undefined
-}
+const Map: React.FC<MapProps> = ({ location, updateLocation }) => {
+  const [marker, setMarker] = useState(location)
+  const [mapSection, setMapSection] = useState<MapSectionType>(
+    location
+      ? { location, zoom: DEFAULT_ZOOM_ON_LOCATION }
+      : noLocationMapSection,
+  )
 
-function KeepMapCentered({ center, zoom }: KeepMapCenteredProps) {
-  const map = useMap()
-  map.setView(center, zoom)
-  return null
-}
+  const isExpenseLocationDivergedFromMarker = (
+    location: ExpenseFormValues['location'],
+    marker: ExpenseFormValues['location'],
+  ): boolean =>
+    location?.latitude !== marker?.latitude ||
+    location?.longitude !== marker?.longitude
 
-const Map: React.FC<MapProps> = ({ latitude, longitude }) => {
-  const center: [number, number] = [latitude, longitude]
-  const zoom = 13
+  if (isExpenseLocationDivergedFromMarker(location, marker)) {
+    setMarker(location)
+    if (location) {
+      setMapSection({ location, zoom: DEFAULT_ZOOM_ON_LOCATION })
+    } else {
+      setMapSection(noLocationMapSection)
+    }
+  }
+
+  function onMapClick(location: Exclude<ExpenseFormValues['location'], null>) {
+    setMarker(location)
+    updateLocation(location)
+  }
 
   return (
-    <MapContainer
-      center={center}
-      zoom={zoom}
-      scrollWheelZoom={false}
-      style={{ height: '40vh', zIndex: 0 }}
-    >
-      <KeepMapCentered center={center} zoom={zoom} />
+    <MapContainer style={{ height: '40vh', zIndex: 0 }}>
+      <MapSection section={mapSection} updateSection={setMapSection} />
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={center} />
+      <LocationMarker location={location} updateLocation={onMapClick} />
     </MapContainer>
   )
 }

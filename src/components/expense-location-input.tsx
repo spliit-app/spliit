@@ -1,7 +1,7 @@
 import { useToast } from '@/components/ui/use-toast'
 import { ExpenseFormValues } from '@/lib/schemas'
 import { AsyncButton } from './async-button'
-import { MapComponent } from './map'
+import { Map } from './map'
 import { Button } from './ui/button'
 
 type Props = {
@@ -39,12 +39,7 @@ export function ExpenseLocationInput({ location, updateLocation }: Props) {
 
   return (
     <>
-      {location && (
-        <MapComponent
-          latitude={location.latitude}
-          longitude={location.longitude}
-        />
-      )}
+      <Map location={location} updateLocation={updateLocation} />
       <div className="flex gap-2">
         <AsyncButton
           type="button"
