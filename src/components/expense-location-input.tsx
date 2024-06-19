@@ -1,5 +1,6 @@
 import { useToast } from '@/components/ui/use-toast'
 import { ExpenseFormValues } from '@/lib/schemas'
+import { LocateFixed, MapPinOff } from 'lucide-react'
 import { AsyncButton } from './async-button'
 import { Map } from './map'
 import { Button } from './ui/button'
@@ -43,24 +44,22 @@ export function ExpenseLocationInput({ location, updateLocation }: Props) {
       <div className="flex gap-2">
         <AsyncButton
           type="button"
-          variant="default"
+          variant="secondary"
           loadingContent="Getting location…"
           action={setCoordinates}
         >
-          {location ? (
-            <>Update to current location</>
-          ) : (
-            <>Use current location</>
-          )}
+          <LocateFixed className="w-4 h-4 mr-2" />
+          Locate me
         </AsyncButton>
         {location && (
           <Button
             size="default"
-            variant="destructive"
+            variant="outline"
             type="button"
             onClick={unsetCoordinates}
           >
-            Remove
+            <MapPinOff className="w-4 h-4 mr-2" />
+            Remove location
           </Button>
         )}
       </div>

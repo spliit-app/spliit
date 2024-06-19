@@ -718,7 +718,7 @@ export function ExpenseForm({
             <CardTitle className="flex justify-between">
               <span>Location</span>
             </CardTitle>
-            <CardDescription>Where was the {sExpense} made</CardDescription>
+            <CardDescription>Where was the {sExpense} made?</CardDescription>
           </CardHeader>
           <CardContent>
             <FormField
