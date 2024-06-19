@@ -45,7 +45,7 @@ import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Save } from 'lucide-react'
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
+import { ReadonlyURLSearchParams, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { match } from 'ts-pattern'
@@ -147,6 +147,17 @@ async function persistDefaultSplittingOptions(
   }
 }
 
+function getLocationFromSearchParams(
+  searchParams: ReadonlyURLSearchParams,
+): ExpenseFormValues['location'] {
+  return searchParams.get('latitude') && searchParams.get('longitude')
+    ? {
+        latitude: Number(searchParams.get('latitude')),
+        longitude: Number(searchParams.get('longitude')),
+      }
+    : null
+}
+
 export function ExpenseForm({
   group,
   expense,
@@ -209,6 +220,7 @@ export function ExpenseForm({
           saveDefaultSplittingOptions: false,
           documents: [],
           notes: '',
+          location: getLocationFromSearchParams(searchParams),
         }
       : {
           title: searchParams.get('title') ?? '',
@@ -236,6 +248,7 @@ export function ExpenseForm({
               ]
             : [],
           notes: '',
+          location: getLocationFromSearchParams(searchParams),
         },
   })
   const [isCategoryLoading, setCategoryLoading] = useState(false)
