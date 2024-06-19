@@ -79,6 +79,11 @@ export async function createExpense(
         },
       },
       notes: expenseFormValues.notes,
+      location: {
+        ...(expenseFormValues.location && {
+          create: { ...expenseFormValues.location },
+        }),
+      },
     },
   })
 }
