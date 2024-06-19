@@ -437,43 +437,6 @@ export function ExpenseForm({
         <Card className="mt-4">
           <CardHeader>
             <CardTitle className="flex justify-between">
-              <span>Set location</span>
-            </CardTitle>
-            <CardDescription>
-              See and change location of the {sExpense}.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <FormField
-              control={form.control}
-              name="location"
-              render={({ field }) => {
-                return (
-                  <FormItem className="sm:order-6">
-                    <ExpenseLocationInput
-                      location={field.value}
-                      updateLocation={(
-                        location: ExpenseFormValues['location'],
-                      ): void => {
-                        // Calling onChange(undefined) has no effect
-                        // so pass null to unset an already set location
-                        if (!location) {
-                          field.onChange(null)
-                        } else {
-                          field.onChange(location)
-                        }
-                      }}
-                    />
-                  </FormItem>
-                )
-              }}
-            />
-          </CardContent>
-        </Card>
-
-        <Card className="mt-4">
-          <CardHeader>
-            <CardTitle className="flex justify-between">
               <span>{capitalize(sPaid)} for</span>
               <Button
                 variant="link"
@@ -734,6 +697,41 @@ export function ExpenseForm({
                 </div>
               </CollapsibleContent>
             </Collapsible>
+          </CardContent>
+        </Card>
+
+        <Card className="mt-4">
+          <CardHeader>
+            <CardTitle className="flex justify-between">
+              <span>Location</span>
+            </CardTitle>
+            <CardDescription>Where was the {sExpense} made</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <FormField
+              control={form.control}
+              name="location"
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <ExpenseLocationInput
+                      location={field.value}
+                      updateLocation={(
+                        location: ExpenseFormValues['location'],
+                      ): void => {
+                        // Calling onChange(undefined) has no effect
+                        // so pass null to unset an already set location
+                        if (!location) {
+                          field.onChange(null)
+                        } else {
+                          field.onChange(location)
+                        }
+                      }}
+                    />
+                  </FormItem>
+                )
+              }}
+            />
           </CardContent>
         </Card>
 

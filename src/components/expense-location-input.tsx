@@ -45,7 +45,7 @@ export function ExpenseLocationInput({ location, updateLocation }: Props) {
           longitude={location.longitude}
         />
       )}
-      <div className="flex mt-4 gap-2">
+      <div className="flex gap-2">
         <AsyncButton
           type="button"
           variant="default"
@@ -65,7 +65,7 @@ export function ExpenseLocationInput({ location, updateLocation }: Props) {
             type="button"
             onClick={unsetCoordinates}
           >
-            Remove location
+            Remove
           </Button>
         )}
       </div>
