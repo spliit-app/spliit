@@ -61,7 +61,7 @@ model Point {
   id        String   @id
   latitude  Float
   longitude Float
-  Expense   Expense? @relation(fields: [id], references: [id])
+  Expense   Expense? @relation(fields: [id], references: [id], onDelete: Cascade)
 }
 
 model ExpenseDocument {
