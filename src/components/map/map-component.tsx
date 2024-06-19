@@ -44,19 +44,21 @@ const Map: React.FC<MapProps> = ({ location, updateLocation }) => {
     }
   }
 
-  function onMapClick(location: Exclude<ExpenseFormValues['location'], null>) {
+  function onMarkerMoved(
+    location: Exclude<ExpenseFormValues['location'], null>,
+  ) {
     setMarker(location)
     updateLocation(location)
   }
 
   return (
     <MapContainer style={{ height: '40vh', zIndex: 0 }}>
-      <MapSection section={mapSection} updateSection={setMapSection} />
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <LocationMarker location={location} updateLocation={onMapClick} />
+      <MapSection section={mapSection} updateSection={setMapSection} />
+      <LocationMarker location={location} updateLocation={onMarkerMoved} />
     </MapContainer>
   )
 }
