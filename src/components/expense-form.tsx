@@ -185,7 +185,7 @@ export function ExpenseForm({
           isReimbursement: expense.isReimbursement,
           documents: expense.documents,
           notes: expense.notes ?? '',
-          location: expense.location ?? undefined,
+          location: expense.location,
         }
       : searchParams.get('reimbursement')
       ? {
@@ -716,17 +716,7 @@ export function ExpenseForm({
                   <FormItem>
                     <ExpenseLocationInput
                       location={field.value}
-                      updateLocation={(
-                        location: ExpenseFormValues['location'],
-                      ): void => {
-                        // Calling onChange(undefined) has no effect
-                        // so pass null to unset an already set location
-                        if (!location) {
-                          field.onChange(null)
-                        } else {
-                          field.onChange(location)
-                        }
-                      }}
+                      updateLocation={field.onChange}
                     />
                   </FormItem>
                 )

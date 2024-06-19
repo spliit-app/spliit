@@ -34,7 +34,7 @@ export function ExpenseLocationInput({ location, updateLocation }: Props) {
   }
 
   function unsetCoordinates() {
-    updateLocation(undefined)
+    updateLocation(null)
   }
 
   return (
@@ -52,13 +52,13 @@ export function ExpenseLocationInput({ location, updateLocation }: Props) {
           loadingContent="Getting location…"
           action={setCoordinates}
         >
-          {!!location ? (
+          {location ? (
             <>Update to current location</>
           ) : (
             <>Use current location</>
           )}
         </AsyncButton>
-        {!!location && (
+        {location && (
           <Button
             size="default"
             variant="destructive"
