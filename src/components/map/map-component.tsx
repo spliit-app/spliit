@@ -52,7 +52,7 @@ const Map: React.FC<MapProps> = ({ location, updateLocation }) => {
   }
 
   return (
-    <MapContainer style={{ height: '40vh', zIndex: 0 }}>
+    <MapContainer style={{ height: '40vh', zIndex: 0 }} className="map-tiles">
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
