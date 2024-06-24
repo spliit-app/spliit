@@ -118,6 +118,12 @@ export const expenseFormSchema = z
       )
       .default([]),
     notes: z.string().optional(),
+    location: z
+      .object({
+        latitude: z.number().refine((val) => val > -90 && val < 90),
+        longitude: z.number().refine((val) => val > -180 && val < 180),
+      })
+      .nullable(),
   })
   .superRefine((expense, ctx) => {
     let sum = 0

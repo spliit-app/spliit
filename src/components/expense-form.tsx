@@ -45,12 +45,13 @@ import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Save } from 'lucide-react'
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
+import { ReadonlyURLSearchParams, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { match } from 'ts-pattern'
 import { DeletePopup } from './delete-popup'
 import { extractCategoryFromTitle } from './expense-form-actions'
+import { ExpenseLocationInput } from './expense-location-input'
 import { Textarea } from './ui/textarea'
 
 export type Props = {
@@ -146,6 +147,17 @@ async function persistDefaultSplittingOptions(
   }
 }
 
+function getLocationFromSearchParams(
+  searchParams: ReadonlyURLSearchParams,
+): ExpenseFormValues['location'] {
+  return searchParams.get('latitude') && searchParams.get('longitude')
+    ? {
+        latitude: Number(searchParams.get('latitude')),
+        longitude: Number(searchParams.get('longitude')),
+      }
+    : null
+}
+
 export function ExpenseForm({
   group,
   expense,
@@ -184,6 +196,7 @@ export function ExpenseForm({
           isReimbursement: expense.isReimbursement,
           documents: expense.documents,
           notes: expense.notes ?? '',
+          location: expense.location,
         }
       : searchParams.get('reimbursement')
       ? {
@@ -207,6 +220,7 @@ export function ExpenseForm({
           saveDefaultSplittingOptions: false,
           documents: [],
           notes: '',
+          location: getLocationFromSearchParams(searchParams),
         }
       : {
           title: searchParams.get('title') ?? '',
@@ -234,6 +248,7 @@ export function ExpenseForm({
               ]
             : [],
           notes: '',
+          location: getLocationFromSearchParams(searchParams),
         },
   })
   const [isCategoryLoading, setCategoryLoading] = useState(false)
@@ -695,6 +710,31 @@ export function ExpenseForm({
                 </div>
               </CollapsibleContent>
             </Collapsible>
+          </CardContent>
+        </Card>
+
+        <Card className="mt-4">
+          <CardHeader>
+            <CardTitle className="flex justify-between">
+              <span>Location</span>
+            </CardTitle>
+            <CardDescription>Where was the {sExpense} made?</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <FormField
+              control={form.control}
+              name="location"
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <ExpenseLocationInput
+                      location={field.value}
+                      updateLocation={field.onChange}
+                    />
+                  </FormItem>
+                )
+              }}
+            />
           </CardContent>
         </Card>
 
