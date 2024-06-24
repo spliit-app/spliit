@@ -5,6 +5,7 @@ import 'leaflet/dist/leaflet.css'
 import React, { useState } from 'react'
 import { MapContainer, TileLayer } from 'react-leaflet'
 import MapSection from './map-section'
+import './map-styles.css'
 import LocationMarker from './marker'
 import { MapSectionType } from './types'
 
