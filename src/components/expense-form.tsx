@@ -259,7 +259,7 @@ export function ExpenseForm({
       shares: String(participant.shares) as unknown as number,
     }))
     form.setValue('paidFor', newPaidFor, { shouldValidate: true })
-  }, [form.watch('splitMode')])
+  }, [form.watch('splitMode'), form.watch('amount')])
 
   useEffect(() => {
     const totalAmount = Number(form.getValues().amount) || 0
@@ -275,7 +275,7 @@ export function ExpenseForm({
     ) {
       return
     } else {
-      // Only process auto-balancing for split mode amount
+      // Only auto-balance for split mode 'Unevenly - By amount'
       const editedParticipants = Array.from(manuallyEditedParticipants)
       let remainingAmount = totalAmount
       let remainingParticipants = newPaidFor.length - editedParticipants.length
