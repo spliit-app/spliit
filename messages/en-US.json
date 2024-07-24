@@ -14,6 +14,13 @@
     "noExpenses": "Your group doesn’t contain any expense yet.",
     "exportJson": "Export to JSON",
     "searchPlaceholder": "Search for an expense…",
+    "ActiveUserModal": {
+      "title": "Who are you?",
+      "description": "Tell us which participant you are to let us customize how the information is displayed.",
+      "nobody": "I don’t want to select anyone",
+      "save": "Save changes",
+      "footer": "This setting can be changed later in the group settings."
+    },
     "Groups": {
       "upcoming": "Upcoming",
       "thisWeek": "This week",

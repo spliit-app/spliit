@@ -14,6 +14,13 @@
     "noExpenses": "Ryhmälläsi ei ole vielä yhtään kulua.",
     "exportJson": "Vie JSON-tiedostoon",
     "searchPlaceholder": "Etsi kulua…",
+    "ActiveUserModal": {
+      "title": "Kuka olet?",
+      "description": "Valitse kuka osallistujista olet, jotta tiedot näkyvät oikein.",
+      "nobody": "En halua valita ketään",
+      "save": "Tallenna muutokset",
+      "footer": "Tämän asetuksen voi vaihtaa myöhemmin ryhmän asetuksista."
+    },
     "Groups": {
       "upcoming": "Tulevat",
       "thisWeek": "Tällä viikolla",
