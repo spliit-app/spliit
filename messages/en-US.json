@@ -63,6 +63,10 @@
       "title": "Add a group by URL",
       "description": "If a group was shared with you, you can paste its URL here to add it to your list.",
       "error": "Oops, we are not able to find the group from the URL you provided…"
+    },
+    "NotFound": {
+      "text": "This group does not exist.",
+      "link": "Go to recently visited groups"
     }
   },
   "GroupForm": {

@@ -63,6 +63,10 @@
       "title": "Lisää ryhmä URL-osoitteella",
       "description": "Jos ryhmä on jaettu sinulle, voit lisätä sen listaasi liittämällä URL-osoitteen tähän.",
       "error": "Hups, emme löytäneet ryhmää antamastasi URL-osoitteesta…"
+    },
+    "NotFound": {
+      "text": "Tätä ryhmää ei löydy.",
+      "link": "Siirry äskettäisiin ryhmiin"
     }
   },
   "GroupForm": {
