@@ -35,6 +35,7 @@ import { getGroup } from '@/lib/api'
 import { GroupFormValues, groupFormSchema } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Save, Trash2 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
@@ -53,6 +54,7 @@ export function GroupForm({
   onSubmit,
   protectedParticipantIds = [],
 }: Props) {
+  const t = useTranslations('GroupForm')
   const form = useForm<GroupFormValues>({
     resolver: zodResolver(groupFormSchema),
     defaultValues: group
@@ -64,7 +66,11 @@ export function GroupForm({
       : {
           name: '',
           currency: '',
-          participants: [{ name: 'John' }, { name: 'Jane' }, { name: 'Jack' }],
+          participants: [
+            { name: t('Participants.John') },
+            { name: t('Participants.Jane') },
+            { name: t('Participants.Jack') },
+          ],
         },
   })
   const { fields, append, remove } = useFieldArray({
@@ -79,10 +85,10 @@ export function GroupForm({
       const currentActiveUser =
         fields.find(
           (f) => f.id === localStorage.getItem(`${group?.id}-activeUser`),
-        )?.name || 'None'
+        )?.name || t('Settings.ActiveUserField.none')
       setActiveUser(currentActiveUser)
     }
-  }, [activeUser, fields, group?.id])
+  }, [t, activeUser, fields, group?.id])
 
   const updateActiveUser = () => {
     if (!activeUser) return
@@ -111,7 +117,7 @@ export function GroupForm({
       >
         <Card className="mb-4">
           <CardHeader>
-            <CardTitle>Group information</CardTitle>
+            <CardTitle>{t('title')}</CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <FormField
@@ -119,16 +125,16 @@ export function GroupForm({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Group name</FormLabel>
+                  <FormLabel>{t('NameField.label')}</FormLabel>
                   <FormControl>
                     <Input
                       className="text-base"
-                      placeholder="Summer vacations"
+                      placeholder={t('NameField.placeholder')}
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    Enter a name for your group.
+                    {t('NameField.description')}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -140,17 +146,17 @@ export function GroupForm({
               name="currency"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Currency symbol</FormLabel>
+                  <FormLabel>{t('CurrencyField.label')}</FormLabel>
                   <FormControl>
                     <Input
                       className="text-base"
-                      placeholder="$, €, £…"
+                      placeholder={t('CurrencyField.placeholder')}
                       max={5}
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    We’ll use it to display amounts.
+                    {t('CurrencyField.description')}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -161,9 +167,9 @@ export function GroupForm({
 
         <Card className="mb-4">
           <CardHeader>
-            <CardTitle>Participants</CardTitle>
+            <CardTitle>{t('Participants.title')}</CardTitle>
             <CardDescription>
-              Enter the name for each participant
+              {t('Participants.description')}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -183,7 +189,7 @@ export function GroupForm({
                             <Input
                               className="text-base"
                               {...field}
-                              placeholder="New"
+                              placeholder={t('Participants.new')}
                             />
                             {item.id &&
                             protectedParticipantIds.includes(item.id) ? (
@@ -203,8 +209,7 @@ export function GroupForm({
                                   align="end"
                                   className="text-sm"
                                 >
-                                  This participant is part of expenses, and can
-                                  not be removed.
+                                  {t('Participants.protectedParticipant')}
                                 </HoverCardContent>
                               </HoverCard>
                             ) : (
@@ -236,24 +241,23 @@ export function GroupForm({
               }}
               type="button"
             >
-              Add participant
+              {t('Participants.add')}
             </Button>
           </CardFooter>
         </Card>
 
         <Card className="mb-4">
           <CardHeader>
-            <CardTitle>Local settings</CardTitle>
+            <CardTitle>{t('Settings.title')}</CardTitle>
             <CardDescription>
-              These settings are set per-device, and are used to customize your
-              experience.
+              {t('Settings.description')}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid sm:grid-cols-2 gap-4">
               {activeUser !== null && (
                 <FormItem>
-                  <FormLabel>Active user</FormLabel>
+                  <FormLabel>{t('Settings.ActiveUserField.label')}</FormLabel>
                   <FormControl>
                     <Select
                       onValueChange={(value) => {
@@ -262,10 +266,10 @@ export function GroupForm({
                       defaultValue={activeUser}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a participant" />
+                        <SelectValue placeholder={t('Settings.ActiveUserField.placeholder')} />
                       </SelectTrigger>
                       <SelectContent>
-                        {[{ name: 'None' }, ...form.watch('participants')]
+                        {[{ name: t('Settings.ActiveUserField.none') }, ...form.watch('participants')]
                           .filter((item) => item.name.length > 0)
                           .map(({ name }) => (
                             <SelectItem key={name} value={name}>
@@ -276,7 +280,7 @@ export function GroupForm({
                     </Select>
                   </FormControl>
                   <FormDescription>
-                    User used as default for paying expenses.
+                    {t('Settings.ActiveUserField.description')}
                   </FormDescription>
                 </FormItem>
               )}
@@ -286,14 +290,14 @@ export function GroupForm({
 
         <div className="flex mt-4 gap-2">
           <SubmitButton
-            loadingContent={group ? 'Saving…' : 'Creating…'}
+            loadingContent={t(group ? 'Settings.saving' : 'Settings.creating')}
             onClick={updateActiveUser}
           >
-            <Save className="w-4 h-4 mr-2" /> {group ? <>Save</> : <> Create</>}
+            <Save className="w-4 h-4 mr-2" /> {t(group ? 'Settings.save' : 'Settings.create')}
           </SubmitButton>
           {!group && (
             <Button variant="ghost" asChild>
-              <Link href="/groups">Cancel</Link>
+              <Link href="/groups">{t('Settings.cancel')}</Link>
             </Button>
           )}
         </div>

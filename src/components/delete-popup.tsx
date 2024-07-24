@@ -12,21 +12,22 @@ import {
   DialogTitle,
   DialogTrigger,
 } from './ui/dialog'
+import { useTranslations } from 'next-intl'
 
 export function DeletePopup({ onDelete }: { onDelete: () => Promise<void> }) {
+  const t = useTranslations('ExpenseForm.DeletePopup')
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="destructive">
           <Trash2 className="w-4 h-4 mr-2" />
-          Delete
+          {t('label')}
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogTitle>Delete this expense?</DialogTitle>
+        <DialogTitle>{t('title')}</DialogTitle>
         <DialogDescription>
-          Do you really want to delete this expense? This action is
-          irreversible.
+          {t('description')}
         </DialogDescription>
         <DialogFooter className="flex flex-col gap-2">
           <AsyncButton
@@ -35,10 +36,10 @@ export function DeletePopup({ onDelete }: { onDelete: () => Promise<void> }) {
             loadingContent="Deleting…"
             action={onDelete}
           >
-            Yes
+            {t('yes')}
           </AsyncButton>
           <DialogClose asChild>
-            <Button variant={'secondary'}>Cancel</Button>
+            <Button variant={'secondary'}>{t('cancel')}</Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>

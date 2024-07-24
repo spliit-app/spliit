@@ -18,6 +18,7 @@ import {
 import { useMediaQuery } from '@/lib/hooks'
 import { Category } from '@prisma/client'
 import { forwardRef, useEffect, useState } from 'react'
+import { useTranslations } from 'next-intl'
 
 type Props = {
   categories: Category[]
@@ -100,6 +101,7 @@ function CategoryCommand({
   categories: Category[]
   onValueChange: (categoryId: Category['id']) => void
 }) {
+  const t = useTranslations('Categories')
   const categoriesByGroup = categories.reduce<Record<string, Category[]>>(
     (acc, category) => ({
       ...acc,
@@ -110,12 +112,12 @@ function CategoryCommand({
 
   return (
     <Command>
-      <CommandInput placeholder="Search category..." className="text-base" />
-      <CommandEmpty>No category found.</CommandEmpty>
+      <CommandInput placeholder={t('search')} className="text-base" />
+      <CommandEmpty>{t('noCategory')}</CommandEmpty>
       <div className="w-full max-h-[300px] overflow-y-auto">
         {Object.entries(categoriesByGroup).map(
           ([group, groupCategories], index) => (
-            <CommandGroup key={index} heading={group}>
+            <CommandGroup key={index} heading={t(`${group}.heading`)}>
               {groupCategories.map((category) => (
                 <CommandItem
                   key={category.id}
@@ -169,10 +171,11 @@ const CategoryButton = forwardRef<HTMLButtonElement, CategoryButtonProps>(
 CategoryButton.displayName = 'CategoryButton'
 
 function CategoryLabel({ category }: { category: Category }) {
+  const t = useTranslations('Categories')
   return (
     <div className="flex items-center gap-3">
       <CategoryIcon category={category} className="w-4 h-4" />
-      {category.name}
+      {t(`${category.grouping}.${category.name}`)}
     </div>
   )
 }

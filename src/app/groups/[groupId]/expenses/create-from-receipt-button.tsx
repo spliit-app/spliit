@@ -29,6 +29,7 @@ import { useMediaQuery } from '@/lib/hooks'
 import { formatCurrency, formatDate, formatFileSize } from '@/lib/utils'
 import { Category } from '@prisma/client'
 import { ChevronRight, FileQuestion, Loader2, Receipt } from 'lucide-react'
+import { useLocale } from 'next-intl'
 import { getImageData, usePresignedUpload } from 'next-s3-upload'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -47,6 +48,7 @@ export function CreateFromReceiptButton({
   groupCurrency,
   categories,
 }: Props) {
+  const locale = useLocale()
   const [pending, setPending] = useState(false)
   const { uploadToS3, FileInput, openFileDialog } = usePresignedUpload()
   const { toast } = useToast()
@@ -63,7 +65,8 @@ export function CreateFromReceiptButton({
         title: 'The file is too big',
         description: `The maximum file size you can upload is ${formatFileSize(
           MAX_FILE_SIZE,
-        )}. Yours is ${formatFileSize(file.size)}.`,
+          locale,
+        )}. Yours is ${formatFileSize(file.size, locale)}.`,
         variant: 'destructive',
       })
       return
@@ -198,7 +201,7 @@ export function CreateFromReceiptButton({
               <div>
                 {receiptInfo ? (
                   receiptInfo.amount ? (
-                    <>{formatCurrency(groupCurrency, receiptInfo.amount)}</>
+                    <>{formatCurrency(groupCurrency, receiptInfo.amount, locale)}</>
                   ) : (
                     <Unknown />
                   )
@@ -212,9 +215,11 @@ export function CreateFromReceiptButton({
               <div>
                 {receiptInfo ? (
                   receiptInfo.date ? (
-                    formatDate(new Date(`${receiptInfo?.date}T12:00:00.000Z`), {
-                      dateStyle: 'medium',
-                    })
+                    formatDate(
+                      new Date(`${receiptInfo?.date}T12:00:00.000Z`),
+                      locale,
+                      { dateStyle: 'medium' },
+                    )
                   ) : (
                     <Unknown />
                   )

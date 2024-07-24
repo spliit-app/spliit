@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { getGroupExpenses } from '@/lib/api'
 import { cn, formatCurrency, formatDate } from '@/lib/utils'
 import { ChevronRight } from 'lucide-react'
+import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Fragment } from 'react'
@@ -17,6 +18,8 @@ type Props = {
 
 export function ExpenseCard({ expense, currency, groupId }: Props) {
   const router = useRouter()
+  const t = useTranslations('ExpenseCard')
+  const locale = useLocale()
 
   return (
     <div
@@ -38,8 +41,9 @@ export function ExpenseCard({ expense, currency, groupId }: Props) {
           {expense.title}
         </div>
         <div className="text-xs text-muted-foreground">
-          {expense.amount > 0 ? 'Paid by ' : 'Received by '}
-          <strong>{expense.paidBy.name}</strong> for{' '}
+          {expense.amount > 0 ? t('paidBy') : t('receivedBy')}
+          {' '}
+          <strong>{expense.paidBy.name}</strong> {t('for')}{' '}
           {expense.paidFor.map((paidFor, index) => (
             <Fragment key={index}>
               {index !== 0 && <>, </>}
@@ -58,10 +62,10 @@ export function ExpenseCard({ expense, currency, groupId }: Props) {
             expense.isReimbursement ? 'italic' : 'font-bold',
           )}
         >
-          {formatCurrency(currency, expense.amount)}
+          {formatCurrency(currency, expense.amount, locale)}
         </div>
         <div className="text-xs text-muted-foreground">
-          {formatDate(expense.expenseDate, { dateStyle: 'medium' })}
+          {formatDate(expense.expenseDate, locale, { dateStyle: 'medium' })}
         </div>
       </div>
       <Button

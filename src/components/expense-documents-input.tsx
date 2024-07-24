@@ -19,6 +19,7 @@ import { randomId } from '@/lib/api'
 import { ExpenseFormValues } from '@/lib/schemas'
 import { formatFileSize } from '@/lib/utils'
 import { Loader2, Plus, Trash, X } from 'lucide-react'
+import { useLocale } from 'next-intl'
 import { getImageData, usePresignedUpload } from 'next-s3-upload'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
@@ -31,6 +32,7 @@ type Props = {
 const MAX_FILE_SIZE = 5 * 1024 ** 2
 
 export function ExpenseDocumentsInput({ documents, updateDocuments }: Props) {
+  const locale = useLocale()
   const [pending, setPending] = useState(false)
   const { FileInput, openFileDialog, uploadToS3 } = usePresignedUpload() // use presigned uploads to addtionally support providers other than AWS
   const { toast } = useToast()
@@ -41,7 +43,8 @@ export function ExpenseDocumentsInput({ documents, updateDocuments }: Props) {
         title: 'The file is too big',
         description: `The maximum file size you can upload is ${formatFileSize(
           MAX_FILE_SIZE,
-        )}. Yours is ${formatFileSize(file.size)}.`,
+          locale,
+        )}. Yours is ${formatFileSize(file.size, locale)}.`,
         variant: 'destructive',
       })
       return
