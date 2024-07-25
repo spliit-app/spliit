@@ -204,6 +204,31 @@
       "retry": "Retry"
     }
   },
+  "CreateFromReceipt": {
+    "Dialog": {
+      "triggerTitle": "Create expense from receipt",
+      "title": "Create from receipt",
+      "description": "Extract the expense information from a receipt photo.",
+      "body": "Upload the photo of a receipt, and we’ll scan it to extract the expense information if we can.",
+      "selectImage": "Select image…",
+      "titleLabel": "Title:",
+      "categoryLabel": "Category:",
+      "amountLabel": "Amount:",
+      "dateLabel": "Date:",
+      "editNext": "You’ll be able to edit the expense information next.",
+      "continue": "Continue"
+    },
+    "unknown": "Unknown",
+    "TooBigToast": {
+      "title": "The file is too big",
+      "description": "The maximum file size you can upload is {maxSize}. Yours is ${size}."
+    },
+    "ErrorToast": {
+      "title": "Error while uploading document",
+      "description": "Something wrong happened when uploading the document. Please retry later or select a different file.",
+      "retry": "Retry"
+    }
+  },
   "Balances": {
     "title": "Balances",
     "description": "This is the amount that each participant paid or was paid for.",

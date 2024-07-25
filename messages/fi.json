@@ -204,6 +204,31 @@
       "retry": "Yritä uudelleen"
     }
   },
+  "CreateFromReceipt": {
+    "Dialog": {
+      "triggerTitle": "Luo kulu kuitista",
+      "title": "Luo kuitista",
+      "description": "Lue kuitin valokuvasta kulun tiedot.",
+      "body": "Lataa kuitista valokuva. Siitä skannataan tiedot kulua varten.",
+      "selectImage": "Valitse kuva…",
+      "titleLabel": "Otsikko:",
+      "categoryLabel": "Kategoria:",
+      "amountLabel": "Summa:",
+      "dateLabel": "Päivä:",
+      "editNext": "Voit muokata kulun tietoja seuraavaksi.",
+      "continue": "Jatka"
+    },
+    "unknown": "Unknown",
+    "TooBigToast": {
+      "title": "The file is too big",
+      "description": "The maximum file size you can upload is {maxSize}. Yours is ${size}."
+    },
+    "ErrorToast": {
+      "title": "Error while uploading document",
+      "description": "Something wrong happened when uploading the document. Please retry later or select a different file.",
+      "retry": "Retry"
+    }
+  },
   "Balances": {
     "title": "Saldo",
     "description": "Osallistujien saatavat tai velat.",
