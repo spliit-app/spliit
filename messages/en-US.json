@@ -32,9 +32,8 @@
     }
   },
   "ExpenseCard": {
-    "paidBy": "Paid by",
-    "receivedBy": "Received by",
-    "for": "henkilöiltä",
+    "paidBy": "Paid by <strong>{paidBy}</strong> for <paidFor></paidFor>",
+    "receivedBy": "Received by <strong>{paidBy}</strong> for <paidFor></paidFor>",
     "yourBalance": "Your balance:"
   },
   "Groups": {

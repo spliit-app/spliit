@@ -32,9 +32,8 @@
     }
   },
   "ExpenseCard": {
-    "paidBy": "Maksanut",
-    "receivedBy": "Saanut",
-    "for": "henkilöille",
+    "paidBy": "<strong>{paidBy}</strong> maksanut {forCount, plural, =1 {henkilön} other {henkilöiden}} <paidFor></paidFor> puolesta",
+    "receivedBy": "<strong>{paidBy}</strong> saanut rahaa {forCount, plural, =1 {henkilön} other {henkilöiden}} <paidFor></paidFor> puolesta",
     "yourBalance": "Saldosi:"
   },
   "Groups": {
