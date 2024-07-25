@@ -286,6 +286,23 @@
     "warning": "Varoitus!",
     "warningHelp": "Tällä URLilla kuka tahansa pääsee näkemään ja muokkaamaan kuluja. Jaa harkiten!"
   },
+  "SchemaErrors": {
+    "min1": "Syötä vähintään yksi merkki.",
+    "min2": "Syötä vähintään kaksi merkkiä.",
+    "max5": "Syötä enintään viisi merkkiä.",
+    "max50": "Syötä enintään 50 merkkiä.",
+    "duplicateParticipantName": "Tämä nimi on jo toisella osallistujalla.",
+    "titleRequired": "Otsikko puuttuu.",
+    "invalidNumber": "Epäkelpo numero.",
+    "amountRequired": "Summa puuttuu.",
+    "amountNotZero": "Summa ei voi olla nolla.",
+    "amountTenMillion": "Summan pitää olla pienempi kuin 10 000 000.",
+    "paidByRequired": "Osallistuja puuttuu.",
+    "paidForMin1": "Valitse vähintään yksi osallistuja.",
+    "noZeroShares": "Jokaisen osuuden täytyy olla suurempi kuin 0.",
+    "amountSum": "Osuuksien summan täytyy vastata kulun summaa.",
+    "percentageSum": "Prosenttiosuuksien summan täytyy olla 100."
+  },
   "Categories": {
     "search": "Etsi kategoriaa...",
     "noCategory": "Kategoriaa ei löydy.",
