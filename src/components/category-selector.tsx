@@ -121,7 +121,7 @@ function CategoryCommand({
               {groupCategories.map((category) => (
                 <CommandItem
                   key={category.id}
-                  value={`${category.id} ${category.grouping} ${category.name}`}
+                  value={`${category.id} ${t(`${category.grouping}.heading`)} ${t(`${category.grouping}.${category.name}`)}`}
                   onSelect={(currentValue) => {
                     const id = Number(currentValue.split(' ')[0])
                     onValueChange(id)
