@@ -193,6 +193,17 @@
     "saving": "Saving…",
     "cancel": "Cancel"
   },
+  "ExpenseDocumentsInput": {
+    "TooBigToast": {
+      "title": "The file is too big",
+      "description": "The maximum file size you can upload is {maxSize}. Yours is ${size}."
+    },
+    "ErrorToast": {
+      "title": "Error while uploading document",
+      "description": "Something wrong happened when uploading the document. Please retry later or select a different file.",
+      "retry": "Retry"
+    }
+  },
   "Balances": {
     "title": "Balances",
     "description": "This is the amount that each participant paid or was paid for.",

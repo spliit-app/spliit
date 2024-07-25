@@ -19,7 +19,7 @@ import { randomId } from '@/lib/api'
 import { ExpenseFormValues } from '@/lib/schemas'
 import { formatFileSize } from '@/lib/utils'
 import { Loader2, Plus, Trash, X } from 'lucide-react'
-import { useLocale } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { getImageData, usePresignedUpload } from 'next-s3-upload'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
@@ -33,6 +33,7 @@ const MAX_FILE_SIZE = 5 * 1024 ** 2
 
 export function ExpenseDocumentsInput({ documents, updateDocuments }: Props) {
   const locale = useLocale()
+  const t = useTranslations('ExpenseDocumentsInput')
   const [pending, setPending] = useState(false)
   const { FileInput, openFileDialog, uploadToS3 } = usePresignedUpload() // use presigned uploads to addtionally support providers other than AWS
   const { toast } = useToast()
@@ -40,11 +41,11 @@ export function ExpenseDocumentsInput({ documents, updateDocuments }: Props) {
   const handleFileChange = async (file: File) => {
     if (file.size > MAX_FILE_SIZE) {
       toast({
-        title: 'The file is too big',
-        description: `The maximum file size you can upload is ${formatFileSize(
-          MAX_FILE_SIZE,
-          locale,
-        )}. Yours is ${formatFileSize(file.size, locale)}.`,
+        title: t('TooBigToast.title'),
+        description: t('TooBigToast.description', {
+          maxSize: formatFileSize(MAX_FILE_SIZE, locale),
+          size: formatFileSize(file.size, locale),
+        }),
         variant: 'destructive',
       })
       return
@@ -60,13 +61,12 @@ export function ExpenseDocumentsInput({ documents, updateDocuments }: Props) {
       } catch (err) {
         console.error(err)
         toast({
-          title: 'Error while uploading document',
-          description:
-            'Something wrong happened when uploading the document. Please retry later or select a different file.',
+          title: t('ErrorToast.title'),
+          description: t('ErrorToast.description'),
           variant: 'destructive',
           action: (
-            <ToastAction altText="Retry" onClick={() => upload()}>
-              Retry
+            <ToastAction altText={t('ErrorToast.retry')} onClick={() => upload()}>
+              {t('ErrorToast.retry')}
             </ToastAction>
           ),
         })

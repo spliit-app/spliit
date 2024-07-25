@@ -193,6 +193,17 @@
     "saving": "Tallennetaan…",
     "cancel": "Peruuta"
   },
+  "ExpenseDocumentsInput": {
+    "TooBigToast": {
+      "title": "Tiedosto on liian suuri",
+      "description": "Maksimikoko ladattavalle tiedostolle on {maxSize}. Tiedostosi on ${size}."
+    },
+    "ErrorToast": {
+      "title": "Virhe tiedostoa ladattaessa",
+      "description": "Jokin meni vikaan dokumentin lataamisessa. Yritä myöhemmin uudelleen tai valitse toinen tiedosto.",
+      "retry": "Yritä uudelleen"
+    }
+  },
   "Balances": {
     "title": "Saldo",
     "description": "Osallistujien saatavat tai velat.",
