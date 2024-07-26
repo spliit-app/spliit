@@ -349,9 +349,9 @@
       "Taxes": "Verot"
     },
     "Transportation": {
-      "heading": "Liikkuminen",
-      "Transportation": "Liikkuminen",
-      "Bicycle": "Pyörä",
+      "heading": "Liikenne",
+      "Transportation": "Liikenne",
+      "Bicycle": "Polkupyörä",
       "Bus/Train": "Bussi/juna",
       "Car": "Auto",
       "Gas/Fuel": "Polttoaine",
