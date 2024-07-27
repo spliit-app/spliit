@@ -1,5 +1,8 @@
 import { SplitMode } from '@prisma/client'
 import * as z from 'zod'
+import Mexp from 'math-expression-evaluator'
+
+const mexp = new Mexp()
 
 export const groupFormSchema = z
   .object({
@@ -51,7 +54,7 @@ export const expenseFormSchema = z
         [
           z.number(),
           z.string().transform((value, ctx) => {
-            const valueAsNumber = Number(value)
+            const valueAsNumber = Number(mexp.eval(value).toFixed(2).replace(/\.?0+$/, ''))
             if (Number.isNaN(valueAsNumber))
               ctx.addIssue({
                 code: z.ZodIssueCode.custom,
