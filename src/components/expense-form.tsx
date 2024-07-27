@@ -332,22 +332,28 @@ export function ExpenseForm({
                         placeholder="0.00"
                         onChange={(event) => {
                           let v = (event.target.value)
-                          if (v === ''){
+                          if (v === '') {
                             setEvaluatedAmount('0')
-                          }
-                          else{
-                            try{
-                              const evaluatedValue = Number(mexp.eval(v)).toFixed(2).replace(/\.?0+$/, '') // replace trailing zeros
+                          } else {
+                            try {
+                              const evaluatedValue = Number(mexp.eval(v))
+                                .toFixed(2)
+                                .replace(/\.?0+$/, '') // replace trailing zeros
                               setEvaluatedAmount(evaluatedValue)
                               const income = Number(evaluatedValue) < 0
                               setIsIncome(income)
-                              if (income) form.setValue('isReimbursement', false)
-                            }
-                            catch{
+                              if (income)
+                                form.setValue('isReimbursement', false)
+                            } catch {
                               setEvaluatedAmount('Invalid Expression')
                             }
                           }
                           onChange(v)
+                        }}
+                        onFocus={(e) => {
+                          // we're adding a small delay to get around safaris issue with onMouseUp deselecting things again
+                          const target = e.currentTarget
+                          setTimeout(() => target.select(), 1)
                         }}
                         {...field}
                       />
