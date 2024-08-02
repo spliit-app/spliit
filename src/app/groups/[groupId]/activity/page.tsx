@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/card'
 import { getActivities, getGroupExpenses } from '@/lib/api'
 import { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 
 export const metadata: Metadata = {
@@ -20,6 +21,7 @@ export default async function ActivityPage({
 }: {
   params: { groupId: string }
 }) {
+  const t = await getTranslations('Activity')
   const group = await cached.getGroup(groupId)
   if (!group) notFound()
 
@@ -30,10 +32,8 @@ export default async function ActivityPage({
     <>
       <Card className="mb-4">
         <CardHeader>
-          <CardTitle>Activity</CardTitle>
-          <CardDescription>
-            Overview of all activity in this group.
-          </CardDescription>
+          <CardTitle>{t('title')}</CardTitle>
+          <CardDescription>{t('description')}</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col space-y-4">
           <ActivityList
