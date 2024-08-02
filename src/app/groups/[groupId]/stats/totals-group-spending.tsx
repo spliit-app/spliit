@@ -1,4 +1,5 @@
 import { formatCurrency } from '@/lib/utils'
+import { useLocale, useTranslations } from 'next-intl'
 
 type Props = {
   totalGroupSpendings: number
@@ -6,12 +7,14 @@ type Props = {
 }
 
 export function TotalsGroupSpending({ totalGroupSpendings, currency }: Props) {
-  const balance = totalGroupSpendings < 0 ? 'earnings' : 'spendings'
+  const locale = useLocale()
+  const t = useTranslations('Stats.Totals')
+  const balance = totalGroupSpendings < 0 ? 'groupEarnings' : 'groupSpendings'
   return (
     <div>
-      <div className="text-muted-foreground">Total group {balance}</div>
+      <div className="text-muted-foreground">{t(balance)}</div>
       <div className="text-lg">
-        {formatCurrency(currency, Math.abs(totalGroupSpendings))}
+        {formatCurrency(currency, Math.abs(totalGroupSpendings), locale)}
       </div>
     </div>
   )

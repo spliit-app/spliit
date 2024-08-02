@@ -2,6 +2,7 @@ import { ActivityItem } from '@/app/groups/[groupId]/activity/activity-item'
 import { getGroupExpenses } from '@/lib/api'
 import { Activity, Participant } from '@prisma/client'
 import dayjs, { type Dayjs } from 'dayjs'
+import { useTranslations } from 'next-intl'
 
 type Props = {
   groupId: string
@@ -11,15 +12,15 @@ type Props = {
 }
 
 const DATE_GROUPS = {
-  TODAY: 'Today',
-  YESTERDAY: 'Yesterday',
-  EARLIER_THIS_WEEK: 'Earlier this week',
-  LAST_WEEK: 'Last week',
-  EARLIER_THIS_MONTH: 'Earlier this month',
-  LAST_MONTH: 'Last month',
-  EARLIER_THIS_YEAR: 'Earlier this year',
-  LAST_YEAR: 'Last year',
-  OLDER: 'Older',
+  TODAY: 'today',
+  YESTERDAY: 'yesterday',
+  EARLIER_THIS_WEEK: 'earlierThisWeek',
+  LAST_WEEK: 'lastWeek',
+  EARLIER_THIS_MONTH: 'earlierThisMonth',
+  LAST_MONTH: 'lastMonth',
+  EARLIER_THIS_YEAR: 'earlierThisYear',
+  LAST_YEAR: 'lastYear',
+  OLDER: 'older',
 }
 
 function getDateGroup(date: Dayjs, today: Dayjs) {
@@ -63,6 +64,7 @@ export function ActivityList({
   expenses,
   activities,
 }: Props) {
+  const t = useTranslations('Activity')
   const groupedActivitiesByDate = getGroupedActivitiesByDate(activities)
 
   return activities.length > 0 ? (
@@ -82,7 +84,7 @@ export function ActivityList({
                 'text-muted-foreground text-xs py-1 font-semibold sticky top-16 bg-white dark:bg-[#1b1917]'
               }
             >
-              {dateGroup}
+              {t(`Groups.${dateGroup}`)}
             </div>
             {groupActivities.map((activity: Activity) => {
               const participant =
@@ -105,8 +107,6 @@ export function ActivityList({
       })}
     </>
   ) : (
-    <p className="px-6 text-sm py-6">
-      There is not yet any activity in your group.
-    </p>
+    <p className="px-6 text-sm py-6">{t('noActivity')}</p>
   )
 }

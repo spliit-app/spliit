@@ -29,6 +29,7 @@ import { useMediaQuery } from '@/lib/hooks'
 import { formatCurrency, formatDate, formatFileSize } from '@/lib/utils'
 import { Category } from '@prisma/client'
 import { ChevronRight, FileQuestion, Loader2, Receipt } from 'lucide-react'
+import { useLocale, useTranslations } from 'next-intl'
 import { getImageData, usePresignedUpload } from 'next-s3-upload'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -47,6 +48,8 @@ export function CreateFromReceiptButton({
   groupCurrency,
   categories,
 }: Props) {
+  const locale = useLocale()
+  const t = useTranslations('CreateFromReceipt')
   const [pending, setPending] = useState(false)
   const { uploadToS3, FileInput, openFileDialog } = usePresignedUpload()
   const { toast } = useToast()
@@ -60,10 +63,11 @@ export function CreateFromReceiptButton({
   const handleFileChange = async (file: File) => {
     if (file.size > MAX_FILE_SIZE) {
       toast({
-        title: 'The file is too big',
-        description: `The maximum file size you can upload is ${formatFileSize(
-          MAX_FILE_SIZE,
-        )}. Yours is ${formatFileSize(file.size)}.`,
+        title: t('TooBigToast.title'),
+        description: t('TooBigToast.description', {
+          maxSize: formatFileSize(MAX_FILE_SIZE, locale),
+          size: formatFileSize(file.size, locale),
+        }),
         variant: 'destructive',
       })
       return
@@ -82,13 +86,15 @@ export function CreateFromReceiptButton({
       } catch (err) {
         console.error(err)
         toast({
-          title: 'Error while uploading document',
-          description:
-            'Something wrong happened when uploading the document. Please retry later or select a different file.',
+          title: t('ErrorToast.title'),
+          description: t('ErrorToast.description'),
           variant: 'destructive',
           action: (
-            <ToastAction altText="Retry" onClick={() => upload()}>
-              Retry
+            <ToastAction
+              altText={t('ErrorToast.retry')}
+              onClick={() => upload()}
+            >
+              {t('ErrorToast.retry')}
             </ToastAction>
           ),
         })
@@ -114,26 +120,23 @@ export function CreateFromReceiptButton({
         <Button
           size="icon"
           variant="secondary"
-          title="Create expense from receipt"
+          title={t('Dialog.triggerTitle')}
         >
           <Receipt className="w-4 h-4" />
         </Button>
       }
       title={
         <>
-          <span>Create from receipt</span>
+          <span>{t('Dialog.title')}</span>
           <Badge className="bg-pink-700 hover:bg-pink-600 dark:bg-pink-500 dark:hover:bg-pink-600">
             Beta
           </Badge>
         </>
       }
-      description={<>Extract the expense information from a receipt photo.</>}
+      description={<>{t('Dialog.description')}</>}
     >
       <div className="prose prose-sm dark:prose-invert">
-        <p>
-          Upload the photo of a receipt, and we’ll scan it to extract the
-          expense information if we can.
-        </p>
+        <p>{t('Dialog.body')}</p>
         <div>
           <FileInput
             onChange={handleFileChange}
@@ -161,16 +164,16 @@ export function CreateFromReceiptButton({
                 </div>
               ) : (
                 <span className="text-xs sm:text-sm text-muted-foreground">
-                  Select image…
+                  {t('Dialog.selectImage')}
                 </span>
               )}
             </Button>
             <div className="col-span-2">
-              <strong>Title:</strong>
+              <strong>{t('Dialog.titleLabel')}</strong>
               <div>{receiptInfo ? receiptInfo.title ?? <Unknown /> : '…'}</div>
             </div>
             <div className="col-span-2">
-              <strong>Category:</strong>
+              <strong>{t('Dialog.categoryLabel')}</strong>
               <div>
                 {receiptInfo ? (
                   receiptInfoCategory ? (
@@ -194,11 +197,17 @@ export function CreateFromReceiptButton({
               </div>
             </div>
             <div>
-              <strong>Amount:</strong>
+              <strong>{t('Dialog.amountLabel')}</strong>
               <div>
                 {receiptInfo ? (
                   receiptInfo.amount ? (
-                    <>{formatCurrency(groupCurrency, receiptInfo.amount)}</>
+                    <>
+                      {formatCurrency(
+                        groupCurrency,
+                        receiptInfo.amount,
+                        locale,
+                      )}
+                    </>
                   ) : (
                     <Unknown />
                   )
@@ -208,13 +217,15 @@ export function CreateFromReceiptButton({
               </div>
             </div>
             <div>
-              <strong>Date:</strong>
+              <strong>{t('Dialog.dateLabel')}</strong>
               <div>
                 {receiptInfo ? (
                   receiptInfo.date ? (
-                    formatDate(new Date(`${receiptInfo?.date}T12:00:00.000Z`), {
-                      dateStyle: 'medium',
-                    })
+                    formatDate(
+                      new Date(`${receiptInfo?.date}T12:00:00.000Z`),
+                      locale,
+                      { dateStyle: 'medium' },
+                    )
                   ) : (
                     <Unknown />
                   )
@@ -225,7 +236,7 @@ export function CreateFromReceiptButton({
             </div>
           </div>
         </div>
-        <p>You’ll be able to edit the expense information next.</p>
+        <p>{t('Dialog.editNext')}</p>
         <div className="text-center">
           <Button
             disabled={pending || !receiptInfo}
@@ -244,7 +255,7 @@ export function CreateFromReceiptButton({
               )
             }}
           >
-            Continue
+            {t('Dialog.continue')}
           </Button>
         </div>
       </div>
@@ -253,10 +264,11 @@ export function CreateFromReceiptButton({
 }
 
 function Unknown() {
+  const t = useTranslations('CreateFromReceipt')
   return (
     <div className="flex gap-1 items-center text-muted-foreground">
       <FileQuestion className="w-4 h-4" />
-      <em>Unknown</em>
+      <em>{t('unknown')}</em>
     </div>
   )
 }

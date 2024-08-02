@@ -23,6 +23,7 @@ import { ToastAction } from '@/components/ui/toast'
 import { useToast } from '@/components/ui/use-toast'
 import { StarFilledIcon } from '@radix-ui/react-icons'
 import { Calendar, MoreHorizontal, Star, Users } from 'lucide-react'
+import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { SetStateAction } from 'react'
@@ -37,7 +38,9 @@ export function RecentGroupListCard({
   setState: (state: SetStateAction<RecentGroupsState>) => void
 }) {
   const router = useRouter()
+  const locale = useLocale()
   const toast = useToast()
+  const t = useTranslations('Groups')
 
   const details =
     state.status === 'complete'
@@ -118,12 +121,11 @@ export function RecentGroupListCard({
                           groups: state.groups.filter((g) => g.id !== group.id),
                         })
                         toast.toast({
-                          title: 'Group has been removed',
-                          description:
-                            'The group was removed from your recent groups list.',
+                          title: t('RecentRemovedToast.title'),
+                          description: t('RecentRemovedToast.description'),
                           action: (
                             <ToastAction
-                              altText="Undo group removal"
+                              altText={t('RecentRemovedToast.undoAlt')}
                               onClick={() => {
                                 saveRecentGroup(group)
                                 setState({
@@ -132,13 +134,13 @@ export function RecentGroupListCard({
                                 })
                               }}
                             >
-                              Undo
+                              {t('RecentRemovedToast.undo')}
                             </ToastAction>
                           ),
                         })
                       }}
                     >
-                      Remove from recent groups
+                      {t('removeRecent')}
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={(event) => {
@@ -152,7 +154,7 @@ export function RecentGroupListCard({
                         refreshGroupsFromStorage()
                       }}
                     >
-                      {isArchived ? <>Unarchive group</> : <>Archive group</>}
+                      {t(isArchived ? 'unarchive' : 'archive')}
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -168,7 +170,7 @@ export function RecentGroupListCard({
                   <div className="flex items-center">
                     <Calendar className="w-3 h-3 inline mx-1" />
                     <span>
-                      {new Date(details.createdAt).toLocaleDateString('en-US', {
+                      {new Date(details.createdAt).toLocaleDateString(locale, {
                         dateStyle: 'medium',
                       })}
                     </span>
