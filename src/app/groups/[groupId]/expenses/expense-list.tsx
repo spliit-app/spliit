@@ -4,8 +4,10 @@ import { getGroupExpensesAction } from '@/app/groups/[groupId]/expenses/expense-
 import { Button } from '@/components/ui/button'
 import { SearchBar } from '@/components/ui/search-bar'
 import { Skeleton } from '@/components/ui/skeleton'
+import { normalizeString } from '@/lib/utils'
 import { Participant } from '@prisma/client'
 import dayjs, { type Dayjs } from 'dayjs'
+import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
@@ -23,13 +25,13 @@ type Props = {
 }
 
 const EXPENSE_GROUPS = {
-  UPCOMING: 'Upcoming',
-  THIS_WEEK: 'This week',
-  EARLIER_THIS_MONTH: 'Earlier this month',
-  LAST_MONTH: 'Last month',
-  EARLIER_THIS_YEAR: 'Earlier this year',
-  LAST_YEAR: 'Last year',
-  OLDER: 'Older',
+  UPCOMING: 'upcoming',
+  THIS_WEEK: 'thisWeek',
+  EARLIER_THIS_MONTH: 'earlierThisMonth',
+  LAST_MONTH: 'lastMonth',
+  EARLIER_THIS_YEAR: 'earlierThisYear',
+  LAST_YEAR: 'lastYear',
+  OLDER: 'older',
 }
 
 function getExpenseGroup(date: Dayjs, today: Dayjs) {
@@ -75,6 +77,7 @@ export function ExpenseList({
   const [isFetching, setIsFetching] = useState(false)
   const [expenses, setExpenses] = useState(expensesFirstPage)
   const { ref, inView } = useInView()
+  const t = useTranslations('Expenses')
 
   useEffect(() => {
     const activeUser = localStorage.getItem('newGroup-activeUser')
@@ -134,13 +137,15 @@ export function ExpenseList({
 
   return expenses.length > 0 ? (
     <>
-      <SearchBar onValueChange={(value) => setSearchText(value)} />
+      <SearchBar
+        onValueChange={(value) => setSearchText(normalizeString(value))}
+      />
       {Object.values(EXPENSE_GROUPS).map((expenseGroup: string) => {
         let groupExpenses = groupedExpensesByDate[expenseGroup]
         if (!groupExpenses) return null
 
         groupExpenses = groupExpenses.filter(({ title }) =>
-          title.toLowerCase().includes(searchText.toLowerCase()),
+          normalizeString(title).includes(searchText),
         )
 
         if (groupExpenses.length === 0) return null
@@ -152,7 +157,7 @@ export function ExpenseList({
                 'text-muted-foreground text-xs pl-4 sm:pl-6 py-1 font-semibold sticky top-16 bg-white dark:bg-[#1b1917]'
               }
             >
-              {expenseGroup}
+              {t(`Groups.${expenseGroup}`)}
             </div>
             {groupExpenses.map((expense) => (
               <ExpenseCard
@@ -184,10 +189,10 @@ export function ExpenseList({
     </>
   ) : (
     <p className="px-6 text-sm py-6">
-      Your group doesn’t contain any expense yet.{' '}
+      {t('noExpenses')}{' '}
       <Button variant="link" asChild className="-m-4">
         <Link href={`/groups/${groupId}/expenses/create`}>
-          Create the first one
+          {t('createFirst')}
         </Link>
       </Button>
     </p>

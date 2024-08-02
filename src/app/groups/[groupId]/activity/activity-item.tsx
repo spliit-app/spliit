@@ -4,6 +4,7 @@ import { getGroupExpenses } from '@/lib/api'
 import { DateTimeStyle, cn, formatDate } from '@/lib/utils'
 import { Activity, ActivityType, Participant } from '@prisma/client'
 import { ChevronRight } from 'lucide-react'
+import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
@@ -15,36 +16,27 @@ type Props = {
   dateStyle: DateTimeStyle
 }
 
-function getSummary(activity: Activity, participantName?: string) {
-  const participant = participantName ?? 'Someone'
+function useSummary(activity: Activity, participantName?: string) {
+  const t = useTranslations('Activity')
+  const participant = participantName ?? t('someone')
   const expense = activity.data ?? ''
+
+  const tr = (key: string) =>
+    t.rich(key, {
+      expense,
+      participant,
+      em: (chunks) => <em>&ldquo;{chunks}&rdquo;</em>,
+      strong: (chunks) => <strong>{chunks}</strong>,
+    })
+
   if (activity.activityType == ActivityType.UPDATE_GROUP) {
-    return (
-      <>
-        Group settings were modified by <strong>{participant}</strong>
-      </>
-    )
+    return <>{tr('settingsModified')}</>
   } else if (activity.activityType == ActivityType.CREATE_EXPENSE) {
-    return (
-      <>
-        Expense <em>&ldquo;{expense}&rdquo;</em> created by{' '}
-        <strong>{participant}</strong>.
-      </>
-    )
+    return <>{tr('expenseCreated')}</>
   } else if (activity.activityType == ActivityType.UPDATE_EXPENSE) {
-    return (
-      <>
-        Expense <em>&ldquo;{expense}&rdquo;</em> updated by{' '}
-        <strong>{participant}</strong>.
-      </>
-    )
+    return <>{tr('expenseUpdated')}</>
   } else if (activity.activityType == ActivityType.DELETE_EXPENSE) {
-    return (
-      <>
-        Expense <em>&ldquo;{expense}&rdquo;</em> deleted by{' '}
-        <strong>{participant}</strong>.
-      </>
-    )
+    return <>{tr('expenseDeleted')}</>
   }
 }
 
@@ -56,9 +48,10 @@ export function ActivityItem({
   dateStyle,
 }: Props) {
   const router = useRouter()
+  const locale = useLocale()
 
   const expenseExists = expense !== undefined
-  const summary = getSummary(activity, participant?.name)
+  const summary = useSummary(activity, participant?.name)
 
   return (
     <div
@@ -75,11 +68,11 @@ export function ActivityItem({
       <div className="flex flex-col justify-between items-start">
         {dateStyle !== undefined && (
           <div className="mt-1 text-xs/5 text-muted-foreground">
-            {formatDate(activity.time, { dateStyle })}
+            {formatDate(activity.time, locale, { dateStyle })}
           </div>
         )}
         <div className="my-1 text-xs/5 text-muted-foreground">
-          {formatDate(activity.time, { timeStyle: 'short' })}
+          {formatDate(activity.time, locale, { timeStyle: 'short' })}
         </div>
       </div>
       <div className="flex-1">

@@ -15,9 +15,10 @@ export type DateTimeStyle = NonNullable<
 >['dateStyle']
 export function formatDate(
   date: Date,
+  locale: string,
   options: { dateStyle?: DateTimeStyle; timeStyle?: DateTimeStyle } = {},
 ) {
-  return date.toLocaleString('en-GB', {
+  return date.toLocaleString(locale, {
     ...options,
     timeZone: 'UTC',
   })
@@ -27,18 +28,25 @@ export function formatCategoryForAIPrompt(category: Category) {
   return `"${category.grouping}/${category.name}" (ID: ${category.id})`
 }
 
-export function formatCurrency(currency: string, amount: number) {
-  const format = new Intl.NumberFormat('en-US', {
+export function formatCurrency(
+  currency: string,
+  amount: number,
+  locale: string,
+) {
+  const format = new Intl.NumberFormat(locale, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
+    style: 'currency',
+    // '€' will be placed in correct position
+    currency: 'EUR',
   })
   const formattedAmount = format.format(amount / 100)
-  return `${currency} ${formattedAmount}`
+  return formattedAmount.replace('€', currency)
 }
 
-export function formatFileSize(size: number) {
+export function formatFileSize(size: number, locale: string) {
   const formatNumber = (num: number) =>
-    num.toLocaleString('en-US', {
+    num.toLocaleString(locale, {
       minimumFractionDigits: 0,
       maximumFractionDigits: 1,
     })
@@ -47,4 +55,14 @@ export function formatFileSize(size: number) {
   if (size > 1024 ** 2) return `${formatNumber(size / 1024 ** 2)} MB`
   if (size > 1024) return `${formatNumber(size / 1024)} kB`
   return `${formatNumber(size)} B`
+}
+
+export function normalizeString(input: string): string {
+  // Replaces special characters
+  // Input: áäåèéę
+  // Output: aaaeee
+  return input
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
 }

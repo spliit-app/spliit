@@ -5,18 +5,40 @@ import { Button } from '@/components/ui/button'
 import { getGroupExpenses } from '@/lib/api'
 import { cn, formatCurrency, formatDate } from '@/lib/utils'
 import { ChevronRight } from 'lucide-react'
+import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Fragment } from 'react'
 
+type Expense = Awaited<ReturnType<typeof getGroupExpenses>>[number]
+
+function Participants({ expense }: { expense: Expense }) {
+  const t = useTranslations('ExpenseCard')
+  const key = expense.amount > 0 ? 'paidBy' : 'receivedBy'
+  const paidFor = expense.paidFor.map((paidFor, index) => (
+    <Fragment key={index}>
+      {index !== 0 && <>, </>}
+      <strong>{paidFor.participant.name}</strong>
+    </Fragment>
+  ))
+  const participants = t.rich(key, {
+    strong: (chunks) => <strong>{chunks}</strong>,
+    paidBy: expense.paidBy.name,
+    paidFor: () => paidFor,
+    forCount: expense.paidFor.length,
+  })
+  return <>{participants}</>
+}
+
 type Props = {
-  expense: Awaited<ReturnType<typeof getGroupExpenses>>[number]
+  expense: Expense
   currency: string
   groupId: string
 }
 
 export function ExpenseCard({ expense, currency, groupId }: Props) {
   const router = useRouter()
+  const locale = useLocale()
 
   return (
     <div
@@ -38,14 +60,7 @@ export function ExpenseCard({ expense, currency, groupId }: Props) {
           {expense.title}
         </div>
         <div className="text-xs text-muted-foreground">
-          {expense.amount > 0 ? 'Paid by ' : 'Received by '}
-          <strong>{expense.paidBy.name}</strong> for{' '}
-          {expense.paidFor.map((paidFor, index) => (
-            <Fragment key={index}>
-              {index !== 0 && <>, </>}
-              <strong>{paidFor.participant.name}</strong>
-            </Fragment>
-          ))}
+          <Participants expense={expense} />
         </div>
         <div className="text-xs text-muted-foreground">
           <ActiveUserBalance {...{ groupId, currency, expense }} />
@@ -58,10 +73,10 @@ export function ExpenseCard({ expense, currency, groupId }: Props) {
             expense.isReimbursement ? 'italic' : 'font-bold',
           )}
         >
-          {formatCurrency(currency, expense.amount)}
+          {formatCurrency(currency, expense.amount, locale)}
         </div>
         <div className="text-xs text-muted-foreground">
-          {formatDate(expense.expenseDate, { dateStyle: 'medium' })}
+          {formatDate(expense.expenseDate, locale, { dateStyle: 'medium' })}
         </div>
       </div>
       <Button
