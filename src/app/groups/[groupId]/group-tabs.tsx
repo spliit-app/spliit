@@ -25,6 +25,7 @@ export function GroupTabs({ groupId }: Props) {
       <TabsList>
         <TabsTrigger value="expenses">{t('Expenses.title')}</TabsTrigger>
         <TabsTrigger value="balances">{t('Balances.title')}</TabsTrigger>
+        <TabsTrigger value="information">{t('Information.title')}</TabsTrigger>
         <TabsTrigger value="stats">{t('Stats.title')}</TabsTrigger>
         <TabsTrigger value="activity">{t('Activity.title')}</TabsTrigger>
         <TabsTrigger value="edit">{t('Settings.title')}</TabsTrigger>

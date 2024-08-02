@@ -75,6 +75,10 @@
       "placeholder": "Summer vacations",
       "description": "Enter a name for your group."
     },
+    "InformationField": {
+      "label": "Group information",
+      "placeholder": "What information is relevant to group participants?"
+    },
     "CurrencyField": {
       "label": "Currency symbol",
       "placeholder": "$, €, £…",
@@ -272,6 +276,11 @@
       "lastYear": "Last year",
       "older": "Older"
     }
+  },
+  "Information": {
+    "title": "Information",
+    "description": "Use this place to add any information that can be relevant to the group participants.",
+    "empty": "No group information yet."
   },
   "Settings": {
     "title": "Settings"

@@ -75,6 +75,10 @@
       "placeholder": "Kesälomareissu",
       "description": "Syötä ryhmäsi nimi."
     },
+    "InformationField": {
+      "label": "Ryhmän tiedot",
+      "placeholder": "Mitkä tiedot ovat merkityksellisiä ryhmän osallistujille?"
+    },
     "CurrencyField": {
       "label": "Valuuttamerkki",
       "placeholder": "$, €, £…",
@@ -272,6 +276,11 @@
       "lastYear": "Viime vuonna",
       "older": "Vanhemmat"
     }
+  },
+  "Information": {
+    "title": "Tiedot",
+    "description": "Käytä tätä paikkaa lisätäksesi kaikki tiedot, joilla voi olla merkitystä ryhmän osallistujille.",
+    "empty": "Ryhmätietoja ei vielä ole."
   },
   "Settings": {
     "title": "Asetukset"

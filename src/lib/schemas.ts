@@ -4,6 +4,7 @@ import * as z from 'zod'
 export const groupFormSchema = z
   .object({
     name: z.string().min(2, 'min2').max(50, 'max50'),
+    information: z.string().optional(),
     currency: z.string().min(1, 'min1').max(5, 'max5'),
     participants: z
       .array(
