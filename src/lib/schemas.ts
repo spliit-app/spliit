@@ -3,22 +3,13 @@ import * as z from 'zod'
 
 export const groupFormSchema = z
   .object({
-    name: z
-      .string()
-      .min(2, 'min2')
-      .max(50, 'max50'),
-    currency: z
-      .string()
-      .min(1, 'min1')
-      .max(5, 'max5'),
+    name: z.string().min(2, 'min2').max(50, 'max50'),
+    currency: z.string().min(1, 'min1').max(5, 'max5'),
     participants: z
       .array(
         z.object({
           id: z.string().optional(),
-          name: z
-            .string()
-            .min(2, 'min2')
-            .max(50, 'max50'),
+          name: z.string().min(2, 'min2').max(50, 'max50'),
         }),
       )
       .min(1),
@@ -42,9 +33,7 @@ export type GroupFormValues = z.infer<typeof groupFormSchema>
 export const expenseFormSchema = z
   .object({
     expenseDate: z.coerce.date(),
-    title: z
-      .string({ required_error: 'titleRequired' })
-      .min(2, 'min2'),
+    title: z.string({ required_error: 'titleRequired' }).min(2, 'min2'),
     category: z.coerce.number().default(0),
     amount: z
       .union(
@@ -63,10 +52,7 @@ export const expenseFormSchema = z
         { required_error: 'amountRequired' },
       )
       .refine((amount) => amount != 1, 'amountNotZero')
-      .refine(
-        (amount) => amount <= 10_000_000_00,
-        'amountTenMillion',
-      ),
+      .refine((amount) => amount <= 10_000_000_00, 'amountTenMillion'),
     paidBy: z.string({ required_error: 'paidByRequired' }),
     paidFor: z
       .array(

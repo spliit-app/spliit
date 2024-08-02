@@ -1,16 +1,16 @@
 import { ApplePwaSplash } from '@/app/apple-pwa-splash'
-import { ProgressBar } from '@/components/progress-bar'
 import { LocaleSwitcher } from '@/components/locale-switcher'
+import { ProgressBar } from '@/components/progress-bar'
 import { ThemeProvider } from '@/components/theme-provider'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { Button } from '@/components/ui/button'
 import { Toaster } from '@/components/ui/toaster'
 import { env } from '@/lib/env'
 import type { Metadata, Viewport } from 'next'
-import Image from 'next/image'
-import Link from 'next/link'
 import { NextIntlClientProvider, useTranslations } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
+import Image from 'next/image'
+import Link from 'next/link'
 import { Suspense } from 'react'
 import './globals.css'
 
@@ -62,11 +62,7 @@ export const viewport: Viewport = {
   themeColor: '#047857',
 }
 
-function Content({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+function Content({ children }: { children: React.ReactNode }) {
   const t = useTranslations()
   return (
     <>
@@ -88,11 +84,7 @@ function Content({
         <div role="navigation" aria-label="Menu" className="flex">
           <ul className="flex items-center text-sm">
             <li>
-              <Button
-                variant="ghost"
-                asChild
-                className="-my-3 text-primary"
-              >
+              <Button variant="ghost" asChild className="-my-3 text-primary">
                 <Link href="/groups">{t('Header.groups')}</Link>
               </Button>
             </li>
@@ -125,7 +117,11 @@ function Content({
             <span>{t('Footer.madeIn')}</span>
             <span>
               {t.rich('Footer.builtBy', {
-                author: (txt) => <a href="https://scastiel.dev" target="_blank" rel="noopener">{txt}</a>,
+                author: (txt) => (
+                  <a href="https://scastiel.dev" target="_blank" rel="noopener">
+                    {txt}
+                  </a>
+                ),
                 source: (txt) => (
                   <a
                     href="https://github.com/spliit-app/spliit/graphs/contributors"

@@ -168,9 +168,7 @@ export function GroupForm({
         <Card className="mb-4">
           <CardHeader>
             <CardTitle>{t('Participants.title')}</CardTitle>
-            <CardDescription>
-              {t('Participants.description')}
-            </CardDescription>
+            <CardDescription>{t('Participants.description')}</CardDescription>
           </CardHeader>
           <CardContent>
             <ul className="flex flex-col gap-2">
@@ -249,9 +247,7 @@ export function GroupForm({
         <Card className="mb-4">
           <CardHeader>
             <CardTitle>{t('Settings.title')}</CardTitle>
-            <CardDescription>
-              {t('Settings.description')}
-            </CardDescription>
+            <CardDescription>{t('Settings.description')}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid sm:grid-cols-2 gap-4">
@@ -266,10 +262,17 @@ export function GroupForm({
                       defaultValue={activeUser}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder={t('Settings.ActiveUserField.placeholder')} />
+                        <SelectValue
+                          placeholder={t(
+                            'Settings.ActiveUserField.placeholder',
+                          )}
+                        />
                       </SelectTrigger>
                       <SelectContent>
-                        {[{ name: t('Settings.ActiveUserField.none') }, ...form.watch('participants')]
+                        {[
+                          { name: t('Settings.ActiveUserField.none') },
+                          ...form.watch('participants'),
+                        ]
                           .filter((item) => item.name.length > 0)
                           .map(({ name }) => (
                             <SelectItem key={name} value={name}>
@@ -293,7 +296,8 @@ export function GroupForm({
             loadingContent={t(group ? 'Settings.saving' : 'Settings.creating')}
             onClick={updateActiveUser}
           >
-            <Save className="w-4 h-4 mr-2" /> {t(group ? 'Settings.save' : 'Settings.create')}
+            <Save className="w-4 h-4 mr-2" />{' '}
+            {t(group ? 'Settings.save' : 'Settings.create')}
           </SubmitButton>
           {!group && (
             <Button variant="ghost" asChild>

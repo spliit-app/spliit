@@ -28,7 +28,11 @@ export function formatCategoryForAIPrompt(category: Category) {
   return `"${category.grouping}/${category.name}" (ID: ${category.id})`
 }
 
-export function formatCurrency(currency: string, amount: number, locale: string) {
+export function formatCurrency(
+  currency: string,
+  amount: number,
+  locale: string,
+) {
   const format = new Intl.NumberFormat(locale, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -37,7 +41,7 @@ export function formatCurrency(currency: string, amount: number, locale: string)
     currency: 'EUR',
   })
   const formattedAmount = format.format(amount / 100)
-  return formattedAmount.replace('€', currency);
+  return formattedAmount.replace('€', currency)
 }
 
 export function formatFileSize(size: number, locale: string) {

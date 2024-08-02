@@ -122,8 +122,7 @@ export function RecentGroupListCard({
                         })
                         toast.toast({
                           title: t('RecentRemovedToast.title'),
-                          description:
-                            t('RecentRemovedToast.description'),
+                          description: t('RecentRemovedToast.description'),
                           action: (
                             <ToastAction
                               altText={t('RecentRemovedToast.undoAlt')}

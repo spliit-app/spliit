@@ -1,7 +1,7 @@
 'use client'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { usePathname, useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
+import { usePathname, useRouter } from 'next/navigation'
 
 type Props = {
   groupId: string

@@ -10,10 +10,10 @@ import {
 import { Button } from '@/components/ui/button'
 import { getGroups } from '@/lib/api'
 import { Loader2 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { PropsWithChildren, SetStateAction, useEffect, useState } from 'react'
 import { RecentGroupListCard } from './recent-group-list-card'
-import { useTranslations } from 'next-intl'
 
 export type RecentGroupsState =
   | { status: 'pending' }
@@ -86,7 +86,8 @@ export function RecentGroupList() {
     return (
       <GroupsPage reload={loadGroups}>
         <p>
-          <Loader2 className="w-4 m-4 mr-2 inline animate-spin" /> {t('loadingRecent')}
+          <Loader2 className="w-4 m-4 mr-2 inline animate-spin" />{' '}
+          {t('loadingRecent')}
         </p>
       </GroupsPage>
     )

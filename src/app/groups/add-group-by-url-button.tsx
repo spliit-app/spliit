@@ -79,9 +79,7 @@ export function AddGroupByUrlButton({ reload }: Props) {
             )}
           </Button>
         </form>
-        {error && (
-          <p className="text-destructive">{t('error')}</p>
-        )}
+        {error && <p className="text-destructive">{t('error')}</p>}
       </PopoverContent>
     </Popover>
   )

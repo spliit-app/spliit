@@ -65,7 +65,10 @@ export function ExpenseDocumentsInput({ documents, updateDocuments }: Props) {
           description: t('ErrorToast.description'),
           variant: 'destructive',
           action: (
-            <ToastAction altText={t('ErrorToast.retry')} onClick={() => upload()}>
+            <ToastAction
+              altText={t('ErrorToast.retry')}
+              onClick={() => upload()}
+            >
               {t('ErrorToast.retry')}
             </ToastAction>
           ),

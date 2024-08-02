@@ -1,16 +1,13 @@
 'use server'
 
 import { Locale, Locales, defaultLocale, locales } from '@/i18n'
-import { cookies, headers } from 'next/headers'
 import { match } from '@formatjs/intl-localematcher'
 import Negotiator from 'negotiator'
+import { cookies, headers } from 'next/headers'
 
 const COOKIE_NAME = 'NEXT_LOCALE'
 
-function getAcceptLanguageLocale(
-  requestHeaders: Headers,
-  locales: Locales,
-) {
+function getAcceptLanguageLocale(requestHeaders: Headers, locales: Locales) {
   let locale
   const languages = new Negotiator({
     headers: {
@@ -18,11 +15,7 @@ function getAcceptLanguageLocale(
     },
   }).languages()
   try {
-    locale = match(
-      languages,
-      locales,
-      defaultLocale,
-    )
+    locale = match(languages, locales, defaultLocale)
   } catch (e) {
     // invalid language
   }

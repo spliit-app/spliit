@@ -17,8 +17,8 @@ import {
 } from '@/components/ui/popover'
 import { useMediaQuery } from '@/lib/hooks'
 import { Category } from '@prisma/client'
-import { forwardRef, useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
+import { forwardRef, useEffect, useState } from 'react'
 
 type Props = {
   categories: Category[]
@@ -121,7 +121,9 @@ function CategoryCommand({
               {groupCategories.map((category) => (
                 <CommandItem
                   key={category.id}
-                  value={`${category.id} ${t(`${category.grouping}.heading`)} ${t(`${category.grouping}.${category.name}`)}`}
+                  value={`${category.id} ${t(
+                    `${category.grouping}.heading`,
+                  )} ${t(`${category.grouping}.${category.name}`)}`}
                   onSelect={(currentValue) => {
                     const id = Number(currentValue.split(' ')[0])
                     onValueChange(id)

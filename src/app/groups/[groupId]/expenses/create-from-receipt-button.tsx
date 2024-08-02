@@ -87,10 +87,13 @@ export function CreateFromReceiptButton({
         console.error(err)
         toast({
           title: t('ErrorToast.title'),
-          description:t('ErrorToast.description'),
+          description: t('ErrorToast.description'),
           variant: 'destructive',
           action: (
-            <ToastAction altText={t('ErrorToast.retry')} onClick={() => upload()}>
+            <ToastAction
+              altText={t('ErrorToast.retry')}
+              onClick={() => upload()}
+            >
               {t('ErrorToast.retry')}
             </ToastAction>
           ),
@@ -198,7 +201,13 @@ export function CreateFromReceiptButton({
               <div>
                 {receiptInfo ? (
                   receiptInfo.amount ? (
-                    <>{formatCurrency(groupCurrency, receiptInfo.amount, locale)}</>
+                    <>
+                      {formatCurrency(
+                        groupCurrency,
+                        receiptInfo.amount,
+                        locale,
+                      )}
+                    </>
                   ) : (
                     <Unknown />
                   )

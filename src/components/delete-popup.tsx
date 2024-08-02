@@ -1,6 +1,7 @@
 'use client'
 
 import { Trash2 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { AsyncButton } from './async-button'
 import { Button } from './ui/button'
 import {
@@ -12,7 +13,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from './ui/dialog'
-import { useTranslations } from 'next-intl'
 
 export function DeletePopup({ onDelete }: { onDelete: () => Promise<void> }) {
   const t = useTranslations('ExpenseForm.DeletePopup')
@@ -26,9 +26,7 @@ export function DeletePopup({ onDelete }: { onDelete: () => Promise<void> }) {
       </DialogTrigger>
       <DialogContent>
         <DialogTitle>{t('title')}</DialogTitle>
-        <DialogDescription>
-          {t('description')}
-        </DialogDescription>
+        <DialogDescription>{t('description')}</DialogDescription>
         <DialogFooter className="flex flex-col gap-2">
           <AsyncButton
             type="button"

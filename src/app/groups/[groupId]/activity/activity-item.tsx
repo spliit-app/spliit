@@ -21,37 +21,22 @@ function useSummary(activity: Activity, participantName?: string) {
   const participant = participantName ?? t('someone')
   const expense = activity.data ?? ''
 
-  const tr = (key: string) => t.rich(key, {
-    expense,
-    participant,
-    em: (chunks) => <em>&ldquo;{chunks}&rdquo;</em>,
-    strong: (chunks) => <strong>{chunks}</strong>,
-  })
+  const tr = (key: string) =>
+    t.rich(key, {
+      expense,
+      participant,
+      em: (chunks) => <em>&ldquo;{chunks}&rdquo;</em>,
+      strong: (chunks) => <strong>{chunks}</strong>,
+    })
 
   if (activity.activityType == ActivityType.UPDATE_GROUP) {
-    return (
-      <>
-        {tr('settingsModified')}
-      </>
-    )
+    return <>{tr('settingsModified')}</>
   } else if (activity.activityType == ActivityType.CREATE_EXPENSE) {
-    return (
-      <>
-        {tr('expenseCreated')}
-      </>
-    )
+    return <>{tr('expenseCreated')}</>
   } else if (activity.activityType == ActivityType.UPDATE_EXPENSE) {
-    return (
-      <>
-        {tr('expenseUpdated')}
-      </>
-    )
+    return <>{tr('expenseUpdated')}</>
   } else if (activity.activityType == ActivityType.DELETE_EXPENSE) {
-    return (
-      <>
-        {tr('expenseDeleted')}
-      </>
-    )
+    return <>{tr('expenseDeleted')}</>
   }
 }
 

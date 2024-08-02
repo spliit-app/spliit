@@ -54,9 +54,7 @@ export default async function GroupPage({
       <Card className="mb-4">
         <CardHeader>
           <CardTitle>{t('Reimbursements.title')}</CardTitle>
-          <CardDescription>
-            {t('Reimbursements.description')}
-          </CardDescription>
+          <CardDescription>{t('Reimbursements.description')}</CardDescription>
         </CardHeader>
         <CardContent className="p-0">
           <ReimbursementList
