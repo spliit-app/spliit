@@ -48,3 +48,13 @@ export function formatFileSize(size: number) {
   if (size > 1024) return `${formatNumber(size / 1024)} kB`
   return `${formatNumber(size)} B`
 }
+
+export function normalizeString(input: string): string {
+  // Replaces special characters
+  // Input: áäåèéę
+  // Output: aaaeee
+  return input
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+}
