@@ -44,6 +44,7 @@ import {
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Save } from 'lucide-react'
+import Mexp from 'math-expression-evaluator'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
@@ -52,7 +53,6 @@ import { match } from 'ts-pattern'
 import { DeletePopup } from './delete-popup'
 import { extractCategoryFromTitle } from './expense-form-actions'
 import { Textarea } from './ui/textarea'
-import Mexp from 'math-expression-evaluator'
 
 const mexp = new Mexp()
 
@@ -331,7 +331,7 @@ export function ExpenseForm({
                         inputMode="decimal"
                         placeholder="0.00"
                         onChange={(event) => {
-                          let v = (event.target.value)
+                          let v = event.target.value
                           if (v === '') {
                             setEvaluatedAmount('0')
                           } else {
@@ -360,11 +360,11 @@ export function ExpenseForm({
                     </FormControl>
                   </div>
                   <FormMessage />
-                    <div className="flex flex-row gap-2 items-center justify-between">
-                      <div className="text-white/50 pl-5">
-                        {' = ' + evaluatedAmount}
-                      </div>
-                      {!isIncome && (
+                  <div className="flex flex-row gap-2 items-center justify-between">
+                    <div className="text-white/50 pl-5">
+                      {' = ' + evaluatedAmount}
+                    </div>
+                    {!isIncome && (
                       <FormField
                         control={form.control}
                         name="isReimbursement"
@@ -376,9 +376,8 @@ export function ExpenseForm({
                                 onCheckedChange={field.onChange}
                               />
                             </FormControl>
-                              <FormLabel>Reimbursement</FormLabel>
+                            <FormLabel>Reimbursement</FormLabel>
                           </FormItem>
-
                         )}
                       />
                     )}

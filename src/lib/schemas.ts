@@ -1,6 +1,6 @@
 import { SplitMode } from '@prisma/client'
-import * as z from 'zod'
 import Mexp from 'math-expression-evaluator'
+import * as z from 'zod'
 
 const mexp = new Mexp()
 
@@ -54,15 +54,14 @@ export const expenseFormSchema = z
         [
           z.number(),
           z.string().transform((value, ctx) => {
-            let valueAsNumber = NaN;
+            let valueAsNumber = NaN
             try {
-              valueAsNumber =
-                Number(
-                  mexp
-                    .eval(value)
-                    .toFixed(2)
-                    .replace(/\.?0+$/, '') // replace trailing zeros
-                )
+              valueAsNumber = Number(
+                mexp
+                  .eval(value)
+                  .toFixed(2)
+                  .replace(/\.?0+$/, ''), // replace trailing zeros
+              )
             } finally {
               if (Number.isNaN(valueAsNumber))
                 ctx.addIssue({
