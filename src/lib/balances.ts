@@ -91,11 +91,11 @@ function compareBalancesForReimbursements(b1: any, b2: any): number {
   // positive balances come before negative balances
   if (b1.total > 0 && 0 > b2.total) {
     return -1
-  } else if (b2.total > 0 && 0 > b1.total)  {
+  } else if (b2.total > 0 && 0 > b1.total) {
     return 1
   }
   // if signs match, sort based on userid
-  return (b1.participantId < b2.participantId) ? -1 : 1
+  return b1.participantId < b2.participantId ? -1 : 1
 }
 
 export function getSuggestedReimbursements(
