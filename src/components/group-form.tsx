@@ -39,6 +39,7 @@ import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
+import { Textarea } from './ui/textarea'
 
 export type Props = {
   group?: NonNullable<Awaited<ReturnType<typeof getGroup>>>
@@ -60,11 +61,13 @@ export function GroupForm({
     defaultValues: group
       ? {
           name: group.name,
+          information: group.information ?? '',
           currency: group.currency,
           participants: group.participants,
         }
       : {
           name: '',
+          information: '',
           currency: '',
           participants: [
             { name: t('Participants.John') },
@@ -162,6 +165,27 @@ export function GroupForm({
                 </FormItem>
               )}
             />
+
+            <div className="col-span-2">
+              <FormField
+                control={form.control}
+                name="information"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t('InformationField.label')}</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        rows={10}
+                        className="text-base"
+                        {...field}
+                        placeholder={t('InformationField.placeholder')}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </CardContent>
         </Card>
 
