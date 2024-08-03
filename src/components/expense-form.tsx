@@ -12,11 +12,6 @@ import {
 } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible'
-import {
   Form,
   FormControl,
   FormDescription,
@@ -27,27 +22,30 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { getCategories, getExpense, getGroup, randomId } from '@/lib/api'
 import { RuntimeFeatureFlags } from '@/lib/featureFlags'
 import { useActiveUser } from '@/lib/hooks'
-import {
-  ExpenseFormValues,
-  SplittingOptions,
-  expenseFormSchema,
-} from '@/lib/schemas'
+import { ExpenseFormValues, expenseFormSchema } from '@/lib/schemas'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Save } from 'lucide-react'
+import { SplitMode } from '@prisma/client'
+import { HelpCircle, Save } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { match } from 'ts-pattern'
 import { DeletePopup } from './delete-popup'
@@ -72,78 +70,6 @@ const enforceCurrencyPattern = (value: string) =>
     .replace(/#/, '.') // change back # to dot
     .replace(/[^-\d.]/g, '') // remove all non-numeric characters
 
-const getDefaultSplittingOptions = (group: Props['group']) => {
-  const defaultValue = {
-    splitMode: 'EVENLY' as const,
-    paidFor: group.participants.map(({ id }) => ({
-      participant: id,
-      shares: '1' as unknown as number,
-    })),
-  }
-
-  if (typeof localStorage === 'undefined') return defaultValue
-  const defaultSplitMode = localStorage.getItem(
-    `${group.id}-defaultSplittingOptions`,
-  )
-  if (defaultSplitMode === null) return defaultValue
-  const parsedDefaultSplitMode = JSON.parse(
-    defaultSplitMode,
-  ) as SplittingOptions
-
-  if (parsedDefaultSplitMode.paidFor === null) {
-    parsedDefaultSplitMode.paidFor = defaultValue.paidFor
-  }
-
-  // if there is a participant in the default options that does not exist anymore,
-  // remove the stale default splitting options
-  for (const parsedPaidFor of parsedDefaultSplitMode.paidFor) {
-    if (
-      !group.participants.some(({ id }) => id === parsedPaidFor.participant)
-    ) {
-      localStorage.removeItem(`${group.id}-defaultSplittingOptions`)
-      return defaultValue
-    }
-  }
-
-  return {
-    splitMode: parsedDefaultSplitMode.splitMode,
-    paidFor: parsedDefaultSplitMode.paidFor.map((paidFor) => ({
-      participant: paidFor.participant,
-      shares: String(paidFor.shares / 100) as unknown as number,
-    })),
-  }
-}
-
-async function persistDefaultSplittingOptions(
-  groupId: string,
-  expenseFormValues: ExpenseFormValues,
-) {
-  if (localStorage && expenseFormValues.saveDefaultSplittingOptions) {
-    const computePaidFor = (): SplittingOptions['paidFor'] => {
-      if (expenseFormValues.splitMode === 'EVENLY') {
-        return expenseFormValues.paidFor.map(({ participant }) => ({
-          participant,
-          shares: '100' as unknown as number,
-        }))
-      } else if (expenseFormValues.splitMode === 'BY_AMOUNT') {
-        return null
-      } else {
-        return expenseFormValues.paidFor
-      }
-    }
-
-    const splittingOptions = {
-      splitMode: expenseFormValues.splitMode,
-      paidFor: computePaidFor(),
-    } satisfies SplittingOptions
-
-    localStorage.setItem(
-      `${groupId}-defaultSplittingOptions`,
-      JSON.stringify(splittingOptions),
-    )
-  }
-}
-
 export function ExpenseForm({
   group,
   expense,
@@ -164,7 +90,6 @@ export function ExpenseForm({
     }
     return field?.value
   }
-  const defaultSplittingOptions = getDefaultSplittingOptions(group)
   const form = useForm<ExpenseFormValues>({
     resolver: zodResolver(expenseFormSchema),
     defaultValues: expense
@@ -179,7 +104,6 @@ export function ExpenseForm({
             shares: String(shares / 100) as unknown as number,
           })),
           splitMode: expense.splitMode,
-          saveDefaultSplittingOptions: false,
           isReimbursement: expense.isReimbursement,
           documents: expense.documents,
           notes: expense.notes ?? '',
@@ -202,8 +126,7 @@ export function ExpenseForm({
               : undefined,
           ],
           isReimbursement: true,
-          splitMode: defaultSplittingOptions.splitMode,
-          saveDefaultSplittingOptions: false,
+          splitMode: SplitMode.EVENLY,
           documents: [],
           notes: '',
         }
@@ -217,11 +140,13 @@ export function ExpenseForm({
             ? Number(searchParams.get('categoryId'))
             : 0, // category with Id 0 is General
           // paid for all, split evenly
-          paidFor: defaultSplittingOptions.paidFor,
+          paidFor: group.participants.map((participant) => ({
+            participant: participant.id,
+            shares: 100,
+          })),
           paidBy: getSelectedPayer(),
           isReimbursement: false,
-          splitMode: defaultSplittingOptions.splitMode,
-          saveDefaultSplittingOptions: false,
+          splitMode: SplitMode.EVENLY,
           documents: searchParams.get('imageUrl')
             ? [
                 {
@@ -239,7 +164,6 @@ export function ExpenseForm({
   const activeUserId = useActiveUser(group.id)
 
   const submit = async (values: ExpenseFormValues) => {
-    await persistDefaultSplittingOptions(group.id, values)
     return onSubmit(values, activeUserId ?? undefined)
   }
 
@@ -253,11 +177,6 @@ export function ExpenseForm({
 
   useEffect(() => {
     setManuallyEditedParticipants(new Set())
-    const newPaidFor = defaultSplittingOptions.paidFor.map((participant) => ({
-      ...participant,
-      shares: String(participant.shares) as unknown as number,
-    }))
-    form.setValue('paidFor', newPaidFor, { shouldValidate: true })
   }, [form.watch('splitMode'), form.watch('amount')])
 
   useEffect(() => {
@@ -315,6 +234,17 @@ export function ExpenseForm({
     form.watch('amount'),
     form.watch('splitMode'),
   ])
+
+  const splitModeDescription = useMemo(() => {
+    const splitMode = form.getValues().splitMode
+    const messageMapping: Record<SplitMode, string> = {
+      EVENLY: t('SplitModeField.evenly.description'),
+      BY_SHARES: t('SplitModeField.byShares.description'),
+      BY_PERCENTAGE: t('SplitModeField.byPercentage.description'),
+      BY_AMOUNT: t('SplitModeField.byAmount.description'),
+    }
+    return messageMapping[splitMode]
+  }, [form.watch('splitMode')])
 
   return (
     <Form {...form}>
@@ -506,8 +436,65 @@ export function ExpenseForm({
 
         <Card className="mt-4">
           <CardHeader>
-            <CardTitle className="flex justify-between">
+            <CardTitle>
               <span>{t(`${sExpense}.paidFor.title`)}</span>
+            </CardTitle>
+            <CardDescription>
+              {t(`${sExpense}.paidFor.description`)}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="pb-3">
+              <FormField
+                control={form.control}
+                name="splitMode"
+                render={({ field }) => (
+                  <FormItem>
+                    <div className="flex items-center gap-2">
+                      <FormLabel>{t('SplitModeField.label')}</FormLabel>
+
+                      <Popover>
+                        <PopoverTrigger className="text-muted-foreground hover:text-foreground disabled:opacity-50">
+                          <HelpCircle className="h-4 w-4" />
+                        </PopoverTrigger>
+                        <PopoverContent className="w-80">
+                          {splitModeDescription}
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                    <FormControl>
+                      <Tabs
+                        onValueChange={(value) => {
+                          form.setValue('splitMode', value as any, {
+                            shouldDirty: true,
+                            shouldTouch: true,
+                            shouldValidate: true,
+                          })
+                        }}
+                        defaultValue={field.value}
+                      >
+                        <TabsList className="grid w-full grid-cols-4">
+                          <TabsTrigger value="EVENLY">
+                            {t('SplitModeField.evenly.label')}
+                          </TabsTrigger>
+                          <TabsTrigger value="BY_SHARES">
+                            {t('SplitModeField.byShares.label')}
+                          </TabsTrigger>
+                          <TabsTrigger value="BY_PERCENTAGE">
+                            {t('SplitModeField.byPercentage.label')}
+                          </TabsTrigger>
+                          <TabsTrigger value="BY_AMOUNT">
+                            {t('SplitModeField.byAmount.label')}
+                          </TabsTrigger>
+                        </TabsList>
+                      </Tabs>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="mb-3">
               <Button
                 variant="link"
                 type="button"
@@ -538,12 +525,8 @@ export function ExpenseForm({
                   <>{t('selectAll')}</>
                 )}
               </Button>
-            </CardTitle>
-            <CardDescription>
-              {t(`${sExpense}.paidFor.description`)}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+            </div>
+
             <FormField
               control={form.control}
               name="paidFor"
@@ -698,82 +681,6 @@ export function ExpenseForm({
                 </FormItem>
               )}
             />
-
-            <Collapsible
-              className="mt-5"
-              defaultOpen={form.getValues().splitMode !== 'EVENLY'}
-            >
-              <CollapsibleTrigger asChild>
-                <Button variant="link" className="-mx-4">
-                  {t('advancedOptions')}
-                </Button>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <div className="grid sm:grid-cols-2 gap-6 pt-3">
-                  <FormField
-                    control={form.control}
-                    name="splitMode"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t('SplitModeField.label')}</FormLabel>
-                        <FormControl>
-                          <Select
-                            onValueChange={(value) => {
-                              form.setValue('splitMode', value as any, {
-                                shouldDirty: true,
-                                shouldTouch: true,
-                                shouldValidate: true,
-                              })
-                            }}
-                            defaultValue={field.value}
-                          >
-                            <SelectTrigger>
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="EVENLY">
-                                {t('SplitModeField.evenly')}
-                              </SelectItem>
-                              <SelectItem value="BY_SHARES">
-                                {t('SplitModeField.byShares')}
-                              </SelectItem>
-                              <SelectItem value="BY_PERCENTAGE">
-                                {t('SplitModeField.byPercentage')}
-                              </SelectItem>
-                              <SelectItem value="BY_AMOUNT">
-                                {t('SplitModeField.byAmount')}
-                              </SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
-                        <FormDescription>
-                          {t(`${sExpense}.splitModeDescription`)}
-                        </FormDescription>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="saveDefaultSplittingOptions"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-row gap-2 items-center space-y-0 pt-2">
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
-                        </FormControl>
-                        <div>
-                          <FormLabel>
-                            {t('SplitModeField.saveAsDefault')}
-                          </FormLabel>
-                        </div>
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </CollapsibleContent>
-            </Collapsible>
           </CardContent>
         </Card>
 

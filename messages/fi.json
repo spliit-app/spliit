@@ -177,11 +177,22 @@
     "advancedOptions": "Lisäasetuksia jakamiseen…",
     "SplitModeField": {
       "label": "Jakamistapa",
-      "evenly": "Tasan",
-      "byShares": "Epätasan – osuuksien mukaan",
-      "byPercentage": "Epätasan – prosenttien mukaan",
-      "byAmount": "Epätasan – summan mukaan",
-      "saveAsDefault": "Tallenna oletustavaksi"
+      "evenly": {
+        "label": "Tasan",
+        "description": "Split the amount evenly between all participants."
+      },
+      "byShares": {
+        "label": "Osuuksien mukaan",
+        "description": "Split the amount based on the shares."
+      },
+      "byPercentage": {
+        "label": "Prosenttien mukaan",
+        "description": "Split the amount based on the percentage."
+      },
+      "byAmount": {
+        "label": "Summan mukaan",
+        "description": "Split the amount exactly between all participants."
+      }
     },
     "DeletePopup": {
       "label": "Poista",

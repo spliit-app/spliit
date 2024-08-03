@@ -177,11 +177,22 @@
     "advancedOptions": "Advanced splitting options…",
     "SplitModeField": {
       "label": "Split mode",
-      "evenly": "Evenly",
-      "byShares": "Unevenly – By shares",
-      "byPercentage": "Unevenly – By percentage",
-      "byAmount": "Unevenly – By amount",
-      "saveAsDefault": "Save as default splitting options"
+      "evenly": {
+        "label": "Evenly",
+        "description": "Split the amount evenly between all participants."
+      },
+      "byShares": {
+        "label": "By shares",
+        "description": "Split the amount based on the shares."
+      },
+      "byPercentage": {
+        "label": "By percentage",
+        "description": "Split the amount based on the percentage."
+      },
+      "byAmount": {
+        "label": "By amount",
+        "description": "Split the amount exactly between all participants."
+      }
     },
     "DeletePopup": {
       "label": "Delete",

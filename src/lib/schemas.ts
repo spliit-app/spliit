@@ -92,7 +92,6 @@ export const expenseFormSchema = z
         Object.values(SplitMode) as any,
       )
       .default('EVENLY'),
-    saveDefaultSplittingOptions: z.boolean(),
     isReimbursement: z.boolean(),
     documents: z
       .array(
