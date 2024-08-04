@@ -1,4 +1,12 @@
 {
+  "Homepage": {
+    "title": "Jaa kulut ystävien ja perheen kanssa",
+    "description": "Tervetuloa uuteen Spliit-instanssiisi!",
+    "button": {
+      "groups": "Siirry ryhmiin",
+      "github": "GitHub"
+    }
+  },
   "Header": {
     "groups": "Ryhmät"
   },
@@ -74,10 +82,6 @@
       "label": "Ryhmän nimi",
       "placeholder": "Kesälomareissu",
       "description": "Syötä ryhmäsi nimi."
-    },
-    "InformationField": {
-      "label": "Ryhmän tiedot",
-      "placeholder": "Mitkä tiedot ovat merkityksellisiä ryhmän osallistujille?"
     },
     "CurrencyField": {
       "label": "Valuuttamerkki",
@@ -277,17 +281,13 @@
       "older": "Vanhemmat"
     }
   },
-  "Information": {
-    "title": "Tiedot",
-    "description": "Käytä tätä paikkaa lisätäksesi kaikki tiedot, joilla voi olla merkitystä ryhmän osallistujille.",
-    "empty": "Ryhmätietoja ei vielä ole."
-  },
   "Settings": {
     "title": "Asetukset"
   },
   "Locale": {
-    "en-US": "English",
-    "fi": "Suomi"
+    "en-US": "English (US)",
+    "fi": "suomi",
+    "fr-FR": "French"
   },
   "Share": {
     "title": "Jaa",
