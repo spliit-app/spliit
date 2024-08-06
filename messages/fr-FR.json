@@ -83,6 +83,10 @@
       "placeholder": "Vacances d'été",
       "description": "Entrez un nom pour votre groupe."
     },
+    "InformationField": {
+      "label": "Informations sur le groupe",
+      "placeholder": "Quelles informations sont pertinentes pour les participants du groupe ?"
+    },
     "CurrencyField": {
       "label": "Symbole monétaire",
       "placeholder": "$, €, £…",

@@ -83,6 +83,10 @@
       "placeholder": "Kesälomareissu",
       "description": "Syötä ryhmäsi nimi."
     },
+    "InformationField": {
+      "label": "Ryhmän tiedot",
+      "placeholder": "Mitkä tiedot ovat merkityksellisiä ryhmän osallistujille?"
+    },
     "CurrencyField": {
       "label": "Valuuttamerkki",
       "placeholder": "$, €, £…",
