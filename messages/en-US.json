@@ -285,6 +285,11 @@
       "older": "Older"
     }
   },
+  "Information": {
+    "title": "Information",
+    "description": "Use this place to add any information that can be relevant to the group participants.",
+    "empty": "No group information yet."
+  },
   "Settings": {
     "title": "Settings"
   },
