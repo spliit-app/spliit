@@ -5,6 +5,7 @@ import { getExpense, getGroup } from '@/lib/api'
 import { DateTimeStyle, cn, formatDate } from '@/lib/utils'
 import { Activity, Participant } from '@prisma/client'
 import { useRouter } from 'next/navigation'
+import { useLocale } from 'next-intl'
 
 type Props = {
   group: NonNullable<Awaited<ReturnType<typeof getGroup>>>
@@ -23,6 +24,7 @@ export function ExpenseActivityItem({
 }: Props) {
   const router = useRouter()
   const summary = useSummary(activity, participant?.name)
+  const locale = useLocale()
 
   return (
     <div
@@ -34,11 +36,11 @@ export function ExpenseActivityItem({
       <div className="flex flex-col justify-between items-start">
         {dateStyle !== undefined && (
           <div className="mt-1 text-xs/5 text-muted-foreground">
-            {formatDate(activity.time, { dateStyle })}
+            {formatDate(activity.time, locale, { dateStyle })}
           </div>
         )}
         <div className="my-1 text-xs/5 text-muted-foreground">
-          {formatDate(activity.time, { timeStyle: 'short' })}
+          {formatDate(activity.time, locale, { timeStyle: 'short' })}
         </div>
       </div>
       <div className="flex-1">
