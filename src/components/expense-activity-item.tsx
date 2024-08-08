@@ -4,8 +4,8 @@ import { Button } from '@/components/ui/button'
 import { getExpense, getGroup } from '@/lib/api'
 import { DateTimeStyle, cn, formatDate } from '@/lib/utils'
 import { Activity, Participant } from '@prisma/client'
-import { useRouter } from 'next/navigation'
 import { useLocale } from 'next-intl'
+import { useRouter } from 'next/navigation'
 
 type Props = {
   group: NonNullable<Awaited<ReturnType<typeof getGroup>>>
