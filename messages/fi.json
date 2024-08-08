@@ -190,6 +190,13 @@
       "yes": "Kyllä",
       "cancel": "Peruuta"
     },
+    "ClonePopup": {
+      "label": "Clone",
+      "title": "Clone this expense?",
+      "description": "Do you really want to clone this expense?",
+      "yes": "Kyllä",
+      "cancel": "Peruuta"
+    },
     "attachDocuments": "Liitä dokumenttejä",
     "create": "Lisää kulu",
     "creating": "Luodaan kulua…",

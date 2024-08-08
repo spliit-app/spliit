@@ -2,6 +2,7 @@ import { prisma } from '@/lib/prisma'
 import { ExpenseFormValues, GroupFormValues } from '@/lib/schemas'
 import { ActivityType, Expense } from '@prisma/client'
 import { nanoid } from 'nanoid'
+import { notFound } from 'next/navigation'
 
 export function randomId() {
   return nanoid()
@@ -82,6 +83,41 @@ export async function createExpense(
       notes: expenseFormValues.notes,
     },
   })
+}
+
+export async function cloneExpense(
+  groupId: string,
+  expenseId: string,
+  participantId?: string
+  ) {
+
+  const group = await getGroup(groupId)
+  if (!group) notFound()
+
+  const expense = await getExpense(groupId, expenseId)
+  if (!expense) notFound()
+
+  const paidForCloned = []
+  for(const participant of expense.paidFor){
+    const participantObject = {participant: participant.participantId, shares: participant.shares}
+    paidForCloned.push(participantObject)
+  }
+
+  const formClone:ExpenseFormValues  =  {
+    expenseDate: expense.expenseDate,
+    category: expense.categoryId,
+    amount: expense.amount,
+    title: expense.title+" clone",
+    paidBy: expense.paidBy.id,
+    splitMode: expense.splitMode,
+    paidFor: paidForCloned,
+    isReimbursement: expense.isReimbursement,
+    documents: expense.documents,
+    notes: expense.notes ? expense.notes : undefined,
+    saveDefaultSplittingOptions: false
+  }
+
+  await createExpense(formClone, groupId, participantId)
 }
 
 export async function deleteExpense(

@@ -5,6 +5,7 @@ import {
   getCategories,
   getExpense,
   updateExpense,
+  cloneExpense,
 } from '@/lib/api'
 import { getRuntimeFeatureFlags } from '@/lib/featureFlags'
 import { expenseFormSchema } from '@/lib/schemas'
@@ -39,6 +40,11 @@ export default async function EditExpensePage({
     await deleteExpense(groupId, expenseId, participantId)
     redirect(`/groups/${groupId}`)
   }
+  async function cloneExpenseAction(participantId?: string) {
+    'use server'
+    await cloneExpense(groupId, expenseId, participantId)
+    redirect(`/groups/${groupId}`)
+  }
 
   return (
     <Suspense>
@@ -48,6 +54,7 @@ export default async function EditExpensePage({
         categories={categories}
         onSubmit={updateExpenseAction}
         onDelete={deleteExpenseAction}
+        onClone={cloneExpenseAction}
         runtimeFeatureFlags={await getRuntimeFeatureFlags()}
       />
     </Suspense>
