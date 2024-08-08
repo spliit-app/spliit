@@ -49,7 +49,16 @@ export function CommentForm({
     }
   }
 
-  return (
+  return activeUserId == 'none' ? (
+    <Card>
+      <CardHeader>
+        <CardTitle>{comment ? 'Edit Comment' : 'Add Comment'}</CardTitle>
+      </CardHeader>
+      <CardContent className="grid sm:grid-cols-1 gap-6">
+        Select an active user to add and edit comments
+      </CardContent>
+    </Card>
+  ) : (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(submit)}>
         <Card>
