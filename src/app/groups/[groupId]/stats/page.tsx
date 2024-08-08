@@ -10,6 +10,7 @@ import {
 import { getGroupExpenses } from '@/lib/api'
 import { getTotalGroupSpending } from '@/lib/totals'
 import { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 
 export const metadata: Metadata = {
@@ -21,6 +22,7 @@ export default async function TotalsPage({
 }: {
   params: { groupId: string }
 }) {
+  const t = await getTranslations('Stats')
   const group = await cached.getGroup(groupId)
   if (!group) notFound()
 
@@ -31,10 +33,8 @@ export default async function TotalsPage({
     <>
       <Card className="mb-4">
         <CardHeader>
-          <CardTitle>Totals</CardTitle>
-          <CardDescription>
-            Spending summary of the entire group.
-          </CardDescription>
+          <CardTitle>{t('Totals.title')}</CardTitle>
+          <CardDescription>{t('Totals.description')}</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col space-y-4">
           <Totals

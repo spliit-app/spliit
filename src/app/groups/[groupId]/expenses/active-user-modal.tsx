@@ -12,7 +12,6 @@ import {
 import {
   Drawer,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
@@ -22,6 +21,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { getGroup } from '@/lib/api'
 import { useMediaQuery } from '@/lib/hooks'
 import { cn } from '@/lib/utils'
+import { useTranslations } from 'next-intl'
 import { ComponentProps, useEffect, useState } from 'react'
 
 type Props = {
@@ -29,6 +29,7 @@ type Props = {
 }
 
 export function ActiveUserModal({ group }: Props) {
+  const t = useTranslations('Expenses.ActiveUserModal')
   const [open, setOpen] = useState(false)
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
@@ -52,16 +53,13 @@ export function ActiveUserModal({ group }: Props) {
       <Dialog open={open} onOpenChange={updateOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Who are you?</DialogTitle>
-            <DialogDescription>
-              Tell us which participant you are to let us customize how the
-              information is displayed.
-            </DialogDescription>
+            <DialogTitle>{t('title')}</DialogTitle>
+            <DialogDescription>{t('description')}</DialogDescription>
           </DialogHeader>
           <ActiveUserForm group={group} close={() => setOpen(false)} />
           <DialogFooter className="sm:justify-center">
             <p className="text-sm text-center text-muted-foreground">
-              This setting can be changed later in the group settings.
+              {t('footer')}
             </p>
           </DialogFooter>
         </DialogContent>
@@ -73,11 +71,8 @@ export function ActiveUserModal({ group }: Props) {
     <Drawer open={open} onOpenChange={updateOpen}>
       <DrawerContent>
         <DrawerHeader className="text-left">
-          <DrawerTitle>Who are you?</DrawerTitle>
-          <DrawerDescription>
-            Tell us which participant you are to let us customize how the
-            information is displayed.
-          </DrawerDescription>
+          <DrawerTitle>{t('title')}</DrawerTitle>
+          <DialogDescription>{t('description')}</DialogDescription>
         </DrawerHeader>
         <ActiveUserForm
           className="px-4"
@@ -86,7 +81,7 @@ export function ActiveUserModal({ group }: Props) {
         />
         <DrawerFooter className="pt-2">
           <p className="text-sm text-center text-muted-foreground">
-            This setting can be changed later in the group settings.
+            {t('footer')}
           </p>
         </DrawerFooter>
       </DrawerContent>
@@ -99,6 +94,7 @@ function ActiveUserForm({
   close,
   className,
 }: ComponentProps<'form'> & { group: Props['group']; close: () => void }) {
+  const t = useTranslations('Expenses.ActiveUserModal')
   const [selected, setSelected] = useState('None')
 
   return (
@@ -115,7 +111,7 @@ function ActiveUserForm({
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="none" id="none" />
             <Label htmlFor="none" className="italic font-normal flex-1">
-              I don’t want to select anyone
+              {t('nobody')}
             </Label>
           </div>
           {group.participants.map((participant) => (
@@ -128,7 +124,7 @@ function ActiveUserForm({
           ))}
         </div>
       </RadioGroup>
-      <Button type="submit">Save changes</Button>
+      <Button type="submit">{t('save')}</Button>
     </form>
   )
 }
