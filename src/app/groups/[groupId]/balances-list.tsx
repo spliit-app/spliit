@@ -1,6 +1,7 @@
 import { Balances } from '@/lib/balances'
 import { cn, formatCurrency } from '@/lib/utils'
 import { Participant } from '@prisma/client'
+import { useLocale } from 'next-intl'
 
 type Props = {
   balances: Balances
@@ -9,6 +10,7 @@ type Props = {
 }
 
 export function BalancesList({ balances, participants, currency }: Props) {
+  const locale = useLocale()
   const maxBalance = Math.max(
     ...Object.values(balances).map((b) => Math.abs(b.total)),
   )
@@ -28,7 +30,7 @@ export function BalancesList({ balances, participants, currency }: Props) {
             </div>
             <div className={cn('w-1/2 relative', isLeft || 'text-right')}>
               <div className="absolute inset-0 p-2 z-20">
-                {formatCurrency(currency, balance)}
+                {formatCurrency(currency, balance, locale)}
               </div>
               {balance !== 0 && (
                 <div
