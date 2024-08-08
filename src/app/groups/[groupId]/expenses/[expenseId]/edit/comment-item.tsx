@@ -4,6 +4,7 @@ import { getComment, getGroup } from '@/lib/api'
 import { useActiveUser } from '@/lib/hooks'
 import { formatDate } from '@/lib/utils'
 import { Edit2, Trash2 } from 'lucide-react'
+import { useLocale } from 'next-intl'
 
 export type Props = {
   comment: NonNullable<Awaited<ReturnType<typeof getComment>>>
@@ -16,6 +17,7 @@ export type Props = {
 
 export function CommentItem({ comment, group, onDelete, onClick }: Props) {
   const activeUserId = useActiveUser(group.id)
+  const locale = useLocale()
 
   return (
     <div className="flex justify-between sm:mx-6 px-4 sm:rounded-lg sm:pr-2 sm:pl-4 py-4 text-sm cursor-pointer hover:bg-accent gap-1 items-stretch">
@@ -23,7 +25,7 @@ export function CommentItem({ comment, group, onDelete, onClick }: Props) {
         <div className="mb-1">{comment.comment}</div>
         <div className="text-xs text-muted-foreground">
           by {comment.participant.name},{' '}
-          {formatDate(comment.time, {
+          {formatDate(comment.time, locale, {
             dateStyle: 'medium',
             timeStyle: 'short',
           })}
