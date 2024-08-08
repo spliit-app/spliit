@@ -1,5 +1,5 @@
 'use client'
-import { getSummary } from '@/app/groups/[groupId]/activity/activity-item'
+import { useSummary } from '@/app/groups/[groupId]/activity/activity-item'
 import { Button } from '@/components/ui/button'
 import { getExpense, getGroup } from '@/lib/api'
 import { DateTimeStyle, cn, formatDate } from '@/lib/utils'
@@ -22,7 +22,7 @@ export function ExpenseActivityItem({
   dateStyle,
 }: Props) {
   const router = useRouter()
-  const summary = getSummary(activity, participant?.name)
+  const summary = useSummary(activity, participant?.name)
 
   return (
     <div

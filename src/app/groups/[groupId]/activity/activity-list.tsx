@@ -11,7 +11,7 @@ type Props = {
   activities: Activity[]
 }
 
-const DATE_GROUPS = {
+export const DATE_GROUPS = {
   TODAY: 'today',
   YESTERDAY: 'yesterday',
   EARLIER_THIS_WEEK: 'earlierThisWeek',
