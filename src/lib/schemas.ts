@@ -6,22 +6,14 @@ const mexp = new Mexp()
 
 export const groupFormSchema = z
   .object({
-    name: z
-      .string()
-      .min(2, 'Enter at least two characters.')
-      .max(50, 'Enter at most 50 characters.'),
-    currency: z
-      .string()
-      .min(1, 'Enter at least one character.')
-      .max(5, 'Enter at most five characters.'),
+    name: z.string().min(2, 'min2').max(50, 'max50'),
+    information: z.string().optional(),
+    currency: z.string().min(1, 'min1').max(5, 'max5'),
     participants: z
       .array(
         z.object({
           id: z.string().optional(),
-          name: z
-            .string()
-            .min(2, 'Enter at least two characters.')
-            .max(50, 'Enter at most 50 characters.'),
+          name: z.string().min(2, 'min2').max(50, 'max50'),
         }),
       )
       .min(1),
@@ -32,7 +24,7 @@ export const groupFormSchema = z
         if (otherParticipant.name === participant.name) {
           ctx.addIssue({
             code: 'custom',
-            message: 'Another participant already has this name.',
+            message: 'duplicateParticipantName',
             path: ['participants', i, 'name'],
           })
         }
@@ -45,9 +37,7 @@ export type GroupFormValues = z.infer<typeof groupFormSchema>
 export const expenseFormSchema = z
   .object({
     expenseDate: z.coerce.date(),
-    title: z
-      .string({ required_error: 'Please enter a title.' })
-      .min(2, 'Enter at least two characters.'),
+    title: z.string({ required_error: 'titleRequired' }).min(2, 'min2'),
     category: z.coerce.number().default(0),
     amount: z
       .union(
@@ -72,14 +62,11 @@ export const expenseFormSchema = z
             }
           }),
         ],
-        { required_error: 'You must enter an amount.' },
+        { required_error: 'amountRequired' },
       )
-      .refine((amount) => amount != 1, 'The amount must not be zero.')
-      .refine(
-        (amount) => amount <= 10_000_000_00,
-        'The amount must be lower than 10,000,000.',
-      ),
-    paidBy: z.string({ required_error: 'You must select a participant.' }),
+      .refine((amount) => amount != 1, 'amountNotZero')
+      .refine((amount) => amount <= 10_000_000_00, 'amountTenMillion'),
+    paidBy: z.string({ required_error: 'paidByRequired' }),
     paidFor: z
       .array(
         z.object({
@@ -92,14 +79,14 @@ export const expenseFormSchema = z
               if (Number.isNaN(valueAsNumber))
                 ctx.addIssue({
                   code: z.ZodIssueCode.custom,
-                  message: 'Invalid number.',
+                  message: 'invalidNumber',
                 })
               return Math.round(valueAsNumber * 100)
             }),
           ]),
         }),
       )
-      .min(1, 'The expense must be paid for at least one participant.')
+      .min(1, 'paidForMin1')
       .superRefine((paidFor, ctx) => {
         let sum = 0
         for (const { shares } of paidFor) {
@@ -107,7 +94,7 @@ export const expenseFormSchema = z
           if (shares < 1) {
             ctx.addIssue({
               code: z.ZodIssueCode.custom,
-              message: 'All shares must be higher than 0.',
+              message: 'noZeroShares',
             })
           }
         }
@@ -150,7 +137,7 @@ export const expenseFormSchema = z
               : `${((sum - expense.amount) / 100).toFixed(2)} surplus`
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
-            message: `Sum of amounts must equal the expense amount (${detail}).`,
+            message: 'amountSum',
             path: ['paidFor'],
           })
         }
@@ -164,7 +151,7 @@ export const expenseFormSchema = z
               : `${((sum - 10000) / 100).toFixed(0)}% surplus`
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
-            message: `Sum of percentages must equal 100 (${detail})`,
+            message: 'percentageSum',
             path: ['paidFor'],
           })
         }
