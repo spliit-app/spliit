@@ -431,7 +431,7 @@ export function ExpenseForm({
                   </div>
                   <FormMessage />
 
-                  {!isIncome && (
+                  {/* {!isIncome && (
                     <FormField
                       control={form.control}
                       name="isReimbursement"
@@ -451,7 +451,7 @@ export function ExpenseForm({
                         </FormItem>
                       )}
                     />
-                  )}
+                  )} */}
                   <div className="flex flex-row gap-2 items-center justify-between">
                     <div className="text-white/50 pl-5">
                       {' = ' + evaluatedAmount}
@@ -468,7 +468,9 @@ export function ExpenseForm({
                                 onCheckedChange={field.onChange}
                               />
                             </FormControl>
-                            <FormLabel>Reimbursement</FormLabel>
+                            <FormLabel>
+                              {t('isReimbursementField.label')}
+                            </FormLabel>
                           </FormItem>
                         )}
                       />
