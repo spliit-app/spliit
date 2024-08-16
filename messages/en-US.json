@@ -287,7 +287,8 @@
   },
   "Locale": {
     "en-US": "English",
-    "fi": "Suomi"
+    "fi": "Suomi",
+    "de": "Deutsch"
   },
   "Share": {
     "title": "Share",
