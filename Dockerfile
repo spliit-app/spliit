@@ -3,7 +3,7 @@ FROM node:21-alpine as base
 WORKDIR /usr/app
 COPY ./package.json \
      ./package-lock.json \
-     ./next.config.js \
+     ./next.config.mjs \
      ./tsconfig.json \
      ./reset.d.ts \
      ./tailwind.config.js \
