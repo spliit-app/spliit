@@ -253,11 +253,6 @@ export function ExpenseForm({
 
   useEffect(() => {
     setManuallyEditedParticipants(new Set())
-    const newPaidFor = defaultSplittingOptions.paidFor.map((participant) => ({
-      ...participant,
-      shares: String(participant.shares) as unknown as number,
-    }))
-    form.setValue('paidFor', newPaidFor, { shouldValidate: true })
   }, [form.watch('splitMode'), form.watch('amount')])
 
   useEffect(() => {
@@ -569,18 +564,29 @@ export function ExpenseForm({
                                     ({ participant }) => participant === id,
                                   )}
                                   onCheckedChange={(checked) => {
-                                    return checked
-                                      ? field.onChange([
-                                          ...field.value,
-                                          {
-                                            participant: id,
-                                            shares: '1',
-                                          },
-                                        ])
-                                      : field.onChange(
+                                    const options = {
+                                      shouldDirty: true,
+                                      shouldTouch: true,
+                                      shouldValidate: true,
+                                    }
+                                    checked
+                                      ? form.setValue(
+                                          'paidFor',
+                                          [
+                                            ...field.value,
+                                            {
+                                              participant: id,
+                                              shares: '1' as unknown as number,
+                                            },
+                                          ],
+                                          options,
+                                        )
+                                      : form.setValue(
+                                          'paidFor',
                                           field.value?.filter(
                                             (value) => value.participant !== id,
                                           ),
+                                          options,
                                         )
                                   }}
                                 />
