@@ -16,7 +16,7 @@
     "searchPlaceholder": "Suche nach einer Ausgabe…",
     "ActiveUserModal": {
       "title": "Wer bist du?",
-      "description": "Sag uns, welcher Teilnehmer du bist, damit wir die Informationen, die wir dir zeigen, auf dich zuschneiden können.",
+      "description": "Sag uns, welcher Teilnehmer du bist, um die angezeigten Informationen auf dich anzupassen.",
       "nobody": "Ich will niemanden auswählen",
       "save": "Änderungen speichern",
       "footer": "Diese Einstellung kann später in den Gruppeneinstellungen geändert werden."
@@ -81,7 +81,7 @@
     },
     "CurrencyField": {
       "label": "Währungssymbol",
-      "placeholder": "$, €, £…",
+      "placeholder": "€, $, £…",
       "description": "Wir benutzen es, um Beträge anzuzeigen."
     },
     "Participants": {
@@ -98,7 +98,7 @@
       "title": "Lokale Einstellungen",
       "description": "Dies sind Einstellungen pro Gerät, die verwendet werden, um deine Nutzungsexperience zu verbessern.",
       "ActiveUserField": {
-        "label": "Aktiver nutzer",
+        "label": "Aktiver Nutzer",
         "placeholder": "Wähle ein Mitglied",
         "none": "Keiner",
         "description": "Standardnutzer, der die Ausgaben übernimmt."
@@ -133,7 +133,7 @@
         "description": "Wähle für wen die Einnahme empfangen wurde."
       },
       "splitModeDescription": "Wähle, wie die Einnahme aufgeteilt werden soll.",
-      "attachDescription": "Sehe und füge einen Beleg für die Einnahme hinzu."
+      "attachDescription": "Füge der Einnahme einen Beleg hinzu."
     },
     "Expense": {
       "create": "Augabe erstellen",
@@ -157,7 +157,7 @@
         "description": "Wähle für wen die Ausgabe gezahlt wurde."
       },
       "splitModeDescription": "Wähle, wie die Ausgabe aufgeteilt werden soll.",
-      "attachDescription": "Sehe und füge einen Beleg für die Ausgabe hinzu."
+      "attachDescription": "Füge der Ausgabe einen Beleg hinzu."
     },
     "amountField": {
       "label": "Betrag"
@@ -199,12 +199,12 @@
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
-      "title": "Das File ist zu groß",
-      "description": "Die maximale File-Größe ist {maxSize}. Deine ist ${size}."
+      "title": "Die Datei ist zu groß",
+      "description": "Die maximale Dateigröße ist {maxSize}. Deine ist ${size}."
     },
     "ErrorToast": {
-      "title": "Fehler beim Hochladen des Dokuments",
-      "description": "Beim Hochladen des Dokuments ist etwas schiefgelaufen. Versuche es später nochmal oder wähle ein anderes File.",
+      "title": "Fehler beim Hochladen der Datei",
+      "description": "Beim Hochladen der Datei ist etwas schiefgelaufen. Versuche es später nochmal oder wähle eine andere Datei.",
       "retry": "Wiederholen"
     }
   },
@@ -224,12 +224,12 @@
     },
     "unknown": "Unbekannt",
     "TooBigToast": {
-      "title": "Das File ist zu groß",
-      "description": "Die maximale File-Größe ist {maxSize}. Deine ist ${size}."
+      "title": "Die Datei ist zu groß",
+      "description": "Die maximale Dateigröße ist {maxSize}. Deine ist ${size}."
     },
     "ErrorToast": {
-      "title": "Fehler beim Hochladen des Dokuments",
-      "description": "Beim Hochladen des Dokuments ist etwas schiefgelaufen. Versuche es später nochmal oder wähle ein anderes File.",
+      "title": "Fehler beim Hochladen der Datei",
+      "description": "Beim Hochladen der Datei ist etwas schiefgelaufen. Versuche es später nochmal oder wähle eine andere Datei.",
       "retry": "Wiederholen"
     }
   },
@@ -239,7 +239,7 @@
     "Reimbursements": {
       "title": "Vorgeschlagene Rückzahlungen",
       "description": "Hier sind Vorschläge für optimierte Rückzahlungen zwischen Mitgliedern.",
-      "noImbursements": "Es sieht aus, als bräuchte deine Gruppe keine Rückzahlungen 😁",
+      "noImbursements": "Es sieht aus, als seien in der Gruppe keine Rückzahlungen nötig 😁",
       "owes": "<strong>{from}</strong> schuldet <strong>{to}</strong>",
       "markAsPaid": "Als gezahlt markieren"
     }
