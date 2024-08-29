@@ -1,27 +1,20 @@
 version: '3.7'
 
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    restart: always
-    ports:
-      - '3000:3000'
+  splitwise:
+    image: shagunbandi/planmytrip:splitwise
     environment:
-      POSTGRES_PRISMA_URL: ${POSTGRES_PRISMA_URL}
-      POSTGRES_URL_NON_POOLING: ${POSTGRES_URL_NON_POOLING}
-    env_file:
-      - .env
+      - MAX_BODY_SIZE=100M
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.split.rule=Host(`split.geekynavigator.com`) && PathPrefix(`/`)"
       - "traefik.http.routers.split.tls=true"
       - "traefik.http.services.split.loadbalancer.server.port=3000"
       - "traefik.http.routers.split.tls.certresolver=cloudflare"
-      - "traefik.docker.network=geekynavigator_network"
+      - "traefik.docker.network=geekynavigator_network"    
     networks:
       - geekynavigator_network
+    restart: always
 
 networks:
   geekynavigator_network:
