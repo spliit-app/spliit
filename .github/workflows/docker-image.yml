@@ -1,0 +1,35 @@
+name: Build Docker Images
+
+on:
+  push:
+    branches:
+      - customised
+
+jobs:
+  build-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Create frontend .env file
+        run: |
+          echo "${{ secrets.ENVIRONMENT }}" > ./.env
+
+      - name: Build and push frontend image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile
+          push: true
+          tags: shagunbandi/planmytrip:splitwise-latest
+          platforms: linux/arm64
