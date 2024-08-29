@@ -13,3 +13,16 @@ services:
       POSTGRES_URL_NON_POOLING: ${POSTGRES_URL_NON_POOLING}
     env_file:
       - .env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.split.rule=Host(`split.geekynavigator.com`) && PathPrefix(`/`)"
+      - "traefik.http.routers.split.tls=true"
+      - "traefik.http.services.split.loadbalancer.server.port=3000"
+      - "traefik.http.routers.split.tls.certresolver=cloudflare"
+      - "traefik.docker.network=geekynavigator_network"
+    networks:
+      - geekynavigator_network
+
+networks:
+  geekynavigator_network:
+    external: true
