@@ -1,49 +1,41 @@
-FROM node:21-alpine as base
+# Dockerfile
+# Use the official Node.js image as the base image
+FROM node:18-alpine AS base
 
-WORKDIR /usr/app
-COPY ./package.json \
-     ./package-lock.json \
-     ./next.config.mjs \
-     ./tsconfig.json \
-     ./reset.d.ts \
-     ./tailwind.config.js \
-     ./postcss.config.js ./
-COPY ./scripts ./scripts
-COPY ./prisma ./prisma
-COPY ./messages ./messages
+# Set the working directory inside the container
+WORKDIR /app
 
-RUN apk add --no-cache openssl && \
-    npm ci --ignore-scripts && \
-    npx prisma generate
+# Copy package.json and package-lock.json to the working directory
+COPY package.json package-lock.json ./
 
-COPY ./src ./src
+# Install dependencies
+RUN npm install --frozen-lockfile
 
-ENV NEXT_TELEMETRY_DISABLED=1
+# Copy the rest of the application code
+COPY . .
 
-COPY scripts/build.env .env
+# Build the Next.js application
 RUN npm run build
 
-RUN rm -r .next/cache
+# Run Prisma migrations and generate Prisma client
+RUN npx prisma migrate deploy && npx prisma generate
 
-FROM node:21-alpine as runtime-deps
+# Use a smaller, production-only image
+FROM node:18-alpine AS production
 
-WORKDIR /usr/app
-COPY --from=base /usr/app/package.json /usr/app/package-lock.json /usr/app/next.config.mjs ./
-COPY --from=base /usr/app/prisma ./prisma
+# Set the working directory inside the container
+WORKDIR /app
 
-RUN npm ci --omit=dev --omit=optional --ignore-scripts && \
-    npx prisma generate
+# Copy only the necessary files from the base image
+COPY --from=base /app/node_modules ./node_modules
+COPY --from=base /app/package.json ./package.json
+COPY --from=base /app/next.config.mjs ./next.config.mjs
+COPY --from=base /app/public ./public
+COPY --from=base /app/.next ./.next
+COPY --from=base /app/prisma ./prisma
 
-FROM node:21-alpine as runner
+# Expose the port that Next.js will run on
+EXPOSE 3000
 
-EXPOSE 3000/tcp
-WORKDIR /usr/app
-
-COPY --from=base /usr/app/package.json /usr/app/package-lock.json /usr/app/next.config.mjs ./
-COPY --from=runtime-deps /usr/app/node_modules ./node_modules
-COPY ./public ./public
-COPY ./scripts ./scripts
-COPY --from=base /usr/app/prisma ./prisma
-COPY --from=base /usr/app/.next ./.next
-
-ENTRYPOINT ["/bin/sh", "/usr/app/scripts/container-entrypoint.sh"]
+# Run Prisma migrations and generate Prisma client at runtime
+CMD npx prisma migrate deploy && npx prisma generate && npm run start
