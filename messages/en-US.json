@@ -1,11 +1,4 @@
 {
-  "Header": {
-    "groups": "Groups"
-  },
-  "Footer": {
-    "madeIn": "Made in Montréal, Québec 🇨🇦",
-    "builtBy": "Built by <author>Sebastien Castiel</author> and <source>contributors</source>"
-  },
   "Expenses": {
     "title": "Expenses",
     "description": "Here are the expenses that you created for your group.",
