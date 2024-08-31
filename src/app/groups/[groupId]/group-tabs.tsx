@@ -10,9 +10,11 @@ type Props = {
 export function GroupTabs({ groupId }: Props) {
   const t = useTranslations()
   const pathname = usePathname()
-  const value =
-    pathname.replace(/\/groups\/[^\/]+\/([^/]+).*/, '$1') || 'expenses'
   const router = useRouter()
+
+  // Ensure pathname is not null before using it
+  const value =
+    pathname?.replace(/\/groups\/[^\/]+\/([^/]+).*/, '$1') || 'expenses'
 
   return (
     <Tabs

@@ -184,19 +184,19 @@ export function ExpenseForm({
           documents: expense.documents,
           notes: expense.notes ?? '',
         }
-      : searchParams.get('reimbursement')
+      : searchParams?.get('reimbursement')
       ? {
           title: 'Reimbursement',
           expenseDate: new Date(),
           amount: String(
-            (Number(searchParams.get('amount')) || 0) / 100,
+            (Number(searchParams?.get('amount')) || 0) / 100,
           ) as unknown as number, // hack
           category: 1, // category with Id 1 is Payment
-          paidBy: searchParams.get('from') ?? undefined,
+          paidBy: searchParams?.get('from') ?? undefined,
           paidFor: [
-            searchParams.get('to')
+            searchParams?.get('to')
               ? {
-                  participant: searchParams.get('to')!,
+                  participant: searchParams?.get('to')!,
                   shares: '1' as unknown as number,
                 }
               : undefined,
@@ -208,13 +208,13 @@ export function ExpenseForm({
           notes: '',
         }
       : {
-          title: searchParams.get('title') ?? '',
-          expenseDate: searchParams.get('date')
-            ? new Date(searchParams.get('date') as string)
+          title: searchParams?.get('title') ?? '',
+          expenseDate: searchParams?.get('date')
+            ? new Date(searchParams?.get('date') as string)
             : new Date(),
-          amount: (searchParams.get('amount') || 0) as unknown as number, // hack,
-          category: searchParams.get('categoryId')
-            ? Number(searchParams.get('categoryId'))
+          amount: (searchParams?.get('amount') || 0) as unknown as number, // hack,
+          category: searchParams?.get('categoryId')
+            ? Number(searchParams?.get('categoryId'))
             : 0, // category with Id 0 is General
           // paid for all, split evenly
           paidFor: defaultSplittingOptions.paidFor,
@@ -222,13 +222,13 @@ export function ExpenseForm({
           isReimbursement: false,
           splitMode: defaultSplittingOptions.splitMode,
           saveDefaultSplittingOptions: false,
-          documents: searchParams.get('imageUrl')
+          documents: searchParams?.get('imageUrl')
             ? [
                 {
                   id: randomId(),
-                  url: searchParams.get('imageUrl') as string,
-                  width: Number(searchParams.get('imageWidth')),
-                  height: Number(searchParams.get('imageHeight')),
+                  url: searchParams?.get('imageUrl') as string,
+                  width: Number(searchParams?.get('imageWidth')),
+                  height: Number(searchParams?.get('imageHeight')),
                 },
               ]
             : [],
