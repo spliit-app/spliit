@@ -3,7 +3,7 @@
     "groups": "Gruppen"
   },
   "Footer": {
-    "madeIn": "Entwickelt in Montréal, Québec, Kanada",
+    "madeIn": "Entwickelt in Montréal, Québec 🇨🇦",
     "builtBy": "Erstellt von <author>Sebastien Castiel</author> und <source>Mitwirkenden</source>"
   },
   "Expenses": {
@@ -96,7 +96,7 @@
     },
     "Settings": {
       "title": "Lokale Einstellungen",
-      "description": "Dies sind Einstellungen pro Gerät, die verwendet werden, um deine Nutzungsexperience zu verbessern.",
+      "description": "Dies sind Einstellungen pro Gerät, die verwendet werden, um deine Benutzererfahrung zu verbessern.",
       "ActiveUserField": {
         "label": "Aktiver Nutzer",
         "placeholder": "Wähle ein Mitglied",
