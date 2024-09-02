@@ -14,9 +14,11 @@ datasource db {
 model Group {
   id           String        @id
   name         String
+  information  String?       @db.Text
   currency     String        @default("$")
   participants Participant[]
   expenses     Expense[]
+  activities   Activity[]
   createdAt    DateTime      @default(now())
 }
 
@@ -90,4 +92,21 @@ model RecurringTransactions {
 
   @@id([groupId, expenseId])
   @@index([groupId, expenseId, createNextAt(sort: Desc)])
+}
+model Activity {
+  id            String       @id
+  group         Group        @relation(fields: [groupId], references: [id])
+  groupId       String
+  time          DateTime     @default(now())
+  activityType  ActivityType
+  participantId String?
+  expenseId     String?
+  data          String?
+}
+
+enum ActivityType {
+  UPDATE_GROUP
+  CREATE_EXPENSE
+  UPDATE_EXPENSE
+  DELETE_EXPENSE
 }

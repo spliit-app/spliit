@@ -17,10 +17,10 @@ export default async function EditGroupPage({
   const group = await cached.getGroup(groupId)
   if (!group) notFound()
 
-  async function updateGroupAction(values: unknown) {
+  async function updateGroupAction(values: unknown, participantId?: string) {
     'use server'
     const groupFormValues = groupFormSchema.parse(values)
-    const group = await updateGroup(groupId, groupFormValues)
+    const group = await updateGroup(groupId, groupFormValues, participantId)
     redirect(`/groups/${group.id}`)
   }
 

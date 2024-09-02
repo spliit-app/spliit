@@ -15,6 +15,7 @@ import {
   getSuggestedReimbursements,
 } from '@/lib/balances'
 import { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 
 export const metadata: Metadata = {
@@ -26,6 +27,7 @@ export default async function GroupPage({
 }: {
   params: { groupId: string }
 }) {
+  const t = await getTranslations('Balances')
   const group = await cached.getGroup(groupId)
   if (!group) notFound()
 
@@ -38,10 +40,8 @@ export default async function GroupPage({
     <>
       <Card className="mb-4">
         <CardHeader>
-          <CardTitle>Balances</CardTitle>
-          <CardDescription>
-            This is the amount that each participant paid or was paid for.
-          </CardDescription>
+          <CardTitle>{t('title')}</CardTitle>
+          <CardDescription>{t('description')}</CardDescription>
         </CardHeader>
         <CardContent>
           <BalancesList
@@ -53,11 +53,8 @@ export default async function GroupPage({
       </Card>
       <Card className="mb-4">
         <CardHeader>
-          <CardTitle>Suggested reimbursements</CardTitle>
-          <CardDescription>
-            Here are suggestions for optimized reimbursements between
-            participants.
-          </CardDescription>
+          <CardTitle>{t('Reimbursements.title')}</CardTitle>
+          <CardDescription>{t('Reimbursements.description')}</CardDescription>
         </CardHeader>
         <CardContent className="p-0">
           <ReimbursementList
