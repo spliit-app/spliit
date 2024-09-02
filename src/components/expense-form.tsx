@@ -256,20 +256,18 @@ export function ExpenseForm({
   }, [form.watch('splitMode'), form.watch('amount')])
 
   useEffect(() => {
-    const totalAmount = Number(form.getValues().amount) || 0
-    const paidFor = form.getValues().paidFor
     const splitMode = form.getValues().splitMode
 
-    let newPaidFor = [...paidFor]
-
+    // Only auto-balance for split mode 'Unevenly - By amount'
     if (
-      splitMode === 'EVENLY' ||
-      splitMode === 'BY_SHARES' ||
-      splitMode === 'BY_PERCENTAGE'
+      splitMode === 'BY_AMOUNT' &&
+      (form.getFieldState('paidFor').isDirty ||
+        form.getFieldState('amount').isDirty)
     ) {
-      return
-    } else {
-      // Only auto-balance for split mode 'Unevenly - By amount'
+      const totalAmount = Number(form.getValues().amount) || 0
+      const paidFor = form.getValues().paidFor
+      let newPaidFor = [...paidFor]
+
       const editedParticipants = Array.from(manuallyEditedParticipants)
       let remainingAmount = totalAmount
       let remainingParticipants = newPaidFor.length - editedParticipants.length
