@@ -326,3 +326,14 @@ export async function logActivity(
     },
   })
 }
+
+export async function addParticipant(groupId: string, participantName: string) {
+  return prisma.participant.create({
+    data: {
+      id: randomId(),
+      name: participantName,
+      groupId,
+    },
+  });
+}
+
