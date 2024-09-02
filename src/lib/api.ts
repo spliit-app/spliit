@@ -325,6 +325,12 @@ export async function updateExpense(
     data: expenseFormValues.title,
   })
 
+  await logActivity(groupId, ActivityType.UPDATE_EXPENSE, {
+    participantId,
+    expenseId,
+    data: expenseFormValues.title,
+  })
+
   return prisma.expense.update({
     where: { id: expenseId },
     data: {
