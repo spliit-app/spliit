@@ -3,6 +3,7 @@ import { Money } from '@/components/money'
 import { Reimbursement, getBalances } from '@/lib/balances'
 import { useActiveUser } from '@/lib/hooks'
 import { Participant } from '@prisma/client'
+import { useTranslations } from 'next-intl'
 
 type Props = {
   groupId: string
@@ -11,6 +12,7 @@ type Props = {
 }
 
 export function ActiveUserBalance({ groupId, currency, expense }: Props) {
+  const t = useTranslations('ExpenseCard')
   const activeUserId = useActiveUser(groupId)
   if (activeUserId === null || activeUserId === '' || activeUserId === 'None') {
     return null
@@ -34,7 +36,7 @@ export function ActiveUserBalance({ groupId, currency, expense }: Props) {
     }
     fmtBalance = (
       <>
-        Your balance:{' '}
+        {t('yourBalance')}{' '}
         <Money {...{ currency, amount: balance.total }} bold colored />
         {balanceDetail}
       </>
