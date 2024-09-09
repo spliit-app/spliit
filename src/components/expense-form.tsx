@@ -513,7 +513,7 @@ export function ExpenseForm({
                 type="button"
                 className="-my-2 -mx-4"
                 onClick={() => {
-                  const paidFor = form.getValues().paidFor
+                  const { paidFor } = form.getValues()
                   const allSelected =
                     paidFor.length === group.participants.length
                   const newPaidFor = allSelected
@@ -569,19 +569,22 @@ export function ExpenseForm({
                                     ({ participant }) => participant === id,
                                   )}
                                   onCheckedChange={(checked) => {
-                                    return checked
-                                      ? field.onChange([
-                                          ...field.value,
-                                          {
-                                            participant: id,
-                                            shares: '1',
-                                          },
-                                        ])
-                                      : field.onChange(
-                                          field.value?.filter(
-                                            (value) => value.participant !== id,
-                                          ),
-                                        )
+                                    if (checked) {
+                                      field.onChange([
+                                        ...field.value,
+                                        {
+                                          participant: id,
+                                          shares: '1',
+                                        },
+                                      ])
+                                    } else {
+                                      field.onChange(
+                                        field.value?.filter(
+                                          (value) => value.participant !== id,
+                                        ),
+                                      )
+                                    }
+                                    form.trigger('paidFor');
                                   }}
                                 />
                               </FormControl>
