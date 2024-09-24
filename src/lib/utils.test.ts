@@ -2,20 +2,43 @@ import { formatCurrency } from "./utils"
 
 describe("formatCurrency", () => {
     
-    const mockCurrency = "CUR";
-    const mockAmount = 1.23;
+    const currency = "CUR";
+    const partialAmount = 1.23;
+    const fullAmount = 1;
 
-    it("formats for US-en", () => {
-        const mockLocale = "US-en";
-        const expectedResult = "CUR1.23";
-        const result = formatCurrency(mockCurrency, mockAmount, mockLocale);
-        expect(result).toBe(expectedResult);
-    })
+    interface variant {
+        amount: number,
+        locale: string,
+        result: RegExp,
+    }
 
-    it("formats for DE-de", () => {
-        const mockLocale = "DE-de";
-        const expectedResult = "1,23 CUR";
-        const result = formatCurrency(mockCurrency, mockAmount, mockLocale);
-        expect(result).toBe(expectedResult);
-    })
+    const variants: variant[] = [
+        {
+            amount: partialAmount,
+            locale: `US-en`,
+            result: new RegExp(`${currency}1.23`),
+        },
+        {
+            amount: fullAmount,
+            locale: `US-en`,
+            result: new RegExp(`${currency}1.00`),
+        },
+        {
+            amount: partialAmount,
+            locale: `DE-de`,
+            result: new RegExp(`1,23\\W${currency}`),
+        },
+        {
+            amount: fullAmount,
+            locale: `DE-de`,
+            result: new RegExp(`1,00\\W${currency}`),
+        },
+    ]
+
+    for (const variant of variants) {
+        it(`formats ${variant.amount} in ${variant.locale}`, () => {
+            expect(formatCurrency(currency, variant.amount, variant.locale)).toMatch(variant.result);
+        })
+    }
+
 })
