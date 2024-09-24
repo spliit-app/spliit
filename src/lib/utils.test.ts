@@ -6,13 +6,18 @@ describe("formatCurrency", () => {
     const partialAmount = 1.23;
     const fullAmount = 1;
 
-    interface variant {
+    interface variation {
         amount: number,
         locale: string,
         result: RegExp,
     }
 
-    const variants: variant[] = [
+    /**
+     * Variations to be tested, chosen as follows
+     * - `US-en` is a very common i18n fallback
+     * - `DE-de` exhibited faulty behavior in previous versions 
+     */
+    const variations: variation[] = [
         {
             amount: partialAmount,
             locale: `US-en`,
@@ -35,9 +40,9 @@ describe("formatCurrency", () => {
         },
     ]
 
-    for (const variant of variants) {
-        it(`formats ${variant.amount} in ${variant.locale}`, () => {
-            expect(formatCurrency(currency, variant.amount, variant.locale)).toMatch(variant.result);
+    for (const variation of variations) {
+        it(`formats ${variation.amount} in ${variation.locale}`, () => {
+            expect(formatCurrency(currency, variation.amount, variation.locale)).toMatch(variation.result);
         })
     }
 
