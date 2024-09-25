@@ -14,28 +14,28 @@ describe("formatCurrency", () => {
 
     /**
      * Variations to be tested, chosen as follows
-     * - `US-en` is a very common i18n fallback
-     * - `DE-de` exhibited faulty behavior in previous versions 
+     * - `en-US` is a very common i18n fallback
+     * - `de-DE` exhibited faulty behavior in previous versions 
      */
     const variations: variation[] = [
         {
             amount: partialAmount,
-            locale: `US-en`,
+            locale: `en-US`,
             result: new RegExp(`${currency}1.23`),
         },
         {
             amount: fullAmount,
-            locale: `US-en`,
+            locale: `en-US`,
             result: new RegExp(`${currency}1.00`),
         },
         {
             amount: partialAmount,
-            locale: `DE-de`,
+            locale: `de-DE`,
             result: new RegExp(`1,23\\W${currency}`),
         },
         {
             amount: fullAmount,
-            locale: `DE-de`,
+            locale: `de-DE`,
             result: new RegExp(`1,00\\W${currency}`),
         },
     ]
