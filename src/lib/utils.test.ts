@@ -3,8 +3,12 @@ import { formatCurrency } from "./utils"
 describe("formatCurrency", () => {
     
     const currency = "CUR";
+    /** For testing decimals */
     const partialAmount = 1.23;
-    const fullAmount = 1;
+    /** For testing small full amounts */
+    const smallAmount = 1;
+    /** For testing large full amounts */
+    const largeAmount = 10000;
 
     interface variation {
         amount: number,
@@ -21,12 +25,17 @@ describe("formatCurrency", () => {
         {
             amount: partialAmount,
             locale: `en-US`,
-            result: new RegExp(`${currency}1.23`),
+            result: new RegExp(`${currency}1\.23`),
         },
         {
-            amount: fullAmount,
+            amount: smallAmount,
             locale: `en-US`,
-            result: new RegExp(`${currency}1.00`),
+            result: new RegExp(`${currency}1\.00`),
+        },
+        {
+            amount: largeAmount,
+            locale: `en-US`,
+            result: new RegExp(`${currency}10,000`),
         },
         {
             amount: partialAmount,
@@ -34,9 +43,14 @@ describe("formatCurrency", () => {
             result: new RegExp(`1,23\\W${currency}`),
         },
         {
-            amount: fullAmount,
+            amount: smallAmount,
             locale: `de-DE`,
             result: new RegExp(`1,00\\W${currency}`),
+        },
+        {
+            amount: largeAmount,
+            locale: `de-DE`,
+            result: new RegExp(`10\.000,00\\W${currency}`),
         },
     ]
 
