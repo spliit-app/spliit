@@ -10,10 +10,13 @@ describe("formatCurrency", () => {
     /** For testing large full amounts */
     const largeAmount = 10000;
 
+    /** Non-breaking space */
+    const nbsp = "\xa0";
+
     interface variation {
         amount: number,
         locale: string,
-        result: RegExp,
+        result: string,
     }
 
     /**
@@ -25,38 +28,38 @@ describe("formatCurrency", () => {
         {
             amount: partialAmount,
             locale: `en-US`,
-            result: new RegExp(`${currency}1\.23`),
+            result: `${currency}1.23`,
         },
         {
             amount: smallAmount,
             locale: `en-US`,
-            result: new RegExp(`${currency}1\.00`),
+            result: `${currency}1.00`,
         },
         {
             amount: largeAmount,
             locale: `en-US`,
-            result: new RegExp(`${currency}10,000`),
+            result: `${currency}10,000.00`,
         },
         {
             amount: partialAmount,
             locale: `de-DE`,
-            result: new RegExp(`1,23\\W${currency}`),
+            result: `1,23${nbsp}${currency}`,
         },
         {
             amount: smallAmount,
             locale: `de-DE`,
-            result: new RegExp(`1,00\\W${currency}`),
+            result: `1,00${nbsp}${currency}`,
         },
         {
             amount: largeAmount,
             locale: `de-DE`,
-            result: new RegExp(`10\.000,00\\W${currency}`),
+            result: `10.000,00${nbsp}${currency}`,
         },
     ]
 
     for (const variation of variations) {
         it(`formats ${variation.amount} in ${variation.locale}`, () => {
-            expect(formatCurrency(currency, variation.amount, variation.locale)).toMatch(variation.result);
+            expect(formatCurrency(currency, variation.amount, variation.locale)).toBe(variation.result);
         })
     }
 
