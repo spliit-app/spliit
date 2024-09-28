@@ -295,8 +295,11 @@
   },
   "Locale": {
     "en-US": "English",
-    "zh-CN": "Chinese (Simplified)",
-    "fi": "Suomi"
+    "fi": "Suomi",
+    "fr-FR": "Français",
+    "es": "Español",
+    "de-DE": "Deutsch",
+    "zh-CN": "Chinese (Simplified)"
   },
   "Share": {
     "title": "分享",
