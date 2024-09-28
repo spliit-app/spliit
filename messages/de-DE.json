@@ -294,9 +294,12 @@
     "title": "Einstellungen"
   },
   "Locale": {
-    "en-US": "Englisch",
+    "en-US": "English",
+    "fi": "Suomi",
+    "fr-FR": "Français",
+    "es": "Español",
     "de-DE": "Deutsch",
-    "fi": "Finnisch"
+    "zh-CN": "Chinese (Simplified)"
   },
   "Share": {
     "title": "Teilen",

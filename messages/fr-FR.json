@@ -297,7 +297,9 @@
     "en-US": "English",
     "fi": "Suomi",
     "fr-FR": "Français",
-    "es": "Español"
+    "es": "Español",
+    "de-DE": "Deutsch",
+    "zh-CN": "Chinese (Simplified)"
   },
   "Share": {
     "title": "Partager",
