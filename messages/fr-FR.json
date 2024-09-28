@@ -294,9 +294,10 @@
     "title": "Paramètres"
   },
   "Locale": {
-    "en-US": "Anglais",
-    "fi": "Finnois",
-    "fr-FR": "Français"
+    "en-US": "English",
+    "fi": "Suomi",
+    "fr-FR": "Français",
+    "es": "Español"
   },
   "Share": {
     "title": "Partager",

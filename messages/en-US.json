@@ -296,7 +296,8 @@
   "Locale": {
     "en-US": "English",
     "fi": "Suomi",
-    "fr-FR": "French"
+    "fr-FR": "Français",
+    "es": "Español"
   },
   "Share": {
     "title": "Share",
