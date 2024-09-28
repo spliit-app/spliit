@@ -44,6 +44,7 @@ import {
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Save } from 'lucide-react'
+import Mexp from 'math-expression-evaluator'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
@@ -53,6 +54,8 @@ import { match } from 'ts-pattern'
 import { DeletePopup } from './delete-popup'
 import { extractCategoryFromTitle } from './expense-form-actions'
 import { Textarea } from './ui/textarea'
+
+const mexp = new Mexp()
 
 export type Props = {
   group: NonNullable<Awaited<ReturnType<typeof getGroup>>>
@@ -244,6 +247,7 @@ export function ExpenseForm({
   }
 
   const [isIncome, setIsIncome] = useState(Number(form.getValues().amount) < 0)
+  const [evaluatedAmount, setEvaluatedAmount] = useState('0')
   const [manuallyEditedParticipants, setManuallyEditedParticipants] = useState<
     Set<string>
   >(new Set())
@@ -385,15 +389,28 @@ export function ExpenseForm({
                     <span>{group.currency}</span>
                     <FormControl>
                       <Input
-                        className="text-base max-w-[120px]"
+                        className="text-base"
                         type="text"
                         inputMode="decimal"
                         placeholder="0.00"
                         onChange={(event) => {
-                          const v = enforceCurrencyPattern(event.target.value)
-                          const income = Number(v) < 0
-                          setIsIncome(income)
-                          if (income) form.setValue('isReimbursement', false)
+                          let v = event.target.value
+                          if (v === '') {
+                            setEvaluatedAmount('0')
+                          } else {
+                            try {
+                              const evaluatedValue = Number(mexp.eval(v))
+                                .toFixed(2)
+                                .replace(/\.?0+$/, '') // replace trailing zeros
+                              setEvaluatedAmount(evaluatedValue)
+                              const income = Number(evaluatedValue) < 0
+                              setIsIncome(income)
+                              if (income)
+                                form.setValue('isReimbursement', false)
+                            } catch {
+                              setEvaluatedAmount('Invalid Expression')
+                            }
+                          }
                           onChange(v)
                         }}
                         onFocus={(e) => {
@@ -407,27 +424,30 @@ export function ExpenseForm({
                   </div>
                   <FormMessage />
 
-                  {!isIncome && (
-                    <FormField
-                      control={form.control}
-                      name="isReimbursement"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row gap-2 items-center space-y-0 pt-2">
-                          <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
-                          </FormControl>
-                          <div>
+                  <div className="flex flex-row gap-2 items-center justify-between">
+                    <div className="text-white/50 pl-5">
+                      {' = ' + evaluatedAmount}
+                    </div>
+                    {!isIncome && (
+                      <FormField
+                        control={form.control}
+                        name="isReimbursement"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-row gap-2 items-center space-y-0">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
                             <FormLabel>
                               {t('isReimbursementField.label')}
                             </FormLabel>
-                          </div>
-                        </FormItem>
-                      )}
-                    />
-                  )}
+                          </FormItem>
+                        )}
+                      />
+                    )}
+                  </div>
                 </FormItem>
               )}
             />

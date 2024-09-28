@@ -171,7 +171,7 @@
       "label": "Amount"
     },
     "isReimbursementField": {
-      "label": "This is a reimbursement"
+      "label": "Reimbursement"
     },
     "categoryField": {
       "label": "Category"
