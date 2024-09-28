@@ -40,7 +40,7 @@ export function formatCurrency(
     // '€' will be placed in correct position
     currency: 'EUR',
   })
-  const formattedAmount = format.format(amount / 100)
+  const formattedAmount = format.format(amount)
   return formattedAmount.replace('€', currency)
 }
 
