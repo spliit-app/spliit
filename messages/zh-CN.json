@@ -1,4 +1,12 @@
 {
+  "Homepage": {
+    "title": "与<strong>朋友和家人</strong>共享<strong>开支</strong>",
+    "description": "欢迎使用你的全新<strong>Spliit</strong>实例！",
+    "button": {
+      "groups": "前往群组",
+      "github": "GitHub"
+    }
+  },
   "Header": {
     "groups": "群组"
   },
@@ -287,7 +295,7 @@
   },
   "Locale": {
     "en-US": "English",
-    "zh-CN": "Chinese (Simplified)", 
+    "zh-CN": "Chinese (Simplified)",
     "fi": "Suomi"
   },
   "Share": {
