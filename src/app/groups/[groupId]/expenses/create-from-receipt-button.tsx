@@ -206,7 +206,7 @@ export function CreateFromReceiptButton({
                         groupCurrency,
                         receiptInfo.amount,
                         locale,
-                        true
+                        true,
                       )}
                     </>
                   ) : (
