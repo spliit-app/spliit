@@ -57,10 +57,15 @@ describe('formatCurrency', () => {
   ]
 
   for (const variation of variations) {
-    it(`formats ${variation.amount} in ${variation.locale}`, () => {
-      expect(formatCurrency(currency, variation.amount, variation.locale)).toBe(
-        variation.result,
-      )
+    it(`formats ${variation.amount} in ${variation.locale} without fractions`, () => {
+      expect(
+        formatCurrency(currency, variation.amount * 100, variation.locale),
+      ).toBe(variation.result)
+    })
+    it(`formats ${variation.amount} in ${variation.locale} with fractions`, () => {
+      expect(
+        formatCurrency(currency, variation.amount, variation.locale, true),
+      ).toBe(variation.result)
     })
   }
 })
