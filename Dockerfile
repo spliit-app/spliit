@@ -16,6 +16,7 @@ RUN apk add --no-cache openssl && \
     npx prisma generate
 
 COPY ./src ./src
+COPY ./messages ./messages
 
 ENV NEXT_TELEMETRY_DISABLED=1
 
