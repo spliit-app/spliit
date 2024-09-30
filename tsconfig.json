@@ -22,7 +22,7 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "messages/*.json"],
   "exclude": ["node_modules"],
   "ts-node": {
     "require": ["tsconfig-paths/register", "dotenv/config"],
