@@ -42,7 +42,7 @@
   "ExpenseCard": {
     "paidBy": "Pagato da <strong>{paidBy}</strong> per <paidFor></paidFor>",
     "receivedBy": "Ricevuto da <strong>{paidBy}</strong> per <paidFor></paidFor>",
-    "yourBalance": "Your balance:"
+    "yourBalance": "Il to bilancio:"
   },
   "Groups": {
     "myGroups": "I miei gruppi",
@@ -77,143 +77,143 @@
     }
   },
   "GroupForm": {
-    "title": "Group information",
+    "title": "Informazioni del gruppo",
     "NameField": {
-      "label": "Group name",
-      "placeholder": "Summer vacations",
-      "description": "Enter a name for your group."
+      "label": "Nome del gruppo",
+      "placeholder": "Vacanze estive",
+      "description": Inserisci il nome del gruppo."
     },
     "InformationField": {
-      "label": "Group information",
-      "placeholder": "What information is relevant to group participants?"
+      "label": "Informazioni del gruppo",
+      "placeholder": "Quali informazioni sono rilevanti per i partecipanti al gruppo?"
     },
     "CurrencyField": {
-      "label": "Currency symbol",
+      "label": "Simbolo valuta",
       "placeholder": "$, €, £…",
-      "description": "We’ll use it to display amounts."
+      "description": "Lo useremo per visualizzare gli importi."
     },
     "Participants": {
-      "title": "Participants",
-      "description": "Enter the name for each participant.",
-      "protectedParticipant": "This participant is part of expenses, and can not be removed.",
-      "new": "New",
-      "add": "Add participant",
+      "title": "Partecipanti",
+      "description": "Immettere il nome per ciascun partecipante.",
+      "protectedParticipant": "Questo partecipante fa parte delle spese e non può essere rimosso.",
+      "new": "Nuovo",
+      "add": "Aggiungi partecipante",
       "John": "John",
       "Jane": "Jane",
       "Jack": "Jack"
     },
     "Settings": {
-      "title": "Local settings",
-      "description": "These settings are set per-device, and are used to customize your experience.",
+      "title": "Impostazioni locali",
+      "description": "Queste impostazioni sono impostate per dispositivo e vengono utilizzate per personalizzare la tua esperienza.",
       "ActiveUserField": {
-        "label": "Active user",
-        "placeholder": "Select a participant",
-        "none": "None",
-        "description": "User used as default for paying expenses."
+        "label": "Utente attivo",
+        "placeholder": "Seleziona un partecipante",
+        "none": "Nessuno",
+        "description": "Utente utilizzato come predefinito per il pagamento delle spese."
       },
-      "save": "Save",
-      "saving": "Saving…",
-      "create": "Create",
-      "creating": "Creating…",
-      "cancel": "Cancel"
+      "save": "Salva",
+      "saving": "Salvataggio…",
+      "create": "Crea",
+      "creating": "Sto creando…",
+      "cancel": "Annulla"
     }
   },
   "ExpenseForm": {
     "Income": {
-      "create": "Create income",
-      "edit": "Edit income",
+      "create": "Crea entrata",
+      "edit": "Modifica entrata",
       "TitleField": {
-        "label": "Income title",
-        "placeholder": "Monday evening restaurant",
-        "description": "Enter a description for the income."
+        "label": "Titolo entrata",
+        "placeholder": "Ristorante del lunedì sera",
+        "description": "Inserisci una descrizione per l'entrata."
       },
       "DateField": {
-        "label": "Income date",
-        "description": "Enter the date the income was received."
+        "label": "Data entrata",
+        "description": "Inserisci la data in cui è stato ricevuta l'entrata."
       },
-      "categoryFieldDescription": "Select the income category.",
+      "categoryFieldDescription": "Seleziona categoria entrata.",
       "paidByField": {
-        "label": "Received by",
-        "description": "Select the participant who received the income."
+        "label": "Ricevuto da",
+        "description": "Seleziona partecipante che ha ricevuto l'entrata."
       },
       "paidFor": {
-        "title": "Received for",
-        "description": "Select who the income was received for."
+        "title": "Ricevuto per",
+        "description": "Seleziona per chi è stato ricevuta l'entrata."
       },
-      "splitModeDescription": "Select how to split the income.",
-      "attachDescription": "See and attach receipts to the income."
+      "splitModeDescription": "Seleziona come dividere l'entrata.",
+      "attachDescription": "Vedi allegati entrata."
     },
     "Expense": {
-      "create": "Create expense",
-      "edit": "Edit expense",
+      "create": "Crea spesa",
+      "edit": "Modifica spesa",
       "TitleField": {
-        "label": "Expense title",
-        "placeholder": "Monday evening restaurant",
-        "description": "Enter a description for the expense."
+        "label": "Titolo spesa",
+        "placeholder": "Ristorante del lunedì sera",
+        "description": "Inserisci una descrizione per l'uscita."
       },
       "DateField": {
-        "label": "Expense date",
-        "description": "Enter the date the expense was paid."
+        "label": "Data spesa",
+        "description": Inserisci la data di quando è stata fatta la spesa"
       },
-      "categoryFieldDescription": "Select the expense category.",
+      "categoryFieldDescription": "Seleziona una categoria per la spesa.",
       "paidByField": {
-        "label": "Paid by",
-        "description": "Select the participant who paid the expense."
+        "label": "Pagato da",
+        "description": "Seleziona il partecipante che ha pagato la spesa."
       },
       "paidFor": {
-        "title": "Paid for",
-        "description": "Select who the expense was paid for."
+        "title": "Pagato per",
+        "description": "Seleziona per chi è stata pagato."
       },
-      "splitModeDescription": "Select how to split the expense.",
-      "attachDescription": "See and attach receipts to the expense."
+      "splitModeDescription": "Seleziona come dividere la spesa.",
+      "attachDescription": "Vedi allegati spesa."
     },
     "amountField": {
-      "label": "Amount"
+      "label": "Quantità"
     },
     "isReimbursementField": {
-      "label": "This is a reimbursement"
+      "label": "Questo è un rimborso"
     },
     "categoryField": {
-      "label": "Category"
+      "label": "Categoria"
     },
     "notesField": {
-      "label": "Notes"
+      "label": "Note"
     },
-    "selectNone": "Select none",
-    "selectAll": "Select all",
-    "shares": "share(s)",
-    "advancedOptions": "Advanced splitting options…",
+    "selectNone": "Seleziona nessuna",
+    "selectAll": "Seleziona tutto",
+    "shares": "condividi",
+    "advancedOptions": "Opzioni di divisione avanzate…",
     "SplitModeField": {
-      "label": "Split mode",
-      "evenly": "Evenly",
-      "byShares": "Unevenly – By shares",
-      "byPercentage": "Unevenly – By percentage",
-      "byAmount": "Unevenly – By amount",
-      "saveAsDefault": "Save as default splitting options"
+      "label": "Modalità split",
+      "evenly": "Uniforme",
+      "byShares": "Non uniforme – Per scelta",
+      "byPercentage": "Non uniforme – Per percentuale",
+      "byAmount": "Non uniforme – Per quantità",
+      "saveAsDefault": "Salva come opzioni di suddivisione predefinite"
     },
     "DeletePopup": {
-      "label": "Delete",
-      "title": "Delete this expense?",
-      "description": "Do you really want to delete this expense? This action is irreversible.",
-      "yes": "Yes",
-      "cancel": "Cancel"
+      "label": "Rimuovi",
+      "title": "Rimuovere questa spesa?",
+      "description": "Vuoi davvero eliminare questa spesa? Questa azione è irreversibile.",
+      "yes": "Si",
+      "cancel": "Annulla"
     },
-    "attachDocuments": "Attach documents",
-    "create": "Create",
-    "creating": "Creating…",
-    "save": "Save",
-    "saving": "Saving…",
-    "cancel": "Cancel"
+    "attachDocuments": "Documenti allegati",
+    "create": "Crea",
+    "creating": "Sto creando…",
+    "save": "Salva",
+    "saving": "Sto salvando…",
+    "cancel": "Annulla"
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
-      "title": "The file is too big",
-      "description": "The maximum file size you can upload is {maxSize}. Yours is ${size}."
+      "title": "Il file è troppo grande",
+      "description": "La dimensione massima del file che puoi caricare è {maxSize}. Il tuo è ${size}."
     },
     "ErrorToast": {
-      "title": "Error while uploading document",
-      "description": "Something wrong happened when uploading the document. Please retry later or select a different file.",
-      "retry": "Retry"
+      "title": "Errore durante il caricamento del documento",
+      "description": "Si è verificato un errore durante il caricamento del documento. Riprova più tardi o seleziona un file diverso.",
+      "retry": "Riprova"
     }
   },
   "CreateFromReceipt": {
