@@ -1,4 +1,12 @@
 {
+  "Homepage": {
+    "title": "Jaa kulut ystävien ja perheen kanssa",
+    "description": "Tervetuloa uuteen Spliit-instanssiisi!",
+    "button": {
+      "groups": "Siirry ryhmiin",
+      "github": "GitHub"
+    }
+  },
   "Header": {
     "groups": "Ryhmät"
   },
@@ -294,7 +302,12 @@
   },
   "Locale": {
     "en-US": "English",
-    "fi": "Suomi"
+    "fi": "Suomi",
+    "fr-FR": "Français",
+    "es": "Español",
+    "de-DE": "Deutsch",
+    "zh-CN": "Chinese (Simplified)",
+    "ru-RU": "Русский"
   },
   "Share": {
     "title": "Jaa",
