@@ -81,7 +81,7 @@
     "NameField": {
       "label": "Nome del gruppo",
       "placeholder": "Vacanze estive",
-      "description": Inserisci il nome del gruppo."
+      "description": "Inserisci il nome del gruppo."
     },
     "InformationField": {
       "label": "Informazioni del gruppo",
