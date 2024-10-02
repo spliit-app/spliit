@@ -153,7 +153,7 @@
       },
       "DateField": {
         "label": "Data spesa",
-        "description": Inserisci la data di quando è stata fatta la spesa"
+        "description": "Inserisci la data di quando è stata fatta la spesa"
       },
       "categoryFieldDescription": "Seleziona una categoria per la spesa.",
       "paidByField": {
