@@ -9,7 +9,7 @@ export const locales = [
   'de-DE',
   'zh-CN',
   'ru-RU',
-  'it-IT'
+  'it-IT',
 ] as const
 export type Locale = (typeof locales)[number]
 export type Locales = ReadonlyArray<Locale>
