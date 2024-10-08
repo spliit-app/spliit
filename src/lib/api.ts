@@ -88,9 +88,8 @@ export async function createExpense(
 export async function cloneExpense(
   groupId: string,
   expenseId: string,
-  participantId?: string
-  ) {
-
+  participantId?: string,
+) {
   const group = await getGroup(groupId)
   if (!group) notFound()
 
@@ -98,23 +97,26 @@ export async function cloneExpense(
   if (!expense) notFound()
 
   const paidForCloned = []
-  for(const participant of expense.paidFor){
-    const participantObject = {participant: participant.participantId, shares: participant.shares}
+  for (const participant of expense.paidFor) {
+    const participantObject = {
+      participant: participant.participantId,
+      shares: participant.shares,
+    }
     paidForCloned.push(participantObject)
   }
 
-  const formClone:ExpenseFormValues  =  {
+  const formClone: ExpenseFormValues = {
     expenseDate: expense.expenseDate,
     category: expense.categoryId,
     amount: expense.amount,
-    title: expense.title+" clone",
+    title: expense.title + ' clone',
     paidBy: expense.paidBy.id,
     splitMode: expense.splitMode,
     paidFor: paidForCloned,
     isReimbursement: expense.isReimbursement,
     documents: expense.documents,
     notes: expense.notes ? expense.notes : undefined,
-    saveDefaultSplittingOptions: false
+    saveDefaultSplittingOptions: false,
   }
 
   await createExpense(formClone, groupId, participantId)
