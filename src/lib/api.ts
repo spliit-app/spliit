@@ -106,7 +106,7 @@ export async function cloneExpense(
   }
 
   const formClone: ExpenseFormValues = {
-    expenseDate: expense.expenseDate,
+    expenseDate: new Date(),
     category: expense.categoryId,
     amount: expense.amount,
     title: expense.title + ' clone',
