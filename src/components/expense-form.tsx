@@ -186,7 +186,7 @@ export function ExpenseForm({
         }
       : searchParams.get('reimbursement')
       ? {
-          title: 'Reimbursement',
+          title: t('reimbursement'),
           expenseDate: new Date(),
           amount: String(
             (Number(searchParams.get('amount')) || 0) / 100,
