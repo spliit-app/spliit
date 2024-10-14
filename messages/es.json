@@ -203,7 +203,9 @@
     "creating": "Creando",
     "save": "Guardar",
     "saving": "Guardando",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "reimbursement": "Reembolso"
+
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {

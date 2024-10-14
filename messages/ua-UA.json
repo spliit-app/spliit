@@ -203,7 +203,8 @@
     "creating": "Створення..",
     "save": "Зберегти",
     "saving": "Збереження..",
-    "cancel": "Скасувати"
+    "cancel": "Скасувати",
+    "reimbursement": "Відшкодування"
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
