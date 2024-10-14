@@ -203,7 +203,8 @@
     "creating": "Luodaan kulua…",
     "save": "Tallenna",
     "saving": "Tallennetaan…",
-    "cancel": "Peruuta"
+    "cancel": "Peruuta",
+    "reimbursement": "Velanmaksu"
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
