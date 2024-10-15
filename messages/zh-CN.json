@@ -198,6 +198,13 @@
       "yes": "确定",
       "cancel": "取消"
     },
+    "ClonePopup": {
+      "label": "Clone",
+      "title": "Clone this expense?",
+      "description": "Do you really want to clone this expense?",
+      "yes": "Yes",
+      "cancel": "Cancel"
+    },
     "attachDocuments": "附加文档",
     "create": "创建",
     "creating": "创建中……",

@@ -1,6 +1,7 @@
 import { cached } from '@/app/cached-functions'
 import { ExpenseForm } from '@/components/expense-form'
 import {
+  cloneExpense,
   deleteExpense,
   getCategories,
   getExpense,
@@ -39,6 +40,11 @@ export default async function EditExpensePage({
     await deleteExpense(groupId, expenseId, participantId)
     redirect(`/groups/${groupId}`)
   }
+  async function cloneExpenseAction(participantId?: string) {
+    'use server'
+    await cloneExpense(groupId, expenseId, participantId)
+    redirect(`/groups/${groupId}`)
+  }
 
   return (
     <Suspense>
@@ -48,6 +54,7 @@ export default async function EditExpensePage({
         categories={categories}
         onSubmit={updateExpenseAction}
         onDelete={deleteExpenseAction}
+        onClone={cloneExpenseAction}
         runtimeFeatureFlags={await getRuntimeFeatureFlags()}
       />
     </Suspense>

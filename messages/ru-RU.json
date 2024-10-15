@@ -198,6 +198,13 @@
       "yes": "Удалить",
       "cancel": "Отмена"
     },
+    "ClonePopup": {
+      "label": "Clone",
+      "title": "Clone this expense?",
+      "description": "Do you really want to clone this expense?",
+      "yes": "Yes",
+      "cancel": "Cancel"
+    },
     "attachDocuments": "Прикрепить документы",
     "create": "Создать",
     "creating": "Создание…",

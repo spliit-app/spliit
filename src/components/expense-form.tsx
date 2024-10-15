@@ -50,6 +50,7 @@ import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { match } from 'ts-pattern'
+import { ClonePopup } from './clone-popup'
 import { DeletePopup } from './delete-popup'
 import { extractCategoryFromTitle } from './expense-form-actions'
 import { Textarea } from './ui/textarea'
@@ -60,6 +61,7 @@ export type Props = {
   categories: NonNullable<Awaited<ReturnType<typeof getCategories>>>
   onSubmit: (values: ExpenseFormValues, participantId?: string) => Promise<void>
   onDelete?: (participantId?: string) => Promise<void>
+  onClone?: (participantId?: string) => Promise<void>
   runtimeFeatureFlags: RuntimeFeatureFlags
 }
 
@@ -150,6 +152,7 @@ export function ExpenseForm({
   categories,
   onSubmit,
   onDelete,
+  onClone,
   runtimeFeatureFlags,
 }: Props) {
   const t = useTranslations('ExpenseForm')
@@ -815,6 +818,11 @@ export function ExpenseForm({
             <DeletePopup
               onDelete={() => onDelete(activeUserId ?? undefined)}
             ></DeletePopup>
+          )}
+          {!isCreate && onClone && (
+            <ClonePopup
+              onClone={() => onClone(activeUserId ?? undefined)}
+            ></ClonePopup>
           )}
           <Button variant="ghost" asChild>
             <Link href={`/groups/${group.id}`}>{t('cancel')}</Link>
