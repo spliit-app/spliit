@@ -11,7 +11,7 @@ type Props = {
   activities: Activity[]
 }
 
-const DATE_GROUPS = {
+export const DATE_GROUPS = {
   TODAY: 'today',
   YESTERDAY: 'yesterday',
   EARLIER_THIS_WEEK: 'earlierThisWeek',
@@ -45,7 +45,7 @@ function getDateGroup(date: Dayjs, today: Dayjs) {
   }
 }
 
-function getGroupedActivitiesByDate(activities: Activity[]) {
+export function getGroupedActivitiesByDate(activities: Activity[]) {
   const today = dayjs()
   return activities.reduce(
     (result: { [key: string]: Activity[] }, activity: Activity) => {

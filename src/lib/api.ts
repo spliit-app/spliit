@@ -312,6 +312,13 @@ export async function getActivities(groupId: string) {
   })
 }
 
+export async function getExpenseActivity(expenseId: string) {
+  return prisma.activity.findMany({
+    where: { expenseId: expenseId },
+    orderBy: [{ time: 'desc' }],
+  })
+}
+
 export async function logActivity(
   groupId: string,
   activityType: ActivityType,
