@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import { ExpenseFormValues, GroupFormValues } from '@/lib/schemas'
-import { ActivityType, Expense } from '@prisma/client'
+import { ActivityType, Expense, ExpenseComment } from '@prisma/client'
 import { nanoid } from 'nanoid'
 
 export function randomId() {
@@ -210,6 +210,54 @@ export async function updateExpense(
       },
       notes: expenseFormValues.notes,
     },
+  })
+}
+
+export async function getComments(expenseId: string) {
+  return prisma.expenseComment.findMany({
+    where: { expenseId: expenseId },
+    include: { participant: true },
+    orderBy: [{ time: 'desc' }],
+  })
+}
+
+export async function getComment(commentId: string) {
+  return prisma.expenseComment.findUnique({
+    where: { id: commentId },
+    include: { participant: true },
+  })
+}
+
+export async function addComment(
+  expenseId: string,
+  participantId: string,
+  comment: string,
+): Promise<ExpenseComment> {
+  return prisma.expenseComment.create({
+    data: {
+      id: randomId(),
+      comment: comment,
+      participantId: participantId,
+      expenseId: expenseId,
+    },
+  })
+}
+
+export async function updateComment(commentId: string, comment: string) {
+  const existingComment = await getComment(commentId)
+  if (!existingComment) throw new Error('Invalid Comment ID')
+
+  return prisma.expenseComment.update({
+    where: { id: commentId },
+    data: {
+      comment: comment,
+    },
+  })
+}
+
+export async function deleteComment(commentId: string) {
+  await prisma.expenseComment.delete({
+    where: { id: commentId },
   })
 }
 
