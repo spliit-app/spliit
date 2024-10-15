@@ -63,6 +63,11 @@ export function formatFileSize(size: number, locale: string) {
   return `${formatNumber(size)} B`
 }
 
+export function getEpochTimeInSeconds(date: Date|null) {
+  const reqDate = date ? new Date(date) : new Date()
+  return Math.floor(reqDate.getTime()/1000)
+}
+
 export function normalizeString(input: string): string {
   // Replaces special characters
   // Input: áäåèéę

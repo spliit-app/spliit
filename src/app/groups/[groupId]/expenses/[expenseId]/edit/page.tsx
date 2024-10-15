@@ -40,6 +40,7 @@ export default async function EditExpensePage({
     redirect(`/groups/${groupId}`)
   }
 
+
   return (
     <Suspense>
       <ExpenseForm

@@ -55,6 +55,7 @@ model Expense {
   createdAt       DateTime          @default(now())
   documents       ExpenseDocument[]
   notes           String?
+  recurringDays   Int               @default(0)
 }
 
 model ExpenseDocument {
@@ -83,6 +84,15 @@ model ExpensePaidFor {
   @@id([expenseId, participantId])
 }
 
+model RecurringTransactions {
+  groupId         String
+  expenseId       String
+  createNextAt    Int
+  lockId          String?  @unique
+
+  @@id([groupId, expenseId])
+  @@index([groupId, expenseId, createNextAt(sort: Desc)])
+}
 model Activity {
   id            String       @id
   group         Group        @relation(fields: [groupId], references: [id])
