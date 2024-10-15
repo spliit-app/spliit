@@ -8,7 +8,7 @@ import {
   getStarredGroups,
 } from '@/app/groups/recent-groups-helpers'
 import { Button } from '@/components/ui/button'
-import { getGroups } from '@/lib/api'
+import { getGlobalGroups, getGroups } from '@/lib/api'
 import { Loader2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
@@ -22,6 +22,7 @@ export type RecentGroupsState =
       groups: RecentGroups
       starredGroups: string[]
       archivedGroups: string[]
+      globalGroups: NonNullable<Awaited<ReturnType<typeof getGlobalGroups>>>
     }
   | {
       status: 'complete'
@@ -29,6 +30,7 @@ export type RecentGroupsState =
       groupsDetails: Awaited<ReturnType<typeof getGroups>>
       starredGroups: string[]
       archivedGroups: string[]
+      globalGroups: NonNullable<Awaited<ReturnType<typeof getGlobalGroups>>>
     }
 
 function sortGroups(
@@ -37,6 +39,10 @@ function sortGroups(
   const starredGroupInfo = []
   const groupInfo = []
   const archivedGroupInfo = []
+  const globalGroupInfo = state.globalGroups.filter(
+    (group) => state.groups.filter((g) => g.id == group.id).length == 0,
+  )
+
   for (const group of state.groups) {
     if (state.starredGroups.includes(group.id)) {
       starredGroupInfo.push(group)
@@ -50,14 +56,21 @@ function sortGroups(
     starredGroupInfo,
     groupInfo,
     archivedGroupInfo,
+    globalGroupInfo,
   }
 }
 
-export function RecentGroupList() {
+export type Props = {
+  globalGroups: NonNullable<Awaited<ReturnType<typeof getGlobalGroups>>>
+}
+
+export function RecentGroupList({ globalGroups }: Props) {
   const t = useTranslations('Groups')
   const [state, setState] = useState<RecentGroupsState>({ status: 'pending' })
 
-  function loadGroups() {
+  function loadGroups(
+    globalGroups: NonNullable<Awaited<ReturnType<typeof getGlobalGroups>>>,
+  ) {
     const groupsInStorage = getRecentGroups()
     const starredGroups = getStarredGroups()
     const archivedGroups = getArchivedGroups()
@@ -66,6 +79,7 @@ export function RecentGroupList() {
       groups: groupsInStorage,
       starredGroups,
       archivedGroups,
+      globalGroups,
     })
     getGroupsAction(groupsInStorage.map((g) => g.id)).then((groupsDetails) => {
       setState({
@@ -74,17 +88,18 @@ export function RecentGroupList() {
         groupsDetails,
         starredGroups,
         archivedGroups,
+        globalGroups,
       })
     })
   }
 
   useEffect(() => {
-    loadGroups()
+    loadGroups(globalGroups)
   }, [])
 
   if (state.status === 'pending') {
     return (
-      <GroupsPage reload={loadGroups}>
+      <GroupsPage reload={() => loadGroups(globalGroups)}>
         <p>
           <Loader2 className="w-4 m-4 mr-2 inline animate-spin" />{' '}
           {t('loadingRecent')}
@@ -93,9 +108,9 @@ export function RecentGroupList() {
     )
   }
 
-  if (state.groups.length === 0) {
+  if (state.groups.length === 0 && state.globalGroups.length === 0) {
     return (
-      <GroupsPage reload={loadGroups}>
+      <GroupsPage reload={() => loadGroups(globalGroups)}>
         <div className="text-sm space-y-2">
           <p>{t('NoRecent.description')}</p>
           <p>
@@ -109,10 +124,11 @@ export function RecentGroupList() {
     )
   }
 
-  const { starredGroupInfo, groupInfo, archivedGroupInfo } = sortGroups(state)
+  const { starredGroupInfo, groupInfo, archivedGroupInfo, globalGroupInfo } =
+    sortGroups(state)
 
   return (
-    <GroupsPage reload={loadGroups}>
+    <GroupsPage reload={() => loadGroups(globalGroups)}>
       {starredGroupInfo.length > 0 && (
         <>
           <h2 className="mb-2">{t('starred')}</h2>
@@ -141,6 +157,17 @@ export function RecentGroupList() {
               setState={setState}
             />
           </div>
+        </>
+      )}
+
+      {globalGroupInfo.length > 0 && (
+        <>
+          <h2 className="mt-6 mb-2">{t('global')}</h2>
+          <GroupList
+            groups={globalGroupInfo}
+            state={state}
+            setState={setState}
+          />
         </>
       )}
     </GroupsPage>

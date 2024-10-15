@@ -1,6 +1,7 @@
 import { cached } from '@/app/cached-functions'
 import { GroupForm } from '@/components/group-form'
 import { getGroupExpensesParticipants, updateGroup } from '@/lib/api'
+import { getRuntimeFeatureFlags } from '@/lib/featureFlags'
 import { groupFormSchema } from '@/lib/schemas'
 import { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
@@ -30,6 +31,7 @@ export default async function EditGroupPage({
       group={group}
       onSubmit={updateGroupAction}
       protectedParticipantIds={protectedParticipantIds}
+      runtimeFeatureFlags={await getRuntimeFeatureFlags()}
     />
   )
 }
