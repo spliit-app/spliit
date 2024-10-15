@@ -1,7 +1,7 @@
 #!/bin/bash
 
-SPLIIT_APP_NAME=$(node -p -e "require('./package.json').name")
-SPLIIT_VERSION=$(node -p -e "require('./package.json').version")
+SPLIIT_APP_NAME=$(cat ./package.json | grep name | awk '{print $2}' | sed -r s/\"\,?//g)
+SPLIIT_VERSION=$(cat ./package.json | grep version | awk '{print $2}' | sed -r s/\"\,?//g)
 
 # we need to set dummy data for POSTGRES env vars in order for build not to fail
 docker buildx build \
