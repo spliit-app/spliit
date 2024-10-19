@@ -10,19 +10,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Skeleton } from '@/components/ui/skeleton'
-import {
-  getCategories,
-  getGroupExpenseCount,
-  getGroupExpenses,
-} from '@/lib/api'
+import { getCategories } from '@/lib/api'
 import { env } from '@/lib/env'
 import { Download, Plus } from 'lucide-react'
 import { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { Suspense } from 'react'
 
 export const revalidate = 3600
 
@@ -79,51 +73,15 @@ export default async function GroupExpensesPage({
         </div>
 
         <CardContent className="p-0 pt-2 pb-4 sm:pb-6 flex flex-col gap-4 relative">
-          <Suspense
-            fallback={[0, 1, 2].map((i) => (
-              <div
-                key={i}
-                className="border-t flex justify-between items-center px-6 py-4 text-sm"
-              >
-                <div className="flex flex-col gap-2">
-                  <Skeleton className="h-4 w-16 rounded-full" />
-                  <Skeleton className="h-4 w-32 rounded-full" />
-                </div>
-                <div>
-                  <Skeleton className="h-4 w-16 rounded-full" />
-                </div>
-              </div>
-            ))}
-          >
-            <Expenses group={group} />
-          </Suspense>
+          <ExpenseList
+            groupId={group.id}
+            currency={group.currency}
+            participants={group.participants}
+          />
         </CardContent>
       </Card>
 
       <ActiveUserModal group={group} />
     </>
-  )
-}
-
-type Props = {
-  group: NonNullable<Awaited<ReturnType<typeof cached.getGroup>>>
-}
-
-async function Expenses({ group }: Props) {
-  const expenseCount = await getGroupExpenseCount(group.id)
-
-  const expenses = await getGroupExpenses(group.id, {
-    offset: 0,
-    length: 200,
-  })
-
-  return (
-    <ExpenseList
-      expensesFirstPage={expenses}
-      expenseCount={expenseCount}
-      groupId={group.id}
-      currency={group.currency}
-      participants={group.participants}
-    />
   )
 }

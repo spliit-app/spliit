@@ -15,7 +15,6 @@ export function Totals({
   totalGroupSpendings: number
 }) {
   const activeUser = useActiveUser(group.id)
-  console.log('activeUser', activeUser)
 
   return (
     <>
