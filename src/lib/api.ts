@@ -267,7 +267,7 @@ export async function getCategories() {
 
 export async function getGroupExpenses(
   groupId: string,
-  options?: { offset: number; length: number },
+  options?: { offset?: number; length?: number; filter?: string },
 ) {
   return prisma.expense.findMany({
     select: {
@@ -287,7 +287,12 @@ export async function getGroupExpenses(
       splitMode: true,
       title: true,
     },
-    where: { groupId },
+    where: {
+      groupId,
+      title: options?.filter
+        ? { contains: options.filter, mode: 'insensitive' }
+        : undefined,
+    },
     orderBy: [{ expenseDate: 'desc' }, { createdAt: 'desc' }],
     skip: options && options.offset,
     take: options && options.length,
