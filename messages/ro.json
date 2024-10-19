@@ -42,7 +42,7 @@
     "ExpenseCard": {
         "paidBy": "Plătit de <strong>{paidBy}</strong> pentru <paidFor></paidFor>",
         "receivedBy": "Primit de <strong>{paidBy}</strong> pentru <paidFor></paidFor>",
-        "yourBalance": "Balanța ta:"
+        "yourBalance": "Soldul tău:"
     },
     "Groups": {
         "myGroups": "Grupurile mele",
@@ -104,7 +104,7 @@
         },
         "Settings": {
             "title": "Setări locale",
-            "description": "Aceste setări sunt făcute pentru fiecare device și sunt folosite pentru a-ți personaliza experiența.",
+            "description": "Aceste setări sunt făcute pentru fiecare dispozitiv și sunt folosite pentru a-ți personaliza experiența.",
             "ActiveUserField": {
                 "label": "Utilizator activ",
                 "placeholder": "Selectează un membru",
@@ -287,7 +287,7 @@
         }
     },
     "Information": {
-        "title": "Informație",
+        "title": "Informații",
         "description": "Adaugă aici orice informație care poate să fie relevantă pentru membrii grupului.",
         "empty": "Nicio informație de grup încă."
     },
@@ -349,7 +349,7 @@
         "Food and Drink": {
             "heading": "Mâncare și Băutură",
             "Food and Drink": "Mâncare și Băutură",
-            "Dining Out": "Cina în oraș",
+            "Dining Out": "Cină în oraș",
             "Groceries": "Alimente",
             "Liquor": "Băuturi alcoolice"
         },
