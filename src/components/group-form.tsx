@@ -1,4 +1,3 @@
-'use client'
 import { SubmitButton } from '@/components/submit-button'
 import { Button } from '@/components/ui/button'
 import {
@@ -175,7 +174,7 @@ export function GroupForm({
                     <FormLabel>{t('InformationField.label')}</FormLabel>
                     <FormControl>
                       <Textarea
-                        rows={10}
+                        rows={2}
                         className="text-base"
                         {...field}
                         placeholder={t('InformationField.placeholder')}
