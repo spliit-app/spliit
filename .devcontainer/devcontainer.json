@@ -4,6 +4,8 @@
     "name": "spliit",
     "dockerComposeFile": "docker-compose.yml",
     "service": "app",
+    "workspaceFolder": "/workspaces",    
+
 
     // Features to add to the dev container. More info: https://containers.dev/features.
     // "features": {
