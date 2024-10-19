@@ -9,10 +9,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
 import { getGroup } from '@/lib/api'
 import { trpc } from '@/trpc/client'
 import { useTranslations } from 'next-intl'
-import { useEffect } from 'react'
+import { Fragment, useEffect } from 'react'
 
 export default function BalancesAndReimbursements({
   group,
@@ -42,7 +43,7 @@ export default function BalancesAndReimbursements({
         </CardHeader>
         <CardContent>
           {isLoading || !data ? (
-            <p className="text-muted-foreground text-sm">Loading…</p>
+            <BalancesLoading participantCount={group.participants.length} />
           ) : (
             <BalancesList
               balances={data.balances}
@@ -59,7 +60,9 @@ export default function BalancesAndReimbursements({
         </CardHeader>
         <CardContent>
           {isLoading || !data ? (
-            <p className="text-muted-foreground text-sm">Loading…</p>
+            <ReimbursementsLoading
+              participantCount={group.participants.length}
+            />
           ) : (
             <ReimbursementList
               reimbursements={data.reimbursements}
@@ -71,5 +74,65 @@ export default function BalancesAndReimbursements({
         </CardContent>
       </Card>
     </>
+  )
+}
+
+const ReimbursementsLoading = ({
+  participantCount,
+}: {
+  participantCount: number
+}) => {
+  return (
+    <div className="flex flex-col">
+      {Array(participantCount - 1)
+        .fill(undefined)
+        .map((_, index) => (
+          <div key={index} className="flex justify-between py-5">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+              <Skeleton className="h-3 w-32" />
+              <Skeleton className="h-3 w-24" />
+            </div>
+            <Skeleton className="h-3 w-16" />
+          </div>
+        ))}
+    </div>
+  )
+}
+
+const BalancesLoading = ({
+  participantCount,
+}: {
+  participantCount: number
+}) => {
+  return (
+    <div className="grid grid-cols-2 py-1 gap-y-2">
+      {Array(participantCount)
+        .fill(undefined)
+        .map((_, index) =>
+          index % 2 === 0 ? (
+            <Fragment key={index}>
+              <div className="flex items-center justify-end pr-2">
+                <Skeleton className="h-3 w-16" />
+              </div>
+              <div className="self-start">
+                <Skeleton
+                  className={`h-7 w-${(index % 3) + 1}/3 rounded-l-none`}
+                />
+              </div>
+            </Fragment>
+          ) : (
+            <Fragment key={index}>
+              <div className="flex items-center justify-end">
+                <Skeleton
+                  className={`h-7 w-${(index % 3) + 1}/3 rounded-r-none`}
+                />
+              </div>
+              <div className="flex items-center pl-2">
+                <Skeleton className="h-3 w-16" />
+              </div>
+            </Fragment>
+          ),
+        )}
+    </div>
   )
 }
