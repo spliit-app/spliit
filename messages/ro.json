@@ -1,0 +1,401 @@
+{
+  "Homepage": {
+    "title": "Distribuie <strong>Cheltuielile</strong> cu <strong>Prietenii & Familia</strong>",
+    "description": "Bine ai venit pe noua ta instanță de <strong>Spliit</strong> !",
+    "button": {
+      "groups": "Mergi la grupuri",
+      "github": "GitHub"
+    }
+  },
+  "Header": {
+    "groups": "Grupuri"
+  },
+  "Footer": {
+    "madeIn": "Dezvoltat în Montréal, Québec 🇨🇦",
+    "builtBy": "Dezvoltat de către <author>Sebastien Castiel</author> și <source>contribuitori</source>"
+  },
+  "Expenses": {
+    "title": "Cheltuieli",
+    "description": "Aici sunt cheltuielile pe care le-ai creat pentru grupul tău.",
+    "create": "Adaugă o cheltuială",
+    "createFirst": "Adaug-o pe prima",
+    "noExpenses": "Grupul tău nu conține nicio cheltuială încă.",
+    "exportJson": "Salvează în JSON",
+    "searchPlaceholder": "Caută o cheltuială…",
+    "ActiveUserModal": {
+      "title": "Cum te numești?",
+      "description": "Spune-ne cine ești ca să putem îți afișăm informațiile relevante.",
+      "nobody": "Nu doresc să aleg pe nimeni",
+      "save": "Salvează",
+      "footer": "Această setare se poate schimba mai târziu din setările grupului."
+    },
+    "Groups": {
+      "upcoming": "Urmează",
+      "thisWeek": "În această săptămână",
+      "earlierThisMonth": "La începutul lunii",
+      "lastMonth": "Luna trecută",
+      "earlierThisYear": "La începutul anului",
+      "lastYera": "Anul trecut",
+      "older": "Mai vechi"
+    }
+  },
+  "ExpenseCard": {
+    "paidBy": "Plătit de <strong>{paidBy}</strong> pentru <paidFor></paidFor>",
+    "receivedBy": "Primit de <strong>{paidBy}</strong> pentru <paidFor></paidFor>",
+    "yourBalance": "Soldul tău:"
+  },
+  "Groups": {
+    "myGroups": "Grupurile mele",
+    "create": "Adaugă",
+    "loadingRecent": "Se încarcă ultimele tale grupuri…",
+    "NoRecent": {
+      "description": "Nu ai accesat niciun grup recent.",
+      "create": "Adaugă unul",
+      "orAsk": "sau roagă un prieten să îți trimită un link către unul deja existent."
+    },
+    "recent": "Ultimele grupuri",
+    "starred": "Grupuri favorite",
+    "archived": "Grupuri arhivate",
+    "archive": "Arhivează grupul",
+    "unarchive": "Dezarhivează grupul",
+    "removeRecent": "Șterge din ultimele grupuri",
+    "RecentRemovedToast": {
+      "title": "Grupul a fost șters.",
+      "description": "Grupul a fost șters din lista ta de grupuri recente.",
+      "undoAlt": "Anulează ștergerea grupului",
+      "undo": "Anulează"
+    },
+    "AddByURL": {
+      "button": "Adaugă folosind un URL",
+      "title": "Adaugă un grup folosind un URL",
+      "description": "Dacă un grup a fost distribuit cu tine, poți atașa URL-ul acestuia aici pentru a-l adăuga în listă.",
+      "error": "Ups, nu am găsit grupul folosind URL-ul primit de la tine…"
+    },
+    "NotFound": {
+      "text": "Acest grup nu există.",
+      "link": "Mergi la ultimele grupuri vizitate"
+    }
+  },
+  "GroupForm": {
+    "title": "Informații despre grup",
+    "NameField": {
+      "label": "Numele grupului",
+      "placeholder": "Vacanță de vară",
+      "description": "Adaugă un nume pentru grupul tău."
+    },
+    "InformationField": {
+      "label": "Informații despre grup",
+      "placeholder": "Ce informație este relevantă pentru membrii grupului?"
+    },
+    "CurrencyField": {
+      "label": "Monedă",
+      "placeholder": "$, €, £, RON …",
+      "description": "O vom folosi pentru a afișa sume."
+    },
+    "Participants": {
+      "title": "Membri",
+      "description": "Adaugă numele fiecărui membru.",
+      "protectedParticipant": "Acest membru a luat parte la cheltuieli și nu poate să fie șters.",
+      "new": "Nou",
+      "add": "Adaugă membru",
+      "John": "John",
+      "Jane": "Jane",
+      "Jack": "Jack"
+    },
+    "Settings": {
+      "title": "Setări locale",
+      "description": "Aceste setări sunt făcute pentru fiecare dispozitiv și sunt folosite pentru a-ți personaliza experiența.",
+      "ActiveUserField": {
+        "label": "Utilizator activ",
+        "placeholder": "Selectează un membru",
+        "none": "Niciunul",
+        "description": "Utilizatorul implicit pentru plata cheltuielilor."
+      },
+      "save": "Salvează",
+      "saving": "Se salvează…",
+      "create": "Adaugă",
+      "creating": "Se adaugă…",
+      "cancel": "Anulează"
+    }
+  },
+  "ExpenseForm": {
+    "Income": {
+      "create": "Adaugă un venit",
+      "edit": "Modifică venitul",
+      "TitleField": {
+        "label": "Titlul venitului",
+        "placeholder": "Cina de luni seară",
+        "description": "Adaugă o descriere pentru venit."
+      },
+      "DateField": {
+        "label": "Data venitului",
+        "description": "Adaugă data la care venitul a fost primit."
+      },
+      "categoryFieldDescription": "Selectează categoria venitului.",
+      "paidByField": {
+        "label": "Primit de către",
+        "description": "Selectează membrul care a primit venitul."
+      },
+      "paidFor": {
+        "title": "Primit pentru",
+        "description": "Selectează pentru cine a fost primit venitul."
+      },
+      "splitModeDescription": "Selectează cum să fie împărțit venitul.",
+      "attachDescription": "Vizualizează și atașează bonul pentru venit."
+    },
+    "Expense": {
+      "create": "Adaugă o cheltuială",
+      "edit": "Modifică cheltuiala",
+      "TitleField": {
+        "label": "Titlul cheltuielii",
+        "placeholder": "Cina de luni seară",
+        "description": "Adaugă o descriere pentru cheltuială."
+      },
+      "DateField": {
+        "label": "Data cheltuielii",
+        "description": "Adaugă data la care cheltuiala a fost facută."
+      },
+      "categoryFieldDescription": "Selectează categoria cheltuielii.",
+      "paidByField": {
+        "label": "Plătit de către",
+        "description": "Selectează membrul care a plătit cheltuiala."
+      },
+      "paidFor": {
+        "title": "Plătit pentru",
+        "description": "Selectează pentru cine a fost platită cheltuiala."
+      },
+      "splitModeDescription": "Selectează cum să fie împărțită cheltuiala.",
+      "attachDescription": "Vizualizează și atașează bonul pentru cheltuială."
+    },
+    "amountField": {
+      "label": "Sumă"
+    },
+    "isReimbursementField": {
+      "label": "Aceasta este o rambursare."
+    },
+    "categoryField": {
+      "label": "Categorie"
+    },
+    "notesField": {
+      "label": "Notițe"
+    },
+    "selectNone": "Nu selectez nimic",
+    "selectAll": "Selectez tot",
+    "shares": "distribuiri",
+    "advancedOptions": "Opțiuni avansate de împărțire…",
+    "SplitModeField": {
+      "label": "Împărțire",
+      "evenly": "Egal",
+      "byShares": "Inegal – În funcție de parte",
+      "byPercentage": "Inegal – În funcție de procentaj",
+      "byAmount": "Inegal – În funcție de sumă",
+      "saveAsDefault": "Salvează ca și implicite opțiunile de împărțire"
+    },
+    "DeletePopup": {
+      "label": "Șterge",
+      "title": "Ștergi această cheltuială?",
+      "description": "Ești sigur că vrei să ștergi această cheltuială? Această acțiune este ireversibilă.",
+      "yes": "Da",
+      "cancel": "Anulează"
+    },
+    "attachDocuments": "Atașează documente",
+    "create": "Adaugă",
+    "creating": "Se adaugă…",
+    "save": "Salvează",
+    "saving": "Se salvează…",
+    "cancel": "Anulează",
+    "reimbursement": "Rambursare"
+  },
+  "ExpenseDocumentsInput": {
+    "TooBigToast": {
+      "title": "Fișierul este prea mare",
+      "description": "Dimensiunea maximă a fișierului pe care îl poți atașa este {maxSize}. Fișierul tău are ${size}."
+    },
+    "ErrorToast": {
+      "title": "Eroare la adăugarea documentului.",
+      "description": "Ceva a mers greșit la adăugarea fișierului. Încearcă mai târziu sau cum un alt fișier.",
+      "retry": "Reîncearcă"
+    }
+  },
+  "CreateFromReceipt": {
+    "Dialog": {
+      "triggerTitle": "Adaugă o cheltuială dintr-un bon",
+      "title": "Adaugă din bon",
+      "description": "Extrage informații despre cheltuială dintr-o poză cu bonul.",
+      "body": "Adaugă o poză cu bonul și vom încerca să o scanăm pentru a extrage informații despre cheltuială.",
+      "selectImage": "Selectează o imagine…",
+      "titleLabel": "Titlu:",
+      "categoryLabel": "Categorie:",
+      "amountLabel": "Sumă:",
+      "dateLabel": "Data:",
+      "editNext": "Vei putea sa modifici informațiile despre cheltuială în continuare.",
+      "continue": "Continuă"
+    },
+    "unknown": "Necunoscut",
+    "TooBigToast": {
+      "title": "Fișierul este prea mare",
+      "description": "Dimensiunea maximă a fișierului pe care il poți atașa este {maxSize}. Fișierul tău are ${size}."
+    },
+    "ErrorToast": {
+      "title": "Eroare la adăugarea documentului.",
+      "description": "Ceva a mers greșit la adăugarea fișierului. Încearcă mai târziu sau cum un alt fișier.",
+      "retry": "Reîncearcă"
+    }
+  },
+  "Balances": {
+    "title": "Solduri",
+    "description": "Aceasta este suma pe care fiecare membru a plătit-o sau cu care a fost plătit.",
+    "Reimbursements": {
+      "title": "Rambursări sugerate",
+      "description": "Acestea sunt sugestiile pentru rambursări optimizate între membrii.",
+      "noImbursements": "Se pare că grupul tău nu are nevoie de rambursări 😁",
+      "owes": "<strong>{from}</strong> datorează <strong>{to}</strong>",
+      "markAsPaid": "Bifează ca plătit"
+    }
+  },
+  "Stats": {
+    "title": "Statistici",
+    "Totals": {
+      "title": "Totaluri",
+      "description": "Sumarul cheltuielior pentru întregul grup.",
+      "groupSpendings": "Totalul cheltuielilor din grup",
+      "groupEarnings": "Totalul veniturilor din grup",
+      "yourSpendings": "Totalul cheltuielilor tale",
+      "yourEarnings": "Totalul veniturilor tale",
+      "yourShare": "Partea ta"
+    }
+  },
+  "Activity": {
+    "title": "Activități",
+    "description": "Rezumatul întregii activități a grupului.",
+    "noActivity": "Nu este nicio activitate în grupul tău încă.",
+    "someone": "Cineva",
+    "settingsModified": "Setările grupului au fost modificate de <strong>{participant}</strong>.",
+    "expenseCreated": "Cheltuială <em>{expense}</em> adăugată de <strong>{participant}</strong>.",
+    "expenseUpdated": "Cheltuială <em>{expense}</em> modificată de <strong>{participant}</strong>.",
+    "expenseDeleted": "Cheltuială <em>{expense}</em> ștearsă de <strong>{participant}</strong>.",
+    "Groups": {
+      "today": "Azi",
+      "yesterday": "Ieri",
+      "earlierThisWeek": "La începutul săptămânii",
+      "lastWeek": "Săptămâna trecută",
+      "earlierThisMonth": "La începutul lunii",
+      "lastMonth": "Luna trecuta",
+      "earlierThisYear": "La începutul anului",
+      "lastYear": "Anul trecut",
+      "older": "Mai vechi"
+    }
+  },
+  "Information": {
+    "title": "Informații",
+    "description": "Adaugă aici orice informație care poate să fie relevantă pentru membrii grupului.",
+    "empty": "Nicio informație de grup încă."
+  },
+  "Settings": {
+    "title": "Setări"
+  },
+  "Locale": {
+    "en-US": "Engleză",
+    "fi": "Finlandeză",
+    "fr-FR": "Franceză",
+    "es": "Spaniolă",
+    "de-DE": "Germană",
+    "zh-CN": "Chineză (Simplificată)",
+    "pl-PL": "Poloneză",
+    "ru-RU": "Rusă",
+    "it-IT": "Italiană",
+    "ua-UA": "Ucraineană",
+    "ro": "Română"
+  },
+  "Share": {
+    "title": "Distribuie",
+    "description": "Pentru ca ceilalți participanți să poată vedea grupul și cheltuielile adăugate, distribuie URL-ul acestuia cu ei.",
+    "warning": "Avertisment!",
+    "warningHelp": "Oricine are URL-ul grupului va putea să vadă și să editeze cheltuielile. Distribuie cu grijă!"
+  },
+  "SchemaErrors": {
+    "min1": "Introduceți cel puțin un caracter.",
+    "min2": "Introduceți cel puțin două caractere.",
+    "max5": "Introduceți cel mult cinci caractere.",
+    "max50": "Introduceți cel mult 50 de caractere.",
+    "duplicateParticipantName": "Un alt membru are deja acest nume.",
+    "titleRequired": "Vă rugăm să introduceți un titlu.",
+    "invalidNumber": "Număr invalid.",
+    "amountRequired": "Trebuie să introduceți o sumă.",
+    "amountNotZero": "Suma nu trebuie să fie zero.",
+    "amountTenMillion": "Suma trebuie să fie mai mică de 10,000,000.",
+    "paidByRequired": "Trebuie să selectați un membru.",
+    "paidForMin1": "Cheltuiala trebuie plătită pentru cel puțin un membru.",
+    "noZeroShares": "Toate părțile trebuie să fie mai mari de 0.",
+    "amountSum": "Suma valorilor trebuie să fie egală cu suma cheltuielilor.",
+    "percentageSum": "Suma procentajelor trebuie să fie egală cu 100."
+  },
+  "Categories": {
+    "search": "Căutați categorie…",
+    "noCategory": "Nicio categorie găsită.",
+    "Uncategorized": {
+      "heading": "Fără categorie",
+      "General": "General",
+      "Payment": "Plată"
+    },
+    "Entertainment": {
+      "heading": "Divertisment",
+      "Entertainment": "Divertisment",
+      "Games": "Jocuri",
+      "Movies": "Filme",
+      "Music": "Muzică",
+      "Sports": "Sporturi"
+    },
+    "Food and Drink": {
+      "heading": "Mâncare și Băutură",
+      "Food and Drink": "Mâncare și Băutură",
+      "Dining Out": "Cină în oraș",
+      "Groceries": "Alimente",
+      "Liquor": "Băuturi alcoolice"
+    },
+    "Home": {
+      "heading": "Acasă",
+      "Home": "Acasă",
+      "Electronics": "Electronice",
+      "Furniture": "Mobilier",
+      "Household Supplies": "Produse de uz casnic",
+      "Maintenance": "Întreținere",
+      "Mortgage": "Ipotecă",
+      "Pets": "Animale de companie",
+      "Rent": "Chirie",
+      "Services": "Servicii"
+    },
+    "Life": {
+      "heading": "Viață",
+      "Childcare": "Îngrijirea copiilor",
+      "Clothing": "Îmbrăcăminte",
+      "Education": "Educație",
+      "Gifts": "Cadouri",
+      "Insurance": "Asigurare",
+      "Medical Expenses": "Cheltuieli medicale",
+      "Taxes": "Impozite"
+    },
+    "Transportation": {
+      "heading": "Transport",
+      "Transportation": "Transport",
+      "Bicycle": "Bicicletă",
+      "Bus/Train": "Autobuz/Tren",
+      "Car": "Mașină",
+      "Gas/Fuel": "Gaz/Combustibil",
+      "Hotel": "Hotel",
+      "Parking": "Parcare",
+      "Plane": "Avion",
+      "Taxi": "Taxi"
+    },
+    "Utilities": {
+      "heading": "Utilități",
+      "Utilities": "Utilități",
+      "Cleaning": "Curățenie",
+      "Electricity": "Electricitate",
+      "Heat/Gas": "Încălzire/Gaz",
+      "Trash": "Gunoi",
+      "TV/Phone/Internet": "TV/Telefon/Internet",
+      "Water": "Apă"
+    }
+  }
+}
