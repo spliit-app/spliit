@@ -1,0 +1,401 @@
+{
+  "Homepage": {
+    "title": "Teile <strong>Ausgaben</strong> mit <strong>Freunden & Familie</strong>",
+    "description": "Willkommen zu deiner neuen <strong>Spliit</strong>-Instanz!",
+    "button": {
+      "groups": "Zu den Gruppen",
+      "github": "GitHub"
+    }
+  },
+  "Header": {
+    "groups": "Gruppen"
+  },
+  "Footer": {
+    "madeIn": "Entwickelt in Montréal, Québec 🇨🇦",
+    "builtBy": "Erstellt von <author>Sebastien Castiel</author> und <source>Mitwirkenden</source>"
+  },
+  "Expenses": {
+    "title": "Ausgaben",
+    "description": "Hier sind die Ausgaben, die du für deine Gruppe erstellt hast.",
+    "create": "Ausgabe hinzufügen",
+    "createFirst": "Erstelle die Erste",
+    "noExpenses": "Deine Gruppe hat noch keine Ausgaben.",
+    "exportJson": "Als JSON exportieren",
+    "searchPlaceholder": "Suche nach einer Ausgabe…",
+    "ActiveUserModal": {
+      "title": "Wer bist du?",
+      "description": "Sag uns, welcher Teilnehmer du bist, um die angezeigten Informationen auf dich anzupassen.",
+      "nobody": "Ich will niemanden auswählen",
+      "save": "Änderungen speichern",
+      "footer": "Diese Einstellung kann später in den Gruppeneinstellungen geändert werden."
+    },
+    "Groups": {
+      "upcoming": "Bevorstehend",
+      "thisWeek": "Diese Woche",
+      "earlierThisMonth": "Diesen Monat",
+      "lastMonth": "Letzten Monat",
+      "earlierThisYear": "Dieses Jahr",
+      "lastYera": "Letztes Jahr",
+      "older": "Älter"
+    }
+  },
+  "ExpenseCard": {
+    "paidBy": "Gezahlt von <strong>{paidBy}</strong> für <paidFor></paidFor>",
+    "receivedBy": "Empfangen von <strong>{paidBy}</strong> für <paidFor></paidFor>",
+    "yourBalance": "Deine Bilanz:"
+  },
+  "Groups": {
+    "myGroups": "Meine Gruppen",
+    "create": "Erstellen",
+    "loadingRecent": "Lade letzte Gruppen…",
+    "NoRecent": {
+      "description": "Du hast in der letzten Zeit keine Gruppe besucht.",
+      "create": "Erstelle eine",
+      "orAsk": "oder bitte einen Freund, dir einen Link zu einer Existierenden zu schicken."
+    },
+    "recent": "Letzte Gruppen",
+    "starred": "Favorisierte Gruppen",
+    "archived": "Archivierte Gruppen",
+    "archive": "Gruppe archivieren",
+    "unarchive": "Gruppe wiederherstellen",
+    "removeRecent": "Aus letzten Gruppen entfernen",
+    "RecentRemovedToast": {
+      "title": "Gruppe wurde entfernt",
+      "description": "Die Gruppe wurde von deiner Liste der letzten Gruppen entfernt.",
+      "undoAlt": "Gruppe entfernen rückgängig machen",
+      "undo": "Rückgängig machen"
+    },
+    "AddByURL": {
+      "button": "Mit URL hinzufügen",
+      "title": "Gruppe mit URL hinzufügen",
+      "description": "Wenn eine Gruppe mit dir geteilt wurde, kannst du ihre URL hier einfügen, um sie zu deiner Liste hinzuzufügen.",
+      "error": "Ups, wir können die Gruppe mit der angegebenen URL nicht finden…"
+    },
+    "NotFound": {
+      "text": "Diese Gruppe existiert nicht.",
+      "link": "Gehe zu zuletzt besuchten Gruppen"
+    }
+  },
+  "GroupForm": {
+    "title": "Gruppeninformationen",
+    "NameField": {
+      "label": "Gruppenname",
+      "placeholder": "Sommerurlaub",
+      "description": "Gib deiner Gruppe einen Namen."
+    },
+    "InformationField": {
+      "label": "Gruppeninformationen",
+      "placeholder": "Welche Informationen sind relevant für Gruppenmitglieder?"
+    },
+    "CurrencyField": {
+      "label": "Währungssymbol",
+      "placeholder": "€, $, £…",
+      "description": "Wir benutzen es, um Beträge anzuzeigen."
+    },
+    "Participants": {
+      "title": "Mitglieder",
+      "description": "Füge einen Namen für jedes Gruppenmitglied hinzu.",
+      "protectedParticipant": "Dieses Mitglied ist Teil der Ausgaben und kann nicht entfernt werden.",
+      "new": "Neu",
+      "add": "Mitglied hinzufügen",
+      "John": "Johannes",
+      "Jane": "Janina",
+      "Jack": "Jakob"
+    },
+    "Settings": {
+      "title": "Lokale Einstellungen",
+      "description": "Dies sind Einstellungen pro Gerät, die verwendet werden, um deine Benutzererfahrung zu verbessern.",
+      "ActiveUserField": {
+        "label": "Aktiver Nutzer",
+        "placeholder": "Wähle ein Mitglied",
+        "none": "Keiner",
+        "description": "Standardnutzer, der die Ausgaben übernimmt."
+      },
+      "save": "Speichern",
+      "saving": "Speichert…",
+      "create": "Erstellen",
+      "creating": "Erstellt…",
+      "cancel": "Abbrechen"
+    }
+  },
+  "ExpenseForm": {
+    "Income": {
+      "create": "Einnahme erstellen",
+      "edit": "Einnahme bearbeiten",
+      "TitleField": {
+        "label": "Titel der Einnahme",
+        "placeholder": "Montagabend Restaurant",
+        "description": "Füge eine Beschreibung für die Einnahme hinzu."
+      },
+      "DateField": {
+        "label": "Datum der Einnahme",
+        "description": "Füge ein Datum hinzu für wann die Einnahme erhalten wurde."
+      },
+      "categoryFieldDescription": "Wähle die Kategorie der Einnahme.",
+      "paidByField": {
+        "label": "Empfangen von",
+        "description": "Wähle das Mitglied, das die Einnahme erhalten hat."
+      },
+      "paidFor": {
+        "title": "Empfangen für",
+        "description": "Wähle für wen die Einnahme empfangen wurde."
+      },
+      "splitModeDescription": "Wähle, wie die Einnahme aufgeteilt werden soll.",
+      "attachDescription": "Füge der Einnahme einen Beleg hinzu."
+    },
+    "Expense": {
+      "create": "Augabe erstellen",
+      "edit": "Ausgabe bearbeiten",
+      "TitleField": {
+        "label": "Titel der Ausgabe",
+        "placeholder": "Montagabend Restaurant",
+        "description": "Füge eine Beschreibung für die Ausgabe hinzu."
+      },
+      "DateField": {
+        "label": "Datum der Ausgabe",
+        "description": "Füge das Datum ein, zu dem die Ausgabe getätigt wurde."
+      },
+      "categoryFieldDescription": "Wähle eine Kategorie für die Ausgabe.",
+      "paidByField": {
+        "label": "Gezahlt von",
+        "description": "Wähle das Mitglied, das die Ausgabe bezahlt hat."
+      },
+      "paidFor": {
+        "title": "Gezahlt für",
+        "description": "Wähle für wen die Ausgabe gezahlt wurde."
+      },
+      "splitModeDescription": "Wähle, wie die Ausgabe aufgeteilt werden soll.",
+      "attachDescription": "Füge der Ausgabe einen Beleg hinzu."
+    },
+    "amountField": {
+      "label": "Betrag"
+    },
+    "isReimbursementField": {
+      "label": "Das ist eine Rückzahlung"
+    },
+    "categoryField": {
+      "label": "Kategorie"
+    },
+    "notesField": {
+      "label": "Notizen"
+    },
+    "selectNone": "Keine auswählen",
+    "selectAll": "Alle auswählen",
+    "shares": "Anteil(e)",
+    "advancedOptions": "Fortgeschrittene Aufteilungsoptionen…",
+    "SplitModeField": {
+      "label": "Aufteilungsart",
+      "evenly": "Gleich verteilt",
+      "byShares": "Ungleich – Nach Anteilen",
+      "byPercentage": "Ungleich – Prozentual",
+      "byAmount": "Ungleich – Nach Betrag",
+      "saveAsDefault": "Als Standardoptionen zur Aufteilung speichern"
+    },
+    "DeletePopup": {
+      "label": "Löschen",
+      "title": "Diese Ausgabe löschen?",
+      "description": "Willst du diese Ausgabe wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "yes": "Ja",
+      "cancel": "Abbrechen"
+    },
+    "attachDocuments": "Dokument hinzufügen",
+    "create": "Erstellen",
+    "creating": "Erstellt…",
+    "save": "Speichern",
+    "saving": "Speichert…",
+    "cancel": "Abbrechen",
+    "reimbursement": "Rückzahlung"
+  },
+  "ExpenseDocumentsInput": {
+    "TooBigToast": {
+      "title": "Die Datei ist zu groß",
+      "description": "Die maximale Dateigröße ist {maxSize}. Deine ist ${size}."
+    },
+    "ErrorToast": {
+      "title": "Fehler beim Hochladen der Datei",
+      "description": "Beim Hochladen der Datei ist etwas schiefgelaufen. Versuche es später nochmal oder wähle eine andere Datei.",
+      "retry": "Wiederholen"
+    }
+  },
+  "CreateFromReceipt": {
+    "Dialog": {
+      "triggerTitle": "Ausgabe von Rechnungsbeleg erstellen",
+      "title": "Von Rechnungsbeleg erstellen",
+      "description": "Ausgabeninformationen von einem Foto einer Rechnung lesen.",
+      "body": "Lade ein Foto der Rechnung hoch und wir versuchen die Ausgabeinformationen zu extrahieren",
+      "selectImage": "Bild wählen…",
+      "titleLabel": "Titel:",
+      "categoryLabel": "Kategorie:",
+      "amountLabel": "Betrag:",
+      "dateLabel": "Datum:",
+      "editNext": "Als nächstes kannst du die Informationen zur Ausgabe editieren.",
+      "continue": "Weiter"
+    },
+    "unknown": "Unbekannt",
+    "TooBigToast": {
+      "title": "Die Datei ist zu groß",
+      "description": "Die maximale Dateigröße ist {maxSize}. Deine ist ${size}."
+    },
+    "ErrorToast": {
+      "title": "Fehler beim Hochladen der Datei",
+      "description": "Beim Hochladen der Datei ist etwas schiefgelaufen. Versuche es später nochmal oder wähle eine andere Datei.",
+      "retry": "Wiederholen"
+    }
+  },
+  "Balances": {
+    "title": "Bilanz",
+    "description": "Das sind die Beträge, die jedes Mitglied bezahlt oder empfangen hat.",
+    "Reimbursements": {
+      "title": "Vorgeschlagene Rückzahlungen",
+      "description": "Hier sind Vorschläge für optimierte Rückzahlungen zwischen Mitgliedern.",
+      "noImbursements": "Es sieht aus, als seien in der Gruppe keine Rückzahlungen nötig 😁",
+      "owes": "<strong>{from}</strong> schuldet <strong>{to}</strong>",
+      "markAsPaid": "Als gezahlt markieren"
+    }
+  },
+  "Stats": {
+    "title": "Statistiken",
+    "Totals": {
+      "title": "Gesamtausgaben",
+      "description": "Zusammenfassung der Ausgaben der gesamten Gruppe.",
+      "groupSpendings": "Gesamte Ausgaben der Gruppe",
+      "groupEarnings": "Gesamte Einnahmen der Gruppe",
+      "yourSpendings": "Deine gesamten Ausgaben",
+      "yourEarnings": "Deine gesamten Einnahmen",
+      "yourShare": "Dein gesamter Anteil"
+    }
+  },
+  "Activity": {
+    "title": "Aktivitäten",
+    "description": "Zusammenfassung aller Aktivitäten in dieser Gruppe.",
+    "noActivity": "Es gab noch keine Aktivität in dieser Gruppe.",
+    "someone": "Jemand",
+    "settingsModified": "Die Gruppeneinstellungen wurden von <strong>{participant}</strong> verändert.",
+    "expenseCreated": "Augabe <em>{expense}</em> wurde von <strong>{participant}</strong> erstellt.",
+    "expenseUpdated": "Ausgabe <em>{expense}</em> wurde von <strong>{participant}</strong> aktualisiert.",
+    "expenseDeleted": "Ausgabe <em>{expense}</em> wurde von <strong>{participant}</strong> gelöscht.",
+    "Groups": {
+      "today": "Heute",
+      "yesterday": "Gestern",
+      "earlierThisWeek": "Diese Woche",
+      "lastWeek": "Letze Woche",
+      "earlierThisMonth": "Diesen Monat",
+      "lastMonth": "Letzen Monat",
+      "earlierThisYear": "Dieses Jahr",
+      "lastYear": "Letztes Jahr",
+      "older": "Älter"
+    }
+  },
+  "Information": {
+    "title": "Informationen",
+    "description": "Nutze diesen Ort, um Informationen hinzuzufügen, die für die Gruppenmitglieder wichtig sein könnten.",
+    "empty": "Noch keine Gruppeninformationen vorhanden."
+  },
+  "Settings": {
+    "title": "Einstellungen"
+  },
+  "Locale": {
+    "en-US": "English",
+    "fi": "Suomi",
+    "fr-FR": "Français",
+    "es": "Español",
+    "de-DE": "Deutsch",
+    "zh-CN": "Chinese (Simplified)",
+    "pl-PL": "Polski",
+    "ru-RU": "Русский",
+    "it-IT": "Italiano",
+    "ua-UA": "Українська",
+    "ro": "Română"
+  },
+  "Share": {
+    "title": "Teilen",
+    "description": "Teile die URL, damit andere Mitglieder die Gruppe sehen und Ausgaben hinzufügen können.",
+    "warning": "Achtung!",
+    "warningHelp": "Jede person mit der Gruppen-URL kann Ausgaben sehen und editieren. Teile den Link mit Bedacht!"
+  },
+  "SchemaErrors": {
+    "min1": "Gib mindestens ein Zeichen ein.",
+    "min2": "Gib mindestens zwei Zeichen ein.",
+    "max5": "Gib maximal fünf Zeichen ein.",
+    "max50": "Gib maximal 50 Zeichen ein.",
+    "duplicateParticipantName": "Der Name ist bereits an ein anderes Gruppenmitglied vergeben.",
+    "titleRequired": "Bitte gib einen Titel an.",
+    "invalidNumber": "Zahl nicht valide.",
+    "amountRequired": "Du musst einen Betrag angeben.",
+    "amountNotZero": "Der Betrag darf nicht 0 sein.",
+    "amountTenMillion": "Der Betrag muss kleiner als 10.000.000 sein",
+    "paidByRequired": "Du musst ein Mitglied auswählen.",
+    "paidForMin1": "Die Ausgabe muss mindestens für ein Mitglied bezahlt werden.",
+    "noZeroShares": "Alle Anteile müssen größer als 0 sein.",
+    "amountSum": "Die Summe der Beträge muss dem Betrag der Ausgabe entsprechen.",
+    "percentageSum": "Die Summe der prozentualen Anteile muss 100 ergeben."
+  },
+  "Categories": {
+    "search": "Nach Kategorie suchen...",
+    "noCategory": "Keine Kategorie gefunden.",
+    "Uncategorized": {
+      "heading": "Nicht kategorisiert",
+      "General": "Allgemein",
+      "Payment": "Zahlung"
+    },
+    "Entertainment": {
+      "heading": "Vergnügen",
+      "Entertainment": "Vergnügen",
+      "Games": "Spiele",
+      "Movies": "Filme",
+      "Music": "Musik",
+      "Sports": "Sport"
+    },
+    "Food and Drink": {
+      "heading": "Essen und Trinken",
+      "Food and Drink": "Essen und Trinken",
+      "Dining Out": "Essen gehen",
+      "Groceries": "Lebensmittel",
+      "Liquor": "Alkohol"
+    },
+    "Home": {
+      "heading": "Zuhause",
+      "Home": "Zuhause",
+      "Electronics": "Elektronik",
+      "Furniture": "Möbel",
+      "Household Supplies": "Haushaltsgegenstände",
+      "Maintenance": "Wartung",
+      "Mortgage": "Hypothek",
+      "Pets": "Haustiere",
+      "Rent": "Miete",
+      "Services": "Dienstleistungen"
+    },
+    "Life": {
+      "heading": "Leben",
+      "Childcare": "Kinderversorgung",
+      "Clothing": "Kleidung",
+      "Education": "Bildung",
+      "Gifts": "Geschenke",
+      "Insurance": "Versicherung",
+      "Medical Expenses": "Medizinische Ausgaben",
+      "Taxes": "Steuern"
+    },
+    "Transportation": {
+      "heading": "Transport",
+      "Transportation": "Transport",
+      "Bicycle": "Fahrrad",
+      "Bus/Train": "Bus/Bahn",
+      "Car": "Auto",
+      "Gas/Fuel": "Tanken",
+      "Hotel": "Hotel",
+      "Parking": "Parken",
+      "Plane": "Flugzeug",
+      "Taxi": "Taxi"
+    },
+    "Utilities": {
+      "heading": "Versorgung",
+      "Utilities": "Versorgung",
+      "Cleaning": "Reinigung/Putzen",
+      "Electricity": "Strom",
+      "Heat/Gas": "Heizung",
+      "Trash": "Müll",
+      "TV/Phone/Internet": "TV/Internet/Telefonie",
+      "Water": "Wasser"
+    }
+  }
+}

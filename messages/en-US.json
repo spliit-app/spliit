@@ -1,4 +1,12 @@
 {
+  "Homepage": {
+    "title": "Share <strong>Expenses</strong> with <strong>Friends & Family</strong>",
+    "description": "Welcome to your new <strong>Spliit</strong> instance !",
+    "button": {
+      "groups": "Go to groups",
+      "github": "GitHub"
+    }
+  },
   "Header": {
     "groups": "Groups"
   },
@@ -195,7 +203,8 @@
     "creating": "Creating…",
     "save": "Save",
     "saving": "Saving…",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "reimbursement": "Reimbursement"
   },
   "ExpenseComments": {
       "title": "Comments",
@@ -300,7 +309,16 @@
   },
   "Locale": {
     "en-US": "English",
-    "fi": "Suomi"
+    "fi": "Suomi",
+    "fr-FR": "Français",
+    "es": "Español",
+    "de-DE": "Deutsch",
+    "zh-CN": "Chinese (Simplified)",
+    "pl-PL": "Polski",
+    "ru-RU": "Русский",
+    "it-IT": "Italiano",
+    "ua-UA": "Українська",
+    "ro": "Română"
   },
   "Share": {
     "title": "Share",
