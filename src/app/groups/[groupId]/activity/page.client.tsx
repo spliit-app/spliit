@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: 'Activity',
 }
 
-export function ActivityPageClient({ groupId }: { groupId: string }) {
+export function ActivityPageClient() {
   const t = useTranslations('Activity')
 
   return (
@@ -24,7 +24,7 @@ export function ActivityPageClient({ groupId }: { groupId: string }) {
           <CardDescription>{t('description')}</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col space-y-4">
-          <ActivityList groupId={groupId} />
+          <ActivityList />
         </CardContent>
       </Card>
     </>

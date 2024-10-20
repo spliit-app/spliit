@@ -64,7 +64,7 @@ const enforceCurrencyPattern = (value: string) =>
     .replace(/[^-\d.]/g, '') // remove all non-numeric characters
 
 const getDefaultSplittingOptions = (
-  group: AppRouterOutput['groups']['get']['group'],
+  group: NonNullable<AppRouterOutput['groups']['get']['group']>,
 ) => {
   const defaultValue = {
     splitMode: 'EVENLY' as const,
@@ -145,7 +145,7 @@ export function ExpenseForm({
   onDelete,
   runtimeFeatureFlags,
 }: {
-  group: AppRouterOutput['groups']['get']['group']
+  group: NonNullable<AppRouterOutput['groups']['get']['group']>
   categories: AppRouterOutput['categories']['list']['categories']
   expense?: AppRouterOutput['groups']['expenses']['get']['expense']
   onSubmit: (value: ExpenseFormValues, participantId?: string) => Promise<void>
@@ -250,7 +250,6 @@ export function ExpenseForm({
   >(new Set())
 
   const sExpense = isIncome ? 'Income' : 'Expense'
-  const sPaid = isIncome ? 'received' : 'paid'
 
   useEffect(() => {
     setManuallyEditedParticipants(new Set())

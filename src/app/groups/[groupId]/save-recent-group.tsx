@@ -1,17 +1,13 @@
 'use client'
-import {
-  RecentGroup,
-  saveRecentGroup,
-} from '@/app/groups/recent-groups-helpers'
+import { saveRecentGroup } from '@/app/groups/recent-groups-helpers'
 import { useEffect } from 'react'
+import { useCurrentGroup } from './current-group-context'
 
-type Props = {
-  group: RecentGroup
-}
+export function SaveGroupLocally() {
+  const { group } = useCurrentGroup()
 
-export function SaveGroupLocally({ group }: Props) {
   useEffect(() => {
-    saveRecentGroup(group)
+    if (group) saveRecentGroup({ id: group.id, name: group.name })
   }, [group])
 
   return null

@@ -11,6 +11,7 @@ import Link from 'next/link'
 import { forwardRef, useEffect, useMemo, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useDebounce } from 'use-debounce'
+import { useCurrentGroup } from '../current-group-context'
 
 const PAGE_SIZE = 20
 
@@ -56,12 +57,12 @@ function getGroupedExpensesByDate(expenses: ExpensesType) {
   }, {})
 }
 
-export function ExpenseList({ groupId }: { groupId: string }) {
-  const { data: groupData } = trpc.groups.get.useQuery({ groupId })
+export function ExpenseList() {
+  const { groupId, group } = useCurrentGroup()
   const [searchText, setSearchText] = useState('')
   const [debouncedSearchText] = useDebounce(searchText, 300)
 
-  const participants = groupData?.group.participants
+  const participants = group?.participants
 
   useEffect(() => {
     if (!participants) return
@@ -103,6 +104,7 @@ const ExpenseListForSearch = ({
   searchText: string
 }) => {
   const utils = trpc.useUtils()
+  const { group } = useCurrentGroup()
 
   useEffect(() => {
     // Until we use tRPC more widely and can invalidate the cache on expense
@@ -124,11 +126,7 @@ const ExpenseListForSearch = ({
   const expenses = data?.pages.flatMap((page) => page.expenses)
   const hasMore = data?.pages.at(-1)?.hasMore ?? false
 
-  const { data: groupData, isLoading: groupIsLoading } =
-    trpc.groups.get.useQuery({ groupId })
-
-  const isLoading =
-    expensesAreLoading || !expenses || groupIsLoading || !groupData
+  const isLoading = expensesAreLoading || !expenses || !group
 
   useEffect(() => {
     if (inView && hasMore && !isLoading) fetchNextPage()
@@ -172,7 +170,7 @@ const ExpenseListForSearch = ({
               <ExpenseCard
                 key={expense.id}
                 expense={expense}
-                currency={groupData.group.currency}
+                currency={group.currency}
                 groupId={groupId}
               />
             ))}

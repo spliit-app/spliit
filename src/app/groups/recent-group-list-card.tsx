@@ -1,12 +1,7 @@
-'use client'
-import { RecentGroupsState } from '@/app/groups/recent-group-list'
 import {
   RecentGroup,
   archiveGroup,
   deleteRecentGroup,
-  getArchivedGroups,
-  getStarredGroups,
-  saveRecentGroup,
   starGroup,
   unarchiveGroup,
   unstarGroup,
@@ -19,45 +14,31 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Skeleton } from '@/components/ui/skeleton'
-import { ToastAction } from '@/components/ui/toast'
 import { useToast } from '@/components/ui/use-toast'
+import { AppRouterOutput } from '@/trpc/routers/_app'
 import { StarFilledIcon } from '@radix-ui/react-icons'
 import { Calendar, MoreHorizontal, Star, Users } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { SetStateAction } from 'react'
 
 export function RecentGroupListCard({
   group,
-  state,
-  setState,
+  groupDetail,
+  isStarred,
+  isArchived,
+  refreshGroupsFromStorage,
 }: {
   group: RecentGroup
-  state: RecentGroupsState
-  setState: (state: SetStateAction<RecentGroupsState>) => void
+  groupDetail?: AppRouterOutput['groups']['list']['groups'][number]
+  isStarred: boolean
+  isArchived: boolean
+  refreshGroupsFromStorage: () => void
 }) {
   const router = useRouter()
   const locale = useLocale()
   const toast = useToast()
   const t = useTranslations('Groups')
-
-  const details =
-    state.status === 'complete'
-      ? state.groupsDetails.find((d) => d.id === group.id)
-      : null
-
-  if (state.status === 'pending') return null
-
-  const refreshGroupsFromStorage = () =>
-    setState({
-      ...state,
-      starredGroups: getStarredGroups(),
-      archivedGroups: getArchivedGroups(),
-    })
-
-  const isStarred = state.starredGroups.includes(group.id)
-  const isArchived = state.archivedGroups.includes(group.id)
 
   return (
     <li key={group.id}>
@@ -116,27 +97,11 @@ export function RecentGroupListCard({
                       onClick={(event) => {
                         event.stopPropagation()
                         deleteRecentGroup(group)
-                        setState({
-                          ...state,
-                          groups: state.groups.filter((g) => g.id !== group.id),
-                        })
+                        refreshGroupsFromStorage()
+
                         toast.toast({
                           title: t('RecentRemovedToast.title'),
                           description: t('RecentRemovedToast.description'),
-                          action: (
-                            <ToastAction
-                              altText={t('RecentRemovedToast.undoAlt')}
-                              onClick={() => {
-                                saveRecentGroup(group)
-                                setState({
-                                  ...state,
-                                  groups: state.groups,
-                                })
-                              }}
-                            >
-                              {t('RecentRemovedToast.undo')}
-                            </ToastAction>
-                          ),
                         })
                       }}
                     >
@@ -161,18 +126,21 @@ export function RecentGroupListCard({
               </span>
             </div>
             <div className="text-muted-foreground font-normal text-xs">
-              {details ? (
+              {groupDetail ? (
                 <div className="w-full flex items-center justify-between">
                   <div className="flex items-center">
                     <Users className="w-3 h-3 inline mr-1" />
-                    <span>{details._count.participants}</span>
+                    <span>{groupDetail._count.participants}</span>
                   </div>
                   <div className="flex items-center">
                     <Calendar className="w-3 h-3 inline mx-1" />
                     <span>
-                      {new Date(details.createdAt).toLocaleDateString(locale, {
-                        dateStyle: 'medium',
-                      })}
+                      {new Date(groupDetail.createdAt).toLocaleDateString(
+                        locale,
+                        {
+                          dateStyle: 'medium',
+                        },
+                      )}
                     </span>
                   </div>
                 </div>

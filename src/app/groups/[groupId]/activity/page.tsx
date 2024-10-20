@@ -5,10 +5,6 @@ export const metadata: Metadata = {
   title: 'Activity',
 }
 
-export default async function ActivityPage({
-  params: { groupId },
-}: {
-  params: { groupId: string }
-}) {
-  return <ActivityPageClient groupId={groupId} />
+export default async function ActivityPage() {
+  return <ActivityPageClient />
 }

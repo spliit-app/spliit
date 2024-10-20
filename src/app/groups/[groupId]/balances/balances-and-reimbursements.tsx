@@ -13,15 +13,12 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { trpc } from '@/trpc/client'
 import { useTranslations } from 'next-intl'
 import { Fragment, useEffect } from 'react'
+import { match } from 'ts-pattern'
+import { useCurrentGroup } from '../current-group-context'
 
-export default function BalancesAndReimbursements({
-  groupId,
-}: {
-  groupId: string
-}) {
+export default function BalancesAndReimbursements() {
   const utils = trpc.useUtils()
-  const { data: groupData, isLoading: groupIsLoading } =
-    trpc.groups.get.useQuery({ groupId })
+  const { groupId, group } = useCurrentGroup()
   const { data: balancesData, isLoading: balancesAreLoading } =
     trpc.groups.balances.list.useQuery({
       groupId,
@@ -34,8 +31,7 @@ export default function BalancesAndReimbursements({
     utils.groups.balances.invalidate()
   }, [utils])
 
-  const isLoading =
-    balancesAreLoading || !balancesData || groupIsLoading || !groupData?.group
+  const isLoading = balancesAreLoading || !balancesData || !group
 
   return (
     <>
@@ -46,14 +42,12 @@ export default function BalancesAndReimbursements({
         </CardHeader>
         <CardContent>
           {isLoading ? (
-            <BalancesLoading
-              participantCount={groupData?.group.participants.length}
-            />
+            <BalancesLoading participantCount={group?.participants.length} />
           ) : (
             <BalancesList
               balances={balancesData.balances}
-              participants={groupData.group.participants}
-              currency={groupData.group.currency}
+              participants={group?.participants}
+              currency={group?.currency}
             />
           )}
         </CardContent>
@@ -66,14 +60,14 @@ export default function BalancesAndReimbursements({
         <CardContent>
           {isLoading ? (
             <ReimbursementsLoading
-              participantCount={groupData?.group.participants.length}
+              participantCount={group?.participants.length}
             />
           ) : (
             <ReimbursementList
               reimbursements={balancesData.reimbursements}
-              participants={groupData.group.participants}
-              currency={groupData.group.currency}
-              groupId={groupData.group.id}
+              participants={group?.participants}
+              currency={group?.currency}
+              groupId={groupId}
             />
           )}
         </CardContent>
@@ -109,6 +103,12 @@ const BalancesLoading = ({
 }: {
   participantCount?: number
 }) => {
+  const barWidth = (index: number) =>
+    match(index % 3)
+      .with(0, () => 'w-1/3')
+      .with(1, () => 'w-2/3')
+      .otherwise(() => 'w-full')
+
   return (
     <div className="grid grid-cols-2 py-1 gap-y-2">
       {Array(participantCount)
@@ -120,17 +120,13 @@ const BalancesLoading = ({
                 <Skeleton className="h-3 w-16" />
               </div>
               <div className="self-start">
-                <Skeleton
-                  className={`h-7 w-${(index % 3) + 1}/3 rounded-l-none`}
-                />
+                <Skeleton className={`h-7 ${barWidth(index)} rounded-l-none`} />
               </div>
             </Fragment>
           ) : (
             <Fragment key={index}>
               <div className="flex items-center justify-end">
-                <Skeleton
-                  className={`h-7 w-${(index % 3) + 1}/3 rounded-r-none`}
-                />
+                <Skeleton className={`h-7 ${barWidth(index)} rounded-r-none`} />
               </div>
               <div className="flex items-center pl-2">
                 <Skeleton className="h-3 w-16" />
