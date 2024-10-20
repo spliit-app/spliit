@@ -7,13 +7,12 @@ export const metadata: Metadata = {
 }
 
 export default async function EditExpensePage({
-  params: { groupId, expenseId },
+  params: { expenseId },
 }: {
-  params: { groupId: string; expenseId: string }
+  params: { expenseId: string }
 }) {
   return (
     <EditExpenseForm
-      groupId={groupId}
       expenseId={expenseId}
       runtimeFeatureFlags={await getRuntimeFeatureFlags()}
     />
