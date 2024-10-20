@@ -295,16 +295,16 @@
     "title": "Setări"
   },
   "Locale": {
-    "en-US": "Engleză",
-    "fi": "Finlandeză",
-    "fr-FR": "Franceză",
-    "es": "Spaniolă",
-    "de-DE": "Germană",
-    "zh-CN": "Chineză (Simplificată)",
-    "pl-PL": "Poloneză",
-    "ru-RU": "Rusă",
-    "it-IT": "Italiană",
-    "ua-UA": "Ucraineană",
+    "en-US": "English",
+    "fi": "Suomi",
+    "fr-FR": "Français",
+    "es": "Español",
+    "de-DE": "Deutsch",
+    "zh-CN": "Chinese (Simplified)",
+    "pl-PL": "Polski",
+    "ru-RU": "Русский",
+    "it-IT": "Italiano",
+    "ua-UA": "Українська",
     "ro": "Română"
   },
   "Share": {
