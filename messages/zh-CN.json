@@ -56,6 +56,7 @@
     "recent": "最近的群组",
     "starred": "已收藏的群组",
     "archived": "已归档的群组",
+    "global": "Global Groups",
     "archive": "归档群组",
     "unarchive": "取消归档群组",
     "removeRecent": "从最近的群组中删除",
