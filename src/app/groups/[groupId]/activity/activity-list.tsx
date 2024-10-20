@@ -9,6 +9,7 @@ import dayjs, { type Dayjs } from 'dayjs'
 import { useTranslations } from 'next-intl'
 import { forwardRef, useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
+import { useCurrentGroup } from '../current-group-context'
 
 const PAGE_SIZE = 20
 
@@ -82,11 +83,9 @@ const ActivitiesLoading = forwardRef<HTMLDivElement>((_, ref) => {
 })
 ActivitiesLoading.displayName = 'ActivitiesLoading'
 
-export function ActivityList({ groupId }: { groupId: string }) {
+export function ActivityList() {
   const t = useTranslations('Activity')
-
-  const { data: groupData, isLoading: groupIsLoading } =
-    trpc.groups.get.useQuery({ groupId })
+  const { group, groupId } = useCurrentGroup()
 
   const {
     data: activitiesData,
@@ -105,7 +104,7 @@ export function ActivityList({ groupId }: { groupId: string }) {
     if (inView && hasMore && !isLoading) fetchNextPage()
   }, [fetchNextPage, hasMore, inView, isLoading])
 
-  if (isLoading || !activities || !groupData) return <ActivitiesLoading />
+  if (isLoading || !activities || !group) return <ActivitiesLoading />
 
   const groupedActivitiesByDate = getGroupedActivitiesByDate(activities)
 
@@ -131,7 +130,7 @@ export function ActivityList({ groupId }: { groupId: string }) {
             {groupActivities.map((activity) => {
               const participant =
                 activity.participantId !== null
-                  ? groupData.group.participants.find(
+                  ? group.participants.find(
                       (p) => p.id === activity.participantId,
                     )
                   : undefined

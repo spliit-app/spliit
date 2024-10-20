@@ -5,16 +5,17 @@ import { TotalsYourSpendings } from '@/app/groups/[groupId]/stats/totals-your-sp
 import { Skeleton } from '@/components/ui/skeleton'
 import { useActiveUser } from '@/lib/hooks'
 import { trpc } from '@/trpc/client'
+import { useCurrentGroup } from '../current-group-context'
 
-export function Totals({ groupId }: { groupId: string }) {
+export function Totals() {
+  const { groupId, group } = useCurrentGroup()
   const activeUser = useActiveUser(groupId)
 
   const participantId =
     activeUser && activeUser !== 'None' ? activeUser : undefined
   const { data } = trpc.groups.stats.get.useQuery({ groupId, participantId })
-  const { data: groupData } = trpc.groups.get.useQuery({ groupId })
 
-  if (!data || !groupData)
+  if (!data || !group)
     return (
       <div className="flex flex-col gap-7">
         {[0, 1, 2].map((index) => (
@@ -31,7 +32,6 @@ export function Totals({ groupId }: { groupId: string }) {
     totalParticipantShare,
     totalParticipantSpendings,
   } = data
-  const { group } = groupData
 
   return (
     <>
