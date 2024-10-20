@@ -21,7 +21,7 @@ export function ReimbursementList({
   const locale = useLocale()
   const t = useTranslations('Balances.Reimbursements')
   if (reimbursements.length === 0) {
-    return <p className="px-6 text-sm pb-6">{t('noImbursements')}</p>
+    return <p className="text-sm pb-6">{t('noImbursements')}</p>
   }
 
   const getParticipant = (id: string) => participants.find((p) => p.id === id)

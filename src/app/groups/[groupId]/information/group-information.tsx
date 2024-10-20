@@ -16,7 +16,7 @@ import Link from 'next/link'
 
 export default function GroupInformation({ groupId }: { groupId: string }) {
   const t = useTranslations('Information')
-  const { data, isLoading } = trpc.groups.information.get.useQuery({ groupId })
+  const { data, isLoading } = trpc.groups.get.useQuery({ groupId })
 
   return (
     <>
@@ -41,7 +41,7 @@ export default function GroupInformation({ groupId }: { groupId: string }) {
               <Skeleton className="h-3 w-1/2" />
             </div>
           ) : (
-            data.information || (
+            data.group.information || (
               <p className="text-muted-foreground text-sm">{t('empty')}</p>
             )
           )}

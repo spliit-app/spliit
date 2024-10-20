@@ -15,5 +15,5 @@ export default async function GroupPage({
   const group = await cached.getGroup(groupId)
   if (!group) notFound()
 
-  return <BalancesAndReimbursements group={group} />
+  return <BalancesAndReimbursements groupId={groupId} />
 }

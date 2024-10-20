@@ -10,17 +10,23 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { getGroup } from '@/lib/api'
 import { trpc } from '@/trpc/client'
 import { useTranslations } from 'next-intl'
 import { Fragment, useEffect } from 'react'
 
 export default function BalancesAndReimbursements({
-  group,
+  groupId,
 }: {
-  group: NonNullable<Awaited<ReturnType<typeof getGroup>>>
+  groupId: string
 }) {
   const utils = trpc.useUtils()
+  const { data: groupData, isLoading: groupIsLoading } =
+    trpc.groups.get.useQuery({ groupId })
+  const { data: balancesData, isLoading: balancesAreLoading } =
+    trpc.groups.balances.list.useQuery({
+      groupId,
+    })
+  const t = useTranslations('Balances')
 
   useEffect(() => {
     // Until we use tRPC more widely and can invalidate the cache on expense
@@ -28,11 +34,8 @@ export default function BalancesAndReimbursements({
     utils.groups.balances.invalidate()
   }, [utils])
 
-  const t = useTranslations('Balances')
-
-  const { data, isLoading } = trpc.groups.balances.list.useQuery({
-    groupId: group.id,
-  })
+  const isLoading =
+    balancesAreLoading || !balancesData || groupIsLoading || !groupData?.group
 
   return (
     <>
@@ -42,13 +45,15 @@ export default function BalancesAndReimbursements({
           <CardDescription>{t('description')}</CardDescription>
         </CardHeader>
         <CardContent>
-          {isLoading || !data ? (
-            <BalancesLoading participantCount={group.participants.length} />
+          {isLoading ? (
+            <BalancesLoading
+              participantCount={groupData?.group.participants.length}
+            />
           ) : (
             <BalancesList
-              balances={data.balances}
-              participants={group.participants}
-              currency={group.currency}
+              balances={balancesData.balances}
+              participants={groupData.group.participants}
+              currency={groupData.group.currency}
             />
           )}
         </CardContent>
@@ -59,16 +64,16 @@ export default function BalancesAndReimbursements({
           <CardDescription>{t('Reimbursements.description')}</CardDescription>
         </CardHeader>
         <CardContent>
-          {isLoading || !data ? (
+          {isLoading ? (
             <ReimbursementsLoading
-              participantCount={group.participants.length}
+              participantCount={groupData?.group.participants.length}
             />
           ) : (
             <ReimbursementList
-              reimbursements={data.reimbursements}
-              participants={group.participants}
-              currency={group.currency}
-              groupId={group.id}
+              reimbursements={balancesData.reimbursements}
+              participants={groupData.group.participants}
+              currency={groupData.group.currency}
+              groupId={groupData.group.id}
             />
           )}
         </CardContent>
@@ -78,9 +83,9 @@ export default function BalancesAndReimbursements({
 }
 
 const ReimbursementsLoading = ({
-  participantCount,
+  participantCount = 3,
 }: {
-  participantCount: number
+  participantCount?: number
 }) => {
   return (
     <div className="flex flex-col">
@@ -100,9 +105,9 @@ const ReimbursementsLoading = ({
 }
 
 const BalancesLoading = ({
-  participantCount,
+  participantCount = 3,
 }: {
-  participantCount: number
+  participantCount?: number
 }) => {
   return (
     <div className="grid grid-cols-2 py-1 gap-y-2">

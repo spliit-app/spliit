@@ -1,15 +1,16 @@
-import { ActivityItem } from '@/app/groups/[groupId]/activity/activity-item'
-import { getGroupExpenses } from '@/lib/api'
-import { Activity, Participant } from '@prisma/client'
+'use client'
+import {
+  Activity,
+  ActivityItem,
+} from '@/app/groups/[groupId]/activity/activity-item'
+import { Skeleton } from '@/components/ui/skeleton'
+import { trpc } from '@/trpc/client'
 import dayjs, { type Dayjs } from 'dayjs'
 import { useTranslations } from 'next-intl'
+import { forwardRef, useEffect } from 'react'
+import { useInView } from 'react-intersection-observer'
 
-type Props = {
-  groupId: string
-  participants: Participant[]
-  expenses: Awaited<ReturnType<typeof getGroupExpenses>>
-  activities: Activity[]
-}
+const PAGE_SIZE = 20
 
 const DATE_GROUPS = {
   TODAY: 'today',
@@ -48,23 +49,64 @@ function getDateGroup(date: Dayjs, today: Dayjs) {
 function getGroupedActivitiesByDate(activities: Activity[]) {
   const today = dayjs()
   return activities.reduce(
-    (result: { [key: string]: Activity[] }, activity: Activity) => {
+    (result, activity) => {
       const activityGroup = getDateGroup(dayjs(activity.time), today)
       result[activityGroup] = result[activityGroup] ?? []
       result[activityGroup].push(activity)
       return result
     },
-    {},
+    {} as {
+      [key: string]: Activity[]
+    },
   )
 }
 
-export function ActivityList({
-  groupId,
-  participants,
-  expenses,
-  activities,
-}: Props) {
+const ActivitiesLoading = forwardRef<HTMLDivElement>((_, ref) => {
+  return (
+    <div ref={ref} className="flex flex-col gap-4">
+      <Skeleton className="mt-2 h-3 w-24" />
+      {Array(5)
+        .fill(undefined)
+        .map((_, index) => (
+          <div key={index} className="flex gap-2 p-2">
+            <div className="flex-0">
+              <Skeleton className="h-3 w-12" />
+            </div>
+            <div className="flex-1">
+              <Skeleton className="h-3 w-48" />
+            </div>
+          </div>
+        ))}
+    </div>
+  )
+})
+ActivitiesLoading.displayName = 'ActivitiesLoading'
+
+export function ActivityList({ groupId }: { groupId: string }) {
   const t = useTranslations('Activity')
+
+  const { data: groupData, isLoading: groupIsLoading } =
+    trpc.groups.get.useQuery({ groupId })
+
+  const {
+    data: activitiesData,
+    isLoading,
+    fetchNextPage,
+  } = trpc.groups.activities.list.useInfiniteQuery(
+    { groupId, limit: PAGE_SIZE },
+    { getNextPageParam: ({ nextCursor }) => nextCursor },
+  )
+  const { ref: loadingRef, inView } = useInView()
+
+  const activities = activitiesData?.pages.flatMap((page) => page.activities)
+  const hasMore = activitiesData?.pages.at(-1)?.hasMore ?? false
+
+  useEffect(() => {
+    if (inView && hasMore && !isLoading) fetchNextPage()
+  }, [fetchNextPage, hasMore, inView, isLoading])
+
+  if (isLoading || !activities || !groupData) return <ActivitiesLoading />
+
   const groupedActivitiesByDate = getGroupedActivitiesByDate(activities)
 
   return activities.length > 0 ? (
@@ -86,27 +128,29 @@ export function ActivityList({
             >
               {t(`Groups.${dateGroup}`)}
             </div>
-            {groupActivities.map((activity: Activity) => {
+            {groupActivities.map((activity) => {
               const participant =
                 activity.participantId !== null
-                  ? participants.find((p) => p.id === activity.participantId)
-                  : undefined
-              const expense =
-                activity.expenseId !== null
-                  ? expenses.find((e) => e.id === activity.expenseId)
+                  ? groupData.group.participants.find(
+                      (p) => p.id === activity.participantId,
+                    )
                   : undefined
               return (
                 <ActivityItem
                   key={activity.id}
-                  {...{ groupId, activity, participant, expense, dateStyle }}
+                  groupId={groupId}
+                  activity={activity}
+                  participant={participant}
+                  dateStyle={dateStyle}
                 />
               )
             })}
           </div>
         )
       })}
+      {hasMore && <ActivitiesLoading ref={loadingRef} />}
     </>
   ) : (
-    <p className="px-6 text-sm py-6">{t('noActivity')}</p>
+    <p className="text-sm py-6">{t('noActivity')}</p>
   )
 }

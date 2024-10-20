@@ -18,22 +18,24 @@ import {
 } from '@/components/ui/drawer'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { getGroup } from '@/lib/api'
 import { useMediaQuery } from '@/lib/hooks'
 import { cn } from '@/lib/utils'
+import { trpc } from '@/trpc/client'
+import { AppRouterOutput } from '@/trpc/routers/_app'
 import { useTranslations } from 'next-intl'
 import { ComponentProps, useEffect, useState } from 'react'
 
-type Props = {
-  group: NonNullable<Awaited<ReturnType<typeof getGroup>>>
-}
-
-export function ActiveUserModal({ group }: Props) {
+export function ActiveUserModal({ groupId }: { groupId: string }) {
   const t = useTranslations('Expenses.ActiveUserModal')
   const [open, setOpen] = useState(false)
   const isDesktop = useMediaQuery('(min-width: 768px)')
+  const { data: groupData } = trpc.groups.get.useQuery({ groupId })
+
+  const group = groupData?.group
 
   useEffect(() => {
+    if (!group) return
+
     const tempUser = localStorage.getItem(`newGroup-activeUser`)
     const activeUser = localStorage.getItem(`${group.id}-activeUser`)
     if (!tempUser && !activeUser) {
@@ -42,6 +44,8 @@ export function ActiveUserModal({ group }: Props) {
   }, [group])
 
   function updateOpen(open: boolean) {
+    if (!group) return
+
     if (!open && !localStorage.getItem(`${group.id}-activeUser`)) {
       localStorage.setItem(`${group.id}-activeUser`, 'None')
     }
@@ -93,7 +97,10 @@ function ActiveUserForm({
   group,
   close,
   className,
-}: ComponentProps<'form'> & { group: Props['group']; close: () => void }) {
+}: ComponentProps<'form'> & {
+  group?: AppRouterOutput['groups']['get']['group']
+  close: () => void
+}) {
   const t = useTranslations('Expenses.ActiveUserModal')
   const [selected, setSelected] = useState('None')
 
@@ -101,6 +108,8 @@ function ActiveUserForm({
     <form
       className={cn('grid items-start gap-4', className)}
       onSubmit={(event) => {
+        if (!group) return
+
         event.preventDefault()
         localStorage.setItem(`${group.id}-activeUser`, selected)
         close()
@@ -114,7 +123,7 @@ function ActiveUserForm({
               {t('nobody')}
             </Label>
           </div>
-          {group.participants.map((participant) => (
+          {group?.participants.map((participant) => (
             <div key={participant.id} className="flex items-center space-x-2">
               <RadioGroupItem value={participant.id} id={participant.id} />
               <Label htmlFor={participant.id} className="flex-1">
