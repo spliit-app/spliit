@@ -206,6 +206,19 @@
     "cancel": "Cancel",
     "reimbursement": "Reimbursement"
   },
+  "ExpenseComments": {
+      "title": "Comments",
+      "noComments": "This expense does not contain any comments yet.",
+      "noActiveParticipant": "Select an active participant to add and edit comments",
+      "addComment": "Add Comment",
+      "editComment": "Edit Comment",
+      "commentPlaceholder": "Enter your comment",
+      "addCaption": "Add Comment",
+      "addingCaption": "Adding",
+      "saveCaption": "Save Comment",
+      "savingCaption": "Saving",
+      "cancel": "Cancel"
+    },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
       "title": "The file is too big",

@@ -29,6 +29,7 @@ model Participant {
   groupId         String
   expensesPaidBy  Expense[]
   expensesPaidFor ExpensePaidFor[]
+  expenseComments ExpenseComment[]
 }
 
 model Category {
@@ -54,7 +55,18 @@ model Expense {
   splitMode       SplitMode         @default(EVENLY)
   createdAt       DateTime          @default(now())
   documents       ExpenseDocument[]
+  comments        ExpenseComment[]
   notes           String?
+}
+
+model ExpenseComment {
+  id            String      @id
+  comment       String
+  time          DateTime    @default(now())
+  Expense       Expense?    @relation(fields: [expenseId], references: [id])
+  expenseId     String?
+  participantId String
+  participant   Participant @relation(fields: [participantId], references: [id], onDelete: Cascade)
 }
 
 model ExpenseDocument {
