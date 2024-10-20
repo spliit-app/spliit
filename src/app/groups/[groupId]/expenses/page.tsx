@@ -8,14 +8,9 @@ export const metadata: Metadata = {
   title: 'Expenses',
 }
 
-export default async function GroupExpensesPage({
-  params: { groupId },
-}: {
-  params: { groupId: string }
-}) {
+export default async function GroupExpensesPage() {
   return (
     <GroupExpensesPageClient
-      groupId={groupId}
       enableReceiptExtract={env.NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT}
     />
   )
