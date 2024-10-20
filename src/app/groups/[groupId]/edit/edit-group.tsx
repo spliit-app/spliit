@@ -1,6 +1,6 @@
 'use client'
-import { RuntimeFeatureFlags } from '@/lib/featureFlags'
 import { GroupForm } from '@/components/group-form'
+import { RuntimeFeatureFlags } from '@/lib/featureFlags'
 import { trpc } from '@/trpc/client'
 
 export const EditGroup = ({

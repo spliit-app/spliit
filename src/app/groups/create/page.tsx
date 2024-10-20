@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 }
 
 export default async function CreateGroupPage() {
-  return <CreateGroup runtimeFeatureFlags={await getRuntimeFeatureFlags()}/>
+  return <CreateGroup runtimeFeatureFlags={await getRuntimeFeatureFlags()} />
 }
