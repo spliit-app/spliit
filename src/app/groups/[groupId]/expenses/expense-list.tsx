@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button'
 import { SearchBar } from '@/components/ui/search-bar'
 import { Skeleton } from '@/components/ui/skeleton'
 import { trpc } from '@/trpc/client'
-import { Participant } from '@prisma/client'
 import dayjs, { type Dayjs } from 'dayjs'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
@@ -13,17 +12,11 @@ import { forwardRef, useEffect, useMemo, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useDebounce } from 'use-debounce'
 
-const PAGE_SIZE = 200
+const PAGE_SIZE = 20
 
 type ExpensesType = NonNullable<
   Awaited<ReturnType<typeof getGroupExpensesAction>>
 >
-
-type Props = {
-  participants: Participant[]
-  currency: string
-  groupId: string
-}
 
 const EXPENSE_GROUPS = {
   UPCOMING: 'upcoming',
@@ -63,11 +56,16 @@ function getGroupedExpensesByDate(expenses: ExpensesType) {
   }, {})
 }
 
-export function ExpenseList({ currency, participants, groupId }: Props) {
+export function ExpenseList({ groupId }: { groupId: string }) {
+  const { data: groupData } = trpc.groups.get.useQuery({ groupId })
   const [searchText, setSearchText] = useState('')
   const [debouncedSearchText] = useDebounce(searchText, 300)
 
+  const participants = groupData?.group.participants
+
   useEffect(() => {
+    if (!participants) return
+
     const activeUser = localStorage.getItem('newGroup-activeUser')
     const newUser = localStorage.getItem(`${groupId}-newUser`)
     if (activeUser || newUser) {
@@ -91,7 +89,6 @@ export function ExpenseList({ currency, participants, groupId }: Props) {
       <SearchBar onValueChange={(value) => setSearchText(value)} />
       <ExpenseListForSearch
         groupId={groupId}
-        currency={currency}
         searchText={debouncedSearchText}
       />
     </>
@@ -99,11 +96,9 @@ export function ExpenseList({ currency, participants, groupId }: Props) {
 }
 
 const ExpenseListForSearch = ({
-  currency,
   groupId,
   searchText,
 }: {
-  currency: string
   groupId: string
   searchText: string
 }) => {
@@ -118,13 +113,22 @@ const ExpenseListForSearch = ({
   const t = useTranslations('Expenses')
   const { ref: loadingRef, inView } = useInView()
 
-  const { data, isLoading, isError, fetchNextPage } =
-    trpc.groups.expenses.list.useInfiniteQuery(
-      { groupId, limit: PAGE_SIZE, filter: searchText },
-      { getNextPageParam: ({ nextCursor }) => nextCursor },
-    )
+  const {
+    data,
+    isLoading: expensesAreLoading,
+    fetchNextPage,
+  } = trpc.groups.expenses.list.useInfiniteQuery(
+    { groupId, limit: PAGE_SIZE, filter: searchText },
+    { getNextPageParam: ({ nextCursor }) => nextCursor },
+  )
   const expenses = data?.pages.flatMap((page) => page.expenses)
   const hasMore = data?.pages.at(-1)?.hasMore ?? false
+
+  const { data: groupData, isLoading: groupIsLoading } =
+    trpc.groups.get.useQuery({ groupId })
+
+  const isLoading =
+    expensesAreLoading || !expenses || groupIsLoading || !groupData
 
   useEffect(() => {
     if (inView && hasMore && !isLoading) fetchNextPage()
@@ -137,7 +141,7 @@ const ExpenseListForSearch = ({
 
   if (isLoading) return <ExpensesLoading />
 
-  if (!expenses || expenses?.length === 0)
+  if (expenses.length === 0)
     return (
       <p className="px-6 text-sm py-6">
         {t('noExpenses')}{' '}
@@ -168,7 +172,7 @@ const ExpenseListForSearch = ({
               <ExpenseCard
                 key={expense.id}
                 expense={expense}
-                currency={currency}
+                currency={groupData.group.currency}
                 groupId={groupId}
               />
             ))}
@@ -183,7 +187,7 @@ const ExpenseListForSearch = ({
 const ExpensesLoading = forwardRef<HTMLDivElement>((_, ref) => {
   return (
     <div ref={ref}>
-      <Skeleton className="mx-4 sm:mx-6 mb-2 h-4 w-32 rounded-full" />
+      <Skeleton className="mx-4 sm:mx-6 mt-1 mb-2 h-3 w-32 rounded-full" />
       {[0, 1, 2].map((i) => (
         <div
           key={i}
