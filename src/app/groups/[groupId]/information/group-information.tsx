@@ -40,10 +40,10 @@ export default function GroupInformation({ groupId }: { groupId: string }) {
               <Skeleton className="h-3 w-3/4" />
               <Skeleton className="h-3 w-1/2" />
             </div>
+          ) : data.group.information ? (
+            <p className="text-foreground">{data.group.information}</p>
           ) : (
-            data.group.information || (
-              <p className="text-muted-foreground text-sm">{t('empty')}</p>
-            )
+            <p className="text-muted-foreground text-sm">{t('empty')}</p>
           )}
         </CardContent>
       </Card>
