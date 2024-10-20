@@ -1,8 +1,7 @@
 import { cached } from '@/app/cached-functions'
-import { GroupHeader } from '@/app/groups/[groupId]/group-header'
-import { SaveGroupLocally } from '@/app/groups/[groupId]/save-recent-group'
 import { Metadata } from 'next'
 import { PropsWithChildren } from 'react'
+import { GroupLayoutClient } from './layout.client'
 
 type Props = {
   params: {
@@ -27,13 +26,5 @@ export default function GroupLayout({
   children,
   params: { groupId },
 }: PropsWithChildren<Props>) {
-  return (
-    <>
-      <GroupHeader groupId={groupId} />
-
-      {children}
-
-      <SaveGroupLocally groupId={groupId} />
-    </>
-  )
+  return <GroupLayoutClient groupId={groupId}>{children}</GroupLayoutClient>
 }

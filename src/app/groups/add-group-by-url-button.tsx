@@ -45,17 +45,16 @@ export function AddGroupByUrlButton({ reload }: Props) {
                 new RegExp(`${window.location.origin}/groups/([^/]+)`),
               ) ?? []
             setPending(true)
-            try {
-              const { group } = await utils.groups.get.fetch({
-                groupId: groupId,
-              })
+            const { group } = await utils.groups.get.fetch({
+              groupId: groupId,
+            })
+            if (group) {
               saveRecentGroup({ id: group.id, name: group.name })
               reload()
               setUrl('')
               setOpen(false)
-            } catch (err) {
+            } else {
               setError(true)
-            } finally {
               setPending(false)
             }
           }}
