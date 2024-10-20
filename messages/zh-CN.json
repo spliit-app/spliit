@@ -92,6 +92,11 @@
       "placeholder": "$, €, £…",
       "description": "我们根据这个显示相应的货币金额。"
     },
+    "TelegramChatIdField": {
+      "label": "Telegram Chat Id",
+      "placeholder": "0000000",
+      "description": "We'll send expense notifications to this chat Id."
+    },
     "Participants": {
       "title": "群组成员",
       "description": "输入每位成员的名字。",
@@ -396,6 +401,16 @@
       "Trash": "垃圾",
       "TV/Phone/Internet": "电视/手机/互联网",
       "Water": "水"
+    }
+  },
+  "Notifications": {
+    "Expense": {
+      "created": "[{groupName}]({groupUrl}): Expense '[{expenseTitle}]({expenseUrl})' for amount {groupCurrency}{expenseAmount} was created by {participantName}",
+      "updated": "[{groupName}]({groupUrl}): Expense '[{expenseTitle}]({expenseUrl})' was updated by {participantName}",
+      "deleted": "[{groupName}]({groupUrl}): Expense '{expenseTitle}' was deleted by {participantName}"
+    },
+    "Group": {
+      "created": "[{groupName}]({groupUrl}) has been created"
     }
   }
 }

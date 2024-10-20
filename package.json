@@ -37,6 +37,7 @@
     "@trpc/client": "^11.0.0-rc.586",
     "@trpc/react-query": "^11.0.0-rc.586",
     "@trpc/server": "^11.0.0-rc.586",
+    "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
     "client-only": "^0.0.1",
     "clsx": "^2.0.0",

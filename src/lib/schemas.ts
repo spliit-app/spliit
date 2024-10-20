@@ -6,6 +6,7 @@ export const groupFormSchema = z
     name: z.string().min(2, 'min2').max(50, 'max50'),
     information: z.string().optional(),
     currency: z.string().min(1, 'min1').max(5, 'max5'),
+    telegramChatId: z.string().optional(),
     participants: z
       .array(
         z.object({

@@ -39,6 +39,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { Textarea } from './ui/textarea'
+import { RuntimeFeatureFlags } from '@/lib/featureFlags'
 
 export type Props = {
   group?: NonNullable<Awaited<ReturnType<typeof getGroup>>>
@@ -47,12 +48,14 @@ export type Props = {
     participantId?: string,
   ) => Promise<void>
   protectedParticipantIds?: string[]
+  runtimeFeatureFlags: RuntimeFeatureFlags
 }
 
 export function GroupForm({
   group,
   onSubmit,
   protectedParticipantIds = [],
+  runtimeFeatureFlags
 }: Props) {
   const t = useTranslations('GroupForm')
   const form = useForm<GroupFormValues>({
@@ -61,12 +64,14 @@ export function GroupForm({
       ? {
           name: group.name,
           information: group.information ?? '',
+          telegramChatId: group.telegramChatId ?? '',
           currency: group.currency,
           participants: group.participants,
         }
       : {
           name: '',
           information: '',
+          telegramChatId: '',
           currency: '',
           participants: [
             { name: t('Participants.John') },
@@ -164,6 +169,29 @@ export function GroupForm({
                 </FormItem>
               )}
             />
+
+            {runtimeFeatureFlags.enableNotifications && (
+              <FormField
+                control={form.control}
+                name="telegramChatId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t('TelegramChatIdField.label')}</FormLabel>
+                    <FormControl>
+                      <Input
+                        className="text-base"
+                        placeholder={t('TelegramChatIdField.placeholder')}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      {t('TelegramChatIdField.description')}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
 
             <div className="col-span-2">
               <FormField

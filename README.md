@@ -104,6 +104,19 @@ NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT=true
 OPENAI_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
+### Telegram notifications
+
+You can send telegram notifications when expenses are created, updated or deleted. This feature requires a bot token, which can be created from telegram's [BotFather](https://core.telegram.org/bots/features). To enable, set the following environment variables:
+
+```.env
+NEXT_PUBLIC_ENABLE_NOTIFICATIONS=true
+TELEGRAM_API_URL=https://api.telegram.org
+TELEGRAM_BOT_TOKEN=XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```
+
+For a custom notification provider, you can substitute the TELEGRAM_API_URL with your own url.
+Notifications will be sent as a GET request to {TELEGRAM_API_URL}/bot{TELEGRAM_BOT_TOKEN}/sendMessage with a json payload containing chat_id and text keys, where chat_id is taken from the group settings.
+
 ## License
 
 MIT, see [LICENSE](./LICENSE).

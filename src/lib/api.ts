@@ -13,6 +13,7 @@ export async function createGroup(groupFormValues: GroupFormValues) {
       id: randomId(),
       name: groupFormValues.name,
       information: groupFormValues.information,
+      telegramChatId: groupFormValues.telegramChatId,
       currency: groupFormValues.currency,
       participants: {
         createMany: {
@@ -228,6 +229,7 @@ export async function updateGroup(
     data: {
       name: groupFormValues.name,
       information: groupFormValues.information,
+      telegramChatId: groupFormValues.telegramChatId,
       currency: groupFormValues.currency,
       participants: {
         deleteMany: existingGroup.participants.filter(

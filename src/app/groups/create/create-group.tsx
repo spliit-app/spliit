@@ -1,10 +1,14 @@
 'use client'
-
+import { RuntimeFeatureFlags } from '@/lib/featureFlags'
 import { GroupForm } from '@/components/group-form'
 import { trpc } from '@/trpc/client'
 import { useRouter } from 'next/navigation'
 
-export const CreateGroup = () => {
+export const CreateGroup = ({
+  runtimeFeatureFlags,
+}: {
+  runtimeFeatureFlags: RuntimeFeatureFlags
+}) => {
   const { mutateAsync } = trpc.groups.create.useMutation()
   const utils = trpc.useUtils()
   const router = useRouter()
@@ -16,6 +20,7 @@ export const CreateGroup = () => {
         await utils.groups.invalidate()
         router.push(`/groups/${groupId}`)
       }}
+      runtimeFeatureFlags={runtimeFeatureFlags}
     />
   )
 }

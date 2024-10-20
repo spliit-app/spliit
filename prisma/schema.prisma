@@ -15,6 +15,7 @@ model Group {
   id           String        @id
   name         String
   information  String?       @db.Text
+  telegramChatId String?
   currency     String        @default("$")
   participants Participant[]
   expenses     Expense[]

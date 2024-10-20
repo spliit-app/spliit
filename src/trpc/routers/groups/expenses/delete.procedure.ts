@@ -1,6 +1,9 @@
-import { deleteExpense } from '@/lib/api'
+import { deleteExpense, getGroup, getExpense} from '@/lib/api'
 import { baseProcedure } from '@/trpc/init'
+import { sendNotification } from '@/lib/notification'
+import { env } from '@/lib/env'
 import { z } from 'zod'
+import {getTranslations} from 'next-intl/server';
 
 export const deleteGroupExpenseProcedure = baseProcedure
   .input(
@@ -11,6 +14,19 @@ export const deleteGroupExpenseProcedure = baseProcedure
     }),
   )
   .mutation(async ({ input: { expenseId, groupId, participantId } }) => {
-    await deleteExpense(groupId, expenseId, participantId)
+    if (env.NEXT_PUBLIC_ENABLE_NOTIFICATIONS) {
+      const expense = await getExpense(groupId, expenseId);
+      const group = await getGroup(groupId);
+      const t = await getTranslations('Notifications');
+        const msg = t('Expense.deleted', {
+          groupName: group!.name,
+          groupUrl: `${env.NEXT_PUBLIC_BASE_URL}/groups/${groupId}`,
+          expenseTitle: expense!.title,
+          participantName: group!.participants.find((p) => p.id == participantId)!.name
+        })
+      await sendNotification(group!.telegramChatId ?? '', msg);
+    }
+
+    await deleteExpense(groupId, expenseId, participantId);
     return {}
   })
