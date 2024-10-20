@@ -12,7 +12,7 @@ import { forwardRef, useEffect, useMemo, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useDebounce } from 'use-debounce'
 
-const PAGE_SIZE = 200
+const PAGE_SIZE = 20
 
 type ExpensesType = NonNullable<
   Awaited<ReturnType<typeof getGroupExpensesAction>>
