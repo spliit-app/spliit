@@ -103,13 +103,13 @@ function RecentGroupList_({
   refreshGroupsFromStorage: () => void
 }) {
   const t = useTranslations('Groups')
-  const { data, isLoading, refetch } = trpc.groups.list.useQuery({
+  const { data, isLoading } = trpc.groups.list.useQuery({
     groupIds: groups.map((group) => group.id),
   })
 
   if (isLoading || !data) {
     return (
-      <GroupsPage reload={refetch}>
+      <GroupsPage reload={refreshGroupsFromStorage}>
         <p>
           <Loader2 className="w-4 m-4 mr-2 inline animate-spin" />{' '}
           {t('loadingRecent')}
@@ -120,7 +120,7 @@ function RecentGroupList_({
 
   if (data.groups.length === 0) {
     return (
-      <GroupsPage reload={refetch}>
+      <GroupsPage reload={refreshGroupsFromStorage}>
         <div className="text-sm space-y-2">
           <p>{t('NoRecent.description')}</p>
           <p>
@@ -141,7 +141,7 @@ function RecentGroupList_({
   })
 
   return (
-    <GroupsPage reload={refetch}>
+    <GroupsPage reload={refreshGroupsFromStorage}>
       {starredGroupInfo.length > 0 && (
         <>
           <h2 className="mb-2">{t('starred')}</h2>
