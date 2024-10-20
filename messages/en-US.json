@@ -407,7 +407,7 @@
     "Expense": {
       "created": "[{groupName}]({groupUrl}): Expense '[{expenseTitle}]({expenseUrl})' for amount {groupCurrency}{expenseAmount} was created by {participantName}",
       "updated": "[{groupName}]({groupUrl}): Expense '[{expenseTitle}]({expenseUrl})' was updated by {participantName}",
-      "deleted": "[{groupName}]({groupUrl}): Expense '{expenseTitle}' was deleted by {participantName}"
+      "deleted": "[{groupName}]({groupUrl}): Expense {expenseTitle} was deleted by {participantName}"
     },
     "Group": {
       "created": "[{groupName}]({groupUrl}) has been created"

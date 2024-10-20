@@ -35,6 +35,12 @@ const envSchema = z
       z.boolean().default(false),
     ),
     OPENAI_API_KEY: z.string().optional(),
+    NEXT_PUBLIC_ENABLE_NOTIFICATIONS: z.preprocess(
+      interpretEnvVarAsBool,
+      z.boolean().default(false),
+    ),
+    TELEGRAM_BOT_TOKEN: z.string().optional(),
+    TELEGRAM_API_URL: z.string().optional().default("https://api.telegram.org"),
   })
   .superRefine((env, ctx) => {
     if (
@@ -60,6 +66,13 @@ const envSchema = z
         code: ZodIssueCode.custom,
         message:
           'If NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT or NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT is specified, then OPENAI_API_KEY must be specified too',
+      })
+    }
+
+    if (env.NEXT_PUBLIC_ENABLE_NOTIFICATIONS && !env.TELEGRAM_BOT_TOKEN) {
+      ctx.addIssue({
+        code: ZodIssueCode.custom,
+        message: 'If NEXT_PUBLIC_ENABLE_NOTIFICATIONS is specified, then TELEGRAM_BOT_TOKEN must be specified too',
       })
     }
   })
