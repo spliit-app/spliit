@@ -10,13 +10,7 @@ export const createExpenseCommentProcedure = baseProcedure
       text: z.string(),
     }),
   )
-  .mutation(
-    async ({ input: { expenseId, participantId, text } }) => {
-      const comment = await addComment(
-        expenseId,
-        participantId,
-        text
-      )
-      return { commentId: comment.id }
-    },
-  )
+  .mutation(async ({ input: { expenseId, participantId, text } }) => {
+    const comment = await addComment(expenseId, participantId, text)
+    return { commentId: comment.id }
+  })

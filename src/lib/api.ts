@@ -215,7 +215,7 @@ export async function updateExpense(
 
 export async function getComments(
   expenseId: string,
-  options?: { offset?: number; length?: number; },
+  options?: { offset?: number; length?: number },
 ) {
   return prisma.expenseComment.findMany({
     where: { expenseId: expenseId },

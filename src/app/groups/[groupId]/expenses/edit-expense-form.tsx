@@ -1,12 +1,11 @@
 'use client'
 import { RuntimeFeatureFlags } from '@/lib/featureFlags'
-import { trpc } from '@/trpc/client'
-import { getComments } from '@/lib/api'
-import { useRouter } from 'next/navigation'
-import { ExpenseForm } from './expense-form'
 import { commentFormSchema } from '@/lib/schemas'
-import { Suspense, useState } from 'react'
+import { trpc } from '@/trpc/client'
+import { useRouter } from 'next/navigation'
+import { Suspense } from 'react'
 import { CommentsList } from './[expenseId]/edit/comments-list'
+import { ExpenseForm } from './expense-form'
 
 export function EditExpenseForm({
   groupId,
@@ -23,7 +22,9 @@ export function EditExpenseForm({
   const { data: categoriesData } = trpc.categories.list.useQuery()
   const categories = categoriesData?.categories
 
-  const { data: commentsData } = trpc.groups.expenses.comments.list.useQuery({expenseId})
+  const { data: commentsData } = trpc.groups.expenses.comments.list.useQuery({
+    expenseId,
+  })
   const comments = commentsData?.comments ?? []
 
   const { data: expenseData } = trpc.groups.expenses.get.useQuery({
@@ -85,7 +86,7 @@ export function EditExpenseForm({
           await addExpenseCommentMutateAsync({
             expenseId: expense!.id,
             participantId,
-            text: commentFormValues.comment
+            text: commentFormValues.comment,
           })
           router.refresh()
         }}
@@ -93,12 +94,12 @@ export function EditExpenseForm({
           const commentFormValues = commentFormSchema.parse(values)
           await updateExpenseCommentMutateAsync({
             commentId,
-            text: commentFormValues.comment
+            text: commentFormValues.comment,
           })
           router.refresh()
         }}
         onDelete={async (commentId: string) => {
-          await deleteExpenseCommentMutateAsync({commentId})
+          await deleteExpenseCommentMutateAsync({ commentId })
           router.refresh()
         }}
       />
