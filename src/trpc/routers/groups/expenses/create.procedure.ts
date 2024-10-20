@@ -24,26 +24,29 @@ export const createGroupExpenseProcedure = baseProcedure
 
       if (env.NEXT_PUBLIC_ENABLE_NOTIFICATIONS) {
         const group = await getGroup(groupId)
-        const groupUrl = `${env.NEXT_PUBLIC_BASE_URL}/groups/${groupId}`
-        const expenseUrl = `${groupUrl}/expenses/${expense.id}/edit`
 
-        const t = await getTranslations('Notifications')
-        const msg = t('Expense.created', {
-          groupName: group!.name,
-          groupUrl: groupUrl,
-          expenseTitle: expenseFormValues.title,
-          expenseUrl: expenseUrl,
-          groupCurrency: group!.currency,
-          // Escape the decimal point in the amount.
-          expenseAmount: (expense.amount / 100)
-            .toFixed(2)
-            .toString()
-            .replace('.', '\\.'),
-          participantName: group!.participants.find(
-            (p) => p.id == participantId,
-          )!.name,
-        })
-        await sendNotification(group!.telegramChatId ?? '', msg)
+        if (group?.telegramChatId != '') {
+          const groupUrl = `${env.NEXT_PUBLIC_BASE_URL}/groups/${groupId}`
+          const expenseUrl = `${groupUrl}/expenses/${expense.id}/edit`
+
+          const t = await getTranslations('Notifications')
+          const msg = t('Expense.created', {
+            groupName: group!.name,
+            groupUrl: groupUrl,
+            expenseTitle: expenseFormValues.title,
+            expenseUrl: expenseUrl,
+            groupCurrency: group!.currency,
+            // Escape the decimal point in the amount.
+            expenseAmount: (expense.amount / 100)
+              .toFixed(2)
+              .toString()
+              .replace('.', '\\.'),
+            participantName: group!.participants.find(
+              (p) => p.id == participantId,
+            )!.name,
+          })
+          await sendNotification(group!.telegramChatId!, msg)
+        }
       }
 
       return { expenseId: expense.id }
