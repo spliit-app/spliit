@@ -24,7 +24,7 @@ export const createGroupExpenseProcedure = baseProcedure
 
       if (env.NEXT_PUBLIC_ENABLE_NOTIFICATIONS) {
         const group = await getGroup(groupId);
-        const groupUrl = `https://split.johnno.co.uk/groups/${groupId}`
+        const groupUrl = `${env.NEXT_PUBLIC_BASE_URL}/groups/${groupId}`
         const expenseUrl = `${groupUrl}/expenses/${expense.id}/edit`
 
         const t = await getTranslations('Notifications');
