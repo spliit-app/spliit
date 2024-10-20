@@ -5,10 +5,6 @@ export const metadata: Metadata = {
   title: 'Settings',
 }
 
-export default async function EditGroupPage({
-  params: { groupId },
-}: {
-  params: { groupId: string }
-}) {
-  return <EditGroup groupId={groupId} />
+export default async function EditGroupPage() {
+  return <EditGroup />
 }

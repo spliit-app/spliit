@@ -21,6 +21,8 @@ function getQueryClient() {
   return (clientQueryClientSingleton ??= makeQueryClient())
 }
 
+export const trpcClient = getQueryClient()
+
 function getUrl() {
   const base = (() => {
     if (typeof window !== 'undefined') return ''

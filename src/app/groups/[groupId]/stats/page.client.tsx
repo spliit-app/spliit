@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/card'
 import { useTranslations } from 'next-intl'
 
-export function TotalsPageClient({ groupId }: { groupId: string }) {
+export function TotalsPageClient() {
   const t = useTranslations('Stats')
 
   return (
@@ -19,7 +19,7 @@ export function TotalsPageClient({ groupId }: { groupId: string }) {
           <CardDescription>{t('Totals.description')}</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col space-y-4">
-          <Totals groupId={groupId} />
+          <Totals />
         </CardContent>
       </Card>
     </>
