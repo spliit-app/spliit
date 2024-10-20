@@ -31,6 +31,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { getGroup } from '@/lib/api'
+import { RuntimeFeatureFlags } from '@/lib/featureFlags'
 import { GroupFormValues, groupFormSchema } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Save, Trash2 } from 'lucide-react'
@@ -47,12 +48,14 @@ export type Props = {
     participantId?: string,
   ) => Promise<void>
   protectedParticipantIds?: string[]
+  runtimeFeatureFlags: RuntimeFeatureFlags
 }
 
 export function GroupForm({
   group,
   onSubmit,
   protectedParticipantIds = [],
+  runtimeFeatureFlags,
 }: Props) {
   const t = useTranslations('GroupForm')
   const form = useForm<GroupFormValues>({
@@ -61,12 +64,14 @@ export function GroupForm({
       ? {
           name: group.name,
           information: group.information ?? '',
+          telegramChatId: group.telegramChatId ?? '',
           currency: group.currency,
           participants: group.participants,
         }
       : {
           name: '',
           information: '',
+          telegramChatId: '',
           currency: '',
           participants: [
             { name: t('Participants.John') },
@@ -164,6 +169,29 @@ export function GroupForm({
                 </FormItem>
               )}
             />
+
+            {runtimeFeatureFlags.enableNotifications && (
+              <FormField
+                control={form.control}
+                name="telegramChatId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t('TelegramChatIdField.label')}</FormLabel>
+                    <FormControl>
+                      <Input
+                        className="text-base"
+                        placeholder={t('TelegramChatIdField.placeholder')}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      {t('TelegramChatIdField.description')}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
 
             <div className="col-span-2">
               <FormField

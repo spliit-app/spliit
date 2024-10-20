@@ -92,6 +92,11 @@
       "placeholder": "$, €, £, RON …",
       "description": "O vom folosi pentru a afișa sume."
     },
+    "TelegramChatIdField": {
+      "label": "Telegram Chat Id",
+      "placeholder": "0000000",
+      "description": "We'll send expense notifications to this chat Id."
+    },
     "Participants": {
       "title": "Membri",
       "description": "Adaugă numele fiecărui membru.",
@@ -396,6 +401,16 @@
       "Trash": "Gunoi",
       "TV/Phone/Internet": "TV/Telefon/Internet",
       "Water": "Apă"
+    }
+  },
+  "Notifications": {
+    "Expense": {
+      "created": "[{groupName}]({groupUrl}): Expense '[{expenseTitle}]({expenseUrl})' for amount {groupCurrency}{expenseAmount} was created by {participantName}",
+      "updated": "[{groupName}]({groupUrl}): Expense '[{expenseTitle}]({expenseUrl})' was updated by {participantName}",
+      "deleted": "[{groupName}]({groupUrl}): Expense '{expenseTitle}' was deleted by {participantName}"
+    },
+    "Group": {
+      "created": "[{groupName}]({groupUrl}) has been created"
     }
   }
 }

@@ -1,5 +1,3 @@
-'use client'
-
 import { GroupTabs } from '@/app/groups/[groupId]/group-tabs'
 import { ShareButton } from '@/app/groups/[groupId]/share-button'
 import { Skeleton } from '@/components/ui/skeleton'

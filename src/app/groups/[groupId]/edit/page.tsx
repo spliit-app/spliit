@@ -1,4 +1,5 @@
 import { EditGroup } from '@/app/groups/[groupId]/edit/edit-group'
+import { getRuntimeFeatureFlags } from '@/lib/featureFlags'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -6,5 +7,5 @@ export const metadata: Metadata = {
 }
 
 export default async function EditGroupPage() {
-  return <EditGroup />
+  return <EditGroup runtimeFeatureFlags={await getRuntimeFeatureFlags()} />
 }
