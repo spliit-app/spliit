@@ -11,6 +11,7 @@ export const locales = [
   'ru-RU',
   'it-IT',
   'ua-UA',
+  'ro',
 ] as const
 export type Locale = (typeof locales)[number]
 export type Locales = ReadonlyArray<Locale>

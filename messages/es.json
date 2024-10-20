@@ -205,7 +205,6 @@
     "saving": "Guardando",
     "cancel": "Cancelar",
     "reimbursement": "Reembolso"
-
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
@@ -305,7 +304,8 @@
     "pl-PL": "Polski",
     "ru-RU": "Русский",
     "it-IT": "Italiano",
-    "ua-UA": "Українська"
+    "ua-UA": "Українська",
+    "ro": "Română"
   },
   "Share": {
     "title": "Compartir",

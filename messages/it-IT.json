@@ -4,7 +4,7 @@
     "description": "Benvenuto nella tua nuova instanza di <strong>Spliit</strong>!",
     "button": {
       "groups": "Vai ai gruppi",
-      "github": "GitHub" 
+      "github": "GitHub"
     }
   },
   "Header": {
@@ -304,7 +304,8 @@
     "pl-PL": "Polski",
     "ru-RU": "Русский",
     "it-IT": "Italiano",
-    "ua-UA": "Українська"
+    "ua-UA": "Українська",
+    "ro": "Română"
   },
   "Share": {
     "title": "Condividi",
