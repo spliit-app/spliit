@@ -153,12 +153,13 @@ function RecentGroupList_({
     )
   }
 
-  const { starredGroupInfo, groupInfo, archivedGroupInfo, globalGroupInfo } = sortGroups({
-    groups,
-    starredGroups,
-    archivedGroups,
-    globalGroups
-  })
+  const { starredGroupInfo, groupInfo, archivedGroupInfo, globalGroupInfo } =
+    sortGroups({
+      groups,
+      starredGroups,
+      archivedGroups,
+      globalGroups,
+    })
 
   return (
     <GroupsPage reload={refreshGroupsFromStorage}>
