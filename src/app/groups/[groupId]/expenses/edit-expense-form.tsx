@@ -88,7 +88,7 @@ export function EditExpenseForm({
             participantId,
             text: commentFormValues.comment,
           })
-          router.refresh()
+          utils.groups.expenses.comments.list.invalidate({expenseId})
         }}
         onUpdate={async (values: unknown, commentId: string) => {
           const commentFormValues = commentFormSchema.parse(values)
@@ -96,11 +96,11 @@ export function EditExpenseForm({
             commentId,
             text: commentFormValues.comment,
           })
-          router.refresh()
+          utils.groups.expenses.comments.list.invalidate({expenseId})
         }}
         onDelete={async (commentId: string) => {
           await deleteExpenseCommentMutateAsync({ commentId })
-          router.refresh()
+          utils.groups.expenses.comments.list.invalidate({expenseId})
         }}
       />
     </Suspense>
