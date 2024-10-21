@@ -1,4 +1,3 @@
-import { getGroupInfoAction } from '@/app/groups/add-group-by-url-button-actions'
 import { saveRecentGroup } from '@/app/groups/recent-groups-helpers'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -8,6 +7,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { useMediaQuery } from '@/lib/hooks'
+import { trpc } from '@/trpc/client'
 import { Loader2, Plus } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
@@ -23,14 +23,12 @@ export function AddGroupByUrlButton({ reload }: Props) {
   const [error, setError] = useState(false)
   const [open, setOpen] = useState(false)
   const [pending, setPending] = useState(false)
+  const utils = trpc.useUtils()
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="secondary">
-          {/* <Plus className="w-4 h-4 mr-2" /> */}
-          {t('button')}
-        </Button>
+        <Button variant="secondary">{t('button')}</Button>
       </PopoverTrigger>
       <PopoverContent
         align={isDesktop ? 'end' : 'start'}
@@ -47,15 +45,17 @@ export function AddGroupByUrlButton({ reload }: Props) {
                 new RegExp(`${window.location.origin}/groups/([^/]+)`),
               ) ?? []
             setPending(true)
-            const group = groupId ? await getGroupInfoAction(groupId) : null
-            setPending(false)
-            if (!group) {
-              setError(true)
-            } else {
+            const { group } = await utils.groups.get.fetch({
+              groupId: groupId,
+            })
+            if (group) {
               saveRecentGroup({ id: group.id, name: group.name })
               reload()
               setUrl('')
               setOpen(false)
+            } else {
+              setError(true)
+              setPending(false)
             }
           }}
         >

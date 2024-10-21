@@ -4,7 +4,7 @@
     "description": "Benvenuto nella tua nuova instanza di <strong>Spliit</strong>!",
     "button": {
       "groups": "Vai ai gruppi",
-      "github": "GitHub" 
+      "github": "GitHub"
     }
   },
   "Header": {
@@ -57,7 +57,7 @@
     "starred": "Gruppi speciali",
     "archived": "Gruppi archiviati",
     "archive": "Archivia gruppo",
-    "unarchive": "Rimuovi dall'archivio il gruppo",
+    "unarchive": "Rimuovi il gruppo dall'archivio",
     "removeRecent": "Rimuovi dai gruppi recenti",
     "RecentRemovedToast": {
       "title": "Il gruppo è stato rimosso",
@@ -168,7 +168,7 @@
       "attachDescription": "Vedi allegati spesa."
     },
     "amountField": {
-      "label": "Quantità"
+      "label": "Importo"
     },
     "isReimbursementField": {
       "label": "Questo è un rimborso"
@@ -186,10 +186,10 @@
     "SplitModeField": {
       "label": "Modalità split",
       "evenly": "Uniforme",
-      "byShares": "Non uniforme – Per scelta",
+      "byShares": "Non uniforme – Per quote",
       "byPercentage": "Non uniforme – Per percentuale",
-      "byAmount": "Non uniforme – Per quantità",
-      "saveAsDefault": "Salva come opzioni di suddivisione predefinite"
+      "byAmount": "Non uniforme – Per importo",
+      "saveAsDefault": "Salva come opzione di suddivisione predefinita"
     },
     "DeletePopup": {
       "label": "Rimuovi",
@@ -226,7 +226,7 @@
       "selectImage": "Seleziona immagine…",
       "titleLabel": "Titolo:",
       "categoryLabel": "Categoria:",
-      "amountLabel": "Quantità:",
+      "amountLabel": "Importo:",
       "dateLabel": "Data:",
       "editNext": "Successivamente potrai modificare le informazioni sulle spese.",
       "continue": "Continua"
@@ -244,13 +244,13 @@
   },
   "Balances": {
     "title": "Bilanci",
-    "description": "Questo è l'importo che ciascun partecipante ha pagato o è stato pagato.",
+    "description": "Questo è l'importo che ciascun partecipante ha pagato o deve pagare.",
     "Reimbursements": {
       "title": "Rimborsi suggeriti",
       "description": "Ecco alcuni suggerimenti per ottimizzare i rimborsi tra i partecipanti.",
       "noImbursements": "Sembra che il tuo gruppo non abbia bisogno di alcun rimborso 😁",
       "owes": "<strong>{from}</strong> deve <strong>{to}</strong>",
-      "markAsPaid": "Marca come pagato"
+      "markAsPaid": "Segna come pagato"
     }
   },
   "Stats": {
@@ -289,7 +289,7 @@
   "Information": {
     "title": "Informazioni",
     "description": "Utilizza questo posto per aggiungere qualsiasi informazione che possa essere rilevante per i partecipanti al gruppo.",
-    "empty": "Nessuna informazione sul gruppo ancora."
+    "empty": "Ancora nessuna informazione sul gruppo."
   },
   "Settings": {
     "title": "Impostazioni"
@@ -304,7 +304,8 @@
     "pl-PL": "Polski",
     "ru-RU": "Русский",
     "it-IT": "Italiano",
-    "ua-UA": "Українська"
+    "ua-UA": "Українська",
+    "ro": "Română"
   },
   "Share": {
     "title": "Condividi",
@@ -320,12 +321,12 @@
     "duplicateParticipantName": "Un altro partecipante ha già questo nome.",
     "titleRequired": "Inserisci un titolo.",
     "invalidNumber": "Numero invalido.",
-    "amountRequired": "Devi inserire una quanttà",
-    "amountNotZero": "La quantità non deve essere zero.",
+    "amountRequired": "Devi inserire un importo",
+    "amountNotZero": "L'importo non deve essere zero.",
     "amountTenMillion": "L'importo deve essere inferiore a 10.000.000.",
     "paidByRequired": "È necessario selezionare un partecipante.",
-    "paidForMin1": "La spesa dovrà essere sostenuta per almeno un partecipante.",
-    "noZeroShares": "Tutte le condivisioni devono essere superiori a 0.",
+    "paidForMin1": "La spesa deve essere pagata per almeno un partecipante.",
+    "noZeroShares": "Tutti gli importi devono essere superiori a 0.",
     "amountSum": "La somma degli importi deve essere uguale all'importo della spesa.",
     "percentageSum": "La somma delle percentuali deve essere uguale a 100."
   },

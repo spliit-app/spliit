@@ -273,8 +273,7 @@
     "expenseCreated": "Wydatek <em>{expense}</em> stworzony przez <strong>{participant}</strong>.",
     "expenseUpdated": "Wydatek <em>{expense}</em> zaktualizowany przez <strong>{participant}</strong>.",
     "expenseDeleted": "Wydatek <em>{expense}</em> usunięty przez <strong>{participant}</strong>.",
-    "Groups":
-    {
+    "Groups": {
       "today": "Dzisiaj",
       "yesterday": "Wczoraj",
       "earlierThisWeek": "Wcześniej w tym tygodniu",
@@ -304,7 +303,8 @@
     "pl-PL": "Polski",
     "ru-RU": "Русский",
     "it-IT": "Italiano",
-    "ua-UA": "Українська"
+    "ua-UA": "Українська",
+    "ro": "Română"
   },
   "Share": {
     "title": "Udostępnij",
