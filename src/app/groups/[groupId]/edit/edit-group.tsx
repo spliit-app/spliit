@@ -3,15 +3,15 @@
 import { GroupForm } from '@/components/group-form'
 import { RuntimeFeatureFlags } from '@/lib/featureFlags'
 import { trpc } from '@/trpc/client'
+import { useCurrentGroup } from '../current-group-context'
 
 export const EditGroup = ({
-  groupId,
   runtimeFeatureFlags,
 }: {
-  groupId: string
   runtimeFeatureFlags: RuntimeFeatureFlags
 }) => {
-  const { data, isLoading } = trpc.groups.get.useQuery({ groupId })
+  const { groupId } = useCurrentGroup()
+  const { data, isLoading } = trpc.groups.getDetails.useQuery({ groupId })
   const { mutateAsync } = trpc.groups.update.useMutation()
   const utils = trpc.useUtils()
 

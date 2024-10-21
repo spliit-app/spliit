@@ -34,14 +34,11 @@ import { getImageData, usePresignedUpload } from 'next-s3-upload'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { PropsWithChildren, ReactNode, useState } from 'react'
+import { useCurrentGroup } from '../current-group-context'
 
 const MAX_FILE_SIZE = 5 * 1024 ** 2
 
-export function CreateFromReceiptButton({ groupId }: { groupId: string }) {
-  return <CreateFromReceiptButton_ groupId={groupId} />
-}
-
-function CreateFromReceiptButton_({ groupId }: { groupId: string }) {
+export function CreateFromReceiptButton() {
   const t = useTranslations('CreateFromReceipt')
   const isDesktop = useMediaQuery('(min-width: 640px)')
 
@@ -70,15 +67,14 @@ function CreateFromReceiptButton_({ groupId }: { groupId: string }) {
       }
       description={<>{t('Dialog.description')}</>}
     >
-      <ReceiptDialogContent groupId={groupId} />
+      <ReceiptDialogContent />
     </DialogOrDrawer>
   )
 }
 
-function ReceiptDialogContent({ groupId }: { groupId: string }) {
-  const { data: groupData } = trpc.groups.get.useQuery({ groupId })
+function ReceiptDialogContent() {
+  const { group } = useCurrentGroup()
   const { data: categoriesData } = trpc.categories.list.useQuery()
-  const group = groupData?.group
   const categories = categoriesData?.categories
 
   const locale = useLocale()
