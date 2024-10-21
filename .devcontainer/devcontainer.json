@@ -36,6 +36,12 @@
             "openFiles": [
                 "README.md"
             ]
+        },
+        "vscode": {
+            "extensions": [
+                "esbenp.prettier-vscode",
+                "dbaeumer.vscode-eslint"
+            ]
         }
     }
 
