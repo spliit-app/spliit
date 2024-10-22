@@ -8,5 +8,3 @@ docker buildx build \
     -t ${SPLIIT_APP_NAME}:${SPLIIT_VERSION} \
     -t ${SPLIIT_APP_NAME}:latest \
     .
-
-docker image prune -f
