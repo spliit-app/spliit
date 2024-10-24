@@ -5,14 +5,17 @@ import { formatCategoryForAIPrompt } from '@/lib/utils'
 import OpenAI from 'openai'
 import { ChatCompletionCreateParamsNonStreaming } from 'openai/resources/index.mjs'
 
-const openai = new OpenAI({ apiKey: env.OPENAI_API_KEY })
+const openai = new OpenAI({
+  baseURL: env.OPENAI_API_URL,
+  apiKey: env.OPENAI_API_KEY,
+})
 
 export async function extractExpenseInformationFromImage(imageUrl: string) {
   'use server'
   const categories = await getCategories()
 
   const body: ChatCompletionCreateParamsNonStreaming = {
-    model: 'gpt-4-turbo',
+    model: env.OPENAI_CATEGORY_RECEIPT_EXTRACT_MODEL,
     messages: [
       {
         role: 'user',
