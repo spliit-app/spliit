@@ -12,7 +12,7 @@ export async function extractExpenseInformationFromImage(imageUrl: string) {
   const categories = await getCategories()
 
   const body: ChatCompletionCreateParamsNonStreaming = {
-    model: env.OPENAI_CATEGORY_RECEIPT_EXTRACT,
+    model: env.OPENAI_CATEGORY_RECEIPT_EXTRACT_MODEL,
     messages: [
       {
         role: 'user',
