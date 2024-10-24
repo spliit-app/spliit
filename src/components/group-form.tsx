@@ -39,6 +39,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { Textarea } from './ui/textarea'
+import { env } from '@/lib/env'
 
 export type Props = {
   group?: NonNullable<Awaited<ReturnType<typeof getGroup>>>
@@ -59,21 +60,21 @@ export function GroupForm({
     resolver: zodResolver(groupFormSchema),
     defaultValues: group
       ? {
-          name: group.name,
-          information: group.information ?? '',
-          currency: group.currency,
-          participants: group.participants,
-        }
+        name: group.name,
+        information: group.information ?? '',
+        currency: group.currency,
+        participants: group.participants,
+      }
       : {
-          name: '',
-          information: '',
-          currency: '',
-          participants: [
-            { name: t('Participants.John') },
-            { name: t('Participants.Jane') },
-            { name: t('Participants.Jack') },
-          ],
-        },
+        name: '',
+        information: '',
+        currency: process.env.NEXT_PUBLIC_DEFAULT_CURRENCY_SYMBOL || '',
+        participants: [
+          { name: t('Participants.John') },
+          { name: t('Participants.Jane') },
+          { name: t('Participants.Jack') },
+        ],
+      },
   })
   const { fields, append, remove } = useFieldArray({
     control: form.control,
@@ -113,7 +114,7 @@ export function GroupForm({
           await onSubmit(
             values,
             group?.participants.find((p) => p.name === activeUser)?.id ??
-              undefined,
+            undefined,
           )
         })}
       >
@@ -213,7 +214,7 @@ export function GroupForm({
                               placeholder={t('Participants.new')}
                             />
                             {item.id &&
-                            protectedParticipantIds.includes(item.id) ? (
+                              protectedParticipantIds.includes(item.id) ? (
                               <HoverCard>
                                 <HoverCardTrigger>
                                   <Button
