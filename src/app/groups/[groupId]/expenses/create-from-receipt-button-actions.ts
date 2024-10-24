@@ -12,7 +12,7 @@ export async function extractExpenseInformationFromImage(imageUrl: string) {
   const categories = await getCategories()
 
   const body: ChatCompletionCreateParamsNonStreaming = {
-    model: 'gpt-4-turbo',
+    model: env.OPENAI_CATEGORY_RECEIPT_EXTRACT,
     messages: [
       {
         role: 'user',
