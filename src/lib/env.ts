@@ -35,6 +35,8 @@ const envSchema = z
       z.boolean().default(false),
     ),
     OPENAI_API_KEY: z.string().optional(),
+    OPENAI_API_URL: z.string().optional()
+      .default("https://api.openai.com/v1"),
   })
   .superRefine((env, ctx) => {
     if (
