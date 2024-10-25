@@ -14,15 +14,10 @@
     "incremental": true,
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "outDir": "./dist",
+    "declaration": true
   },
-  "include": ["**/*.ts"],
-  "exclude": ["node_modules"],
-  "ts-node": {
-    "require": ["tsconfig-paths/register", "dotenv/config"],
-    "compilerOptions": {
-      "isolatedModules": false,
-      "module": "CommonJS"
-    }
-  }
+  "include": ["./src/index.ts", "./reset.d.ts"],
+  "exclude": ["node_modules"]
 }
