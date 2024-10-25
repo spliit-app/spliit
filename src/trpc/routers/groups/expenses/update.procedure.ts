@@ -1,7 +1,7 @@
-import { updateExpense } from '@/lib/api'
-import { expenseFormSchema } from '@/lib/schemas'
-import { baseProcedure } from '@/trpc/init'
 import { z } from 'zod'
+import { updateExpense } from '../../../../lib/api'
+import { expenseFormSchema } from '../../../../lib/schemas'
+import { baseProcedure } from '../../../init'
 
 export const updateGroupExpenseProcedure = baseProcedure
   .input(

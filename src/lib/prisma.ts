@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 
 declare const global: Global & { prisma?: PrismaClient }
 
-export let p: PrismaClient = undefined as any as PrismaClient
+export let p: PrismaClient = undefined as unknown as PrismaClient
 
 if (typeof window === 'undefined') {
   // await delay(1000)

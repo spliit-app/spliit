@@ -1,6 +1,6 @@
-import { getGroups } from '@/lib/api'
-import { baseProcedure } from '@/trpc/init'
 import { z } from 'zod'
+import { getGroups } from '../../../lib/api'
+import { baseProcedure } from '../../init'
 
 export const listGroupsProcedure = baseProcedure
   .input(

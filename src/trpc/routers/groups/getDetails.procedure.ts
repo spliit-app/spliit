@@ -1,7 +1,7 @@
-import { getGroup, getGroupExpensesParticipants } from '@/lib/api'
-import { baseProcedure } from '@/trpc/init'
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
+import { getGroup, getGroupExpensesParticipants } from '../../../lib/api'
+import { baseProcedure } from '../../init'
 
 export const getGroupDetailsProcedure = baseProcedure
   .input(z.object({ groupId: z.string().min(1) }))

@@ -1,5 +1,5 @@
-import { createTRPCRouter } from '@/trpc/init'
-import { listCategoriesProcedure } from '@/trpc/routers/categories/list.procedure'
+import { createTRPCRouter } from '../../init'
+import { listCategoriesProcedure } from './list.procedure'
 
 export const categoriesRouter = createTRPCRouter({
   list: listCategoriesProcedure,

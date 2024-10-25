@@ -1,5 +1,5 @@
-import { createTRPCRouter } from '@/trpc/init'
-import { listGroupActivitiesProcedure } from '@/trpc/routers/groups/activities/list.procedure'
+import { createTRPCRouter } from '../../../init'
+import { listGroupActivitiesProcedure } from './list.procedure'
 
 export const activitiesRouter = createTRPCRouter({
   list: listGroupActivitiesProcedure,

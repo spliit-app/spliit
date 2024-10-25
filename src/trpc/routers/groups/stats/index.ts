@@ -1,5 +1,5 @@
-import { createTRPCRouter } from '@/trpc/init'
-import { getGroupStatsProcedure } from '@/trpc/routers/groups/stats/get.procedure'
+import { createTRPCRouter } from '../../../init'
+import { getGroupStatsProcedure } from './get.procedure'
 
 export const groupStatsRouter = createTRPCRouter({
   get: getGroupStatsProcedure,

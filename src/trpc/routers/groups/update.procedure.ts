@@ -1,7 +1,7 @@
-import { updateGroup } from '@/lib/api'
-import { groupFormSchema } from '@/lib/schemas'
-import { baseProcedure } from '@/trpc/init'
 import { z } from 'zod'
+import { updateGroup } from '../../../lib/api'
+import { groupFormSchema } from '../../../lib/schemas'
+import { baseProcedure } from '../../init'
 
 export const updateGroupProcedure = baseProcedure
   .input(

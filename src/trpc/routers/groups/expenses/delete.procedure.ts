@@ -1,6 +1,6 @@
-import { deleteExpense } from '@/lib/api'
-import { baseProcedure } from '@/trpc/init'
 import { z } from 'zod'
+import { deleteExpense } from '../../../../lib/api'
+import { baseProcedure } from '../../../init'
 
 export const deleteGroupExpenseProcedure = baseProcedure
   .input(

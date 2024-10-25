@@ -1,7 +1,7 @@
-import { prisma } from '@/lib/prisma'
-import { ExpenseFormValues, GroupFormValues } from '@/lib/schemas'
 import { ActivityType, Expense } from '@prisma/client'
 import { nanoid } from 'nanoid'
+import { prisma } from './prisma'
+import { ExpenseFormValues, GroupFormValues } from './schemas'
 
 export function randomId() {
   return nanoid()

@@ -1,13 +1,13 @@
-import { createTRPCRouter } from '@/trpc/init'
-import { activitiesRouter } from '@/trpc/routers/groups/activities'
-import { groupBalancesRouter } from '@/trpc/routers/groups/balances'
-import { createGroupProcedure } from '@/trpc/routers/groups/create.procedure'
-import { groupExpensesRouter } from '@/trpc/routers/groups/expenses'
-import { getGroupProcedure } from '@/trpc/routers/groups/get.procedure'
-import { groupStatsRouter } from '@/trpc/routers/groups/stats'
-import { updateGroupProcedure } from '@/trpc/routers/groups/update.procedure'
+import { createTRPCRouter } from '../../init'
+import { activitiesRouter } from './activities'
+import { groupBalancesRouter } from './balances'
+import { createGroupProcedure } from './create.procedure'
+import { groupExpensesRouter } from './expenses'
+import { getGroupProcedure } from './get.procedure'
 import { getGroupDetailsProcedure } from './getDetails.procedure'
 import { listGroupsProcedure } from './list.procedure'
+import { groupStatsRouter } from './stats'
+import { updateGroupProcedure } from './update.procedure'
 
 export const groupsRouter = createTRPCRouter({
   expenses: groupExpensesRouter,

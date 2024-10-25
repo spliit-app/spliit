@@ -12,10 +12,6 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "paths": {
-      "@/*": ["./src/*"]
-    },
-    "outDir": "./dist",
     "declaration": true
   },
   "include": ["./src/index.ts", "./reset.d.ts"],

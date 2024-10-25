@@ -1,6 +1,6 @@
-import { getGroupExpenses } from '@/lib/api'
 import { Participant } from '@prisma/client'
 import { match } from 'ts-pattern'
+import { getGroupExpenses } from './api'
 
 export type Balances = Record<
   Participant['id'],
@@ -87,7 +87,10 @@ export function getPublicBalances(reimbursements: Reimbursement[]): Balances {
  * This ensures that a participant executing a suggested reimbursement
  * does not result in completely new repayment suggestions.
  */
-function compareBalancesForReimbursements(b1: any, b2: any): number {
+function compareBalancesForReimbursements(
+  b1: { total: number; participantId: string },
+  b2: { total: number; participantId: string },
+): number {
   // positive balances come before negative balances
   if (b1.total > 0 && 0 > b2.total) {
     return -1
@@ -95,7 +98,7 @@ function compareBalancesForReimbursements(b1: any, b2: any): number {
     return 1
   }
   // if signs match, sort based on userid
-  return b1.participantId < b2.participantId ? -1 : 1
+  return b1.participantId.localeCompare(b2.participantId)
 }
 
 export function getSuggestedReimbursements(

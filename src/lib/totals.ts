@@ -1,4 +1,4 @@
-import { getGroupExpenses } from '@/lib/api'
+import { getGroupExpenses } from './api'
 
 export function getTotalGroupSpending(
   expenses: NonNullable<Awaited<ReturnType<typeof getGroupExpenses>>>,
@@ -55,14 +55,15 @@ export function getTotalActiveUserShare(
         // Calculate the user's share based on their percentage of the total expense
         total += (expense.amount * userPaidFor.shares) / 10000 // Assuming shares are out of 10000 for percentage
         break
-      case 'BY_SHARES':
-        // Calculate the user's share based on their shares relative to the total shares
+      case 'BY_SHARES': // Calculate the user's share based on their shares relative to the total shares
+      {
         const totalShares = paidFors.reduce(
           (sum, paidFor) => sum + paidFor.shares,
           0,
         )
         total += (expense.amount * userPaidFor.shares) / totalShares
         break
+      }
     }
   })
 

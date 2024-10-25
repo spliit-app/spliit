@@ -9,7 +9,6 @@
     "check-formatting": "prettier -c src",
     "prettier": "prettier -w src",
     "postinstall": "prisma generate",
-    "build": "tsc"
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.5.4",
