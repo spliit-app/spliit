@@ -8,7 +8,7 @@
     "check-types": "tsc --noEmit",
     "check-formatting": "prettier -c src",
     "prettier": "prettier -w src",
-    "postinstall": "prisma generate",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.5.4",
