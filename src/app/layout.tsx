@@ -14,6 +14,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Suspense } from 'react'
 import './globals.css'
+import { version } from '../../package.json'
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_BASE_URL),
@@ -141,6 +142,7 @@ function Content({ children }: { children: React.ReactNode }) {
             </span>
           </div>
         </div>
+        <div className='flex absolute bottom-0 right-0'>{version}</div>
       </footer>
       <Toaster />
     </TRPCProvider>
