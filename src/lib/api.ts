@@ -113,13 +113,6 @@ export async function deleteExpense(
     data: existingExpense?.title,
   })
 
-  // TODO(trandall): Add a popup (if the expense has a recurrence rule) to tell the user that deleting 
-  // this expense will cause any future recurring expenses not be created and the expenses will need 
-  // to be re-created
-  //
-  // Note: Because the the RecurringExpenseLink model was created with an `onDelete: Cascade` relation to
-  // Expenses, any related RecurringExpenseLinks will be deleted when an Expense is deleted
-
   await prisma.expense.delete({
     where: { id: expenseId },
     include: { paidFor: true, paidBy: true },
@@ -452,8 +445,6 @@ async function createRecurringExpenses(){
     }
   })
 
-  // TODO(trandall): try to acquire a lock if there are recurring Expenses that need to be created
-
   for (const recurringExpenseLink of recurringExpenseLinksWithExpensesToCreate) {
     let newExpenseDate = recurringExpenseLink.nextExpenseDate
 
@@ -527,8 +518,6 @@ async function createRecurringExpenses(){
       newExpenseDate = newRecurringExpenseNextExpenseDate
     }
   }
-
-  // TODO(trandall): release lock if acquired
 }
 
 function createPayloadForNewRecurringExpenseLink(
