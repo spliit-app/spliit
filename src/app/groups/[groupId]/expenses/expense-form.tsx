@@ -213,7 +213,6 @@ export function ExpenseForm({
           saveDefaultSplittingOptions: false,
           documents: [],
           notes: '',
-          // TODO(trandall): Add this to the defaultSplittingOptions
           recurrenceRule: RecurrenceRule.NONE,
         }
       : {
@@ -242,7 +241,6 @@ export function ExpenseForm({
               ]
             : [],
           notes: '',
-          // TODO(trandall): Add this to the defaultSplittingOptions
           recurrenceRule: RecurrenceRule.NONE,
         },
   })
@@ -537,7 +535,7 @@ export function ExpenseForm({
                   <FormDescription>
                     {t(`${sExpense}.recurrenceRule.description`)}
                   </FormDescription>
-                  {/* <FormMessage /> */}
+                  <FormMessage />
                 </FormItem>
               )}
             />

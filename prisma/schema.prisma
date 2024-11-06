@@ -83,9 +83,9 @@ model RecurringExpenseLink {
   currentFrameExpense Expense @relation(fields: [currentFrameExpenseId], references: [id], onDelete: Cascade)
   currentFrameExpenseId String @unique
 
-  // Note: I do not want to link to the next expense because once it is created, it will be treated as it's own 
-  // entity entirely. This means that if a user wants to delete an Expense and any related 
-  // recurring expenses, they'll need to delete them one by one
+  // Note: We do not want to link to the next expense because once it is created, it should be 
+  // treated as it's own independent entity. This means that if a user wants to delete an Expense
+  // and any prior related recurring expenses, they'll need to delete them one by one.
   nextExpenseCreatedAt DateTime?
   nextExpenseDate DateTime
 

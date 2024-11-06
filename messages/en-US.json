@@ -162,7 +162,7 @@
       },
       "recurrenceRule": {
         "label": "Expense Recurrence",
-        "description": "Select how often the expense should recur.",
+        "description": "Select how often the expense should repeat.",
 
         "none": "None",
         "daily": "Daily",
