@@ -465,52 +465,66 @@ async function createRecurringExpenses(){
         ...destructeredCurrentExpenseRecord
       } = currentExpenseRecord
 
-      const newExpense = await prisma.expense.create({
-        data: {
-          ...destructeredCurrentExpenseRecord,
-          categoryId: currentExpenseRecord.categoryId,
-          paidById: currentExpenseRecord.paidById,
-          paidFor: {
-            createMany: {
-              data: currentExpenseRecord.paidFor.map((paidFor) => ({
-                participantId: paidFor.participantId,
-                shares: paidFor.shares,
+      // Use a transacton to ensure that the only one expense is created for the RecurringExpenseLink
+      // just in case two clients are processing the same RecurringExpenseLink at the same time
+      const newExpense = await prisma.$transaction(async (transaction) => {
+        const newExpense = await transaction.expense.create({
+          data: {
+            ...destructeredCurrentExpenseRecord,
+            categoryId: currentExpenseRecord.categoryId,
+            paidById: currentExpenseRecord.paidById,
+            paidFor: {
+              createMany: {
+                data: currentExpenseRecord.paidFor.map((paidFor) => ({
+                  participantId: paidFor.participantId,
+                  shares: paidFor.shares,
+                })),
+              },
+            },
+            documents: {
+              connect: currentExpenseRecord.documents.map((documentRecord) => ({
+                id: documentRecord.id
               })),
             },
-          },
-          documents: {
-            connect: currentExpenseRecord.documents.map((documentRecord) => ({
-              id: documentRecord.id
-            })),
-          },
-          id: newExpenseId,
-          expenseDate: newExpenseDate,
-          recurringExpenseLink: {
-            create: {
-              groupId: currentExpenseRecord.groupId,
-              id: newRecurringExpenseLinkId,
-              nextExpenseDate: newRecurringExpenseNextExpenseDate
+            id: newExpenseId,
+            expenseDate: newExpenseDate,
+            recurringExpenseLink: {
+              create: {
+                groupId: currentExpenseRecord.groupId,
+                id: newRecurringExpenseLinkId,
+                nextExpenseDate: newRecurringExpenseNextExpenseDate
+              }
             }
+          },
+          // Ensure that the same information is available on the returned record that was created
+          include: {
+            paidFor: true,
+            documents: true,
+            category: true,
+            paidBy: true
           }
-        },
-        // Ensure that the same information is available on the returned record that was created
-        include: {
-          paidFor: true,
-          documents: true,
-          category: true,
-          paidBy: true
-        }
+        })
+
+        // Mark the RecurringExpenseLink as being "completed" since the new Expense was created
+        // if an expense hasn't been created for this RecurringExpenseLink yet
+        await transaction.recurringExpenseLink.update({
+          where: {
+            id: currentReccuringExpenseLinkId,
+            nextExpenseCreatedAt: null,
+          },
+          data: {
+            nextExpenseCreatedAt: newExpense.createdAt
+          },
+        })
+
+        return newExpense
+      }).catch(() => {
+        console.error("Failed to created recurringExpense for expenseId: %s", currentExpenseRecord.id)
+        return null
       })
 
-      // Mark the RecurringExpenseLink as being "completed" since the new Expense was created
-      await prisma.recurringExpenseLink.update({
-        where: {
-          id: currentReccuringExpenseLinkId,
-        },
-        data: {
-          nextExpenseCreatedAt: newExpense.createdAt
-        }
-      })
+      // If the new expense failed to be created, break out of the while-loop
+      if (newExpense === null) break
 
       // Set the values for the next iteration of the for-loop in case multiple recurring Expenses need to be created
       currentExpenseRecord = newExpense
