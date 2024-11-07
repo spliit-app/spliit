@@ -50,7 +50,7 @@ export async function createExpense(
     data: expenseFormValues.title,
   })
 
-  let isCreateRecurrence = expenseFormValues.recurrenceRule !== RecurrenceRule.NONE
+  const isCreateRecurrence = expenseFormValues.recurrenceRule !== RecurrenceRule.NONE
   const recurringExpenseLinkPayload = createPayloadForNewRecurringExpenseLink(
     expenseFormValues.recurrenceRule as RecurrenceRule,
     expenseFormValues.expenseDate,
@@ -573,15 +573,15 @@ function calculateNextDate(
       nextDate.setUTCDate(nextDate.getUTCDate() + 7)
       break
     case RecurrenceRule.MONTHLY:
+      const nextYear = nextDate.getUTCFullYear()  
+      const nextMonth = nextDate.getUTCMonth() + 1
       let nextDay = nextDate.getUTCDate()
-      let nextMonth = nextDate.getUTCMonth() + 1
-      let nextYear = nextDate.getUTCFullYear()
 
       // Reduce the next day until it is within the direct next month
       while (!isDateInNextMonth(nextYear, nextMonth, nextDay)) {
         nextDay -= 1
       }
-      nextDate.setUTCMonth(nextDate.getUTCMonth() + 1, nextDay)
+      nextDate.setUTCMonth(nextMonth, nextDay)
       break
   }
 
