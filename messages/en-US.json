@@ -43,7 +43,8 @@
     "paidBy": "Paid by <strong>{paidBy}</strong> for <paidFor></paidFor>",
     "receivedBy": "Received by <strong>{paidBy}</strong> for <paidFor></paidFor>",
     "yourBalance": "Your balance:",
-    "attachments": "attachments"
+    "attachments": "attachments",
+    "attachment": "attachment"
   },
   "Groups": {
     "myGroups": "My groups",

@@ -15,7 +15,8 @@ export function DocumentsCount({ documents, showMidDot }: DocumentCount) {
       <div className="flex items-center">
         <Paperclip className="w-4 h-4 mr-1 mt-0.5 text-muted-foreground" />
         <span>
-          {documentsCount} {t('attachments')}
+          {documentsCount}{' '}
+          {documentsCount === 1 ? t('attachment') : t('attachments')}
         </span>
       </div>
       {showMidDot ? <span>&nbsp;&middot;&nbsp;</span> : <></>}
