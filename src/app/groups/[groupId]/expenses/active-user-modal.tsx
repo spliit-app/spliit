@@ -12,27 +12,30 @@ import {
 import {
   Drawer,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
 } from '@/components/ui/drawer'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { getGroup } from '@/lib/api'
 import { useMediaQuery } from '@/lib/hooks'
 import { cn } from '@/lib/utils'
+import { trpc } from '@/trpc/client'
+import { AppRouterOutput } from '@/trpc/routers/_app'
+import { useTranslations } from 'next-intl'
 import { ComponentProps, useEffect, useState } from 'react'
 
-type Props = {
-  group: NonNullable<Awaited<ReturnType<typeof getGroup>>>
-}
-
-export function ActiveUserModal({ group }: Props) {
+export function ActiveUserModal({ groupId }: { groupId: string }) {
+  const t = useTranslations('Expenses.ActiveUserModal')
   const [open, setOpen] = useState(false)
   const isDesktop = useMediaQuery('(min-width: 768px)')
+  const { data: groupData } = trpc.groups.get.useQuery({ groupId })
+
+  const group = groupData?.group
 
   useEffect(() => {
+    if (!group) return
+
     const tempUser = localStorage.getItem(`newGroup-activeUser`)
     const activeUser = localStorage.getItem(`${group.id}-activeUser`)
     if (!tempUser && !activeUser) {
@@ -41,6 +44,8 @@ export function ActiveUserModal({ group }: Props) {
   }, [group])
 
   function updateOpen(open: boolean) {
+    if (!group) return
+
     if (!open && !localStorage.getItem(`${group.id}-activeUser`)) {
       localStorage.setItem(`${group.id}-activeUser`, 'None')
     }
@@ -52,16 +57,13 @@ export function ActiveUserModal({ group }: Props) {
       <Dialog open={open} onOpenChange={updateOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Who are you?</DialogTitle>
-            <DialogDescription>
-              Tell us which participant you are to let us customize how the
-              information is displayed.
-            </DialogDescription>
+            <DialogTitle>{t('title')}</DialogTitle>
+            <DialogDescription>{t('description')}</DialogDescription>
           </DialogHeader>
           <ActiveUserForm group={group} close={() => setOpen(false)} />
           <DialogFooter className="sm:justify-center">
             <p className="text-sm text-center text-muted-foreground">
-              This setting can be changed later in the group settings.
+              {t('footer')}
             </p>
           </DialogFooter>
         </DialogContent>
@@ -73,11 +75,8 @@ export function ActiveUserModal({ group }: Props) {
     <Drawer open={open} onOpenChange={updateOpen}>
       <DrawerContent>
         <DrawerHeader className="text-left">
-          <DrawerTitle>Who are you?</DrawerTitle>
-          <DrawerDescription>
-            Tell us which participant you are to let us customize how the
-            information is displayed.
-          </DrawerDescription>
+          <DrawerTitle>{t('title')}</DrawerTitle>
+          <DialogDescription>{t('description')}</DialogDescription>
         </DrawerHeader>
         <ActiveUserForm
           className="px-4"
@@ -86,7 +85,7 @@ export function ActiveUserModal({ group }: Props) {
         />
         <DrawerFooter className="pt-2">
           <p className="text-sm text-center text-muted-foreground">
-            This setting can be changed later in the group settings.
+            {t('footer')}
           </p>
         </DrawerFooter>
       </DrawerContent>
@@ -98,13 +97,19 @@ function ActiveUserForm({
   group,
   close,
   className,
-}: ComponentProps<'form'> & { group: Props['group']; close: () => void }) {
+}: ComponentProps<'form'> & {
+  group?: AppRouterOutput['groups']['get']['group']
+  close: () => void
+}) {
+  const t = useTranslations('Expenses.ActiveUserModal')
   const [selected, setSelected] = useState('None')
 
   return (
     <form
       className={cn('grid items-start gap-4', className)}
       onSubmit={(event) => {
+        if (!group) return
+
         event.preventDefault()
         localStorage.setItem(`${group.id}-activeUser`, selected)
         close()
@@ -115,10 +120,10 @@ function ActiveUserForm({
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="none" id="none" />
             <Label htmlFor="none" className="italic font-normal flex-1">
-              I don’t want to select anyone
+              {t('nobody')}
             </Label>
           </div>
-          {group.participants.map((participant) => (
+          {group?.participants.map((participant) => (
             <div key={participant.id} className="flex items-center space-x-2">
               <RadioGroupItem value={participant.id} id={participant.id} />
               <Label htmlFor={participant.id} className="flex-1">
@@ -128,7 +133,7 @@ function ActiveUserForm({
           ))}
         </div>
       </RadioGroup>
-      <Button type="submit">Save changes</Button>
+      <Button type="submit">{t('save')}</Button>
     </form>
   )
 }

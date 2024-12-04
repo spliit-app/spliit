@@ -12,6 +12,7 @@ import {
 
 import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
+import { useMessages } from "next-intl"
 
 const Form = FormProvider
 
@@ -78,7 +79,7 @@ const FormItem = React.forwardRef<
 
   return (
     <FormItemContext.Provider value={{ id }}>
-      <div ref={ref} className={cn("space-y-2", className)} {...props} />
+      <div ref={ref} className={cn("col-span-2 md:col-span-1 space-y-2", className)} {...props} />
     </FormItemContext.Provider>
   )
 })
@@ -144,8 +145,18 @@ const FormMessage = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, children, ...props }, ref) => {
+  const messages = useMessages()
   const { error, formMessageId } = useFormField()
-  const body = error ? String(error?.message) : children
+  let body
+  if (error) {
+    body = String(error?.message)
+    const translation = (messages.SchemaErrors as any)[body]
+    if (translation) {
+      body = translation
+    }
+  } else {
+    body = children
+  }
 
   if (!body) {
     return null

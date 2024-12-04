@@ -1,0 +1,401 @@
+{
+  "Homepage": {
+    "title": "Jaa kulut ystävien ja perheen kanssa",
+    "description": "Tervetuloa uuteen Spliit-instanssiisi!",
+    "button": {
+      "groups": "Siirry ryhmiin",
+      "github": "GitHub"
+    }
+  },
+  "Header": {
+    "groups": "Ryhmät"
+  },
+  "Footer": {
+    "madeIn": "Made in Montréal, Québec 🇨🇦",
+    "builtBy": "Tekijät: <author>Sebastien Castiel</author> ja <source>muut osallistujat</source>"
+  },
+  "Expenses": {
+    "title": "Kulut",
+    "description": "Tässä ovat ryhmässä luodut kulut.",
+    "create": "Lisää kulu",
+    "createFirst": "Lisää ensimmäinen kulu",
+    "noExpenses": "Ryhmälläsi ei ole vielä yhtään kulua.",
+    "exportJson": "Vie JSON-tiedostoon",
+    "searchPlaceholder": "Etsi kulua…",
+    "ActiveUserModal": {
+      "title": "Kuka olet?",
+      "description": "Valitse kuka osallistujista olet, jotta tiedot näkyvät oikein.",
+      "nobody": "En halua valita ketään",
+      "save": "Tallenna muutokset",
+      "footer": "Tämän asetuksen voi vaihtaa myöhemmin ryhmän asetuksista."
+    },
+    "Groups": {
+      "upcoming": "Tulevat",
+      "thisWeek": "Tällä viikolla",
+      "earlierThisMonth": "Aikaisemmin tässä kuussa",
+      "lastMonth": "Viime kuussa",
+      "earlierThisYear": "Aikaisemmin tänä vuonna",
+      "lastYear": "Viime vuonna",
+      "older": "Vanhemmat"
+    }
+  },
+  "ExpenseCard": {
+    "paidBy": "<strong>{paidBy}</strong> maksoi {forCount, plural, =1 {henkilön} other {henkilöiden}} <paidFor></paidFor> puolesta",
+    "receivedBy": "<strong>{paidBy}</strong> sai rahaa {forCount, plural, =1 {henkilön} other {henkilöiden}} <paidFor></paidFor> puolesta",
+    "yourBalance": "Saldosi:"
+  },
+  "Groups": {
+    "myGroups": "Omat ryhmät",
+    "create": "Luo ryhmä",
+    "loadingRecent": "Ladataan äskettäisiä ryhmiä…",
+    "NoRecent": {
+      "description": "Et ole ollut missään ryhmässä äskettäin.",
+      "create": "Luo uusi ryhmä",
+      "orAsk": "tai pyydä ystävää lähettämään linkki olemassaolevaan ryhmään."
+    },
+    "recent": "Äskettäiset",
+    "starred": "Suosikit",
+    "archived": "Arkistoidut",
+    "archive": "Arkistoi ryhmä",
+    "unarchive": "Palauta ryhmä arkistosta",
+    "removeRecent": "Poista äskettäisistä",
+    "RecentRemovedToast": {
+      "title": "Ryhmä poistettu",
+      "description": "Ryhmä poistettu äskettäisten listaltasi.",
+      "undoAlt": "Peruuta ryhmän poisto",
+      "undo": "Peruuta"
+    },
+    "AddByURL": {
+      "button": "Lisää URLilla",
+      "title": "Lisää ryhmä URL-osoitteella",
+      "description": "Jos ryhmä on jaettu sinulle, voit lisätä sen listaasi liittämällä URL-osoitteen tähän.",
+      "error": "Hups, emme löytäneet ryhmää antamastasi URL-osoitteesta…"
+    },
+    "NotFound": {
+      "text": "Tätä ryhmää ei löydy.",
+      "link": "Siirry äskettäisiin ryhmiin"
+    }
+  },
+  "GroupForm": {
+    "title": "Ryhmän tiedot",
+    "NameField": {
+      "label": "Ryhmän nimi",
+      "placeholder": "Kesälomareissu",
+      "description": "Syötä ryhmäsi nimi."
+    },
+    "InformationField": {
+      "label": "Ryhmän tiedot",
+      "placeholder": "Mitkä tiedot ovat merkityksellisiä ryhmän osallistujille?"
+    },
+    "CurrencyField": {
+      "label": "Valuuttamerkki",
+      "placeholder": "$, €, £…",
+      "description": "Näytetään rahasummien yhteydessä."
+    },
+    "Participants": {
+      "title": "Osallistujat",
+      "description": "Syötä jokaisen osallistujan nimi.",
+      "protectedParticipant": "Tätä osallistujaa ei voida poistaa, koska hän osallistuu kuluihin.",
+      "add": "Lisää osallistuja",
+      "new": "Uusi",
+      "John": "Antti",
+      "Jane": "Laura",
+      "Jack": "Jussi"
+    },
+    "Settings": {
+      "title": "Paikalliset asetukset",
+      "description": "Nämä asetukset ovat laitekohtaisia. Voit muokata niillä käytettävyyttä.",
+      "ActiveUserField": {
+        "label": "Aktiivinen käyttäjä",
+        "placeholder": "Valitse osallistuja",
+        "none": "Ei kukaan",
+        "description": "Käytetään kulujen oletusmaksajana."
+      },
+      "save": "Tallenna",
+      "saving": "Tallennetaan…",
+      "create": "Luo ryhmä",
+      "creating": "Luodaan…",
+      "cancel": "Peruuta"
+    }
+  },
+  "ExpenseForm": {
+    "Income": {
+      "create": "Lisää tulo",
+      "edit": "Muokkaa tuloa",
+      "TitleField": {
+        "label": "Otsikko",
+        "placeholder": "Maanantain ravintola",
+        "description": "Anna lyhyt kuvaus tulolle."
+      },
+      "DateField": {
+        "label": "Päivä",
+        "description": "Valitse päivä jolloin tulo saatiin."
+      },
+      "categoryFieldDescription": "Valitse tulokategoria.",
+      "paidByField": {
+        "label": "Vastaanottaja",
+        "description": "Valitse kuka vastaanotti tulon."
+      },
+      "paidFor": {
+        "title": "Tulon jakaminen",
+        "description": "Valitse kenelle tulo jaetaan."
+      },
+      "splitModeDescription": "Valitse miten tulo jaetaan osallistujien kesken.",
+      "attachDescription": "Katso ja liitä tuloon liittyviä kuitteja."
+    },
+    "Expense": {
+      "create": "Lisää kulu",
+      "edit": "Muokkaa kulua",
+      "TitleField": {
+        "label": "Otsikko",
+        "placeholder": "Maanantain ravintola",
+        "description": "Anna lyhyt kuvaus kululle."
+      },
+      "DateField": {
+        "label": "Päivä",
+        "description": "Valitse päivä jolloin kulu maksettiin."
+      },
+      "categoryFieldDescription": "Valitse kulukategoria.",
+      "paidByField": {
+        "label": "Maksaja",
+        "description": "Valitse kuka maksoi kulun."
+      },
+      "paidFor": {
+        "title": "Kulun jakaminen",
+        "description": "Valitse ketkä osallistuvat kuluun."
+      },
+      "splitModeDescription": "Valitse miten kulu jaetaan osallistujien kesken.",
+      "attachDescription": "Katso ja liitä kuluun liittyviä kuitteja."
+    },
+    "amountField": {
+      "label": "Summa"
+    },
+    "isReimbursementField": {
+      "label": "Tämä on velanmaksu"
+    },
+    "categoryField": {
+      "label": "Kategoria"
+    },
+    "notesField": {
+      "label": "Muistiinpanot"
+    },
+    "selectNone": "Tyhjennä valinnat",
+    "selectAll": "Valitse kaikki",
+    "shares": "osuutta",
+    "advancedOptions": "Lisäasetuksia jakamiseen…",
+    "SplitModeField": {
+      "label": "Jakamistapa",
+      "evenly": "Tasan",
+      "byShares": "Epätasan – osuuksien mukaan",
+      "byPercentage": "Epätasan – prosenttien mukaan",
+      "byAmount": "Epätasan – summan mukaan",
+      "saveAsDefault": "Tallenna oletustavaksi"
+    },
+    "DeletePopup": {
+      "label": "Poista",
+      "title": "Poistetaanko tämä kulu?",
+      "description": "Haluatko varmasti poistaa tämän kulun? Poistoa ei voi peruuttaa.",
+      "yes": "Kyllä",
+      "cancel": "Peruuta"
+    },
+    "attachDocuments": "Liitä dokumenttejä",
+    "create": "Lisää kulu",
+    "creating": "Luodaan kulua…",
+    "save": "Tallenna",
+    "saving": "Tallennetaan…",
+    "cancel": "Peruuta",
+    "reimbursement": "Velanmaksu"
+  },
+  "ExpenseDocumentsInput": {
+    "TooBigToast": {
+      "title": "Tiedosto on liian suuri",
+      "description": "Maksimikoko ladattavalle tiedostolle on {maxSize}. Tiedostosi on ${size}."
+    },
+    "ErrorToast": {
+      "title": "Virhe tiedostoa ladattaessa",
+      "description": "Jokin meni vikaan dokumentin lataamisessa. Yritä myöhemmin uudelleen tai valitse toinen tiedosto.",
+      "retry": "Yritä uudelleen"
+    }
+  },
+  "CreateFromReceipt": {
+    "Dialog": {
+      "triggerTitle": "Luo kulu kuitista",
+      "title": "Luo kuitista",
+      "description": "Lue kuitin valokuvasta kulun tiedot.",
+      "body": "Lataa kuitista valokuva. Siitä skannataan tiedot kulua varten.",
+      "selectImage": "Valitse kuva…",
+      "titleLabel": "Otsikko:",
+      "categoryLabel": "Kategoria:",
+      "amountLabel": "Summa:",
+      "dateLabel": "Päivä:",
+      "editNext": "Voit muokata kulun tietoja seuraavaksi.",
+      "continue": "Jatka"
+    },
+    "unknown": "Unknown",
+    "TooBigToast": {
+      "title": "The file is too big",
+      "description": "The maximum file size you can upload is {maxSize}. Yours is ${size}."
+    },
+    "ErrorToast": {
+      "title": "Error while uploading document",
+      "description": "Something wrong happened when uploading the document. Please retry later or select a different file.",
+      "retry": "Retry"
+    }
+  },
+  "Balances": {
+    "title": "Saldo",
+    "description": "Osallistujien saatavat tai velat.",
+    "Reimbursements": {
+      "title": "Maksuehdotus",
+      "description": "Optimoitu ehdotus kuka maksaa kenellekin.",
+      "noImbursements": "Näyttää siltä, että kaikki ovat sujut 😁",
+      "owes": "<strong>{from}</strong> maksaa henkilölle <strong>{to}</strong>",
+      "markAsPaid": "Merkitse maksetuksi"
+    }
+  },
+  "Stats": {
+    "title": "Tilastot",
+    "Totals": {
+      "title": "Yhteenveto",
+      "description": "Koko ryhmän kulut.",
+      "groupSpendings": "Koko ryhmän kulutus",
+      "groupEarnings": "Koko ryhmän saatavat",
+      "yourSpendings": "Kulutuksesi",
+      "yourEarnings": "Saatavasi",
+      "yourShare": "Osuutesi"
+    }
+  },
+  "Activity": {
+    "title": "Tapahtumat",
+    "description": "Yleisnäkymä ryhmän kaikista tapahtumista.",
+    "noActivity": "Ryhmässäsi ei ole vielä tapahtumia.",
+    "someone": "Tuntematon",
+    "settingsModified": "<strong>{participant}</strong> muokkasi ryhmän asetuksia.",
+    "expenseCreated": "<strong>{participant}</strong> lisäsi kulun <em>{expense}</em>.",
+    "expenseUpdated": "<strong>{participant}</strong> muokkasi kulua <em>{expense}</em>.",
+    "expenseDeleted": "<strong>{participant}</strong> poisti kulun <em>{expense}</em>.",
+    "Groups": {
+      "today": "Tänään",
+      "yesterday": "Eilen",
+      "earlierThisWeek": "Tällä viikolla",
+      "lastWeek": "Viime viikolla",
+      "earlierThisMonth": "Tässä kuussa",
+      "lastMonth": "Viime kuussa",
+      "earlierThisYear": "Tänä vuonna",
+      "lastYear": "Viime vuonna",
+      "older": "Vanhemmat"
+    }
+  },
+  "Information": {
+    "title": "Tiedot",
+    "description": "Käytä tätä paikkaa lisätäksesi kaikki tiedot, joilla voi olla merkitystä ryhmän osallistujille.",
+    "empty": "Ryhmätietoja ei vielä ole."
+  },
+  "Settings": {
+    "title": "Asetukset"
+  },
+  "Locale": {
+    "en-US": "English",
+    "fi": "Suomi",
+    "fr-FR": "Français",
+    "es": "Español",
+    "de-DE": "Deutsch",
+    "zh-CN": "Chinese (Simplified)",
+    "pl-PL": "Polski",
+    "ru-RU": "Русский",
+    "it-IT": "Italiano",
+    "ua-UA": "Українська",
+    "ro": "Română"
+  },
+  "Share": {
+    "title": "Jaa",
+    "description": "Jaa ryhmän URL muille jäsenille, jotta he voivat nähdä sen ja lisätä kuluja.",
+    "warning": "Varoitus!",
+    "warningHelp": "Tällä URLilla kuka tahansa pääsee näkemään ja muokkaamaan kuluja. Jaa harkiten!"
+  },
+  "SchemaErrors": {
+    "min1": "Syötä vähintään yksi merkki.",
+    "min2": "Syötä vähintään kaksi merkkiä.",
+    "max5": "Syötä enintään viisi merkkiä.",
+    "max50": "Syötä enintään 50 merkkiä.",
+    "duplicateParticipantName": "Tämä nimi on jo toisella osallistujalla.",
+    "titleRequired": "Otsikko puuttuu.",
+    "invalidNumber": "Epäkelpo numero.",
+    "amountRequired": "Summa puuttuu.",
+    "amountNotZero": "Summa ei voi olla nolla.",
+    "amountTenMillion": "Summan pitää olla pienempi kuin 10 000 000.",
+    "paidByRequired": "Osallistuja puuttuu.",
+    "paidForMin1": "Valitse vähintään yksi osallistuja.",
+    "noZeroShares": "Jokaisen osuuden täytyy olla suurempi kuin 0.",
+    "amountSum": "Osuuksien summan täytyy vastata kulun summaa.",
+    "percentageSum": "Prosenttiosuuksien summan täytyy olla 100."
+  },
+  "Categories": {
+    "search": "Etsi kategoriaa...",
+    "noCategory": "Kategoriaa ei löydy.",
+    "Uncategorized": {
+      "heading": "Yleiset",
+      "General": "Yleinen",
+      "Payment": "Maksu"
+    },
+    "Entertainment": {
+      "heading": "Viihde",
+      "Entertainment": "Viihde",
+      "Games": "Pelit",
+      "Movies": "Elokuvat",
+      "Music": "Musiikki",
+      "Sports": "Urheilu"
+    },
+    "Food and Drink": {
+      "heading": "Ruoka ja juoma",
+      "Food and Drink": "Ruoka ja juoma",
+      "Dining Out": "Ulkona syöminen",
+      "Groceries": "Marketti",
+      "Liquor": "Alkoholi"
+    },
+    "Home": {
+      "heading": "Koti",
+      "Home": "Koti",
+      "Electronics": "Elektroniikka",
+      "Furniture": "Huonekalut",
+      "Household Supplies": "Taloustavarat",
+      "Maintenance": "Huolto",
+      "Mortgage": "Laina",
+      "Pets": "Lemmikit",
+      "Rent": "Vuokra",
+      "Services": "Palvelut"
+    },
+    "Life": {
+      "heading": "Elämä",
+      "Childcare": "Lastenhoito",
+      "Clothing": "Vaatteet",
+      "Education": "Opiskelu",
+      "Gifts": "Lahjat",
+      "Insurance": "Vakuutukset",
+      "Medical Expenses": "Terveydenhoito",
+      "Taxes": "Verot"
+    },
+    "Transportation": {
+      "heading": "Liikenne",
+      "Transportation": "Liikenne",
+      "Bicycle": "Polkupyörä",
+      "Bus/Train": "Bussi/juna",
+      "Car": "Auto",
+      "Gas/Fuel": "Polttoaine",
+      "Hotel": "Hotelli",
+      "Parking": "Pysäköinti",
+      "Plane": "Lentäminen",
+      "Taxi": "Taksi"
+    },
+    "Utilities": {
+      "heading": "Sekalaiset",
+      "Utilities": "Sekalaiset",
+      "Cleaning": "Siivous",
+      "Electricity": "Sähkö",
+      "Heat/Gas": "Lämmitys",
+      "Trash": "Jätehuolto",
+      "TV/Phone/Internet": "TV/Puhelin/Internet",
+      "Water": "Vesi"
+    }
+  }
+}

@@ -19,7 +19,7 @@ export function getBalances(
   const balances: Balances = {}
 
   for (const expense of expenses) {
-    const paidBy = expense.paidById
+    const paidBy = expense.paidBy.id
     const paidFors = expense.paidFor
 
     if (!balances[paidBy]) balances[paidBy] = { paid: 0, paidFor: 0, total: 0 }
@@ -31,8 +31,8 @@ export function getBalances(
     )
     let remaining = expense.amount
     paidFors.forEach((paidFor, index) => {
-      if (!balances[paidFor.participantId])
-        balances[paidFor.participantId] = { paid: 0, paidFor: 0, total: 0 }
+      if (!balances[paidFor.participant.id])
+        balances[paidFor.participant.id] = { paid: 0, paidFor: 0, total: 0 }
 
       const isLast = index === paidFors.length - 1
 
@@ -47,7 +47,7 @@ export function getBalances(
         ? remaining
         : (expense.amount * shares) / totalShares
       remaining -= dividedAmount
-      balances[paidFor.participantId].paidFor += dividedAmount
+      balances[paidFor.participant.id].paidFor += dividedAmount
     })
   }
 
@@ -82,13 +82,29 @@ export function getPublicBalances(reimbursements: Reimbursement[]): Balances {
   return balances
 }
 
+/**
+ * A comparator that is stable across reimbursements.
+ * This ensures that a participant executing a suggested reimbursement
+ * does not result in completely new repayment suggestions.
+ */
+function compareBalancesForReimbursements(b1: any, b2: any): number {
+  // positive balances come before negative balances
+  if (b1.total > 0 && 0 > b2.total) {
+    return -1
+  } else if (b2.total > 0 && 0 > b1.total) {
+    return 1
+  }
+  // if signs match, sort based on userid
+  return b1.participantId < b2.participantId ? -1 : 1
+}
+
 export function getSuggestedReimbursements(
   balances: Balances,
 ): Reimbursement[] {
   const balancesArray = Object.entries(balances)
     .map(([participantId, { total }]) => ({ participantId, total }))
     .filter((b) => b.total !== 0)
-  balancesArray.sort((b1, b2) => b2.total - b1.total)
+  balancesArray.sort(compareBalancesForReimbursements)
   const reimbursements: Reimbursement[] = []
   while (balancesArray.length > 1) {
     const first = balancesArray[0]

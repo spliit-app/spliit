@@ -1,6 +1,5 @@
-'use client'
-
 import { Trash2 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { AsyncButton } from './async-button'
 import { Button } from './ui/button'
 import {
@@ -14,20 +13,18 @@ import {
 } from './ui/dialog'
 
 export function DeletePopup({ onDelete }: { onDelete: () => Promise<void> }) {
+  const t = useTranslations('ExpenseForm.DeletePopup')
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="destructive">
           <Trash2 className="w-4 h-4 mr-2" />
-          Delete
+          {t('label')}
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogTitle>Delete this expense?</DialogTitle>
-        <DialogDescription>
-          Do you really want to delete this expense? This action is
-          irreversible.
-        </DialogDescription>
+        <DialogTitle>{t('title')}</DialogTitle>
+        <DialogDescription>{t('description')}</DialogDescription>
         <DialogFooter className="flex flex-col gap-2">
           <AsyncButton
             type="button"
@@ -35,10 +32,10 @@ export function DeletePopup({ onDelete }: { onDelete: () => Promise<void> }) {
             loadingContent="Deleting…"
             action={onDelete}
           >
-            Yes
+            {t('yes')}
           </AsyncButton>
           <DialogClose asChild>
-            <Button variant={'secondary'}>Cancel</Button>
+            <Button variant={'secondary'}>{t('cancel')}</Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>
