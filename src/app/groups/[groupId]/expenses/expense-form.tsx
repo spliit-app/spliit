@@ -53,6 +53,7 @@ import { match } from 'ts-pattern'
 import { DeletePopup } from '../../../../components/delete-popup'
 import { extractCategoryFromTitle } from '../../../../components/expense-form-actions'
 import { Textarea } from '../../../../components/ui/textarea'
+import { calculateShare } from '@/lib/totals'
 
 const enforceCurrencyPattern = (value: string) =>
   value
