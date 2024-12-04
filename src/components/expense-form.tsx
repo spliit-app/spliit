@@ -51,6 +51,7 @@ import { match } from 'ts-pattern'
 import { DeletePopup } from './delete-popup'
 import { extractCategoryFromTitle } from './expense-form-actions'
 import { Textarea } from './ui/textarea'
+import { calculateShare } from '@/lib/totals'
 
 export type Props = {
   group: NonNullable<Awaited<ReturnType<typeof getGroup>>>
@@ -502,6 +503,19 @@ export function ExpenseForm({
                               </FormControl>
                               <FormLabel className="text-sm font-normal flex-1">
                                 {name}
+                                {field.value?.some(({ participant }) => participant === id) && !form.watch('isReimbursement') && (
+                                  <span className="text-muted-foreground ml-2">
+                                    ({group.currency} {(calculateShare(
+                                      id,
+                                      {
+                                        amount: Number(form.watch('amount')) * 100, // Convert to cents
+                                        paidFor: field.value.map(({ participant, shares }) => ({ participant: {id: participant, name: '', groupId: ''}, shares, expenseId: '', participantId: '' })),
+                                        splitMode: form.watch('splitMode'),
+                                        isReimbursement: form.watch('isReimbursement')
+                                      }
+                                    ) / 100).toFixed(2)})
+                                  </span>
+                                )}
                               </FormLabel>
                             </FormItem>
                             {form.getValues().splitMode !== 'EVENLY' && (
