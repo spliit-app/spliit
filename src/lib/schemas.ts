@@ -150,6 +150,12 @@ export const expenseFormSchema = z
 
 export type ExpenseFormValues = z.infer<typeof expenseFormSchema>
 
+export const commentFormSchema = z.object({
+  comment: z.string(),
+})
+
+export type CommentFormValues = z.infer<typeof commentFormSchema>
+
 export type SplittingOptions = {
   // Used for saving default splitting options in localStorage
   splitMode: SplitMode
