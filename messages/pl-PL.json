@@ -293,20 +293,6 @@
   "Settings": {
     "title": "Ustawienia"
   },
-  "Locale": {
-    "en-US": "English",
-    "fi": "Suomi",
-    "fr-FR": "Français",
-    "es": "Español",
-    "de-DE": "Deutsch",
-    "zh-CN": "Chinese (Simplified)",
-    "zh-TW": "正體中文 (Traditional Chinese)",
-    "pl-PL": "Polski",
-    "ru-RU": "Русский",
-    "it-IT": "Italiano",
-    "ua-UA": "Українська",
-    "ro": "Română"
-  },
   "Share": {
     "title": "Udostępnij",
     "description": "Aby inni uczestnicy mogli zobaczyć grupę i dodać wydatki, udostępnij im jej adres URL.",

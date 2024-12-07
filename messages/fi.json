@@ -294,20 +294,6 @@
   "Settings": {
     "title": "Asetukset"
   },
-  "Locale": {
-    "en-US": "English",
-    "fi": "Suomi",
-    "fr-FR": "Français",
-    "es": "Español",
-    "de-DE": "Deutsch",
-    "zh-CN": "Chinese (Simplified)",
-    "zh-TW": "正體中文 (Traditional Chinese)",
-    "pl-PL": "Polski",
-    "ru-RU": "Русский",
-    "it-IT": "Italiano",
-    "ua-UA": "Українська",
-    "ro": "Română"
-  },
   "Share": {
     "title": "Jaa",
     "description": "Jaa ryhmän URL muille jäsenille, jotta he voivat nähdä sen ja lisätä kuluja.",

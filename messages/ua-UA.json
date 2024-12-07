@@ -294,20 +294,6 @@
   "Settings": {
     "title": "Налаштування"
   },
-  "Locale": {
-    "en-US": "English",
-    "fi": "Suomi",
-    "fr-FR": "Français",
-    "es": "Español",
-    "de-DE": "Deutsch",
-    "zh-CN": "Chinese (Simplified)",
-    "zh-TW": "正體中文 (Traditional Chinese)",
-    "pl-PL": "Polski",
-    "ru-RU": "Русский",
-    "it-IT": "Italiano",
-    "ua-UA": "Українська",
-    "ro": "Română"
-  },
   "Share": {
     "title": "Поділитися",
     "description": "Щоб інші учасники могли побачити групу і додати витрати, поділіться з ними її URL",
