@@ -20,7 +20,6 @@ export function formatDate(
 ) {
   return date.toLocaleString(locale, {
     ...options,
-    timeZone: 'UTC',
   })
 }
 
