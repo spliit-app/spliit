@@ -286,7 +286,7 @@ export async function getGroupExpenses(
       },
       splitMode: true,
       title: true,
-      documents: true,
+      _count: { select: { documents: true } },
     },
     where: {
       groupId,

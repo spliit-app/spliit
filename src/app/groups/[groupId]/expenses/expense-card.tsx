@@ -77,7 +77,7 @@ export function ExpenseCard({ expense, currency, groupId }: Props) {
           {formatCurrency(currency, expense.amount, locale)}
         </div>
         <div className="text-xs text-muted-foreground">
-          <DocumentsCount documents={expense.documents} />
+          <DocumentsCount count={expense._count.documents} />
         </div>
         <div className="text-xs text-muted-foreground">
           {formatDate(expense.expenseDate, locale, { dateStyle: 'medium' })}
