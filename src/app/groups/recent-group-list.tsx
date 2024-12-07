@@ -7,7 +7,7 @@ import {
   getStarredGroups,
 } from '@/app/groups/recent-groups-helpers'
 import { Button } from '@/components/ui/button'
-import { getGroups } from '@/lib/api'
+import { getGlobalGroups, getGroups } from '@/lib/api'
 import { trpc } from '@/trpc/client'
 import { AppRouterOutput } from '@/trpc/routers/_app'
 import { Loader2 } from 'lucide-react'
@@ -23,6 +23,7 @@ export type RecentGroupsState =
       groups: RecentGroups
       starredGroups: string[]
       archivedGroups: string[]
+      globalGroups: NonNullable<Awaited<ReturnType<typeof getGlobalGroups>>>
     }
   | {
       status: 'complete'
@@ -30,20 +31,27 @@ export type RecentGroupsState =
       groupsDetails: Awaited<ReturnType<typeof getGroups>>
       starredGroups: string[]
       archivedGroups: string[]
+      globalGroups: NonNullable<Awaited<ReturnType<typeof getGlobalGroups>>>
     }
 
 function sortGroups({
   groups,
   starredGroups,
   archivedGroups,
+  globalGroups,
 }: {
   groups: RecentGroups
   starredGroups: string[]
   archivedGroups: string[]
+  globalGroups: NonNullable<Awaited<ReturnType<typeof getGlobalGroups>>>
 }) {
   const starredGroupInfo = []
   const groupInfo = []
   const archivedGroupInfo = []
+  const globalGroupInfo = globalGroups.filter(
+    (group) => groups.filter((g) => g.id == group.id).length == 0,
+  )
+
   for (const group of groups) {
     if (starredGroups.includes(group.id)) {
       starredGroupInfo.push(group)
@@ -57,13 +65,20 @@ function sortGroups({
     starredGroupInfo,
     groupInfo,
     archivedGroupInfo,
+    globalGroupInfo,
   }
 }
 
-export function RecentGroupList() {
+export type Props = {
+  globalGroups: NonNullable<Awaited<ReturnType<typeof getGlobalGroups>>>
+}
+
+export function RecentGroupList({ globalGroups }: Props) {
   const [state, setState] = useState<RecentGroupsState>({ status: 'pending' })
 
-  function loadGroups() {
+  function loadGroups(
+    globalGroups: NonNullable<Awaited<ReturnType<typeof getGlobalGroups>>>,
+  ) {
     const groupsInStorage = getRecentGroups()
     const starredGroups = getStarredGroups()
     const archivedGroups = getArchivedGroups()
@@ -72,12 +87,13 @@ export function RecentGroupList() {
       groups: groupsInStorage,
       starredGroups,
       archivedGroups,
+      globalGroups,
     })
   }
 
   useEffect(() => {
-    loadGroups()
-  }, [])
+    loadGroups(globalGroups)
+  }, [globalGroups])
 
   if (state.status === 'pending') return null
 
@@ -86,7 +102,8 @@ export function RecentGroupList() {
       groups={state.groups}
       starredGroups={state.starredGroups}
       archivedGroups={state.archivedGroups}
-      refreshGroupsFromStorage={() => loadGroups()}
+      globalGroups={state.globalGroups}
+      refreshGroupsFromStorage={() => loadGroups(globalGroups)}
     />
   )
 }
@@ -95,11 +112,13 @@ function RecentGroupList_({
   groups,
   starredGroups,
   archivedGroups,
+  globalGroups,
   refreshGroupsFromStorage,
 }: {
   groups: RecentGroups
   starredGroups: string[]
   archivedGroups: string[]
+  globalGroups: NonNullable<Awaited<ReturnType<typeof getGlobalGroups>>>
   refreshGroupsFromStorage: () => void
 }) {
   const t = useTranslations('Groups')
@@ -118,7 +137,7 @@ function RecentGroupList_({
     )
   }
 
-  if (data.groups.length === 0) {
+  if (groups.length === 0 && globalGroups.length === 0) {
     return (
       <GroupsPage reload={refreshGroupsFromStorage}>
         <div className="text-sm space-y-2">
@@ -134,11 +153,13 @@ function RecentGroupList_({
     )
   }
 
-  const { starredGroupInfo, groupInfo, archivedGroupInfo } = sortGroups({
-    groups,
-    starredGroups,
-    archivedGroups,
-  })
+  const { starredGroupInfo, groupInfo, archivedGroupInfo, globalGroupInfo } =
+    sortGroups({
+      groups,
+      starredGroups,
+      archivedGroups,
+      globalGroups,
+    })
 
   return (
     <GroupsPage reload={refreshGroupsFromStorage}>
@@ -180,6 +201,18 @@ function RecentGroupList_({
               refreshGroupsFromStorage={refreshGroupsFromStorage}
             />
           </div>
+        </>
+      )}
+      {globalGroupInfo.length > 0 && (
+        <>
+          <h2 className="mt-6 mb-2">{t('global')}</h2>
+          <GroupList
+            groups={globalGroupInfo}
+            groupDetails={data.groups}
+            archivedGroups={archivedGroups}
+            starredGroups={starredGroups}
+            refreshGroupsFromStorage={refreshGroupsFromStorage}
+          />
         </>
       )}
     </GroupsPage>

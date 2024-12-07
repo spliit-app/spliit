@@ -1,10 +1,15 @@
 'use client'
 
 import { GroupForm } from '@/components/group-form'
+import { RuntimeFeatureFlags } from '@/lib/featureFlags'
 import { trpc } from '@/trpc/client'
 import { useCurrentGroup } from '../current-group-context'
 
-export const EditGroup = () => {
+export const EditGroup = ({
+  runtimeFeatureFlags,
+}: {
+  runtimeFeatureFlags: RuntimeFeatureFlags
+}) => {
   const { groupId } = useCurrentGroup()
   const { data, isLoading } = trpc.groups.getDetails.useQuery({ groupId })
   const { mutateAsync } = trpc.groups.update.useMutation()
@@ -20,6 +25,7 @@ export const EditGroup = () => {
         await utils.groups.invalidate()
       }}
       protectedParticipantIds={data?.participantsWithExpenses}
+      runtimeFeatureFlags={runtimeFeatureFlags}
     />
   )
 }
