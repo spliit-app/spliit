@@ -294,20 +294,6 @@
   "Settings": {
     "title": "设定"
   },
-  "Locale": {
-    "en-US": "English",
-    "fi": "Suomi",
-    "fr-FR": "Français",
-    "es": "Español",
-    "de-DE": "Deutsch",
-    "zh-CN": "Chinese (Simplified)",
-    "zh-TW": "正體中文",
-    "pl-PL": "Polski",
-    "ru-RU": "Русский",
-    "it-IT": "Italiano",
-    "ua-UA": "Українська",
-    "ro": "Română"
-  },
   "Share": {
     "title": "分享",
     "description": "请将此URL分享给其他群组成员，以使其可以查看群组并添加消费。",

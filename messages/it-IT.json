@@ -294,20 +294,6 @@
   "Settings": {
     "title": "Impostazioni"
   },
-  "Locale": {
-    "en-US": "English",
-    "fi": "Suomi",
-    "fr-FR": "Français",
-    "es": "Español",
-    "de-DE": "Deutsch",
-    "zh-CN": "Chinese (Simplified)",
-    "zh-TW": "正體中文 (Traditional Chinese)",
-    "pl-PL": "Polski",
-    "ru-RU": "Русский",
-    "it-IT": "Italiano",
-    "ua-UA": "Українська",
-    "ro": "Română"
-  },
   "Share": {
     "title": "Condividi",
     "description": "Per consentire agli altri partecipanti di vedere il gruppo e aggiungere spese, condividi il suo URL con loro.",
