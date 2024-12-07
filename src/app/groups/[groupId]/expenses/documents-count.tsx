@@ -11,11 +11,8 @@ export function DocumentsCount({ documents }: DocumentCount) {
   if (documentsCount === 0) return <></>
   return (
     <div className="flex items-center">
-      <Paperclip className="w-4 h-4 mr-1 mt-0.5 text-muted-foreground" />
-      <span>
-        {documentsCount}{' '}
-        {documentsCount === 1 ? t('attachment') : t('attachments')}
-      </span>
+      <Paperclip className="w-3.5 h-3.5 mr-1 mt-0.5 text-muted-foreground" />
+      <span>{documentsCount}</span>
     </div>
   )
 }

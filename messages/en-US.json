@@ -42,9 +42,7 @@
   "ExpenseCard": {
     "paidBy": "Paid by <strong>{paidBy}</strong> for <paidFor></paidFor>",
     "receivedBy": "Received by <strong>{paidBy}</strong> for <paidFor></paidFor>",
-    "yourBalance": "Your balance:",
-    "attachments": "attachments",
-    "attachment": "attachment"
+    "yourBalance": "Your balance:"
   },
   "Groups": {
     "myGroups": "My groups",
