@@ -31,7 +31,7 @@ export async function GET(
     return NextResponse.json({ error: 'Invalid group ID' }, { status: 404 })
 
   const date = new Date().toISOString().split('T')[0]
-  const filename = `Spliit Export - ${group.name} - ${date}`
+  const filename = `Spliit Export - ${date}`
   return NextResponse.json(group, {
     headers: {
       'content-type': 'application/json',
