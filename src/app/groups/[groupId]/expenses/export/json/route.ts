@@ -22,6 +22,7 @@ export async function GET(
           paidFor: { select: { participantId: true, shares: true } },
           isReimbursement: true,
           splitMode: true,
+          recurrenceRule: true,
         },
       },
       participants: { select: { id: true, name: true } },
