@@ -1,4 +1,4 @@
-import { SplitMode } from '@prisma/client'
+import { SplitMode, RecurrenceRule } from '@prisma/client'
 import * as z from 'zod'
 
 export const groupFormSchema = z
@@ -105,6 +105,11 @@ export const expenseFormSchema = z
       )
       .default([]),
     notes: z.string().optional(),
+    recurrenceRule:z
+      .enum<RecurrenceRule, [RecurrenceRule, ...RecurrenceRule[]]>(
+        Object.values(RecurrenceRule) as any
+      )
+      .default('NONE'),
   })
   .superRefine((expense, ctx) => {
     let sum = 0
