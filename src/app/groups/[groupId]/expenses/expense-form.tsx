@@ -40,6 +40,7 @@ import {
   SplittingOptions,
   expenseFormSchema,
 } from '@/lib/schemas'
+import { calculateShare } from '@/lib/totals'
 import { cn } from '@/lib/utils'
 import { AppRouterOutput } from '@/trpc/routers/_app'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -591,6 +592,42 @@ export function ExpenseForm({
                               </FormControl>
                               <FormLabel className="text-sm font-normal flex-1">
                                 {name}
+                                {field.value?.some(
+                                  ({ participant }) => participant === id,
+                                ) &&
+                                  !form.watch('isReimbursement') && (
+                                    <span className="text-muted-foreground ml-2">
+                                      ({group.currency}{' '}
+                                      {(
+                                        calculateShare(id, {
+                                          amount:
+                                            Number(form.watch('amount')) * 100, // Convert to cents
+                                          paidFor: field.value.map(
+                                            ({ participant, shares }) => ({
+                                              participant: {
+                                                id: participant,
+                                                name: '',
+                                                groupId: '',
+                                              },
+                                              shares:
+                                                form.watch('splitMode') ===
+                                                  'BY_PERCENTAGE' ||
+                                                form.watch('splitMode') ===
+                                                  'BY_AMOUNT'
+                                                  ? Number(shares) * 100 // Convert percentage to basis points (e.g., 50% -> 5000)
+                                                  : shares,
+                                              expenseId: '',
+                                              participantId: '',
+                                            }),
+                                          ),
+                                          splitMode: form.watch('splitMode'),
+                                          isReimbursement:
+                                            form.watch('isReimbursement'),
+                                        }) / 100
+                                      ).toFixed(2)}
+                                      )
+                                    </span>
+                                  )}
                               </FormLabel>
                             </FormItem>
                             {form.getValues().splitMode !== 'EVENLY' && (
