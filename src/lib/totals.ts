@@ -23,13 +23,14 @@ export function getTotalActiveUserPaidFor(
   )
 }
 
-
-
 type Expense = NonNullable<Awaited<ReturnType<typeof getGroupExpenses>>>[number]
 
 export function calculateShare(
   participantId: string | null,
-  expense: Pick<Expense, 'amount' | 'paidFor' | 'splitMode' | 'isReimbursement'>,
+  expense: Pick<
+    Expense,
+    'amount' | 'paidFor' | 'splitMode' | 'isReimbursement'
+  >,
 ): number {
   if (expense.isReimbursement) return 0
 
@@ -44,7 +45,7 @@ export function calculateShare(
 
   switch (expense.splitMode) {
     case 'EVENLY':
-       // Divide the total expense evenly among all participants
+      // Divide the total expense evenly among all participants
       return expense.amount / paidFors.length
     case 'BY_AMOUNT':
       // Directly add the user's share if the split mode is BY_AMOUNT
@@ -70,8 +71,8 @@ export function getTotalActiveUserShare(
 ): number {
   const total = expenses.reduce(
     (sum, expense) => sum + calculateShare(activeUserId, expense),
-    0
+    0,
   )
-  
+
   return parseFloat(total.toFixed(2))
 }
