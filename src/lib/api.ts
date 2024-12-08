@@ -175,10 +175,14 @@ export async function updateExpense(
     // Delete the existing RecurrenceExpenseLink only if it has not been acted upon yet
     existingExpense.recurringExpenseLink?.nextExpenseCreatedAt === null
 
-  const isUpdateRecurrenceExpenseLink = existingExpense.recurrenceRule !== expenseFormValues.recurrenceRule
+  const isUpdateRecurrenceExpenseLink = existingExpense.recurrenceRule !== expenseFormValues.recurrenceRule &&
+    // Update the exisiting RecurrenceExpenseLink only if it has not been acted upon yet
+    existingExpense.recurringExpenseLink?.nextExpenseCreatedAt === null
   const isCreateRecurrenceExpenseLink = 
     existingExpense.recurrenceRule === RecurrenceRule.NONE && 
-    expenseFormValues.recurrenceRule !== RecurrenceRule.NONE
+    expenseFormValues.recurrenceRule !== RecurrenceRule.NONE &&
+    // Create a new RecurrenceExpenseLink only if one does not already exist for the expense
+    existingExpense.recurringExpenseLink === null
   
   const newRecurringExpenseLink = createPayloadForNewRecurringExpenseLink(
     expenseFormValues.recurrenceRule as RecurrenceRule,
