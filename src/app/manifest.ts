@@ -7,6 +7,7 @@ export default function manifest(): MetadataRoute.Manifest {
     description:
       'A minimalist web application to share expenses with friends and family. No ads, no account, no problem.',
     start_url: '/groups',
+    id: '/groups',
     display: 'standalone',
     background_color: '#fff',
     theme_color: '#047857',
