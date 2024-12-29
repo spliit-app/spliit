@@ -31,3 +31,7 @@ jobs:
       #     platforms: linux/amd64,linux/arm64,linux/arm/v7
       - name: npm build
         run: npm run build-image
+      - name: Tag Docker image
+        run: docker tag spliit2:latest maxkratz/spliit2:latest
+      - name: Push Docker image
+        run: docker push maxkratz/spliit2:latest
