@@ -208,7 +208,7 @@
   "ExpenseDocumentsInput": {
     "TooBigToast": {
       "title": "Ten plik jest zbyt duży",
-      "description": "Maksymalny rozmiar pliku to: {maxSize}. Twój plik ma: ${size}."
+      "description": "Maksymalny rozmiar pliku to: {maxSize}. Twój plik ma: {size}."
     },
     "ErrorToast": {
       "title": "Błąd podczas wysyłania dokumentu",
@@ -233,7 +233,7 @@
     "unknown": "Nieznany",
     "TooBigToast": {
       "title": "Ten plik jest zbyt duży",
-      "description": "Maksymalny rozmiar pliku to: {maxSize}. Twój plik ma: ${size}."
+      "description": "Maksymalny rozmiar pliku to: {maxSize}. Twój plik ma: {size}."
     },
     "ErrorToast": {
       "title": "Błąd podczas wysyłania dokumentu",

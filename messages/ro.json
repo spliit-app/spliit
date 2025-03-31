@@ -209,7 +209,7 @@
   "ExpenseDocumentsInput": {
     "TooBigToast": {
       "title": "Fișierul este prea mare",
-      "description": "Dimensiunea maximă a fișierului pe care îl poți atașa este {maxSize}. Fișierul tău are ${size}."
+      "description": "Dimensiunea maximă a fișierului pe care îl poți atașa este {maxSize}. Fișierul tău are {size}."
     },
     "ErrorToast": {
       "title": "Eroare la adăugarea documentului.",
@@ -234,7 +234,7 @@
     "unknown": "Necunoscut",
     "TooBigToast": {
       "title": "Fișierul este prea mare",
-      "description": "Dimensiunea maximă a fișierului pe care il poți atașa este {maxSize}. Fișierul tău are ${size}."
+      "description": "Dimensiunea maximă a fișierului pe care il poți atașa este {maxSize}. Fișierul tău are {size}."
     },
     "ErrorToast": {
       "title": "Eroare la adăugarea documentului.",
