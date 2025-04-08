@@ -209,7 +209,7 @@
     "ExpenseDocumentsInput": {
       "TooBigToast": {
         "title": "Het bestand is te groot",
-        "description": "De maximum bestandsgrootte {maxSize}. Jouw bestand is ${size}."
+        "description": "De maximum bestandsgrootte {maxSize}. Jouw bestand is {size}."
       },
       "ErrorToast": {
         "title": "Fout bij het uploaden van document",
@@ -234,7 +234,7 @@
       "unknown": "Onbekend",
       "TooBigToast": {
         "title": "Het bestand is te groot",
-        "description": "De maximum bestandsgrootte {maxSize}. Jouw bestand is ${size}."
+        "description": "De maximum bestandsgrootte {maxSize}. Jouw bestand is {size}."
       },
       "ErrorToast": {
         "title": "Fout bij het uploaden van document",
