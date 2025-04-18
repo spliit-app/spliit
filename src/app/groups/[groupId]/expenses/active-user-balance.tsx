@@ -1,12 +1,13 @@
 'use client'
 import { Money } from '@/components/money'
 import { getBalances } from '@/lib/balances'
+import { Currency } from '@/lib/currency'
 import { useActiveUser } from '@/lib/hooks'
 import { useTranslations } from 'next-intl'
 
 type Props = {
   groupId: string
-  currency: string
+  currency: Currency
   expense: Parameters<typeof getBalances>[0][number]
 }
 
