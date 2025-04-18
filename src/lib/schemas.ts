@@ -6,6 +6,7 @@ export const groupFormSchema = z
     name: z.string().min(2, 'min2').max(50, 'max50'),
     information: z.string().optional(),
     currency: z.string().min(1, 'min1').max(5, 'max5'),
+    currencyCode: z.union([z.string().length(3).nullish(), z.literal('')]), // ISO-4217 currency code
     participants: z
       .array(
         z.object({
@@ -47,7 +48,7 @@ export const expenseFormSchema = z
                 code: z.ZodIssueCode.custom,
                 message: 'invalidNumber',
               })
-            return Math.round(valueAsNumber * 100)
+            return valueAsNumber
           }),
         ],
         { required_error: 'amountRequired' },
@@ -69,17 +70,16 @@ export const expenseFormSchema = z
                   code: z.ZodIssueCode.custom,
                   message: 'invalidNumber',
                 })
-              return Math.round(valueAsNumber * 100)
+              return value
             }),
           ]),
         }),
       )
       .min(1, 'paidForMin1')
       .superRefine((paidFor, ctx) => {
-        let sum = 0
         for (const { shares } of paidFor) {
-          sum += shares
-          if (shares < 1) {
+          const shareNumber = Number(shares)
+          if (shareNumber <= 0) {
             ctx.addIssue({
               code: z.ZodIssueCode.custom,
               message: 'noZeroShares',
@@ -112,17 +112,16 @@ export const expenseFormSchema = z
       .default('NONE'),
   })
   .superRefine((expense, ctx) => {
-    let sum = 0
-    for (const { shares } of expense.paidFor) {
-      sum +=
-        typeof shares === 'number' ? shares : Math.round(Number(shares) * 100)
-    }
     switch (expense.splitMode) {
       case 'EVENLY':
         break // noop
       case 'BY_SHARES':
         break // noop
       case 'BY_AMOUNT': {
+        const sum = expense.paidFor.reduce(
+          (sum, { shares }) => sum + Number(shares),
+          0,
+        )
         if (sum !== expense.amount) {
           const detail =
             sum < expense.amount
@@ -137,6 +136,14 @@ export const expenseFormSchema = z
         break
       }
       case 'BY_PERCENTAGE': {
+        const sum = expense.paidFor.reduce(
+          (sum, { shares }) =>
+            sum +
+            (typeof shares === 'string'
+              ? Math.round(Number(shares) * 100)
+              : Number(shares)),
+          0,
+        )
         if (sum !== 10000) {
           const detail =
             sum < 10000
@@ -150,6 +157,26 @@ export const expenseFormSchema = z
         }
         break
       }
+    }
+  })
+  .transform((expense) => {
+    // Format the share split as a number (if from form submission)
+    return {
+      ...expense,
+      paidFor: expense.paidFor.map(({ participant, shares }) => {
+        if (typeof shares === 'string' && expense.splitMode !== 'BY_AMOUNT') {
+          // For splitting not by amount, preserve the previous behaviour of multiplying the share by 100
+          return {
+            participant,
+            shares: Math.round(Number(shares) * 100),
+          }
+        }
+        // Otherwise, no need as the number will have been formatted according to currency.
+        return {
+          participant,
+          shares: Number(shares),
+        }
+      }),
     }
   })
 

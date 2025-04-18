@@ -94,6 +94,11 @@
       "placeholder": "$, €, £…",
       "description": "We’ll use it to display amounts."
     },
+    "CurrencyCodeField": {
+      "label": "Main currency",
+      "description": "All amounts and balances will be in this currency. Changing this will NOT convert expenses already entered.",
+      "customOption": "Custom"
+    },
     "Participants": {
       "title": "Participants",
       "description": "Enter the name for each participant.",
@@ -395,6 +400,19 @@
       "Trash": "Trash",
       "TV/Phone/Internet": "TV/Phone/Internet",
       "Water": "Water"
+    }
+  },
+  "Currencies": {
+    "search": "Search currency...",
+    "noCurrency": "No currencies found.",
+    "custom": {
+      "heading": "Custom"
+    },
+    "common": {
+      "heading": "Most common"
+    },
+    "other": {
+      "heading": "Other currencies"
     }
   }
 }
