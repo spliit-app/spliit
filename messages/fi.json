@@ -210,7 +210,7 @@
   "ExpenseDocumentsInput": {
     "TooBigToast": {
       "title": "Tiedosto on liian suuri",
-      "description": "Maksimikoko ladattavalle tiedostolle on {maxSize}. Tiedostosi on ${size}."
+      "description": "Maksimikoko ladattavalle tiedostolle on {maxSize}. Tiedostosi on {size}."
     },
     "ErrorToast": {
       "title": "Virhe tiedostoa ladattaessa",
@@ -235,7 +235,7 @@
     "unknown": "Unknown",
     "TooBigToast": {
       "title": "The file is too big",
-      "description": "The maximum file size you can upload is {maxSize}. Yours is ${size}."
+      "description": "The maximum file size you can upload is {maxSize}. Yours is {size}."
     },
     "ErrorToast": {
       "title": "Error while uploading document",
