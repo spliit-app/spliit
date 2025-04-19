@@ -1,6 +1,7 @@
 services:
   app:
-    image: spliit2:latest
+    build: .
+    image: spliit:latest
     ports:
       - 3000:3000
     env_file:
@@ -8,11 +9,13 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      - spliit_network
 
   db:
     image: postgres:latest
-    ports:
-      - 5432:5432
+    expose:
+      - 5432
     env_file:
       - container.env
     volumes:
@@ -22,3 +25,9 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - spliit_network
+
+networks:
+  spliit_network:
+    driver: bridge
