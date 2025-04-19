@@ -145,7 +145,7 @@
       "attachDescription": "Füge der Einnahme einen Beleg hinzu."
     },
     "Expense": {
-      "create": "Augabe erstellen",
+      "create": "Ausgabe erstellen",
       "edit": "Ausgabe bearbeiten",
       "TitleField": {
         "label": "Titel der Ausgabe",
@@ -272,7 +272,7 @@
     "noActivity": "Es gab noch keine Aktivität in dieser Gruppe.",
     "someone": "Jemand",
     "settingsModified": "Die Gruppeneinstellungen wurden von <strong>{participant}</strong> verändert.",
-    "expenseCreated": "Augabe <em>{expense}</em> wurde von <strong>{participant}</strong> erstellt.",
+    "expenseCreated": "Ausgabe <em>{expense}</em> wurde von <strong>{participant}</strong> erstellt.",
     "expenseUpdated": "Ausgabe <em>{expense}</em> wurde von <strong>{participant}</strong> aktualisiert.",
     "expenseDeleted": "Ausgabe <em>{expense}</em> wurde von <strong>{participant}</strong> gelöscht.",
     "Groups": {
@@ -299,7 +299,7 @@
     "title": "Teilen",
     "description": "Teile die URL, damit andere Mitglieder die Gruppe sehen und Ausgaben hinzufügen können.",
     "warning": "Achtung!",
-    "warningHelp": "Jede person mit der Gruppen-URL kann Ausgaben sehen und editieren. Teile den Link mit Bedacht!"
+    "warningHelp": "Jede Person mit der Gruppen-URL kann Ausgaben sehen und editieren. Teile den Link mit Bedacht!"
   },
   "SchemaErrors": {
     "min1": "Gib mindestens ein Zeichen ein.",
