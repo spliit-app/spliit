@@ -21,6 +21,7 @@
     "createFirst": "Lisää ensimmäinen kulu",
     "noExpenses": "Ryhmälläsi ei ole vielä yhtään kulua.",
     "exportJson": "Vie JSON-tiedostoon",
+    "exportCsv": "Vie CSV-tiedostoon",
     "searchPlaceholder": "Etsi kulua…",
     "ActiveUserModal": {
       "title": "Kuka olet?",

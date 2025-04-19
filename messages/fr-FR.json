@@ -21,6 +21,7 @@
     "createFirst": "Créer la première :)",
     "noExpenses": "Votre groupe n'a effectué aucune dépense pour le moment.",
     "exportJson": "Exporter en JSON",
+    "exportCsv": "Exporter en CSV",
     "searchPlaceholder": "Rechercher une dépense…",
     "ActiveUserModal": {
       "title": "Qui êtes-vous ?",

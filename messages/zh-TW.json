@@ -21,6 +21,7 @@
     "createFirst": "新增第一筆消費紀錄",
     "noExpenses": "你的群組內目前沒有任何消費紀錄。",
     "exportJson": "匯出為 JSON",
+    "exportCsv": "匯出為 CSV",
     "searchPlaceholder": "搜尋消費紀錄……",
     "ActiveUserModal": {
       "title": "你是誰？",
