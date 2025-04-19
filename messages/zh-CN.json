@@ -210,7 +210,7 @@
   "ExpenseDocumentsInput": {
     "TooBigToast": {
       "title": "文件过大",
-      "description": "可上传的最大文件大小为{maxSize}，你的文件为${size}。"
+      "description": "可上传的最大文件大小为{maxSize}，你的文件为{size}。"
     },
     "ErrorToast": {
       "title": "上传文档时发生错误",
@@ -235,7 +235,7 @@
     "unknown": "未知",
     "TooBigToast": {
       "title": "文件过大",
-      "description": "可上传的最大文件大小为{maxSize}，你的文件为${size}。"
+      "description": "可上传的最大文件大小为{maxSize}，你的文件为{size}。"
     },
     "ErrorToast": {
       "title": "上传文档时发生错误",

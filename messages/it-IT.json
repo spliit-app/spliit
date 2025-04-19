@@ -210,7 +210,7 @@
   "ExpenseDocumentsInput": {
     "TooBigToast": {
       "title": "Il file è troppo grande",
-      "description": "La dimensione massima del file che puoi caricare è {maxSize}. Il tuo è ${size}."
+      "description": "La dimensione massima del file che puoi caricare è {maxSize}. Il tuo è {size}."
     },
     "ErrorToast": {
       "title": "Errore durante il caricamento del documento",
@@ -235,7 +235,7 @@
     "unknown": "Sconosciuto",
     "TooBigToast": {
       "title": "Il file è troppo grande",
-      "description": "La dimensione massima del file che puoi caricare è {maxSize}. Il tuo è ${size}."
+      "description": "La dimensione massima del file che puoi caricare è {maxSize}. Il tuo è {size}."
     },
     "ErrorToast": {
       "title": "Errore durante il caricamento del documento",

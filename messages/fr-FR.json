@@ -210,7 +210,7 @@
   "ExpenseDocumentsInput": {
     "TooBigToast": {
       "title": "Le fichier est trop grand",
-      "description": "La taille maximale du fichier que vous pouvez télécharger est {maxSize}. La vôtre est ${size}."
+      "description": "La taille maximale du fichier que vous pouvez télécharger est {maxSize}. La vôtre est {size}."
     },
     "ErrorToast": {
       "title": "Erreur lors du téléchargement du document",
@@ -235,7 +235,7 @@
     "unknown": "Inconnu",
     "TooBigToast": {
       "title": "Le fichier est trop grand",
-      "description": "La taille maximale du fichier que vous pouvez télécharger est {maxSize}. La vôtre est ${size}."
+      "description": "La taille maximale du fichier que vous pouvez télécharger est {maxSize}. La vôtre est {size}."
     },
     "ErrorToast": {
       "title": "Erreur lors du téléchargement du document",
