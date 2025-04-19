@@ -137,6 +137,15 @@
         "label": "Otrzymane przez",
         "description": "Wybierz członka, który otrzymał wpływ."
       },
+      "recurrenceRule": {
+        "label": "Expense Recurrence",
+        "description": "Select how often the expense should repeat.",
+
+        "none": "None",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly"
+      },
       "paidFor": {
         "title": "Otrzymany dla",
         "description": "Podaj dla kogo wpływ był przeznaczony."

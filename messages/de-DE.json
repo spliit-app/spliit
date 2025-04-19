@@ -137,6 +137,15 @@
         "label": "Empfangen von",
         "description": "Wähle das Mitglied, das die Einnahme erhalten hat."
       },
+      "recurrenceRule": {
+        "label": "Expense Recurrence",
+        "description": "Select how often the expense should repeat.",
+
+        "none": "None",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly"
+      },
       "paidFor": {
         "title": "Empfangen für",
         "description": "Wähle für wen die Einnahme empfangen wurde."
