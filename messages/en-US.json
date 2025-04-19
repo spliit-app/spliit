@@ -20,7 +20,9 @@
     "create": "Create expense",
     "createFirst": "Create the first one",
     "noExpenses": "Your group doesn’t contain any expense yet.",
+    "export": "Export",
     "exportJson": "Export to JSON",
+    "exportCsv": "Export to CSV",
     "searchPlaceholder": "Search for an expense…",
     "ActiveUserModal": {
       "title": "Who are you?",

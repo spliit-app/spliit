@@ -3,6 +3,7 @@
 import { ActiveUserModal } from '@/app/groups/[groupId]/expenses/active-user-modal'
 import { CreateFromReceiptButton } from '@/app/groups/[groupId]/expenses/create-from-receipt-button'
 import { ExpenseList } from '@/app/groups/[groupId]/expenses/expense-list'
+import ExportButton from '@/app/groups/[groupId]/export-button'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -11,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Download, Plus } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import { Metadata } from 'next'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
@@ -40,16 +41,7 @@ export default function GroupExpensesPageClient({
             <CardDescription>{t('description')}</CardDescription>
           </CardHeader>
           <CardHeader className="p-4 sm:p-6 flex flex-row space-y-0 gap-2">
-            <Button variant="secondary" size="icon" asChild>
-              <Link
-                prefetch={false}
-                href={`/groups/${groupId}/expenses/export/json`}
-                target="_blank"
-                title={t('exportJson')}
-              >
-                <Download className="w-4 h-4" />
-              </Link>
-            </Button>
+            <ExportButton groupId={groupId} />
             {enableReceiptExtract && <CreateFromReceiptButton />}
             <Button asChild size="icon">
               <Link

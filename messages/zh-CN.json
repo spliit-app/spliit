@@ -21,6 +21,7 @@
     "createFirst": "创建首个消费",
     "noExpenses": "你的群组内目前没有任何消费。",
     "exportJson": "导出到JSON",
+    "exportCsv": "导出到CSV",
     "searchPlaceholder": "查找消费……",
     "ActiveUserModal": {
       "title": "你是哪位？",

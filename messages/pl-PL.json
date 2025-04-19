@@ -21,6 +21,7 @@
     "createFirst": "Stwórz swój pierwszy",
     "noExpenses": "Twoja grupa nie ma jeszcze żadnych wydatków.",
     "exportJson": "Eksportuj do JSONa",
+    "exportCsv": "Eksportuj do CSVa",
     "searchPlaceholder": "Szukaj wydatku...",
     "ActiveUserModal": {
       "title": "Kim jesteś?",
