@@ -16,6 +16,7 @@ import {
   FerrisWheel,
   Fuel,
   Gift,
+  HandHelping,
   Home,
   Hotel,
   Lamp,
@@ -96,6 +97,8 @@ function getCategoryIcon(category: string): LucideIcon {
       return Baby
     case 'Life/Clothing':
       return Shirt
+    case 'Life/Donation':
+      return HandHelping
     case 'Life/Education':
       return LibraryBig
     case 'Life/Gifts':
