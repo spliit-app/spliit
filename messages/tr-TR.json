@@ -21,6 +21,7 @@
     "createFirst": "İlk masrafı oluştur",
     "noExpenses": "Grubunuzda henüz herhangi bir masraf yok.",
     "exportJson": "JSON olarak dışa aktar",
+    "exportCsv": "CSV olarak dışa aktar",
     "searchPlaceholder": "Bir masraf arayın…",
     "ActiveUserModal": {
       "title": "Kimsiniz?",
