@@ -191,7 +191,7 @@ function ReceiptDialogContent() {
                   <Unknown />
                 )
               ) : (
-                '' || '…'
+                ''
               )}
             </div>
           </div>
