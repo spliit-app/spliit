@@ -18,6 +18,7 @@
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.5.4",
     "@hookform/resolvers": "^3.3.2",
+    "@json2csv/plainjs": "^7.0.6",
     "@prisma/client": "^5.6.0",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-collapsible": "^1.0.3",

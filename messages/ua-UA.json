@@ -21,6 +21,7 @@
     "createFirst": "Створіть першу витрату",
     "noExpenses": "У вашій групі ще немає витрат",
     "exportJson": "Експортувати у JSON",
+    "exportCsv": "Експортувати у CSV",
     "searchPlaceholder": "Пошук витрат...",
     "ActiveUserModal": {
       "title": "Хто ви?",

@@ -21,6 +21,7 @@
     "createFirst": "Adaug-o pe prima",
     "noExpenses": "Grupul tău nu conține nicio cheltuială încă.",
     "exportJson": "Salvează în JSON",
+    "exportCsv": "Salvează în CSV",
     "searchPlaceholder": "Caută o cheltuială…",
     "ActiveUserModal": {
       "title": "Cum te numești?",

@@ -21,6 +21,7 @@
     "createFirst": "Erstelle die Erste",
     "noExpenses": "Deine Gruppe hat noch keine Ausgaben.",
     "exportJson": "Als JSON exportieren",
+    "exportCsv": "Als CSV exportieren",
     "searchPlaceholder": "Suche nach einer Ausgabe…",
     "ActiveUserModal": {
       "title": "Wer bist du?",
