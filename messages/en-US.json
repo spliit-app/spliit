@@ -162,6 +162,15 @@
         "label": "Paid by",
         "description": "Select the participant who paid the expense."
       },
+      "recurrenceRule": {
+        "label": "Expense Recurrence",
+        "description": "Select how often the expense should repeat.",
+
+        "none": "None",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly"
+      },
       "paidFor": {
         "title": "Paid for",
         "description": "Select who the expense was paid for."

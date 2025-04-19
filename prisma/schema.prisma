@@ -55,6 +55,10 @@ model Expense {
   createdAt       DateTime          @default(now())
   documents       ExpenseDocument[]
   notes           String?
+
+  recurrenceRule  RecurrenceRule?    @default(NONE)
+  recurringExpenseLink RecurringExpenseLink?
+  recurringExpenseLinkId String?
 }
 
 model ExpenseDocument {
@@ -71,6 +75,29 @@ enum SplitMode {
   BY_SHARES
   BY_PERCENTAGE
   BY_AMOUNT
+}
+
+model RecurringExpenseLink {
+  id String @id
+  groupId   String
+  currentFrameExpense Expense @relation(fields: [currentFrameExpenseId], references: [id], onDelete: Cascade)
+  currentFrameExpenseId String @unique
+
+  // Note: We do not want to link to the next expense because once it is created, it should be 
+  // treated as it's own independent entity. This means that if a user wants to delete an Expense
+  // and any prior related recurring expenses, they'll need to delete them one by one.
+  nextExpenseCreatedAt DateTime?
+  nextExpenseDate DateTime
+
+  @@index([groupId])
+  @@index([groupId, nextExpenseCreatedAt, nextExpenseDate(sort: Desc)])
+}
+
+enum RecurrenceRule {
+  NONE
+  DAILY
+  WEEKLY
+  MONTHLY
 }
 
 model ExpensePaidFor {
