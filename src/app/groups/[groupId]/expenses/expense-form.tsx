@@ -44,6 +44,7 @@ import { calculateShare } from '@/lib/totals'
 import { cn } from '@/lib/utils'
 import { AppRouterOutput } from '@/trpc/routers/_app'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { RecurrenceRule } from '@prisma/client'
 import { Save } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
@@ -54,7 +55,6 @@ import { match } from 'ts-pattern'
 import { DeletePopup } from '../../../../components/delete-popup'
 import { extractCategoryFromTitle } from '../../../../components/expense-form-actions'
 import { Textarea } from '../../../../components/ui/textarea'
-import { RecurrenceRule } from '@prisma/client'
 
 const enforceCurrencyPattern = (value: string) =>
   value
@@ -190,7 +190,7 @@ export function ExpenseForm({
           isReimbursement: expense.isReimbursement,
           documents: expense.documents,
           notes: expense.notes ?? '',
-          recurrenceRule: expense.recurrenceRule,
+          recurrenceRule: expense.recurrenceRule ?? undefined,
         }
       : searchParams.get('reimbursement')
       ? {
@@ -516,7 +516,7 @@ export function ExpenseForm({
                     defaultValue={getSelectedRecurrenceRule(field)}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="NONE"/>
+                      <SelectValue placeholder="NONE" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="NONE">
