@@ -20,6 +20,7 @@
     "create": "Maak uitgave",
     "createFirst": "Maak de eerste",
     "noExpenses": "Je groep heeft nog geen uitgaven.",
+    "export": "Exporteer",
     "exportJson": "Exporteer naar JSON",
     "exportCsv": "Exporteer naar CSV",
     "searchPlaceholder": "Zoek naar een uitgave…",
@@ -137,6 +138,14 @@
         "label": "Ontvangen door",
         "description": "Selecteer de deelnemer die het inkomen heeft ontvangen."
       },
+      "recurrenceRule": {
+        "label": "Terugkerend inkomen",
+        "description": "Kies hoe vaak het inkomen herhaald wordt.",
+        "none": "Niet",
+        "daily": "Dagelijks",
+        "weekly": "Wekelijks",
+        "monthly": "Maandelijks"
+      },
       "paidFor": {
         "title": "Ontvangen voor",
         "description": "Selecteer voor wie het inkomen is ontvangen."
@@ -160,6 +169,14 @@
       "paidByField": {
         "label": "Betaald door",
         "description": "Selecteer de deelnemer die de uitgave heeft gedaan."
+      },
+      "recurrenceRule": {
+        "label": "Terugkerende uitgave",
+        "description": "Kies hoe vaak de uitgave herhaald wordt.",
+        "none": "Niet",
+        "daily": "Dagelijks",
+        "weekly": "Wekelijks",
+        "monthly": "Maandelijks"
       },
       "paidFor": {
         "title": "Betaald voor",
@@ -357,6 +374,7 @@
       "heading": "Leven",
       "Childcare": "Kinderopvang",
       "Clothing": "Kleding",
+      "Donation": "Donatie",
       "Education": "Onderwijs",
       "Gifts": "Cadeaus",
       "Insurance": "Verzekering",
