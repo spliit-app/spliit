@@ -1,6 +1,11 @@
 import { prisma } from '@/lib/prisma'
 import { ExpenseFormValues, GroupFormValues } from '@/lib/schemas'
-import { ActivityType, Expense, RecurrenceRule, RecurringExpenseLink } from '@prisma/client'
+import {
+  ActivityType,
+  Expense,
+  RecurrenceRule,
+  RecurringExpenseLink,
+} from '@prisma/client'
 import { nanoid } from 'nanoid'
 
 export function randomId() {
@@ -50,11 +55,12 @@ export async function createExpense(
     data: expenseFormValues.title,
   })
 
-  const isCreateRecurrence = expenseFormValues.recurrenceRule !== RecurrenceRule.NONE
+  const isCreateRecurrence =
+    expenseFormValues.recurrenceRule !== RecurrenceRule.NONE
   const recurringExpenseLinkPayload = createPayloadForNewRecurringExpenseLink(
     expenseFormValues.recurrenceRule as RecurrenceRule,
     expenseFormValues.expenseDate,
-    groupId
+    groupId,
   )
 
   return prisma.expense.create({
@@ -71,11 +77,9 @@ export async function createExpense(
       recurringExpenseLink: {
         ...(isCreateRecurrence
           ? {
-              create: recurringExpenseLinkPayload
+              create: recurringExpenseLinkPayload,
             }
-          : {}
-          ),
-
+          : {}),
       },
       paidFor: {
         createMany: {
@@ -169,30 +173,31 @@ export async function updateExpense(
     data: expenseFormValues.title,
   })
 
-  const isDeleteRecurrenceExpenseLink = 
-    existingExpense.recurrenceRule !== RecurrenceRule.NONE && 
+  const isDeleteRecurrenceExpenseLink =
+    existingExpense.recurrenceRule !== RecurrenceRule.NONE &&
     expenseFormValues.recurrenceRule === RecurrenceRule.NONE &&
     // Delete the existing RecurrenceExpenseLink only if it has not been acted upon yet
     existingExpense.recurringExpenseLink?.nextExpenseCreatedAt === null
 
-  const isUpdateRecurrenceExpenseLink = existingExpense.recurrenceRule !== expenseFormValues.recurrenceRule &&
+  const isUpdateRecurrenceExpenseLink =
+    existingExpense.recurrenceRule !== expenseFormValues.recurrenceRule &&
     // Update the exisiting RecurrenceExpenseLink only if it has not been acted upon yet
     existingExpense.recurringExpenseLink?.nextExpenseCreatedAt === null
-  const isCreateRecurrenceExpenseLink = 
-    existingExpense.recurrenceRule === RecurrenceRule.NONE && 
+  const isCreateRecurrenceExpenseLink =
+    existingExpense.recurrenceRule === RecurrenceRule.NONE &&
     expenseFormValues.recurrenceRule !== RecurrenceRule.NONE &&
     // Create a new RecurrenceExpenseLink only if one does not already exist for the expense
     existingExpense.recurringExpenseLink === null
-  
+
   const newRecurringExpenseLink = createPayloadForNewRecurringExpenseLink(
     expenseFormValues.recurrenceRule as RecurrenceRule,
     expenseFormValues.expenseDate,
-    groupId
+    groupId,
   )
 
   const updatedRecurrenceExpenseLinkNextExpenseDate = calculateNextDate(
     expenseFormValues.recurrenceRule as RecurrenceRule,
-    existingExpense.expenseDate
+    existingExpense.expenseDate,
   )
 
   return prisma.expense.update({
@@ -238,18 +243,16 @@ export async function updateExpense(
       recurringExpenseLink: {
         ...(isCreateRecurrenceExpenseLink
           ? {
-              create: newRecurringExpenseLink
+              create: newRecurringExpenseLink,
             }
-          : {}
-          ),
+          : {}),
         ...(isUpdateRecurrenceExpenseLink
           ? {
-            update: {
-              nextExpenseDate: updatedRecurrenceExpenseLinkNextExpenseDate
+              update: {
+                nextExpenseDate: updatedRecurrenceExpenseLinkNextExpenseDate,
+              },
             }
-          }
-          : {}
-        ),
+          : {}),
         delete: isDeleteRecurrenceExpenseLink,
       },
       isReimbursement: expenseFormValues.isReimbursement,
@@ -371,7 +374,13 @@ export async function getGroupExpenseCount(groupId: string) {
 export async function getExpense(groupId: string, expenseId: string) {
   return prisma.expense.findUnique({
     where: { id: expenseId },
-    include: { paidBy: true, paidFor: true, category: true, documents: true, recurringExpenseLink: true },
+    include: {
+      paidBy: true,
+      paidFor: true,
+      category: true,
+      documents: true,
+      recurringExpenseLink: true,
+    },
   })
 }
 
@@ -420,35 +429,38 @@ export async function logActivity(
   })
 }
 
-async function createRecurringExpenses(){
-  const localDate = new Date(); // Current local date
-  const utcDateFromLocal = new Date(Date.UTC(
+async function createRecurringExpenses() {
+  const localDate = new Date() // Current local date
+  const utcDateFromLocal = new Date(
+    Date.UTC(
       localDate.getUTCFullYear(),
       localDate.getUTCMonth(),
       localDate.getUTCDate(),
       // More precision beyond date is required to ensure that recurring Expenses are created within <most precises unit> of when expected
       localDate.getUTCHours(),
       localDate.getUTCMinutes(),
-  ));
+    ),
+  )
 
-  const recurringExpenseLinksWithExpensesToCreate = await prisma.recurringExpenseLink.findMany({
-    where: {
-      nextExpenseCreatedAt: null,
-      nextExpenseDate: {
-        lte: utcDateFromLocal
-      }
-    },
-    include: {
-      currentFrameExpense: {
-        include: {
-          paidBy: true,
-          paidFor: true, 
-          category: true, 
-          documents: true 
+  const recurringExpenseLinksWithExpensesToCreate =
+    await prisma.recurringExpenseLink.findMany({
+      where: {
+        nextExpenseCreatedAt: null,
+        nextExpenseDate: {
+          lte: utcDateFromLocal,
         },
-      }
-    }
-  })
+      },
+      include: {
+        currentFrameExpense: {
+          include: {
+            paidBy: true,
+            paidFor: true,
+            category: true,
+            documents: true,
+          },
+        },
+      },
+    })
 
   for (const recurringExpenseLink of recurringExpenseLinksWithExpensesToCreate) {
     let newExpenseDate = recurringExpenseLink.nextExpenseDate
@@ -459,74 +471,84 @@ async function createRecurringExpenses(){
     while (newExpenseDate < utcDateFromLocal) {
       const newExpenseId = randomId()
       const newRecurringExpenseLinkId = randomId()
-      
+
       const newRecurringExpenseNextExpenseDate = calculateNextDate(
-        currentExpenseRecord.recurrenceRule as RecurrenceRule, 
-        newExpenseDate
+        currentExpenseRecord.recurrenceRule as RecurrenceRule,
+        newExpenseDate,
       )
 
       const {
-        category, paidBy, paidFor, documents,
+        category,
+        paidBy,
+        paidFor,
+        documents,
         ...destructeredCurrentExpenseRecord
       } = currentExpenseRecord
 
       // Use a transacton to ensure that the only one expense is created for the RecurringExpenseLink
       // just in case two clients are processing the same RecurringExpenseLink at the same time
-      const newExpense = await prisma.$transaction(async (transaction) => {
-        const newExpense = await transaction.expense.create({
-          data: {
-            ...destructeredCurrentExpenseRecord,
-            categoryId: currentExpenseRecord.categoryId,
-            paidById: currentExpenseRecord.paidById,
-            paidFor: {
-              createMany: {
-                data: currentExpenseRecord.paidFor.map((paidFor) => ({
-                  participantId: paidFor.participantId,
-                  shares: paidFor.shares,
-                })),
+      const newExpense = await prisma
+        .$transaction(async (transaction) => {
+          const newExpense = await transaction.expense.create({
+            data: {
+              ...destructeredCurrentExpenseRecord,
+              categoryId: currentExpenseRecord.categoryId,
+              paidById: currentExpenseRecord.paidById,
+              paidFor: {
+                createMany: {
+                  data: currentExpenseRecord.paidFor.map((paidFor) => ({
+                    participantId: paidFor.participantId,
+                    shares: paidFor.shares,
+                  })),
+                },
+              },
+              documents: {
+                connect: currentExpenseRecord.documents.map(
+                  (documentRecord) => ({
+                    id: documentRecord.id,
+                  }),
+                ),
+              },
+              id: newExpenseId,
+              expenseDate: newExpenseDate,
+              recurringExpenseLink: {
+                create: {
+                  groupId: currentExpenseRecord.groupId,
+                  id: newRecurringExpenseLinkId,
+                  nextExpenseDate: newRecurringExpenseNextExpenseDate,
+                },
               },
             },
-            documents: {
-              connect: currentExpenseRecord.documents.map((documentRecord) => ({
-                id: documentRecord.id
-              })),
+            // Ensure that the same information is available on the returned record that was created
+            include: {
+              paidFor: true,
+              documents: true,
+              category: true,
+              paidBy: true,
             },
-            id: newExpenseId,
-            expenseDate: newExpenseDate,
-            recurringExpenseLink: {
-              create: {
-                groupId: currentExpenseRecord.groupId,
-                id: newRecurringExpenseLinkId,
-                nextExpenseDate: newRecurringExpenseNextExpenseDate
-              }
-            }
-          },
-          // Ensure that the same information is available on the returned record that was created
-          include: {
-            paidFor: true,
-            documents: true,
-            category: true,
-            paidBy: true
-          }
-        })
+          })
 
-        // Mark the RecurringExpenseLink as being "completed" since the new Expense was created
-        // if an expense hasn't been created for this RecurringExpenseLink yet
-        await transaction.recurringExpenseLink.update({
-          where: {
-            id: currentReccuringExpenseLinkId,
-            nextExpenseCreatedAt: null,
-          },
-          data: {
-            nextExpenseCreatedAt: newExpense.createdAt
-          },
-        })
+          // Mark the RecurringExpenseLink as being "completed" since the new Expense was created
+          // if an expense hasn't been created for this RecurringExpenseLink yet
+          await transaction.recurringExpenseLink.update({
+            where: {
+              id: currentReccuringExpenseLinkId,
+              nextExpenseCreatedAt: null,
+            },
+            data: {
+              nextExpenseCreatedAt: newExpense.createdAt,
+            },
+          })
 
-        return newExpense
-      }).catch(() => {
-        console.error("Failed to created recurringExpense for expenseId: %s", currentExpenseRecord.id)
-        return null
-      })
+          return newExpense
+        })
+        .catch(() => {
+          console.error(
+            'Failed to created recurringExpense for expenseId: %s',
+            currentExpenseRecord.id,
+          )
+          return null
+        })
 
       // If the new expense failed to be created, break out of the while-loop
       if (newExpense === null) break
@@ -545,15 +567,15 @@ function createPayloadForNewRecurringExpenseLink(
   groupId: String,
 ): RecurringExpenseLink {
   const nextExpenseDate = calculateNextDate(
-    recurrenceRule, 
-    priorDateToNextRecurrence
+    recurrenceRule,
+    priorDateToNextRecurrence,
   )
 
   const recurringExpenseLinkId = randomId()
   const recurringExpenseLinkPayload = {
     id: recurringExpenseLinkId,
     groupId: groupId,
-    nextExpenseDate: nextExpenseDate
+    nextExpenseDate: nextExpenseDate,
   }
 
   return recurringExpenseLinkPayload as RecurringExpenseLink
@@ -567,10 +589,10 @@ function createPayloadForNewRecurringExpenseLink(
 // will be created for Feb 28th, March 28, etc. until it is cancelled or fixed
 function calculateNextDate(
   recurrenceRule: RecurrenceRule,
-  priorDateToNextRecurrence: Date
+  priorDateToNextRecurrence: Date,
 ): Date {
   const nextDate = new Date(priorDateToNextRecurrence)
-  switch(recurrenceRule) {
+  switch (recurrenceRule) {
     case RecurrenceRule.DAILY:
       nextDate.setUTCDate(nextDate.getUTCDate() + 1)
       break
@@ -578,7 +600,7 @@ function calculateNextDate(
       nextDate.setUTCDate(nextDate.getUTCDate() + 7)
       break
     case RecurrenceRule.MONTHLY:
-      const nextYear = nextDate.getUTCFullYear()  
+      const nextYear = nextDate.getUTCFullYear()
       const nextMonth = nextDate.getUTCMonth() + 1
       let nextDay = nextDate.getUTCDate()
 
@@ -596,15 +618,12 @@ function calculateNextDate(
 function isDateInNextMonth(
   utcYear: number,
   utcMonth: number,
-  utcDate: number
+  utcDate: number,
 ): Boolean {
-  const testDate = new Date(Date.UTC(
-    utcYear, utcMonth, utcDate
-  ))
+  const testDate = new Date(Date.UTC(utcYear, utcMonth, utcDate))
 
   // We're not concerned if the year or month changes. We only want to make sure that the date is our target date
-  if (testDate.getUTCDate() !== utcDate
-   ) {
+  if (testDate.getUTCDate() !== utcDate) {
     return false
   }
 

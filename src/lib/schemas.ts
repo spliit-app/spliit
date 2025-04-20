@@ -1,4 +1,4 @@
-import { SplitMode, RecurrenceRule } from '@prisma/client'
+import { RecurrenceRule, SplitMode } from '@prisma/client'
 import * as z from 'zod'
 
 export const groupFormSchema = z
@@ -105,9 +105,9 @@ export const expenseFormSchema = z
       )
       .default([]),
     notes: z.string().optional(),
-    recurrenceRule:z
+    recurrenceRule: z
       .enum<RecurrenceRule, [RecurrenceRule, ...RecurrenceRule[]]>(
-        Object.values(RecurrenceRule) as any
+        Object.values(RecurrenceRule) as any,
       )
       .default('NONE'),
   })
