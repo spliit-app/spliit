@@ -1,4 +1,5 @@
 import { Balances } from '@/lib/balances'
+import { Currency } from '@/lib/currency'
 import { cn, formatCurrency } from '@/lib/utils'
 import { Participant } from '@prisma/client'
 import { useLocale } from 'next-intl'
@@ -6,7 +7,7 @@ import { useLocale } from 'next-intl'
 type Props = {
   balances: Balances
   participants: Participant[]
-  currency: string
+  currency: Currency
 }
 
 export function BalancesList({ balances, participants, currency }: Props) {

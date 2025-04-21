@@ -1,4 +1,6 @@
+import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
+import useSWR, { Fetcher } from 'swr'
 
 export function useMediaQuery(query: string): boolean {
   const getMatches = (query: string): boolean => {
@@ -63,4 +65,63 @@ export function useActiveUser(groupId?: string) {
   }, [groupId])
 
   return activeUser
+}
+
+interface FrankfurterAPIResponse {
+  base: string
+  date: string
+  rates: Record<string, number>
+}
+
+const fetcher: Fetcher<FrankfurterAPIResponse> = (url: string) =>
+  fetch(url).then(async (res) => {
+    if (!res.ok)
+      throw new TypeError('Unsuccessful response from API', { cause: res })
+    return res.json() as Promise<FrankfurterAPIResponse>
+  })
+
+export function useCurrencyRate(
+  date: Date,
+  baseCurrency: string,
+  targetCurrency: string,
+) {
+  const dateString = dayjs(date).format('YYYY-MM-DD')
+
+  // Only send request if both currency codes are given and not the same
+  const url =
+    !isNaN(date.getTime()) &&
+    !!baseCurrency.length &&
+    !!targetCurrency.length &&
+    baseCurrency !== targetCurrency &&
+    `https://api.frankfurter.app/${dateString}?base=${baseCurrency}`
+  const { data, error, isLoading, mutate } = useSWR<FrankfurterAPIResponse>(
+    url,
+    fetcher,
+    { shouldRetryOnError: false, revalidateOnFocus: false },
+  )
+
+  if (data) {
+    let exchangeRate = undefined
+    let sentError = error
+    if (!error && data.date !== dateString) {
+      // this happens if for example, the requested date is in the future.
+      sentError = new RangeError(data.date)
+    }
+    if (data.rates[targetCurrency]) {
+      exchangeRate = data.rates[targetCurrency]
+    }
+    return {
+      data: exchangeRate,
+      error: sentError,
+      isLoading,
+      refresh: mutate,
+    }
+  }
+
+  return {
+    data,
+    error,
+    isLoading,
+    refresh: mutate,
+  }
 }

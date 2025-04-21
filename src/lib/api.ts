@@ -19,6 +19,7 @@ export async function createGroup(groupFormValues: GroupFormValues) {
       name: groupFormValues.name,
       information: groupFormValues.information,
       currency: groupFormValues.currency,
+      currencyCode: groupFormValues.currencyCode,
       participants: {
         createMany: {
           data: groupFormValues.participants.map(({ name }) => ({
@@ -70,6 +71,9 @@ export async function createExpense(
       expenseDate: expenseFormValues.expenseDate,
       categoryId: expenseFormValues.category,
       amount: expenseFormValues.amount,
+      originalAmount: expenseFormValues.originalAmount,
+      originalCurrency: expenseFormValues.originalCurrency,
+      conversionRate: expenseFormValues.conversionRate,
       title: expenseFormValues.title,
       paidById: expenseFormValues.paidBy,
       splitMode: expenseFormValues.splitMode,
@@ -205,6 +209,9 @@ export async function updateExpense(
     data: {
       expenseDate: expenseFormValues.expenseDate,
       amount: expenseFormValues.amount,
+      originalAmount: expenseFormValues.originalAmount,
+      originalCurrency: expenseFormValues.originalCurrency,
+      conversionRate: expenseFormValues.conversionRate,
       title: expenseFormValues.title,
       categoryId: expenseFormValues.category,
       paidById: expenseFormValues.paidBy,
@@ -293,6 +300,7 @@ export async function updateGroup(
       name: groupFormValues.name,
       information: groupFormValues.information,
       currency: groupFormValues.currency,
+      currencyCode: groupFormValues.currencyCode,
       participants: {
         deleteMany: existingGroup.participants.filter(
           (p) => !groupFormValues.participants.some((p2) => p2.id === p.id),
