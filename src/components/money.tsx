@@ -1,9 +1,10 @@
 'use client'
+import { Currency } from '@/lib/currency'
 import { cn, formatCurrency } from '@/lib/utils'
 import { useLocale } from 'next-intl'
 
 type Props = {
-  currency: string
+  currency: Currency
   amount: number
   bold?: boolean
   colored?: boolean

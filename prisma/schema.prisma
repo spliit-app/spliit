@@ -16,6 +16,7 @@ model Group {
   name         String
   information  String?       @db.Text
   currency     String        @default("$")
+  currencyCode String? 
   participants Participant[]
   expenses     Expense[]
   activities   Activity[]
