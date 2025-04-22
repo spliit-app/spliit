@@ -68,6 +68,9 @@ Here is the current state of translation:
 3. Run `npm run start-container` to start the postgres and the spliit2 containers
 4. You can access the app by browsing to http://localhost:3000
 
+You could also pull it from the container registry:
+```docker pull ghcr.io/spliit-app/spliit:latest```
+
 ## Opt-in features
 
 ### Expense documents
