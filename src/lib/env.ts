@@ -36,6 +36,15 @@ const envSchema = z
       z.boolean().default(false),
     ),
     OPENAI_API_KEY: z.string().optional(),
+    OPENAI_API_URL: z.string().optional().default('https://api.openai.com/v1'),
+    OPENAI_CATEGORY_EXPENSE_MODEL: z
+      .string()
+      .optional()
+      .default('gpt-3.5-turbo'),
+    OPENAI_CATEGORY_RECEIPT_EXTRACT_MODEL: z
+      .string()
+      .optional()
+      .default('gpt-4-turbo'),
   })
   .superRefine((env, ctx) => {
     if (
