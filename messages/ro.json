@@ -21,6 +21,7 @@
     "createFirst": "Adaug-o pe prima",
     "noExpenses": "Grupul tău nu conține nicio cheltuială încă.",
     "exportJson": "Salvează în JSON",
+    "exportCsv": "Salvează în CSV",
     "searchPlaceholder": "Caută o cheltuială…",
     "ActiveUserModal": {
       "title": "Cum te numești?",
@@ -35,7 +36,7 @@
       "earlierThisMonth": "La începutul lunii",
       "lastMonth": "Luna trecută",
       "earlierThisYear": "La începutul anului",
-      "lastYera": "Anul trecut",
+      "lastYear": "Anul trecut",
       "older": "Mai vechi"
     }
   },
@@ -127,6 +128,15 @@
         "placeholder": "Cina de luni seară",
         "description": "Adaugă o descriere pentru venit."
       },
+      "recurrenceRule": {
+        "label": "Expense Recurrence",
+        "description": "Select how often the expense should repeat.",
+
+        "none": "None",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly"
+      },
       "DateField": {
         "label": "Data venitului",
         "description": "Adaugă data la care venitul a fost primit."
@@ -209,7 +219,7 @@
   "ExpenseDocumentsInput": {
     "TooBigToast": {
       "title": "Fișierul este prea mare",
-      "description": "Dimensiunea maximă a fișierului pe care îl poți atașa este {maxSize}. Fișierul tău are ${size}."
+      "description": "Dimensiunea maximă a fișierului pe care îl poți atașa este {maxSize}. Fișierul tău are {size}."
     },
     "ErrorToast": {
       "title": "Eroare la adăugarea documentului.",
@@ -234,7 +244,7 @@
     "unknown": "Necunoscut",
     "TooBigToast": {
       "title": "Fișierul este prea mare",
-      "description": "Dimensiunea maximă a fișierului pe care il poți atașa este {maxSize}. Fișierul tău are ${size}."
+      "description": "Dimensiunea maximă a fișierului pe care il poți atașa este {maxSize}. Fișierul tău are {size}."
     },
     "ErrorToast": {
       "title": "Eroare la adăugarea documentului.",
@@ -293,19 +303,6 @@
   },
   "Settings": {
     "title": "Setări"
-  },
-  "Locale": {
-    "en-US": "English",
-    "fi": "Suomi",
-    "fr-FR": "Français",
-    "es": "Español",
-    "de-DE": "Deutsch",
-    "zh-CN": "Chinese (Simplified)",
-    "pl-PL": "Polski",
-    "ru-RU": "Русский",
-    "it-IT": "Italiano",
-    "ua-UA": "Українська",
-    "ro": "Română"
   },
   "Share": {
     "title": "Distribuie",

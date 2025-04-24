@@ -40,9 +40,11 @@ import {
   SplittingOptions,
   expenseFormSchema,
 } from '@/lib/schemas'
+import { calculateShare } from '@/lib/totals'
 import { cn } from '@/lib/utils'
 import { AppRouterOutput } from '@/trpc/routers/_app'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { RecurrenceRule } from '@prisma/client'
 import { Save } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
@@ -165,6 +167,10 @@ export function ExpenseForm({
     }
     return field?.value
   }
+
+  const getSelectedRecurrenceRule = (field?: { value: string }) => {
+    return field?.value as RecurrenceRule
+  }
   const defaultSplittingOptions = getDefaultSplittingOptions(group)
   const form = useForm<ExpenseFormValues>({
     resolver: zodResolver(expenseFormSchema),
@@ -184,6 +190,7 @@ export function ExpenseForm({
           isReimbursement: expense.isReimbursement,
           documents: expense.documents,
           notes: expense.notes ?? '',
+          recurrenceRule: expense.recurrenceRule ?? undefined,
         }
       : searchParams.get('reimbursement')
       ? {
@@ -207,6 +214,7 @@ export function ExpenseForm({
           saveDefaultSplittingOptions: false,
           documents: [],
           notes: '',
+          recurrenceRule: RecurrenceRule.NONE,
         }
       : {
           title: searchParams.get('title') ?? '',
@@ -234,6 +242,7 @@ export function ExpenseForm({
               ]
             : [],
           notes: '',
+          recurrenceRule: RecurrenceRule.NONE,
         },
   })
   const [isCategoryLoading, setCategoryLoading] = useState(false)
@@ -494,6 +503,43 @@ export function ExpenseForm({
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="recurrenceRule"
+              render={({ field }) => (
+                <FormItem className="sm:order-5">
+                  <FormLabel>{t(`${sExpense}.recurrenceRule.label`)}</FormLabel>
+                  <Select
+                    onValueChange={(value) => {
+                      form.setValue('recurrenceRule', value as RecurrenceRule)
+                    }}
+                    defaultValue={getSelectedRecurrenceRule(field)}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="NONE" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="NONE">
+                        {t(`${sExpense}.recurrenceRule.none`)}
+                      </SelectItem>
+                      <SelectItem value="DAILY">
+                        {t(`${sExpense}.recurrenceRule.daily`)}
+                      </SelectItem>
+                      <SelectItem value="WEEKLY">
+                        {t(`${sExpense}.recurrenceRule.weekly`)}
+                      </SelectItem>
+                      <SelectItem value="MONTHLY">
+                        {t(`${sExpense}.recurrenceRule.monthly`)}
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    {t(`${sExpense}.recurrenceRule.description`)}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </CardContent>
         </Card>
 
@@ -591,6 +637,42 @@ export function ExpenseForm({
                               </FormControl>
                               <FormLabel className="text-sm font-normal flex-1">
                                 {name}
+                                {field.value?.some(
+                                  ({ participant }) => participant === id,
+                                ) &&
+                                  !form.watch('isReimbursement') && (
+                                    <span className="text-muted-foreground ml-2">
+                                      ({group.currency}{' '}
+                                      {(
+                                        calculateShare(id, {
+                                          amount:
+                                            Number(form.watch('amount')) * 100, // Convert to cents
+                                          paidFor: field.value.map(
+                                            ({ participant, shares }) => ({
+                                              participant: {
+                                                id: participant,
+                                                name: '',
+                                                groupId: '',
+                                              },
+                                              shares:
+                                                form.watch('splitMode') ===
+                                                  'BY_PERCENTAGE' ||
+                                                form.watch('splitMode') ===
+                                                  'BY_AMOUNT'
+                                                  ? Number(shares) * 100 // Convert percentage to basis points (e.g., 50% -> 5000)
+                                                  : shares,
+                                              expenseId: '',
+                                              participantId: '',
+                                            }),
+                                          ),
+                                          splitMode: form.watch('splitMode'),
+                                          isReimbursement:
+                                            form.watch('isReimbursement'),
+                                        }) / 100
+                                      ).toFixed(2)}
+                                      )
+                                    </span>
+                                  )}
                               </FormLabel>
                             </FormItem>
                             {form.getValues().splitMode !== 'EVENLY' && (

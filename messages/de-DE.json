@@ -21,6 +21,7 @@
     "createFirst": "Erstelle die Erste",
     "noExpenses": "Deine Gruppe hat noch keine Ausgaben.",
     "exportJson": "Als JSON exportieren",
+    "exportCsv": "Als CSV exportieren",
     "searchPlaceholder": "Suche nach einer Ausgabe…",
     "ActiveUserModal": {
       "title": "Wer bist du?",
@@ -35,7 +36,7 @@
       "earlierThisMonth": "Diesen Monat",
       "lastMonth": "Letzten Monat",
       "earlierThisYear": "Dieses Jahr",
-      "lastYera": "Letztes Jahr",
+      "lastYear": "Letztes Jahr",
       "older": "Älter"
     }
   },
@@ -136,6 +137,15 @@
         "label": "Empfangen von",
         "description": "Wähle das Mitglied, das die Einnahme erhalten hat."
       },
+      "recurrenceRule": {
+        "label": "Expense Recurrence",
+        "description": "Select how often the expense should repeat.",
+
+        "none": "None",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly"
+      },
       "paidFor": {
         "title": "Empfangen für",
         "description": "Wähle für wen die Einnahme empfangen wurde."
@@ -144,7 +154,7 @@
       "attachDescription": "Füge der Einnahme einen Beleg hinzu."
     },
     "Expense": {
-      "create": "Augabe erstellen",
+      "create": "Ausgabe erstellen",
       "edit": "Ausgabe bearbeiten",
       "TitleField": {
         "label": "Titel der Ausgabe",
@@ -209,7 +219,7 @@
   "ExpenseDocumentsInput": {
     "TooBigToast": {
       "title": "Die Datei ist zu groß",
-      "description": "Die maximale Dateigröße ist {maxSize}. Deine ist ${size}."
+      "description": "Die maximale Dateigröße ist {maxSize}. Deine ist {size}."
     },
     "ErrorToast": {
       "title": "Fehler beim Hochladen der Datei",
@@ -234,7 +244,7 @@
     "unknown": "Unbekannt",
     "TooBigToast": {
       "title": "Die Datei ist zu groß",
-      "description": "Die maximale Dateigröße ist {maxSize}. Deine ist ${size}."
+      "description": "Die maximale Dateigröße ist {maxSize}. Deine ist {size}."
     },
     "ErrorToast": {
       "title": "Fehler beim Hochladen der Datei",
@@ -271,7 +281,7 @@
     "noActivity": "Es gab noch keine Aktivität in dieser Gruppe.",
     "someone": "Jemand",
     "settingsModified": "Die Gruppeneinstellungen wurden von <strong>{participant}</strong> verändert.",
-    "expenseCreated": "Augabe <em>{expense}</em> wurde von <strong>{participant}</strong> erstellt.",
+    "expenseCreated": "Ausgabe <em>{expense}</em> wurde von <strong>{participant}</strong> erstellt.",
     "expenseUpdated": "Ausgabe <em>{expense}</em> wurde von <strong>{participant}</strong> aktualisiert.",
     "expenseDeleted": "Ausgabe <em>{expense}</em> wurde von <strong>{participant}</strong> gelöscht.",
     "Groups": {
@@ -294,24 +304,11 @@
   "Settings": {
     "title": "Einstellungen"
   },
-  "Locale": {
-    "en-US": "English",
-    "fi": "Suomi",
-    "fr-FR": "Français",
-    "es": "Español",
-    "de-DE": "Deutsch",
-    "zh-CN": "Chinese (Simplified)",
-    "pl-PL": "Polski",
-    "ru-RU": "Русский",
-    "it-IT": "Italiano",
-    "ua-UA": "Українська",
-    "ro": "Română"
-  },
   "Share": {
     "title": "Teilen",
     "description": "Teile die URL, damit andere Mitglieder die Gruppe sehen und Ausgaben hinzufügen können.",
     "warning": "Achtung!",
-    "warningHelp": "Jede person mit der Gruppen-URL kann Ausgaben sehen und editieren. Teile den Link mit Bedacht!"
+    "warningHelp": "Jede Person mit der Gruppen-URL kann Ausgaben sehen und editieren. Teile den Link mit Bedacht!"
   },
   "SchemaErrors": {
     "min1": "Gib mindestens ein Zeichen ein.",
@@ -369,6 +366,7 @@
       "heading": "Leben",
       "Childcare": "Kinderversorgung",
       "Clothing": "Kleidung",
+      "Donation": "Spende",
       "Education": "Bildung",
       "Gifts": "Geschenke",
       "Insurance": "Versicherung",
