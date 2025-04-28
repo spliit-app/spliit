@@ -31,7 +31,6 @@ export function EditExpenseForm({
     trpc.groups.expenses.delete.useMutation()
   const { mutateAsync: cloneExpenseMutateAsync } =
     trpc.groups.expenses.clone.useMutation()
-  
 
   const utils = trpc.useUtils()
   const router = useRouter()
