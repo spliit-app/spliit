@@ -138,6 +138,7 @@ export async function cloneExpense(
     documents: expense.documents,
     notes: expense.notes ? expense.notes : undefined,
     saveDefaultSplittingOptions: false,
+    recurrenceRule: "NONE"
   }
 
   await createExpense(formClone, groupId, participantId)
