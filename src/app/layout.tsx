@@ -6,6 +6,7 @@ import { ThemeToggle } from '@/components/theme-toggle'
 import { Button } from '@/components/ui/button'
 import { Toaster } from '@/components/ui/toaster'
 import { env } from '@/lib/env'
+import { TRPCProvider } from '@/trpc/client'
 import type { Metadata, Viewport } from 'next'
 import { NextIntlClientProvider, useTranslations } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
@@ -65,7 +66,7 @@ export const viewport: Viewport = {
 function Content({ children }: { children: React.ReactNode }) {
   const t = useTranslations()
   return (
-    <>
+    <TRPCProvider>
       <header className="fixed top-0 left-0 right-0 h-16 flex justify-between bg-white dark:bg-gray-950 bg-opacity-50 dark:bg-opacity-50 p-2 border-b backdrop-blur-sm z-50">
         <Link
           className="flex items-center gap-2 hover:scale-105 transition-transform"
@@ -142,7 +143,7 @@ function Content({ children }: { children: React.ReactNode }) {
         </div>
       </footer>
       <Toaster />
-    </>
+    </TRPCProvider>
   )
 }
 

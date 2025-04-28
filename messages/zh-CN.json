@@ -21,6 +21,7 @@
     "createFirst": "创建首个消费",
     "noExpenses": "你的群组内目前没有任何消费。",
     "exportJson": "导出到JSON",
+    "exportCsv": "导出到CSV",
     "searchPlaceholder": "查找消费……",
     "ActiveUserModal": {
       "title": "你是哪位？",
@@ -35,7 +36,7 @@
       "earlierThisMonth": "本月早些时候",
       "lastMonth": "上个月",
       "earlierThisYear": "本年早些时候",
-      "lastYera": "去年",
+      "lastYear": "去年",
       "older": "更早"
     }
   },
@@ -136,6 +137,15 @@
         "label": "接收到",
         "description": "选择接收到这笔收入的群组成员。"
       },
+      "recurrenceRule": {
+        "label": "Expense Recurrence",
+        "description": "Select how often the expense should repeat.",
+
+        "none": "None",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly"
+      },
       "paidFor": {
         "title": "接收给",
         "description": "选择收入是为谁而收。"
@@ -210,12 +220,13 @@
     "creating": "创建中……",
     "save": "保存",
     "saving": "保存中……",
-    "cancel": "取消"
+    "cancel": "取消",
+    "reimbursement": "报销"
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
       "title": "文件过大",
-      "description": "可上传的最大文件大小为{maxSize}，你的文件为${size}。"
+      "description": "可上传的最大文件大小为{maxSize}，你的文件为{size}。"
     },
     "ErrorToast": {
       "title": "上传文档时发生错误",
@@ -240,7 +251,7 @@
     "unknown": "未知",
     "TooBigToast": {
       "title": "文件过大",
-      "description": "可上传的最大文件大小为{maxSize}，你的文件为${size}。"
+      "description": "可上传的最大文件大小为{maxSize}，你的文件为{size}。"
     },
     "ErrorToast": {
       "title": "上传文档时发生错误",
@@ -299,16 +310,6 @@
   },
   "Settings": {
     "title": "设定"
-  },
-  "Locale": {
-    "en-US": "English",
-    "fi": "Suomi",
-    "fr-FR": "Français",
-    "es": "Español",
-    "de-DE": "Deutsch",
-    "zh-CN": "Chinese (Simplified)",
-    "ru-RU": "Русский",
-    "it-IT": "Italiano"
   },
   "Share": {
     "title": "分享",

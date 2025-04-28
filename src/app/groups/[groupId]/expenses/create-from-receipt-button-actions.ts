@@ -22,7 +22,7 @@ export async function extractExpenseInformationFromImage(imageUrl: string) {
             text: `
               This image contains a receipt.
               Read the total amount and store it as a non-formatted number without any other text or currency.
-              Then guess the category for this receipt amoung the following categories and store its ID: ${categories.map(
+              Then guess the category for this receipt among the following categories and store its ID: ${categories.map(
                 (category) => formatCategoryForAIPrompt(category),
               )}.
               Guess the expense’s date and store it as yyyy-mm-dd.

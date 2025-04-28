@@ -21,6 +21,7 @@
     "createFirst": "Créer la première :)",
     "noExpenses": "Votre groupe n'a effectué aucune dépense pour le moment.",
     "exportJson": "Exporter en JSON",
+    "exportCsv": "Exporter en CSV",
     "searchPlaceholder": "Rechercher une dépense…",
     "ActiveUserModal": {
       "title": "Qui êtes-vous ?",
@@ -35,7 +36,7 @@
       "earlierThisMonth": "Plus tôt ce mois-ci",
       "lastMonth": "Le mois dernier",
       "earlierThisYear": "Plus tôt cette année",
-      "lastYera": "L'année dernière",
+      "lastYear": "L'année dernière",
       "older": "Plus ancien"
     }
   },
@@ -136,6 +137,15 @@
         "label": "Reçu par",
         "description": "Sélectionnez le participant qui a reçu le revenu."
       },
+      "recurrenceRule": {
+        "label": "Expense Recurrence",
+        "description": "Select how often the expense should repeat.",
+
+        "none": "None",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly"
+      },
       "paidFor": {
         "title": "Reçu pour",
         "description": "Sélectionnez pour qui le revenu a été reçu."
@@ -210,12 +220,13 @@
     "creating": "Création…",
     "save": "Sauvegarder",
     "saving": "Sauvegarde…",
-    "cancel": "Annuler"
+    "cancel": "Annuler",
+    "reimbursement": "Remboursement"
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
       "title": "Le fichier est trop grand",
-      "description": "La taille maximale du fichier que vous pouvez télécharger est {maxSize}. La vôtre est ${size}."
+      "description": "La taille maximale du fichier que vous pouvez télécharger est {maxSize}. La vôtre est {size}."
     },
     "ErrorToast": {
       "title": "Erreur lors du téléchargement du document",
@@ -240,7 +251,7 @@
     "unknown": "Inconnu",
     "TooBigToast": {
       "title": "Le fichier est trop grand",
-      "description": "La taille maximale du fichier que vous pouvez télécharger est {maxSize}. La vôtre est ${size}."
+      "description": "La taille maximale du fichier que vous pouvez télécharger est {maxSize}. La vôtre est {size}."
     },
     "ErrorToast": {
       "title": "Erreur lors du téléchargement du document",
@@ -299,16 +310,6 @@
   },
   "Settings": {
     "title": "Paramètres"
-  },
-  "Locale": {
-    "en-US": "English",
-    "fi": "Suomi",
-    "fr-FR": "Français",
-    "es": "Español",
-    "de-DE": "Deutsch",
-    "zh-CN": "Chinese (Simplified)",
-    "ru-RU": "Русский",
-    "it-IT": "Italiano"
   },
   "Share": {
     "title": "Partager",

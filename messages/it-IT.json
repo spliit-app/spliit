@@ -4,15 +4,15 @@
     "description": "Benvenuto nella tua nuova instanza di <strong>Spliit</strong>!",
     "button": {
       "groups": "Vai ai gruppi",
-      "github": "GitHub" 
+      "github": "GitHub"
     }
   },
   "Header": {
     "groups": "Gruppi"
   },
   "Footer": {
-    "madeIn": "Made in Montréal, Québec 🇨🇦",
-    "builtBy": "Built by <author>Sebastien Castiel</author> and <source>contributors</source>"
+    "madeIn": "Realizzato a Montréal, Québec 🇨🇦",
+    "builtBy": "Costruito da <author>Sebastien Castiel</author> e <source>contributori</source>"
   },
   "Expenses": {
     "title": "Spese",
@@ -21,6 +21,7 @@
     "createFirst": "Crea la prima",
     "noExpenses": "Il tuo gruppo non contiene ancora spese.",
     "exportJson": "Esporta file JSON",
+    "exportCsv": "Esporta file CSV",
     "searchPlaceholder": "Cerca una spesa…",
     "ActiveUserModal": {
       "title": "Chi sei?",
@@ -35,14 +36,14 @@
       "earlierThisMonth": "All'inizio di questo mese",
       "lastMonth": "Ultimo mese",
       "earlierThisYear": "All'inizio di quest'anno",
-      "lastYera": "Ultimo anno",
+      "lastYear": "Ultimo anno",
       "older": "Più vecchio"
     }
   },
   "ExpenseCard": {
     "paidBy": "Pagato da <strong>{paidBy}</strong> per <paidFor></paidFor>",
     "receivedBy": "Ricevuto da <strong>{paidBy}</strong> per <paidFor></paidFor>",
-    "yourBalance": "Il to bilancio:"
+    "yourBalance": "Il tuo bilancio:"
   },
   "Groups": {
     "myGroups": "I miei gruppi",
@@ -57,7 +58,7 @@
     "starred": "Gruppi speciali",
     "archived": "Gruppi archiviati",
     "archive": "Archivia gruppo",
-    "unarchive": "Rimuovi dall'archivio il gruppo",
+    "unarchive": "Rimuovi il gruppo dall'archivio",
     "removeRecent": "Rimuovi dai gruppi recenti",
     "RecentRemovedToast": {
       "title": "Il gruppo è stato rimosso",
@@ -98,9 +99,9 @@
       "protectedParticipant": "Questo partecipante fa parte delle spese e non può essere rimosso.",
       "new": "Nuovo",
       "add": "Aggiungi partecipante",
-      "John": "John",
-      "Jane": "Jane",
-      "Jack": "Jack"
+      "John": "Fabio",
+      "Jane": "Kaneda",
+      "Jack": "Albano"
     },
     "Settings": {
       "title": "Impostazioni locali",
@@ -136,6 +137,15 @@
         "label": "Ricevuto da",
         "description": "Seleziona partecipante che ha ricevuto l'entrata."
       },
+      "recurrenceRule": {
+        "label": "Expense Recurrence",
+        "description": "Select how often the expense should repeat.",
+
+        "none": "None",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly"
+      },
       "paidFor": {
         "title": "Ricevuto per",
         "description": "Seleziona per chi è stato ricevuta l'entrata."
@@ -168,7 +178,7 @@
       "attachDescription": "Vedi allegati spesa."
     },
     "amountField": {
-      "label": "Quantità"
+      "label": "Importo"
     },
     "isReimbursementField": {
       "label": "Questo è un rimborso"
@@ -186,10 +196,10 @@
     "SplitModeField": {
       "label": "Modalità split",
       "evenly": "Uniforme",
-      "byShares": "Non uniforme – Per scelta",
+      "byShares": "Non uniforme – Per quote",
       "byPercentage": "Non uniforme – Per percentuale",
-      "byAmount": "Non uniforme – Per quantità",
-      "saveAsDefault": "Salva come opzioni di suddivisione predefinite"
+      "byAmount": "Non uniforme – Per importo",
+      "saveAsDefault": "Salva come opzione di suddivisione predefinita"
     },
     "DeletePopup": {
       "label": "Rimuovi",
@@ -210,12 +220,13 @@
     "creating": "Sto creando…",
     "save": "Salva",
     "saving": "Sto salvando…",
-    "cancel": "Annulla"
+    "cancel": "Annulla",
+    "reimbursement": "Rimborso"
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
       "title": "Il file è troppo grande",
-      "description": "La dimensione massima del file che puoi caricare è {maxSize}. Il tuo è ${size}."
+      "description": "La dimensione massima del file che puoi caricare è {maxSize}. Il tuo è {size}."
     },
     "ErrorToast": {
       "title": "Errore durante il caricamento del documento",
@@ -232,15 +243,15 @@
       "selectImage": "Seleziona immagine…",
       "titleLabel": "Titolo:",
       "categoryLabel": "Categoria:",
-      "amountLabel": "Quantità:",
+      "amountLabel": "Importo:",
       "dateLabel": "Data:",
       "editNext": "Successivamente potrai modificare le informazioni sulle spese.",
       "continue": "Continua"
     },
-    "unknown": "Unknown",
+    "unknown": "Sconosciuto",
     "TooBigToast": {
       "title": "Il file è troppo grande",
-      "description": "La dimensione massima del file che puoi caricare è {maxSize}. Il tuo è ${size}."
+      "description": "La dimensione massima del file che puoi caricare è {maxSize}. Il tuo è {size}."
     },
     "ErrorToast": {
       "title": "Errore durante il caricamento del documento",
@@ -250,13 +261,13 @@
   },
   "Balances": {
     "title": "Bilanci",
-    "description": "Questo è l'importo che ciascun partecipante ha pagato o è stato pagato.",
+    "description": "Questo è l'importo che ciascun partecipante ha pagato o deve pagare.",
     "Reimbursements": {
       "title": "Rimborsi suggeriti",
       "description": "Ecco alcuni suggerimenti per ottimizzare i rimborsi tra i partecipanti.",
       "noImbursements": "Sembra che il tuo gruppo non abbia bisogno di alcun rimborso 😁",
       "owes": "<strong>{from}</strong> deve <strong>{to}</strong>",
-      "markAsPaid": "Marca come pagato"
+      "markAsPaid": "Segna come pagato"
     }
   },
   "Stats": {
@@ -295,20 +306,10 @@
   "Information": {
     "title": "Informazioni",
     "description": "Utilizza questo posto per aggiungere qualsiasi informazione che possa essere rilevante per i partecipanti al gruppo.",
-    "empty": "Nessuna informazione sul gruppo ancora."
+    "empty": "Ancora nessuna informazione sul gruppo."
   },
   "Settings": {
     "title": "Impostazioni"
-  },
-  "Locale": {
-    "en-US": "English",
-    "fi": "Suomi",
-    "fr-FR": "Français",
-    "es": "Español",
-    "de-DE": "Deutsch",
-    "zh-CN": "Chinese (Simplified)",
-    "ru-RU": "Русский",
-    "it-IT": "Italiano"
   },
   "Share": {
     "title": "Condividi",
@@ -324,12 +325,12 @@
     "duplicateParticipantName": "Un altro partecipante ha già questo nome.",
     "titleRequired": "Inserisci un titolo.",
     "invalidNumber": "Numero invalido.",
-    "amountRequired": "Devi inserire una quanttà",
-    "amountNotZero": "La quantità non deve essere zero.",
+    "amountRequired": "Devi inserire un importo",
+    "amountNotZero": "L'importo non deve essere zero.",
     "amountTenMillion": "L'importo deve essere inferiore a 10.000.000.",
     "paidByRequired": "È necessario selezionare un partecipante.",
-    "paidForMin1": "La spesa dovrà essere sostenuta per almeno un partecipante.",
-    "noZeroShares": "Tutte le condivisioni devono essere superiori a 0.",
+    "paidForMin1": "La spesa deve essere pagata per almeno un partecipante.",
+    "noZeroShares": "Tutti gli importi devono essere superiori a 0.",
     "amountSum": "La somma degli importi deve essere uguale all'importo della spesa.",
     "percentageSum": "La somma delle percentuali deve essere uguale a 100."
   },
@@ -344,10 +345,10 @@
     "Entertainment": {
       "heading": "Intrattenimento",
       "Entertainment": "Intrattenimento",
-      "Games": "Games",
+      "Games": "Giochi",
       "Movies": "Film",
       "Music": "Musica",
-      "Sports": "Sports"
+      "Sports": "Sport"
     },
     "Food and Drink": {
       "heading": "Cibo e Bevande",
@@ -372,7 +373,7 @@
       "heading": "Life",
       "Childcare": "Assistenza all'infanzia",
       "Clothing": "Vestiti",
-      "Education": "Educazione",
+      "Education": "Istruzione",
       "Gifts": "Regali",
       "Insurance": "Assicurazione",
       "Medical Expenses": "Spese Mediche",
