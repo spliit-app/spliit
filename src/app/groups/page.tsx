@@ -1,4 +1,5 @@
 import { RecentGroupList } from '@/app/groups/recent-group-list'
+import { getGlobalGroups } from '@/lib/api'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -6,5 +7,5 @@ export const metadata: Metadata = {
 }
 
 export default async function GroupsPage() {
-  return <RecentGroupList />
+  return <RecentGroupList globalGroups={await getGlobalGroups()} />
 }
