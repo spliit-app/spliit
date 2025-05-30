@@ -9,7 +9,7 @@ export const localeLabels = {
   'de-DE': 'Deutsch',
   'zh-CN': '简体中文',
   'zh-TW': '正體中文',
-  'ja-JA': '日本語',
+  'ja-JP': '日本語',
   'pl-PL': 'Polski',
   'ru-RU': 'Русский',
   'it-IT': 'Italiano',
