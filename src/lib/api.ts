@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma'
 import { ExpenseFormValues, GroupFormValues } from '@/lib/schemas'
 import { ActivityType, Expense } from '@prisma/client'
+import exp from 'constants'
 import { nanoid } from 'nanoid'
 
 export function randomId() {
@@ -297,6 +298,50 @@ export async function getGroupExpenses(
     skip: options && options.offset,
     take: options && options.length,
   })
+}
+
+export async function getGroupExpensesForTimespand(
+  groupId: string,
+  start: Date,
+  end: Date,
+) {
+  const expenses = await prisma.expense.findMany({
+    select: {
+      amount: true,
+      category: true,
+      categoryId: true,
+      expenseDate: true,
+      id: true,
+      title: true,
+    },
+    where: {
+      groupId,
+      expenseDate: {
+        gte: start,
+        lte: end,
+      },
+    },
+    orderBy: [{ expenseDate: 'desc' }, { createdAt: 'desc' }],
+  })
+
+  const categories = await getCategories();
+
+  const groupedExpenses : Map<string, number> = new Map<string, number>();
+
+  expenses.forEach((expense: any) => {
+    groupedExpenses.has(expense.categoryId) ? groupedExpenses.set(expense.categoryId, groupedExpenses.get(expense.categoryId) + expense.amount) : groupedExpenses.set(expense.categoryId, expense.amount);
+  });
+
+  const enrichedGroupedExpenses : Map<string, number> = new Map<string, number>();
+
+  Array.from(groupedExpenses.keys()).forEach((key) => {
+    const category = categories.find((category: any) => category.id === key);
+    if(category) {
+      enrichedGroupedExpenses.set(category.name, groupedExpenses.get(key)!);
+    }
+  })
+
+  return enrichedGroupedExpenses;
 }
 
 export async function getGroupExpenseCount(groupId: string) {

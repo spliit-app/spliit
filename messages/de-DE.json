@@ -262,7 +262,8 @@
       "groupEarnings": "Gesamte Einnahmen der Gruppe",
       "yourSpendings": "Deine gesamten Ausgaben",
       "yourEarnings": "Deine gesamten Einnahmen",
-      "yourShare": "Dein gesamter Anteil"
+      "yourShare": "Dein gesamter Anteil",
+      "perCategoryAndMonth": "Pro Kategorie und Monat"
     }
   },
   "Activity": {
@@ -344,7 +345,9 @@
       "Games": "Spiele",
       "Movies": "Filme",
       "Music": "Musik",
-      "Sports": "Sport"
+      "Sports": "Sport",
+      "Entertainment A": "Entertainment A",
+      "Entertainment M": "Entertainment M"
     },
     "Food and Drink": {
       "heading": "Essen und Trinken",

@@ -6,6 +6,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useActiveUser } from '@/lib/hooks'
 import { trpc } from '@/trpc/client'
 import { useCurrentGroup } from '../current-group-context'
+import { TotalsPerCategoryAndMonth } from './totals-per-category-and-month'
 
 export function Totals() {
   const { groupId, group } = useCurrentGroup()
@@ -49,6 +50,7 @@ export function Totals() {
             totalParticipantShare={totalParticipantShare}
             currency={group.currency}
           />
+          <TotalsPerCategoryAndMonth groupId={groupId} />
         </>
       )}
     </>

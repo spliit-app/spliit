@@ -52,6 +52,7 @@ import { useForm } from 'react-hook-form'
 import { match } from 'ts-pattern'
 import { DeletePopup } from '../../../../components/delete-popup'
 import { extractCategoryFromTitle } from '../../../../components/expense-form-actions'
+import { extractCategoryFromTitleStatic } from '../../../../components/expense-form-actions-no-openapi'
 import { Textarea } from '../../../../components/ui/textarea'
 
 const enforceCurrencyPattern = (value: string) =>
@@ -335,6 +336,13 @@ export function ExpenseForm({
                         if (runtimeFeatureFlags.enableCategoryExtract) {
                           setCategoryLoading(true)
                           const { categoryId } = await extractCategoryFromTitle(
+                            field.value,
+                          )
+                          form.setValue('category', categoryId)
+                          setCategoryLoading(false)
+                        } else if(runtimeFeatureFlags.enableCategoryExtractStatic) {
+                          setCategoryLoading(true)
+                          const { categoryId } = await extractCategoryFromTitleStatic(
                             field.value,
                           )
                           form.setValue('category', categoryId)

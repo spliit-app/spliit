@@ -34,6 +34,10 @@ const envSchema = z
       interpretEnvVarAsBool,
       z.boolean().default(false),
     ),
+    NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT_STATIC: z.preprocess(
+      interpretEnvVarAsBool,
+      z.boolean().default(false),
+    ),
     OPENAI_API_KEY: z.string().optional(),
   })
   .superRefine((env, ctx) => {

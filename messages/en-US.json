@@ -344,7 +344,9 @@
       "Games": "Games",
       "Movies": "Movies",
       "Music": "Music",
-      "Sports": "Sports"
+      "Sports": "Sports",
+      "Entertainment A": "Entertainment A",
+      "Entertainment M": "Entertainment M"
     },
     "Food and Drink": {
       "heading": "Food and Drink",
