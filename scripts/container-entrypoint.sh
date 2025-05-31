@@ -3,4 +3,4 @@
 set -euxo pipefail
 
 npx prisma migrate deploy
-npm run start
+exec npm run start

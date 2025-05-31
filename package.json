@@ -18,6 +18,7 @@
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.5.4",
     "@hookform/resolvers": "^3.3.2",
+    "@json2csv/plainjs": "^7.0.6",
     "@prisma/client": "^5.6.0",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-collapsible": "^1.0.3",
@@ -44,7 +45,7 @@
     "content-disposition": "^0.5.4",
     "dayjs": "^1.11.10",
     "embla-carousel-react": "^8.0.0-rc21",
-    "lucide-react": "^0.290.0",
+    "lucide-react": "^0.501.0",
     "nanoid": "^5.0.4",
     "negotiator": "^0.6.3",
     "next": "^14.2.5",

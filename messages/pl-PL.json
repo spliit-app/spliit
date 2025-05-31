@@ -21,6 +21,7 @@
     "createFirst": "Stwórz swój pierwszy",
     "noExpenses": "Twoja grupa nie ma jeszcze żadnych wydatków.",
     "exportJson": "Eksportuj do JSONa",
+    "exportCsv": "Eksportuj do CSVa",
     "searchPlaceholder": "Szukaj wydatku...",
     "ActiveUserModal": {
       "title": "Kim jesteś?",
@@ -35,7 +36,7 @@
       "earlierThisMonth": "Wcześniej w tym miesiącu",
       "lastMonth": "Ostatni miesiąc",
       "earlierThisYear": "Wcześniej w tym roku",
-      "lastYera": "Poprzedni rok",
+      "lastYear": "Poprzedni rok",
       "older": "Starsze"
     }
   },
@@ -81,7 +82,7 @@
     "NameField": {
       "label": "Nazwa grupy",
       "placeholder": "Letni wyjazd",
-      "description": "Podaj nazwę dla twojej grupy."
+      "description": "Podaj nazwę dla grupy."
     },
     "InformationField": {
       "label": "Informacje o grupie",
@@ -90,7 +91,7 @@
     "CurrencyField": {
       "label": "Symbol waluty",
       "placeholder": "PLN, zł, $, €, £…",
-      "description": "Użyjemy go do wyświetlania ilości."
+      "description": "Użyjemy go do wyświetlania kwot."
     },
     "Participants": {
       "title": "Członkowie",
@@ -104,10 +105,10 @@
     },
     "Settings": {
       "title": "Ustawienia lokalne",
-      "description": "Te ustawienia są ustawiane dla konkretnego urządzenia i służą do dostosowania twoich doświadczeń z aplikacją.",
+      "description": "Te ustawienia są zapisywane dla tego urządzenia i służą do dostosowania twoich doświadczeń z aplikacją.",
       "ActiveUserField": {
         "label": "Aktywny użytkownik",
-        "placeholder": "Wybierz członka",
+        "placeholder": "Wybierz użytkownika",
         "none": "Brak",
         "description": "Użytkownik używany domyślnie do wprowadzania wydatków."
       },
@@ -136,6 +137,15 @@
         "label": "Otrzymane przez",
         "description": "Wybierz członka, który otrzymał wpływ."
       },
+      "recurrenceRule": {
+        "label": "Expense Recurrence",
+        "description": "Select how often the expense should repeat.",
+
+        "none": "None",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly"
+      },
       "paidFor": {
         "title": "Otrzymany dla",
         "description": "Podaj dla kogo wpływ był przeznaczony."
@@ -153,7 +163,7 @@
       },
       "DateField": {
         "label": "Data wydatku",
-        "description": "Podaj datę opłacenia wydatku."
+        "description": "Podaj datę wydatku."
       },
       "categoryFieldDescription": "Podaj kategorię wydatku.",
       "paidByField": {
@@ -168,10 +178,10 @@
       "attachDescription": "Zobacz i załącz rachunki do wydatku."
     },
     "amountField": {
-      "label": "Ilość"
+      "label": "Suma"
     },
     "isReimbursementField": {
-      "label": "To jest zwrot kosztów"
+      "label": "Oznacz jako zwrot kosztów"
     },
     "categoryField": {
       "label": "Kategoria"
@@ -179,8 +189,8 @@
     "notesField": {
       "label": "Notatki"
     },
-    "selectNone": "Nie wybieraj żadnego",
-    "selectAll": "Wybierz wszystkie",
+    "selectNone": "Nie wybieraj nikogo",
+    "selectAll": "Wybierz wszystkich",
     "shares": "udział(y)",
     "advancedOptions": "Zaawansowane opcje podziału...",
     "SplitModeField": {
@@ -203,12 +213,13 @@
     "creating": "Tworzenie…",
     "save": "Zapisz",
     "saving": "Zapisywanie…",
-    "cancel": "Anuluj"
+    "cancel": "Anuluj",
+    "reimbursement": "Zwrot środków"
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
       "title": "Ten plik jest zbyt duży",
-      "description": "Maksymalny rozmiar pliku to: {maxSize}. Twój plik ma: ${size}."
+      "description": "Maksymalny rozmiar pliku to: {maxSize}. Twój plik ma: {size}."
     },
     "ErrorToast": {
       "title": "Błąd podczas wysyłania dokumentu",
@@ -225,7 +236,7 @@
       "selectImage": "Wybierz obraz...",
       "titleLabel": "Tytuł:",
       "categoryLabel": "Kategoria:",
-      "amountLabel": "Ilość:",
+      "amountLabel": "Suma:",
       "dateLabel": "Data:",
       "editNext": "Następnie będziesz mógł edytować informacje o wydatkach.",
       "continue": "Kontynuuj"
@@ -233,7 +244,7 @@
     "unknown": "Nieznany",
     "TooBigToast": {
       "title": "Ten plik jest zbyt duży",
-      "description": "Maksymalny rozmiar pliku to: {maxSize}. Twój plik ma: ${size}."
+      "description": "Maksymalny rozmiar pliku to: {maxSize}. Twój plik ma: {size}."
     },
     "ErrorToast": {
       "title": "Błąd podczas wysyłania dokumentu",
@@ -281,7 +292,7 @@
       "earlierThisMonth": "Wcześniej w tym miesiącu",
       "lastMonth": "Ostatni miesiąc",
       "earlierThisYear": "Wcześniej w tym roku",
-      "lastYera": "Poprzedni rok",
+      "lastYear": "Poprzedni rok",
       "older": "Starsze"
     }
   },
@@ -292,19 +303,6 @@
   },
   "Settings": {
     "title": "Ustawienia"
-  },
-  "Locale": {
-    "en-US": "English",
-    "fi": "Suomi",
-    "fr-FR": "Français",
-    "es": "Español",
-    "de-DE": "Deutsch",
-    "zh-CN": "Chinese (Simplified)",
-    "pl-PL": "Polski",
-    "ru-RU": "Русский",
-    "it-IT": "Italiano",
-    "ua-UA": "Українська",
-    "ro": "Română"
   },
   "Share": {
     "title": "Udostępnij",

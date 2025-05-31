@@ -11,8 +11,8 @@
     "groups": "Gruppi"
   },
   "Footer": {
-    "madeIn": "Made in Montréal, Québec 🇨🇦",
-    "builtBy": "Built by <author>Sebastien Castiel</author> and <source>contributors</source>"
+    "madeIn": "Realizzato a Montréal, Québec 🇨🇦",
+    "builtBy": "Costruito da <author>Sebastien Castiel</author> e <source>contributori</source>"
   },
   "Expenses": {
     "title": "Spese",
@@ -21,6 +21,7 @@
     "createFirst": "Crea la prima",
     "noExpenses": "Il tuo gruppo non contiene ancora spese.",
     "exportJson": "Esporta file JSON",
+    "exportCsv": "Esporta file CSV",
     "searchPlaceholder": "Cerca una spesa…",
     "ActiveUserModal": {
       "title": "Chi sei?",
@@ -35,7 +36,7 @@
       "earlierThisMonth": "All'inizio di questo mese",
       "lastMonth": "Ultimo mese",
       "earlierThisYear": "All'inizio di quest'anno",
-      "lastYera": "Ultimo anno",
+      "lastYear": "Ultimo anno",
       "older": "Più vecchio"
     }
   },
@@ -98,9 +99,9 @@
       "protectedParticipant": "Questo partecipante fa parte delle spese e non può essere rimosso.",
       "new": "Nuovo",
       "add": "Aggiungi partecipante",
-      "John": "John",
-      "Jane": "Jane",
-      "Jack": "Jack"
+      "John": "Fabio",
+      "Jane": "Kaneda",
+      "Jack": "Albano"
     },
     "Settings": {
       "title": "Impostazioni locali",
@@ -135,6 +136,15 @@
       "paidByField": {
         "label": "Ricevuto da",
         "description": "Seleziona partecipante che ha ricevuto l'entrata."
+      },
+      "recurrenceRule": {
+        "label": "Expense Recurrence",
+        "description": "Select how often the expense should repeat.",
+
+        "none": "None",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly"
       },
       "paidFor": {
         "title": "Ricevuto per",
@@ -209,7 +219,7 @@
   "ExpenseDocumentsInput": {
     "TooBigToast": {
       "title": "Il file è troppo grande",
-      "description": "La dimensione massima del file che puoi caricare è {maxSize}. Il tuo è ${size}."
+      "description": "La dimensione massima del file che puoi caricare è {maxSize}. Il tuo è {size}."
     },
     "ErrorToast": {
       "title": "Errore durante il caricamento del documento",
@@ -231,10 +241,10 @@
       "editNext": "Successivamente potrai modificare le informazioni sulle spese.",
       "continue": "Continua"
     },
-    "unknown": "Unknown",
+    "unknown": "Sconosciuto",
     "TooBigToast": {
       "title": "Il file è troppo grande",
-      "description": "La dimensione massima del file che puoi caricare è {maxSize}. Il tuo è ${size}."
+      "description": "La dimensione massima del file che puoi caricare è {maxSize}. Il tuo è {size}."
     },
     "ErrorToast": {
       "title": "Errore durante il caricamento del documento",
@@ -294,19 +304,6 @@
   "Settings": {
     "title": "Impostazioni"
   },
-  "Locale": {
-    "en-US": "English",
-    "fi": "Suomi",
-    "fr-FR": "Français",
-    "es": "Español",
-    "de-DE": "Deutsch",
-    "zh-CN": "Chinese (Simplified)",
-    "pl-PL": "Polski",
-    "ru-RU": "Русский",
-    "it-IT": "Italiano",
-    "ua-UA": "Українська",
-    "ro": "Română"
-  },
   "Share": {
     "title": "Condividi",
     "description": "Per consentire agli altri partecipanti di vedere il gruppo e aggiungere spese, condividi il suo URL con loro.",
@@ -341,10 +338,10 @@
     "Entertainment": {
       "heading": "Intrattenimento",
       "Entertainment": "Intrattenimento",
-      "Games": "Games",
+      "Games": "Giochi",
       "Movies": "Film",
       "Music": "Musica",
-      "Sports": "Sports"
+      "Sports": "Sport"
     },
     "Food and Drink": {
       "heading": "Cibo e Bevande",
@@ -369,7 +366,7 @@
       "heading": "Life",
       "Childcare": "Assistenza all'infanzia",
       "Clothing": "Vestiti",
-      "Education": "Educazione",
+      "Education": "Istruzione",
       "Gifts": "Regali",
       "Insurance": "Assicurazione",
       "Medical Expenses": "Spese Mediche",

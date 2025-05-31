@@ -67,7 +67,7 @@ export function GroupForm({
       : {
           name: '',
           information: '',
-          currency: '',
+          currency: process.env.NEXT_PUBLIC_DEFAULT_CURRENCY_SYMBOL || '',
           participants: [
             { name: t('Participants.John') },
             { name: t('Participants.Jane') },
