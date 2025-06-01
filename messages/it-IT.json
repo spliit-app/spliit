@@ -12,7 +12,7 @@
   },
   "Footer": {
     "madeIn": "Realizzato a Montréal, Québec 🇨🇦",
-    "builtBy": "Costruito da <author>Sebastien Castiel</author> e <source>contributori</source>"
+    "builtBy": "Sviluppato da <author>Sebastien Castiel</author> e <source>contributori</source>"
   },
   "Expenses": {
     "title": "Spese",
@@ -138,13 +138,13 @@
         "description": "Seleziona partecipante che ha ricevuto l'entrata."
       },
       "recurrenceRule": {
-        "label": "Expense Recurrence",
-        "description": "Select how often the expense should repeat.",
+        "label": "Spese ricorrenti",
+        "description": "Seleziona la frequenza con cui la spesa deve ripetersi.",
 
-        "none": "None",
-        "daily": "Daily",
-        "weekly": "Weekly",
-        "monthly": "Monthly"
+        "none": "Nessuna",
+        "daily": "Giornaliera",
+        "weekly": "Settimanale",
+        "monthly": "Mensile"
       },
       "paidFor": {
         "title": "Ricevuto per",
@@ -363,7 +363,7 @@
       "Services": "Servizi"
     },
     "Life": {
-      "heading": "Life",
+      "heading": "Vita",
       "Childcare": "Assistenza all'infanzia",
       "Clothing": "Vestiti",
       "Education": "Istruzione",
