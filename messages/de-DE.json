@@ -138,8 +138,8 @@
         "description": "Wähle das Mitglied, das die Einnahme erhalten hat."
       },
       "recurrenceRule": {
-        "label": "Wiederholung der Ausgabe",
-        "description": "Wähle aus, wie oft die Ausgabe wiederholt werden soll.",
+        "label": "Wiederholung der Einnahme",
+        "description": "Wähle aus, wie oft die Einnahme wiederholt werden soll.",
 
         "none": "Keine Wiederholung",
         "daily": "Täglich",
