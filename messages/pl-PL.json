@@ -1,6 +1,6 @@
 {
   "Homepage": {
-    "title": "Podziel <strong>Wydatki</strong> z <strong>Rodziną i Przyjaciółmi</strong>",
+    "title": "Dziel <strong>Wydatki</strong> z <strong>Rodziną i Przyjaciółmi</strong>",
     "description": "Witaj na Twojej nowej instancji <strong>Spliit</strong> !",
     "button": {
       "groups": "Przejdź do grup",
@@ -20,6 +20,7 @@
     "create": "Dodaj wydatek",
     "createFirst": "Stwórz swój pierwszy",
     "noExpenses": "Twoja grupa nie ma jeszcze żadnych wydatków.",
+    "export": "Eksportuj",
     "exportJson": "Eksportuj jako JSON",
     "exportCsv": "Eksportuj jako CSV",
     "searchPlaceholder": "Szukaj wydatku…",
@@ -67,10 +68,10 @@
       "undo": "Cofnij"
     },
     "AddByURL": {
-      "button": "Dodaj poprzez link URL",
-      "title": "Dodaj grupę poprzez link URL",
-      "description": "Jeśli grupa została Ci udostępniona, możesz wkleić jej URL tutaj, aby dodać ją do Twojej listy.",
-      "error": "Ups, nie możemy znaleźć grupy z podanego URLa…"
+      "button": "Dodaj poprzez adres URL",
+      "title": "Dodaj grupę poprzez adres URL",
+      "description": "Jeśli grupa została Ci udostępniona, możesz wkleić jej adres URL tutaj, aby dodać ją do Twojej listy.",
+      "error": "Ups, nie możemy znaleźć grupy o podanym adresie URL…"
     },
     "NotFound": {
       "text": "Ta grupa nie istnieje.",
