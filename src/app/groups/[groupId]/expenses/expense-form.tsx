@@ -43,6 +43,7 @@ import {
 import { calculateShare } from '@/lib/totals'
 import { cn } from '@/lib/utils'
 import { AppRouterOutput } from '@/trpc/routers/_app'
+import { trpc } from '@/trpc/client'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RecurrenceRule } from '@prisma/client'
 import { Save } from 'lucide-react'
@@ -76,66 +77,27 @@ const getDefaultSplittingOptions = (
     })),
   }
 
-  if (typeof localStorage === 'undefined') return defaultValue
-  const defaultSplitMode = localStorage.getItem(
-    `${group.id}-defaultSplittingOptions`,
-  )
-  if (defaultSplitMode === null) return defaultValue
-  const parsedDefaultSplitMode = JSON.parse(
-    defaultSplitMode,
-  ) as SplittingOptions
-
-  if (parsedDefaultSplitMode.paidFor === null) {
-    parsedDefaultSplitMode.paidFor = defaultValue.paidFor
+  const dbOptions = group.defaultSplittingOptions as SplittingOptions | null
+  if (!dbOptions) {
+    return defaultValue
   }
 
-  // if there is a participant in the default options that does not exist anymore,
-  // remove the stale default splitting options
-  for (const parsedPaidFor of parsedDefaultSplitMode.paidFor) {
-    if (
-      !group.participants.some(({ id }) => id === parsedPaidFor.participant)
-    ) {
-      localStorage.removeItem(`${group.id}-defaultSplittingOptions`)
+  if (dbOptions.paidFor === null) {
+    dbOptions.paidFor = defaultValue.paidFor
+  }
+
+  for (const paidFor of dbOptions.paidFor) {
+    if (!group.participants.some(({ id }) => id === paidFor.participant)) {
       return defaultValue
     }
   }
 
   return {
-    splitMode: parsedDefaultSplitMode.splitMode,
-    paidFor: parsedDefaultSplitMode.paidFor.map((paidFor) => ({
-      participant: paidFor.participant,
-      shares: String(paidFor.shares / 100) as unknown as number,
+    splitMode: dbOptions.splitMode,
+    paidFor: dbOptions.paidFor.map((p) => ({
+      participant: p.participant,
+      shares: String(p.shares / 100) as unknown as number,
     })),
-  }
-}
-
-async function persistDefaultSplittingOptions(
-  groupId: string,
-  expenseFormValues: ExpenseFormValues,
-) {
-  if (localStorage && expenseFormValues.saveDefaultSplittingOptions) {
-    const computePaidFor = (): SplittingOptions['paidFor'] => {
-      if (expenseFormValues.splitMode === 'EVENLY') {
-        return expenseFormValues.paidFor.map(({ participant }) => ({
-          participant,
-          shares: '100' as unknown as number,
-        }))
-      } else if (expenseFormValues.splitMode === 'BY_AMOUNT') {
-        return null
-      } else {
-        return expenseFormValues.paidFor
-      }
-    }
-
-    const splittingOptions = {
-      splitMode: expenseFormValues.splitMode,
-      paidFor: computePaidFor(),
-    } satisfies SplittingOptions
-
-    localStorage.setItem(
-      `${groupId}-defaultSplittingOptions`,
-      JSON.stringify(splittingOptions),
-    )
   }
 }
 
@@ -247,9 +209,35 @@ export function ExpenseForm({
   })
   const [isCategoryLoading, setCategoryLoading] = useState(false)
   const activeUserId = useActiveUser(group.id)
+  const { mutateAsync: updateDefaultSplittingOptions } =
+    trpc.groups.updateDefaultSplittingOptions.useMutation()
+  const utils = trpc.useUtils()
 
   const submit = async (values: ExpenseFormValues) => {
-    await persistDefaultSplittingOptions(group.id, values)
+    if (values.saveDefaultSplittingOptions) {
+      const computePaidFor = (): SplittingOptions['paidFor'] => {
+        if (values.splitMode === 'EVENLY') {
+          return values.paidFor.map(({ participant }) => ({
+            participant,
+            shares: '100' as unknown as number,
+          }))
+        } else if (values.splitMode === 'BY_AMOUNT') {
+          return null
+        }
+        return values.paidFor
+      }
+
+      const splittingOptions = {
+        splitMode: values.splitMode,
+        paidFor: computePaidFor(),
+      } satisfies SplittingOptions
+
+      await updateDefaultSplittingOptions({
+        groupId: group.id,
+        defaultSplittingOptions: splittingOptions,
+      })
+      await utils.groups.invalidate()
+    }
     return onSubmit(values, activeUserId ?? undefined)
   }
 
