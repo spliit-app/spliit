@@ -13,6 +13,12 @@ export const CreateGroup = () => {
     <GroupForm
       onSubmit={async (groupFormValues) => {
         const { groupId } = await mutateAsync({ groupFormValues })
+
+        // Store the actual currency as default in localStorage
+        if (typeof localStorage !== 'undefined') {
+          localStorage.setItem('defaultCurrency', groupFormValues.currency)
+        }
+
         await utils.groups.invalidate()
         router.push(`/groups/${groupId}`)
       }}

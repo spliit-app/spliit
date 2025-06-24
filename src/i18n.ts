@@ -1,6 +1,7 @@
 import { getRequestConfig } from 'next-intl/server'
 import { getUserLocale } from './lib/locale'
 
+// helper to merge locale-specific messages with the English defaults
 function mergeDeep<T>(target: T, source: Partial<T>): T {
   for (const key in source) {
     const value = (source as any)[key]

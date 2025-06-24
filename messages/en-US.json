@@ -14,6 +14,9 @@
     "madeIn": "Made in Montréal, Québec 🇨🇦",
     "builtBy": "Built by <author>Sebastien Castiel</author> and <source>contributors</source>"
   },
+  "Currency": {
+    "default": "$"
+  },
   "Expenses": {
     "title": "Expenses",
     "description": "Here are the expenses that you created for your group.",

@@ -55,19 +55,29 @@ export function GroupForm({
   protectedParticipantIds = [],
 }: Props) {
   const t = useTranslations('GroupForm')
+
+  // Use default currency from group or localStorage
+  const tCurrency = useTranslations('Currency')
+  const defaultCurrency = group
+    ? group.currency
+    : (typeof localStorage !== 'undefined' &&
+        localStorage.getItem('defaultCurrency')) ||
+      tCurrency('default')
+
+
   const form = useForm<GroupFormValues>({
     resolver: zodResolver(groupFormSchema),
     defaultValues: group
       ? {
           name: group.name,
           information: group.information ?? '',
-          currency: group.currency,
+          currency: defaultCurrency,
           participants: group.participants,
         }
       : {
           name: '',
           information: '',
-          currency: process.env.NEXT_PUBLIC_DEFAULT_CURRENCY_SYMBOL || '',
+          currency: defaultCurrency,
           participants: [
             { name: t('Participants.John') },
             { name: t('Participants.Jane') },
