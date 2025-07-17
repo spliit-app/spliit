@@ -1,4 +1,12 @@
 {
+  "Homepage": {
+    "title": "Jaa kulut ystävien ja perheen kanssa",
+    "description": "Tervetuloa uuteen Spliit-instanssiisi!",
+    "button": {
+      "groups": "Siirry ryhmiin",
+      "github": "GitHub"
+    }
+  },
   "Header": {
     "groups": "Ryhmät"
   },
@@ -13,6 +21,7 @@
     "createFirst": "Lisää ensimmäinen kulu",
     "noExpenses": "Ryhmälläsi ei ole vielä yhtään kulua.",
     "exportJson": "Vie JSON-tiedostoon",
+    "exportCsv": "Vie CSV-tiedostoon",
     "searchPlaceholder": "Etsi kulua…",
     "ActiveUserModal": {
       "title": "Kuka olet?",
@@ -128,6 +137,15 @@
         "label": "Vastaanottaja",
         "description": "Valitse kuka vastaanotti tulon."
       },
+      "recurrenceRule": {
+        "label": "Expense Recurrence",
+        "description": "Select how often the expense should repeat.",
+
+        "none": "None",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly"
+      },
       "paidFor": {
         "title": "Tulon jakaminen",
         "description": "Valitse kenelle tulo jaetaan."
@@ -195,12 +213,13 @@
     "creating": "Luodaan kulua…",
     "save": "Tallenna",
     "saving": "Tallennetaan…",
-    "cancel": "Peruuta"
+    "cancel": "Peruuta",
+    "reimbursement": "Velanmaksu"
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
       "title": "Tiedosto on liian suuri",
-      "description": "Maksimikoko ladattavalle tiedostolle on {maxSize}. Tiedostosi on ${size}."
+      "description": "Maksimikoko ladattavalle tiedostolle on {maxSize}. Tiedostosi on {size}."
     },
     "ErrorToast": {
       "title": "Virhe tiedostoa ladattaessa",
@@ -225,7 +244,7 @@
     "unknown": "Unknown",
     "TooBigToast": {
       "title": "The file is too big",
-      "description": "The maximum file size you can upload is {maxSize}. Yours is ${size}."
+      "description": "The maximum file size you can upload is {maxSize}. Yours is {size}."
     },
     "ErrorToast": {
       "title": "Error while uploading document",
@@ -284,10 +303,6 @@
   },
   "Settings": {
     "title": "Asetukset"
-  },
-  "Locale": {
-    "en-US": "English",
-    "fi": "Suomi"
   },
   "Share": {
     "title": "Jaa",

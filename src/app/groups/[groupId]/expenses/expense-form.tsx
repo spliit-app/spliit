@@ -1,4 +1,3 @@
-'use client'
 import { CategorySelector } from '@/components/category-selector'
 import { ExpenseDocumentsInput } from '@/components/expense-documents-input'
 import { SubmitButton } from '@/components/submit-button'
@@ -33,7 +32,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { getCategories, getExpense, getGroup, randomId } from '@/lib/api'
+import { randomId } from '@/lib/api'
 import { RuntimeFeatureFlags } from '@/lib/featureFlags'
 import { useActiveUser } from '@/lib/hooks'
 import {
@@ -41,8 +40,11 @@ import {
   SplittingOptions,
   expenseFormSchema,
 } from '@/lib/schemas'
+import { calculateShare } from '@/lib/totals'
 import { cn } from '@/lib/utils'
+import { AppRouterOutput } from '@/trpc/routers/_app'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { RecurrenceRule } from '@prisma/client'
 import { Save } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
@@ -50,18 +52,9 @@ import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { match } from 'ts-pattern'
-import { DeletePopup } from './delete-popup'
-import { extractCategoryFromTitle } from './expense-form-actions'
-import { Textarea } from './ui/textarea'
-
-export type Props = {
-  group: NonNullable<Awaited<ReturnType<typeof getGroup>>>
-  expense?: NonNullable<Awaited<ReturnType<typeof getExpense>>>
-  categories: NonNullable<Awaited<ReturnType<typeof getCategories>>>
-  onSubmit: (values: ExpenseFormValues, participantId?: string) => Promise<void>
-  onDelete?: (participantId?: string) => Promise<void>
-  runtimeFeatureFlags: RuntimeFeatureFlags
-}
+import { DeletePopup } from '../../../../components/delete-popup'
+import { extractCategoryFromTitle } from '../../../../components/expense-form-actions'
+import { Textarea } from '../../../../components/ui/textarea'
 
 const enforceCurrencyPattern = (value: string) =>
   value
@@ -72,7 +65,9 @@ const enforceCurrencyPattern = (value: string) =>
     .replace(/#/, '.') // change back # to dot
     .replace(/[^-\d.]/g, '') // remove all non-numeric characters
 
-const getDefaultSplittingOptions = (group: Props['group']) => {
+const getDefaultSplittingOptions = (
+  group: NonNullable<AppRouterOutput['groups']['get']['group']>,
+) => {
   const defaultValue = {
     splitMode: 'EVENLY' as const,
     paidFor: group.participants.map(({ id }) => ({
@@ -146,15 +141,23 @@ async function persistDefaultSplittingOptions(
 
 export function ExpenseForm({
   group,
-  expense,
   categories,
+  expense,
   onSubmit,
   onDelete,
   runtimeFeatureFlags,
-}: Props) {
+}: {
+  group: NonNullable<AppRouterOutput['groups']['get']['group']>
+  categories: AppRouterOutput['categories']['list']['categories']
+  expense?: AppRouterOutput['groups']['expenses']['get']['expense']
+  onSubmit: (value: ExpenseFormValues, participantId?: string) => Promise<void>
+  onDelete?: (participantId?: string) => Promise<void>
+  runtimeFeatureFlags: RuntimeFeatureFlags
+}) {
   const t = useTranslations('ExpenseForm')
   const isCreate = expense === undefined
   const searchParams = useSearchParams()
+
   const getSelectedPayer = (field?: { value: string }) => {
     if (isCreate && typeof window !== 'undefined') {
       const activeUser = localStorage.getItem(`${group.id}-activeUser`)
@@ -163,6 +166,10 @@ export function ExpenseForm({
       }
     }
     return field?.value
+  }
+
+  const getSelectedRecurrenceRule = (field?: { value: string }) => {
+    return field?.value as RecurrenceRule
   }
   const defaultSplittingOptions = getDefaultSplittingOptions(group)
   const form = useForm<ExpenseFormValues>({
@@ -183,10 +190,11 @@ export function ExpenseForm({
           isReimbursement: expense.isReimbursement,
           documents: expense.documents,
           notes: expense.notes ?? '',
+          recurrenceRule: expense.recurrenceRule ?? undefined,
         }
       : searchParams.get('reimbursement')
       ? {
-          title: 'Reimbursement',
+          title: t('reimbursement'),
           expenseDate: new Date(),
           amount: String(
             (Number(searchParams.get('amount')) || 0) / 100,
@@ -206,6 +214,7 @@ export function ExpenseForm({
           saveDefaultSplittingOptions: false,
           documents: [],
           notes: '',
+          recurrenceRule: RecurrenceRule.NONE,
         }
       : {
           title: searchParams.get('title') ?? '',
@@ -233,6 +242,7 @@ export function ExpenseForm({
               ]
             : [],
           notes: '',
+          recurrenceRule: RecurrenceRule.NONE,
         },
   })
   const [isCategoryLoading, setCategoryLoading] = useState(false)
@@ -249,32 +259,24 @@ export function ExpenseForm({
   >(new Set())
 
   const sExpense = isIncome ? 'Income' : 'Expense'
-  const sPaid = isIncome ? 'received' : 'paid'
 
   useEffect(() => {
     setManuallyEditedParticipants(new Set())
-    const newPaidFor = defaultSplittingOptions.paidFor.map((participant) => ({
-      ...participant,
-      shares: String(participant.shares) as unknown as number,
-    }))
-    form.setValue('paidFor', newPaidFor, { shouldValidate: true })
   }, [form.watch('splitMode'), form.watch('amount')])
 
   useEffect(() => {
-    const totalAmount = Number(form.getValues().amount) || 0
-    const paidFor = form.getValues().paidFor
     const splitMode = form.getValues().splitMode
 
-    let newPaidFor = [...paidFor]
-
+    // Only auto-balance for split mode 'Unevenly - By amount'
     if (
-      splitMode === 'EVENLY' ||
-      splitMode === 'BY_SHARES' ||
-      splitMode === 'BY_PERCENTAGE'
+      splitMode === 'BY_AMOUNT' &&
+      (form.getFieldState('paidFor').isDirty ||
+        form.getFieldState('amount').isDirty)
     ) {
-      return
-    } else {
-      // Only auto-balance for split mode 'Unevenly - By amount'
+      const totalAmount = Number(form.getValues().amount) || 0
+      const paidFor = form.getValues().paidFor
+      let newPaidFor = [...paidFor]
+
       const editedParticipants = Array.from(manuallyEditedParticipants)
       let remainingAmount = totalAmount
       let remainingParticipants = newPaidFor.length - editedParticipants.length
@@ -501,6 +503,43 @@ export function ExpenseForm({
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="recurrenceRule"
+              render={({ field }) => (
+                <FormItem className="sm:order-5">
+                  <FormLabel>{t(`${sExpense}.recurrenceRule.label`)}</FormLabel>
+                  <Select
+                    onValueChange={(value) => {
+                      form.setValue('recurrenceRule', value as RecurrenceRule)
+                    }}
+                    defaultValue={getSelectedRecurrenceRule(field)}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="NONE" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="NONE">
+                        {t(`${sExpense}.recurrenceRule.none`)}
+                      </SelectItem>
+                      <SelectItem value="DAILY">
+                        {t(`${sExpense}.recurrenceRule.daily`)}
+                      </SelectItem>
+                      <SelectItem value="WEEKLY">
+                        {t(`${sExpense}.recurrenceRule.weekly`)}
+                      </SelectItem>
+                      <SelectItem value="MONTHLY">
+                        {t(`${sExpense}.recurrenceRule.monthly`)}
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    {t(`${sExpense}.recurrenceRule.description`)}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </CardContent>
         </Card>
 
@@ -569,24 +608,71 @@ export function ExpenseForm({
                                     ({ participant }) => participant === id,
                                   )}
                                   onCheckedChange={(checked) => {
-                                    return checked
-                                      ? field.onChange([
-                                          ...field.value,
-                                          {
-                                            participant: id,
-                                            shares: '1',
-                                          },
-                                        ])
-                                      : field.onChange(
+                                    const options = {
+                                      shouldDirty: true,
+                                      shouldTouch: true,
+                                      shouldValidate: true,
+                                    }
+                                    checked
+                                      ? form.setValue(
+                                          'paidFor',
+                                          [
+                                            ...field.value,
+                                            {
+                                              participant: id,
+                                              shares: '1' as unknown as number,
+                                            },
+                                          ],
+                                          options,
+                                        )
+                                      : form.setValue(
+                                          'paidFor',
                                           field.value?.filter(
                                             (value) => value.participant !== id,
                                           ),
+                                          options,
                                         )
                                   }}
                                 />
                               </FormControl>
                               <FormLabel className="text-sm font-normal flex-1">
                                 {name}
+                                {field.value?.some(
+                                  ({ participant }) => participant === id,
+                                ) &&
+                                  !form.watch('isReimbursement') && (
+                                    <span className="text-muted-foreground ml-2">
+                                      ({group.currency}{' '}
+                                      {(
+                                        calculateShare(id, {
+                                          amount:
+                                            Number(form.watch('amount')) * 100, // Convert to cents
+                                          paidFor: field.value.map(
+                                            ({ participant, shares }) => ({
+                                              participant: {
+                                                id: participant,
+                                                name: '',
+                                                groupId: '',
+                                              },
+                                              shares:
+                                                form.watch('splitMode') ===
+                                                  'BY_PERCENTAGE' ||
+                                                form.watch('splitMode') ===
+                                                  'BY_AMOUNT'
+                                                  ? Number(shares) * 100 // Convert percentage to basis points (e.g., 50% -> 5000)
+                                                  : shares,
+                                              expenseId: '',
+                                              participantId: '',
+                                            }),
+                                          ),
+                                          splitMode: form.watch('splitMode'),
+                                          isReimbursement:
+                                            form.watch('isReimbursement'),
+                                        }) / 100
+                                      ).toFixed(2)}
+                                      )
+                                    </span>
+                                  )}
                               </FormLabel>
                             </FormItem>
                             {form.getValues().splitMode !== 'EVENLY' && (

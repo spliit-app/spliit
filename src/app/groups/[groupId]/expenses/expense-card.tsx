@@ -1,6 +1,7 @@
 'use client'
 import { ActiveUserBalance } from '@/app/groups/[groupId]/expenses/active-user-balance'
 import { CategoryIcon } from '@/app/groups/[groupId]/expenses/category-icon'
+import { DocumentsCount } from '@/app/groups/[groupId]/expenses/documents-count'
 import { Button } from '@/components/ui/button'
 import { getGroupExpenses } from '@/lib/api'
 import { cn, formatCurrency, formatDate } from '@/lib/utils'
@@ -74,6 +75,9 @@ export function ExpenseCard({ expense, currency, groupId }: Props) {
           )}
         >
           {formatCurrency(currency, expense.amount, locale)}
+        </div>
+        <div className="text-xs text-muted-foreground">
+          <DocumentsCount count={expense._count.documents} />
         </div>
         <div className="text-xs text-muted-foreground">
           {formatDate(expense.expenseDate, locale, { dateStyle: 'medium' })}
