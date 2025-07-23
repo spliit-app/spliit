@@ -43,7 +43,8 @@
   "ExpenseCard": {
     "paidBy": "Сплачено <strong>{paidBy}</strong> за <paidFor></paidFor>",
     "receivedBy": "Отримано <strong>{paidBy}</strong> за <paidFor></paidFor>",
-    "yourBalance": "Ваш баланс:"
+    "yourBalance": "Ваш баланс:",
+    "notInvolved": "You are not involved"
   },
   "Groups": {
     "myGroups": "Мої групи",

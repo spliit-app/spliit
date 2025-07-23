@@ -43,7 +43,8 @@
   "ExpenseCard": {
     "paidBy": "由 <strong>{paidBy}</strong> 支付 <paidFor></paidFor>。",
     "receivedBy": "由 <strong>{paidBy}</strong> 收取 <paidFor></paidFor>。",
-    "yourBalance": "你的餘額："
+    "yourBalance": "你的餘額：",
+    "notInvolved": "You are not involved"
   },
   "Groups": {
     "myGroups": "我的群組",

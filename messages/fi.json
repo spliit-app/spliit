@@ -43,7 +43,8 @@
   "ExpenseCard": {
     "paidBy": "<strong>{paidBy}</strong> maksoi {forCount, plural, =1 {henkilön} other {henkilöiden}} <paidFor></paidFor> puolesta",
     "receivedBy": "<strong>{paidBy}</strong> sai rahaa {forCount, plural, =1 {henkilön} other {henkilöiden}} <paidFor></paidFor> puolesta",
-    "yourBalance": "Saldosi:"
+    "yourBalance": "Saldosi:",
+    "notInvolved": "You are not involved"
   },
   "Groups": {
     "myGroups": "Omat ryhmät",

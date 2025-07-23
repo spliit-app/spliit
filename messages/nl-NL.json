@@ -43,7 +43,8 @@
   "ExpenseCard": {
     "paidBy": "Betaald door <strong>{paidBy}</strong> voor <paidFor></paidFor>",
     "receivedBy": "Ontvangen door <strong>{paidBy}</strong> voor <paidFor></paidFor>",
-    "yourBalance": "Jouw balans:"
+    "yourBalance": "Jouw balans:",
+    "notInvolved": "You are not involved"
   },
   "Groups": {
     "myGroups": "Mijn groepen",
