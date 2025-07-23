@@ -137,15 +137,6 @@
         "label": "Ricevuto da",
         "description": "Seleziona partecipante che ha ricevuto l'entrata."
       },
-      "recurrenceRule": {
-        "label": "Expense Recurrence",
-        "description": "Select how often the expense should repeat.",
-
-        "none": "None",
-        "daily": "Daily",
-        "weekly": "Weekly",
-        "monthly": "Monthly"
-      },
       "paidFor": {
         "title": "Ricevuto per",
         "description": "Seleziona per chi è stato ricevuta l'entrata."
@@ -169,6 +160,15 @@
       "paidByField": {
         "label": "Pagato da",
         "description": "Seleziona il partecipante che ha pagato la spesa."
+      },
+      "recurrenceRule": {
+        "label": "Periodicità della spesa",
+        "description": "Seleziona quanto frequentemente la spesa deve ripetersi.",
+
+        "none": "Mai",
+        "daily": "Ogni giorno",
+        "weekly": "Ogni settimana",
+        "monthly": "Ogni mese"
       },
       "paidFor": {
         "title": "Pagato per",
