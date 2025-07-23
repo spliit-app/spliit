@@ -43,7 +43,8 @@
   "ExpenseCard": {
     "paidBy": "<strong>{paidBy}</strong> tarafından ödendi, <paidFor></paidFor> için",
     "receivedBy": "<strong>{paidBy}</strong> tarafından alındı, <paidFor></paidFor> için",
-    "yourBalance": "Bakiyeniz:"
+    "yourBalance": "Bakiyeniz:",
+    "notInvolved": "You are not involved"
   },
   "Groups": {
     "myGroups": "Gruplarım",

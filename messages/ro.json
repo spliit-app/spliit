@@ -43,7 +43,8 @@
   "ExpenseCard": {
     "paidBy": "Plătit de <strong>{paidBy}</strong> pentru <paidFor></paidFor>",
     "receivedBy": "Primit de <strong>{paidBy}</strong> pentru <paidFor></paidFor>",
-    "yourBalance": "Soldul tău:"
+    "yourBalance": "Soldul tău:",
+    "notInvolved": "You are not involved"
   },
   "Groups": {
     "myGroups": "Grupurile mele",
