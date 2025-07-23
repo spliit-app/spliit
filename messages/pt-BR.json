@@ -137,6 +137,15 @@
         "label": "Recebido por",
         "description": "Selecione o participante que recebeu a receita."
       },
+      "recurrenceRule": {
+        "label": "Expense Recurrence",
+        "description": "Select how often the expense should repeat.",
+
+        "none": "None",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly"
+      },
       "paidFor": {
         "title": "Recebido para",
         "description": "Selecione para quem a receita foi recebida."

@@ -161,6 +161,15 @@
         "label": "支付人",
         "description": "选择支付这笔消费的群组成员。"
       },
+      "recurrenceRule": {
+        "label": "Expense Recurrence",
+        "description": "Select how often the expense should repeat.",
+
+        "none": "None",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly"
+      },
       "paidFor": {
         "title": "應支付人",
         "description": "選擇需參與此筆消費的成員。"
