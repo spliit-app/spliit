@@ -162,7 +162,7 @@
         "description": "Seleziona il partecipante che ha pagato la spesa."
       },
       "recurrenceRule": {
-        "label": "Periodicità della spesa",
+        "label": "Periodicità",
         "description": "Seleziona quanto frequentemente la spesa deve ripetersi.",
 
         "none": "Mai",

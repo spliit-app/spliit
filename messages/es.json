@@ -162,7 +162,7 @@
         "description": "Seleccione el participante que pagó el gasto."
       },
       "recurrenceRule": {
-        "label": "Recurrencia del gasto",
+        "label": "Recurrencia",
         "description": "Seleccione con qué frecuencia debe repetirse el gasto.",
 
         "none": "Ninguno",
