@@ -137,6 +137,15 @@
         "label": "Ontvangen door",
         "description": "Selecteer de deelnemer die het inkomen heeft ontvangen."
       },
+      "recurrenceRule": {
+        "label": "Expense Recurrence",
+        "description": "Select how often the expense should repeat.",
+
+        "none": "None",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly"
+      },
       "paidFor": {
         "title": "Ontvangen voor",
         "description": "Selecteer voor wie het inkomen is ontvangen."

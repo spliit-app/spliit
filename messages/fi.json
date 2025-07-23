@@ -137,15 +137,6 @@
         "label": "Vastaanottaja",
         "description": "Valitse kuka vastaanotti tulon."
       },
-      "recurrenceRule": {
-        "label": "Expense Recurrence",
-        "description": "Select how often the expense should repeat.",
-
-        "none": "None",
-        "daily": "Daily",
-        "weekly": "Weekly",
-        "monthly": "Monthly"
-      },
       "paidFor": {
         "title": "Tulon jakaminen",
         "description": "Valitse kenelle tulo jaetaan."
@@ -169,6 +160,15 @@
       "paidByField": {
         "label": "Maksaja",
         "description": "Valitse kuka maksoi kulun."
+      },
+      "recurrenceRule": {
+        "label": "Expense Recurrence",
+        "description": "Select how often the expense should repeat.",
+
+        "none": "None",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly"
       },
       "paidFor": {
         "title": "Kulun jakaminen",
