@@ -1,12 +1,20 @@
 import { initTRPC } from '@trpc/server'
 import { cache } from 'react'
 import superjson from 'superjson'
+import { supabase } from '~/lib/supabase'
 
 export const createTRPCContext = cache(async () => {
   /**
    * @see: https://trpc.io/docs/server/context
    */
-  return {}
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  return {
+    user,
+    supabase,
+  }
 })
 
 // Avoid exporting the entire t-object

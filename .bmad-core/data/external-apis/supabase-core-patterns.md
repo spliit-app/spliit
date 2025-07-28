@@ -5,9 +5,13 @@
 ### User Authentication
 ```typescript
 import { createClient } from '@supabase/supabase-js'
+import { env } from '~/lib/env'
 
 // Client-side auth for conversational interface
-const supabase = createClient(url, anonKey)
+const supabase = createClient(
+  env.NEXT_PUBLIC_SUPABASE_URL,
+  env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+)
 
 // Check auth status before AI interactions
 const { data: { user } } = await supabase.auth.getUser()
@@ -28,14 +32,14 @@ users (id, email, name, created_at)
 -- Groups (for "create Vegas trip group" commands)  
 groups (id, name, description, created_by, currency, created_at)
 
--- Group Members (for participant context)
-group_members (group_id, user_id, role)
+-- Participants (for participant context)
+participants (id, name, group_id, user_id, created_at)
 
 -- Expenses (primary target for conversational creation)
-expenses (id, group_id, description, amount, paid_by, category, date, created_at)
+expenses (id, group_id, title, amount, paid_by_id, category_id, expense_date, created_at)
 
--- Expense Participants (for "split with John and Jane")
-expense_participants (expense_id, user_id, share)
+-- Expense Paid For (for "split with John and Jane")
+expense_paid_for (id, expense_id, participant_id, shares)
 ```
 
 ### Query Patterns for AI Integration
@@ -45,7 +49,7 @@ expense_participants (expense_id, user_id, share)
 // Resolve "John" to actual user in current group context
 const resolveParticipant = async (name: string, groupId: string) => {
   const { data } = await supabase
-    .from('group_members')
+    .from('participants')
     .select('user_id, users(name, email)')
     .eq('group_id', groupId)
     .ilike('users.name', `%${name}%`)
@@ -83,7 +87,7 @@ const expenseSubscription = supabase
 const groupSubscription = supabase
   .channel(`group:${groupId}`)
   .on('postgres_changes',
-    { event: '*', schema: 'public', table: 'group_members' },
+    { event: '*', schema: 'public', table: 'participants' },
     (payload) => {
       // Update participant suggestions in AI interface
       refreshParticipantContext(payload)
@@ -139,4 +143,4 @@ if (!userHasGroupAccess) {
 ### Real-time Subscription Management
 - Subscribe only to relevant group/expense channels
 - Unsubscribe when leaving conversational context
-- Throttle updates to avoid overwhelming AI interface 
+- Throttle updates to avoid overwhelming AI interface

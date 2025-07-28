@@ -7,6 +7,8 @@ const interpretEnvVarAsBool = (val: unknown): boolean => {
 
 const envSchema = z
   .object({
+    NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string(),
     POSTGRES_URL_NON_POOLING: z.string().url(),
     POSTGRES_PRISMA_URL: z.string().url(),
     NEXT_PUBLIC_BASE_URL: z
