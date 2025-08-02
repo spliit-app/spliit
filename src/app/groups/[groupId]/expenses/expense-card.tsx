@@ -44,6 +44,7 @@ export function ExpenseCard({ expense, currency, groupId }: Props) {
   return (
     <div
       key={expense.id}
+      data-expense-card
       className={cn(
         'flex justify-between sm:mx-6 px-4 sm:rounded-lg sm:pr-2 sm:pl-4 py-4 text-sm cursor-pointer hover:bg-accent gap-1 items-stretch',
         expense.isReimbursement && 'italic',
@@ -73,6 +74,7 @@ export function ExpenseCard({ expense, currency, groupId }: Props) {
             'tabular-nums whitespace-nowrap',
             expense.isReimbursement ? 'italic' : 'font-bold',
           )}
+          data-amount
         >
           {formatCurrency(currency, expense.amount, locale)}
         </div>
