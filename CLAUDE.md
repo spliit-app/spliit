@@ -1,4 +1,4 @@
-# CRUSH.md
+# CLAUDE.md
 
 ## Build, Lint, and Test Commands
 - **Build the project**: `npm run build`
