@@ -6,7 +6,7 @@ export class GroupPage {
 
   constructor(page: Page) {
     this.page = page
-    this.title = page.getByRole('main').getByRole('heading', { level: 1 })
+    this.title = page.getByTestId('group-name')
   }
 
   async createExpense() {
