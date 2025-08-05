@@ -26,6 +26,22 @@ export class ExpensePage {
   }
 
   async submit() {
-    await this.page.getByRole('button', { name: 'Create' }).click()
+    // Look for either Create or Save button
+    const createButton = this.page.getByRole('button', { name: 'Create' })
+    const saveButton = this.page.getByRole('button', { name: 'Save' })
+    
+    if (await createButton.isVisible()) {
+      await createButton.click()
+    } else {
+      await saveButton.click()
+    }
+    
+    // Wait for navigation to complete
+    await this.page.waitForLoadState('networkidle')
+  }
+
+  async waitForPageLoad() {
+    // Wait for the expense form to be fully loaded
+    await this.page.waitForLoadState('networkidle')
   }
 }

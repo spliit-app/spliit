@@ -34,8 +34,8 @@ export default function BalancesAndReimbursements() {
   const isLoading = balancesAreLoading || !balancesData || !group
 
   return (
-    <>
-      <Card className="mb-4">
+    <div data-testid="balances-content">
+      <Card className="mb-4" data-testid="balances-card">
         <CardHeader>
           <CardTitle>{t('title')}</CardTitle>
           <CardDescription>{t('description')}</CardDescription>
@@ -72,7 +72,7 @@ export default function BalancesAndReimbursements() {
           )}
         </CardContent>
       </Card>
-    </>
+    </div>
   )
 }
 

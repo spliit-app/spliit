@@ -17,7 +17,7 @@ export function DeletePopup({ onDelete }: { onDelete: () => Promise<void> }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="destructive">
+        <Button variant="destructive" data-testid="delete-expense-button">
           <Trash2 className="w-4 h-4 mr-2" />
           {t('label')}
         </Button>
@@ -31,6 +31,7 @@ export function DeletePopup({ onDelete }: { onDelete: () => Promise<void> }) {
             variant="destructive"
             loadingContent="Deleting…"
             action={onDelete}
+            data-testid="confirm-delete-button"
           >
             {t('yes')}
           </AsyncButton>

@@ -1,0 +1,30 @@
+{
+  "workbench.colorCustomizations": {
+    "statusBarItem.warningBackground": "#681DD7",
+    "statusBarItem.warningForeground": "#ffffff",
+    "statusBarItem.warningHoverBackground": "#681DD7",
+    "statusBarItem.warningHoverForeground": "#ffffff90",
+    "statusBarItem.remoteBackground": "#681DD7",
+    "statusBarItem.remoteForeground": "#ffffff",
+    "statusBarItem.remoteHoverBackground": "#681DD7",
+    "statusBarItem.remoteHoverForeground": "#ffffff90",
+    "focusBorder": "#681DD799",
+    "progressBar.background": "#681DD7",
+    "textLink.foreground": "#a85dff",
+    "textLink.activeForeground": "#b56aff",
+    "selection.background": "#5b10ca",
+    "activityBarBadge.background": "#681DD7",
+    "activityBarBadge.foreground": "#ffffff",
+    "activityBar.activeBorder": "#681DD7",
+    "list.highlightForeground": "#681dd7",
+    "list.focusAndSelectionOutline": "#681DD799",
+    "button.background": "#681DD7",
+    "button.foreground": "#ffffff",
+    "button.hoverBackground": "#752ae4",
+    "tab.activeBorderTop": "#752ae4",
+    "pickerGroup.foreground": "#752ae4",
+    "list.activeSelectionBackground": "#681DD74d",
+    "panelTitle.activeBorder": "#752ae4"
+  },
+  "window.title": "spliit--add-e2e-tests"
+}

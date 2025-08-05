@@ -5,6 +5,7 @@ export class CreateGroupPage {
 
   async navigate() {
     await this.page.goto('http://localhost:3002/groups/create')
+    await this.page.waitForLoadState('networkidle')
   }
 
   async fillGroupName(name: string) {
@@ -29,5 +30,7 @@ export class CreateGroupPage {
 
   async submit() {
     await this.page.getByRole('button', { name: 'Create' }).click()
+    // Wait for navigation to complete
+    await this.page.waitForLoadState('networkidle')
   }
 }

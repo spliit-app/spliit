@@ -34,7 +34,7 @@ export default function GroupExpensesPageClient({
 
   return (
     <>
-      <Card className="mb-4 rounded-none -mx-4 border-x-0 sm:border-x sm:rounded-lg sm:mx-0">
+      <Card className="mb-4 rounded-none -mx-4 border-x-0 sm:border-x sm:rounded-lg sm:mx-0" data-testid="expenses-content">
         <div className="flex flex-1">
           <CardHeader className="flex-1 p-4 sm:p-6">
             <CardTitle>{t('title')}</CardTitle>

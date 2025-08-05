@@ -18,7 +18,7 @@ export function ActivityPageClient() {
 
   return (
     <>
-      <Card className="mb-4">
+      <Card className="mb-4" data-testid="activity-content">
         <CardHeader>
           <CardTitle>{t('title')}</CardTitle>
           <CardDescription>{t('description')}</CardDescription>

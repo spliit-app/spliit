@@ -23,12 +23,12 @@ export function GroupTabs({ groupId }: Props) {
       }}
     >
       <TabsList>
-        <TabsTrigger value="expenses">{t('Expenses.title')}</TabsTrigger>
-        <TabsTrigger value="balances">{t('Balances.title')}</TabsTrigger>
-        <TabsTrigger value="information">{t('Information.title')}</TabsTrigger>
-        <TabsTrigger value="stats">{t('Stats.title')}</TabsTrigger>
-        <TabsTrigger value="activity">{t('Activity.title')}</TabsTrigger>
-        <TabsTrigger value="edit">{t('Settings.title')}</TabsTrigger>
+        <TabsTrigger value="expenses" data-testid="tab-expenses">{t('Expenses.title')}</TabsTrigger>
+        <TabsTrigger value="balances" data-testid="tab-balances">{t('Balances.title')}</TabsTrigger>
+        <TabsTrigger value="information" data-testid="tab-information">{t('Information.title')}</TabsTrigger>
+        <TabsTrigger value="stats" data-testid="tab-stats">{t('Stats.title')}</TabsTrigger>
+        <TabsTrigger value="activity" data-testid="tab-activity">{t('Activity.title')}</TabsTrigger>
+        <TabsTrigger value="edit" data-testid="tab-edit">{t('Settings.title')}</TabsTrigger>
       </TabsList>
     </Tabs>
   )
