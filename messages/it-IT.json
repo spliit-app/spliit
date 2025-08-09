@@ -12,7 +12,7 @@
   },
   "Footer": {
     "madeIn": "Realizzato a Montréal, Québec 🇨🇦",
-    "builtBy": "Costruito da <author>Sebastien Castiel</author> e <source>contributori</source>"
+    "builtBy": "Sviluppato da <author>Sebastien Castiel</author> e <source>contributori</source>"
   },
   "Expenses": {
     "title": "Spese",
@@ -51,8 +51,8 @@
     "loadingRecent": "Caricamento gruppi recenti…",
     "NoRecent": {
       "description": "Non hai visitato nessun gruppo di recente.",
-      "create": "Creane una",
-      "orAsk": "oppure chiedi a un amico di inviarti il ​​collegamento a uno esistente."
+      "create": "Creane uno",
+      "orAsk": "oppure chiedi a un amico di inviarti il ​​collegamento ad uno esistente."
     },
     "recent": "Gruppi recenti",
     "starred": "Gruppi speciali",
@@ -138,13 +138,13 @@
         "description": "Seleziona partecipante che ha ricevuto l'entrata."
       },
       "recurrenceRule": {
-        "label": "Expense Recurrence",
-        "description": "Select how often the expense should repeat.",
+        "label": "Spese ricorrenti",
+        "description": "Seleziona la frequenza con cui la spesa deve ripetersi.",
 
-        "none": "None",
-        "daily": "Daily",
-        "weekly": "Weekly",
-        "monthly": "Monthly"
+        "none": "Nessuna",
+        "daily": "Giornaliera",
+        "weekly": "Settimanale",
+        "monthly": "Mensile"
       },
       "paidFor": {
         "title": "Ricevuto per",
