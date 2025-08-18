@@ -45,7 +45,7 @@ import { cn } from '@/lib/utils'
 import { AppRouterOutput } from '@/trpc/routers/_app'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RecurrenceRule } from '@prisma/client'
-import { Save } from 'lucide-react'
+import { Copy, Save } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
@@ -145,14 +145,21 @@ export function ExpenseForm({
   expense,
   onSubmit,
   onDelete,
+  onDuplicate,
   runtimeFeatureFlags,
+  isDuplicate = false,
 }: {
   group: NonNullable<AppRouterOutput['groups']['get']['group']>
   categories: AppRouterOutput['categories']['list']['categories']
   expense?: AppRouterOutput['groups']['expenses']['get']['expense']
   onSubmit: (value: ExpenseFormValues, participantId?: string) => Promise<void>
   onDelete?: (participantId?: string) => Promise<void>
+  onDuplicate?: (
+    value: ExpenseFormValues,
+    participantId?: string,
+  ) => Promise<void>
   runtimeFeatureFlags: RuntimeFeatureFlags
+  isDuplicate?: boolean
 }) {
   const t = useTranslations('ExpenseForm')
   const isCreate = expense === undefined
@@ -176,8 +183,12 @@ export function ExpenseForm({
     resolver: zodResolver(expenseFormSchema),
     defaultValues: expense
       ? {
-          title: expense.title,
-          expenseDate: expense.expenseDate ?? new Date(),
+          title: isDuplicate
+            ? `${expense.title} (${t('copy')})`
+            : expense.title,
+          expenseDate: isDuplicate
+            ? new Date()
+            : expense.expenseDate ?? new Date(),
           amount: String(expense.amount / 100) as unknown as number, // hack
           category: expense.categoryId,
           paidBy: expense.paidById,
@@ -251,6 +262,17 @@ export function ExpenseForm({
   const submit = async (values: ExpenseFormValues) => {
     await persistDefaultSplittingOptions(group.id, values)
     return onSubmit(values, activeUserId ?? undefined)
+  }
+
+  const duplicate = async () => {
+    const values = form.getValues()
+    const duplicateValues = {
+      ...values,
+      expenseDate: new Date(),
+    }
+    if (onDuplicate) {
+      return onDuplicate(duplicateValues, activeUserId ?? undefined)
+    }
   }
 
   const [isIncome, setIsIncome] = useState(Number(form.getValues().amount) < 0)
@@ -893,14 +915,22 @@ export function ExpenseForm({
             <Save className="w-4 h-4 mr-2" />
             {t(isCreate ? 'create' : 'save')}
           </SubmitButton>
+          {!isCreate && !isDuplicate && onDuplicate && (
+            <Button variant="outline" type="button" onClick={duplicate}>
+              <Copy className="w-4 h-4 mr-2" />
+              {t('duplicate')}
+            </Button>
+          )}
           {!isCreate && onDelete && (
             <DeletePopup
               onDelete={() => onDelete(activeUserId ?? undefined)}
             ></DeletePopup>
           )}
-          <Button variant="ghost" asChild>
-            <Link href={`/groups/${group.id}`}>{t('cancel')}</Link>
-          </Button>
+          {!isDuplicate && (
+            <Button variant="ghost" asChild>
+              <Link href={`/groups/${group.id}`}>{t('cancel')}</Link>
+            </Button>
+          )}
         </div>
       </form>
     </Form>
