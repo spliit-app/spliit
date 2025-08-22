@@ -205,7 +205,9 @@
     "save": "Salvar",
     "saving": "Salvando…",
     "cancel": "Cancelar",
-    "reimbursement": "Reembolso"
+    "reimbursement": "Reembolso",
+    "participant": "Participant",
+    "total": "Total"
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {

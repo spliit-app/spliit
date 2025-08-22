@@ -205,7 +205,9 @@
     "save": "儲存",
     "saving": "儲存中……",
     "cancel": "取消",
-    "reimbursement": "報銷"
+    "reimbursement": "報銷",
+    "participant": "Participant",
+    "total": "Total"
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {

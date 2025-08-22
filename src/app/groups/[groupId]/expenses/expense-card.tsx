@@ -24,7 +24,12 @@ function Participants({ expense }: { expense: Expense }) {
   ))
   const participants = t.rich(key, {
     strong: (chunks) => <strong>{chunks}</strong>,
-    paidBy: expense.paidBy.name,
+    paidBy: Array.isArray(expense.paidBy)
+      ? expense.paidBy
+          .map((pb) => pb.participant.name)
+          .join(', ')
+      : // fallback for older shape
+        (expense as any).paidBy?.name,
     paidFor: () => paidFor,
     forCount: expense.paidFor.length,
   })
