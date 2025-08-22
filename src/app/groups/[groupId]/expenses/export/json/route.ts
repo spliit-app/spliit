@@ -19,7 +19,7 @@ export async function GET(
           title: true,
           category: { select: { grouping: true, name: true } },
           amount: true,
-          paidById: true,
+          paidBy: { select: { participantId: true, amount: true } },
           paidFor: { select: { participantId: true, shares: true } },
           isReimbursement: true,
           splitMode: true,

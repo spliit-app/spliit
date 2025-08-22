@@ -140,7 +140,6 @@
       "recurrenceRule": {
         "label": "Recurrencia del gasto",
         "description": "Seleccione con qué frecuencia debe repetirse el gasto.",
-
         "none": "Ninguno",
         "daily": "Diario",
         "weekly": "Semanal",
@@ -214,7 +213,9 @@
     "save": "Guardar",
     "saving": "Guardando",
     "cancel": "Cancelar",
-    "reimbursement": "Reembolso"
+    "reimbursement": "Reembolso",
+    "participant": "Participant",
+    "total": "Total"
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {

@@ -1,4 +1,5 @@
 import { CategorySelector } from '@/components/category-selector'
+import { AmountInput } from '@/components/amount-input'
 import { ExpenseDocumentsInput } from '@/components/expense-documents-input'
 import { SubmitButton } from '@/components/submit-button'
 import { Button } from '@/components/ui/button'
@@ -45,16 +46,17 @@ import { cn } from '@/lib/utils'
 import { AppRouterOutput } from '@/trpc/routers/_app'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RecurrenceRule } from '@prisma/client'
-import { Save } from 'lucide-react'
+import { Save, UserMinus, UserPlus } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { match } from 'ts-pattern'
 import { DeletePopup } from '../../../../components/delete-popup'
 import { extractCategoryFromTitle } from '../../../../components/expense-form-actions'
 import { Textarea } from '../../../../components/ui/textarea'
+import { Money } from '@/components/money'
 
 const enforceCurrencyPattern = (value: string) =>
   value
@@ -158,14 +160,14 @@ export function ExpenseForm({
   const isCreate = expense === undefined
   const searchParams = useSearchParams()
 
-  const getSelectedPayer = (field?: { value: string }) => {
+  const getSelectedPayer = () => {
     if (isCreate && typeof window !== 'undefined') {
       const activeUser = localStorage.getItem(`${group.id}-activeUser`)
-      if (activeUser && activeUser !== 'None' && field?.value === undefined) {
+      if (activeUser && activeUser !== 'None') {
         return activeUser
       }
     }
-    return field?.value
+    return undefined
   }
 
   const getSelectedRecurrenceRule = (field?: { value: string }) => {
@@ -178,9 +180,12 @@ export function ExpenseForm({
       ? {
           title: expense.title,
           expenseDate: expense.expenseDate ?? new Date(),
-          amount: String(expense.amount / 100) as unknown as number, // hack
           category: expense.categoryId,
-          paidBy: expense.paidById,
+          paidBy: expense.paidBy.map(({ participantId, amount }) => ({
+            key: randomId(),
+            participant: participantId,
+            amount: String(amount / 100) as unknown as number,
+          })) as any,
           paidFor: expense.paidFor.map(({ participantId, shares }) => ({
             participant: participantId,
             shares: String(shares / 100) as unknown as number,
@@ -196,18 +201,25 @@ export function ExpenseForm({
       ? {
           title: t('reimbursement'),
           expenseDate: new Date(),
-          amount: String(
-            (Number(searchParams.get('amount')) || 0) / 100,
-          ) as unknown as number, // hack
-          category: 1, // category with Id 1 is Payment
-          paidBy: searchParams.get('from') ?? undefined,
+          category: 1, // Payment
+          paidBy: [
+            searchParams.get('from')
+              ? {
+                  key: randomId(),
+                  participant: searchParams.get('from')!,
+                  amount: String(
+                    Number(searchParams.get('amount')) / 100 || ''
+                  ) as unknown as number,
+                }
+              : (undefined as any),
+          ],
           paidFor: [
             searchParams.get('to')
               ? {
                   participant: searchParams.get('to')!,
                   shares: '1' as unknown as number,
                 }
-              : undefined,
+              : (undefined as any),
           ],
           isReimbursement: true,
           splitMode: defaultSplittingOptions.splitMode,
@@ -221,13 +233,20 @@ export function ExpenseForm({
           expenseDate: searchParams.get('date')
             ? new Date(searchParams.get('date') as string)
             : new Date(),
-          amount: (searchParams.get('amount') || 0) as unknown as number, // hack,
           category: searchParams.get('categoryId')
             ? Number(searchParams.get('categoryId'))
-            : 0, // category with Id 0 is General
+            : 0,
           // paid for all, split evenly
           paidFor: defaultSplittingOptions.paidFor,
-          paidBy: getSelectedPayer(),
+          paidBy: [
+            {
+              key: randomId(),
+              participant: getSelectedPayer() as any,
+              amount: String(
+                Number(searchParams.get('amount')) / 100 || ''
+              ) as unknown as number,
+            },
+          ],
           isReimbursement: false,
           splitMode: defaultSplittingOptions.splitMode,
           saveDefaultSplittingOptions: false,
@@ -253,7 +272,10 @@ export function ExpenseForm({
     return onSubmit(values, activeUserId ?? undefined)
   }
 
-  const [isIncome, setIsIncome] = useState(Number(form.getValues().amount) < 0)
+  const calcTotalAmount = (paidBys: { amount: number }[]) =>
+    paidBys.reduce((sum, { amount }) => sum + Number(amount) * 100, 0)
+  const totalAmount = calcTotalAmount(form.watch('paidBy') as any)
+  const [isIncome, setIsIncome] = useState(totalAmount < 0)
   const [manuallyEditedParticipants, setManuallyEditedParticipants] = useState<
     Set<string>
   >(new Set())
@@ -262,7 +284,7 @@ export function ExpenseForm({
 
   useEffect(() => {
     setManuallyEditedParticipants(new Set())
-  }, [form.watch('splitMode'), form.watch('amount')])
+  }, [form.watch('splitMode'), form.watch('paidBy')])
 
   useEffect(() => {
     const splitMode = form.getValues().splitMode
@@ -271,14 +293,14 @@ export function ExpenseForm({
     if (
       splitMode === 'BY_AMOUNT' &&
       (form.getFieldState('paidFor').isDirty ||
-        form.getFieldState('amount').isDirty)
+        form.getFieldState('paidBy').isDirty)
     ) {
-      const totalAmount = Number(form.getValues().amount) || 0
+      const totalAmountDec = (calcTotalAmount(form.getValues('paidBy') as any) || 0) / 100
       const paidFor = form.getValues().paidFor
       let newPaidFor = [...paidFor]
 
       const editedParticipants = Array.from(manuallyEditedParticipants)
-      let remainingAmount = totalAmount
+      let remainingAmount = totalAmountDec
       let remainingParticipants = newPaidFor.length - editedParticipants.length
 
       newPaidFor = newPaidFor.map((participant) => {
@@ -294,9 +316,7 @@ export function ExpenseForm({
 
       if (remainingParticipants > 0) {
         let amountPerRemaining = 0
-        if (splitMode === 'BY_AMOUNT') {
-          amountPerRemaining = remainingAmount / remainingParticipants
-        }
+        amountPerRemaining = remainingAmount / remainingParticipants
 
         newPaidFor = newPaidFor.map((participant) => {
           if (!editedParticipants.includes(participant.participant)) {
@@ -314,7 +334,7 @@ export function ExpenseForm({
     }
   }, [
     manuallyEditedParticipants,
-    form.watch('amount'),
+    form.watch('paidBy'),
     form.watch('splitMode'),
   ])
 
@@ -384,62 +404,7 @@ export function ExpenseForm({
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="amount"
-              render={({ field: { onChange, ...field } }) => (
-                <FormItem className="sm:order-3">
-                  <FormLabel>{t('amountField.label')}</FormLabel>
-                  <div className="flex items-baseline gap-2">
-                    <span>{group.currency}</span>
-                    <FormControl>
-                      <Input
-                        className="text-base max-w-[120px]"
-                        type="text"
-                        inputMode="decimal"
-                        placeholder="0.00"
-                        onChange={(event) => {
-                          const v = enforceCurrencyPattern(event.target.value)
-                          const income = Number(v) < 0
-                          setIsIncome(income)
-                          if (income) form.setValue('isReimbursement', false)
-                          onChange(v)
-                        }}
-                        onFocus={(e) => {
-                          // we're adding a small delay to get around safaris issue with onMouseUp deselecting things again
-                          const target = e.currentTarget
-                          setTimeout(() => target.select(), 1)
-                        }}
-                        {...field}
-                      />
-                    </FormControl>
-                  </div>
-                  <FormMessage />
-
-                  {!isIncome && (
-                    <FormField
-                      control={form.control}
-                      name="isReimbursement"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row gap-2 items-center space-y-0 pt-2">
-                          <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
-                          </FormControl>
-                          <div>
-                            <FormLabel>
-                              {t('isReimbursementField.label')}
-                            </FormLabel>
-                          </div>
-                        </FormItem>
-                      )}
-                    />
-                  )}
-                </FormItem>
-              )}
-            />
+            {/* Amount is derived from payers; see paidBy section */}
 
             <FormField
               control={form.control}
@@ -467,26 +432,115 @@ export function ExpenseForm({
               control={form.control}
               name="paidBy"
               render={({ field }) => (
-                <FormItem className="sm:order-5">
+                <FormItem className="sm:order-3">
                   <FormLabel>{t(`${sExpense}.paidByField.label`)}</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={getSelectedPayer(field)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a participant" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {group.participants.map(({ id, name }) => (
-                        <SelectItem key={id} value={id}>
-                          {name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>
-                    {t(`${sExpense}.paidByField.description`)}
-                  </FormDescription>
+                  <div className="grid grid-cols-2 gap-3 items-start">
+                    <span className="text-sm text-muted-foreground">{t('participant')}</span>
+                    <span className="text-sm text-muted-foreground">{t('amountField.label')}</span>
+                    {(field.value as any[]).map(({ key, participant }, index) => (
+                      <Fragment key={key ?? index}>
+                        <FormField
+                          control={form.control}
+                          name={`paidBy.${index}.participant` as any}
+                          render={({ field: pField }) => (
+                            <FormItem>
+                              <FormControl>
+                                <Select
+                                  onValueChange={pField.onChange}
+                                  defaultValue={participant}
+                                >
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select a participant" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    {group.participants.map(({ id, name }) => (
+                                      <SelectItem key={id} value={id}>
+                                        {name}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <div className="flex gap-2 items-center">
+                          <FormField
+                            control={form.control}
+                            name={`paidBy.${index}.amount` as any}
+                            render={({ field: aField }) => (
+                              <FormItem>
+                                <FormControl>
+                                  <AmountInput
+                                    className="text-base max-w-[120px]"
+                                    prefix={group.currency}
+                                    {...aField}
+                                    onChange={(amount) => {
+                                      aField.onChange(amount)
+                                      const total = calcTotalAmount(
+                                        form.getValues('paidBy') as any,
+                                      )
+                                      const income = total < 0
+                                      setIsIncome(income)
+                                      if (income) form.setValue('isReimbursement', false)
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          {(field.value as any[]).length > 1 && (
+                            <Button
+                              type="button"
+                              title="Remove payer"
+                              className="p-2 h-8 rounded-xl text-destructive bg-destructive/20 hover:bg-destructive/40"
+                              onClick={() =>
+                                field.onChange(
+                                  (form.getValues('paidBy') as any[]).filter((_, i) => i !== index),
+                                )
+                              }
+                            >
+                              <UserMinus className="w-4 h-4" />
+                            </Button>
+                          )}
+                        </div>
+                      </Fragment>
+                    ))}
+                  </div>
+                  <div className="mt-2 flex items-center justify-between">
+                    {(field.value as any[]).length > 1 ? (
+                      <>
+                        <span className="text-right font-medium">{t('total')}</span>
+                        <Money currency={group.currency} amount={totalAmount} />
+                      </>
+                    ) : (
+                      <span />
+                    )}
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      className="p-2 h-8 rounded-xl text-primary bg-primary/20 hover:bg-primary/40"
+                      onClick={() => {
+                        const newPaidBy = [
+                          ...(form.getValues('paidBy') as any[]),
+                          {
+                            key: randomId(),
+                            participant: undefined as unknown as string,
+                            amount: '' as unknown as number,
+                          },
+                        ]
+                        form.setValue('paidBy', newPaidBy as any, {
+                          shouldDirty: true,
+                          shouldTouch: true,
+                          shouldValidate: false,
+                        })
+                      }}
+                    >
+                      <UserPlus className="w-4 h-4" />
+                    </Button>
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}
@@ -645,8 +699,7 @@ export function ExpenseForm({
                                       ({group.currency}{' '}
                                       {(
                                         calculateShare(id, {
-                                          amount:
-                                            Number(form.watch('amount')) * 100, // Convert to cents
+                                          amount: totalAmount, // already in cents
                                           paidFor: field.value.map(
                                             ({ participant, shares }) => ({
                                               participant: {

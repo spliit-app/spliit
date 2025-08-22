@@ -19,11 +19,25 @@ export function getBalances(
   const balances: Balances = {}
 
   for (const expense of expenses) {
-    const paidBy = expense.paidBy.id
     const paidFors = expense.paidFor
 
-    if (!balances[paidBy]) balances[paidBy] = { paid: 0, paidFor: 0, total: 0 }
-    balances[paidBy].paid += expense.amount
+    if (Array.isArray(expense.paidBy)) {
+      // Multiple payers: attribute paid amounts to each payer
+      for (const pb of expense.paidBy) {
+        const payerId = pb.participant.id
+        if (!balances[payerId])
+          balances[payerId] = { paid: 0, paidFor: 0, total: 0 }
+        balances[payerId].paid += pb.amount
+      }
+    } else {
+      // Fallback for legacy shape
+      const paidBy = (expense as any).paidBy?.id
+      if (paidBy) {
+        if (!balances[paidBy])
+          balances[paidBy] = { paid: 0, paidFor: 0, total: 0 }
+        balances[paidBy].paid += expense.amount
+      }
+    }
 
     const totalPaidForShares = paidFors.reduce(
       (sum, paidFor) => sum + paidFor.shares,

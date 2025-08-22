@@ -205,7 +205,9 @@
     "save": "Kaydet",
     "saving": "Kaydediliyor…",
     "cancel": "İptal",
-    "reimbursement": "Geri ödeme"
+    "reimbursement": "Geri ödeme",
+    "participant": "Participant",
+    "total": "Total"
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {

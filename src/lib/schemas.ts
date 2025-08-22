@@ -31,47 +31,41 @@ export const groupFormSchema = z
 
 export type GroupFormValues = z.infer<typeof groupFormSchema>
 
+const amountSchema = (label: string, allowZero = false) =>
+  z.union([
+    z.number(),
+    z.string().transform((value, ctx) => {
+      const normalizedValue = value.replace(/,/g, '.')
+      const valueAsNumber = Number(normalizedValue)
+      if (Number.isNaN(valueAsNumber))
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'invalidNumber',
+        })
+      return Math.round(valueAsNumber * 100)
+    }),
+  ])
+    .refine((amount) => (allowZero ? true : amount != 0), 'amountNotZero')
+    .refine((amount) => Math.abs(Number(amount)) <= 10_000_000_00, 'amountTenMillion')
+
 export const expenseFormSchema = z
   .object({
     expenseDate: z.coerce.date(),
     title: z.string({ required_error: 'titleRequired' }).min(2, 'min2'),
     category: z.coerce.number().default(0),
-    amount: z
-      .union(
-        [
-          z.number(),
-          z.string().transform((value, ctx) => {
-            const valueAsNumber = Number(value)
-            if (Number.isNaN(valueAsNumber))
-              ctx.addIssue({
-                code: z.ZodIssueCode.custom,
-                message: 'invalidNumber',
-              })
-            return Math.round(valueAsNumber * 100)
-          }),
-        ],
-        { required_error: 'amountRequired' },
+    paidBy: z
+      .array(
+        z.object({
+          participant: z.string(),
+          amount: amountSchema('amount'),
+        }),
       )
-      .refine((amount) => amount != 0, 'amountNotZero')
-      .refine((amount) => amount <= 10_000_000_00, 'amountTenMillion'),
-    paidBy: z.string({ required_error: 'paidByRequired' }),
+      .min(1, 'paidByRequired'),
     paidFor: z
       .array(
         z.object({
           participant: z.string(),
-          shares: z.union([
-            z.number(),
-            z.string().transform((value, ctx) => {
-              const normalizedValue = value.replace(/,/g, '.')
-              const valueAsNumber = Number(normalizedValue)
-              if (Number.isNaN(valueAsNumber))
-                ctx.addIssue({
-                  code: z.ZodIssueCode.custom,
-                  message: 'invalidNumber',
-                })
-              return Math.round(valueAsNumber * 100)
-            }),
-          ]),
+          shares: amountSchema('shares', true),
         }),
       )
       .min(1, 'paidForMin1')
@@ -111,23 +105,26 @@ export const expenseFormSchema = z
       )
       .default('NONE'),
   })
-  .superRefine((expense, ctx) => {
+  .transform((expense, ctx) => {
+    // Determine total amount from payers
+    let totalAmount = 0
+    for (const { amount } of expense.paidBy) {
+      totalAmount += typeof amount === 'number' ? amount : Math.round(Number(amount) * 100)
+    }
     let sum = 0
     for (const { shares } of expense.paidFor) {
-      sum +=
-        typeof shares === 'number' ? shares : Math.round(Number(shares) * 100)
+      sum += typeof shares === 'number' ? shares : Math.round(Number(shares) * 100)
     }
     switch (expense.splitMode) {
       case 'EVENLY':
-        break // noop
       case 'BY_SHARES':
-        break // noop
+        break
       case 'BY_AMOUNT': {
-        if (sum !== expense.amount) {
+        if (sum !== totalAmount) {
           const detail =
-            sum < expense.amount
-              ? `${((expense.amount - sum) / 100).toFixed(2)} missing`
-              : `${((sum - expense.amount) / 100).toFixed(2)} surplus`
+            sum < totalAmount
+              ? `${((totalAmount - sum) / 100).toFixed(2)} missing`
+              : `${((sum - totalAmount) / 100).toFixed(2)} surplus`
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: 'amountSum',
@@ -151,6 +148,7 @@ export const expenseFormSchema = z
         break
       }
     }
+    return { amount: totalAmount, ...expense }
   })
 
 export type ExpenseFormValues = z.infer<typeof expenseFormSchema>

@@ -14,13 +14,17 @@ export function getTotalActiveUserPaidFor(
   activeUserId: string | null,
   expenses: NonNullable<Awaited<ReturnType<typeof getGroupExpenses>>>,
 ): number {
-  return expenses.reduce(
-    (total, expense) =>
-      expense.paidBy.id === activeUserId && !expense.isReimbursement
-        ? total + expense.amount
-        : total,
-    0,
-  )
+  return expenses.reduce((total, expense) => {
+    const userPaidBy = Array.isArray(expense.paidBy)
+      ? expense.paidBy.find((paidBy) => paidBy.participant.id === activeUserId)
+      : // fallback for old shape
+        ((expense as any).paidBy?.id === activeUserId
+          ? { amount: expense.amount }
+          : undefined)
+    return userPaidBy && !expense.isReimbursement
+      ? total + (userPaidBy as any).amount
+      : total
+  }, 0)
 }
 
 type Expense = NonNullable<Awaited<ReturnType<typeof getGroupExpenses>>>[number]

@@ -205,7 +205,9 @@
     "save": "Sla op",
     "saving": "Opslaan…",
     "cancel": "Annuleer",
-    "reimbursement": "Terugbetaling"
+    "reimbursement": "Terugbetaling",
+    "participant": "Participant",
+    "total": "Total"
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {

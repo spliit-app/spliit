@@ -36,7 +36,7 @@ export async function GET(
           title: true,
           category: { select: { name: true } },
           amount: true,
-          paidById: true,
+          paidBy: { select: { participantId: true, amount: true } },
           paidFor: { select: { participantId: true, shares: true } },
           isReimbursement: true,
           splitMode: true,
@@ -112,7 +112,9 @@ export async function GET(
           { totalShares: 0, participantShare: 0 },
         )
 
-        const isPaidByParticipant = expense.paidById === participant.id
+        const isPaidByParticipant = expense.paidBy.some(
+          (pb) => pb.participantId === participant.id,
+        )
         const participantAmountShare = +(
           ((expense.amount / totalShares) * participantShare) /
           100

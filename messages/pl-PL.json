@@ -140,7 +140,6 @@
       "recurrenceRule": {
         "label": "Expense Recurrence",
         "description": "Select how often the expense should repeat.",
-
         "none": "None",
         "daily": "Daily",
         "weekly": "Weekly",
@@ -214,7 +213,9 @@
     "save": "Zapisz",
     "saving": "Zapisywanie…",
     "cancel": "Anuluj",
-    "reimbursement": "Zwrot środków"
+    "reimbursement": "Zwrot środków",
+    "participant": "Participant",
+    "total": "Total"
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {

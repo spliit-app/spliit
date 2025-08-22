@@ -194,6 +194,8 @@
     "selectAll": "Select all",
     "shares": "share(s)",
     "advancedOptions": "Advanced splitting options…",
+    "participant": "Participant",
+    "total": "Total",
     "SplitModeField": {
       "label": "Split mode",
       "evenly": "Evenly",
