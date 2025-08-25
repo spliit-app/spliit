@@ -190,6 +190,8 @@
     "notesField": {
       "label": "Notas"
     },
+    "copy": "Copiar",
+    "duplicate": "Duplicar",
     "selectNone": "Remover seleção",
     "selectAll": "Selecionar todos(as)",
     "shares": "parte(s)",
