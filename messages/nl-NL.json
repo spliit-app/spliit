@@ -28,7 +28,7 @@
       "title": "Wie ben jij?",
       "description": "Zeg ons welke deelnemer je bent zodat wij persoonlijke informatie kunnen aantonen.",
       "nobody": "Ik wil niemand selecteren",
-      "save": "Sla op",
+      "save": "Opslaan",
       "footer": "Deze instelling kan later worden gewijzigd in de instellingen van de groep."
     },
     "Groups": {
@@ -113,11 +113,11 @@
         "none": "Geen",
         "description": "De deelnemer die automatisch wordt geselecteerd als je een uitgave maakt."
       },
-      "save": "Sla op",
-      "saving": "Opslaan…",
-      "create": "Maak groep",
-      "creating": "Maken…",
-      "cancel": "Annuleer"
+      "save": "Opslaan",
+      "saving": "Aan het opslaan…",
+      "create": "Groep maken",
+      "creating": "Aan het maken…",
+      "cancel": "Annuleren"
     }
   },
   "ExpenseForm": {
@@ -207,7 +207,7 @@
       "byShares": "Ongelijk – Met delen",
       "byPercentage": "Ongelijk – Met percentage",
       "byAmount": "Ongelijk – Met bedrag",
-      "saveAsDefault": "Sla op als standaard-optie"
+      "saveAsDefault": "Opslaan als standaard-optie"
     },
     "DeletePopup": {
       "label": "Verwijderen",
@@ -217,11 +217,11 @@
       "cancel": "Annuleer"
     },
     "attachDocuments": "Voeg documenten toe",
-    "create": "Maak",
-    "creating": "Maken…",
-    "save": "Sla op",
-    "saving": "Opslaan…",
-    "cancel": "Annuleer",
+    "create": "Maken",
+    "creating": "Aan het maken…",
+    "save": "Opslaan",
+    "saving": "Aan het opslaan…",
+    "cancel": "Annuleren",
     "reimbursement": "Terugbetaling"
   },
   "ExpenseDocumentsInput": {
