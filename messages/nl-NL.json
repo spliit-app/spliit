@@ -20,8 +20,8 @@
         "create": "Maak uitgave",
         "createFirst": "Maak de eerste",
         "noExpenses": "Je groep heeft nog geen uitgaven.",
-        "exportJson": "Exporteren naar JSON",
-        "exportCsv": "Exporteren naar CSV",
+        "exportJson": "Exporteer naar JSON",
+        "exportCsv": "Exporteer naar CSV",
         "searchPlaceholder": "Zoek naar een uitgave…",
         "ActiveUserModal": {
             "title": "Wie ben jij?",
@@ -39,7 +39,7 @@
             "lastYear": "Vorig jaar",
             "older": "Ouder"
         },
-        "export": "Exporteren"
+        "export": "Exporteer"
     },
     "ExpenseCard": {
         "paidBy": "Betaald door <strong>{paidBy}</strong> voor <paidFor></paidFor>",
