@@ -165,7 +165,6 @@
       "recurrenceRule": {
         "label": "支出の繰り返し",
         "description": "支出の繰り返し頻度を選択してください。",
-
         "none": "なし",
         "daily": "毎日",
         "weekly": "毎週",

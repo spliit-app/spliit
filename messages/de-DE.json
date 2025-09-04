@@ -140,7 +140,6 @@
       "recurrenceRule": {
         "label": "Wiederholung der Einnahme",
         "description": "Wähle aus, wie oft die Einnahme wiederholt werden soll.",
-
         "none": "Keine Wiederholung",
         "daily": "Täglich",
         "weekly": "Wöchentlich",
@@ -174,7 +173,6 @@
       "recurrenceRule": {
         "label": "Wiederholung der Ausgabe",
         "description": "Wähle aus, wie oft die Ausgabe wiederholt werden soll.",
-
         "none": "Keine Wiederholung",
         "daily": "Täglich",
         "weekly": "Wöchentlich",

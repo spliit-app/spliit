@@ -39,8 +39,7 @@
       "earlierThisYear": "Wcześniej w tym roku",
       "lastYear": "Poprzedni rok",
       "older": "Starsze"
-    },
-    "export": "Eksportuj"
+    }
   },
   "ExpenseCard": {
     "paidBy": "Opłacone przez <strong>{paidBy}</strong> dla <paidFor></paidFor>",
