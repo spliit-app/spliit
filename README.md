@@ -49,8 +49,8 @@ The project's translations are managed using [our Weblate project](https://hoste
 You can easily add missing translations to the project or even add a new language!
 Here is the current state of translation:
 
-<a href="https://hosted.weblate.org/engage/finamp/">
-  <img src="https://hosted.weblate.org/widget/finamp/finamp/horizontal-auto.svg" alt="Translation status" />
+<a href="https://hosted.weblate.org/engage/spliit/">
+  <img src="https://hosted.weblate.org/widget/spliit/spliit/horizontal-auto.svg" alt="Translation status" />
 </a>
 
 ## Run locally
