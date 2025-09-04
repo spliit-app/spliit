@@ -128,15 +128,6 @@
         "placeholder": "Cina de luni seară",
         "description": "Adaugă o descriere pentru venit."
       },
-      "recurrenceRule": {
-        "label": "Expense Recurrence",
-        "description": "Select how often the expense should repeat.",
-
-        "none": "None",
-        "daily": "Daily",
-        "weekly": "Weekly",
-        "monthly": "Monthly"
-      },
       "DateField": {
         "label": "Data venitului",
         "description": "Adaugă data la care venitul a fost primit."

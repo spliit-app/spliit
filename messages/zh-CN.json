@@ -137,15 +137,6 @@
         "label": "接收到",
         "description": "选择接收到这笔收入的群组成员。"
       },
-      "recurrenceRule": {
-        "label": "Expense Recurrence",
-        "description": "Select how often the expense should repeat.",
-
-        "none": "None",
-        "daily": "Daily",
-        "weekly": "Weekly",
-        "monthly": "Monthly"
-      },
       "paidFor": {
         "title": "接收给",
         "description": "选择收入是为谁而收。"

@@ -137,15 +137,6 @@
         "label": "Получивший",
         "description": "Выберите участника, который получил этот доход."
       },
-      "recurrenceRule": {
-        "label": "Expense Recurrence",
-        "description": "Select how often the expense should repeat.",
-
-        "none": "None",
-        "daily": "Daily",
-        "weekly": "Weekly",
-        "monthly": "Monthly"
-      },
       "paidFor": {
         "title": "Участники",
         "description": "Выберите тех, между кем этот доход будет распределен."
