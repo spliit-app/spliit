@@ -39,7 +39,8 @@
       "earlierThisYear": "Wcześniej w tym roku",
       "lastYear": "Poprzedni rok",
       "older": "Starsze"
-    }
+    },
+    "export": "Eksportuj"
   },
   "ExpenseCard": {
     "paidBy": "Opłacone przez <strong>{paidBy}</strong> dla <paidFor></paidFor>",
@@ -175,7 +176,15 @@
         "description": "Wybierz kogo dotyczył wydatek."
       },
       "splitModeDescription": "Wybierz jak podzielić wydatek.",
-      "attachDescription": "Zobacz i załącz rachunki do wydatku."
+      "attachDescription": "Zobacz i załącz rachunki do wydatku.",
+      "recurrenceRule": {
+        "description": "Wybierz jak często powtarza się dany wydatek.",
+        "none": "Brak",
+        "daily": "Codziennie",
+        "weekly": "Co tydzień",
+        "monthly": "Co miesiąc",
+        "label": "Powtarzający się wydatek"
+      }
     },
     "amountField": {
       "label": "Suma"
@@ -370,8 +379,9 @@
       "Education": "Edukacja",
       "Gifts": "Prezenty",
       "Insurance": "Ubezpieczenie",
-      "Medical Expenses": "Leczenie",
-      "Taxes": "Podatki"
+      "Medical Expenses": "Wydatki medyczne",
+      "Taxes": "Podatki",
+      "Donation": "Darowizna"
     },
     "Transportation": {
       "heading": "Transport",

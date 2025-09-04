@@ -20,9 +20,9 @@
     "create": "Maak uitgave",
     "createFirst": "Maak de eerste",
     "noExpenses": "Je groep heeft nog geen uitgaven.",
-    "export": "Exporteer",
-    "exportJson": "Exporteer naar JSON",
-    "exportCsv": "Exporteer naar CSV",
+    "export": "Exporteren",
+    "exportJson": "Exporteren naar JSON",
+    "exportCsv": "Exporteren naar CSV",
     "searchPlaceholder": "Zoek naar een uitgave…",
     "ActiveUserModal": {
       "title": "Wie ben jij?",
