@@ -1,18 +1,6 @@
+import deepmerge from 'deepmerge'
 import { getRequestConfig } from 'next-intl/server'
 import { getUserLocale } from './lib/locale'
-
-function mergeDeep<T>(target: T, source: Partial<T>): T {
-  for (const key in source) {
-    const value = (source as any)[key]
-    if (value && typeof value === 'object' && !Array.isArray(value)) {
-      ;(target as any)[key] = mergeDeep((target as any)[key] || {}, value)
-    } else {
-      ;(target as any)[key] = value
-    }
-  }
-  return target
-}
-
 
 export const localeLabels = {
   'en-US': 'English',
@@ -44,15 +32,20 @@ export const defaultLocale: Locale = 'en-US'
 
 export default getRequestConfig(async () => {
   const locale = await getUserLocale()
-
-  const defaultMessages = (await import('../messages/en-US.json')).default
   const localeMessages = (await import(`../messages/${locale}.json`)).default
 
-  const messages = mergeDeep(structuredClone(defaultMessages), localeMessages)
-
+  let messages: any
+  if (locale === defaultLocale) {
+    messages = localeMessages
+  } else {
+    messages = deepmerge(
+      (await import(`../messages/${defaultLocale}.json`)).default,
+      localeMessages,
+    ) as any
+  }
 
   return {
-    locale,   
+    locale,
     messages,
   }
 })
