@@ -168,6 +168,7 @@
       "categoryFieldDescription": "Wähle eine Kategorie für die Ausgabe.",
       "paidByField": {
         "label": "Gezahlt von",
+        "placeholder": "Wähle ein Mitglied",
         "description": "Wähle das Mitglied, das die Ausgabe bezahlt hat."
       },
       "recurrenceRule": {
