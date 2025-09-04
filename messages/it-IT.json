@@ -51,8 +51,8 @@
     "loadingRecent": "Caricamento gruppi recenti…",
     "NoRecent": {
       "description": "Non hai visitato nessun gruppo di recente.",
-      "create": "Creane una",
-      "orAsk": "oppure chiedi a un amico di inviarti il ​​collegamento a uno esistente."
+      "create": "Creane uno",
+      "orAsk": "oppure chiedi a un amico di inviarti il ​​collegamento ad uno esistente."
     },
     "recent": "Gruppi recenti",
     "starred": "Gruppi speciali",
@@ -136,6 +136,15 @@
       "paidByField": {
         "label": "Ricevuta da",
         "description": "Seleziona il partecipante che ha ricevuto l'entrata."
+      },
+      "recurrenceRule": {
+        "label": "Spesa ricorrente",
+        "description": "Seleziona quanto spesso deve ripetersi.",
+
+        "none": "Mai",
+        "daily": "Giornaliera",
+        "weekly": "Settimanale",
+        "monthly": "Mensile"
       },
       "paidFor": {
         "title": "Ricevuto per",
