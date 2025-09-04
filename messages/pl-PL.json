@@ -176,15 +176,7 @@
         "description": "Wybierz kogo dotyczył wydatek."
       },
       "splitModeDescription": "Wybierz jak podzielić wydatek.",
-      "attachDescription": "Zobacz i załącz rachunki do wydatku.",
-      "recurrenceRule": {
-        "description": "Wybierz jak często powtarza się dany wydatek.",
-        "none": "Brak",
-        "daily": "Codziennie",
-        "weekly": "Co tydzień",
-        "monthly": "Co miesiąc",
-        "label": "Powtarzający się wydatek"
-      }
+      "attachDescription": "Zobacz i załącz rachunki do wydatku."
     },
     "amountField": {
       "label": "Suma"
@@ -380,8 +372,7 @@
       "Gifts": "Prezenty",
       "Insurance": "Ubezpieczenie",
       "Medical Expenses": "Wydatki medyczne",
-      "Taxes": "Podatki",
-      "Donation": "Darowizna"
+      "Taxes": "Podatki"
     },
     "Transportation": {
       "heading": "Transport",
