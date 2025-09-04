@@ -141,7 +141,6 @@
       "recurrenceRule": {
         "label": "Spesa ricorrente",
         "description": "Seleziona quanto spesso deve ripetersi.",
-
         "none": "Mai",
         "daily": "Giornaliera",
         "weekly": "Settimanale",
@@ -174,7 +173,6 @@
       "recurrenceRule": {
         "label": "Spesa ricorrente",
         "description": "Seleziona quanto spesso deve ripetersi.",
-
         "none": "Mai",
         "daily": "Giornaliera",
         "weekly": "Settimanale",
