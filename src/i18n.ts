@@ -18,6 +18,7 @@ export const localeLabels = {
   'tr-TR': 'Türkçe',
   'pt-BR': 'Português Brasileiro',
   'nl-NL': 'Nederlands',
+  ca: 'Català',
   'cs-CZ': 'Česky',
 } as const
 

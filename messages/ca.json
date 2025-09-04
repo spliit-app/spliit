@@ -1,0 +1,398 @@
+{
+  "Homepage": {
+    "title": "Comparteix <strong>Despeses</strong> amb <strong>Família i Amics</strong>",
+    "description": "benvinguda a <strong>Spliit</strong>!",
+    "button": {
+      "groups": "Veure els grups",
+      "github": "GitHub"
+    }
+  },
+  "Header": {
+    "groups": "Grups"
+  },
+  "Footer": {
+    "madeIn": "Fet a Montréal, Québec 🇨🇦",
+    "builtBy": "Desenvolupat per <author>Sebastien Castiel</author> i <source>col·laboradors</source>"
+  },
+  "Expenses": {
+    "title": "Despeses",
+    "description": "Aquí trobaràs les despeses que has creat al teu grup.",
+    "create": "Afegir despesa",
+    "createFirst": "Crea la primera",
+    "noExpenses": "El teu grup encara no té despeses.",
+    "exportJson": "Exportar a JSON",
+    "exportCsv": "Exportar a CSV",
+    "searchPlaceholder": "Cerca una despesa.",
+    "ActiveUserModal": {
+      "title": "Qui ets?",
+      "description": "Duige'ns quin participant ets, perquè puguem personalitzar com es mostra la informació.",
+      "nobody": "No vull seleccionar a ningú",
+      "save": "Desar canvis",
+      "footer": "Aquesta configuració pot modificar-se amb posterioritat, a la configuració del grup."
+    },
+    "Groups": {
+      "upcoming": "Pròximament",
+      "thisWeek": "Aquesta setmana",
+      "earlierThisMonth": "A inicis d'aquest mes",
+      "lastMonth": "El mes anterior",
+      "earlierThisYear": "A inicis d'aquest any",
+      "lastYear": "L'any passat",
+      "older": "Més antics"
+    }
+  },
+  "ExpenseCard": {
+    "paidBy": "Pagada per <strong>{paidBy}</strong> per a <paidFor></paidFor>",
+    "receivedBy": "Debuda per <strong>{paidBy}</strong> para <paidFor></paidFor>",
+    "yourBalance": "El teu balanç: balance:"
+  },
+  "Groups": {
+    "myGroups": "Els meus grups",
+    "create": "Crear",
+    "loadingRecent": "Arregant els grups recents…",
+    "NoRecent": {
+      "description": "No has format part de cap grup darrerament.",
+      "create": "Crea'n un",
+      "orAsk": "o demana a una amiga que et comparteixi l'enllaç a un grup ja existent"
+    },
+    "recent": "Grups recents",
+    "starred": "Grups preferits",
+    "archived": "Grups arxivats",
+    "archive": "Arxivar el grup",
+    "unarchive": "Desarxivar el grup",
+    "removeRecent": "Suprimeix dels grups recents",
+    "RecentRemovedToast": {
+      "title": "El grup ha estat eliminat",
+      "description": "El grup ha estat eliminat de la tebva llista de grups recents",
+      "undoAlt": "Reverteix la suoressió del grup",
+      "undo": "Desfer"
+    },
+    "AddByURL": {
+      "button": "Afegir mitjançant un enllaç",
+      "title": "Afegir un grup mitjançant un enllaç",
+      "description": "Si t'han compartit un grup, pots enganxar aqui el seu enllaç per afegir-lo a la teva llista",
+      "error": "Vatua l’olla! No podem trobar el grup des de l'enllaç que has proporcionat..."
+    },
+    "NotFound": {
+      "text": "Aquest grup no existeix.",
+      "link": "Anar als darrers grups visitats."
+    }
+  },
+  "GroupForm": {
+    "title": "Informació del grup",
+    "NameField": {
+      "label": "Nom del grup",
+      "placeholder": "Calçotada amb la colla",
+      "description": "Afegeix un nom per al teu nou grup."
+    },
+    "InformationField": {
+      "label": "Informació del grupo",
+      "placeholder": "Quina informació és rellevant per les participants?"
+    },
+    "CurrencyField": {
+      "label": "Símbol de la divisa",
+      "placeholder": "$, €, £…",
+      "description": "Ho farem servir per mostrar el balanç."
+    },
+    "Participants": {
+      "title": "Participants",
+      "description": "Afegeix el nom de totes les participants.",
+      "protectedParticipant": "Aquestes participants ténen despeses al seu nom i no poden ser esborrades.",
+      "new": "Nou",
+      "add": "Afegir participants",
+      "John": "Ermessenda",
+      "Jane": "Guillem",
+      "Jack": "Jaume"
+    },
+    "Settings": {
+      "title": "Configuració local",
+      "description": "Aquesta configuració s'estableix per aquest diposotiu i s'utilitzarà per personalitzar la teva experiència.",
+      "ActiveUserField": {
+        "label": "Usuària activa",
+        "placeholder": "Selecciona una participant...",
+        "none": "Cap",
+        "description": "Usuària que paga les despeses de manera predeterminada."
+      },
+      "save": "Desar",
+      "saving": "Desant",
+      "create": "Crear",
+      "creating": "Creant",
+      "cancel": "Cancel·lar"
+    }
+  },
+  "ExpenseForm": {
+    "Income": {
+      "create": "Afegir despesa",
+      "edit": "Editar despesa",
+      "TitleField": {
+        "label": "Títol de la despesa",
+        "placeholder": "Berenar-sopar",
+        "description": "Introdueix una descripció per aquesta despesa."
+      },
+      "DateField": {
+        "label": "Data de la despesa",
+        "description": "Adegeix la data de la despesa."
+      },
+      "categoryFieldDescription": "Selecciona la categoria de la despesa.",
+      "paidByField": {
+        "label": "Pagat per",
+        "description": "Selecciona la participant que ha fet el pagament."
+      },
+      "recurrenceRule": {
+        "label": "Recurrència de la despesa",
+        "description": "Selecciona amb quina freqüència cal que es repeteixi la despesa.",
+
+        "none": "Puntual",
+        "daily": "Diària",
+        "weekly": "Setmanal",
+        "monthly": "Mensual"
+      },
+      "paidFor": {
+        "title": "Pagat per a",
+        "description": "Selecciona per a qui s'ha efectuat el pagament."
+      },
+      "splitModeDescription": "Selecciona com vols dividir la despesa.",
+      "attachDescription": "Veure i adjuntar tiquets a la despesa."
+    },
+    "Expense": {
+      "create": "Crear despesa",
+      "edit": "Editar despesa",
+      "TitleField": {
+        "label": "Títol de la despesa",
+        "placeholder": "Llaunes del queviures",
+        "description": "Afegeix una descripció per la despesa."
+      },
+      "DateField": {
+        "label": "Data de la despesa",
+        "description": "Afegeix la data en que es va realitzar la despesa."
+      },
+      "categoryFieldDescription": "Selecciona la cateogria de la despesa.",
+      "paidByField": {
+        "label": "Pagat per",
+        "description": "Selecciona la participant que ha pagat la despesa."
+      },
+      "paidFor": {
+        "title": "Pagado per a",
+        "description": "Sleecciona per a qui s'ha pagat la despesa."
+      },
+      "splitModeDescription": "Selecciona com vols dividir la despesa.",
+      "attachDescription": "eure i adjuntar tiquets a la despesa."
+    },
+    "amountField": {
+      "label": "Quantitat"
+    },
+    "isReimbursementField": {
+      "label": "Això és un reemborsament"
+    },
+    "categoryField": {
+      "label": "Categoria"
+    },
+    "notesField": {
+      "label": "Notes"
+    },
+    "selectNone": "No en seleccionis cap",
+    "selectAll": "Selecciona'ls tots",
+    "shares": "parts",
+    "advancedOptions": "Opciones avanzadas",
+    "SplitModeField": {
+      "label": "Mode de divisió",
+      "evenly": "Uniforme",
+      "byShares": "Desigual: per parts",
+      "byPercentage": "Desigual: per percentatge",
+      "byAmount": "Desigual: Per quantitat",
+      "saveAsDefault": "Desa com a mode preferit"
+    },
+    "DeletePopup": {
+      "label": "Esborrar",
+      "title": "Esborrar la despesa?",
+      "description": "Segur que vols suprimir aquesta despesa? Aquesta acció és irreversible.",
+      "yes": "Sí",
+      "cancel": "Cancel·lar"
+    },
+    "attachDocuments": "Adjuntar documents",
+    "create": "Crear",
+    "creating": "Creant",
+    "save": "Desar",
+    "saving": "Desant",
+    "cancel": "Cancel·lar",
+    "reimbursement": "Reemborsament"
+  },
+  "ExpenseDocumentsInput": {
+    "TooBigToast": {
+      "title": "L'arxiu és massa gran",
+      "description": "La mida màxima que pot tenir l'arxiu és de {maxSize}. El teu pesa {size}."
+    },
+    "ErrorToast": {
+      "title": "Error al carregar el document",
+      "description": "Hi ha hagut un error al carregar el document. Torna a intentar-ho més tard o selecciona un altre arxiu.",
+      "retry": "Tornar-ho a intentar"
+    }
+  },
+  "CreateFromReceipt": {
+    "Dialog": {
+      "triggerTitle": "Crear una despesa des d'un tiquet",
+      "title": "Crear des del tiquet",
+      "description": "Extreure la informació de despeses de la foto d'un tiquet.",
+      "body": "Puja la foto d'un tiquet i l'escanejarem per extreure'n, si podem, la informaició de la despesa.",
+      "selectImage": "Seleccionar la imatge…",
+      "titleLabel": "Títol:",
+      "categoryLabel": "Categoria:",
+      "amountLabel": "Quantitat:",
+      "dateLabel": "Data:",
+      "editNext": "A continuació, podràs editar la informació de les despeses.",
+      "continue": "Continuar"
+    },
+    "unknown": "Desconegut",
+    "TooBigToast": {
+      "title": "L'arxiu és massa gran",
+      "description": "La mida màxima que pot tenir l'arxiu és de {maxSize}. El teu pesa {size}."
+    },
+    "ErrorToast": {
+      "title": "Error al carregar el document",
+      "description": "Hi ha hagut un error al carregar el document. Torna a intentar-ho més tard o selecciona un altre arxiu.",
+      "retry": "Tornar-ho a intentar"
+    }
+  },
+  "Balances": {
+    "title": "Balanç",
+    "description": "L'import total que ha pagat o rebut cada participant.",
+    "Reimbursements": {
+      "title": "Proposta de reemborsaments",
+      "description": "Suggerència per optimitzar els reemborsaments entre participants.",
+      "noImbursements": "Sembla que el teu grup no necessita cap reemborsament 😁",
+      "owes": "<strong>{from}</strong> deu a <strong>{to}</strong>",
+      "markAsPaid": "Marcar com a pagat"
+    }
+  },
+  "Stats": {
+    "title": "Estadístiques",
+    "Totals": {
+      "title": "Totals",
+      "description": "Resum de les despeses de tot el grup.",
+      "groupSpendings": "Despeses totals del grup",
+      "groupEarnings": "Ingressos totals del grup",
+      "yourSpendings": "Suma de les teves despeses",
+      "yourEarnings": "Suma dels teus ingressos",
+      "yourShare": "El teu percentatge"
+    }
+  },
+  "Activity": {
+    "title": "Activitat",
+    "description": "Aquí trobaràs totes les activitats recents del grup.",
+    "noActivity": "No hi ha activitat recent a aquest grup.",
+    "someone": "Algú",
+    "settingsModified": "La configuració del grup ha estat modificada per <strong>{participant}</strong>.",
+    "expenseCreated": "Despesa <em>{expense}</em> creada per <strong>{participant}</strong>.",
+    "expenseUpdated": "Despesa <em>{expense}</em> actualitzada per <strong>{participant}</strong>.",
+    "expenseDeleted": "Despesa <em>{expense}</em> esborrada per <strong>{participant}</strong>.",
+    "Groups": {
+      "today": "Avui",
+      "yesterday": "Ahir",
+      "earlierThisWeek": "A inicis d'aquesta setmana",
+      "lastWeek": "La setmana passada",
+      "earlierThisMonth": "A inicis d'aquest mes",
+      "lastMonth": "El mes passat",
+      "earlierThisYear": "A inicis d'aquest any",
+      "lastYear": "El darrer any",
+      "older": "Més antigues"
+    }
+  },
+  "Information": {
+    "title": "Informació",
+    "description": "Utilitza aquest apartat per afegir informació rellevant per als participants del grup.",
+    "empty": "Encara no hi ha informació sobre el grup."
+  },
+  "Settings": {
+    "title": "Configuració"
+  },
+  "Share": {
+    "title": "Compartir",
+    "description": "Comparteix l'enllaç al grup amb altres participants perquè puguin veure el grup i afegir-hi despeses.",
+    "warning": "Alerta!",
+    "warningHelp": "Tothom qui tingui l'enllaç del grup podrà veure i editar les despeses. Comparteix-lo amb cautela!"
+  },
+  "SchemaErrors": {
+    "min1": "Introdueix com a mínim un caràcter.",
+    "min2": "Introdueix com a mínim dos caràcters.",
+    "max5": "Introdueix com a màxim cinc caràcters.",
+    "max50": "Introdueix com a màxim cinquanta caràcters.",
+    "duplicateParticipantName": "Una altra participant ja té el mateix nom",
+    "titleRequired": "Si us plau, afegeix un títol",
+    "invalidNumber": "Número invàlid",
+    "amountRequired": "Cal introduïr un import",
+    "amountNotZero": "L'import no por ser zero.",
+    "amountTenMillion": "L'import ha de ser inferior a 10.000.000.",
+    "paidByRequired": "Cal seleccionar una participant",
+    "paidForMin1": "La despesa ha de ser pagada com a mínim per a una participant",
+    "noZeroShares": "Totes les participacions han de ser superiors a 0",
+    "amountSum": "La suma dels imports ha de ser igual a la suma de la despesa",
+    "percentageSum": "La suma dels percentatges ha de ser igual a 100"
+  },
+  "Categories": {
+    "search": "Cercar categoria...",
+    "noCategory": "Categoria no trobada!",
+    "Uncategorized": {
+      "heading": "Sense categoria",
+      "General": "General",
+      "Payment": "Pagament"
+    },
+    "Entertainment": {
+      "heading": "Oci",
+      "Entertainment": "Oci",
+      "Games": "Jocs",
+      "Movies": "Pel·lícules",
+      "Music": "Música",
+      "Sports": "Esport"
+    },
+    "Food and Drink": {
+      "heading": "Menjar i beure",
+      "Food and Drink": "Menjar i beure",
+      "Dining Out": "Menjar fora",
+      "Groceries": "Menjar",
+      "Liquor": "Licors"
+    },
+    "Home": {
+      "heading": "Casa",
+      "Home": "Casa",
+      "Electronics": "Elecrtònica",
+      "Furniture": "Mobles",
+      "Household Supplies": "Subministres",
+      "Maintenance": " Manteniment",
+      "Mortgage": "Hipoteca",
+      "Pets": "Mascotes",
+      "Rent": "Lloguer",
+      "Services": "Serveis"
+    },
+    "Life": {
+      "heading": "Vida",
+      "Childcare": "Cura de criatures",
+      "Clothing": "Roba",
+      "Education": "Ensenyament",
+      "Gifts": "Regals",
+      "Insurance": "Assegurança",
+      "Medical Expenses": "Despeses mèdiques",
+      "Taxes": "Impostos"
+    },
+    "Transportation": {
+      "heading": "Transport",
+      "Transportation": "Transport",
+      "Bicycle": "Bicicleta",
+      "Bus/Train": "Autobús/Tren",
+      "Car": "Cotxe",
+      "Gas/Fuel": "Gasolina/Combustible",
+      "Hotel": "Hotel",
+      "Parking": "Aparcament",
+      "Plane": "Avió",
+      "Taxi": "Taxi"
+    },
+    "Utilities": {
+      "heading": "Utilitats",
+      "Utilities": "Utilitats",
+      "Cleaning": "Neteja",
+      "Electricity": "Electricitat",
+      "Heat/Gas": "Calefacció/Gas",
+      "Trash": "Ecombraries",
+      "TV/Phone/Internet": "TV/Telèfon/Internet",
+      "Water": "Aigua"
+    }
+  }
+}
