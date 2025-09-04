@@ -38,13 +38,15 @@
       "earlierThisYear": "All'inizio di quest'anno",
       "lastYear": "Ultimo anno",
       "older": "Più vecchio"
-    }
+    },
+    "export": "Esporta"
   },
   "ExpenseCard": {
     "paidBy": "Pagato da <strong>{paidBy}</strong> per <paidFor></paidFor>",
     "receivedBy": "Ricevuto da <strong>{paidBy}</strong> per <paidFor></paidFor>",
     "yourBalance": "Il tuo saldo:",
-    "notInvolved": "Non sei coinvolto"
+    "notInvolved": "Non sei coinvolto",
+    "everyone": "tutti"
   },
   "Groups": {
     "myGroups": "I miei gruppi",
@@ -53,7 +55,7 @@
     "NoRecent": {
       "description": "Non hai visitato nessun gruppo di recente.",
       "create": "Creane uno",
-      "orAsk": "oppure chiedi a un amico di inviarti il ​​collegamento ad uno esistente."
+      "orAsk": "oppure chiedi a un amico di inviarti il link a uno esistente."
     },
     "recent": "Gruppi recenti",
     "starred": "Gruppi speciali",
@@ -71,7 +73,7 @@
       "button": "Aggiungi tramite URL",
       "title": "Aggiungi un gruppo tramite URL",
       "description": "Se un gruppo è stato condiviso con te, puoi incollare qui il suo URL per aggiungerlo al tuo elenco.",
-      "error": "Spiacenti, non siamo in grado di trovare il gruppo dall'URL che hai fornito..."
+      "error": "Oops, non siamo riusciti a trovare il gruppo dall'URL che hai fornito…"
     },
     "NotFound": {
       "text": "Questo gruppo non esiste.",
@@ -168,7 +170,8 @@
       "categoryFieldDescription": "Seleziona la categoria della spesa.",
       "paidByField": {
         "label": "Pagato da",
-        "description": "Seleziona il partecipante che ha pagato la spesa."
+        "description": "Seleziona il partecipante che ha pagato la spesa.",
+        "placeholder": "Seleziona un partecipante"
       },
       "recurrenceRule": {
         "label": "Spesa ricorrente",
@@ -326,7 +329,7 @@
     "duplicateParticipantName": "Un altro partecipante ha già questo nome.",
     "titleRequired": "Inserisci un titolo.",
     "invalidNumber": "Numero invalido.",
-    "amountRequired": "Devi inserire un importo",
+    "amountRequired": "Devi inserire un importo.",
     "amountNotZero": "L'importo non deve essere zero.",
     "amountTenMillion": "L'importo deve essere inferiore a 10.000.000.",
     "paidByRequired": "È necessario selezionare un partecipante.",
