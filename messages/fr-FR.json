@@ -140,7 +140,6 @@
       "recurrenceRule": {
         "label": "Récurrence de la dépense",
         "description": "Sélectionnez la fréquence de répétition de la dépense.",
-
         "none": "Aucune",
         "daily": "Quotidienne",
         "weekly": "Hebdomadaire",
@@ -173,7 +172,6 @@
       "recurrenceRule": {
         "label": "Récurrence de la dépense",
         "description": "Sélectionnez la fréquence de répétition de la dépense.",
-
         "none": "Aucune",
         "daily": "Quotidienne",
         "weekly": "Hebdomadaire",

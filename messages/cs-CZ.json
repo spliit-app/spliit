@@ -165,7 +165,6 @@
       "recurrenceRule": {
         "label": "Opakování výdaje",
         "description": "Vyberte, jak často se má výdaj opakovat.",
-
         "none": "Žádné",
         "daily": "Denně",
         "weekly": "Týdně",

@@ -161,20 +161,10 @@
       "paidByField": {
         "label": "Pagado por",
         "description": "Seleccione el participante que pagó el gasto."
-      },      
-      "recurrenceRule": {
-        "label": "Recurrencia del gasto",
-        "description": "Seleccione con qué frecuencia debe repetirse el gasto.",
-
-        "none": "Ninguno",
-        "daily": "Diario",
-        "weekly": "Semanal",
-        "monthly": "Mensual"
       },
       "recurrenceRule": {
         "label": "Recurrencia",
         "description": "Seleccione con qué frecuencia debe repetirse el gasto.",
-
         "none": "Ninguno",
         "daily": "Diario",
         "weekly": "Semanal",
