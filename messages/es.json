@@ -171,6 +171,15 @@
         "weekly": "Semanal",
         "monthly": "Mensual"
       },
+      "recurrenceRule": {
+        "label": "Recurrencia",
+        "description": "Seleccione con qué frecuencia debe repetirse el gasto.",
+
+        "none": "Ninguno",
+        "daily": "Diario",
+        "weekly": "Semanal",
+        "monthly": "Mensual"
+      },
       "paidFor": {
         "title": "Pagado para",
         "description": "Seleccione para quién se pagó el gasto."
