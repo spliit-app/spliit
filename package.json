@@ -64,6 +64,7 @@
     "server-only": "^0.0.1",
     "sharp": "^0.33.2",
     "superjson": "^2.2.1",
+    "swr": "^2.3.3",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
     "ts-pattern": "^5.0.6",
