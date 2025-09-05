@@ -1,7 +1,7 @@
 {
   "Homepage": {
     "title": "Condividi <strong>Spese</strong> con <strong>Amici & Familiari</strong>",
-    "description": "Benvenuto nella tua nuova instanza di <strong>Spliit</strong>!",
+    "description": "Benvenuto nella tua nuova installazione di <strong>Spliit</strong>!",
     "button": {
       "groups": "Vai ai gruppi",
       "github": "GitHub"
@@ -12,7 +12,7 @@
   },
   "Footer": {
     "madeIn": "Realizzato a Montréal, Québec 🇨🇦",
-    "builtBy": "Costruito da <author>Sebastien Castiel</author> e <source>contributori</source>"
+    "builtBy": "Sviluppato da <author>Sebastien Castiel</author> e <source>contributori</source>"
   },
   "Expenses": {
     "title": "Spese",
@@ -38,12 +38,15 @@
       "earlierThisYear": "All'inizio di quest'anno",
       "lastYear": "Ultimo anno",
       "older": "Più vecchio"
-    }
+    },
+    "export": "Esporta"
   },
   "ExpenseCard": {
     "paidBy": "Pagato da <strong>{paidBy}</strong> per <paidFor></paidFor>",
     "receivedBy": "Ricevuto da <strong>{paidBy}</strong> per <paidFor></paidFor>",
-    "yourBalance": "Il tuo bilancio:"
+    "yourBalance": "Il tuo saldo:",
+    "notInvolved": "Non sei coinvolto",
+    "everyone": "tutti"
   },
   "Groups": {
     "myGroups": "I miei gruppi",
@@ -51,8 +54,8 @@
     "loadingRecent": "Caricamento gruppi recenti…",
     "NoRecent": {
       "description": "Non hai visitato nessun gruppo di recente.",
-      "create": "Creane una",
-      "orAsk": "oppure chiedi a un amico di inviarti il ​​collegamento a uno esistente."
+      "create": "Creane uno",
+      "orAsk": "oppure chiedi a un amico di inviarti il link a uno esistente."
     },
     "recent": "Gruppi recenti",
     "starred": "Gruppi speciali",
@@ -70,7 +73,7 @@
       "button": "Aggiungi tramite URL",
       "title": "Aggiungi un gruppo tramite URL",
       "description": "Se un gruppo è stato condiviso con te, puoi incollare qui il suo URL per aggiungerlo al tuo elenco.",
-      "error": "Spiacenti, non siamo in grado di trovare il gruppo dall'URL che hai fornito..."
+      "error": "Oops, non siamo riusciti a trovare il gruppo dall'URL che hai fornito…"
     },
     "NotFound": {
       "text": "Questo gruppo non esiste.",
@@ -132,50 +135,58 @@
         "label": "Data entrata",
         "description": "Inserisci la data in cui è stato ricevuta l'entrata."
       },
-      "categoryFieldDescription": "Seleziona categoria entrata.",
+      "categoryFieldDescription": "Seleziona la categoria dell'entrata.",
       "paidByField": {
-        "label": "Ricevuto da",
-        "description": "Seleziona partecipante che ha ricevuto l'entrata."
+        "label": "Ricevuta da",
+        "description": "Seleziona il partecipante che ha ricevuto l'entrata."
       },
       "recurrenceRule": {
-        "label": "Expense Recurrence",
-        "description": "Select how often the expense should repeat.",
-
-        "none": "None",
-        "daily": "Daily",
-        "weekly": "Weekly",
-        "monthly": "Monthly"
+        "label": "Spesa ricorrente",
+        "description": "Seleziona quanto spesso deve ripetersi.",
+        "none": "Mai",
+        "daily": "Giornaliera",
+        "weekly": "Settimanale",
+        "monthly": "Mensile"
       },
       "paidFor": {
         "title": "Ricevuto per",
-        "description": "Seleziona per chi è stato ricevuta l'entrata."
+        "description": "Seleziona per chi è stato ricevuto il reddito."
       },
       "splitModeDescription": "Seleziona come dividere l'entrata.",
-      "attachDescription": "Vedi allegati entrata."
+      "attachDescription": "Vedi ed allega la ricevuta per l'entrata."
     },
     "Expense": {
       "create": "Crea spesa",
-      "edit": "Modifica spesa",
+      "edit": "Edita spesa",
       "TitleField": {
-        "label": "Titolo spesa",
+        "label": "Titolo Spesa",
         "placeholder": "Ristorante del lunedì sera",
-        "description": "Inserisci una descrizione per l'uscita."
+        "description": "Inserisci una descrizione per la spesa."
       },
       "DateField": {
         "label": "Data spesa",
-        "description": "Inserisci la data di quando è stata fatta la spesa"
+        "description": "Inserisci la data in cui si è svolta la spesa."
       },
-      "categoryFieldDescription": "Seleziona una categoria per la spesa.",
+      "categoryFieldDescription": "Seleziona la categoria della spesa.",
       "paidByField": {
         "label": "Pagato da",
-        "description": "Seleziona il partecipante che ha pagato la spesa."
+        "description": "Seleziona il partecipante che ha pagato la spesa.",
+        "placeholder": "Seleziona un partecipante"
+      },
+      "recurrenceRule": {
+        "label": "Spesa ricorrente",
+        "description": "Seleziona quanto spesso deve ripetersi.",
+        "none": "Mai",
+        "daily": "Giornaliera",
+        "weekly": "Settimanale",
+        "monthly": "Mensile"
       },
       "paidFor": {
         "title": "Pagato per",
-        "description": "Seleziona per chi è stata pagato."
+        "description": "Seleleziona per chi è stato pagato."
       },
       "splitModeDescription": "Seleziona come dividere la spesa.",
-      "attachDescription": "Vedi allegati spesa."
+      "attachDescription": "Vedi ed allega la ricevuta per la spesa."
     },
     "amountField": {
       "label": "Importo"
@@ -318,7 +329,7 @@
     "duplicateParticipantName": "Un altro partecipante ha già questo nome.",
     "titleRequired": "Inserisci un titolo.",
     "invalidNumber": "Numero invalido.",
-    "amountRequired": "Devi inserire un importo",
+    "amountRequired": "Devi inserire un importo.",
     "amountNotZero": "L'importo non deve essere zero.",
     "amountTenMillion": "L'importo deve essere inferiore a 10.000.000.",
     "paidByRequired": "È necessario selezionare un partecipante.",
@@ -351,11 +362,11 @@
       "Liquor": "Liquori"
     },
     "Home": {
-      "heading": "Home",
-      "Home": "Home",
-      "Electronics": "Elettronica",
-      "Furniture": "Mobilia",
-      "Household Supplies": "Forniture per la casa",
+      "heading": "Casa",
+      "Home": "Casa",
+      "Electronics": "Elettronica di consumo",
+      "Furniture": "Mobili",
+      "Household Supplies": "Prodotti per la casa",
       "Maintenance": "Manutenzione",
       "Mortgage": "Mutuo",
       "Pets": "Animali",
@@ -363,12 +374,13 @@
       "Services": "Servizi"
     },
     "Life": {
-      "heading": "Life",
-      "Childcare": "Assistenza all'infanzia",
-      "Clothing": "Vestiti",
+      "heading": "Vita",
+      "Childcare": "Cura dei bambini",
+      "Clothing": "Abbigliamento",
+      "Donation": "Donazioni",
       "Education": "Istruzione",
       "Gifts": "Regali",
-      "Insurance": "Assicurazione",
+      "Insurance": "Assicurazioni",
       "Medical Expenses": "Spese Mediche",
       "Taxes": "Tasse"
     },
@@ -385,12 +397,12 @@
       "Taxi": "Taxi"
     },
     "Utilities": {
-      "heading": "Utilità",
-      "Utilities": "Utilità",
-      "Cleaning": "Pulizia",
+      "heading": "Utenze",
+      "Utilities": "Utenze",
+      "Cleaning": "Pulizie",
       "Electricity": "Elettricità",
       "Heat/Gas": "Riscaldamento/Gas",
-      "Trash": "Spazzatura",
+      "Trash": "Rifiuti",
       "TV/Phone/Internet": "TV/Telefono/Internet",
       "Water": "Acqua"
     }

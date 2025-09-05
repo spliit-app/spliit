@@ -138,13 +138,12 @@
         "description": "Sélectionnez le participant qui a reçu le revenu."
       },
       "recurrenceRule": {
-        "label": "Expense Recurrence",
-        "description": "Select how often the expense should repeat.",
-
-        "none": "None",
-        "daily": "Daily",
-        "weekly": "Weekly",
-        "monthly": "Monthly"
+        "label": "Récurrence de la dépense",
+        "description": "Sélectionnez la fréquence de répétition de la dépense.",
+        "none": "Aucune",
+        "daily": "Quotidienne",
+        "weekly": "Hebdomadaire",
+        "monthly": "Mensuelle"
       },
       "paidFor": {
         "title": "Reçu pour",
@@ -169,6 +168,14 @@
       "paidByField": {
         "label": "Payé par",
         "description": "Sélectionnez le participant qui a réglé la dépense."
+      },
+      "recurrenceRule": {
+        "label": "Récurrence de la dépense",
+        "description": "Sélectionnez la fréquence de répétition de la dépense.",
+        "none": "Aucune",
+        "daily": "Quotidienne",
+        "weekly": "Hebdomadaire",
+        "monthly": "Mensuelle"
       },
       "paidFor": {
         "title": "Payé pour",

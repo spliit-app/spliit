@@ -43,8 +43,10 @@
   },
   "ExpenseCard": {
     "paidBy": "Paid by <strong>{paidBy}</strong> for <paidFor></paidFor>",
+    "everyone": "everyone",
     "receivedBy": "Received by <strong>{paidBy}</strong> for <paidFor></paidFor>",
-    "yourBalance": "Your balance:"
+    "yourBalance": "Your balance:",
+    "notInvolved": "You are not involved"
   },
   "Groups": {
     "myGroups": "My groups",
@@ -160,6 +162,7 @@
       "categoryFieldDescription": "Select the expense category.",
       "paidByField": {
         "label": "Paid by",
+        "placeholder": "Select a participant",
         "description": "Select the participant who paid the expense."
       },
       "recurrenceRule": {

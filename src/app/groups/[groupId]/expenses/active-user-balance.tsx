@@ -18,7 +18,7 @@ export function ActiveUserBalance({ groupId, currency, expense }: Props) {
   }
 
   const balances = getBalances([expense])
-  let fmtBalance = <>You are not involved</>
+  let fmtBalance = <>{t('notInvolved')}</>
   if (Object.hasOwn(balances, activeUserId)) {
     const balance = balances[activeUserId]
     let balanceDetail = <></>

@@ -20,6 +20,7 @@
     "create": "Crear gasto",
     "createFirst": "Crea el primero",
     "noExpenses": "Tu grupo aun no tiene gastos.",
+    "export": "Exportar",
     "exportJson": "Exportar a JSON",
     "exportCsv": "Exportar a CSV",
     "searchPlaceholder": "Busca un gasto…",
@@ -137,15 +138,6 @@
         "label": "Recibido por",
         "description": "Seleccione el participante que recibió los ingresos."
       },
-      "recurrenceRule": {
-        "label": "Recurrencia del gasto",
-        "description": "Seleccione con qué frecuencia debe repetirse el gasto.",
-
-        "none": "Ninguno",
-        "daily": "Diario",
-        "weekly": "Semanal",
-        "monthly": "Mensual"
-      },
       "paidFor": {
         "title": "Recibido para for",
         "description": "Seleccione para quién se recibió el ingreso."
@@ -169,6 +161,14 @@
       "paidByField": {
         "label": "Pagado por",
         "description": "Seleccione el participante que pagó el gasto."
+      },
+      "recurrenceRule": {
+        "label": "Recurrencia",
+        "description": "Seleccione con qué frecuencia debe repetirse el gasto.",
+        "none": "Ninguno",
+        "daily": "Diario",
+        "weekly": "Semanal",
+        "monthly": "Mensual"
       },
       "paidFor": {
         "title": "Pagado para",
@@ -259,7 +259,7 @@
       "title": "Reembolsos propuestos",
       "description": "He aquí algunas sugerencias para optimizar los reembolsos entre los participantes.",
       "noImbursements": "Parece que tu grupo no necesita ningún reembolso 😁",
-      "owes": "<strong>{from}</strong> debe <strong>{to}</strong>",
+      "owes": "<strong>{from}</strong> debe a <strong>{to}</strong>",
       "markAsPaid": "Marcar como pagado"
     }
   },

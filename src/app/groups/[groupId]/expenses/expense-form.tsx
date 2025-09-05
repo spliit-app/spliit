@@ -474,7 +474,9 @@ export function ExpenseForm({
                     defaultValue={getSelectedPayer(field)}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a participant" />
+                      <SelectValue
+                        placeholder={t(`${sExpense}.paidByField.placeholder`)}
+                      />
                     </SelectTrigger>
                     <SelectContent>
                       {group.participants.map(({ id, name }) => (
