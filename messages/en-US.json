@@ -193,6 +193,8 @@
     "notesField": {
       "label": "Notes"
     },
+    "copy": "Copy",
+    "duplicate": "Duplicate expense",
     "selectNone": "Select none",
     "selectAll": "Select all",
     "shares": "share(s)",

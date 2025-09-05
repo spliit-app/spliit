@@ -20,6 +20,7 @@
     "create": "Criar despesa",
     "createFirst": "Crie a primeira",
     "noExpenses": "Seu grupo ainda não contém nenhuma despesa.",
+    "export": "Exportar",
     "exportJson": "Exportar para JSON",
     "exportCsv": "Exportar para CSV",
     "searchPlaceholder": "Pesquisar por uma despesa…",
@@ -161,6 +162,15 @@
         "label": "Pago por",
         "description": "Selecione o participante que pagou a despesa."
       },
+      "recurrenceRule": {
+        "label": "Recorrência da despesa",
+        "description": "Selecione a frequência de repetição da despesa.",
+
+        "none": "Nenhuma",
+        "daily": "Diariamente",
+        "weekly": "Semanalmente",
+        "monthly": "Mensalmente"
+      },
       "paidFor": {
         "title": "Pago para",
         "description": "Selecione para quem a despesa foi paga."
@@ -180,6 +190,8 @@
     "notesField": {
       "label": "Notas"
     },
+    "copy": "Copiar",
+    "duplicate": "Duplicar",
     "selectNone": "Remover seleção",
     "selectAll": "Selecionar todos(as)",
     "shares": "parte(s)",
@@ -357,6 +369,7 @@
       "heading": "Vida",
       "Childcare": "Cuidados infantis",
       "Clothing": "Roupas",
+      "Donation": "Doação",
       "Education": "Educação",
       "Gifts": "Presentes",
       "Insurance": "Seguro",

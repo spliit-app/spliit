@@ -16,7 +16,7 @@ export type DateTimeStyle = NonNullable<
 export function formatDate(
   date: Date,
   locale: string,
-  options: { dateStyle?: DateTimeStyle; timeStyle?: DateTimeStyle } = {},
+  options: { dateStyle?: DateTimeStyle; timeStyle?: DateTimeStyle; timeZone?: string } = {},
 ) {
   return date.toLocaleString(locale, {
     ...options,

@@ -197,6 +197,8 @@
     "notesField": {
       "label": "Notizen"
     },
+    "copy": "Kopie",
+    "duplicate": "Ausgabe duplizieren",
     "selectNone": "Keine auswählen",
     "selectAll": "Alle auswählen",
     "shares": "Anteil(e)",
