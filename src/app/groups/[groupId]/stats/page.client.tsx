@@ -13,7 +13,7 @@ export function TotalsPageClient() {
 
   return (
     <>
-      <Card className="mb-4">
+      <Card className="mb-4" data-testid="stats-content">
         <CardHeader>
           <CardTitle>{t('Totals.title')}</CardTitle>
           <CardDescription>{t('Totals.description')}</CardDescription>

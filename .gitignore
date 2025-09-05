@@ -25,6 +25,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# crush
+.crush/
+test-results/
+
 # local env files
 .env*.local
 *.env

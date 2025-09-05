@@ -30,7 +30,7 @@ const nextConfig = {
   // Required to run in a codespace (see https://github.com/vercel/next.js/issues/58019)
   experimental: {
     serverActions: {
-        allowedOrigins: ['localhost:3000'],
+        allowedOrigins: ['localhost:3000', 'localhost:3003'],
     },
 },
 }

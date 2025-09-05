@@ -13,7 +13,8 @@ export const EditGroup = () => {
   if (isLoading) return <></>
 
   return (
-    <GroupForm
+    <div data-testid="edit-content">
+      <GroupForm
       group={data?.group}
       onSubmit={async (groupFormValues, participantId) => {
         await mutateAsync({ groupId, participantId, groupFormValues })
@@ -21,5 +22,6 @@ export const EditGroup = () => {
       }}
       protectedParticipantIds={data?.participantsWithExpenses}
     />
+    </div>
   )
 }
