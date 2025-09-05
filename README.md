@@ -50,7 +50,7 @@ You can easily add missing translations to the project or even add a new languag
 Here is the current state of translation:
 
 <a href="https://hosted.weblate.org/engage/spliit/">
-  <img src="https://hosted.weblate.org/widget/spliit/spliit/horizontal-auto.svg" alt="Translation status" />
+<img src="https://hosted.weblate.org/widget/spliit/spliit/multi-auto.svg" alt="Translation status" />
 </a>
 
 ## Run locally
