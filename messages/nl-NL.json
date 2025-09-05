@@ -45,7 +45,8 @@
     "paidBy": "Betaald door <strong>{paidBy}</strong> voor <paidFor></paidFor>",
     "everyone": "iedereen",
     "receivedBy": "Ontvangen door <strong>{paidBy}</strong> voor <paidFor></paidFor>",
-    "yourBalance": "Jouw balans:"
+    "yourBalance": "Jouw balans:",
+    "notInvolved": "Je bent hier niet bij betrokken"
   },
   "Groups": {
     "myGroups": "Mijn groepen",
@@ -169,7 +170,8 @@
       "categoryFieldDescription": "Selecteer de uitgavecategorie.",
       "paidByField": {
         "label": "Betaald door",
-        "description": "Selecteer de deelnemer die de uitgave heeft gedaan."
+        "description": "Selecteer de deelnemer die de uitgave heeft gedaan.",
+        "placeholder": "Selecteer een deelnemer"
       },
       "recurrenceRule": {
         "label": "Terugkerende uitgave",
@@ -201,7 +203,7 @@
     "selectNone": "Selecteer niemand",
     "selectAll": "Selecteer iedereen",
     "shares": "deel/delen",
-    "advancedOptions": "Geavanceerde split-opties",
+    "advancedOptions": "Andere split-opties…",
     "SplitModeField": {
       "label": "Split soort",
       "evenly": "Gelijk verdeeld",
@@ -213,7 +215,7 @@
     "DeletePopup": {
       "label": "Verwijderen",
       "title": "Deze uitgave verwijderen?",
-      "description": "Wil je deze uitgave echt verwijderen?",
+      "description": "Wil je deze uitgave echt verwijderen? Dit kan niet ongedaan worden.",
       "yes": "Ja",
       "cancel": "Annuleer"
     },
