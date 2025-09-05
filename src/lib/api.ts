@@ -1,3 +1,4 @@
+import { getRuntimeFeatureFlags } from '@/lib/featureFlags'
 import { prisma } from '@/lib/prisma'
 import { ExpenseFormValues, GroupFormValues } from '@/lib/schemas'
 import {
@@ -12,6 +13,15 @@ export function randomId() {
   return nanoid()
 }
 
+export async function getGlobalGroups() {
+  if (!(await getRuntimeFeatureFlags()).enableGlobalGroups) {
+    return []
+  }
+  return await prisma.group.findMany({
+    where: { isGlobal: true },
+  })
+}
+
 export async function createGroup(groupFormValues: GroupFormValues) {
   return prisma.group.create({
     data: {
@@ -19,6 +29,7 @@ export async function createGroup(groupFormValues: GroupFormValues) {
       name: groupFormValues.name,
       information: groupFormValues.information,
       currency: groupFormValues.currency,
+      isGlobal: groupFormValues.isGlobal,
       participants: {
         createMany: {
           data: groupFormValues.participants.map(({ name }) => ({
@@ -293,6 +304,7 @@ export async function updateGroup(
       name: groupFormValues.name,
       information: groupFormValues.information,
       currency: groupFormValues.currency,
+      isGlobal: groupFormValues.isGlobal,
       participants: {
         deleteMany: existingGroup.participants.filter(
           (p) => !groupFormValues.participants.some((p2) => p2.id === p.id),

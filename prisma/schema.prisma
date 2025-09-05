@@ -20,6 +20,7 @@ model Group {
   expenses     Expense[]
   activities   Activity[]
   createdAt    DateTime      @default(now())
+  isGlobal     Boolean       @default(false)
 }
 
 model Participant {
