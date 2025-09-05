@@ -98,7 +98,8 @@
     },
     "CurrencyCodeField": {
       "label": "Main currency",
-      "description": "All amounts and balances will be in this currency. Changing this will NOT convert expenses already entered.",
+      "createDescription": "All amounts and balances will be in this currency.",
+      "editDescription": "All amounts and balances will be in this currency. Changing this will NOT convert expenses already entered, except when the currency has different \"minor units\" than the current one (e.g. changing from US Dollar to Japanese Yen)",
       "customOption": "Custom"
     },
     "Participants": {

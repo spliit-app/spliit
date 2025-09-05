@@ -72,7 +72,7 @@ export function GroupForm({
       : {
           name: '',
           information: '',
-          currency: process.env.NEXT_PUBLIC_DEFAULT_CURRENCY_SYMBOL || '',
+          currencyCode: process.env.NEXT_PUBLIC_DEFAULT_CURRENCY_CODE || 'USD', // TODO: If NEXT_PUBLIC_DEFAULT_CURRENCY_CODE, is not set, determine the default currency code based on locale
           participants: [
             { name: t('Participants.John') },
             { name: t('Participants.Jane') },
@@ -176,7 +176,11 @@ export function GroupForm({
                     isLoading={false}
                   />
                   <FormDescription>
-                    {t('CurrencyCodeField.description')}
+                    {t(
+                      group
+                        ? 'CurrencyCodeField.editDescription'
+                        : 'CurrencyCodeField.createDescription',
+                    )}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -187,13 +191,12 @@ export function GroupForm({
               control={form.control}
               name="currency"
               render={({ field }) => (
-                <FormItem>
+                <FormItem hidden={!!form.watch('currencyCode')?.length}>
                   <FormLabel>{t('CurrencyField.label')}</FormLabel>
                   <FormControl>
                     <Input
                       className="text-base"
                       placeholder={t('CurrencyField.placeholder')}
-                      disabled={!!form.watch('currencyCode')?.length}
                       max={5}
                       {...field}
                     />

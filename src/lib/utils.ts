@@ -81,7 +81,11 @@ export function getCurrencyFromGroup(
  * @param amount The amount, as the number of minor units of currency (cents for most currencies)
  * @param round Whether to round the amount to the nearest minor unit (e.g.: 1.5612 € => 1.56 €)
  */
-export function amountAsDecimal(amount: number, currency: Currency, round = false) {
+export function amountAsDecimal(
+  amount: number,
+  currency: Currency,
+  round = false,
+) {
   const decimal = amount / 10 ** currency.decimal_digits
   if (round) {
     return Number(decimal.toFixed(currency.decimal_digits))
