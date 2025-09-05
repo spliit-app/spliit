@@ -1,0 +1,399 @@
+{
+  "Homepage": {
+    "title": "Sdílejte <strong>výdaje</strong> s <strong>přáteli a rodinou</strong>",
+    "description": "Vítejte ve své nové instanci <strong>Spliitu</strong>!",
+    "button": {
+      "groups": "Přejít na skupiny",
+      "github": "GitHub"
+    }
+  },
+  "Header": {
+    "groups": "Skupiny"
+  },
+  "Footer": {
+    "madeIn": "Vyrobeno v Montréalu, Québec 🇨🇦",
+    "builtBy": "Vytvořil <author>Sebastien Castiel</author> a <source>další přispěvatelé</source>"
+  },
+  "Expenses": {
+    "title": "Výdaje",
+    "description": "Zde jsou výdaje, které jste vytvořili pro svou skupinu.",
+    "create": "Vytvořit výdaj",
+    "createFirst": "Vytvořit první",
+    "noExpenses": "Vaše skupina zatím neobsahuje žádné výdaje.",
+    "export": "Exportovat",
+    "exportJson": "Exportovat do JSON",
+    "exportCsv": "Exportovat do CSV",
+    "searchPlaceholder": "Hledat výdaj…",
+    "ActiveUserModal": {
+      "title": "Kdo jste?",
+      "description": "Řekněte nám, který účastník jste, abychom mohli přizpůsobit zobrazení informací.",
+      "nobody": "Nechci nikoho vybírat",
+      "save": "Uložit změny",
+      "footer": "Toto nastavení můžete později změnit v nastavení skupiny."
+    },
+    "Groups": {
+      "upcoming": "Nadcházející",
+      "thisWeek": "Tento týden",
+      "earlierThisMonth": "Dříve tento měsíc",
+      "lastMonth": "Minulý měsíc",
+      "earlierThisYear": "Dříve tento rok",
+      "lastYear": "Minulý rok",
+      "older": "Starší"
+    }
+  },
+  "ExpenseCard": {
+    "paidBy": "Zaplatil/a <strong>{paidBy}</strong> za <paidFor></paidFor>",
+    "receivedBy": "Obdržel/a <strong>{paidBy}</strong> od <paidFor></paidFor>",
+    "yourBalance": "Váš zůstatek:"
+  },
+  "Groups": {
+    "myGroups": "Moje skupiny",
+    "create": "Vytvořit",
+    "loadingRecent": "Načítání nedávných skupin…",
+    "NoRecent": {
+      "description": "Nedávno jste nenavštívili žádnou skupinu.",
+      "create": "Vytvořit skupinu",
+      "orAsk": "nebo požádejte přítele, aby vám poslal odkaz na existující."
+    },
+    "recent": "Nedávné skupiny",
+    "starred": "Oblíbené skupiny",
+    "archived": "Archivované skupiny",
+    "archive": "Archivovat skupinu",
+    "unarchive": "Zrušit archivaci skupiny",
+    "removeRecent": "Odebrat z nedávných skupin",
+    "RecentRemovedToast": {
+      "title": "Skupina byla odebrána",
+      "description": "Skupina byla odebrána ze seznamu vašich nedávných skupin.",
+      "undoAlt": "Vrátit zpět odebrání skupiny",
+      "undo": "Vrátit zpět"
+    },
+    "AddByURL": {
+      "button": "Přidat pomocí URL",
+      "title": "Přidat skupinu pomocí URL",
+      "description": "Pokud s vámi byla skupina sdílena, můžete sem vložit její URL a přidat ji do svého seznamu.",
+      "error": "Bohužel se nám nepodařilo najít skupinu podle zadané URL…"
+    },
+    "NotFound": {
+      "text": "Tato skupina neexistuje.",
+      "link": "Přejít na nedávno navštívené skupiny"
+    }
+  },
+  "GroupForm": {
+    "title": "Informace o skupině",
+    "NameField": {
+      "label": "Název skupiny",
+      "placeholder": "Letní dovolená",
+      "description": "Zadejte název své skupiny."
+    },
+    "InformationField": {
+      "label": "Informace o skupině",
+      "placeholder": "Jaké informace jsou důležité pro účastníky skupiny?"
+    },
+    "CurrencyField": {
+      "label": "Symbol měny",
+      "placeholder": "CZK, Kč, $, €, £…",
+      "description": "Použijeme ho pro zobrazení částek."
+    },
+    "Participants": {
+      "title": "Účastníci",
+      "description": "Zadejte jméno každého účastníka.",
+      "protectedParticipant": "Tento účastník je součástí výdajů a nelze jej odebrat.",
+      "new": "Nový",
+      "add": "Přidat účastníka",
+      "John": "Jan",
+      "Jane": "Jana",
+      "Jack": "Jakub"
+    },
+    "Settings": {
+      "title": "Místní nastavení",
+      "description": "Tato nastavení jsou specifická pro toto zařízení a slouží k přizpůsobení vašeho zážitku.",
+      "ActiveUserField": {
+        "label": "Aktivní uživatel",
+        "placeholder": "Vyberte účastníka",
+        "none": "Žádný",
+        "description": "Uživatel použitý jako výchozí pro placení výdajů."
+      },
+      "save": "Uložit",
+      "saving": "Ukládání…",
+      "create": "Vytvořit",
+      "creating": "Vytváření…",
+      "cancel": "Zrušit"
+    }
+  },
+  "ExpenseForm": {
+    "Income": {
+      "create": "Vytvořit příjem",
+      "edit": "Upravit příjem",
+      "TitleField": {
+        "label": "Název příjmu",
+        "placeholder": "Pondělní večerní restaurace",
+        "description": "Zadejte popis příjmu."
+      },
+      "DateField": {
+        "label": "Datum příjmu",
+        "description": "Zadejte datum, kdy byl příjem přijat."
+      },
+      "categoryFieldDescription": "Vyberte kategorii příjmu.",
+      "paidByField": {
+        "label": "Obdržel/a",
+        "description": "Vyberte účastníka, který příjem obdržel."
+      },
+      "paidFor": {
+        "title": "Obdrženo pro",
+        "description": "Vyberte, pro koho byl příjem obdržen."
+      },
+      "splitModeDescription": "Vyberte, jak rozdělit příjem.",
+      "attachDescription": "Zobrazit a připojit účtenky k příjmu."
+    },
+    "Expense": {
+      "create": "Vytvořit výdaj",
+      "edit": "Upravit výdaj",
+      "TitleField": {
+        "label": "Název výdaje",
+        "placeholder": "Pondělní večerní restaurace",
+        "description": "Zadejte popis výdaje."
+      },
+      "DateField": {
+        "label": "Datum výdaje",
+        "description": "Zadejte datum, kdy byl výdaj zaplacen."
+      },
+      "categoryFieldDescription": "Vyberte kategorii výdaje.",
+      "paidByField": {
+        "label": "Zaplatil/a",
+        "description": "Vyberte účastníka, který výdaj zaplatil."
+      },
+      "recurrenceRule": {
+        "label": "Opakování výdaje",
+        "description": "Vyberte, jak často se má výdaj opakovat.",
+        "none": "Žádné",
+        "daily": "Denně",
+        "weekly": "Týdně",
+        "monthly": "Měsíčně"
+      },
+      "paidFor": {
+        "title": "Zaplaceno pro",
+        "description": "Vyberte, pro koho byl výdaj zaplacen."
+      },
+      "splitModeDescription": "Vyberte, jak rozdělit výdaj.",
+      "attachDescription": "Zobrazit a připojit účtenky k výdaji."
+    },
+    "amountField": {
+      "label": "Částka"
+    },
+    "isReimbursementField": {
+      "label": "Toto je proplacení"
+    },
+    "categoryField": {
+      "label": "Kategorie"
+    },
+    "notesField": {
+      "label": "Poznámky"
+    },
+    "selectNone": "Nevybrat nic",
+    "selectAll": "Vybrat vše",
+    "shares": "podíl(y)",
+    "advancedOptions": "Pokročilé možnosti rozdělení…",
+    "SplitModeField": {
+      "label": "Způsob rozdělení",
+      "evenly": "Rovnoměrně",
+      "byShares": "Nerovnoměrně – podle podílů",
+      "byPercentage": "Nerovnoměrně – podle procent",
+      "byAmount": "Nerovnoměrně – podle částky",
+      "saveAsDefault": "Uložit jako výchozí možnosti rozdělení"
+    },
+    "DeletePopup": {
+      "label": "Smazat",
+      "title": "Smazat tento výdaj?",
+      "description": "Opravdu chcete tento výdaj smazat? Tato akce je nevratná.",
+      "yes": "Ano",
+      "cancel": "Zrušit"
+    },
+    "attachDocuments": "Připojit dokumenty",
+    "create": "Vytvořit",
+    "creating": "Vytváření…",
+    "save": "Uložit",
+    "saving": "Ukládání…",
+    "cancel": "Zrušit",
+    "reimbursement": "Proplacení"
+  },
+  "ExpenseDocumentsInput": {
+    "TooBigToast": {
+      "title": "Soubor je příliš velký",
+      "description": "Maximální velikost souboru, který můžete nahrát, je {maxSize}. Váš má {size}."
+    },
+    "ErrorToast": {
+      "title": "Chyba při nahrávání dokumentu",
+      "description": "Při nahrávání dokumentu došlo k chybě. Zkuste to prosím později nebo vyberte jiný soubor.",
+      "retry": "Zkusit znovu"
+    }
+  },
+  "CreateFromReceipt": {
+    "Dialog": {
+      "triggerTitle": "Vytvořit výdaj z účtenky",
+      "title": "Vytvořit z účtenky",
+      "description": "Získat informace o výdaji z fotografie účtenky.",
+      "body": "Nahrajte fotografii účtenky a my se pokusíme z ní získat informace o výdaji.",
+      "selectImage": "Vybrat obrázek…",
+      "titleLabel": "Název:",
+      "categoryLabel": "Kategorie:",
+      "amountLabel": "Částka:",
+      "dateLabel": "Datum:",
+      "editNext": "Informace o výdaji budete moci upravit v dalším kroku.",
+      "continue": "Pokračovat"
+    },
+    "unknown": "Neznámé",
+    "TooBigToast": {
+      "title": "Soubor je příliš velký",
+      "description": "Maximální velikost souboru, který můžete nahrát, je {maxSize}. Váš má {size}."
+    },
+    "ErrorToast": {
+      "title": "Chyba při nahrávání dokumentu",
+      "description": "Při nahrávání dokumentu došlo k chybě. Zkuste to prosím později nebo vyberte jiný soubor.",
+      "retry": "Zkusit znovu"
+    }
+  },
+  "Balances": {
+    "title": "Zůstatky",
+    "description": "Toto je částka, kterou každý účastník zaplatil nebo za kterou bylo zaplaceno.",
+    "Reimbursements": {
+      "title": "Navrhovaná proplacení",
+      "description": "Zde jsou návrhy na optimalizovaná proplacení mezi účastníky.",
+      "noImbursements": "Vypadá to, že vaše skupina nepotřebuje žádné proplacení 😁",
+      "owes": "<strong>{from}</strong> dluží <strong>{to}</strong>",
+      "markAsPaid": "Označit jako zaplaceno"
+    }
+  },
+  "Stats": {
+    "title": "Statistiky",
+    "Totals": {
+      "title": "Celkové součty",
+      "description": "Shrnutí výdajů celé skupiny.",
+      "groupSpendings": "Celkové výdaje skupiny",
+      "groupEarnings": "Celkové příjmy skupiny",
+      "yourSpendings": "Vaše celkové výdaje",
+      "yourEarnings": "Vaše celkové příjmy",
+      "yourShare": "Váš celkový podíl"
+    }
+  },
+  "Activity": {
+    "title": "Aktivita",
+    "description": "Přehled veškeré aktivity v této skupině.",
+    "noActivity": "Ve vaší skupině zatím není žádná aktivita.",
+    "someone": "Někdo",
+    "settingsModified": "Nastavení skupiny upravil <strong>{participant}</strong>.",
+    "expenseCreated": "Výdaj <em>{expense}</em> vytvořil <strong>{participant}</strong>.",
+    "expenseUpdated": "Výdaj <em>{expense}</em> upravil <strong>{participant}</strong>.",
+    "expenseDeleted": "Výdaj <em>{expense}</em> smazal <strong>{participant}</strong>.",
+    "Groups": {
+      "today": "Dnes",
+      "yesterday": "Včera",
+      "earlierThisWeek": "Dříve tento týden",
+      "lastWeek": "Minulý týden",
+      "earlierThisMonth": "Dříve tento měsíc",
+      "lastMonth": "Minulý měsíc",
+      "earlierThisYear": "Dříve tento rok",
+      "lastYear": "Minulý rok",
+      "older": "Starší"
+    }
+  },
+  "Information": {
+    "title": "Informace",
+    "description": "Použijte toto místo k přidání informací, které mohou být důležité pro účastníky skupiny.",
+    "empty": "Zatím žádné informace o skupině."
+  },
+  "Settings": {
+    "title": "Nastavení"
+  },
+  "Share": {
+    "title": "Sdílet",
+    "description": "Aby ostatní účastníci mohli vidět skupinu a přidávat výdaje, sdílejte s nimi její URL.",
+    "warning": "Varování!",
+    "warningHelp": "Každý, kdo má URL skupiny, bude moci zobrazit a upravovat výdaje. Sdílejte opatrně!"
+  },
+  "SchemaErrors": {
+    "min1": "Zadejte alespoň jeden znak.",
+    "min2": "Zadejte alespoň dva znaky.",
+    "max5": "Zadejte nejvýše pět znaků.",
+    "max50": "Zadejte nejvýše 50 znaků.",
+    "duplicateParticipantName": "Jiný účastník už toto jméno má.",
+    "titleRequired": "Zadejte prosím název.",
+    "invalidNumber": "Neplatné číslo.",
+    "amountRequired": "Musíte zadat částku.",
+    "amountNotZero": "Částka nesmí být nula.",
+    "amountTenMillion": "Částka musí být nižší než 10 000 000.",
+    "paidByRequired": "Musíte vybrat účastníka.",
+    "paidForMin1": "Výdaj musí být zaplacen alespoň za jednoho účastníka.",
+    "noZeroShares": "Všechny podíly musí být větší než 0.",
+    "amountSum": "Součet částek se musí rovnat částce výdaje.",
+    "percentageSum": "Součet procent musí být 100."
+  },
+  "Categories": {
+    "search": "Hledat kategorii...",
+    "noCategory": "Nebyla nalezena žádná kategorie.",
+    "Uncategorized": {
+      "heading": "Nezařazené",
+      "General": "Obecné",
+      "Payment": "Platba"
+    },
+    "Entertainment": {
+      "heading": "Zábava",
+      "Entertainment": "Zábava",
+      "Games": "Hry",
+      "Movies": "Filmy",
+      "Music": "Hudba",
+      "Sports": "Sport"
+    },
+    "Food and Drink": {
+      "heading": "Jídlo a pití",
+      "Food and Drink": "Jídlo a pití",
+      "Dining Out": "Restaurace",
+      "Groceries": "Potraviny",
+      "Liquor": "Alkohol"
+    },
+    "Home": {
+      "heading": "Domov",
+      "Home": "Domov",
+      "Electronics": "Elektronika",
+      "Furniture": "Nábytek",
+      "Household Supplies": "Domácí potřeby",
+      "Maintenance": "Údržba",
+      "Mortgage": "Hypotéka",
+      "Pets": "Domácí mazlíčci",
+      "Rent": "Nájem",
+      "Services": "Služby"
+    },
+    "Life": {
+      "heading": "Život",
+      "Childcare": "Péče o děti",
+      "Clothing": "Oblečení",
+      "Donation": "Dar",
+      "Education": "Vzdělání",
+      "Gifts": "Dárky",
+      "Insurance": "Pojištění",
+      "Medical Expenses": "Zdravotní výdaje",
+      "Taxes": "Daně"
+    },
+    "Transportation": {
+      "heading": "Doprava",
+      "Transportation": "Doprava",
+      "Bicycle": "Kolo",
+      "Bus/Train": "Autobus/Vlak",
+      "Car": "Auto",
+      "Gas/Fuel": "Benzín/Palivo",
+      "Hotel": "Hotel",
+      "Parking": "Parkování",
+      "Plane": "Letadlo",
+      "Taxi": "Taxi"
+    },
+    "Utilities": {
+      "heading": "Služby",
+      "Utilities": "Služby",
+      "Cleaning": "Úklid",
+      "Electricity": "Elektřina",
+      "Heat/Gas": "Topení/Plyn",
+      "Trash": "Odpad",
+      "TV/Phone/Internet": "TV/Telefon/Internet",
+      "Water": "Voda"
+    }
+  }
+}

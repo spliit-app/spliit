@@ -20,14 +20,15 @@
     "create": "Maak uitgave",
     "createFirst": "Maak de eerste",
     "noExpenses": "Je groep heeft nog geen uitgaven.",
-    "exportJson": "Exporteer naar JSON",
-    "exportCsv": "Exporteer naar CSV",
+    "export": "Exporteren",
+    "exportJson": "Exporteren naar JSON",
+    "exportCsv": "Exporteren naar CSV",
     "searchPlaceholder": "Zoek naar een uitgave…",
     "ActiveUserModal": {
       "title": "Wie ben jij?",
       "description": "Zeg ons welke deelnemer je bent zodat wij persoonlijke informatie kunnen aantonen.",
       "nobody": "Ik wil niemand selecteren",
-      "save": "Sla op",
+      "save": "Opslaan",
       "footer": "Deze instelling kan later worden gewijzigd in de instellingen van de groep."
     },
     "Groups": {
@@ -42,6 +43,7 @@
   },
   "ExpenseCard": {
     "paidBy": "Betaald door <strong>{paidBy}</strong> voor <paidFor></paidFor>",
+    "everyone": "iedereen",
     "receivedBy": "Ontvangen door <strong>{paidBy}</strong> voor <paidFor></paidFor>",
     "yourBalance": "Jouw balans:"
   },
@@ -112,11 +114,11 @@
         "none": "Geen",
         "description": "De deelnemer die automatisch wordt geselecteerd als je een uitgave maakt."
       },
-      "save": "Sla op",
-      "saving": "Opslaan…",
-      "create": "Maak groep",
-      "creating": "Maken…",
-      "cancel": "Annuleer"
+      "save": "Opslaan",
+      "saving": "Aan het opslaan…",
+      "create": "Groep maken",
+      "creating": "Aan het maken…",
+      "cancel": "Annuleren"
     }
   },
   "ExpenseForm": {
@@ -136,6 +138,14 @@
       "paidByField": {
         "label": "Ontvangen door",
         "description": "Selecteer de deelnemer die het inkomen heeft ontvangen."
+      },
+      "recurrenceRule": {
+        "label": "Terugkerend inkomen",
+        "description": "Kies hoe vaak het inkomen herhaald wordt.",
+        "none": "Niet",
+        "daily": "Dagelijks",
+        "weekly": "Wekelijks",
+        "monthly": "Maandelijks"
       },
       "paidFor": {
         "title": "Ontvangen voor",
@@ -160,6 +170,14 @@
       "paidByField": {
         "label": "Betaald door",
         "description": "Selecteer de deelnemer die de uitgave heeft gedaan."
+      },
+      "recurrenceRule": {
+        "label": "Terugkerende uitgave",
+        "description": "Kies hoe vaak de uitgave herhaald wordt.",
+        "none": "Niet",
+        "daily": "Dagelijks",
+        "weekly": "Wekelijks",
+        "monthly": "Maandelijks"
       },
       "paidFor": {
         "title": "Betaald voor",
@@ -190,7 +208,7 @@
       "byShares": "Ongelijk – Met delen",
       "byPercentage": "Ongelijk – Met percentage",
       "byAmount": "Ongelijk – Met bedrag",
-      "saveAsDefault": "Sla op als standaard-optie"
+      "saveAsDefault": "Opslaan als standaard-optie"
     },
     "DeletePopup": {
       "label": "Verwijderen",
@@ -200,11 +218,11 @@
       "cancel": "Annuleer"
     },
     "attachDocuments": "Voeg documenten toe",
-    "create": "Maak",
-    "creating": "Maken…",
-    "save": "Sla op",
-    "saving": "Opslaan…",
-    "cancel": "Annuleer",
+    "create": "Maken",
+    "creating": "Aan het maken…",
+    "save": "Opslaan",
+    "saving": "Aan het opslaan…",
+    "cancel": "Annuleren",
     "reimbursement": "Terugbetaling"
   },
   "ExpenseDocumentsInput": {
@@ -357,6 +375,7 @@
       "heading": "Leven",
       "Childcare": "Kinderopvang",
       "Clothing": "Kleding",
+      "Donation": "Donatie",
       "Education": "Onderwijs",
       "Gifts": "Cadeaus",
       "Insurance": "Verzekering",

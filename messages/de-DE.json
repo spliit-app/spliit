@@ -138,13 +138,12 @@
         "description": "Wähle das Mitglied, das die Einnahme erhalten hat."
       },
       "recurrenceRule": {
-        "label": "Expense Recurrence",
-        "description": "Select how often the expense should repeat.",
-
-        "none": "None",
-        "daily": "Daily",
-        "weekly": "Weekly",
-        "monthly": "Monthly"
+        "label": "Wiederholung der Einnahme",
+        "description": "Wähle aus, wie oft die Einnahme wiederholt werden soll.",
+        "none": "Keine Wiederholung",
+        "daily": "Täglich",
+        "weekly": "Wöchentlich",
+        "monthly": "Monatlich"
       },
       "paidFor": {
         "title": "Empfangen für",
@@ -168,7 +167,16 @@
       "categoryFieldDescription": "Wähle eine Kategorie für die Ausgabe.",
       "paidByField": {
         "label": "Gezahlt von",
+        "placeholder": "Wähle ein Mitglied",
         "description": "Wähle das Mitglied, das die Ausgabe bezahlt hat."
+      },
+      "recurrenceRule": {
+        "label": "Wiederholung der Ausgabe",
+        "description": "Wähle aus, wie oft die Ausgabe wiederholt werden soll.",
+        "none": "Keine Wiederholung",
+        "daily": "Täglich",
+        "weekly": "Wöchentlich",
+        "monthly": "Monatlich"
       },
       "paidFor": {
         "title": "Gezahlt für",

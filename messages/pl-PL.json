@@ -1,7 +1,7 @@
 {
   "Homepage": {
-    "title": "Podziel <strong>Wydatki</strong> z <strong>Rodziną i Przyjaciółmi</strong>",
-    "description": "Witaj na twojej nowej instancji <strong>Spliita</strong> !",
+    "title": "Dziel <strong>Wydatki</strong> z <strong>Rodziną i Przyjaciółmi</strong>",
+    "description": "Witaj na Twojej nowej instancji <strong>Spliit</strong> !",
     "button": {
       "groups": "Przejdź do grup",
       "github": "GitHub"
@@ -11,18 +11,19 @@
     "groups": "Grupy"
   },
   "Footer": {
-    "madeIn": "Stworzone Montréalu, Québec 🇨🇦",
+    "madeIn": "Stworzone w Montréalu, Québec 🇨🇦",
     "builtBy": "Napisane przez <author>Sebastien Castiela</author> i <source>kontrybutorów</source>"
   },
   "Expenses": {
     "title": "Wydatki",
-    "description": "Tutaj są wydatki, które utworzyłeś dla twojej grupy.",
+    "description": "Tutaj są wydatki, które utworzyłeś dla Twojej grupy.",
     "create": "Dodaj wydatek",
     "createFirst": "Stwórz swój pierwszy",
     "noExpenses": "Twoja grupa nie ma jeszcze żadnych wydatków.",
-    "exportJson": "Eksportuj do JSONa",
-    "exportCsv": "Eksportuj do CSVa",
-    "searchPlaceholder": "Szukaj wydatku...",
+    "export": "Eksportuj",
+    "exportJson": "Eksportuj jako JSON",
+    "exportCsv": "Eksportuj jako CSV",
+    "searchPlaceholder": "Szukaj wydatku…",
     "ActiveUserModal": {
       "title": "Kim jesteś?",
       "description": "Podaj, którym uczestnikiem jesteś aby pozwolić nam określić jakie informacje mają być wyświetlane.",
@@ -48,17 +49,17 @@
   "Groups": {
     "myGroups": "Moje grupy",
     "create": "Stwórz",
-    "loadingRecent": "Wczytywanie ostatnich grup...",
+    "loadingRecent": "Wczytywanie ostatnich grup…",
     "NoRecent": {
       "description": "Nie odwiedzałeś ostatnio żadnych grup.",
       "create": "Stwórz",
-      "orAsk": "albo poproś przyjaciela, aby ci wysłał link do już istniejącej."
+      "orAsk": "albo poproś przyjaciela, aby wysłał Ci link do już istniejącej."
     },
     "recent": "Ostatnie grupy",
-    "starred": "Ogwiazdkowane grupy",
+    "starred": "Ulubione grupy",
     "archived": "Zarchiwizowane grupy",
     "archive": "Zarchiwizuj grupę",
-    "unarchive": "Odarchwiruj grupę",
+    "unarchive": "Cofnij archiwizację grupy",
     "removeRecent": "Usuń z ostatnich grup",
     "RecentRemovedToast": {
       "title": "Grupa została usunięta",
@@ -67,10 +68,10 @@
       "undo": "Cofnij"
     },
     "AddByURL": {
-      "button": "Dodaj poprzez link URL",
-      "title": "Dodaj grupę poprzez link URL",
-      "description": "Jeśli grupa została ci udostępniona możesz wkleić jej link tutaj, aby dodać ją do twojej listy.",
-      "error": "Ups, nie możemy znaleźć grupy z podanego linka..."
+      "button": "Dodaj poprzez adres URL",
+      "title": "Dodaj grupę poprzez adres URL",
+      "description": "Jeśli grupa została Ci udostępniona, możesz wkleić jej adres URL tutaj, aby dodać ją do Twojej listy.",
+      "error": "Ups, nie możemy znaleźć grupy o podanym adresie URL…"
     },
     "NotFound": {
       "text": "Ta grupa nie istnieje.",
@@ -105,7 +106,7 @@
     },
     "Settings": {
       "title": "Ustawienia lokalne",
-      "description": "Te ustawienia są zapisywane dla tego urządzenia i służą do dostosowania twoich doświadczeń z aplikacją.",
+      "description": "Te ustawienia są zapisywane na tym urządzeniu i służą do dostosowania Twoich doświadczeń z aplikacją.",
       "ActiveUserField": {
         "label": "Aktywny użytkownik",
         "placeholder": "Wybierz użytkownika",
@@ -132,19 +133,10 @@
         "label": "Data wpływu",
         "description": "Podaj datę otrzymania wpływu."
       },
-      "categoryFieldDescription": "Wybierz typ wpływu.",
+      "categoryFieldDescription": "Wybierz kategorię wpływu.",
       "paidByField": {
         "label": "Otrzymane przez",
         "description": "Wybierz członka, który otrzymał wpływ."
-      },
-      "recurrenceRule": {
-        "label": "Expense Recurrence",
-        "description": "Select how often the expense should repeat.",
-
-        "none": "None",
-        "daily": "Daily",
-        "weekly": "Weekly",
-        "monthly": "Monthly"
       },
       "paidFor": {
         "title": "Otrzymany dla",
@@ -170,6 +162,14 @@
         "label": "Opłacone przez",
         "description": "Wybierz członka, który zapłacił."
       },
+      "recurrenceRule": {
+        "label": "Powtarzalnośc wydatku",
+        "description": "Wybierz jak często wydatek ma się powtarzać.",
+        "none": "Jednorazowo",
+        "daily": "Codziennie",
+        "weekly": "Co tydzień",
+        "monthly": "Co miesiąc"
+      },
       "paidFor": {
         "title": "Opłacone dla",
         "description": "Wybierz kogo dotyczył wydatek."
@@ -192,7 +192,7 @@
     "selectNone": "Nie wybieraj nikogo",
     "selectAll": "Wybierz wszystkich",
     "shares": "udział(y)",
-    "advancedOptions": "Zaawansowane opcje podziału...",
+    "advancedOptions": "Zaawansowane opcje podziału…",
     "SplitModeField": {
       "label": "Typ podziału",
       "evenly": "Równy",
@@ -219,7 +219,7 @@
   "ExpenseDocumentsInput": {
     "TooBigToast": {
       "title": "Ten plik jest zbyt duży",
-      "description": "Maksymalny rozmiar pliku to: {maxSize}. Twój plik ma: {size}."
+      "description": "Maksymalny rozmiar pliku to {maxSize}. Twój plik ma {size}."
     },
     "ErrorToast": {
       "title": "Błąd podczas wysyłania dokumentu",
@@ -231,9 +231,9 @@
     "Dialog": {
       "triggerTitle": "Utwórz wydatek z paragonu",
       "title": "Utwórz z paragonu",
-      "description": "Wyodrębnianie informacji o wydatkach ze zdjęcia paragonu.",
+      "description": "Wyodrębnij informacje o wydatkach ze zdjęcia paragonu.",
       "body": "Prześlij zdjęcie paragonu, a my zeskanujemy je, aby wyodrębnić informacje o wydatkach, jeśli to możliwe.",
-      "selectImage": "Wybierz obraz...",
+      "selectImage": "Wybierz obraz…",
       "titleLabel": "Tytuł:",
       "categoryLabel": "Kategoria:",
       "amountLabel": "Suma:",
@@ -244,7 +244,7 @@
     "unknown": "Nieznany",
     "TooBigToast": {
       "title": "Ten plik jest zbyt duży",
-      "description": "Maksymalny rozmiar pliku to: {maxSize}. Twój plik ma: {size}."
+      "description": "Maksymalny rozmiar pliku to {maxSize}. Twój plik ma {size}."
     },
     "ErrorToast": {
       "title": "Błąd podczas wysyłania dokumentu",
@@ -254,7 +254,7 @@
   },
   "Balances": {
     "title": "Salda",
-    "description": "Jest to kwota, którą każdy członek zapłacił lub za którą otrzymał zapłatę.",
+    "description": "Jest to kwota, którą każdy członek zapłacił lub otrzymał.",
     "Reimbursements": {
       "title": "Sugerowane zwroty",
       "description": "Oto sugestie dotyczące optymalizacji zwrotów między uczestnikami.",
@@ -298,7 +298,7 @@
   },
   "Information": {
     "title": "Informacje",
-    "description": "Użyj tego miejsca, aby dodać wszelkie informacje, które mogą być istotne dla uczestników grupy..",
+    "description": "Użyj tego miejsca, aby dodać wszelkie informacje, które mogą być istotne dla uczestników grupy.",
     "empty": "Jeszcze nic tu nie ma."
   },
   "Settings": {
@@ -320,7 +320,7 @@
     "invalidNumber": "Niewłaściwa liczba.",
     "amountRequired": "Należy wprowadzić kwotę.",
     "amountNotZero": "Kwota nie może być zerem.",
-    "amountTenMillion": "Kwota musi być niższa niż 10,000,000.",
+    "amountTenMillion": "Kwota musi być niższa niż 10 000 000.",
     "paidByRequired": "Musisz wybrać członka.",
     "paidForMin1": "Wydatek musi zostać opłacony za co najmniej jednego uczestnika.",
     "noZeroShares": "Wszystkie udziały muszą być większe niż 0.",
@@ -328,7 +328,7 @@
     "percentageSum": "Suma procentów musi być równa 100."
   },
   "Categories": {
-    "search": "Szukaj kategorii...",
+    "search": "Szukaj kategorii…",
     "noCategory": "Nie znaleziono kategorii.",
     "Uncategorized": {
       "heading": "Bez kategorii",
@@ -341,7 +341,7 @@
       "Games": "Gry",
       "Movies": "Filmy",
       "Music": "Muzyka",
-      "Sports": "Sporty"
+      "Sports": "Sport"
     },
     "Food and Drink": {
       "heading": "Jedzenie i Napoje",
@@ -357,7 +357,7 @@
       "Furniture": "Meble",
       "Household Supplies": "Artykuły gospodarstwa domowego",
       "Maintenance": "Utrzymanie",
-      "Mortgage": "Czynsz",
+      "Mortgage": "Kredyt",
       "Pets": "Zwierzaki",
       "Rent": "Czynsz",
       "Services": "Usługi"
@@ -366,6 +366,7 @@
       "heading": "Życie",
       "Childcare": "Opieka nad dzieckiem",
       "Clothing": "Ubrania",
+      "Donation": "Darowizna",
       "Education": "Edukacja",
       "Gifts": "Prezenty",
       "Insurance": "Ubezpieczenie",
@@ -376,20 +377,20 @@
       "heading": "Transport",
       "Transportation": "Transport",
       "Bicycle": "Rower",
-      "Bus/Train": "Bus/Pociąg",
+      "Bus/Train": "Autobus/Pociąg",
       "Car": "Samochód",
       "Gas/Fuel": "Paliwo",
       "Hotel": "Hotel",
       "Parking": "Parking",
-      "Plane": "Pociąg",
-      "Taxi": "Taxi"
+      "Plane": "Samolot",
+      "Taxi": "Taksówka"
     },
     "Utilities": {
       "heading": "Media",
       "Utilities": "Media",
       "Cleaning": "Sprzątanie",
-      "Electricity": "Prąg",
-      "Heat/Gas": "Ogrzewanie",
+      "Electricity": "Prąd",
+      "Heat/Gas": "Ogrzewanie/Gaz",
       "Trash": "Śmieci",
       "TV/Phone/Internet": "TV/Telefon/Internet",
       "Water": "Woda"
