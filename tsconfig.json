@@ -28,7 +28,8 @@
     "require": ["tsconfig-paths/register", "dotenv/config"],
     "compilerOptions": {
       "isolatedModules": false,
-      "module": "CommonJS"
+      "moduleResolution": "nodenext",
+      "module": "nodenext"
     }
   }
 }

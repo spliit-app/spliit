@@ -12,6 +12,7 @@ export async function GET(
       id: true,
       name: true,
       currency: true,
+      currencyCode: true,
       expenses: {
         select: {
           createdAt: true,

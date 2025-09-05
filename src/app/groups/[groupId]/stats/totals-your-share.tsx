@@ -1,4 +1,5 @@
 'use client'
+import { Currency } from '@/lib/currency'
 import { cn, formatCurrency } from '@/lib/utils'
 import { useLocale, useTranslations } from 'next-intl'
 
@@ -7,7 +8,7 @@ export function TotalsYourShare({
   currency,
 }: {
   totalParticipantShare?: number
-  currency: string
+  currency: Currency
 }) {
   const locale = useLocale()
   const t = useTranslations('Stats.Totals')

@@ -13,7 +13,8 @@
     "postinstall": "prisma migrate deploy && prisma generate",
     "build-image": "./scripts/build-image.sh",
     "start-container": "docker compose --env-file container.env up",
-    "test": "jest"
+    "test": "jest",
+    "generate-currency-data": "ts-node -T ./src/scripts/generateCurrencyData.ts"
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.5.4",
@@ -85,6 +86,7 @@
     "@types/react-dom": "^18.2.18",
     "@types/uuid": "^9.0.6",
     "autoprefixer": "^10",
+    "currency-list": "^1.0.8",
     "dotenv": "^16.3.1",
     "eslint": "^8",
     "eslint-config-next": "^14.1.0",

@@ -1,9 +1,10 @@
+import { Currency } from '@/lib/currency'
 import { formatCurrency } from '@/lib/utils'
 import { useLocale, useTranslations } from 'next-intl'
 
 type Props = {
   totalGroupSpendings: number
-  currency: string
+  currency: Currency
 }
 
 export function TotalsGroupSpending({ totalGroupSpendings, currency }: Props) {

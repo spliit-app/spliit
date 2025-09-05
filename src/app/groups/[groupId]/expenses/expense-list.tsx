@@ -4,6 +4,7 @@ import { getGroupExpensesAction } from '@/app/groups/[groupId]/expenses/expense-
 import { Button } from '@/components/ui/button'
 import { SearchBar } from '@/components/ui/search-bar'
 import { Skeleton } from '@/components/ui/skeleton'
+import { getCurrencyFromGroup } from '@/lib/utils'
 import { trpc } from '@/trpc/client'
 import dayjs, { type Dayjs } from 'dayjs'
 import { useTranslations } from 'next-intl'
@@ -170,7 +171,7 @@ const ExpenseListForSearch = ({
               <ExpenseCard
                 key={expense.id}
                 expense={expense}
-                currency={group.currency}
+                currency={getCurrencyFromGroup(group)}
                 groupId={groupId}
                 participantCount={group.participants.length}
               />

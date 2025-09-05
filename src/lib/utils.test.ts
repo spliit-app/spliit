@@ -1,7 +1,16 @@
+import { Currency } from './currency'
 import { formatCurrency } from './utils'
 
 describe('formatCurrency', () => {
-  const currency = 'CUR'
+  const currency: Currency = {
+    name: 'Test',
+    symbol_native: '',
+    symbol: 'CUR',
+    code: '',
+    name_plural: '',
+    rounding: 0,
+    decimal_digits: 2,
+  }
   /** For testing decimals */
   const partialAmount = 1.23
   /** For testing small full amounts */
@@ -27,32 +36,32 @@ describe('formatCurrency', () => {
     {
       amount: partialAmount,
       locale: `en-US`,
-      result: `${currency}1.23`,
+      result: `${currency.symbol}1.23`,
     },
     {
       amount: smallAmount,
       locale: `en-US`,
-      result: `${currency}1.00`,
+      result: `${currency.symbol}1.00`,
     },
     {
       amount: largeAmount,
       locale: `en-US`,
-      result: `${currency}10,000.00`,
+      result: `${currency.symbol}10,000.00`,
     },
     {
       amount: partialAmount,
       locale: `de-DE`,
-      result: `1,23${nbsp}${currency}`,
+      result: `1,23${nbsp}${currency.symbol}`,
     },
     {
       amount: smallAmount,
       locale: `de-DE`,
-      result: `1,00${nbsp}${currency}`,
+      result: `1,00${nbsp}${currency.symbol}`,
     },
     {
       amount: largeAmount,
       locale: `de-DE`,
-      result: `10.000,00${nbsp}${currency}`,
+      result: `10.000,00${nbsp}${currency.symbol}`,
     },
   ]
 

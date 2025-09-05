@@ -4,6 +4,7 @@ import { CategoryIcon } from '@/app/groups/[groupId]/expenses/category-icon'
 import { DocumentsCount } from '@/app/groups/[groupId]/expenses/documents-count'
 import { Button } from '@/components/ui/button'
 import { getGroupExpenses } from '@/lib/api'
+import { Currency } from '@/lib/currency'
 import { cn, formatCurrency, formatDate } from '@/lib/utils'
 import { ChevronRight } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
@@ -45,7 +46,7 @@ function Participants({
 
 type Props = {
   expense: Expense
-  currency: string
+  currency: Currency
   groupId: string
   participantCount: number
 }

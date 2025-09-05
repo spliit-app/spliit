@@ -1,3 +1,4 @@
+import { formatAmountAsDecimal, getCurrencyFromGroup } from '@/lib/utils'
 import { Parser } from '@json2csv/plainjs'
 import { PrismaClient } from '@prisma/client'
 import contentDisposition from 'content-disposition'
@@ -30,6 +31,7 @@ export async function GET(
       id: true,
       name: true,
       currency: true,
+      currencyCode: true,
       expenses: {
         select: {
           expenseDate: true,
@@ -91,12 +93,14 @@ export async function GET(
     })),
   ]
 
+  const currency = getCurrencyFromGroup(group)
+
   const expenses = group.expenses.map((expense) => ({
     date: formatDate(expense.expenseDate),
     title: expense.title,
     categoryName: expense.category?.name || '',
-    currency: group.currency,
-    amount: (expense.amount / 100).toFixed(2),
+    currency: group.currencyCode ?? group.currency,
+    amount: formatAmountAsDecimal(expense.amount, currency),
     isReimbursement: expense.isReimbursement ? 'Yes' : 'No',
     splitMode: splitModeLabel[expense.splitMode],
     ...Object.fromEntries(
@@ -113,10 +117,10 @@ export async function GET(
         )
 
         const isPaidByParticipant = expense.paidById === participant.id
-        const participantAmountShare = +(
-          ((expense.amount / totalShares) * participantShare) /
-          100
-        ).toFixed(2)
+        const participantAmountShare = +formatAmountAsDecimal(
+          (expense.amount / totalShares) * participantShare,
+          currency,
+        )
 
         return [
           participant.name,
