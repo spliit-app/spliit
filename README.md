@@ -71,6 +71,13 @@ Here is the current state of translation:
 You could also pull it from the container registry:
 ```docker pull ghcr.io/spliit-app/spliit:latest```
 
+## Health check
+
+The application has a health check endpoint that can be used to check if the application is running and if the database is accessible.
+
+- `GET /api/health/readiness` or `GET /api/health` - Check if the application is ready to serve requests, including database connectivity.
+- `GET /api/health/liveness` - Check if the application is running, but not necessarily ready to serve requests.
+
 ## Opt-in features
 
 ### Expense documents
