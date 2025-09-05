@@ -120,6 +120,12 @@
       "create": "Groep maken",
       "creating": "Aan het maken…",
       "cancel": "Annuleren"
+    },
+    "CurrencyCodeField": {
+      "label": "Hoofdvaluta",
+      "createDescription": "Alle hoeveelheden en saldi worden in deze valuta weergegeven.",
+      "editDescription": "Alle bedragen en saldi worden in deze valuta weergegeven. Als je dit wijzigt, worden reeds ingevoerde uitgaven NIET omgerekend, behalve wanneer de valuta andere \"kleinste eenheden\" heeft dan de huidige (bijvoorbeeld bij een wijziging van Amerikaanse dollar naar Japanse yen)",
+      "customOption": "Aangepast"
     }
   },
   "ExpenseForm": {
@@ -406,5 +412,18 @@
       "TV/Phone/Internet": "Internet/TV/Telefoon",
       "Water": "Water"
     }
+  },
+  "Currencies": {
+    "noCurrency": "Geen valuta gevonden.",
+    "custom": {
+      "heading": "Aangepast"
+    },
+    "common": {
+      "heading": "Meest voorkomend"
+    },
+    "other": {
+      "heading": "Andere valuta"
+    },
+    "search": "Valuta zoeken..."
   }
 }
