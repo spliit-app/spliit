@@ -196,6 +196,8 @@
     "notesField": {
       "label": "Notes"
     },
+    "copy": "Copie",
+    "duplicate": "Dupliquer la dépense",
     "selectNone": "Tout désélectionner",
     "selectAll": "Tout sélectionner",
     "shares": "part(s)",
