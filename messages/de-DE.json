@@ -120,6 +120,9 @@
       "create": "Erstellen",
       "creating": "Erstellt…",
       "cancel": "Abbrechen"
+    },
+    "CurrencyCodeField": {
+      "label": "Hauptwährung"
     }
   },
   "ExpenseForm": {
