@@ -190,15 +190,9 @@ export function ExpenseForm({
           title: expense.title,
           expenseDate: expense.expenseDate ?? new Date(),
           amount: amountAsDecimal(expense.amount, groupCurrency),
-          originalCurrency:
-            expense.originalCurrency ??
-            group.currencyCode ??
-            ('' as unknown as undefined),
-          originalAmount:
-            expense.originalAmount ?? ('' as unknown as undefined),
-          conversionRate: expense.conversionRate
-            ? expense.conversionRate.toNumber()
-            : ('' as unknown as undefined),
+          originalCurrency: expense.originalCurrency ?? group.currencyCode,
+          originalAmount: expense.originalAmount ?? undefined,
+          conversionRate: expense.conversionRate?.toNumber(),
           category: expense.categoryId,
           paidBy: expense.paidById,
           paidFor: expense.paidFor.map(({ participantId, shares }) => ({
@@ -220,12 +214,12 @@ export function ExpenseForm({
           title: t('reimbursement'),
           expenseDate: new Date(),
           amount: amountAsDecimal(
-              Number(searchParams.get('amount')) || 0,
-              groupCurrency,
+            Number(searchParams.get('amount')) || 0,
+            groupCurrency,
           ),
-          originalCurrency: group.currencyCode ?? ('' as unknown as undefined),
-          originalAmount: '' as unknown as undefined,
-          conversionRate: '' as unknown as undefined,
+          originalCurrency: group.currencyCode,
+          originalAmount: undefined,
+          conversionRate: undefined,
           category: 1, // category with Id 1 is Payment
           paidBy: searchParams.get('from') ?? undefined,
           paidFor: [
@@ -249,9 +243,9 @@ export function ExpenseForm({
             ? new Date(searchParams.get('date') as string)
             : new Date(),
           amount: Number(searchParams.get('amount')) || 0,
-          originalCurrency: group.currencyCode ?? ('' as unknown as undefined),
-          originalAmount: '' as unknown as undefined,
-          conversionRate: '' as unknown as undefined,
+          originalCurrency: group.currencyCode ?? undefined,
+          originalAmount: undefined,
+          conversionRate: undefined,
           category: searchParams.get('categoryId')
             ? Number(searchParams.get('categoryId'))
             : 0, // category with Id 0 is General
