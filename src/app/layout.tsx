@@ -13,6 +13,7 @@ import { getLocale, getMessages } from 'next-intl/server'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Suspense } from 'react'
+import { version } from '../../package.json'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -141,6 +142,7 @@ function Content({ children }: { children: React.ReactNode }) {
             </span>
           </div>
         </div>
+        <div className="flex absolute bottom-0 right-0">{version}</div>
       </footer>
       <Toaster />
     </TRPCProvider>
