@@ -99,10 +99,10 @@ export function amountAsDecimal(
  *  - €1.5 = 150 "minor units" of euros (cents)
  *  - JPY 1000 = 1000 "minor units" of yen (the yen does not have minor units in practice)
  *
- * @param amount The amount in decimal major units
+ * @param amount The amount in decimal major units (always an integer)
  */
 export function amountAsMinorUnits(amount: number, currency: Currency) {
-  return amount * 10 ** currency.decimal_digits
+  return Math.round(amount * 10 ** currency.decimal_digits)
 }
 
 /**
