@@ -324,7 +324,9 @@ export function ExpenseForm({
           if (!editedParticipants.includes(participant.participant)) {
             return {
               ...participant,
-              shares: Number(amountPerRemaining.toFixed(groupCurrency.decimal_digits)),
+              shares: Number(
+                amountPerRemaining.toFixed(groupCurrency.decimal_digits),
+              ),
             }
           }
           return participant
