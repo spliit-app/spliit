@@ -159,7 +159,11 @@
         "description": "Sélectionnez pour qui le revenu a été reçu."
       },
       "splitModeDescription": "Sélectionnez comment diviser le revenu.",
-      "attachDescription": "Voir et joindre des reçus au revenu."
+      "attachDescription": "Voir et joindre des reçus au revenu.",
+      "currencyField": {
+        "label": "Devise de la recette",
+        "description": "La devise dans laquelle le bénéfice a été perçu."
+      }
     },
     "Expense": {
       "create": "Créer une dépense",
@@ -192,7 +196,11 @@
         "description": "Sélectionnez les participants concernés"
       },
       "splitModeDescription": "Sélectionnez comment diviser la dépense.",
-      "attachDescription": "Voir et joindre des reçus à la dépense."
+      "attachDescription": "Voir et joindre des reçus à la dépense.",
+      "currencyField": {
+        "label": "Devise de la dépense",
+        "description": "La devise dans laquelle la dépense a été payée."
+      }
     },
     "amountField": {
       "label": "Montant"
@@ -231,7 +239,21 @@
     "save": "Sauvegarder",
     "saving": "Sauvegarde…",
     "cancel": "Annuler",
-    "reimbursement": "Remboursement"
+    "reimbursement": "Remboursement",
+    "conversionUnavailable": "Pour définir une devise différente pour chaque dépense et convertir les montants, sélectionnez une devise non personnalisée pour le groupe.",
+    "originalAmountField": {
+      "label": "Montant à convertir"
+    },
+    "conversionRateField": {
+      "useCustom": "Utiliser un taux personnalisé",
+      "label": "Taux de change"
+    },
+    "conversionRateState": {
+      "loading": "Obtention des taux de change…",
+      "success": "Taux obtenus:",
+      "error": "Oups, nous n'avons pas pu obtenir les taux de change les plus récents.",
+      "refresh": "Actualiser"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
@@ -417,7 +439,7 @@
     "search": "Chercher une devise...",
     "noCurrency": "Aucune devise trouvée.",
     "custom": {
-      "heading": "Personalisée"
+      "heading": "Personnalisée"
     },
     "common": {
       "heading": "Les plus courantes"
