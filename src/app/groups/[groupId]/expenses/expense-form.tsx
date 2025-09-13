@@ -78,7 +78,7 @@ const getDefaultSplittingOptions = (
     splitMode: 'EVENLY' as const,
     paidFor: group.participants.map(({ id }) => ({
       participant: id,
-      shares: '1' as unknown as number,
+      shares: 1,
     })),
   }
 
@@ -110,7 +110,7 @@ const getDefaultSplittingOptions = (
     splitMode: parsedDefaultSplitMode.splitMode,
     paidFor: parsedDefaultSplitMode.paidFor.map((paidFor) => ({
       participant: paidFor.participant,
-      shares: String(paidFor.shares / 100) as unknown as number,
+      shares: paidFor.shares / 100,
     })),
   }
 }
@@ -124,7 +124,7 @@ async function persistDefaultSplittingOptions(
       if (expenseFormValues.splitMode === 'EVENLY') {
         return expenseFormValues.paidFor.map(({ participant }) => ({
           participant,
-          shares: '100' as unknown as number,
+          shares: 100,
         }))
       } else if (expenseFormValues.splitMode === 'BY_AMOUNT') {
         return null
@@ -186,18 +186,15 @@ export function ExpenseForm({
       ? {
           title: expense.title,
           expenseDate: expense.expenseDate ?? new Date(),
-          amount: String(
-            amountAsDecimal(expense.amount, groupCurrency),
-          ) as unknown as number, // hack
+          amount: amountAsDecimal(expense.amount, groupCurrency),
           category: expense.categoryId,
           paidBy: expense.paidById,
           paidFor: expense.paidFor.map(({ participantId, shares }) => ({
             participant: participantId,
-            shares: String(
+            shares:
               expense.splitMode === 'BY_AMOUNT'
                 ? amountAsDecimal(shares, groupCurrency)
                 : shares / 100,
-            ) as unknown as number,
           })),
           splitMode: expense.splitMode,
           saveDefaultSplittingOptions: false,
@@ -210,19 +207,17 @@ export function ExpenseForm({
       ? {
           title: t('reimbursement'),
           expenseDate: new Date(),
-          amount: String(
-            amountAsDecimal(
-              Number(searchParams.get('amount')) || 0,
-              groupCurrency,
-            ),
-          ) as unknown as number, // hack
+          amount: amountAsDecimal(
+            Number(searchParams.get('amount')) || 0,
+            groupCurrency,
+          ),
           category: 1, // category with Id 1 is Payment
           paidBy: searchParams.get('from') ?? undefined,
           paidFor: [
             searchParams.get('to')
               ? {
                   participant: searchParams.get('to')!,
-                  shares: '1' as unknown as number,
+                  shares: 1,
                 }
               : undefined,
           ],
@@ -238,7 +233,7 @@ export function ExpenseForm({
           expenseDate: searchParams.get('date')
             ? new Date(searchParams.get('date') as string)
             : new Date(),
-          amount: (searchParams.get('amount') || 0) as unknown as number, // hack,
+          amount: Number(searchParams.get('amount')) || 0,
           category: searchParams.get('categoryId')
             ? Number(searchParams.get('categoryId'))
             : 0, // category with Id 0 is General
@@ -329,11 +324,7 @@ export function ExpenseForm({
           if (!editedParticipants.includes(participant.participant)) {
             return {
               ...participant,
-              shares: String(
-                Number(
-                  amountPerRemaining.toFixed(groupCurrency.decimal_digits),
-                ),
-              ) as unknown as number,
+              shares: Number(amountPerRemaining.toFixed(groupCurrency.decimal_digits)),
             }
           }
           return participant
@@ -592,7 +583,7 @@ export function ExpenseForm({
                         participant: p.id,
                         shares:
                           paidFor.find((pfor) => pfor.participant === p.id)
-                            ?.shares ?? ('1' as unknown as number),
+                            ?.shares ?? 1,
                       }))
                   form.setValue('paidFor', newPaidFor, {
                     shouldDirty: true,
@@ -651,7 +642,7 @@ export function ExpenseForm({
                                             ...field.value,
                                             {
                                               participant: id,
-                                              shares: '1' as unknown as number,
+                                              shares: 1,
                                             },
                                           ],
                                           options,
