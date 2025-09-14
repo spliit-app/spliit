@@ -45,7 +45,8 @@
     "paidBy": "Betaald door <strong>{paidBy}</strong> voor <paidFor></paidFor>",
     "everyone": "iedereen",
     "receivedBy": "Ontvangen door <strong>{paidBy}</strong> voor <paidFor></paidFor>",
-    "yourBalance": "Jouw balans:"
+    "yourBalance": "Jouw balans:",
+    "notInvolved": "Je bent hier niet bij betrokken"
   },
   "Groups": {
     "myGroups": "Mijn groepen",
@@ -119,6 +120,12 @@
       "create": "Groep maken",
       "creating": "Aan het maken…",
       "cancel": "Annuleren"
+    },
+    "CurrencyCodeField": {
+      "label": "Hoofdvaluta",
+      "createDescription": "Alle hoeveelheden en saldi worden in deze valuta weergegeven.",
+      "editDescription": "Alle bedragen en saldi worden in deze valuta weergegeven. Als je dit wijzigt, worden reeds ingevoerde uitgaven NIET omgerekend, behalve wanneer de valuta andere \"kleinste eenheden\" heeft dan de huidige (bijvoorbeeld bij een wijziging van Amerikaanse dollar naar Japanse yen)",
+      "customOption": "Aangepast"
     }
   },
   "ExpenseForm": {
@@ -152,7 +159,11 @@
         "description": "Selecteer voor wie het inkomen is ontvangen."
       },
       "splitModeDescription": "Selecteer hoe het inkomen verdeeld moet worden.",
-      "attachDescription": "Bekijk en voeg bijlagen toe aan het inkomen."
+      "attachDescription": "Bekijk en voeg bijlagen toe aan het inkomen.",
+      "currencyField": {
+        "label": "Munteenheid van inkomen",
+        "description": "De munteenheid waar het inkomen in is ontvangen."
+      }
     },
     "Expense": {
       "create": "Maak uitgave",
@@ -169,7 +180,8 @@
       "categoryFieldDescription": "Selecteer de uitgavecategorie.",
       "paidByField": {
         "label": "Betaald door",
-        "description": "Selecteer de deelnemer die de uitgave heeft gedaan."
+        "description": "Selecteer de deelnemer die de uitgave heeft gedaan.",
+        "placeholder": "Selecteer een deelnemer"
       },
       "recurrenceRule": {
         "label": "Terugkerende uitgave",
@@ -184,7 +196,11 @@
         "description": "Selecteer voor wie de uitgave is gedaan."
       },
       "splitModeDescription": "Selecteer hoe de uitgave verdeeld moet worden.",
-      "attachDescription": "Bekijk en voeg bijlagen toe aan de uitgave."
+      "attachDescription": "Bekijk en voeg bijlagen toe aan de uitgave.",
+      "currencyField": {
+        "label": "Munteenheid van uitgave",
+        "description": "De munteenheid waar de uitgave in is betaald."
+      }
     },
     "amountField": {
       "label": "Bedrag"
@@ -201,7 +217,7 @@
     "selectNone": "Selecteer niemand",
     "selectAll": "Selecteer iedereen",
     "shares": "deel/delen",
-    "advancedOptions": "Geavanceerde split-opties",
+    "advancedOptions": "Andere split-opties…",
     "SplitModeField": {
       "label": "Split soort",
       "evenly": "Gelijk verdeeld",
@@ -213,7 +229,7 @@
     "DeletePopup": {
       "label": "Verwijderen",
       "title": "Deze uitgave verwijderen?",
-      "description": "Wil je deze uitgave echt verwijderen?",
+      "description": "Wil je deze uitgave echt verwijderen? Dit kan niet ongedaan worden.",
       "yes": "Ja",
       "cancel": "Annuleer"
     },
@@ -223,7 +239,28 @@
     "save": "Opslaan",
     "saving": "Aan het opslaan…",
     "cancel": "Annuleren",
-    "reimbursement": "Terugbetaling"
+    "reimbursement": "Terugbetaling",
+    "conversionUnavailable": "Om een andere munteenheid in te stellen voor een uitgave en bedragen om te rekenen, kies een standaard munteenheid voor de groep.",
+    "originalAmountField": {
+      "label": "Om te rekenen bedrag"
+    },
+    "conversionRateField": {
+      "useApi": "Gebruik koersen van Frankfurter",
+      "useCustom": "Gebruik aangepaste koers",
+      "label": "Wisselkoers"
+    },
+    "conversionRateState": {
+      "loading": "Wisselkoers aan het ophalen…",
+      "success": "Verkregen wisselkoers:",
+      "error": "Oeps, we konden de nieuwste wisselkoersen niet verkrijgen.",
+      "staleRate": "Gebruikte wisselkoers:",
+      "noRate": "Voer hieronder een aangepaste koers in.",
+      "currencyNotFound": "Oeps, Frankfurter heeft geen koersen voor deze munteenheid op deze dag.",
+      "noDate": "Voer de datum van de uitgave in om een wisselkoers te krijgen.",
+      "dateMismatch": "Wisselkoers van: {date}",
+      "refresh": "Ververs",
+      "customRate": "Aangepaste wisselkoers wordt gebruikt"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
@@ -334,7 +371,8 @@
     "paidForMin1": "De uitgave moet voor ten minste één deelnemer zijn gedaan.",
     "noZeroShares": "Een deel mag niet 0 zijn.",
     "amountSum": "Het totaalbedrag moet gelijk zijn aan het uitgavebedrag.",
-    "percentageSum": "Het totaalpercentage moet gelijk zijn aan 100%."
+    "percentageSum": "Het totaalpercentage moet gelijk zijn aan 100%.",
+    "ratePositive": "De koers moet groter dan nul zijn."
   },
   "Categories": {
     "search": "Categorie zoeken…",
@@ -404,5 +442,18 @@
       "TV/Phone/Internet": "Internet/TV/Telefoon",
       "Water": "Water"
     }
+  },
+  "Currencies": {
+    "noCurrency": "Geen valuta gevonden.",
+    "custom": {
+      "heading": "Aangepast"
+    },
+    "common": {
+      "heading": "Meest voorkomend"
+    },
+    "other": {
+      "heading": "Andere valuta"
+    },
+    "search": "Valuta zoeken..."
   }
 }

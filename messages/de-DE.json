@@ -38,12 +38,15 @@
       "earlierThisYear": "Dieses Jahr",
       "lastYear": "Letztes Jahr",
       "older": "Älter"
-    }
+    },
+    "export": "Exportieren"
   },
   "ExpenseCard": {
     "paidBy": "Gezahlt von <strong>{paidBy}</strong> für <paidFor></paidFor>",
     "receivedBy": "Empfangen von <strong>{paidBy}</strong> für <paidFor></paidFor>",
-    "yourBalance": "Deine Bilanz:"
+    "yourBalance": "Deine Bilanz:",
+    "everyone": "jeder",
+    "notInvolved": "Du bist nicht involviert"
   },
   "Groups": {
     "myGroups": "Meine Gruppen",
@@ -117,6 +120,12 @@
       "create": "Erstellen",
       "creating": "Erstellt…",
       "cancel": "Abbrechen"
+    },
+    "CurrencyCodeField": {
+      "label": "Hauptwährung",
+      "createDescription": "Alle Beträge und Salden werden in dieser Währung angegeben.",
+      "customOption": "benutzerdefiniert",
+      "editDescription": "Alle Beträge und Salden werden in dieser Währung angegeben. Bei Änderung dieser, werden bereits eingegebene Ausgaben NICHT umgerechnet, es sei denn, die Währung hat andere \"kleinere Einheiten\" als die aktuelle (z. B. Wechsel von US-Dollar zu Japanischem Yen)"
     }
   },
   "ExpenseForm": {
@@ -240,7 +249,7 @@
       "triggerTitle": "Ausgabe von Rechnungsbeleg erstellen",
       "title": "Von Rechnungsbeleg erstellen",
       "description": "Ausgabeninformationen von einem Foto einer Rechnung lesen.",
-      "body": "Lade ein Foto der Rechnung hoch und wir versuchen die Ausgabeinformationen zu extrahieren",
+      "body": "Lade ein Foto der Rechnung hoch und wir versuchen die Ausgabeinformationen zu extrahieren.",
       "selectImage": "Bild wählen…",
       "titleLabel": "Titel:",
       "categoryLabel": "Kategorie:",
@@ -295,7 +304,7 @@
     "Groups": {
       "today": "Heute",
       "yesterday": "Gestern",
-      "earlierThisWeek": "Diese Woche",
+      "earlierThisWeek": "Anfang dieser Woche",
       "lastWeek": "Letze Woche",
       "earlierThisMonth": "Diesen Monat",
       "lastMonth": "Letzen Monat",
@@ -328,7 +337,7 @@
     "invalidNumber": "Zahl nicht valide.",
     "amountRequired": "Du musst einen Betrag angeben.",
     "amountNotZero": "Der Betrag darf nicht 0 sein.",
-    "amountTenMillion": "Der Betrag muss kleiner als 10.000.000 sein",
+    "amountTenMillion": "Der Betrag muss kleiner als 10.000.000 sein.",
     "paidByRequired": "Du musst ein Mitglied auswählen.",
     "paidForMin1": "Die Ausgabe muss mindestens für ein Mitglied bezahlt werden.",
     "noZeroShares": "Alle Anteile müssen größer als 0 sein.",
@@ -402,6 +411,19 @@
       "Trash": "Müll",
       "TV/Phone/Internet": "TV/Internet/Telefonie",
       "Water": "Wasser"
+    }
+  },
+  "Currencies": {
+    "search": "Währung suchen...",
+    "noCurrency": "Keine Währungen gefunden.",
+    "other": {
+      "heading": "Andere Währungen"
+    },
+    "custom": {
+      "heading": "Benutzerdefinierte"
+    },
+    "common": {
+      "heading": "Geläufigste"
     }
   }
 }
