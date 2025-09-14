@@ -159,7 +159,11 @@
         "description": "Wähle für wen die Einnahme empfangen wurde."
       },
       "splitModeDescription": "Wähle, wie die Einnahme aufgeteilt werden soll.",
-      "attachDescription": "Füge der Einnahme einen Beleg hinzu."
+      "attachDescription": "Füge der Einnahme einen Beleg hinzu.",
+      "currencyField": {
+        "label": "Währung der Einnahme",
+        "description": "Die Währung, in der die Einnahmen erhalten wurden."
+      }
     },
     "Expense": {
       "create": "Ausgabe erstellen",
@@ -192,7 +196,11 @@
         "description": "Wähle für wen die Ausgabe gezahlt wurde."
       },
       "splitModeDescription": "Wähle, wie die Ausgabe aufgeteilt werden soll.",
-      "attachDescription": "Füge der Ausgabe einen Beleg hinzu."
+      "attachDescription": "Füge der Ausgabe einen Beleg hinzu.",
+      "currencyField": {
+        "label": "Währung der Ausgabe",
+        "description": "Die Währung, in der die Ausgabe bezahlt wurde."
+      }
     },
     "amountField": {
       "label": "Betrag"
@@ -231,7 +239,28 @@
     "save": "Speichern",
     "saving": "Speichert…",
     "cancel": "Abbrechen",
-    "reimbursement": "Rückzahlung"
+    "reimbursement": "Rückzahlung",
+    "conversionUnavailable": "Um für jede Ausgabe eine andere Währung festzulegen und Beträge umzurechnen, wählen Sie eine nicht benutzerdefinierte Währung für die Gruppe aus.",
+    "originalAmountField": {
+      "label": "Umzurechnender Betrag"
+    },
+    "conversionRateState": {
+      "customRate": "Benutzerdefinierte Rate verwenden",
+      "loading": "Wechselkurse abrufen…",
+      "success": "Erhaltene Zinssätze:",
+      "error": "Oops, wir konnten die aktuellsten Zinssätze nicht abrufen.",
+      "staleRate": "Verwendeter Zinssatz:",
+      "noRate": "Geben Sie unten einen benutzerdefinierten Zinssatz ein.",
+      "noDate": "Geben Sie das Ausgabedatum ein, um einen Umrechnungskurs zu erhalten.",
+      "dateMismatch": "Zinssätze von Datum: {date}",
+      "refresh": "Aktualisiere",
+      "currencyNotFound": "Oops, Frankfurter hat für diese Währung an diesem Tag keinen Zinssatz."
+    },
+    "conversionRateField": {
+      "useCustom": "Benutze individuelle Rate",
+      "label": "Wechselkurs",
+      "useApi": "Benutze Zinssätze von Frankfurter"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
@@ -342,7 +371,8 @@
     "paidForMin1": "Die Ausgabe muss mindestens für ein Mitglied bezahlt werden.",
     "noZeroShares": "Alle Anteile müssen größer als 0 sein.",
     "amountSum": "Die Summe der Beträge muss dem Betrag der Ausgabe entsprechen.",
-    "percentageSum": "Die Summe der prozentualen Anteile muss 100 ergeben."
+    "percentageSum": "Die Summe der prozentualen Anteile muss 100 ergeben.",
+    "ratePositive": "Der Zinssatz muss unbedingt größer als Null sein."
   },
   "Categories": {
     "search": "Nach Kategorie suchen...",
