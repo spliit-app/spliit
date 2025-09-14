@@ -42,6 +42,9 @@ import { useEffect, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { CurrencySelector } from './currency-selector'
 import { Textarea } from './ui/textarea'
+import { DndContext, closestCenter } from "@dnd-kit/core"
+import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable"
+import { SortableParticipant } from '@/app/groups/[groupId]/edit/sortable-participants'
 
 export type Props = {
   group?: NonNullable<Awaited<ReturnType<typeof getGroup>>>
@@ -80,7 +83,7 @@ export function GroupForm({
           ],
         },
   })
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove,move,replace } = useFieldArray({
     control: form.control,
     name: 'participants',
     keyName: 'key',
@@ -233,13 +236,42 @@ export function GroupForm({
         </Card>
 
         <Card className="mb-4">
-          <CardHeader>
-            <CardTitle>{t('Participants.title')}</CardTitle>
-            <CardDescription>{t('Participants.description')}</CardDescription>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+              <CardTitle>{t('Participants.title')}</CardTitle>
+              <CardDescription>{t('Participants.description')}</CardDescription>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                const sorted = [...fields].sort((a, b) =>
+                  (a.name || '').localeCompare(b.name || '')
+                )
+                replace(sorted)
+              }}
+            >
+              Sort
+            </Button>
           </CardHeader>
           <CardContent>
+            <DndContext
+              collisionDetection={closestCenter}
+              onDragEnd={({ active, over }) => {
+                if (over && active.id !== over.id) {
+                  const oldIndex = fields.findIndex((f) => f.id === active.id)
+                  const newIndex = fields.findIndex((f) => f.id === over.id)
+                  move(oldIndex, newIndex)
+                }
+              }}
+            >
+              <SortableContext
+                items={fields.map((f) => f.id as string)}
+                strategy={verticalListSortingStrategy}
+              >
             <ul className="flex flex-col gap-2">
               {fields.map((item, index) => (
+                <SortableParticipant key={item.id} id={item.id as string}>
                 <li key={item.key}>
                   <FormField
                     control={form.control}
@@ -295,8 +327,11 @@ export function GroupForm({
                     )}
                   />
                 </li>
+                </SortableParticipant>
               ))}
             </ul>
+              </SortableContext>
+            </DndContext>
           </CardContent>
           <CardFooter>
             <Button
