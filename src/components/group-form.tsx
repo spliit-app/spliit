@@ -1,3 +1,4 @@
+import { SortableParticipant } from '@/app/groups/[groupId]/edit/sortable-participants'
 import { SubmitButton } from '@/components/submit-button'
 import { Button } from '@/components/ui/button'
 import {
@@ -34,6 +35,8 @@ import { Locale } from '@/i18n'
 import { getGroup } from '@/lib/api'
 import { defaultCurrencyList, getCurrency } from '@/lib/currency'
 import { GroupFormValues, groupFormSchema } from '@/lib/schemas'
+import { DndContext, closestCenter } from '@dnd-kit/core'
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Save, Trash2 } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
@@ -42,9 +45,6 @@ import { useEffect, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { CurrencySelector } from './currency-selector'
 import { Textarea } from './ui/textarea'
-import { DndContext, closestCenter } from "@dnd-kit/core"
-import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable"
-import { SortableParticipant } from '@/app/groups/[groupId]/edit/sortable-participants'
 
 export type Props = {
   group?: NonNullable<Awaited<ReturnType<typeof getGroup>>>
@@ -83,7 +83,7 @@ export function GroupForm({
           ],
         },
   })
-  const { fields, append, remove,move,replace } = useFieldArray({
+  const { fields, append, remove, move, replace } = useFieldArray({
     control: form.control,
     name: 'participants',
     keyName: 'key',
@@ -246,7 +246,7 @@ export function GroupForm({
               size="sm"
               onClick={() => {
                 const sorted = [...fields].sort((a, b) =>
-                  (a.name || '').localeCompare(b.name || '')
+                  (a.name || '').localeCompare(b.name || ''),
                 )
                 replace(sorted)
               }}
@@ -269,67 +269,67 @@ export function GroupForm({
                 items={fields.map((f) => f.id as string)}
                 strategy={verticalListSortingStrategy}
               >
-            <ul className="flex flex-col gap-2">
-              {fields.map((item, index) => (
-                <SortableParticipant key={item.id} id={item.id as string}>
-                <li key={item.key}>
-                  <FormField
-                    control={form.control}
-                    name={`participants.${index}.name`}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="sr-only">
-                          Participant #{index + 1}
-                        </FormLabel>
-                        <FormControl>
-                          <div className="flex gap-2">
-                            <Input
-                              className="text-base"
-                              {...field}
-                              placeholder={t('Participants.new')}
-                            />
-                            {item.id &&
-                            protectedParticipantIds.includes(item.id) ? (
-                              <HoverCard>
-                                <HoverCardTrigger>
-                                  <Button
-                                    variant="ghost"
-                                    className="text-destructive-"
-                                    type="button"
-                                    size="icon"
-                                    disabled
-                                  >
-                                    <Trash2 className="w-4 h-4 text-destructive opacity-50" />
-                                  </Button>
-                                </HoverCardTrigger>
-                                <HoverCardContent
-                                  align="end"
-                                  className="text-sm"
-                                >
-                                  {t('Participants.protectedParticipant')}
-                                </HoverCardContent>
-                              </HoverCard>
-                            ) : (
-                              <Button
-                                variant="ghost"
-                                className="text-destructive"
-                                onClick={() => remove(index)}
-                                type="button"
-                                size="icon"
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </Button>
-                            )}
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </li>
-                </SortableParticipant>
-              ))}
-            </ul>
+                <ul className="flex flex-col gap-2">
+                  {fields.map((item, index) => (
+                    <SortableParticipant key={item.id} id={item.id as string}>
+                      <li key={item.key}>
+                        <FormField
+                          control={form.control}
+                          name={`participants.${index}.name`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="sr-only">
+                                Participant #{index + 1}
+                              </FormLabel>
+                              <FormControl>
+                                <div className="flex gap-2">
+                                  <Input
+                                    className="text-base"
+                                    {...field}
+                                    placeholder={t('Participants.new')}
+                                  />
+                                  {item.id &&
+                                  protectedParticipantIds.includes(item.id) ? (
+                                    <HoverCard>
+                                      <HoverCardTrigger>
+                                        <Button
+                                          variant="ghost"
+                                          className="text-destructive-"
+                                          type="button"
+                                          size="icon"
+                                          disabled
+                                        >
+                                          <Trash2 className="w-4 h-4 text-destructive opacity-50" />
+                                        </Button>
+                                      </HoverCardTrigger>
+                                      <HoverCardContent
+                                        align="end"
+                                        className="text-sm"
+                                      >
+                                        {t('Participants.protectedParticipant')}
+                                      </HoverCardContent>
+                                    </HoverCard>
+                                  ) : (
+                                    <Button
+                                      variant="ghost"
+                                      className="text-destructive"
+                                      onClick={() => remove(index)}
+                                      type="button"
+                                      size="icon"
+                                    >
+                                      <Trash2 className="w-4 h-4" />
+                                    </Button>
+                                  )}
+                                </div>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </li>
+                    </SortableParticipant>
+                  ))}
+                </ul>
               </SortableContext>
             </DndContext>
           </CardContent>
