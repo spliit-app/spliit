@@ -21,6 +21,7 @@
     "createFirst": "Створіть першу витрату",
     "noExpenses": "У вашій групі ще немає витрат",
     "exportJson": "Експортувати у JSON",
+    "exportCsv": "Експортувати у CSV",
     "searchPlaceholder": "Пошук витрат...",
     "ActiveUserModal": {
       "title": "Хто ви?",
@@ -35,7 +36,7 @@
       "earlierThisMonth": "Раніше цього місяця",
       "lastMonth": "Минулого місяця",
       "earlierThisYear": "Раніше цього року",
-      "lastYera": "Минулого року",
+      "lastYear": "Минулого року",
       "older": "Старіші"
     }
   },
@@ -293,19 +294,6 @@
   },
   "Settings": {
     "title": "Налаштування"
-  },
-  "Locale": {
-    "en-US": "English",
-    "fi": "Suomi",
-    "fr-FR": "Français",
-    "es": "Español",
-    "de-DE": "Deutsch",
-    "zh-CN": "Chinese (Simplified)",
-    "pl-PL": "Polski",
-    "ru-RU": "Русский",
-    "it-IT": "Italiano",
-    "ua-UA": "Українська",
-    "ro": "Română"
   },
   "Share": {
     "title": "Поділитися",

@@ -1,6 +1,6 @@
 {
   "Homepage": {
-    "title": "Partagez <strong>vos dépenses</strong> avec  <strong>vos amis</strong> & <strong>votre famille :)</strong>",
+    "title": "Partagez <strong>vos dépenses</strong> avec <strong>vos amis & votre famille</strong>",
     "description": "Bienvenue sur votre instance <strong>Spliit</strong> !",
     "button": {
       "groups": "Accéder aux groupes",
@@ -21,6 +21,7 @@
     "createFirst": "Créer la première :)",
     "noExpenses": "Votre groupe n'a effectué aucune dépense pour le moment.",
     "exportJson": "Exporter en JSON",
+    "exportCsv": "Exporter en CSV",
     "searchPlaceholder": "Rechercher une dépense…",
     "ActiveUserModal": {
       "title": "Qui êtes-vous ?",
@@ -35,14 +36,17 @@
       "earlierThisMonth": "Plus tôt ce mois-ci",
       "lastMonth": "Le mois dernier",
       "earlierThisYear": "Plus tôt cette année",
-      "lastYera": "L'année dernière",
+      "lastYear": "L'année dernière",
       "older": "Plus ancien"
-    }
+    },
+    "export": "Exporter"
   },
   "ExpenseCard": {
     "paidBy": "Payé par <strong>{paidBy}</strong> pour <paidFor></paidFor>",
     "receivedBy": "Reçu par <strong>{paidBy}</strong> pour <paidFor></paidFor>",
-    "yourBalance": "Votre solde :"
+    "yourBalance": "Votre solde :",
+    "everyone": "tout le monde",
+    "notInvolved": "Vous n'êtes pas concerné"
   },
   "Groups": {
     "myGroups": "Mes groupes",
@@ -98,9 +102,9 @@
       "protectedParticipant": "Ce participant fait partie des dépenses et ne peut pas être supprimé.",
       "new": "Nouveau",
       "add": "Ajouter un participant",
-      "John": "John",
-      "Jane": "Jane",
-      "Jack": "Jack"
+      "John": "Jean",
+      "Jane": "Jeanne",
+      "Jack": "Jacques"
     },
     "Settings": {
       "title": "Paramètres locaux",
@@ -116,6 +120,12 @@
       "create": "Créer",
       "creating": "Création…",
       "cancel": "Annuler"
+    },
+    "CurrencyCodeField": {
+      "label": "Devise principale",
+      "createDescription": "Tous les montants et soldes seront dans cette devise.",
+      "editDescription": "Tous les montants et soldes seront exprimés dans cette devise. La modification de cette option n'entraînera PAS la conversion des dépenses déjà saisies, sauf si la devise a des « unités mineures » différentes de celles de la devise actuelle (par exemple, passage du dollar américain au yen japonais).",
+      "customOption": "Personalisée"
     }
   },
   "ExpenseForm": {
@@ -136,12 +146,24 @@
         "label": "Reçu par",
         "description": "Sélectionnez le participant qui a reçu le revenu."
       },
+      "recurrenceRule": {
+        "label": "Récurrence de la dépense",
+        "description": "Sélectionnez la fréquence de répétition de la dépense.",
+        "none": "Aucune",
+        "daily": "Quotidienne",
+        "weekly": "Hebdomadaire",
+        "monthly": "Mensuelle"
+      },
       "paidFor": {
         "title": "Reçu pour",
         "description": "Sélectionnez pour qui le revenu a été reçu."
       },
       "splitModeDescription": "Sélectionnez comment diviser le revenu.",
-      "attachDescription": "Voir et joindre des reçus au revenu."
+      "attachDescription": "Voir et joindre des reçus au revenu.",
+      "currencyField": {
+        "label": "Devise de la recette",
+        "description": "La devise dans laquelle le bénéfice a été perçu."
+      }
     },
     "Expense": {
       "create": "Créer une dépense",
@@ -158,14 +180,27 @@
       "categoryFieldDescription": "Sélectionnez la catégorie de dépense.",
       "paidByField": {
         "label": "Payé par",
-        "description": "Sélectionnez le participant qui a réglé la dépense."
+        "description": "Sélectionnez le participant qui a réglé la dépense.",
+        "placeholder": "Sélectionner un participant"
+      },
+      "recurrenceRule": {
+        "label": "Récurrence de la dépense",
+        "description": "Sélectionnez la fréquence de répétition de la dépense.",
+        "none": "Aucune",
+        "daily": "Quotidienne",
+        "weekly": "Hebdomadaire",
+        "monthly": "Mensuelle"
       },
       "paidFor": {
         "title": "Payé pour",
         "description": "Sélectionnez les participants concernés"
       },
       "splitModeDescription": "Sélectionnez comment diviser la dépense.",
-      "attachDescription": "Voir et joindre des reçus à la dépense."
+      "attachDescription": "Voir et joindre des reçus à la dépense.",
+      "currencyField": {
+        "label": "Devise de la dépense",
+        "description": "La devise dans laquelle la dépense a été payée."
+      }
     },
     "amountField": {
       "label": "Montant"
@@ -204,12 +239,26 @@
     "save": "Sauvegarder",
     "saving": "Sauvegarde…",
     "cancel": "Annuler",
-    "reimbursement": "Remboursement"
+    "reimbursement": "Remboursement",
+    "conversionUnavailable": "Pour définir une devise différente pour chaque dépense et convertir les montants, sélectionnez une devise non personnalisée pour le groupe.",
+    "originalAmountField": {
+      "label": "Montant à convertir"
+    },
+    "conversionRateField": {
+      "useCustom": "Utiliser un taux personnalisé",
+      "label": "Taux de change"
+    },
+    "conversionRateState": {
+      "loading": "Obtention des taux de change…",
+      "success": "Taux obtenus:",
+      "error": "Oups, nous n'avons pas pu obtenir les taux de change les plus récents.",
+      "refresh": "Actualiser"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
       "title": "Le fichier est trop grand",
-      "description": "La taille maximale du fichier que vous pouvez télécharger est {maxSize}. La vôtre est ${size}."
+      "description": "La taille maximale du fichier que vous pouvez télécharger est {maxSize}. La vôtre est {size}."
     },
     "ErrorToast": {
       "title": "Erreur lors du téléchargement du document",
@@ -234,7 +283,7 @@
     "unknown": "Inconnu",
     "TooBigToast": {
       "title": "Le fichier est trop grand",
-      "description": "La taille maximale du fichier que vous pouvez télécharger est {maxSize}. La vôtre est ${size}."
+      "description": "La taille maximale du fichier que vous pouvez télécharger est {maxSize}. La vôtre est {size}."
     },
     "ErrorToast": {
       "title": "Erreur lors du téléchargement du document",
@@ -294,19 +343,6 @@
   "Settings": {
     "title": "Paramètres"
   },
-  "Locale": {
-    "en-US": "English",
-    "fi": "Suomi",
-    "fr-FR": "Français",
-    "es": "Español",
-    "de-DE": "Deutsch",
-    "zh-CN": "Chinese (Simplified)",
-    "pl-PL": "Polski",
-    "ru-RU": "Русский",
-    "it-IT": "Italiano",
-    "ua-UA": "Українська",
-    "ro": "Română"
-  },
   "Share": {
     "title": "Partager",
     "description": "Pour que d'autres participants puissent voir le groupe et ajouter des dépenses, partagez son URL avec eux.",
@@ -344,7 +380,7 @@
       "Games": "Jeux",
       "Movies": "Films",
       "Music": "Musique",
-      "Sports": "Sports"
+      "Sports": "Sport"
     },
     "Food and Drink": {
       "heading": "Nourriture et boissons",
@@ -373,7 +409,8 @@
       "Gifts": "Cadeaux",
       "Insurance": "Assurance",
       "Medical Expenses": "Dépenses médicales",
-      "Taxes": "Impôts"
+      "Taxes": "Impôts",
+      "Donation": "Don"
     },
     "Transportation": {
       "heading": "Transport",
@@ -396,6 +433,19 @@
       "Trash": "Poubelle",
       "TV/Phone/Internet": "TV/Téléphone/Internet",
       "Water": "Eau"
+    }
+  },
+  "Currencies": {
+    "search": "Chercher une devise...",
+    "noCurrency": "Aucune devise trouvée.",
+    "custom": {
+      "heading": "Personnalisée"
+    },
+    "common": {
+      "heading": "Les plus courantes"
+    },
+    "other": {
+      "heading": "Autres devises"
     }
   }
 }

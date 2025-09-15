@@ -1,0 +1,389 @@
+{
+  "Homepage": {
+    "title": "<strong>Masrafları</strong> <strong>Arkadaşlar ve Aile</strong> ile paylaş",
+    "description": "Yeni <strong>Spliit</strong> kurulumunuza hoş geldiniz !",
+    "button": {
+      "groups": "Gruplara git",
+      "github": "GitHub"
+    }
+  },
+  "Header": {
+    "groups": "Gruplar"
+  },
+  "Footer": {
+    "madeIn": "Montréal, Québec 🇨🇦'da yapıldı",
+    "builtBy": "<author>Sebastien Castiel</author> ve <source>katkıda bulunanlar</source> tarafından geliştirildi"
+  },
+  "Expenses": {
+    "title": "Masraflar",
+    "description": "Grubunuz için oluşturduğunuz masraflar burada.",
+    "create": "Masraf oluştur",
+    "createFirst": "İlk masrafı oluştur",
+    "noExpenses": "Grubunuzda henüz herhangi bir masraf yok.",
+    "exportJson": "JSON olarak dışa aktar",
+    "exportCsv": "CSV olarak dışa aktar",
+    "searchPlaceholder": "Bir masraf arayın…",
+    "ActiveUserModal": {
+      "title": "Kimsiniz?",
+      "description": "Bilgilerin nasıl görüntüleneceğini özelleştirebilmemiz için hangi katılımcı olduğunuzu belirtin.",
+      "nobody": "Kimseyi seçmek istemiyorum",
+      "save": "Değişiklikleri kaydet",
+      "footer": "Bu ayar daha sonra grup ayarlarında değiştirilebilir."
+    },
+    "Groups": {
+      "upcoming": "Yaklaşan",
+      "thisWeek": "Bu hafta",
+      "earlierThisMonth": "Bu ayın başlarında",
+      "lastMonth": "Geçen ay",
+      "earlierThisYear": "Bu yılın başlarında",
+      "lastYear": "Geçen yıl",
+      "older": "Daha eski"
+    }
+  },
+  "ExpenseCard": {
+    "paidBy": "<strong>{paidBy}</strong> tarafından ödendi, <paidFor></paidFor> için",
+    "receivedBy": "<strong>{paidBy}</strong> tarafından alındı, <paidFor></paidFor> için",
+    "yourBalance": "Bakiyeniz:"
+  },
+  "Groups": {
+    "myGroups": "Gruplarım",
+    "create": "Oluştur",
+    "loadingRecent": "Son gruplar yükleniyor…",
+    "NoRecent": {
+      "description": "Son zamanlarda hiç grup ziyaret etmediniz.",
+      "create": "Bir tane oluştur",
+      "orAsk": "ya da bir arkadaşınızdan mevcut bir grubun bağlantısını göndermesini isteyin."
+    },
+    "recent": "Son gruplar",
+    "starred": "Yıldızlı gruplar",
+    "archived": "Arşivlenmiş gruplar",
+    "archive": "Grubu arşivle",
+    "unarchive": "Arşivden çıkar",
+    "removeRecent": "Son gruplardan kaldır",
+    "RecentRemovedToast": {
+      "title": "Grup kaldırıldı",
+      "description": "Grup son gruplar listenizden kaldırıldı.",
+      "undoAlt": "Grup kaldırma işlemini geri al",
+      "undo": "Geri al"
+    },
+    "AddByURL": {
+      "button": "URL ile ekle",
+      "title": "URL ile grup ekle",
+      "description": "Bir grup sizinle paylaşıldıysa, URL'sini buraya yapıştırarak listeye ekleyebilirsiniz.",
+      "error": "Üzgünüz, sağladığınız URL'den bir grup bulamadık…"
+    },
+    "NotFound": {
+      "text": "Bu grup mevcut değil.",
+      "link": "Son ziyaret ettiğiniz gruplara dön"
+    }
+  },
+  "GroupForm": {
+    "title": "Grup bilgileri",
+    "NameField": {
+      "label": "Grup adı",
+      "placeholder": "Yaz tatili",
+      "description": "Grubunuz için bir ad girin."
+    },
+    "InformationField": {
+      "label": "Grup bilgisi",
+      "placeholder": "Grup katılımcıları için hangi bilgiler önemli?"
+    },
+    "CurrencyField": {
+      "label": "Para birimi simgesi",
+      "placeholder": "$, €, £…",
+      "description": "Tutarları göstermek için kullanacağız."
+    },
+    "Participants": {
+      "title": "Katılımcılar",
+      "description": "Her katılımcı için bir ad girin.",
+      "protectedParticipant": "Bu katılımcı masraflara dahil olduğundan kaldırılamaz.",
+      "new": "Yeni",
+      "add": "Katılımcı ekle",
+      "John": "John",
+      "Jane": "Jane",
+      "Jack": "Jack"
+    },
+    "Settings": {
+      "title": "Yerel ayarlar",
+      "description": "Bu ayarlar cihaz bazında belirlenir ve deneyiminizi özelleştirmek için kullanılır.",
+      "ActiveUserField": {
+        "label": "Aktif kullanıcı",
+        "placeholder": "Bir katılımcı seçin",
+        "none": "Yok",
+        "description": "Masrafların varsayılan olarak kimin adına ekleneceği."
+      },
+      "save": "Kaydet",
+      "saving": "Kaydediliyor…",
+      "create": "Oluştur",
+      "creating": "Oluşturuluyor…",
+      "cancel": "İptal"
+    }
+  },
+  "ExpenseForm": {
+    "Income": {
+      "create": "Gelir oluştur",
+      "edit": "Geliri düzenle",
+      "TitleField": {
+        "label": "Gelir başlığı",
+        "placeholder": "Pazartesi akşamı restoran",
+        "description": "Gelir için bir açıklama girin."
+      },
+      "DateField": {
+        "label": "Gelir tarihi",
+        "description": "Gelirin alındığı tarihi girin."
+      },
+      "categoryFieldDescription": "Gelir kategorisini seçin.",
+      "paidByField": {
+        "label": "Geliri alan",
+        "description": "Geliri alan katılımcıyı seçin."
+      },
+      "paidFor": {
+        "title": "Gelirin alındığı kişiler",
+        "description": "Gelirin kim(ler) için alındığını seçin."
+      },
+      "splitModeDescription": "Gelirin nasıl paylaştırılacağını seçin.",
+      "attachDescription": "Gelire makbuz ekleyin ve görüntüleyin."
+    },
+    "Expense": {
+      "create": "Masraf oluştur",
+      "edit": "Masrafı düzenle",
+      "TitleField": {
+        "label": "Masraf başlığı",
+        "placeholder": "Pazartesi akşamı restoran",
+        "description": "Masraf için bir açıklama girin."
+      },
+      "DateField": {
+        "label": "Masraf tarihi",
+        "description": "Masrafın ödendiği tarihi girin."
+      },
+      "categoryFieldDescription": "Masraf kategorisini seçin.",
+      "paidByField": {
+        "label": "Ödeyen",
+        "description": "Masrafı ödeyen katılımcıyı seçin."
+      },
+      "paidFor": {
+        "title": "Masraf kimin için ödendi",
+        "description": "Masrafın kim(ler) için ödendiğini seçin."
+      },
+      "splitModeDescription": "Masrafın nasıl paylaştırılacağını seçin.",
+      "attachDescription": "Masrafa makbuz ekleyin ve görüntüleyin."
+    },
+    "amountField": {
+      "label": "Tutar"
+    },
+    "isReimbursementField": {
+      "label": "Bu bir geri ödeme"
+    },
+    "categoryField": {
+      "label": "Kategori"
+    },
+    "notesField": {
+      "label": "Notlar"
+    },
+    "selectNone": "Hiçbirini seçme",
+    "selectAll": "Hepsini seç",
+    "shares": "pay",
+    "advancedOptions": "Gelişmiş paylaşım seçenekleri…",
+    "SplitModeField": {
+      "label": "Paylaşım modu",
+      "evenly": "Eşit pay",
+      "byShares": "Eşit olmayan – Pay adedine göre",
+      "byPercentage": "Eşit olmayan – Yüzdeye göre",
+      "byAmount": "Eşit olmayan – Tutar bazında",
+      "saveAsDefault": "Varsayılan paylaşım ayarları olarak kaydet"
+    },
+    "DeletePopup": {
+      "label": "Sil",
+      "title": "Bu masraf silinsin mi?",
+      "description": "Bu masrafı gerçekten silmek istiyor musunuz? Bu işlem geri alınamaz.",
+      "yes": "Evet",
+      "cancel": "İptal"
+    },
+    "attachDocuments": "Belge ekle",
+    "create": "Oluştur",
+    "creating": "Oluşturuluyor…",
+    "save": "Kaydet",
+    "saving": "Kaydediliyor…",
+    "cancel": "İptal",
+    "reimbursement": "Geri ödeme"
+  },
+  "ExpenseDocumentsInput": {
+    "TooBigToast": {
+      "title": "Dosya çok büyük",
+      "description": "Yükleyebileceğiniz maksimum dosya boyutu {maxSize}. Dosyanız {size} boyutunda."
+    },
+    "ErrorToast": {
+      "title": "Belge yüklenirken hata oluştu",
+      "description": "Belge yüklenirken bir sorun oluştu. Lütfen daha sonra tekrar deneyin veya farklı bir dosya seçin.",
+      "retry": "Tekrar dene"
+    }
+  },
+  "CreateFromReceipt": {
+    "Dialog": {
+      "triggerTitle": "Makbuzdan masraf oluştur",
+      "title": "Makbuzdan oluştur",
+      "description": "Bir makbuz fotoğrafındaki masraf bilgilerini çekin.",
+      "body": "Bir makbuz fotoğrafı yükleyin, mümkünse masraf bilgilerini otomatik olarak çıkaracağız.",
+      "selectImage": "Resim seç…",
+      "titleLabel": "Başlık:",
+      "categoryLabel": "Kategori:",
+      "amountLabel": "Tutar:",
+      "dateLabel": "Tarih:",
+      "editNext": "Masraf bilgilerini sonraki adımda düzenleyebileceksiniz.",
+      "continue": "Devam et"
+    },
+    "unknown": "Bilinmiyor",
+    "TooBigToast": {
+      "title": "Dosya çok büyük",
+      "description": "Yükleyebileceğiniz maksimum dosya boyutu {maxSize}. Dosyanız {size} boyutunda."
+    },
+    "ErrorToast": {
+      "title": "Belge yüklenirken hata oluştu",
+      "description": "Belge yüklenirken bir sorun oluştu. Lütfen daha sonra tekrar deneyin veya farklı bir dosya seçin.",
+      "retry": "Tekrar dene"
+    }
+  },
+  "Balances": {
+    "title": "Bakiyeler",
+    "description": "Her katılımcının ödediği veya kendisi için ödenen tutar burada gösterilir.",
+    "Reimbursements": {
+      "title": "Önerilen geri ödemeler",
+      "description": "Katılımcılar arasındaki en uygun geri ödeme önerileri aşağıdadır.",
+      "noImbursements": "Görünüşe göre grubunuzun hiçbir geri ödemeye ihtiyacı yok 😁",
+      "owes": "<strong>{from}</strong>, <strong>{to}</strong>'ya borçlu",
+      "markAsPaid": "Ödendi olarak işaretle"
+    }
+  },
+  "Stats": {
+    "title": "İstatistikler",
+    "Totals": {
+      "title": "Toplamlar",
+      "description": "Grubun tüm harcama özeti.",
+      "groupSpendings": "Grubun toplam harcamaları",
+      "groupEarnings": "Grubun toplam gelirleri",
+      "yourSpendings": "Sizin toplam harcamalarınız",
+      "yourEarnings": "Sizin toplam gelirleriniz",
+      "yourShare": "Sizin toplam payınız"
+    }
+  },
+  "Activity": {
+    "title": "Etkinlik",
+    "description": "Bu gruptaki tüm etkinliklerin genel görünümü.",
+    "noActivity": "Grubunuzda henüz bir etkinlik yok.",
+    "someone": "Birisi",
+    "settingsModified": "Grup ayarları <strong>{participant}</strong> tarafından değiştirildi.",
+    "expenseCreated": "Masraf <em>{expense}</em>, <strong>{participant}</strong> tarafından oluşturuldu.",
+    "expenseUpdated": "Masraf <em>{expense}</em>, <strong>{participant}</strong> tarafından güncellendi.",
+    "expenseDeleted": "Masraf <em>{expense}</em>, <strong>{participant}</strong> tarafından silindi.",
+    "Groups": {
+      "today": "Bugün",
+      "yesterday": "Dün",
+      "earlierThisWeek": "Bu haftanın başlarında",
+      "lastWeek": "Geçen hafta",
+      "earlierThisMonth": "Bu ayın başlarında",
+      "lastMonth": "Geçen ay",
+      "earlierThisYear": "Bu yılın başlarında",
+      "lastYear": "Geçen yıl",
+      "older": "Daha eski"
+    }
+  },
+  "Information": {
+    "title": "Bilgi",
+    "description": "Grup katılımcıları için yararlı olabilecek bilgileri buraya ekleyebilirsiniz.",
+    "empty": "Henüz grup bilgisi bulunmuyor."
+  },
+  "Settings": {
+    "title": "Ayarlar"
+  },
+  "Share": {
+    "title": "Paylaş",
+    "description": "Diğer katılımcıların grubu görmesi ve masraf ekleyebilmesi için onlarla bu grubun URL'sini paylaşın.",
+    "warning": "Uyarı!",
+    "warningHelp": "Grubun URL'sine sahip olan herkes masrafları görebilir ve düzenleyebilir. Lütfen paylaşırken dikkatli olun!"
+  },
+  "SchemaErrors": {
+    "min1": "En az bir karakter girin.",
+    "min2": "En az iki karakter girin.",
+    "max5": "En fazla beş karakter girin.",
+    "max50": "En fazla 50 karakter girin.",
+    "duplicateParticipantName": "Başka bir katılımcı zaten bu ada sahip.",
+    "titleRequired": "Lütfen bir başlık girin.",
+    "invalidNumber": "Geçersiz numara.",
+    "amountRequired": "Bir tutar girmelisiniz.",
+    "amountNotZero": "Tutar sıfır olamaz.",
+    "amountTenMillion": "Tutar 10.000.000'dan düşük olmalı.",
+    "paidByRequired": "Bir katılımcı seçmelisiniz.",
+    "paidForMin1": "Masraf en az bir katılımcı için ödenmiş olmalıdır.",
+    "noZeroShares": "Tüm paylar 0'dan büyük olmalıdır.",
+    "amountSum": "Tutarların toplamı masraf tutarına eşit olmalıdır.",
+    "percentageSum": "Yüzdelerin toplamı 100 olmalıdır."
+  },
+  "Categories": {
+    "search": "Kategori ara...",
+    "noCategory": "Kategori bulunamadı.",
+    "Uncategorized": {
+      "heading": "Kategorize Edilmemiş",
+      "General": "Genel",
+      "Payment": "Ödeme"
+    },
+    "Entertainment": {
+      "heading": "Eğlence",
+      "Entertainment": "Eğlence",
+      "Games": "Oyunlar",
+      "Movies": "Filmler",
+      "Music": "Müzik",
+      "Sports": "Spor"
+    },
+    "Food and Drink": {
+      "heading": "Yiyecek ve İçecek",
+      "Food and Drink": "Yiyecek ve İçecek",
+      "Dining Out": "Dışarıda Yemek",
+      "Groceries": "Market Alışverişi",
+      "Liquor": "Alkollü İçecekler"
+    },
+    "Home": {
+      "heading": "Ev",
+      "Home": "Ev",
+      "Electronics": "Elektronik",
+      "Furniture": "Mobilya",
+      "Household Supplies": "Ev İhtiyaçları",
+      "Maintenance": "Bakım",
+      "Mortgage": "Mortgage",
+      "Pets": "Evcil Hayvanlar",
+      "Rent": "Kira",
+      "Services": "Hizmetler"
+    },
+    "Life": {
+      "heading": "Yaşam",
+      "Childcare": "Çocuk Bakımı",
+      "Clothing": "Giyim",
+      "Education": "Eğitim",
+      "Gifts": "Hediyeler",
+      "Insurance": "Sigorta",
+      "Medical Expenses": "Sağlık Giderleri",
+      "Taxes": "Vergiler"
+    },
+    "Transportation": {
+      "heading": "Ulaşım",
+      "Transportation": "Ulaşım",
+      "Bicycle": "Bisiklet",
+      "Bus/Train": "Otobüs/Tren",
+      "Car": "Araba",
+      "Gas/Fuel": "Benzin/Yakıt",
+      "Hotel": "Otel",
+      "Parking": "Otopark",
+      "Plane": "Uçak",
+      "Taxi": "Taksi"
+    },
+    "Utilities": {
+      "heading": "Faturalar",
+      "Utilities": "Faturalar",
+      "Cleaning": "Temizlik",
+      "Electricity": "Elektrik",
+      "Heat/Gas": "Isınma/Gaz",
+      "Trash": "Çöp",
+      "TV/Phone/Internet": "TV/Telefon/İnternet",
+      "Water": "Su"
+    }
+  }
+}
