@@ -1,10 +1,10 @@
 import { prisma } from '@/lib/prisma'
-import { ExpenseFormValues, GroupFormValues } from '@/lib/schemas'
+import { ExpenseFormValues,GroupFormValues } from '@/lib/schemas'
 import {
-  ActivityType,
-  Expense,
-  RecurrenceRule,
-  RecurringExpenseLink,
+ActivityType,
+Expense,
+RecurrenceRule,
+RecurringExpenseLink,
 } from '@prisma/client'
 import { nanoid } from 'nanoid'
 
@@ -124,6 +124,41 @@ export async function deleteExpense(
   await prisma.expense.delete({
     where: { id: expenseId },
     include: { paidFor: true, paidBy: true },
+  })
+}
+
+export async function scheduleDeleteGroup(groupId: string, groupName: string, participantId?: string) {
+  const existingGroup = await getGroup(groupId)
+  if (!existingGroup) throw new Error('Invalid group ID')
+  if (existingGroup.name !== groupName)
+    throw new Error('Group name does not match')
+
+  await logActivity(groupId, ActivityType.UPDATE_GROUP, { participantId })
+
+  // Instead of deleting the group and all its associated data right away, we mark it as "to be deleted"
+  // This allows for a grace period during which the deletion can be reviewed or reversed if needed.
+  // the grace period is 30 days
+  const deletionTimestamp = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+
+  return prisma.group.update({
+    where: { id: groupId },
+    data: {
+      deleteAt: deletionTimestamp,
+    },
+  })
+}
+
+export async function restoreGroup(groupId: string) {
+  const existingGroup = await getGroup(groupId)
+  if (!existingGroup) throw new Error('Invalid group ID')
+  if (existingGroup.deleteAt === null)
+    throw new Error('Group is not marked for deletion')
+
+  return prisma.group.update({
+    where: { id: groupId },
+    data: {
+      deleteAt: null,
+    },
   })
 }
 
@@ -341,6 +376,7 @@ export async function getGroupExpenses(
   groupId: string,
   options?: { offset?: number; length?: number; filter?: string },
 ) {
+  await deleteScheduledGroups()
   await createRecurringExpenses()
 
   return prisma.expense.findMany({
@@ -435,6 +471,62 @@ export async function logActivity(
       ...extra,
     },
   })
+}
+
+async function deleteScheduledGroups() {
+  const now = new Date()
+  const groupsToDelete = await prisma.group.findMany({
+    where: {
+      deleteAt: {
+        lte: now,
+      },
+    },
+  })
+
+  // Delete the group and all its associated data
+  for (const group of groupsToDelete) {
+    // Delete Activities associated with the group
+    await prisma.activity.deleteMany({
+      where: { groupId: group.id },
+    });
+
+    await prisma.recurringExpenseLink.deleteMany({
+      where: { groupId: group.id },
+    });
+
+    // Delete Expenses associated with the group
+    const expensesToDelete = await prisma.expense.findMany({
+      where: { groupId: group.id },
+    });
+
+    for (const expense of expensesToDelete) {
+      await prisma.expensePaidFor.deleteMany({
+        where: { expenseId: expense.id },
+      });
+
+      // delete documents associated with the expense
+      const documentsToDelete = await prisma.expenseDocument.findMany({
+        where: { expenseId: expense.id },
+      });
+      for (const documentToDelete of documentsToDelete) {
+        // todo: delete the actual document from storage (e.g., S3, local storage, etc.)
+        await prisma.expenseDocument.delete({
+          where: { id: documentToDelete.id },
+        });
+      }
+      await prisma.expense.delete({
+        where: { id: expense.id },
+      });
+    }
+
+    await prisma.participant.deleteMany({
+      where: { groupId: group.id },
+    });
+
+    await prisma.group.delete({
+      where: { id: group.id },
+    });
+  }
 }
 
 async function createRecurringExpenses() {
