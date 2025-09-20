@@ -126,7 +126,21 @@
       "create": "Create",
       "creating": "Creating…",
       "cancel": "Cancel"
+    },
+    "Delete": {
+      "title": "Delete group",
+      "description": "Deleting a group will result in a 30 days deactivation period, after which all data will be permanently deleted and unrecoverable."
     }
+  },
+  "DeleteGroupButton": {
+    "title": "Delete group",
+    "description": "Do you really want to delete this group? To confirm, please enter the group name below.",
+    "groupNameField": "Group name"
+  },
+  "DeleteGroupNotice": {
+    "title": "Group scheduled for deletion",
+    "description": "This group was scheduled for deletion and will be permanently deleted on {date}. If you want to restore it, click the button below.",
+    "restore": "Restore group"
   },
   "ExpenseForm": {
     "Income": {

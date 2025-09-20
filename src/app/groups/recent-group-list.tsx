@@ -134,6 +134,15 @@ function RecentGroupList_({
     )
   }
 
+  if (data.groups.length !== groups.length) {
+    // Some groups in recent storage are not found in the API response, remove them from recent storage
+    const foundGroupIds = new Set(data.groups.map((group) => group.id))
+    const filteredGroups = groups.filter((group) =>
+      foundGroupIds.has(group.id),
+    )
+    localStorage.setItem('recentGroups', JSON.stringify(filteredGroups))
+  }
+
   const { starredGroupInfo, groupInfo, archivedGroupInfo } = sortGroups({
     groups,
     starredGroups,

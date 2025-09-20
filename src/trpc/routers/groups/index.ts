@@ -8,6 +8,8 @@ import { groupStatsRouter } from '@/trpc/routers/groups/stats'
 import { updateGroupProcedure } from '@/trpc/routers/groups/update.procedure'
 import { getGroupDetailsProcedure } from './getDetails.procedure'
 import { listGroupsProcedure } from './list.procedure'
+import { deleteGroupProcedure } from '@/trpc/routers/groups/delete.procedure'
+import { restoreGroupProcedure } from '@/trpc/routers/groups/restore.procedure'
 
 export const groupsRouter = createTRPCRouter({
   expenses: groupExpensesRouter,
@@ -20,4 +22,6 @@ export const groupsRouter = createTRPCRouter({
   list: listGroupsProcedure,
   create: createGroupProcedure,
   update: updateGroupProcedure,
+  delete: deleteGroupProcedure,
+  restore: restoreGroupProcedure,
 })
