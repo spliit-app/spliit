@@ -197,7 +197,7 @@ export function GroupForm({
                     <Input
                       className="text-base"
                       placeholder={t('CurrencyField.placeholder')}
-                      max={5}
+                      max={15}
                       {...field}
                     />
                   </FormControl>
