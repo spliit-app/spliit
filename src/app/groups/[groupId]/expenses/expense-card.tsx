@@ -99,7 +99,7 @@ export function ExpenseCard({
           <DocumentsCount count={expense._count.documents} />
         </div>
         <div className="text-xs text-muted-foreground">
-          {formatDate(expense.expenseDate, locale, { dateStyle: 'medium' })}
+          {formatDate(expense.expenseDate, locale, { dateStyle: 'medium', timeZone: 'UTC' })}
         </div>
       </div>
       <Button
