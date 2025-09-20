@@ -148,10 +148,12 @@ export const expenseFormSchema = z
         break // noop
       case 'BY_AMOUNT': {
         const sum = expense.paidFor.reduce(
-          (sum, { shares }) => sum + Number(shares),
+          // Total hack, but multiplying by 1000 avoids floating point rounding issues
+          // The ideal solution is using the group's currency decimal digits to determine the multiplier, but I can't seem to access that here
+          (sum, { shares }) => sum + Math.round(Number(shares) * 1000),
           0,
         )
-        if (sum !== expense.amount) {
+        if (sum !== Math.round(expense.amount * 1000)) {
           const detail =
             sum < expense.amount
               ? `${((expense.amount - sum) / 100).toFixed(2)} missing`
