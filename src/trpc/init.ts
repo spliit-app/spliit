@@ -1,6 +1,16 @@
+import { Prisma } from '@prisma/client'
 import { initTRPC } from '@trpc/server'
 import { cache } from 'react'
 import superjson from 'superjson'
+
+superjson.registerCustom<Prisma.Decimal, string>(
+  {
+    isApplicable: (v): v is Prisma.Decimal => Prisma.Decimal.isDecimal(v),
+    serialize: (v) => v.toJSON(),
+    deserialize: (v) => new Prisma.Decimal(v),
+  },
+  'decimal.js',
+)
 
 export const createTRPCContext = cache(async () => {
   /**

@@ -35,12 +35,23 @@ Spliit is a free and open source alternative to Splitwise. You can either use th
 
 ## Contribute
 
-The project is open to contributions. Feel free to open an issue or even a pull-request!
+The project is open to contributions. Feel free to open an issue or even a pull-request! 
+Join the discussion in [the Spliit Discord server](https://discord.gg/YSyVXbwvSY).
 
 If you want to contribute financially and help us keep the application free and without ads, you can also:
 
 - 💜 [Sponsor me (Sebastien)](https://github.com/sponsors/scastiel), or
 - 💙 [Make a small one-time donation](https://donate.stripe.com/28o3eh96G7hH8k89Ba).
+
+### Translation
+
+The project's translations are managed using [our Weblate project](https://hosted.weblate.org/projects/spliit/spliit/). 
+You can easily add missing translations to the project or even add a new language!
+Here is the current state of translation:
+
+<a href="https://hosted.weblate.org/engage/spliit/">
+<img src="https://hosted.weblate.org/widget/spliit/spliit/multi-auto.svg" alt="Translation status" />
+</a>
 
 ## Run locally
 
@@ -56,6 +67,13 @@ If you want to contribute financially and help us keep the application free and 
 2. Copy the file `container.env.example` as `container.env`
 3. Run `npm run start-container` to start the postgres and the spliit2 containers
 4. You can access the app by browsing to http://localhost:3000
+
+## Health check
+
+The application has a health check endpoint that can be used to check if the application is running and if the database is accessible.
+
+- `GET /api/health/readiness` or `GET /api/health` - Check if the application is ready to serve requests, including database connectivity.
+- `GET /api/health/liveness` - Check if the application is running, but not necessarily ready to serve requests.
 
 ## Opt-in features
 

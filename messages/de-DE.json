@@ -21,6 +21,7 @@
     "createFirst": "Erstelle die Erste",
     "noExpenses": "Deine Gruppe hat noch keine Ausgaben.",
     "exportJson": "Als JSON exportieren",
+    "exportCsv": "Als CSV exportieren",
     "searchPlaceholder": "Suche nach einer Ausgabe…",
     "ActiveUserModal": {
       "title": "Wer bist du?",
@@ -35,14 +36,17 @@
       "earlierThisMonth": "Diesen Monat",
       "lastMonth": "Letzten Monat",
       "earlierThisYear": "Dieses Jahr",
-      "lastYera": "Letztes Jahr",
+      "lastYear": "Letztes Jahr",
       "older": "Älter"
-    }
+    },
+    "export": "Exportieren"
   },
   "ExpenseCard": {
     "paidBy": "Gezahlt von <strong>{paidBy}</strong> für <paidFor></paidFor>",
     "receivedBy": "Empfangen von <strong>{paidBy}</strong> für <paidFor></paidFor>",
-    "yourBalance": "Deine Bilanz:"
+    "yourBalance": "Deine Bilanz:",
+    "everyone": "jeder",
+    "notInvolved": "Du bist nicht involviert"
   },
   "Groups": {
     "myGroups": "Meine Gruppen",
@@ -116,6 +120,12 @@
       "create": "Erstellen",
       "creating": "Erstellt…",
       "cancel": "Abbrechen"
+    },
+    "CurrencyCodeField": {
+      "label": "Hauptwährung",
+      "createDescription": "Alle Beträge und Salden werden in dieser Währung angegeben.",
+      "customOption": "benutzerdefiniert",
+      "editDescription": "Alle Beträge und Salden werden in dieser Währung angegeben. Bei Änderung dieser, werden bereits eingegebene Ausgaben NICHT umgerechnet, es sei denn, die Währung hat andere \"kleinere Einheiten\" als die aktuelle (z. B. Wechsel von US-Dollar zu Japanischem Yen)"
     }
   },
   "ExpenseForm": {
@@ -136,6 +146,14 @@
         "label": "Empfangen von",
         "description": "Wähle das Mitglied, das die Einnahme erhalten hat."
       },
+      "recurrenceRule": {
+        "label": "Wiederholung der Einnahme",
+        "description": "Wähle aus, wie oft die Einnahme wiederholt werden soll.",
+        "none": "Keine Wiederholung",
+        "daily": "Täglich",
+        "weekly": "Wöchentlich",
+        "monthly": "Monatlich"
+      },
       "paidFor": {
         "title": "Empfangen für",
         "description": "Wähle für wen die Einnahme empfangen wurde."
@@ -144,7 +162,7 @@
       "attachDescription": "Füge der Einnahme einen Beleg hinzu."
     },
     "Expense": {
-      "create": "Augabe erstellen",
+      "create": "Ausgabe erstellen",
       "edit": "Ausgabe bearbeiten",
       "TitleField": {
         "label": "Titel der Ausgabe",
@@ -158,7 +176,16 @@
       "categoryFieldDescription": "Wähle eine Kategorie für die Ausgabe.",
       "paidByField": {
         "label": "Gezahlt von",
+        "placeholder": "Wähle ein Mitglied",
         "description": "Wähle das Mitglied, das die Ausgabe bezahlt hat."
+      },
+      "recurrenceRule": {
+        "label": "Wiederholung der Ausgabe",
+        "description": "Wähle aus, wie oft die Ausgabe wiederholt werden soll.",
+        "none": "Keine Wiederholung",
+        "daily": "Täglich",
+        "weekly": "Wöchentlich",
+        "monthly": "Monatlich"
       },
       "paidFor": {
         "title": "Gezahlt für",
@@ -209,7 +236,7 @@
   "ExpenseDocumentsInput": {
     "TooBigToast": {
       "title": "Die Datei ist zu groß",
-      "description": "Die maximale Dateigröße ist {maxSize}. Deine ist ${size}."
+      "description": "Die maximale Dateigröße ist {maxSize}. Deine ist {size}."
     },
     "ErrorToast": {
       "title": "Fehler beim Hochladen der Datei",
@@ -222,7 +249,7 @@
       "triggerTitle": "Ausgabe von Rechnungsbeleg erstellen",
       "title": "Von Rechnungsbeleg erstellen",
       "description": "Ausgabeninformationen von einem Foto einer Rechnung lesen.",
-      "body": "Lade ein Foto der Rechnung hoch und wir versuchen die Ausgabeinformationen zu extrahieren",
+      "body": "Lade ein Foto der Rechnung hoch und wir versuchen die Ausgabeinformationen zu extrahieren.",
       "selectImage": "Bild wählen…",
       "titleLabel": "Titel:",
       "categoryLabel": "Kategorie:",
@@ -234,7 +261,7 @@
     "unknown": "Unbekannt",
     "TooBigToast": {
       "title": "Die Datei ist zu groß",
-      "description": "Die maximale Dateigröße ist {maxSize}. Deine ist ${size}."
+      "description": "Die maximale Dateigröße ist {maxSize}. Deine ist {size}."
     },
     "ErrorToast": {
       "title": "Fehler beim Hochladen der Datei",
@@ -271,13 +298,13 @@
     "noActivity": "Es gab noch keine Aktivität in dieser Gruppe.",
     "someone": "Jemand",
     "settingsModified": "Die Gruppeneinstellungen wurden von <strong>{participant}</strong> verändert.",
-    "expenseCreated": "Augabe <em>{expense}</em> wurde von <strong>{participant}</strong> erstellt.",
+    "expenseCreated": "Ausgabe <em>{expense}</em> wurde von <strong>{participant}</strong> erstellt.",
     "expenseUpdated": "Ausgabe <em>{expense}</em> wurde von <strong>{participant}</strong> aktualisiert.",
     "expenseDeleted": "Ausgabe <em>{expense}</em> wurde von <strong>{participant}</strong> gelöscht.",
     "Groups": {
       "today": "Heute",
       "yesterday": "Gestern",
-      "earlierThisWeek": "Diese Woche",
+      "earlierThisWeek": "Anfang dieser Woche",
       "lastWeek": "Letze Woche",
       "earlierThisMonth": "Diesen Monat",
       "lastMonth": "Letzen Monat",
@@ -294,24 +321,11 @@
   "Settings": {
     "title": "Einstellungen"
   },
-  "Locale": {
-    "en-US": "English",
-    "fi": "Suomi",
-    "fr-FR": "Français",
-    "es": "Español",
-    "de-DE": "Deutsch",
-    "zh-CN": "Chinese (Simplified)",
-    "pl-PL": "Polski",
-    "ru-RU": "Русский",
-    "it-IT": "Italiano",
-    "ua-UA": "Українська",
-    "ro": "Română"
-  },
   "Share": {
     "title": "Teilen",
     "description": "Teile die URL, damit andere Mitglieder die Gruppe sehen und Ausgaben hinzufügen können.",
     "warning": "Achtung!",
-    "warningHelp": "Jede person mit der Gruppen-URL kann Ausgaben sehen und editieren. Teile den Link mit Bedacht!"
+    "warningHelp": "Jede Person mit der Gruppen-URL kann Ausgaben sehen und editieren. Teile den Link mit Bedacht!"
   },
   "SchemaErrors": {
     "min1": "Gib mindestens ein Zeichen ein.",
@@ -323,7 +337,7 @@
     "invalidNumber": "Zahl nicht valide.",
     "amountRequired": "Du musst einen Betrag angeben.",
     "amountNotZero": "Der Betrag darf nicht 0 sein.",
-    "amountTenMillion": "Der Betrag muss kleiner als 10.000.000 sein",
+    "amountTenMillion": "Der Betrag muss kleiner als 10.000.000 sein.",
     "paidByRequired": "Du musst ein Mitglied auswählen.",
     "paidForMin1": "Die Ausgabe muss mindestens für ein Mitglied bezahlt werden.",
     "noZeroShares": "Alle Anteile müssen größer als 0 sein.",
@@ -369,6 +383,7 @@
       "heading": "Leben",
       "Childcare": "Kinderversorgung",
       "Clothing": "Kleidung",
+      "Donation": "Spende",
       "Education": "Bildung",
       "Gifts": "Geschenke",
       "Insurance": "Versicherung",
@@ -396,6 +411,19 @@
       "Trash": "Müll",
       "TV/Phone/Internet": "TV/Internet/Telefonie",
       "Water": "Wasser"
+    }
+  },
+  "Currencies": {
+    "search": "Währung suchen...",
+    "noCurrency": "Keine Währungen gefunden.",
+    "other": {
+      "heading": "Andere Währungen"
+    },
+    "custom": {
+      "heading": "Benutzerdefinierte"
+    },
+    "common": {
+      "heading": "Geläufigste"
     }
   }
 }

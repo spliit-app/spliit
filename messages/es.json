@@ -20,7 +20,9 @@
     "create": "Crear gasto",
     "createFirst": "Crea el primero",
     "noExpenses": "Tu grupo aun no tiene gastos.",
+    "export": "Exportar",
     "exportJson": "Exportar a JSON",
+    "exportCsv": "Exportar a CSV",
     "searchPlaceholder": "Busca un gasto…",
     "ActiveUserModal": {
       "title": "¿Quién es usted?",
@@ -35,7 +37,7 @@
       "earlierThisMonth": "A principios de este mes",
       "lastMonth": "El mes pasado",
       "earlierThisYear": "A principios de este año",
-      "lastYera": "El año pasado",
+      "lastYear": "El año pasado",
       "older": "Más antiguos"
     }
   },
@@ -160,6 +162,14 @@
         "label": "Pagado por",
         "description": "Seleccione el participante que pagó el gasto."
       },
+      "recurrenceRule": {
+        "label": "Recurrencia",
+        "description": "Seleccione con qué frecuencia debe repetirse el gasto.",
+        "none": "Ninguno",
+        "daily": "Diario",
+        "weekly": "Semanal",
+        "monthly": "Mensual"
+      },
       "paidFor": {
         "title": "Pagado para",
         "description": "Seleccione para quién se pagó el gasto."
@@ -209,7 +219,7 @@
   "ExpenseDocumentsInput": {
     "TooBigToast": {
       "title": "El archivo es demasiado grande",
-      "description": "El tamaño máximo de archivo que puede cargar es {maxSize}. El tuyo pesa ${size}."
+      "description": "El tamaño máximo de archivo que puede cargar es {maxSize}. El tuyo pesa {size}."
     },
     "ErrorToast": {
       "title": "Error al cargar el documento",
@@ -234,7 +244,7 @@
     "unknown": "Desconocido",
     "TooBigToast": {
       "title": "El archivo es demasiado grande",
-      "description": "El tamaño máximo de archivo que puede cargar es {maxSize}. El tuyo pesa ${size}."
+      "description": "El tamaño máximo de archivo que puede cargar es {maxSize}. El tuyo pesa {size}."
     },
     "ErrorToast": {
       "title": "Error al cargar el documento",
@@ -249,7 +259,7 @@
       "title": "Reembolsos propuestos",
       "description": "He aquí algunas sugerencias para optimizar los reembolsos entre los participantes.",
       "noImbursements": "Parece que tu grupo no necesita ningún reembolso 😁",
-      "owes": "<strong>{from}</strong> debe <strong>{to}</strong>",
+      "owes": "<strong>{from}</strong> debe a <strong>{to}</strong>",
       "markAsPaid": "Marcar como pagado"
     }
   },
@@ -293,19 +303,6 @@
   },
   "Settings": {
     "title": "Ajustes"
-  },
-  "Locale": {
-    "en-US": "English",
-    "fi": "Suomi",
-    "fr-FR": "Français",
-    "es": "Español",
-    "de-DE": "Deutsch",
-    "zh-CN": "Chinese (Simplified)",
-    "pl-PL": "Polski",
-    "ru-RU": "Русский",
-    "it-IT": "Italiano",
-    "ua-UA": "Українська",
-    "ro": "Română"
   },
   "Share": {
     "title": "Compartir",

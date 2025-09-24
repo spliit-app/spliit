@@ -21,6 +21,7 @@
     "createFirst": "Создать первый расход",
     "noExpenses": "У вашей группы пока что нет расходов.",
     "exportJson": "Экспортировать в JSON",
+    "exportCsv": "Экспортировать в CSV",
     "searchPlaceholder": "Поиск расходов…",
     "ActiveUserModal": {
       "title": "Кто вы?",
@@ -35,7 +36,7 @@
       "earlierThisMonth": "Ранее в этом месяце",
       "lastMonth": "В прошлом месяце",
       "earlierThisYear": "Ранее в этом году",
-      "lastYera": "В прошлом году",
+      "lastYear": "В прошлом году",
       "older": "Очень давно"
     }
   },
@@ -209,7 +210,7 @@
   "ExpenseDocumentsInput": {
     "TooBigToast": {
       "title": "Файл слишком большой",
-      "description": "Максимальный размер файла, который можно загрузить — {maxSize}. Размер вашего файла — ${size}."
+      "description": "Максимальный размер файла, который можно загрузить — {maxSize}. Размер вашего файла — {size}."
     },
     "ErrorToast": {
       "title": "Ошибка при загрузке документа",
@@ -234,7 +235,7 @@
     "unknown": "Неизвестно",
     "TooBigToast": {
       "title": "Файл слишком большой",
-      "description": "Максимальный размер файла, который можно загрузить — {maxSize}. Размер вашего файла — ${size}."
+      "description": "Максимальный размер файла, который можно загрузить — {maxSize}. Размер вашего файла — {size}."
     },
     "ErrorToast": {
       "title": "Ошибка при загрузке документа",
@@ -293,19 +294,6 @@
   },
   "Settings": {
     "title": "Настройки"
-  },
-  "Locale": {
-    "en-US": "English",
-    "fi": "Suomi",
-    "fr-FR": "Français",
-    "es": "Español",
-    "de-DE": "Deutsch",
-    "zh-CN": "Chinese (Simplified)",
-    "pl-PL": "Polski",
-    "ru-RU": "Русский",
-    "it-IT": "Italiano",
-    "ua-UA": "Українська",
-    "ro": "Română"
   },
   "Share": {
     "title": "Поделиться",
