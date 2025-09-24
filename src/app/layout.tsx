@@ -138,11 +138,12 @@ function Content({ children }: { children: React.ReactNode }) {
                     {txt}
                   </a>
                 ),
-              })}
+              })
+              }
             </span>
+            <span className="flex text-gray-500 text-sm">Version: {version}</span>
           </div>
         </div>
-        <div className="flex absolute bottom-0 right-0">{version}</div>
       </footer>
       <Toaster />
     </TRPCProvider>
