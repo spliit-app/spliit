@@ -81,7 +81,7 @@ const getDefaultSplittingOptions = (
     splitMode: 'EVENLY' as const,
     paidFor: group.participants.map(({ id }) => ({
       participant: id,
-      shares: 1,
+      shares: "1", // Use string to ensure consistent schema handling
     })),
   }
 
@@ -113,7 +113,7 @@ const getDefaultSplittingOptions = (
     splitMode: parsedDefaultSplitMode.splitMode,
     paidFor: parsedDefaultSplitMode.paidFor.map((paidFor) => ({
       participant: paidFor.participant,
-      shares: paidFor.shares / 100,
+      shares: (paidFor.shares / 100).toString(), // Convert to string for consistent schema handling
     })),
   }
 }
@@ -200,7 +200,7 @@ export function ExpenseForm({
             shares:
               expense.splitMode === 'BY_AMOUNT'
                 ? amountAsDecimal(shares, groupCurrency)
-                : shares / 100,
+                : (shares / 100).toString(), // Convert to string to ensure consistent handling
           })),
           splitMode: expense.splitMode,
           saveDefaultSplittingOptions: false,
@@ -359,9 +359,7 @@ export function ExpenseForm({
           if (!editedParticipants.includes(participant.participant)) {
             return {
               ...participant,
-              shares: Number(
-                amountPerRemaining.toFixed(groupCurrency.decimal_digits),
-              ),
+              shares: amountPerRemaining.toFixed(groupCurrency.decimal_digits), // Keep as string for consistent schema handling
             }
           }
           return participant
@@ -827,7 +825,7 @@ export function ExpenseForm({
                         participant: p.id,
                         shares:
                           paidFor.find((pfor) => pfor.participant === p.id)
-                            ?.shares ?? 1,
+                            ?.shares ?? "1", // Use string to ensure consistent schema handling
                       }))
                   form.setValue('paidFor', newPaidFor, {
                     shouldDirty: true,
@@ -886,7 +884,7 @@ export function ExpenseForm({
                                             ...field.value,
                                             {
                                               participant: id,
-                                              shares: 1,
+                                              shares: "1", // Use string to ensure consistent schema handling
                                             },
                                           ],
                                           options,
