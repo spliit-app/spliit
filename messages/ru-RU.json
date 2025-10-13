@@ -38,7 +38,8 @@
       "earlierThisYear": "Ранее в этом году",
       "lastYear": "В прошлом году",
       "older": "Очень давно"
-    }
+    },
+    "export": "Экспортировать"
   },
   "ExpenseCard": {
     "paidBy": "Потратил <strong>{paidBy}</strong> за <paidFor></paidFor>",
