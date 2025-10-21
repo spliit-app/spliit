@@ -228,6 +228,41 @@
       "label": "Oharrak"
     },
     "selectNone": "Hautatu bat ere ez",
-    "selectAll": "Hautatu denak"
+    "selectAll": "Hautatu denak",
+    "shares": "partekatzea(k)",
+    "advancedOptions": "Zatitzeko aukera aurreratuak…",
+    "SplitModeField": {
+      "label": "Zatitzeko modua",
+      "evenly": "Zati berdinetan",
+      "byShares": "Zati ezberdinetan - Partekatzetan",
+      "byPercentage": "Zati ezberdinetan - ehunekoen bidez",
+      "byAmount": "Zati desberdinetan - zenbatekoen bidez",
+      "saveAsDefault": "Gorde gogoko zatitze modu gisa"
+    },
+    "DeletePopup": {
+      "label": "Ezabatu",
+      "title": "Ezabatu gastu hau?",
+      "description": "Benetan gastu hau ezabatu nahi duzu? Ekintzak ez dauka atzera bueltarik.",
+      "yes": "Bai",
+      "cancel": "Utzi"
+    },
+    "attachDocuments": "Erantsi dokumentuak",
+    "create": "Sortu",
+    "creating": "Sortzen…",
+    "save": "Gorde",
+    "saving": "Gordetzen…",
+    "cancel": "Utzi",
+    "reimbursement": "Diru-itzultzea"
+  },
+  "ExpenseDocumentsInput": {
+    "TooBigToast": {
+      "title": "Fitxategia handiegia da",
+      "description": "Igo dezakezun fitxategirik handiena {maxSize} da. Zureak {size} pisatzen du."
+    },
+    "ErrorToast": {
+      "title": "Errorea dokumentua igotzean",
+      "description": "Errore bat gertatu da dokumentua igotzean. Saiatu geroago edo hautatu beste fitxategi bat.",
+      "retry": "Saiatu berriro"
+    }
   }
 }
