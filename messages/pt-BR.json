@@ -223,7 +223,15 @@
     "save": "Salvar",
     "saving": "Salvando…",
     "cancel": "Cancelar",
-    "reimbursement": "Reembolso"
+    "reimbursement": "Reembolso",
+    "conversionRateField": {
+      "label": "Taxa de câmbio"
+    },
+    "conversionRateState": {
+      "success": "Taxas obtidas:",
+      "error": "Opa, não conseguimos obter as taxas mais recentes.",
+      "refresh": "Atualizar"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
