@@ -371,7 +371,81 @@
     "noCategory": "Ez da kategoriarik aurkitu.",
     "Uncategorized": {
       "heading": "Kategoriarik gabe",
-      "General": "Orokorra"
+      "General": "Orokorra",
+      "Payment": "Ordainketa"
+    },
+    "Entertainment": {
+      "heading": "Aisia",
+      "Entertainment": "Aisia",
+      "Games": "Jolasak",
+      "Movies": "Filmak",
+      "Music": "Musika",
+      "Sports": "Kirolak"
+    },
+    "Food and Drink": {
+      "heading": "Janari-edariak",
+      "Food and Drink": "Janari-edariak",
+      "Dining Out": "Kanpoan afaltzea",
+      "Groceries": "Janariak",
+      "Liquor": "Likoreak"
+    },
+    "Home": {
+      "heading": "Etxea",
+      "Home": "Etxea",
+      "Electronics": "Elektronika",
+      "Furniture": "Altzariak",
+      "Household Supplies": "Etxeko hornidurak",
+      "Maintenance": "Mantenua",
+      "Mortgage": "Hipoteka",
+      "Pets": "Maskotak",
+      "Rent": "Etxeko errenta",
+      "Services": "Zerbitzuak"
+    },
+    "Life": {
+      "heading": "Bizitza",
+      "Childcare": "Umeen zaintza",
+      "Clothing": "Arropa",
+      "Donation": "Dohaintza",
+      "Education": "Hezkuntza",
+      "Gifts": "Opariak",
+      "Insurance": "Asegurua",
+      "Medical Expenses": "Osasun gastuak",
+      "Taxes": "Zergak"
+    },
+    "Transportation": {
+      "heading": "Garraioa",
+      "Transportation": "Garraioa",
+      "Bicycle": "Bizikleta",
+      "Bus/Train": "Autobusa/Trena",
+      "Car": "Autoa",
+      "Gas/Fuel": "Gasolina/Erregaia",
+      "Hotel": "Hotela",
+      "Parking": "Aparkalekua",
+      "Plane": "Hegazkina",
+      "Taxi": "Taxia"
+    },
+    "Utilities": {
+      "heading": "Erabilgarritasunak",
+      "Utilities": "Erabilgarritasunak",
+      "Cleaning": "Garbiketa",
+      "Electricity": "Elektrizitatea",
+      "Heat/Gas": "Berokuntza/Gasa",
+      "Trash": "Zaborra",
+      "TV/Phone/Internet": "TV/Telefonoa/Interneta",
+      "Water": "Ura"
+    }
+  },
+  "Currencies": {
+    "search": "Bilatu moneta...",
+    "noCurrency": "Ez da monetarik aurkitu.",
+    "custom": {
+      "heading": "Pertsonalizatua"
+    },
+    "common": {
+      "heading": "Ohikoena"
+    },
+    "other": {
+      "heading": "Beste monetak"
     }
   }
 }
