@@ -264,5 +264,114 @@
       "description": "Errore bat gertatu da dokumentua igotzean. Saiatu geroago edo hautatu beste fitxategi bat.",
       "retry": "Saiatu berriro"
     }
+  },
+  "CreateFromReceipt": {
+    "Dialog": {
+      "triggerTitle": "Sortu gastua ordainagiri batetik",
+      "title": "Sortu ordainagiritik",
+      "description": "Erauzi gastuaren informazioa ordainagiriren argazkitik.",
+      "body": "Igo ordainagiri baten argazkia eta eskaneatuko dugu gastuaren informazioa erauzteko, ahal badugu.",
+      "selectImage": "Hautatu irudia…",
+      "titleLabel": "Titulua:",
+      "categoryLabel": "Kategoria:",
+      "amountLabel": "Zenbatekoa:",
+      "dateLabel": "Data:",
+      "editNext": "Ondoren, gastuaren informazioa editatzeko aukera izango duzu.",
+      "continue": "Jarraitu"
+    },
+    "unknown": "Ezezaguna",
+    "TooBigToast": {
+      "title": "Fitxategia handiegia da",
+      "description": "Igo dezakezun fitxategiaren gehienezko tamaina {maxSize} da. Zureak {size} pisatzen du."
+    },
+    "ErrorToast": {
+      "title": "Errorea dokumentua igotzean",
+      "description": "Dokumentua igotzean errore bat gertatu da. Saiatu berriro beranduago edo hautatu beste fitxategi bat.",
+      "retry": "Saiatu berriro"
+    }
+  },
+  "Balances": {
+    "title": "Saldoak",
+    "description": "Hau da kide bakoitzak ordaindu edo jaso duen zenbatekoa.",
+    "Reimbursements": {
+      "title": "Proposatutako diru-itzulketak",
+      "description": "Hona hemen kideen arteko ditu-itzulketak optimizatzeko proposamenak.",
+      "noImbursements": "Antza denez zure taldeak ez du diru-itzulketarik behar 😁",
+      "owes": "<strong>{from}</strong> zor dio <strong>{to}</strong>-ri",
+      "markAsPaid": "Markatu ordainduta gisa"
+    }
+  },
+  "Stats": {
+    "title": "Estatistikak",
+    "Totals": {
+      "title": "Denetara",
+      "description": "Talde osoaren gastuen laburpena.",
+      "groupSpendings": "Talde osoaren gastuak",
+      "groupEarnings": "Talde osoaren diru-sarrerak",
+      "yourSpendings": "Zure gastuak denetara",
+      "yourEarnings": "Zure diru-sarrerak denetara",
+      "yourShare": "Zure parte osoa"
+    }
+  },
+  "Activity": {
+    "title": "Jarduera",
+    "description": "Talde honetako jarduera guztien ikuspegi orokorra.",
+    "noActivity": "Oraindik ez dago jarduerarik zure taldean.",
+    "someone": "Norbait",
+    "settingsModified": "<strong>{participant}</strong>-k taldearen ezarpenak aldatu ditu.",
+    "expenseCreated": "<strong>{participant}</strong>-k <em>{expense}</em> gastua sortu du.",
+    "expenseUpdated": "<strong>{participant}</strong>-k <em>{expense}</em> gastua eguneratu du.",
+    "expenseDeleted": "<strong>{participant}</strong>-k <em>{expense}</em> gastua ezabatu du.",
+    "Groups": {
+      "today": "Gaur",
+      "yesterday": "Atzo",
+      "earlierThisWeek": "Aste honen hasieran",
+      "lastWeek": "Pasa den astean",
+      "earlierThisMonth": "Hilabete honen hasieran",
+      "lastMonth": "Pasa den hilabetean",
+      "earlierThisYear": "Urte honen hasieran",
+      "lastYear": "Iaz",
+      "older": "Zaharragoak"
+    }
+  },
+  "Information": {
+    "title": "Informazioa",
+    "description": "Erabili leku hau taldeko kideentzat garrantzitsua izan daitekeen edozein informazio gehitzeko.",
+    "empty": "Oraindik ez dago taldearen informaziorik."
+  },
+  "Settings": {
+    "title": "Ezarpenak"
+  },
+  "Share": {
+    "title": "Partekatu",
+    "description": "Beste kide batzuek taldea ikusteko eta gastuak gehitzeko, partekatu haiekin URLa.",
+    "warning": "Kontuz!",
+    "warningHelp": "Taldeko URLa duen edozein pertsonak gastuak ikusi eta editatu ahal izango ditu. Partekatu kontuz!"
+  },
+  "SchemaErrors": {
+    "min1": "Sartu gutxienez karaktere bat.",
+    "min2": "Sartu gutxienez bi karaktere.",
+    "max5": "Sartu gutxienez bost karaktere.",
+    "max50": "Sartu gutxienez 50 karaktere.",
+    "duplicateParticipantName": "Badago izen hori duen beste kide bat.",
+    "titleRequired": "Sartu titulu bat.",
+    "invalidNumber": "Zenbaki baliogabea.",
+    "amountRequired": "Zenbateko bat sartu behar duzu.",
+    "amountNotZero": "Zenbatekoa ezin da zero izan.",
+    "amountTenMillion": "Zenbatekoa 10.000.000 baino txikiagoa izan behar du.",
+    "ratePositive": "Tasa zero baino handiagoa izan behar du.",
+    "paidByRequired": "Kide bat hautatu behar duzu.",
+    "paidForMin1": "Gastua gutxienez kide batek ordaindu behar du.",
+    "noZeroShares": "Parte guztiek zero baino handiagoak izan behar dute.",
+    "amountSum": "Zenbatekoen baturak gastuaren zenbatekoa berdindu behar du.",
+    "percentageSum": "Ehunekoen baturak 100 izan behar du."
+  },
+  "Categories": {
+    "search": "Bilatu kategoria...",
+    "noCategory": "Ez da kategoriarik aurkitu.",
+    "Uncategorized": {
+      "heading": "Kategoriarik gabe",
+      "General": "Orokorra"
+    }
   }
 }
