@@ -10,10 +10,6 @@
   "Header": {
     "groups": "グループ"
   },
-  "Footer": {
-    "madeIn": "モントリオール、ケベック 🇨🇦 で製作",
-    "builtBy": "<author>Sebastien Castiel</author>と<source>貢献者</source>によって構築"
-  },
   "Expenses": {
     "title": "支出",
     "description": "グループのために作成した支出はこちらです。",

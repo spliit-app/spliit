@@ -10,10 +10,6 @@
   "Header": {
     "groups": "Grupos"
   },
-  "Footer": {
-    "madeIn": "Feito em Montréal, Québec 🇨🇦",
-    "builtBy": "Desenvolvido por <author>Sebastien Castiel</author> e <source>contribuidores</source>"
-  },
   "Expenses": {
     "title": "Despesas",
     "description": "Aqui estão as despesas que você criou para o seu grupo.",

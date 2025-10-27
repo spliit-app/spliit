@@ -10,10 +10,6 @@
   "Header": {
     "groups": "Grupuri"
   },
-  "Footer": {
-    "madeIn": "Dezvoltat în Montréal, Québec 🇨🇦",
-    "builtBy": "Dezvoltat de către <author>Sebastien Castiel</author> și <source>contribuitori</source>"
-  },
   "Expenses": {
     "title": "Cheltuieli",
     "description": "Aici sunt cheltuielile pe care le-ai creat pentru grupul tău.",

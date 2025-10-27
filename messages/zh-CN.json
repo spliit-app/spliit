@@ -10,10 +10,6 @@
   "Header": {
     "groups": "群组"
   },
-  "Footer": {
-    "madeIn": "Made in Montréal, Québec 🇨🇦",
-    "builtBy": "由 <author>Sebastien Castiel</author> 以及 <source>社区贡献者们</source> 共同构建"
-  },
   "Expenses": {
     "title": "消费",
     "description": "这里有你为你的群组创建的消费。",
