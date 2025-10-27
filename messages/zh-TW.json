@@ -10,10 +10,6 @@
   "Header": {
     "groups": "群組"
   },
-  "Footer": {
-    "madeIn": "來自 🇨🇦 加拿大魁北克蒙特婁",
-    "builtBy": "由 <author>Sebastien Castiel</author> 以及 <source>社群貢獻者</source> 共同創建維護"
-  },
   "Expenses": {
     "title": "消費",
     "description": "這裡是您為群組建立的消費。",

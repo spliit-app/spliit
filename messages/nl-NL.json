@@ -10,10 +10,6 @@
   "Header": {
     "groups": "Groepen"
   },
-  "Footer": {
-    "madeIn": "Gemaakt in Montréal, Québec 🇨🇦",
-    "builtBy": "Geschreven door <author>Sebastien Castiel</author> en <source>bijdragers</source>"
-  },
   "Expenses": {
     "title": "Uitgaven",
     "description": "Dit zijn de uitgaven die je gemaakt hebt voor je groep.",

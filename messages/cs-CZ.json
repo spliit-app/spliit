@@ -10,10 +10,6 @@
   "Header": {
     "groups": "Skupiny"
   },
-  "Footer": {
-    "madeIn": "Vyrobeno v Montréalu, Québec 🇨🇦",
-    "builtBy": "Vytvořil <author>Sebastien Castiel</author> a <source>další přispěvatelé</source>"
-  },
   "Expenses": {
     "title": "Výdaje",
     "description": "Zde jsou výdaje, které jste vytvořili pro svou skupinu.",
