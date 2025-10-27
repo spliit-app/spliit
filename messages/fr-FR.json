@@ -447,5 +447,34 @@
     "other": {
       "heading": "Autres devises"
     }
+  },
+  "SplitwiseImport": {
+    "button": "Importer depuis Splitwise",
+    "title": "Importer depuis Splitwise",
+    "description": "Téléchargez un fichier CSV exporté depuis Splitwise pour importer les dépenses dans ce groupe. Assurez-vous que les noms des participants dans le CSV correspondent aux noms dans ce groupe.",
+    "fileLabel": "Fichier CSV",
+    "previewLabel": "Aperçu (10 premières lignes)",
+    "clear": "Effacer",
+    "cancel": "Annuler",
+    "import": "Importer les Dépenses",
+    "importing": "Importation...",
+    "toast": {
+      "invalidFileType": {
+        "title": "Type de fichier invalide",
+        "description": "Veuillez sélectionner un fichier CSV."
+      },
+      "noContent": {
+        "title": "Aucun contenu CSV",
+        "description": "Veuillez d'abord sélectionner un fichier CSV."
+      },
+      "success": {
+        "title": "Importation réussie",
+        "description": "Importation réussie de {count} dépenses depuis Splitwise."
+      },
+      "error": {
+        "title": "Échec de l'importation",
+        "description": "Échec de l'importation du fichier CSV."
+      }
+    }
   }
 }

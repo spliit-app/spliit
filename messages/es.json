@@ -394,5 +394,34 @@
       "TV/Phone/Internet": "TV/Teléfono/Internet",
       "Water": "Agua"
     }
+  },
+  "SplitwiseImport": {
+    "button": "Importar desde Splitwise",
+    "title": "Importar desde Splitwise",
+    "description": "Sube un archivo CSV exportado desde Splitwise para importar gastos a este grupo. Asegúrate de que los nombres de los participantes en el CSV coincidan con los nombres en este grupo.",
+    "fileLabel": "Archivo CSV",
+    "previewLabel": "Vista previa (primeras 10 líneas)",
+    "clear": "Limpiar",
+    "cancel": "Cancelar",
+    "import": "Importar Gastos",
+    "importing": "Importando...",
+    "toast": {
+      "invalidFileType": {
+        "title": "Tipo de archivo inválido",
+        "description": "Por favor selecciona un archivo CSV."
+      },
+      "noContent": {
+        "title": "Sin contenido CSV",
+        "description": "Por favor selecciona un archivo CSV primero."
+      },
+      "success": {
+        "title": "Importación exitosa",
+        "description": "Se importaron exitosamente {count} gastos desde Splitwise."
+      },
+      "error": {
+        "title": "Error en la importación",
+        "description": "Error al importar el archivo CSV."
+      }
+    }
   }
 }
