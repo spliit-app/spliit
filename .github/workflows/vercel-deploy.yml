@@ -14,10 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
        - name: Checkout
-         uses: action/checkout@v4
+         uses: actions/checkout@v4
 
        - name: Setup Node
-         uses: actiion/setup-node@v4
+         uses: actions/setup-node@v4
          with:
           node-version: '18'
 
@@ -25,7 +25,7 @@ jobs:
          run: npm install -g vercel@latest
 
        - name: Pull Vercel Envirolment
-         run: Vercel pull --yes --envirolment=prodution --token=${{secrets.VERCEL_TOKEN}}
+         run: vercel pull --yes --environment=production --token=${{secrets.VERCEL_TOKEN}}
 
        - name: Build Artifacts
          run: vercel build --prod --token=${{secrets.VERCEL_TOKEN}}
