@@ -1,0 +1,31 @@
+name: Deploy no Vercel
+
+env: 
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID}}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID}}
+
+on: 
+  push: 
+    branches: 
+      - imsi-action
+
+jobs: 
+  Deploy-Prodution:
+    runs-on: ubuntu-latest
+    - name: Checkout
+      uses: action/checkput@v4
+
+    - name: Setup Node
+      uses: actiion/setup-node@v4
+
+    - name: Install Vercel CLT
+      run: npm install -g vercel@latest
+
+    - name: Pull Vercel Envirolment
+      run: Vercel pull --yes --envirolment=prodution --token=${{secrets.VERCEL_TOKEN}}
+
+    - name: Build Artifacts
+      run: vercel build --prod --token=${{secrets.VERCEL_TOKEN}}
+
+    - name: Deploy
+      run: vercel deploy --prebult --prod --token=${{secrets.VERCEL_TOKEN}}
