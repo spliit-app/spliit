@@ -12,20 +12,23 @@ on:
 jobs: 
   Deploy-Prodution:
     runs-on: ubuntu-latest
-      - name: Checkout
-       uses: action/checkput@v4
+    steps:
+       - name: Checkout
+         uses: action/checkout@v4
 
-      - name: Setup Node
-        uses: actiion/setup-node@v4
+       - name: Setup Node
+         uses: actiion/setup-node@v4
+         with:
+          node-version: '18'
 
-      - name: Install Vercel CLT
-        run: npm install -g vercel@latest
+       - name: Install Vercel CLT
+         run: npm install -g vercel@latest
 
-      - name: Pull Vercel Envirolment
-        run: Vercel pull --yes --envirolment=prodution --token=${{secrets.VERCEL_TOKEN}}
+       - name: Pull Vercel Envirolment
+         run: Vercel pull --yes --envirolment=prodution --token=${{secrets.VERCEL_TOKEN}}
 
-      - name: Build Artifacts
-        run: vercel build --prod --token=${{secrets.VERCEL_TOKEN}}
+       - name: Build Artifacts
+         run: vercel build --prod --token=${{secrets.VERCEL_TOKEN}}
 
-      - name: Deploy
-        run: vercel deploy --prebult --prod --token=${{secrets.VERCEL_TOKEN}}
+       - name: Deploy
+         run: vercel deploy --prebult --prod --token=${{secrets.VERCEL_TOKEN}}
