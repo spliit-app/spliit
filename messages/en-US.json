@@ -125,7 +125,12 @@
       "saving": "Saving…",
       "create": "Create",
       "creating": "Creating…",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "delete": "Delete group",
+      "deleting": "Deleting…",
+      "deleteConfirm": "Do you really want to delete this group? This action is irreversible.",
+      "deleteSuccess": "Group deleted successfully.",
+      "deleteError": "Oops, we could not delete the group. Please try again."
     }
   },
   "ExpenseForm": {

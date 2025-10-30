@@ -326,6 +326,16 @@ export async function updateGroup(
   })
 }
 
+export async function deleteGroup(groupId: string) {
+  const existingGroup = await getGroup(groupId)
+  if (!existingGroup) throw new Error('Invalid group ID')
+
+  await prisma.$transaction(async (transaction) => {
+    await transaction.activity.deleteMany({ where: { groupId } })
+    await transaction.group.delete({ where: { id: groupId } })
+  })
+}
+
 export async function getGroup(groupId: string) {
   return prisma.group.findUnique({
     where: { id: groupId },

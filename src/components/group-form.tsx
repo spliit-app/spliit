@@ -35,7 +35,7 @@ import { getGroup } from '@/lib/api'
 import { defaultCurrencyList, getCurrency } from '@/lib/currency'
 import { GroupFormValues, groupFormSchema } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Save, Trash2 } from 'lucide-react'
+import { Loader2, Save, Trash2 } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -50,12 +50,16 @@ export type Props = {
     participantId?: string,
   ) => Promise<void>
   protectedParticipantIds?: string[]
+  onDelete?: () => Promise<void>
+  isDeleting?: boolean
 }
 
 export function GroupForm({
   group,
   onSubmit,
   protectedParticipantIds = [],
+  onDelete,
+  isDeleting = false,
 }: Props) {
   const locale = useLocale()
   const t = useTranslations('GroupForm')
@@ -366,6 +370,29 @@ export function GroupForm({
             <Save className="w-4 h-4 mr-2" />{' '}
             {t(group ? 'Settings.save' : 'Settings.create')}
           </SubmitButton>
+          {group && onDelete && (
+            <Button
+              variant="destructive"
+              type="button"
+              className="ml-auto"
+              disabled={isDeleting}
+              onClick={async () => {
+                if (!window.confirm(t('Settings.deleteConfirm'))) return
+                await onDelete()
+              }}
+            >
+              {isDeleting ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />{' '}
+                  {t('Settings.deleting')}
+                </>
+              ) : (
+                <>
+                  <Trash2 className="w-4 h-4 mr-2" /> {t('Settings.delete')}
+                </>
+              )}
+            </Button>
+          )}
           {!group && (
             <Button variant="ghost" asChild>
               <Link href="/groups">{t('Settings.cancel')}</Link>

@@ -117,7 +117,12 @@
       "saving": "保存中...",
       "create": "作成",
       "creating": "作成中...",
-      "cancel": "キャンセル"
+      "cancel": "キャンセル",
+      "delete": "グループを削除",
+      "deleting": "削除しています...",
+      "deleteConfirm": "このグループを本当に削除しますか？この操作は元に戻せません。",
+      "deleteSuccess": "グループを削除しました。",
+      "deleteError": "グループを削除できませんでした。もう一度お試しください。"
     }
   },
   "ExpenseForm": {
