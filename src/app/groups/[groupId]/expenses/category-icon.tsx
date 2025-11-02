@@ -39,6 +39,7 @@ import {
   Train,
   Trash,
   Utensils,
+  WandSparkles,
   Wine,
   Wrench,
 } from 'lucide-react'
@@ -99,6 +100,8 @@ function getCategoryIcon(category: string): LucideIcon {
       return Shirt
     case 'Life/Donation':
       return HandHelping
+    case 'Life/Beauty':
+      return WandSparkles
     case 'Life/Education':
       return LibraryBig
     case 'Life/Gifts':
