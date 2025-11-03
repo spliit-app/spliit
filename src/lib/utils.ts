@@ -24,6 +24,34 @@ export function formatDate(
   })
 }
 
+/**
+ * Formats a date-only field (without time) for display.
+ * Extracts UTC date components to avoid timezone shifts that can cause off-by-one day errors.
+ * Use this for dates stored as DATE type in the database (e.g., expenseDate).
+ *
+ * @param date - The date to format (typically from a database DATE field, e.g., 2025-10-17T00:00:00.000Z)
+ * @param locale - The locale string (e.g., 'en-US', 'fr-FR')
+ * @param options - Formatting options (dateStyle, timeStyle)
+ * @returns Formatted date string in the specified locale
+ */
+export function formatDateOnly(
+  date: Date,
+  locale: string,
+  options: { dateStyle?: DateTimeStyle; timeStyle?: DateTimeStyle } = {},
+) {
+  // Extract UTC date components to avoid timezone shifts
+  const year = date.getUTCFullYear()
+  const month = date.getUTCMonth()
+  const day = date.getUTCDate()
+
+  // Create a new date in the user's local timezone with these components
+  const localDate = new Date(year, month, day)
+
+  return localDate.toLocaleString(locale, {
+    ...options,
+  })
+}
+
 export function formatCategoryForAIPrompt(category: Category) {
   return `"${category.grouping}/${category.name}" (ID: ${category.id})`
 }
