@@ -27,17 +27,20 @@ export async function getUserLocale() {
   let locale
 
   // Prio 1: use existing cookie
-  locale = cookies().get(COOKIE_NAME)?.value
+  const cookieStore = await cookies()
+  locale = cookieStore.get(COOKIE_NAME)?.value
 
   // Prio 2: use `accept-language` header
   // Prio 3: use default locale
   if (!locale) {
-    locale = getAcceptLanguageLocale(headers(), locales)
+    const headersList = await headers()
+    locale = getAcceptLanguageLocale(headersList, locales)
   }
 
   return locale
 }
 
 export async function setUserLocale(locale: Locale) {
-  cookies().set(COOKIE_NAME, locale)
+  const cookieStore = await cookies()
+  cookieStore.set(COOKIE_NAME, locale)
 }

@@ -19,7 +19,7 @@ export function TotalsYourShare({
       <div
         className={cn(
           'text-lg',
-          totalParticipantShare < 0 ? 'text-green-600' : 'text-red-600',
+          totalParticipantShare < 0 ? 'text-credit' : 'text-debt',
         )}
       >
         {formatCurrency(currency, Math.abs(totalParticipantShare), locale)}

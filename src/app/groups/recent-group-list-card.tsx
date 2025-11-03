@@ -14,13 +14,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useToast } from '@/components/ui/use-toast'
 import { AppRouterOutput } from '@/trpc/routers/_app'
 import { StarFilledIcon } from '@radix-ui/react-icons'
 import { Calendar, MoreHorizontal, Star, Users } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
 export function RecentGroupListCard({
   group,
@@ -37,14 +37,13 @@ export function RecentGroupListCard({
 }) {
   const router = useRouter()
   const locale = useLocale()
-  const toast = useToast()
   const t = useTranslations('Groups')
 
   return (
     <li key={group.id}>
       <Button
         variant="secondary"
-        className="h-fit w-full py-3 rounded-lg border bg-card shadow-sm"
+        className="h-fit w-full py-3 rounded-lg border bg-card shadow-xs"
         asChild
       >
         <div
@@ -59,7 +58,7 @@ export function RecentGroupListCard({
               >
                 {group.name}
               </Link>
-              <span className="flex-shrink-0">
+              <span className="shrink-0">
                 <Button
                   size="icon"
                   variant="ghost"
@@ -99,8 +98,7 @@ export function RecentGroupListCard({
                         deleteRecentGroup(group)
                         refreshGroupsFromStorage()
 
-                        toast.toast({
-                          title: t('RecentRemovedToast.title'),
+                        toast.success(t('RecentRemovedToast.title'), {
                           description: t('RecentRemovedToast.description'),
                         })
                       }}

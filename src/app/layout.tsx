@@ -4,7 +4,6 @@ import { ProgressBar } from '@/components/progress-bar'
 import { ThemeProvider } from '@/components/theme-provider'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { Button } from '@/components/ui/button'
-import { Toaster } from '@/components/ui/toaster'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { env } from '@/lib/env'
 import { TRPCProvider } from '@/trpc/client'
@@ -14,6 +13,7 @@ import { getLocale, getMessages } from 'next-intl/server'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Suspense } from 'react'
+import { Toaster } from 'sonner'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -69,7 +69,7 @@ function Content({ children }: { children: React.ReactNode }) {
   return (
     <TRPCProvider>
       <TooltipProvider>
-        <header className="fixed top-0 left-0 right-0 h-16 flex justify-between bg-white dark:bg-gray-950 bg-opacity-50 dark:bg-opacity-50 p-2 border-b backdrop-blur-sm z-50">
+        <header className="fixed top-0 left-0 right-0 h-16 flex justify-between bg-white dark:bg-gray-950 bg-opacity-50 dark:bg-opacity-50 p-2 border-b backdrop-blur-xs z-50">
           <Link
             className="flex items-center gap-2 hover:scale-105 transition-transform"
             href="/"
@@ -87,12 +87,7 @@ function Content({ children }: { children: React.ReactNode }) {
           <div role="navigation" aria-label="Menu" className="flex">
             <ul className="flex items-center text-sm">
               <li>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  asChild
-                  className="-my-3 text-primary"
-                >
+                <Button variant="ghost" size="sm" asChild className="-my-3">
                   <Link href="/groups">{t('Header.groups')}</Link>
                 </Button>
               </li>
@@ -122,7 +117,7 @@ export default async function RootLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <ApplePwaSplash icon="/logo-with-text.png" color="#027756" />
-      <body className="pt-16 min-h-[100dvh] flex flex-col items-stretch bg-slate-50 bg-opacity-30 dark:bg-background">
+      <body className="mt-16 min-h-dvh flex flex-col items-stretch">
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider
             attribute="class"

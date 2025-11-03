@@ -16,11 +16,11 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { useToast } from '@/components/ui/use-toast'
 import { trpc } from '@/trpc/client'
 import { Loader2, Upload, X } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useRef, useState } from 'react'
+import { toast } from 'sonner'
 
 interface SplitwiseImportProps {
   groupId: string
@@ -35,7 +35,6 @@ export function SplitwiseImport({
   const [csvContent, setCsvContent] = useState('')
   const [isImporting, setIsImporting] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const { toast } = useToast()
   const t = useTranslations('SplitwiseImport')
 
   const { mutateAsync: importSplitwise } =
@@ -47,10 +46,8 @@ export function SplitwiseImport({
     if (!file) return
 
     if (!file.name.toLowerCase().endsWith('.csv')) {
-      toast({
-        title: t('toast.invalidFileType.title'),
+      toast.error(t('toast.invalidFileType.title'), {
         description: t('toast.invalidFileType.description'),
-        variant: 'destructive',
       })
       return
     }
@@ -72,10 +69,8 @@ export function SplitwiseImport({
 
   const handleImport = async () => {
     if (!csvContent.trim()) {
-      toast({
-        title: t('toast.noContent.title'),
+      toast.error(t('toast.noContent.title'), {
         description: t('toast.noContent.description'),
-        variant: 'destructive',
       })
       return
     }
@@ -87,8 +82,7 @@ export function SplitwiseImport({
         csvContent,
       })
 
-      toast({
-        title: t('toast.success.title'),
+      toast.success(t('toast.success.title'), {
         description: t('toast.success.description', {
           count: result.importedCount,
         }),
@@ -107,11 +101,9 @@ export function SplitwiseImport({
       onImportComplete?.()
     } catch (error) {
       console.error('Import failed:', error)
-      toast({
-        title: t('toast.error.title'),
+      toast.error(t('toast.error.title'), {
         description:
           error instanceof Error ? error.message : t('toast.error.description'),
-        variant: 'destructive',
       })
     } finally {
       setIsImporting(false)

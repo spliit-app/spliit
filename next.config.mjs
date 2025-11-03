@@ -1,6 +1,6 @@
 import createNextIntlPlugin from 'next-intl/plugin'
 
-const withNextIntl = createNextIntlPlugin()
+const withNextIntl = createNextIntlPlugin('./src/i18n.ts')
 
 /**
  * Undefined entries are not supported. Push optional patterns to this array only if defined.

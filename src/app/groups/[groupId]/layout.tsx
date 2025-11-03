@@ -4,14 +4,13 @@ import { PropsWithChildren } from 'react'
 import { GroupLayoutClient } from './layout.client'
 
 type Props = {
-  params: {
+  params: Promise<{
     groupId: string
-  }
+  }>
 }
 
-export async function generateMetadata({
-  params: { groupId },
-}: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { groupId } = await params
   const group = await cached.getGroup(groupId)
 
   return {
@@ -22,9 +21,10 @@ export async function generateMetadata({
   }
 }
 
-export default function GroupLayout({
+export default async function GroupLayout({
   children,
-  params: { groupId },
+  params,
 }: PropsWithChildren<Props>) {
+  const { groupId } = await params
   return <GroupLayoutClient groupId={groupId}>{children}</GroupLayoutClient>
 }

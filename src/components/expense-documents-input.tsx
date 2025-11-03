@@ -13,8 +13,6 @@ import {
   DialogContent,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { ToastAction } from '@/components/ui/toast'
-import { useToast } from '@/components/ui/use-toast'
 import { randomId } from '@/lib/api'
 import { ExpenseFormValues } from '@/lib/schemas'
 import { formatFileSize } from '@/lib/utils'
@@ -23,6 +21,7 @@ import { useLocale, useTranslations } from 'next-intl'
 import { getImageData, usePresignedUpload } from 'next-s3-upload'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 type Props = {
   documents: ExpenseFormValues['documents']
@@ -36,17 +35,14 @@ export function ExpenseDocumentsInput({ documents, updateDocuments }: Props) {
   const t = useTranslations('ExpenseDocumentsInput')
   const [pending, setPending] = useState(false)
   const { FileInput, openFileDialog, uploadToS3 } = usePresignedUpload() // use presigned uploads to addtionally support providers other than AWS
-  const { toast } = useToast()
 
   const handleFileChange = async (file: File) => {
     if (file.size > MAX_FILE_SIZE) {
-      toast({
-        title: t('TooBigToast.title'),
+      toast.error(t('TooBigToast.title'), {
         description: t('TooBigToast.description', {
           maxSize: formatFileSize(MAX_FILE_SIZE, locale),
           size: formatFileSize(file.size, locale),
         }),
-        variant: 'destructive',
       })
       return
     }
@@ -60,18 +56,12 @@ export function ExpenseDocumentsInput({ documents, updateDocuments }: Props) {
         updateDocuments([...documents, { id: randomId(), url, width, height }])
       } catch (err) {
         console.error(err)
-        toast({
-          title: t('ErrorToast.title'),
+        toast.error(t('ErrorToast.title'), {
           description: t('ErrorToast.description'),
-          variant: 'destructive',
-          action: (
-            <ToastAction
-              altText={t('ErrorToast.retry')}
-              onClick={() => upload()}
-            >
-              {t('ErrorToast.retry')}
-            </ToastAction>
-          ),
+          action: {
+            label: t('ErrorToast.retry'),
+            onClick: () => upload(),
+          },
         })
       } finally {
         setPending(false)
@@ -156,7 +146,7 @@ export function DocumentThumbnail({
           />
         </Button>
       </DialogTrigger>
-      <DialogContent className="p-4 w-[100vw] max-w-[100vw] h-[100dvh] max-h-[100dvh] sm:max-w-[calc(100vw-32px)] sm:max-h-[calc(100dvh-32px)] [&>:last-child]:hidden">
+      <DialogContent className="p-4 w-screen max-w-[100vw] h-dvh max-h-dvh sm:max-w-[calc(100vw-32px)] sm:max-h-[calc(100dvh-32px)] [&>*:last-child]:hidden">
         <div className="flex flex-col gap-4">
           <div className="flex justify-end">
             <Button

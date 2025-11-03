@@ -8,6 +8,7 @@ import { SplitwiseImport } from '@/components/splitwise-import'
 import { Button } from '@/components/ui/button'
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -36,12 +37,10 @@ export default function GroupExpensesPageClient({
   return (
     <>
       <Card className="mb-4 rounded-none -mx-4 border-x-0 sm:border-x sm:rounded-lg sm:mx-0">
-        <div className="flex flex-1">
-          <CardHeader className="flex-1 p-4 sm:p-6">
-            <CardTitle>{t('title')}</CardTitle>
-            <CardDescription>{t('description')}</CardDescription>
-          </CardHeader>
-          <CardHeader className="p-4 sm:p-6 flex flex-row space-y-0 gap-2">
+        <CardHeader className="p-4 sm:p-6">
+          <CardTitle>{t('title')}</CardTitle>
+          <CardDescription>{t('description')}</CardDescription>
+          <CardAction className="flex flex-row gap-2">
             <ExportButton groupId={groupId} />
             <SplitwiseImport groupId={groupId} />
             {enableReceiptExtract && <CreateFromReceiptButton />}
@@ -53,8 +52,8 @@ export default function GroupExpensesPageClient({
                 <Plus className="w-4 h-4" />
               </Link>
             </Button>
-          </CardHeader>
-        </div>
+          </CardAction>
+        </CardHeader>
 
         <CardContent className="p-0 pt-2 pb-4 sm:pb-6 flex flex-col gap-4 relative">
           <ExpenseList />

@@ -23,8 +23,6 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer'
-import { ToastAction } from '@/components/ui/toast'
-import { useToast } from '@/components/ui/use-toast'
 import { useMediaQuery } from '@/lib/hooks'
 import {
   formatCurrency,
@@ -39,6 +37,7 @@ import { getImageData, usePresignedUpload } from 'next-s3-upload'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { PropsWithChildren, ReactNode, useState } from 'react'
+import { toast } from 'sonner'
 import { useCurrentGroup } from '../current-group-context'
 
 const MAX_FILE_SIZE = 5 * 1024 ** 2
@@ -86,7 +85,6 @@ function ReceiptDialogContent() {
   const t = useTranslations('CreateFromReceipt')
   const [pending, setPending] = useState(false)
   const { uploadToS3, FileInput, openFileDialog } = usePresignedUpload()
-  const { toast } = useToast()
   const router = useRouter()
   const [receiptInfo, setReceiptInfo] = useState<
     | null
@@ -95,13 +93,11 @@ function ReceiptDialogContent() {
 
   const handleFileChange = async (file: File) => {
     if (file.size > MAX_FILE_SIZE) {
-      toast({
-        title: t('TooBigToast.title'),
+      toast.error(t('TooBigToast.title'), {
         description: t('TooBigToast.description', {
           maxSize: formatFileSize(MAX_FILE_SIZE, locale),
           size: formatFileSize(file.size, locale),
         }),
-        variant: 'destructive',
       })
       return
     }
@@ -118,18 +114,12 @@ function ReceiptDialogContent() {
         setReceiptInfo({ amount, categoryId, date, title, url, width, height })
       } catch (err) {
         console.error(err)
-        toast({
-          title: t('ErrorToast.title'),
+        toast.error(t('ErrorToast.title'), {
           description: t('ErrorToast.description'),
-          variant: 'destructive',
-          action: (
-            <ToastAction
-              altText={t('ErrorToast.retry')}
-              onClick={() => upload()}
-            >
-              {t('ErrorToast.retry')}
-            </ToastAction>
-          ),
+          action: {
+            label: t('ErrorToast.retry'),
+            onClick: () => upload(),
+          },
         })
       } finally {
         setPending(false)

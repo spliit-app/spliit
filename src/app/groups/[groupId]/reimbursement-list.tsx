@@ -33,12 +33,12 @@ export function ReimbursementList({
           <div className="flex flex-col gap-1 items-start sm:flex-row sm:items-baseline sm:gap-4">
             <div>
               {t.rich('owes', {
-                from: getParticipant(reimbursement.from)?.name,
-                to: getParticipant(reimbursement.to)?.name,
+                from: getParticipant(reimbursement.from)?.name ?? 'Unknown',
+                to: getParticipant(reimbursement.to)?.name ?? 'Unknown',
                 strong: (chunks) => <strong>{chunks}</strong>,
               })}
             </div>
-            <Button variant="link" asChild className="-mx-4 -my-3">
+            <Button asChild className="-mx-4 -my-3" size="sm" variant="ghost">
               <Link
                 href={`/groups/${groupId}/expenses/create?reimbursement=yes&from=${reimbursement.from}&to=${reimbursement.to}&amount=${reimbursement.amount}`}
               >

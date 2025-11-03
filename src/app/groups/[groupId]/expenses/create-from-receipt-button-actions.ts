@@ -5,7 +5,13 @@ import { formatCategoryForAIPrompt } from '@/lib/utils'
 import OpenAI from 'openai'
 import { ChatCompletionCreateParamsNonStreaming } from 'openai/resources/index.mjs'
 
-const openai = new OpenAI({ apiKey: env.OPENAI_API_KEY })
+// Only initialize OpenAI if API key is available
+const getOpenAI = () => {
+  if (!env.OPENAI_API_KEY) {
+    throw new Error('OpenAI API key is not configured')
+  }
+  return new OpenAI({ apiKey: env.OPENAI_API_KEY })
+}
 
 export async function extractExpenseInformationFromImage(imageUrl: string) {
   'use server'
@@ -37,6 +43,7 @@ export async function extractExpenseInformationFromImage(imageUrl: string) {
       },
     ],
   }
+  const openai = getOpenAI()
   const completion = await openai.chat.completions.create(body)
 
   const [amountString, categoryId, date, title] = completion.choices

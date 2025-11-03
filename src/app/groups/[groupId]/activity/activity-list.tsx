@@ -120,11 +120,7 @@ export function ActivityList() {
 
         return (
           <div key={dateGroup}>
-            <div
-              className={
-                'text-muted-foreground text-xs py-1 font-semibold sticky top-16 bg-white dark:bg-[#1b1917]'
-              }
-            >
+            <div className="text-xs py-1 font-semibold sticky top-16 bg-background">
               {t(`Groups.${dateGroup}`)}
             </div>
             {groupActivities.map((activity) => {
