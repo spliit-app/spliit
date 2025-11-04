@@ -106,12 +106,23 @@ export const expenseFormSchema = z
       )
       .min(1, 'paidForMin1')
       .superRefine((paidFor, ctx) => {
-        for (const { shares } of paidFor) {
-          const shareNumber = Number(shares)
-          if (shareNumber <= 0) {
+        for (let i = 0; i < paidFor.length; i++) {
+          const { shares } = paidFor[i]
+          // Handle empty strings as invalid (not as 0)
+          if (typeof shares === 'string' && shares.trim() === '') {
             ctx.addIssue({
               code: z.ZodIssueCode.custom,
               message: 'noZeroShares',
+              path: ['paidFor', i, 'shares'],
+            })
+            continue
+          }
+          const shareNumber = Number(shares)
+          if (Number.isNaN(shareNumber) || shareNumber <= 0) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: 'noZeroShares',
+              path: ['paidFor', i, 'shares'],
             })
           }
         }

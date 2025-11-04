@@ -195,13 +195,16 @@ export function ExpenseForm({
           conversionRate: expense.conversionRate?.toNumber(),
           category: expense.categoryId,
           paidBy: expense.paidById,
-          paidFor: expense.paidFor.map(({ participantId, shares }) => ({
-            participant: participantId,
-            shares:
+          paidFor: expense.paidFor.map(({ participantId, shares }) => {
+            const shareValue =
               expense.splitMode === 'BY_AMOUNT'
                 ? amountAsDecimal(shares, groupCurrency)
-                : shares / 100,
-          })),
+                : shares / 100
+            return {
+              participant: participantId,
+              shares: Number.isNaN(shareValue) || shareValue <= 0 ? 1 : shareValue,
+            }
+          }),
           splitMode: expense.splitMode,
           saveDefaultSplittingOptions: false,
           isReimbursement: expense.isReimbursement,
@@ -492,10 +495,11 @@ export function ExpenseForm({
                     <Input
                       className="date-base"
                       type="date"
-                      defaultValue={formatDate(field.value)}
+                      value={formatDate(field.value)}
                       onChange={(event) => {
                         return field.onChange(new Date(event.target.value))
                       }}
+                      onBlur={field.onBlur}
                     />
                   </FormControl>
                   <FormDescription>
@@ -1101,7 +1105,7 @@ export function ExpenseForm({
                                                 field.value?.find(
                                                   ({ participant }) =>
                                                     participant === id,
-                                                )?.shares
+                                                )?.shares ?? ''
                                               }
                                               onChange={(event) => {
                                                 field.onChange(
