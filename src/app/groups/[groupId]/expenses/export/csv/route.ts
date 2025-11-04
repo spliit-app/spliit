@@ -151,7 +151,7 @@ export async function GET(
   const csv = json2csvParser.parse(expenses)
 
   const date = new Date().toISOString().split('T')[0]
-  const filename = `Spliit Export - ${group.name} - ${date}.csv`
+  const filename = `Knot Export - ${group.name} - ${date}.csv`
 
   // \uFEFF character is added at the beginning of the CSV content to ensure that it is interpreted as UTF-8 with BOM (Byte Order Mark), which helps some applications correctly interpret the encoding.
   return new NextResponse(`\uFEFF${csv}`, {

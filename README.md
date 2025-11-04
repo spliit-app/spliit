@@ -1,8 +1,8 @@
-[<img alt="Spliit" height="60" src="https://github.com/spliit-app/spliit/blob/main/public/logo-with-text.png?raw=true" />](https://spliit.app)
+[<img alt="Knot" height="60" src="https://github.com/spliit-app/spliit/blob/main/public/logo-with-text.png?raw=true" />](https://knot.app)
 
-Spliit is a free and open source alternative to Splitwise. You can either use the official instance at [Spliit.app](https://spliit.app), or deploy your own instance:
+Knot is a free and open source alternative to Splitwise. You can either use the official instance at [Knot.app](https://knot.app), or deploy your own instance:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fspliit-app%2Fspliit&project-name=my-spliit-instance&repository-name=my-spliit-instance&stores=%5B%7B%22type%22%3A%22postgres%22%7D%5D&)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fspliit-app%2Fspliit&project-name=my-knot-instance&repository-name=my-knot-instance&stores=%5B%7B%22type%22%3A%22postgres%22%7D%5D&)
 
 ## Features
 
@@ -36,11 +36,11 @@ Spliit is a free and open source alternative to Splitwise. You can either use th
 ## Contribute
 
 The project is open to contributions. Feel free to open an issue or even a pull-request! 
-Join the discussion in [the Spliit Discord server](https://discord.gg/YSyVXbwvSY).
+Join the discussion in [the Knot Discord server](https://discord.gg/YSyVXbwvSY).
 
 If you want to contribute financially and help us keep the application free and without ads, you can also:
 
-- 💜 [Sponsor me (Sebastien)](https://github.com/sponsors/scastiel), or
+- 💜 [Sponsor me (Rafael)](https://github.com/sponsors/rjdmacedo), or
 - 💙 [Make a small one-time donation](https://donate.stripe.com/28o3eh96G7hH8k89Ba).
 
 ### Translation
@@ -65,7 +65,7 @@ Here is the current state of translation:
 
 1. Run `npm run build-image` to build the docker image from the Dockerfile
 2. Copy the file `container.env.example` as `container.env`
-3. Run `npm run start-container` to start the postgres and the spliit2 containers
+3. Run `npm run start-container` to start the postgres and the knot containers
 4. You can access the app by browsing to http://localhost:3000
 
 ## Health check
@@ -79,7 +79,7 @@ The application has a health check endpoint that can be used to check if the app
 
 ### Expense documents
 
-Spliit offers users to upload images (to an AWS S3 bucket) and attach them to expenses. To enable this feature:
+Knot offers users to upload images (to an AWS S3 bucket) and attach them to expenses. To enable this feature:
 
 - Follow the instructions in the _S3 bucket_ and _IAM user_ sections of [next-s3-upload](https://next-s3-upload.codingvalue.com/setup#s3-bucket) to create and set up an S3 bucket where images will be stored.
 - Update your environments variables with appropriate values:

@@ -1,7 +1,7 @@
 services:
   app:
     build: .
-    image: spliit:latest
+    image: knot:latest
     ports:
       - 3000:3000
     env_file:
@@ -10,7 +10,7 @@ services:
       db:
         condition: service_healthy
     networks:
-      - spliit_network
+      - knot_network
 
   db:
     image: postgres:latest
@@ -26,8 +26,8 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - spliit_network
+      - knot_network
 
 networks:
-  spliit_network:
+  knot_network:
     driver: bridge

@@ -36,7 +36,7 @@ export function ShareButton({ group }: Props) {
             <Input className="flex-1" defaultValue={url} readOnly />
             <CopyButton text={url} />
             <ShareUrlButton
-              text={`Join my group ${group.name} on Spliit`}
+              text={`Join my group ${group.name} on Knot`}
               url={url}
             />
           </div>

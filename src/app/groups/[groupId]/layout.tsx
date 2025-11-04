@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: {
       default: group?.name ?? '',
-      template: `%s · ${group?.name} · Spliit`,
+      template: `%s · ${group?.name} · Knot`,
     },
   }
 }
