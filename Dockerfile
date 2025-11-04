@@ -6,7 +6,6 @@ COPY ./package.json \
      ./next.config.mjs \
      ./tsconfig.json \
      ./reset.d.ts \
-     ./tailwind.config.js \
      ./postcss.config.js ./
 COPY ./scripts ./scripts
 COPY ./prisma ./prisma

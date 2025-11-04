@@ -32,7 +32,7 @@ export interface ParsedSplitwiseExpense {
 }
 
 /**
- * Parses Splitwise CSV content and converts it to Spliit expense format
+ * Parses Splitwise CSV content and converts it to Knots expense format
  * @param csvContent - The CSV content from Splitwise export
  * @param groupId - The target group ID for the expenses
  * @returns Array of parsed expenses ready for creation

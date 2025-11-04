@@ -62,7 +62,7 @@ export function AddGroupByUrlButton({ reload }: Props) {
           <Input
             type="url"
             required
-            placeholder="https://spliit.app/..."
+            placeholder="https://knot.app/..."
             className="flex-1 text-base"
             value={url}
             disabled={pending}
