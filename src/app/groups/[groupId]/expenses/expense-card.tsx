@@ -82,6 +82,11 @@ export function ExpenseCard({
         <div className="text-xs text-muted-foreground">
           <Participants expense={expense} participantCount={participantCount} />
         </div>
+        {expense.paymentMethod && (
+          <div className="text-xs text-muted-foreground">
+            Payment: {expense.paymentMethod}
+          </div>
+        )}
         <div className="text-xs text-muted-foreground">
           <ActiveUserBalance {...{ groupId, currency, expense }} />
         </div>

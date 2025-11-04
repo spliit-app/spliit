@@ -194,6 +194,7 @@ export function ExpenseForm({
           originalAmount: expense.originalAmount ?? undefined,
           conversionRate: expense.conversionRate?.toNumber(),
           category: expense.categoryId,
+          paymentMethod: expense.paymentMethod ?? undefined,
           paidBy: expense.paidById,
           paidFor: expense.paidFor.map(({ participantId, shares }) => ({
             participant: participantId,
@@ -221,6 +222,7 @@ export function ExpenseForm({
           originalAmount: undefined,
           conversionRate: undefined,
           category: 1, // category with Id 1 is Payment
+          paymentMethod: undefined,
           paidBy: searchParams.get('from') ?? undefined,
           paidFor: [
             searchParams.get('to')
@@ -249,6 +251,7 @@ export function ExpenseForm({
           category: searchParams.get('categoryId')
             ? Number(searchParams.get('categoryId'))
             : 0, // category with Id 0 is General
+          paymentMethod: undefined,
           // paid for all, split evenly
           paidFor: defaultSplittingOptions.paidFor,
           paidBy: getSelectedPayer(),
@@ -664,6 +667,37 @@ export function ExpenseForm({
                   />
                   <FormDescription>
                     {t(`${sExpense}.categoryFieldDescription`)}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="paymentMethod"
+              render={({ field }) => (
+                <FormItem className="sm:order-4">
+                  <FormLabel>Payment method</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select payment method" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="cash">Cash</SelectItem>
+                      <SelectItem value="card">Card</SelectItem>
+                      <SelectItem value="paypal">PayPal</SelectItem>
+                      <SelectItem value="bank_transfer">Bank Transfer</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    Select how this expense was paid
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

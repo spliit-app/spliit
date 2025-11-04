@@ -50,6 +50,7 @@ export const expenseFormSchema = z
     expenseDate: z.coerce.date(),
     title: z.string({ required_error: 'titleRequired' }).min(2, 'min2'),
     category: z.coerce.number().default(0),
+    paymentMethod: z.string().optional(),
     amount: z
       .union(
         [

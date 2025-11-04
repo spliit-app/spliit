@@ -56,6 +56,7 @@ model Expense {
   groupId          String
   isReimbursement  Boolean           @default(false)
   splitMode        SplitMode         @default(EVENLY)
+  paymentMethod    String?
   createdAt        DateTime          @default(now())
   documents        ExpenseDocument[]
   notes            String?

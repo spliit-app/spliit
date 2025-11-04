@@ -77,6 +77,7 @@ export async function createExpense(
       title: expenseFormValues.title,
       paidById: expenseFormValues.paidBy,
       splitMode: expenseFormValues.splitMode,
+      paymentMethod: expenseFormValues.paymentMethod,
       recurrenceRule: expenseFormValues.recurrenceRule,
       recurringExpenseLink: {
         ...(isCreateRecurrence
@@ -216,6 +217,7 @@ export async function updateExpense(
       categoryId: expenseFormValues.category,
       paidById: expenseFormValues.paidBy,
       splitMode: expenseFormValues.splitMode,
+      paymentMethod: expenseFormValues.paymentMethod,
       recurrenceRule: expenseFormValues.recurrenceRule,
       paidFor: {
         create: expenseFormValues.paidFor
@@ -351,6 +353,7 @@ export async function getGroupExpenses(
       expenseDate: true,
       id: true,
       isReimbursement: true,
+      paymentMethod: true,
       paidBy: { select: { id: true, name: true } },
       paidFor: {
         select: {
