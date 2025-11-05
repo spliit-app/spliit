@@ -319,9 +319,9 @@
     "noActivity": "Oraindik ez dago jarduerarik zure taldean.",
     "someone": "Norbait",
     "settingsModified": "<strong>{participant}</strong>-k taldearen ezarpenak aldatu ditu.",
-    "expenseCreated": "<strong>{participant}</strong>-k <em>{expense}</em> gastua sortu du.",
-    "expenseUpdated": "<strong>{participant}</strong>-k <em>{expense}</em> gastua eguneratu du.",
-    "expenseDeleted": "<strong>{participant}</strong>-k <em>{expense}</em> gastua ezabatu du.",
+    "expenseCreated": "<em>{expense}</em>ko gastua sortu du <strong>{participant}</strong>-k.",
+    "expenseUpdated": "<em>{expense}</em>ko gastua <strong>{participant}</strong>-k sortua.",
+    "expenseDeleted": "<em>{expense}</em>ko gastua ezabatu du <strong>{participant}</strong>-k.",
     "Groups": {
       "today": "Gaur",
       "yesterday": "Atzo",
