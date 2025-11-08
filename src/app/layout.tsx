@@ -13,6 +13,7 @@ import { getLocale, getMessages } from 'next-intl/server'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Suspense } from 'react'
+import { version } from '../../package.json'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -138,6 +139,9 @@ function Content({ children }: { children: React.ReactNode }) {
                   </a>
                 ),
               })}
+            </span>
+            <span className="flex text-gray-500 text-sm">
+              Version: {version}
             </span>
           </div>
         </div>
