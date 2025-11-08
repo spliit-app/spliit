@@ -21,6 +21,7 @@ model Group {
   expenses     Expense[]
   activities   Activity[]
   createdAt    DateTime      @default(now())
+  deleteAt     DateTime?
 }
 
 model Participant {
