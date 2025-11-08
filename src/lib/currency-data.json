@@ -216,6 +216,15 @@
       "rounding": 0,
       "decimal_digits": 0
     },
+    "MOP": {
+      "name": "Macanese Pataca",
+      "symbol_native": "$",
+      "symbol": "MOP$",
+      "code": "MOP",
+      "name_plural": "Macanese patacas",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "MXN": {
       "name": "Mexican Peso",
       "symbol_native": "$",
@@ -487,6 +496,15 @@
       "name_plural": "South Korean won",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MOP": {
+      "name": "Macaon pataca",
+      "symbol_native": "$",
+      "symbol": "MOP$",
+      "code": "MOP",
+      "name_plural": "Macanese patacas",
+      "rounding": 0,
+      "decimal_digits": 2
     },
     "MXN": {
       "name": "Meksikon peso",
@@ -760,6 +778,15 @@
       "rounding": 0,
       "decimal_digits": 0
     },
+    "MOP": {
+      "name": "pataca macanaise",
+      "symbol_native": "$",
+      "symbol": "MOP$",
+      "code": "MOP",
+      "name_plural": "Macanese patacas",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "MXN": {
       "name": "peso mexicain",
       "symbol_native": "$",
@@ -1031,6 +1058,15 @@
       "name_plural": "South Korean won",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MOP": {
+      "name": "pataca macanesa",
+      "symbol_native": "$",
+      "symbol": "MOP$",
+      "code": "MOP",
+      "name_plural": "Macanese patacas",
+      "rounding": 0,
+      "decimal_digits": 2
     },
     "MXN": {
       "name": "peso mexicano",
@@ -1304,6 +1340,15 @@
       "rounding": 0,
       "decimal_digits": 0
     },
+    "MOP": {
+      "name": "Macau-Pataca",
+      "symbol_native": "$",
+      "symbol": "MOP$",
+      "code": "MOP",
+      "name_plural": "Macanese patacas",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "MXN": {
       "name": "Mexikanischer Peso",
       "symbol_native": "$",
@@ -1575,6 +1620,15 @@
       "name_plural": "South Korean won",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MOP": {
+      "name": "澳门币",
+      "symbol_native": "$",
+      "symbol": "MOP$",
+      "code": "MOP",
+      "name_plural": "Macanese patacas",
+      "rounding": 0,
+      "decimal_digits": 2
     },
     "MXN": {
       "name": "墨西哥比索",
@@ -1848,6 +1902,15 @@
       "rounding": 0,
       "decimal_digits": 0
     },
+    "MOP": {
+      "name": "澳門幣",
+      "symbol_native": "$",
+      "symbol": "MOP$",
+      "code": "MOP",
+      "name_plural": "Macanese patacas",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "MXN": {
       "name": "墨西哥比索",
       "symbol_native": "$",
@@ -2119,6 +2182,15 @@
       "name_plural": "South Korean won",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MOP": {
+      "name": "マカオ パタカ",
+      "symbol_native": "$",
+      "symbol": "MOP$",
+      "code": "MOP",
+      "name_plural": "Macanese patacas",
+      "rounding": 0,
+      "decimal_digits": 2
     },
     "MXN": {
       "name": "メキシコ ペソ",
@@ -2392,6 +2464,15 @@
       "rounding": 0,
       "decimal_digits": 0
     },
+    "MOP": {
+      "name": "pataca macańska",
+      "symbol_native": "$",
+      "symbol": "MOP$",
+      "code": "MOP",
+      "name_plural": "Macanese patacas",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "MXN": {
       "name": "peso meksykańskie",
       "symbol_native": "$",
@@ -2663,6 +2744,15 @@
       "name_plural": "South Korean won",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MOP": {
+      "name": "Патака Макао",
+      "symbol_native": "$",
+      "symbol": "MOP$",
+      "code": "MOP",
+      "name_plural": "Macanese patacas",
+      "rounding": 0,
+      "decimal_digits": 2
     },
     "MXN": {
       "name": "Мексиканское песо",
@@ -2936,6 +3026,15 @@
       "rounding": 0,
       "decimal_digits": 0
     },
+    "MOP": {
+      "name": "pataca di Macao",
+      "symbol_native": "$",
+      "symbol": "MOP$",
+      "code": "MOP",
+      "name_plural": "Macanese patacas",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "MXN": {
       "name": "peso messicano",
       "symbol_native": "$",
@@ -3207,6 +3306,15 @@
       "name_plural": "South Korean won",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MOP": {
+      "name": "Патака Макао",
+      "symbol_native": "$",
+      "symbol": "MOP$",
+      "code": "MOP",
+      "name_plural": "Macanese patacas",
+      "rounding": 0,
+      "decimal_digits": 2
     },
     "MXN": {
       "name": "Mexican Peso",
@@ -3480,6 +3588,15 @@
       "rounding": 0,
       "decimal_digits": 0
     },
+    "MOP": {
+      "name": "pataca macaneză",
+      "symbol_native": "$",
+      "symbol": "MOP$",
+      "code": "MOP",
+      "name_plural": "Macanese patacas",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "MXN": {
       "name": "peso mexican",
       "symbol_native": "$",
@@ -3751,6 +3868,15 @@
       "name_plural": "South Korean won",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MOP": {
+      "name": "Makao patakası",
+      "symbol_native": "$",
+      "symbol": "MOP$",
+      "code": "MOP",
+      "name_plural": "Macanese patacas",
+      "rounding": 0,
+      "decimal_digits": 2
     },
     "MXN": {
       "name": "Meksika Pesosu",
@@ -4024,6 +4150,15 @@
       "rounding": 0,
       "decimal_digits": 0
     },
+    "MOP": {
+      "name": "Pataca macaense",
+      "symbol_native": "$",
+      "symbol": "MOP$",
+      "code": "MOP",
+      "name_plural": "Macanese patacas",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "MXN": {
       "name": "Peso mexicano",
       "symbol_native": "$",
@@ -4295,6 +4430,15 @@
       "name_plural": "South Korean won",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MOP": {
+      "name": "Macause pataca",
+      "symbol_native": "$",
+      "symbol": "MOP$",
+      "code": "MOP",
+      "name_plural": "Macanese patacas",
+      "rounding": 0,
+      "decimal_digits": 2
     },
     "MXN": {
       "name": "Mexicaanse peso",
@@ -4568,6 +4712,15 @@
       "rounding": 0,
       "decimal_digits": 0
     },
+    "MOP": {
+      "name": "pataca de Macau",
+      "symbol_native": "$",
+      "symbol": "MOP$",
+      "code": "MOP",
+      "name_plural": "Macanese patacas",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "MXN": {
       "name": "peso mexicà",
       "symbol_native": "$",
@@ -4839,6 +4992,15 @@
       "name_plural": "South Korean won",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MOP": {
+      "name": "macaoská pataca",
+      "symbol_native": "$",
+      "symbol": "MOP$",
+      "code": "MOP",
+      "name_plural": "Macanese patacas",
+      "rounding": 0,
+      "decimal_digits": 2
     },
     "MXN": {
       "name": "mexické peso",
