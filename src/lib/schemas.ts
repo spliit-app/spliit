@@ -1,4 +1,6 @@
 import { RecurrenceRule, SplitMode } from '@prisma/client'
+import Decimal from 'decimal.js'
+
 import * as z from 'zod'
 
 export const groupFormSchema = z
@@ -148,14 +150,14 @@ export const expenseFormSchema = z
         break // noop
       case 'BY_AMOUNT': {
         const sum = expense.paidFor.reduce(
-          (sum, { shares }) => sum + Number(shares),
-          0,
+          (sum, { shares }) => new Decimal(shares).add(sum),
+          new Decimal(0),
         )
-        if (sum !== expense.amount) {
-          const detail =
-            sum < expense.amount
-              ? `${((expense.amount - sum) / 100).toFixed(2)} missing`
-              : `${((sum - expense.amount) / 100).toFixed(2)} surplus`
+        if (!sum.equals(new Decimal(expense.amount))) {
+          // const detail =
+          //   sum < expense.amount
+          //     ? `${((expense.amount - sum) / 100).toFixed(2)} missing`
+          //     : `${((sum - expense.amount) / 100).toFixed(2)} surplus`
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: 'amountSum',
