@@ -38,12 +38,15 @@
       "earlierThisYear": "本年早些时候",
       "lastYear": "去年",
       "older": "更早"
-    }
+    },
+    "export": "导出"
   },
   "ExpenseCard": {
     "paidBy": "<strong>{paidBy}</strong> 为 <paidFor></paidFor> 支付。",
     "receivedBy": "<strong>{paidBy}</strong> 为 <paidFor></paidFor> 接收。",
-    "yourBalance": "你的余额："
+    "yourBalance": "你的余额：",
+    "everyone": "所有人",
+    "notInvolved": "您无需支付"
   },
   "Groups": {
     "myGroups": "我的群组",
@@ -117,6 +120,11 @@
       "create": "创建",
       "creating": "创建中",
       "cancel": "取消"
+    },
+    "CurrencyCodeField": {
+      "label": "首选货币",
+      "createDescription": "所有的交易将使用此币种。",
+      "customOption": "自定义"
     }
   },
   "ExpenseForm": {
@@ -142,7 +150,10 @@
         "description": "选择收入是为谁而收。"
       },
       "splitModeDescription": "选择如何划分这笔收入。",
-      "attachDescription": "查看并为这笔收入附加收据。"
+      "attachDescription": "查看并为这笔收入附加收据。",
+      "currencyField": {
+        "label": "收入币种"
+      }
     },
     "Expense": {
       "create": "创建消费",
@@ -159,14 +170,26 @@
       "categoryFieldDescription": "选择消费类别。",
       "paidByField": {
         "label": "支付自",
-        "description": "选择支付这笔消费的群组成员。"
+        "description": "选择支付这笔消费的群组成员。",
+        "placeholder": "选择一个参与人"
       },
       "paidFor": {
         "title": "支付给",
         "description": "选择消费是为谁而支出。"
       },
       "splitModeDescription": "选择如何划分这笔消费。",
-      "attachDescription": "查看并为这笔消费附加收据。"
+      "attachDescription": "查看并为这笔消费附加收据。",
+      "currencyField": {
+        "label": "支出币种"
+      },
+      "recurrenceRule": {
+        "label": "订阅式支出",
+        "description": "请选择这笔开销发生的频率。",
+        "none": "无",
+        "daily": "每天",
+        "weekly": "每周",
+        "monthly": "每月"
+      }
     },
     "amountField": {
       "label": "金额"
@@ -205,7 +228,23 @@
     "save": "保存",
     "saving": "保存中……",
     "cancel": "取消",
-    "reimbursement": "报销"
+    "reimbursement": "报销",
+    "originalAmountField": {
+      "label": "需要转换的金额"
+    },
+    "conversionRateField": {
+      "useApi": "使用Frankfurter提供的汇率",
+      "useCustom": "使用自定义汇率",
+      "label": "汇率"
+    },
+    "conversionRateState": {
+      "error": "抱歉，我们无法获取最新的汇率信息。",
+      "noRate": "请在下方输入自定义汇率。",
+      "currencyNotFound": "抱歉，Frankfurter无法为此货币提供此日期的汇率。",
+      "noDate": "请输入交易发生日期来获取当天的汇率。",
+      "refresh": "刷新",
+      "customRate": "使用自定义汇率"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
@@ -316,7 +355,8 @@
     "paidForMin1": "这项消费必须支付给至少1名群组成员。",
     "noZeroShares": "所有份额必须大于0。",
     "amountSum": "金额之和必须等于消费的金额。",
-    "percentageSum": "百分比之和必须等于100。"
+    "percentageSum": "百分比之和必须等于100。",
+    "ratePositive": "汇率必须为正数（大于0）。"
   },
   "Categories": {
     "search": "搜寻类别……",
@@ -361,7 +401,8 @@
       "Gifts": "礼物",
       "Insurance": "保险",
       "Medical Expenses": "医疗支出",
-      "Taxes": "税"
+      "Taxes": "税",
+      "Donation": "捐赠"
     },
     "Transportation": {
       "heading": "交通",
@@ -384,6 +425,19 @@
       "Trash": "垃圾",
       "TV/Phone/Internet": "电视/手机/互联网",
       "Water": "水"
+    }
+  },
+  "Currencies": {
+    "search": "搜索币种...",
+    "noCurrency": "无法找到此货币。",
+    "custom": {
+      "heading": "自定义"
+    },
+    "common": {
+      "heading": "最常用"
+    },
+    "other": {
+      "heading": "其他币种"
     }
   }
 }

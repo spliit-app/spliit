@@ -23,7 +23,7 @@
     "export": "エクスポート",
     "exportJson": "JSONにエクスポート",
     "exportCsv": "CSVにエクスポート",
-    "searchPlaceholder": "支出を検索...",
+    "searchPlaceholder": "支出を検索…",
     "ActiveUserModal": {
       "title": "あなたは誰ですか？",
       "description": "情報の表示方法をカスタマイズするために、あなたがどの参加者かを教えてください。",
@@ -44,12 +44,14 @@
   "ExpenseCard": {
     "paidBy": "<strong>{paidBy}</strong>が<paidFor></paidFor>のために支払いました",
     "receivedBy": "<strong>{paidBy}</strong>が<paidFor></paidFor>のために受け取りました",
-    "yourBalance": "あなたの残高:"
+    "yourBalance": "あなたの残高:",
+    "everyone": "全員",
+    "notInvolved": "あなたは関係していません"
   },
   "Groups": {
     "myGroups": "マイグループ",
     "create": "作成",
-    "loadingRecent": "最近のグループをロード中...",
+    "loadingRecent": "最近のグループをロード中…",
     "NoRecent": {
       "description": "最近訪れたグループはありません。",
       "create": "グループを作成する",
@@ -71,7 +73,7 @@
       "button": "URLで追加",
       "title": "URLでグループを追加",
       "description": "グループが共有された場合、そのURLをここに貼り付けてリストに追加できます。",
-      "error": "あら、提供されたURLからグループを見つけることができませんでした..."
+      "error": "あら、提供されたURLからグループを見つけることができませんでした…"
     },
     "NotFound": {
       "text": "このグループは存在しません。",
@@ -91,7 +93,7 @@
     },
     "CurrencyField": {
       "label": "通貨記号",
-      "placeholder": "$, €, £...",
+      "placeholder": "$, €, £…",
       "description": "金額の表示に使用します。"
     },
     "Participants": {
@@ -100,9 +102,9 @@
       "protectedParticipant": "この参加者は支出の一部であり、削除できません。",
       "new": "新規",
       "add": "参加者を追加",
-      "John": "John",
-      "Jane": "Jane",
-      "Jack": "Jack"
+      "John": "一郎",
+      "Jane": "花子",
+      "Jack": "太郎"
     },
     "Settings": {
       "title": "ローカル設定",
@@ -114,10 +116,16 @@
         "description": "支出の支払いのデフォルトとして使用されるユーザー。"
       },
       "save": "保存",
-      "saving": "保存中...",
+      "saving": "保存中…",
       "create": "作成",
-      "creating": "作成中...",
+      "creating": "作成中…",
       "cancel": "キャンセル"
+    },
+    "CurrencyCodeField": {
+      "label": "主な通貨",
+      "createDescription": "すべての金額および残高はこの通貨で表示されます。",
+      "editDescription": "すべての金額および残高はこの通貨で表示されます。これを変更しても、既に入力された支出は変換されません。ただし、現在の通貨と変更先の通貨で小数単位（例：米ドルから日本円へ）の扱いが異なる場合は例外です",
+      "customOption": "カスタム"
     }
   },
   "ExpenseForm": {
@@ -143,7 +151,11 @@
         "description": "誰のために収入が受け取られたかを選択してください。"
       },
       "splitModeDescription": "収入の分割方法を選択してください。",
-      "attachDescription": "領収書を確認し、収入に添付してください。"
+      "attachDescription": "領収書を確認し、収入に添付してください。",
+      "currencyField": {
+        "label": "収入の通貨",
+        "description": "収入が受け取られた通貨。"
+      }
     },
     "Expense": {
       "create": "支出を作成",
@@ -160,7 +172,8 @@
       "categoryFieldDescription": "支出カテゴリーを選択してください。",
       "paidByField": {
         "label": "支払者",
-        "description": "支出を支払った参加者を選択してください。"
+        "description": "支出を支払った参加者を選択してください。",
+        "placeholder": "参加者を選択してください"
       },
       "recurrenceRule": {
         "label": "支出の繰り返し",
@@ -175,7 +188,11 @@
         "description": "誰のために支出が支払われたかを選択してください。"
       },
       "splitModeDescription": "支出の分割方法を選択してください。",
-      "attachDescription": "領収書を確認し、支出に添付してください。"
+      "attachDescription": "領収書を確認し、支出に添付してください。",
+      "currencyField": {
+        "label": "支出の通貨",
+        "description": "支出が支払われた通貨。"
+      }
     },
     "amountField": {
       "label": "金額"
@@ -192,7 +209,7 @@
     "selectNone": "選択解除",
     "selectAll": "すべて選択",
     "shares": "シェア",
-    "advancedOptions": "詳細な分割オプション...",
+    "advancedOptions": "詳細な分割オプション…",
     "SplitModeField": {
       "label": "分割モード",
       "evenly": "均等に",
@@ -210,11 +227,32 @@
     },
     "attachDocuments": "書類を添付",
     "create": "作成",
-    "creating": "作成中...",
+    "creating": "作成中…",
     "save": "保存",
-    "saving": "保存中...",
+    "saving": "保存中…",
     "cancel": "キャンセル",
-    "reimbursement": "払い戻し"
+    "reimbursement": "払い戻し",
+    "conversionUnavailable": "支出ごとに異なる通貨を設定して金額を換算するには、グループの通貨をカスタム以外の通貨に設定してください。",
+    "originalAmountField": {
+      "label": "換算する金額"
+    },
+    "conversionRateField": {
+      "useApi": "Frankfurterのレートを使用する",
+      "useCustom": "カスタムレートを使用する",
+      "label": "為替レート"
+    },
+    "conversionRateState": {
+      "loading": "為替レートを取得しています…",
+      "success": "取得したレート:",
+      "error": "おっと、最新のレートを取得できませんでした。",
+      "staleRate": "使用するレート:",
+      "noRate": "以下にカスタムレートを入力してください。",
+      "currencyNotFound": "おっと、Frankfurterにはその日のこの通貨のレートがありません。",
+      "noDate": "換算レートを取得するには支出日を入力してください。",
+      "refresh": "更新",
+      "customRate": "カスタムレートを使用中",
+      "dateMismatch": "適用開始日: {date}"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
@@ -233,7 +271,7 @@
       "title": "領収書から作成",
       "description": "領収書の写真から支出情報を抽出します。",
       "body": "領収書の写真をアップロードすると、可能であれば支出情報を抽出してスキャンします。",
-      "selectImage": "画像を選択...",
+      "selectImage": "画像を選択…",
       "titleLabel": "タイトル:",
       "categoryLabel": "カテゴリー:",
       "amountLabel": "金額:",
@@ -325,7 +363,8 @@
     "paidForMin1": "支出は少なくとも1人の参加者のために支払われている必要があります。",
     "noZeroShares": "すべてのシェアは0より大きくなければなりません。",
     "amountSum": "金額の合計は支出金額と一致する必要があります。",
-    "percentageSum": "パーセンテージの合計は100である必要があります。"
+    "percentageSum": "パーセンテージの合計は100である必要があります。",
+    "ratePositive": "レートは必ずゼロより大きくなければなりません。"
   },
   "Categories": {
     "search": "カテゴリーを検索...",
@@ -394,6 +433,19 @@
       "Trash": "ゴミ",
       "TV/Phone/Internet": "テレビ/電話/インターネット",
       "Water": "水道"
+    }
+  },
+  "Currencies": {
+    "search": "通貨を検索…",
+    "noCurrency": "通貨が見つかりませんでした。",
+    "custom": {
+      "heading": "カスタム"
+    },
+    "common": {
+      "heading": "一般的なもの"
+    },
+    "other": {
+      "heading": "その他の通貨"
     }
   }
 }

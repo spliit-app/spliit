@@ -38,13 +38,15 @@
       "lastMonth": "El mes pasado",
       "earlierThisYear": "A principios de este año",
       "lastYear": "El año pasado",
-      "older": "Más antiguos"
+      "older": "Más antiguo"
     }
   },
   "ExpenseCard": {
     "paidBy": "Pagado por <strong>{paidBy}</strong> para <paidFor></paidFor>",
     "receivedBy": "Recibido por <strong>{paidBy}</strong> para <paidFor></paidFor>",
-    "yourBalance": "Tu balance:"
+    "yourBalance": "Tu balance:",
+    "everyone": "todos",
+    "notInvolved": "No estás incluido"
   },
   "Groups": {
     "myGroups": "Mis grupos",
@@ -53,16 +55,16 @@
     "NoRecent": {
       "description": "No has visitado ningun grupo recientemente.",
       "create": "Crea uno",
-      "orAsk": "o pídele a un amigo que te envíe el enlace a uno ya existente.."
+      "orAsk": "o pídele a un amigo que te envíe el enlace a uno ya existente."
     },
     "recent": "Grupos recientes",
     "starred": "Grupos favoritos",
     "archived": "Grupos archivados",
     "archive": "Archivar grupo",
     "unarchive": "Desarchivar groupo",
-    "removeRecent": "Remove from recent groups",
+    "removeRecent": "Eliminar de grupos recientes",
     "RecentRemovedToast": {
-      "title": "El grupo fue eliminado",
+      "title": "El grupo ha sido eliminado",
       "description": "El grupo ha sido eliminado de tu lista de grupos recientes.",
       "undoAlt": "Deshacer la eliminación del grupo",
       "undo": "Deshacer"
@@ -70,29 +72,29 @@
     "AddByURL": {
       "button": "Añadir mediante url",
       "title": "Añadir grupo mediante url",
-      "description": "Si te han compartido un grupo, puedes pegar aquí su URL para añadirlo a tu lista.",
-      "error": "Oops, no somos capaces de encontrar el grupo desde la URL que has proporcionado..."
+      "description": "Si un grupo ha sido compartido contigo, puedes pegar su URL aquí para añadirlo a tu lista.",
+      "error": "Ups, no pudimos encontrar el grupo a partir de la URL que proporcionaste…"
     },
     "NotFound": {
       "text": "Este grupo no existe.",
-      "link": "Ir a los últimos grupos visitados"
+      "link": "Ir a los grupos visitados recientemente"
     }
   },
   "GroupForm": {
     "title": "Información del grupo",
     "NameField": {
       "label": "Nombre del grupo",
-      "placeholder": "Vacaciones en Barcelona",
-      "description": "Inserta un nombre para tu nuevo grupo."
+      "placeholder": "Vacaciones de verano",
+      "description": "Introduce un nombre para tu grupo."
     },
     "InformationField": {
       "label": "Información del grupo",
-      "placeholder": "Qué información es relevante para los participantes del grupo?"
+      "placeholder": "¿Qué información es relevante para los participantes del grupo?"
     },
     "CurrencyField": {
-      "label": "Símbolo de divisa",
-      "placeholder": "$, €, £…",
-      "description": "Lo usaremos para mostrar balances."
+      "label": "Símbolo de la divisa",
+      "placeholder": "$, €, £, ₿…",
+      "description": "Lo utilizaremos para mostrar los montos."
     },
     "Participants": {
       "title": "Participantes",
@@ -109,15 +111,21 @@
       "description": "Estos ajustes se establecen por dispositivo y se utilizan para personalizar su experiencia.",
       "ActiveUserField": {
         "label": "Usuario activo",
-        "placeholder": "Selecciona un participante...",
+        "placeholder": "Selecciona un participante",
         "none": "Ninguno",
         "description": "Usuario que paga los gastos por defecto."
       },
       "save": "Guardar",
-      "saving": "Guardando",
+      "saving": "Guardando…",
       "create": "Crear",
-      "creating": "Creando",
+      "creating": "Creando…",
       "cancel": "Cancelar"
+    },
+    "CurrencyCodeField": {
+      "label": "Moneda principal",
+      "createDescription": "Todos los importes y saldos estarán en esta moneda.",
+      "editDescription": "Todos los importes y saldos estarán en esta moneda. Al cambiarla, NO se convertirán los gastos ya ingresados, excepto cuando la moneda tenga «unidades menores» diferentes a las actuales (por ejemplo, al cambiar de dólares estadounidenses a yenes japoneses)",
+      "customOption": "Personalizado"
     }
   },
   "ExpenseForm": {
@@ -143,27 +151,32 @@
         "description": "Seleccione para quién se recibió el ingreso."
       },
       "splitModeDescription": "Seleccione como quieres dividir el ingreso.",
-      "attachDescription": "Ver y adjuntar tickets para el ingreso."
+      "attachDescription": "Ver y adjuntar tickets para el ingreso.",
+      "currencyField": {
+        "label": "Moneda del ingreso",
+        "description": "La moneda en la que se recibieron los ingresos."
+      }
     },
     "Expense": {
       "create": "Crear gasto",
       "edit": "Editar gasto",
       "TitleField": {
         "label": "Título del gasto",
-        "placeholder": "Monday evening restaurant",
-        "description": "Enter a description for the expense."
+        "placeholder": "Restaurante de lunes por la noche",
+        "description": "Ingrese una descripción del gasto."
       },
       "DateField": {
         "label": "Fecha del gasto",
         "description": "Ingresa la fecha en que se recibio el gasto."
       },
-      "categoryFieldDescription": "Select the expense category.",
+      "categoryFieldDescription": "Seleccione la categoría del gasto.",
       "paidByField": {
         "label": "Pagado por",
-        "description": "Seleccione el participante que pagó el gasto."
+        "description": "Seleccione el participante que pagó el gasto.",
+        "placeholder": "Seleccionar un participante"
       },
       "recurrenceRule": {
-        "label": "Recurrencia",
+        "label": "Gasto recurrente",
         "description": "Seleccione con qué frecuencia debe repetirse el gasto.",
         "none": "Ninguno",
         "daily": "Diario",
@@ -175,7 +188,11 @@
         "description": "Seleccione para quién se pagó el gasto."
       },
       "splitModeDescription": "Seleccione como quieres dividir el gasto.",
-      "attachDescription": "Ver y adjuntar tickets para el gasto."
+      "attachDescription": "Ver y adjuntar tickets para el gasto.",
+      "currencyField": {
+        "label": "Moneda del gasto",
+        "description": "La moneda en la que se pagó el gasto."
+      }
     },
     "amountField": {
       "label": "Cantidad"
@@ -192,7 +209,7 @@
     "selectNone": "Seleccionar ninguno",
     "selectAll": "Seleccionar todos",
     "shares": "partes",
-    "advancedOptions": "Opciones avanzadas",
+    "advancedOptions": "Opciones avanzadas de división…",
     "SplitModeField": {
       "label": "Modo de división",
       "evenly": "Uniformemente",
@@ -210,11 +227,32 @@
     },
     "attachDocuments": "Adjuntar documentos",
     "create": "Crear",
-    "creating": "Creando",
+    "creating": "Creando…",
     "save": "Guardar",
-    "saving": "Guardando",
+    "saving": "Guardando…",
     "cancel": "Cancelar",
-    "reimbursement": "Reembolso"
+    "reimbursement": "Reembolso",
+    "conversionUnavailable": "Para establecer una moneda diferente por gasto y convertir los importes, seleccione una moneda no personalizada para el grupo.",
+    "originalAmountField": {
+      "label": "Monto a convertir"
+    },
+    "conversionRateField": {
+      "useApi": "Utilizar las tasas del Frankfurter",
+      "useCustom": "Utilizar tasa personalizada",
+      "label": "Tasa de cambio"
+    },
+    "conversionRateState": {
+      "loading": "Obteniendo tasas de cambio…",
+      "success": "Tasas obtenidas:",
+      "error": "Vaya, no hemos podido obtener las tasas más recientes.",
+      "staleRate": "Tasa utilizada:",
+      "noRate": "Ingrese una tasa personalizada.",
+      "currencyNotFound": "Vaya, Frankfurter no tiene el tipo de cambio para esta moneda en este día.",
+      "noDate": "Ingrese la fecha del gasto para obtener una tasa de cambio.",
+      "dateMismatch": "Tasas para la fecha: {date}",
+      "refresh": "Actualizar",
+      "customRate": "Utilizando tasa personalizada"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
@@ -315,21 +353,22 @@
     "min2": "Introduzca al menos dos carácter.",
     "max5": "Introduzca al menos cinco carácter.",
     "max50": "Introduzca al menos treinta carácter.",
-    "duplicateParticipantName": "Otro participante ya tiene este nombre",
-    "titleRequired": "Por favor, introduzca un título",
-    "invalidNumber": "Número inválido",
-    "amountRequired": "Debe introducir un importe",
+    "duplicateParticipantName": "Ya hay otro participante con el mismo nombre.",
+    "titleRequired": "Por favor, introduzca un título.",
+    "invalidNumber": "Número inválido.",
+    "amountRequired": "Debe introducir un importe.",
     "amountNotZero": "El importe no debe ser cero.",
     "amountTenMillion": "El importe debe ser inferior a 10.000.000.",
-    "paidByRequired": "Debe seleccionar un participante",
-    "paidForMin1": "El gasto debe ser pagado por al menos un participante",
-    "noZeroShares": "Todas las participaciones deben ser superiores a 0",
-    "amountSum": "La suma de los importes debe ser igual al importe del gasto",
-    "percentageSum": "Suma de porcentajes debe ser igual a 100"
+    "paidByRequired": "Debe seleccionar un participante.",
+    "paidForMin1": "El gasto debe ser pagado por al menos un participante.",
+    "noZeroShares": "Todas las partes deben ser mayor que 0.",
+    "amountSum": "La suma de los importes debe ser igual al importe del gasto total.",
+    "percentageSum": "Suma de porcentajes debe ser igual a 100.",
+    "ratePositive": "La tasa debe ser mayor a cero."
   },
   "Categories": {
     "search": "Buscar categoría...",
-    "noCategory": "Categoría no encontrada!",
+    "noCategory": "Categoría no encontrada.",
     "Uncategorized": {
       "heading": "Sin categoría",
       "General": "General",
@@ -370,7 +409,8 @@
       "Gifts": "Regalos",
       "Insurance": "Seguro",
       "Medical Expenses": "Gastos médicos",
-      "Taxes": "Impuestos"
+      "Taxes": "Impuestos",
+      "Donation": "Donación"
     },
     "Transportation": {
       "heading": "Transporte",
@@ -393,6 +433,19 @@
       "Trash": "Basura",
       "TV/Phone/Internet": "TV/Teléfono/Internet",
       "Water": "Agua"
+    }
+  },
+  "Currencies": {
+    "search": "Buscar moneda...",
+    "noCurrency": "No se han podido encontrar monedas.",
+    "custom": {
+      "heading": "Personalizado"
+    },
+    "common": {
+      "heading": "Más común"
+    },
+    "other": {
+      "heading": "Otras monedas"
     }
   }
 }

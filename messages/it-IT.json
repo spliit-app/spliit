@@ -225,7 +225,10 @@
     "save": "Salva",
     "saving": "Sto salvando…",
     "cancel": "Annulla",
-    "reimbursement": "Rimborso"
+    "reimbursement": "Rimborso",
+    "conversionRateState": {
+      "refresh": "Aggiornare"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
