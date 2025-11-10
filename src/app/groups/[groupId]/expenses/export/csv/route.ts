@@ -35,6 +35,7 @@ export async function GET(
       currencyCode: true,
       expenses: {
         select: {
+          createdAt: true,
           expenseDate: true,
           title: true,
           category: { select: { name: true } },
@@ -47,6 +48,7 @@ export async function GET(
           isReimbursement: true,
           splitMode: true,
         },
+        orderBy: [{ expenseDate: 'asc' }, { createdAt: 'asc' }],
       },
       participants: { select: { id: true, name: true } },
     },
@@ -100,7 +102,6 @@ export async function GET(
   ]
 
   const currency = getCurrencyFromGroup(group)
-
   const expenses = group.expenses.map((expense) => ({
     date: formatDate(expense.expenseDate),
     title: expense.title,
