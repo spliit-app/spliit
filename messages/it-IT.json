@@ -120,6 +120,11 @@
       "create": "Crea",
       "creating": "Sto creando…",
       "cancel": "Annulla"
+    },
+    "CurrencyCodeField": {
+      "label": "Moneta principale",
+      "createDescription": "Tutti gli importi e i saldi saranno in questa moneta.",
+      "customOption": "Personalizzato"
     }
   },
   "ExpenseForm": {
