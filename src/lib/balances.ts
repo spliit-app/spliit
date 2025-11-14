@@ -1,6 +1,6 @@
 import { getGroupExpenses } from '@/lib/api'
 import { Participant } from '@prisma/client'
-import { match } from 'ts-pattern'
+import { calculateShares } from '@/lib/totals'
 
 export type Balances = Record<
   Participant['id'],
@@ -20,43 +20,23 @@ export function getBalances(
 
   for (const expense of expenses) {
     const paidBy = expense.paidBy.id
-    const paidFors = expense.paidFor
 
     if (!balances[paidBy]) balances[paidBy] = { paid: 0, paidFor: 0, total: 0 }
     balances[paidBy].paid += expense.amount
 
-    const totalPaidForShares = paidFors.reduce(
-      (sum, paidFor) => sum + paidFor.shares,
-      0,
-    )
-    let remaining = expense.amount
-    paidFors.forEach((paidFor, index) => {
-      if (!balances[paidFor.participant.id])
-        balances[paidFor.participant.id] = { paid: 0, paidFor: 0, total: 0 }
-
-      const isLast = index === paidFors.length - 1
-
-      const [shares, totalShares] = match(expense.splitMode)
-        .with('EVENLY', () => [1, paidFors.length])
-        .with('BY_SHARES', () => [paidFor.shares, totalPaidForShares])
-        .with('BY_PERCENTAGE', () => [paidFor.shares, totalPaidForShares])
-        .with('BY_AMOUNT', () => [paidFor.shares, totalPaidForShares])
-        .exhaustive()
-
-      const dividedAmount = isLast
-        ? remaining
-        : (expense.amount * shares) / totalShares
-      remaining -= dividedAmount
-      balances[paidFor.participant.id].paidFor += dividedAmount
-    })
+    const shares = calculateShares(expense)
+    for (const participantId in shares) {
+      if (!balances[participantId])
+        balances[participantId] = { paid: 0, paidFor: 0, total: 0 }
+      balances[participantId].paidFor += shares[participantId]
+    }
   }
 
-  // rounding and add total
+  // add totals (shares are already integers)
   for (const participantId in balances) {
-    // add +0 to avoid negative zeros
-    balances[participantId].paidFor =
-      Math.round(balances[participantId].paidFor) + 0
-    balances[participantId].paid = Math.round(balances[participantId].paid) + 0
+    // add +0 to avoid negative zeros (keep values as integers)
+    balances[participantId].paidFor = balances[participantId].paidFor + 0
+    balances[participantId].paid = balances[participantId].paid + 0
 
     balances[participantId].total =
       balances[participantId].paid - balances[participantId].paidFor
