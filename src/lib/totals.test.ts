@@ -1,3 +1,4 @@
+import { SplitMode } from '@prisma/client'
 import { calculateShare, calculateShares } from './totals';
 
 const p1 = { id: 'p1', name: 'Participant 1' };
@@ -16,7 +17,7 @@ describe('calculateShares', () => {
   it('should split evenly among all participants', () => {
     const expense = {
       ...expenseBase,
-      splitMode: 'EVENLY',
+      splitMode: SplitMode.EVENLY,
       paidFor: [
         { participant: p1, shares: 1 },
         { participant: p2, shares: 1 },
@@ -33,7 +34,7 @@ describe('calculateShares', () => {
   it('should split by amount', () => {
     const expense = {
       ...expenseBase,
-      splitMode: 'BY_AMOUNT',
+      splitMode: SplitMode.BY_AMOUNT,
       paidFor: [
         { participant: p1, shares: 5000 },
         { participant: p2, shares: 2500 },
@@ -49,7 +50,7 @@ describe('calculateShares', () => {
   it('should split by shares', () => {
     const expense = {
       ...expenseBase,
-      splitMode: 'BY_SHARES',
+      splitMode: SplitMode.BY_SHARES,
       paidFor: [
         { participant: p1, shares: 2 },
         { participant: p2, shares: 1 },
@@ -65,7 +66,7 @@ describe('calculateShares', () => {
   it('should split by percentage', () => {
     const expense = {
       ...expenseBase,
-      splitMode: 'BY_PERCENTAGE',
+      splitMode: SplitMode.BY_PERCENTAGE,
       paidFor: [
         { participant: p1, shares: 5000 }, // 50%
         { participant: p2, shares: 2500 }, // 25%
@@ -82,7 +83,7 @@ describe('calculateShares', () => {
     const expense = {
       ...expenseBase,
       amount: 100,
-      splitMode: 'EVENLY',
+      splitMode: SplitMode.EVENLY,
       paidFor: [
         { participant: p1, shares: 1 },
         { participant: p2, shares: 1 },
@@ -102,7 +103,7 @@ describe('calculateShares', () => {
     const expense = {
       ...expenseBase,
       isReimbursement: true,
-      splitMode: 'EVENLY',
+      splitMode: SplitMode.EVENLY,
       paidFor: [
         { participant: p2, shares: 1 },
       ],
@@ -117,7 +118,7 @@ describe('calculateShares', () => {
     const expense = {
       ...expenseBase,
       isReimbursement: true,
-      splitMode: 'EVENLY',
+      splitMode: SplitMode.EVENLY,
       paidFor: [{ participant: p2, shares: 1 }],
       paidBy: p1,
     };
@@ -129,7 +130,7 @@ describe('calculateShares', () => {
     const expense = {
       ...expenseBase,
       paidBy: p1,
-      splitMode: 'EVENLY',
+      splitMode: SplitMode.EVENLY,
       paidFor: [
         { participant: p2, shares: 1 },
         { participant: p3, shares: 1 },
@@ -146,7 +147,7 @@ describe('calculateShares', () => {
       ...expenseBase,
       amount: 100,
       paidBy: p2,
-      splitMode: 'EVENLY',
+      splitMode: SplitMode.EVENLY,
       paidFor: [
         { participant: p1, shares: 1 },
         { participant: p2, shares: 1 },
@@ -163,7 +164,7 @@ describe('calculateShares', () => {
   it('should handle percentages not summing to 100%', () => {
     const expense = {
       ...expenseBase,
-      splitMode: 'BY_PERCENTAGE',
+      splitMode: SplitMode.BY_PERCENTAGE,
       paidFor: [
         { participant: p1, shares: 4000 }, // 40%
         { participant: p2, shares: 4000 }, // 40%
@@ -179,7 +180,7 @@ describe('calculateShares', () => {
   it('should handle an empty paidFor list', () => {
     const expense = {
       ...expenseBase,
-      splitMode: 'EVENLY',
+      splitMode: SplitMode.EVENLY,
       paidFor: [],
     };
     const shares = calculateShares(expense);
@@ -189,7 +190,7 @@ describe('calculateShares', () => {
   it('should handle 0 total shares in BY_SHARES mode', () => {
     const expense = {
       ...expenseBase,
-      splitMode: 'BY_SHARES',
+      splitMode: SplitMode.BY_SHARES,
       paidFor: [
         { participant: p1, shares: 0 },
         { participant: p2, shares: 0 },
@@ -206,7 +207,7 @@ describe('calculateShares', () => {
     const expense = {
       ...expenseBase,
       amount: 0,
-      splitMode: 'EVENLY',
+      splitMode: SplitMode.EVENLY,
       paidFor: [
         { participant: p1, shares: 1 },
         { participant: p2, shares: 1 },
@@ -221,7 +222,7 @@ describe('calculateShares', () => {
     const expense = {
       ...expenseBase,
       amount: 101,
-      splitMode: 'EVENLY' as const,
+      splitMode: SplitMode.EVENLY,
       paidFor: [
         { participant: p1, shares: 1 },
         { participant: p2, shares: 1 },
@@ -241,7 +242,7 @@ describe('calculateShares', () => {
     const expense = {
       ...expenseBase,
       amount: -101,
-      splitMode: 'EVENLY' as const,
+      splitMode: SplitMode.EVENLY,
       paidFor: [
         { participant: p1, shares: 1 },
         { participant: p2, shares: 1 },
@@ -261,7 +262,7 @@ describe('calculateShares', () => {
     const expense = {
       ...expenseBase,
       amount: 10000,
-      splitMode: 'BY_AMOUNT',
+      splitMode: SplitMode.BY_AMOUNT,
       paidFor: [
         { participant: p1, shares: 4000 },
         { participant: p2, shares: 4000 },
@@ -279,7 +280,7 @@ describe('calculateShares', () => {
     const expense = {
       ...expenseBase,
       amount: -10000,
-      splitMode: 'EVENLY',
+      splitMode: SplitMode.EVENLY,
       paidFor: [
         { participant: p1, shares: 1 },
         { participant: p2, shares: 1 },
@@ -297,7 +298,7 @@ describe('calculateShares', () => {
       ...expenseBase,
       amount: 100,
       paidBy: undefined as any,
-      splitMode: 'EVENLY',
+      splitMode: SplitMode.EVENLY,
       paidFor: [
         { participant: p2, shares: 1 },
         { participant: p3, shares: 1 },
@@ -314,7 +315,7 @@ describe('calculateShares', () => {
     const expense = {
       ...expenseBase,
       amount: 2,
-      splitMode: 'EVENLY' as const,
+      splitMode: SplitMode.EVENLY,
       paidFor: [
         { participant: p1, shares: 1 },
         { participant: p2, shares: 1 },
@@ -333,7 +334,7 @@ describe('calculateShares', () => {
     const expense = {
       ...expenseBase,
       amount: -2,
-      splitMode: 'EVENLY' as const,
+      splitMode: SplitMode.EVENLY,
       paidFor: [
         { participant: p1, shares: 1 },
         { participant: p2, shares: 1 },
@@ -351,7 +352,7 @@ describe('calculateShares', () => {
     const expense = {
       ...expenseBase,
       amount: 2,
-      splitMode: 'BY_SHARES' as const,
+      splitMode: SplitMode.BY_SHARES,
       paidFor: [
         { participant: p1, shares: 1 },
         { participant: p2, shares: 1 },
@@ -369,7 +370,7 @@ describe('calculateShares', () => {
     const expense = {
       ...expenseBase,
       amount: 2,
-      splitMode: 'BY_PERCENTAGE' as const,
+      splitMode: SplitMode.BY_PERCENTAGE,
       paidFor: [
         { participant: p1, shares: 3333 },
         { participant: p2, shares: 3333 },
