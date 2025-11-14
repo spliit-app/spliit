@@ -35,6 +35,7 @@ export async function GET(
       currencyCode: true,
       expenses: {
         select: {
+          createdAt: true,
           expenseDate: true,
           title: true,
           category: { select: { name: true } },
@@ -47,6 +48,7 @@ export async function GET(
           isReimbursement: true,
           splitMode: true,
         },
+        orderBy: [{ expenseDate: 'asc' }, { createdAt: 'asc' }],
       },
       participants: { select: { id: true, name: true } },
     },
@@ -69,16 +71,17 @@ export async function GET(
   - Conversion rate: The rate used to convert the amount.
   - Is Reimbursement: Whether the expense is a reimbursement or not.
   - Split mode: The method used to split the expense (e.g., Evenly, By shares, By percentage, By amount).
+  - Paid By: The paying user
   - UserA, UserB: User-specific data or balances (e.g., amount owed or contributed by each user).
 
   Example Table:
-  +------------+------------------+----------+----------+----------+---------------+-------------------+-----------------+------------------+----------------------+--------+-----------+
-  | Date       | Description      | Category | Currency | Cost     | Original cost | Original currency | Conversion rate | Is reinbursement | Split mode           | User A | User B    |
-  +------------+------------------+----------+----------+----------+---------------+-------------------+-----------------+------------------+----------------------+--------+-----------+
-  | 2025-01-06 | Dinner with team | Food     | INR      | 5000     |               |                   |                 | No               | Evenly               | 2500   | -2500     |
-  +------------+------------------+----------+----------+----------+---------------+-------------------+-----------------+------------------+----------------------+--------+-----------+
-  | 2025-02-07 | Plane tickets    | Travel   | INR      | 97264.09 | 1000          | EUR               | 97.2641         | No               | Unevenly - By amount | -80000 | -17264.09 |
-  +------------+------------------+----------+----------+----------+---------------+-------------------+-----------------+------------------+----------------------+--------+-----------+
+  +------------+------------------+----------+----------+----------+---------------+-------------------+-----------------+------------------+----------------------+----------+--------+-----------+
+  | Date       | Description      | Category | Currency | Cost     | Original cost | Original currency | Conversion rate | Is reinbursement | Split mode           | Paid By  | User A | User B    |
+  +------------+------------------+----------+----------+----------+---------------+-------------------+-----------------+------------------+----------------------+----------+--------+-----------+
+  | 2025-01-06 | Dinner with team | Food     | INR      | 5000     |               |                   |                 | No               | Evenly               | User A   | 2500   | -2500     |
+  +------------+------------------+----------+----------+----------+---------------+-------------------+-----------------+------------------+----------------------+----------+--------+-----------+
+  | 2025-02-07 | Plane tickets    | Travel   | INR      | 97264.09 | 1000          | EUR               | 97.2641         | No               | Unevenly - By amount | User B   | -80000 | -17264.09 |
+  +------------+------------------+----------+----------+----------+---------------+-------------------+-----------------+------------------+----------------------+----------+--------+-----------+
 
   */
 
@@ -93,6 +96,7 @@ export async function GET(
     { label: 'Conversion rate', value: 'conversionRate' },
     { label: 'Is Reimbursement', value: 'isReimbursement' },
     { label: 'Split mode', value: 'splitMode' },
+    { label: 'Paid By', value: 'paidBy'},
     ...group.participants.map((participant) => ({
       label: participant.name,
       value: participant.name,
@@ -100,6 +104,8 @@ export async function GET(
   ]
 
   const currency = getCurrencyFromGroup(group)
+
+  const participantIdNameMap = Object.fromEntries(group.participants.map(p => [p.id, p.name])) as Record<string, string>
 
   const expenses = group.expenses.map((expense) => ({
     date: formatDate(expense.expenseDate),
@@ -117,6 +123,7 @@ export async function GET(
     conversionRate: expense.conversionRate
       ? expense.conversionRate.toString()
       : null,
+    paidBy: participantIdNameMap[expense.paidById],
     isReimbursement: expense.isReimbursement ? 'Yes' : 'No',
     splitMode: splitModeLabel[expense.splitMode],
     ...Object.fromEntries(
