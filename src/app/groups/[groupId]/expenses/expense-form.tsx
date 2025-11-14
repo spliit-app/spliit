@@ -916,7 +916,8 @@ export function ExpenseForm({
                                             groupCurrency,
                                           ), // Convert to cents
                                           expenseDate:
-                                            form.watch('expenseDate') ?? new Date(),
+                                            form.watch('expenseDate') ??
+                                            new Date(),
                                           paidFor: field.value.map(
                                             ({ participant, shares }) => ({
                                               participant: {
@@ -950,7 +951,7 @@ export function ExpenseForm({
                                             name: '',
                                           },
                                         }),
-                                        locale
+                                        locale,
                                       )}
                                       )
                                     </span>

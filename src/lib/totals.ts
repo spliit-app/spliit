@@ -88,8 +88,7 @@ export function calculateShares(
   }
 
   if (expense.splitMode === 'BY_AMOUNT') {
-    const payerId =
-      expense.paidBy?.id ?? expense.paidFor[0]?.participant.id
+    const payerId = expense.paidBy?.id ?? expense.paidFor[0]?.participant.id
     if (payerId) {
       result[payerId] = (result[payerId] ?? 0) + diff.toNumber()
     }
@@ -97,8 +96,7 @@ export function calculateShares(
   }
 
   if (participantOrder.length === 0) {
-    const payerId =
-      expense.paidBy?.id ?? expense.paidFor[0]?.participant.id
+    const payerId = expense.paidBy?.id ?? expense.paidFor[0]?.participant.id
     if (payerId) {
       result[payerId] = (result[payerId] ?? 0) + diff.toNumber()
     }
@@ -113,7 +111,8 @@ export function calculateShares(
     let part = new Decimal(0)
     switch (expense.splitMode) {
       case 'EVENLY':
-        if (expense.paidFor.length > 0) part = amount.div(expense.paidFor.length)
+        if (expense.paidFor.length > 0)
+          part = amount.div(expense.paidFor.length)
         break
       case 'BY_AMOUNT':
         part = shares

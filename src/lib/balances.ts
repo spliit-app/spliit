@@ -1,6 +1,6 @@
 import { getGroupExpenses } from '@/lib/api'
-import { Participant } from '@prisma/client'
 import { calculateShares } from '@/lib/totals'
+import { Participant } from '@prisma/client'
 
 export type Balances = Record<
   Participant['id'],
