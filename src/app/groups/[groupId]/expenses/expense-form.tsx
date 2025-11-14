@@ -915,6 +915,9 @@ export function ExpenseForm({
                                             Number(form.watch('amount')),
                                             groupCurrency,
                                           ), // Convert to cents
+                                          expenseDate:
+                                            form.watch('expenseDate') ??
+                                            new Date(),
                                           paidFor: field.value.map(
                                             ({ participant, shares }) => ({
                                               participant: {
@@ -940,6 +943,13 @@ export function ExpenseForm({
                                           splitMode: form.watch('splitMode'),
                                           isReimbursement:
                                             form.watch('isReimbursement'),
+                                          paidBy: {
+                                            id:
+                                              form.watch('paidBy') ??
+                                              field.value[0]?.participant,
+                                            // name is required for the helper but irrelevant here
+                                            name: '',
+                                          },
                                         }),
                                         locale,
                                       )}
