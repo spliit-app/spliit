@@ -1,0 +1,43 @@
+name: Análise SonarCloud
+
+# Quando esse workflow vai executar
+on:
+  # Em pull requests para o branch imsi-action
+  pull_request:
+    branches:
+      - imsi-action
+    types: [opened, synchronize, reopened]
+  
+  # Em push direto no branch imsi-action
+  push:
+    branches:
+      - imsi-action
+
+jobs:
+  analise-codigo:
+    name: Análise de Qualidade de Código
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Passo 1: Baixar o código do repositório
+      - name: Checkout do código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Baixa todo histórico (necessário para análise)
+      
+      # Passo 2: Configurar Node.js (Spliit usa TypeScript/Node)
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      # Passo 3: Instalar dependências
+      - name: Instalar dependências
+        run: npm ci
+      
+      # Passo 4: Executar análise do SonarCloud
+      - name: Análise SonarCloud
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Token automático do GitHub
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}     # Token que você configurou
