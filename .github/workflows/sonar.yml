@@ -1,37 +1,21 @@
-name: Análise SonarCloud
+name: Scan SonarCloud
 
 on:
-  pull_request:
-    branches:
-      - imsi-action
-    types: [opened, synchronize, reopened]
-  
   push:
     branches:
-      - imsi-action
-
-jobs:
-  analise-codigo:
-    name: Análise de Qualidade de Código
-    runs-on: ubuntu-latest
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
     
+jobs:
+  sonarqube:
+    name: SonarQube
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout do código
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-      
-      - name: Configurar Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-      
-      - name: Instalar dependências
-        run: npm ci
-      
-      - name: Análise SonarCloud
-        uses: SonarSource/sonarcloud-github-action@master
+          fetch-depth: 0  
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v6
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
