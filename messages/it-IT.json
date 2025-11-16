@@ -124,7 +124,8 @@
     "CurrencyCodeField": {
       "label": "Moneta principale",
       "createDescription": "Tutti gli importi e i saldi saranno in questa moneta.",
-      "customOption": "Personalizzato"
+      "customOption": "Personalizzato",
+      "editDescription": "Tutti gli importi e i saldi saranno in questa valuta. Se cambi questa opzione NON verranno convertite le spese già inserite, ad eccezione di quando la valuta ha una struttura sub-unitaria differente (es. se si cambia da Dollari Americani a Yen Giapponesi)"
     }
   },
   "ExpenseForm": {
@@ -158,7 +159,11 @@
         "description": "Seleziona per chi è stato ricevuto il reddito."
       },
       "splitModeDescription": "Seleziona come dividere l'entrata.",
-      "attachDescription": "Vedi ed allega la ricevuta per l'entrata."
+      "attachDescription": "Vedi ed allega la ricevuta per l'entrata.",
+      "currencyField": {
+        "label": "Valuta di ingresso",
+        "description": "La valuta in cui il pagamento è stato ricevuto."
+      }
     },
     "Expense": {
       "create": "Crea spesa",
@@ -191,7 +196,11 @@
         "description": "Seleleziona per chi è stato pagato."
       },
       "splitModeDescription": "Seleziona come dividere la spesa.",
-      "attachDescription": "Vedi ed allega la ricevuta per la spesa."
+      "attachDescription": "Vedi ed allega la ricevuta per la spesa.",
+      "currencyField": {
+        "label": "Valuta di spesa",
+        "description": "La valuta in cui la spesa è stata pagata."
+      }
     },
     "amountField": {
       "label": "Importo"
