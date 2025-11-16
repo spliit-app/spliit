@@ -52,6 +52,15 @@
     "myGroups": "Mes groupes",
     "create": "Créer",
     "loadingRecent": "Chargement des groupes récents…",
+    "CreateOptions": {
+      "openMenu": "Ouvrir les options de création",
+      "newGroup": "Nouveau groupe",
+      "importFromFile": "Importer depuis un fichier"
+    },
+    "ImportDialog": {
+      "successTitle": "Groupe créé",
+      "successDescription": "Le groupe {name} a été créé à partir de l'import."
+    },
     "NoRecent": {
       "description": "Vous n'avez visité aucun groupe récemment.",
       "create": "Créer un groupe",
@@ -455,5 +464,48 @@
     "other": {
       "heading": "Autres devises"
     }
+  }
+  ,
+  "FileImport": {
+    "title": "Importer un groupe depuis un fichier",
+    "buttonLabel": "Ouvrir la boîte d'import",
+    "errorTitle": "Erreur",
+    "processing": "Traitement…",
+    "fileLabel": "Sélectionner un fichier",
+    "uploadDragTitle": "Déposez un fichier ici ou cliquez pour sélectionner",
+    "uploadDragDescription": "Pris en charge : JSON (Spliit‑JSON) et fichiers de débogage",
+    "fileReadError": "Impossible de lire le fichier sélectionné.",
+    "newGroupNameLabel": "Nom du nouveau groupe",
+    "newGroupNamePlaceholder": "Entrez un nom de groupe (optionnel)",
+    "analysisAwaiting": "En attente de l'analyse du fichier…",
+    "analysisExplanation": "Sélectionnez un fichier pour analyser son contenu avant l'import.",
+    "previewErrorTitle": "Nous n'avons pas pu analyser votre fichier",
+    "generalInfoTitle": "Informations générales",
+    "generalInfoFormat": "Format",
+    "generalInfoRows": "Lignes",
+    "generalInfoInvalidRows": "Lignes invalides",
+    "generalInfoTotal": "Montant total",
+    "generalInfoParticipants": "Participants et soldes",
+    "generalInfoParticipantsEmpty": "Aucune information de participant détectée.",
+    "generalInfoUnknown": "Inconnu",
+    "analysisHeaderTitle": "Problèmes d'en‑tête",
+    "analysisGeneralWarningsTitle": "Avertissements généraux",
+    "analysisCategoryTitle": "Avertissements de catégorisation",
+    "analysisErrorsTitle": "Erreurs de lignes",
+    "analysisFatalHint": "Corrigez ces erreurs pour activer l'import.",
+    "import": "Importer",
+    "importing": "Importation…",
+    "importProgressLabel": "Import des dépenses",
+    "importCancel": "Annuler l'import",
+    "importCanceling": "Annulation…",
+    "importResultCompleted": "{created} sur {total} lignes importées",
+    "importResultCancelledSimple": "Import annulé",
+    "importResultConfirm": "Continuer"
+  },
+  "FileImportErrors": {
+    "noParticipants": "Aucun participant défini dans le fichier.",
+    "fileEmpty": "Le fichier téléchargé était vide.",
+    "invalidAmount": "Montant invalide dans une ou plusieurs lignes.",
+    "invalidDate": "Date de dépense invalide dans une ou plusieurs lignes."
   }
 }

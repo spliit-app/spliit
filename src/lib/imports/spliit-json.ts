@@ -217,7 +217,7 @@ export class SpliitJsonFormat implements ImportFormat {
     ) => ({
       expenseDate: coerceDate(e?.expenseDate),
       title: String(e?.title ?? '').trim() || `Expense ${index + 1}`,
-      category: 0,
+      category: resolveCategoryId(e?.categoryId ?? e?.category),
       amount: Math.round(coerceNumber(e?.amount, 'amount')),
       originalAmount:
         e?.originalAmount != null

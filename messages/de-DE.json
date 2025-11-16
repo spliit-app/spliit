@@ -52,6 +52,15 @@
     "myGroups": "Meine Gruppen",
     "create": "Erstellen",
     "loadingRecent": "Lade letzte Gruppen…",
+    "CreateOptions": {
+      "openMenu": "Erstelloptionen öffnen",
+      "newGroup": "Neue Gruppe",
+      "importFromFile": "Aus Datei importieren"
+    },
+    "ImportDialog": {
+      "successTitle": "Gruppe erstellt",
+      "successDescription": "Gruppe {name} wurde aus dem Import erstellt."
+    },
     "NoRecent": {
       "description": "Du hast in der letzten Zeit keine Gruppe besucht.",
       "create": "Erstelle eine",
@@ -455,5 +464,48 @@
     "common": {
       "heading": "Geläufigste"
     }
+  }
+  ,
+  "FileImport": {
+    "title": "Gruppe aus Datei importieren",
+    "buttonLabel": "Import-Dialog öffnen",
+    "errorTitle": "Fehler",
+    "processing": "Verarbeite…",
+    "fileLabel": "Datei auswählen",
+    "uploadDragTitle": "Datei hier ablegen oder klicken, um auszuwählen",
+    "uploadDragDescription": "Unterstützt: JSON (Spliit-JSON) und Debug-Dateien",
+    "fileReadError": "Die ausgewählte Datei konnte nicht gelesen werden.",
+    "newGroupNameLabel": "Name der neuen Gruppe",
+    "newGroupNamePlaceholder": "Gruppennamen eingeben (optional)",
+    "analysisAwaiting": "Warte auf Datei-Analyse…",
+    "analysisExplanation": "Wähle eine Datei, um sie vor dem Import zu analysieren.",
+    "previewErrorTitle": "Die Datei konnte nicht analysiert werden",
+    "generalInfoTitle": "Allgemeine Informationen",
+    "generalInfoFormat": "Format",
+    "generalInfoRows": "Zeilen",
+    "generalInfoInvalidRows": "Ungültige Zeilen",
+    "generalInfoTotal": "Gesamtbetrag",
+    "generalInfoParticipants": "Teilnehmer und Salden",
+    "generalInfoParticipantsEmpty": "Keine Teilnehmerinformationen erkannt.",
+    "generalInfoUnknown": "Unbekannt",
+    "analysisHeaderTitle": "Probleme im Header",
+    "analysisGeneralWarningsTitle": "Allgemeine Warnungen",
+    "analysisCategoryTitle": "Kategorie-Zuordnungswarnungen",
+    "analysisErrorsTitle": "Zeilenfehler",
+    "analysisFatalHint": "Behebe diese Fehler, um den Import zu aktivieren.",
+    "import": "Importieren",
+    "importing": "Importiere…",
+    "importProgressLabel": "Importiere Ausgaben",
+    "importCancel": "Import abbrechen",
+    "importCanceling": "Breche ab…",
+    "importResultCompleted": "{created} von {total} Zeilen importiert",
+    "importResultCancelledSimple": "Import abgebrochen",
+    "importResultConfirm": "Weiter"
+  },
+  "FileImportErrors": {
+    "noParticipants": "Keine Teilnehmer in der Datei definiert.",
+    "fileEmpty": "Die hochgeladene Datei war leer.",
+    "invalidAmount": "Ungültiger Betrag in einer oder mehreren Zeilen.",
+    "invalidDate": "Ungültiges Ausgabedatum in einer oder mehreren Zeilen."
   }
 }
