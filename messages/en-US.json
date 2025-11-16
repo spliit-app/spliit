@@ -52,6 +52,15 @@
     "myGroups": "My groups",
     "create": "Create",
     "loadingRecent": "Loading recent groups…",
+    "CreateOptions": {
+      "openMenu": "Open create options",
+      "newGroup": "New group",
+      "importFromFile": "Import from file"
+    },
+    "ImportDialog": {
+      "successTitle": "Group created",
+      "successDescription": "Group {name} was created from import."
+    },
     "NoRecent": {
       "description": "You have not visited any group recently.",
       "create": "Create one",
@@ -448,5 +457,48 @@
     "other": {
       "heading": "Other currencies"
     }
+  }
+  ,
+  "FileImport": {
+    "title": "Import group from file",
+    "buttonLabel": "Open import dialog",
+    "errorTitle": "Error",
+    "processing": "Processing…",
+    "fileLabel": "Select a file",
+    "uploadDragTitle": "Drop a file here or click to select",
+    "uploadDragDescription": "Supported: JSON (Spliit-JSON) and debug files",
+    "fileReadError": "Could not read the selected file.",
+    "newGroupNameLabel": "New group name",
+    "newGroupNamePlaceholder": "Enter a group name (optional)",
+    "analysisAwaiting": "Awaiting file analysis…",
+    "analysisExplanation": "Select a file to analyze its content before importing.",
+    "previewErrorTitle": "We couldn't analyze your file",
+    "generalInfoTitle": "General information",
+    "generalInfoFormat": "Format",
+    "generalInfoRows": "Rows",
+    "generalInfoInvalidRows": "Invalid rows",
+    "generalInfoTotal": "Total amount",
+    "generalInfoParticipants": "Participants and balances",
+    "generalInfoParticipantsEmpty": "No participant information detected.",
+    "generalInfoUnknown": "Unknown",
+    "analysisHeaderTitle": "Header issues",
+    "analysisGeneralWarningsTitle": "General warnings",
+    "analysisCategoryTitle": "Category mapping warnings",
+    "analysisErrorsTitle": "Row errors",
+    "analysisFatalHint": "Fix these errors to enable import.",
+    "import": "Import",
+    "importing": "Importing…",
+    "importProgressLabel": "Importing expenses",
+    "importCancel": "Cancel import",
+    "importCanceling": "Cancelling…",
+    "importResultCompleted": "Imported {created} of {total} rows",
+    "importResultCancelledSimple": "Import cancelled",
+    "importResultConfirm": "Continue"
+  },
+  "FileImportErrors": {
+    "noParticipants": "No participants defined in file.",
+    "fileEmpty": "The uploaded file was empty.",
+    "invalidAmount": "Invalid amount in one or more rows.",
+    "invalidDate": "Invalid expense date in one or more rows."
   }
 }
