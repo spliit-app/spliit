@@ -126,8 +126,22 @@ export async function GET(
         shares,
       ]),
     ) as Record<string, number>
-    const totalShares = expense.paidFor.reduce(
-      (sum, { shares }) => sum + shares,
+    // Normalize shares based on split mode to mirror app logic
+    const isEvenly = expense.splitMode === 'EVENLY'
+    const normalizedSharesByParticipant: Record<string, number> = {}
+    for (const p of group.participants) {
+      if (isEvenly) {
+        normalizedSharesByParticipant[p.id] = expense.paidFor.some(
+          (pf) => pf.participantId === p.id,
+        )
+          ? 1
+          : 0
+      } else {
+        normalizedSharesByParticipant[p.id] = shareByParticipant[p.id] ?? 0
+      }
+    }
+    const totalShares = Object.values(normalizedSharesByParticipant).reduce(
+      (sum, v) => sum + v,
       0,
     )
 
@@ -153,36 +167,40 @@ export async function GET(
         : null,
       paidBy: participantIdNameMap[expense.paidById],
       splitMode: splitModeLabel[expense.splitMode],
-      // For every participant we export the *saldo* (net effect) of this single expense:
-      // - For the paying participant (paidBy):
-      //     saldo = totalAmount - participantShareAmount
-      //   -> how much they effectively advance for others.
-      // - For all other participants:
-      //     saldo = -participantShareAmount
-      //   -> how much they owe to the payer for this expense.
-      //
-      // The sum of all participant saldos for a given expense is always 0,
-      // which makes the CSV easy to aggregate in tools like Excel.
-      ...Object.fromEntries(
-        group.participants.map((participant) => {
-          const participantShare = shareByParticipant[participant.id] ?? 0
+      // For every participant we export the saldo (net effect) of this single expense.
+      // Compute participant shares in minor units first to avoid rounding drift.
+      ...(() => {
+        const entries: [string, number][] = []
+        // Determine ordered list of participants that actually have shares
+        const participantsWithShares = group.participants
+          .map((p, idx) => ({ p, idx }))
+          .filter(({ p }) => (normalizedSharesByParticipant[p.id] ?? 0) > 0)
+          .map(({ p }) => p.id)
 
-          const participantShareAmount =
-            totalShares === 0
-              ? 0
-              : +formatAmountAsDecimal(
-                  (normalizedAmount / totalShares) * participantShare,
-                  currency,
-                )
-
+        let remaining = normalizedAmount // minor units remaining to allocate
+        group.participants.forEach((participant) => {
+          const shares = normalizedSharesByParticipant[participant.id] ?? 0
+          let shareMinor = 0
+          if (totalShares > 0 && shares > 0) {
+            const isLast =
+              participant.id ===
+              participantsWithShares[participantsWithShares.length - 1]
+            if (isLast) {
+              shareMinor = remaining
+            } else {
+              shareMinor = Math.floor((normalizedAmount * shares) / totalShares)
+              remaining -= shareMinor
+            }
+          }
+          const shareMajor = +formatAmountAsDecimal(shareMinor, currency)
           const isPaidByParticipant = expense.paidById === participant.id
           const saldo = isPaidByParticipant
-            ? totalAmount - participantShareAmount
-            : -participantShareAmount
-
-          return [participant.name, saldo]
-        }),
-      ),
+            ? totalAmount - shareMajor
+            : -shareMajor
+          entries.push([participant.name, saldo])
+        })
+        return Object.fromEntries(entries)
+      })(),
     }
   })
 
