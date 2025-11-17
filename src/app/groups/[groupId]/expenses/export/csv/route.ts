@@ -10,7 +10,7 @@ const splitModeLabel = {
   BY_SHARES: 'Unevenly – By shares',
   BY_PERCENTAGE: 'Unevenly – By percentage',
   BY_AMOUNT: 'Unevenly – By amount',
-}
+} as const
 
 function formatDate(isoDateString: Date): string {
   const date = new Date(isoDateString)
@@ -69,19 +69,18 @@ export async function GET(
   - Original cost: The amount spent in the original currency.
   - Original currency: The currency the amount was originally spent in.
   - Conversion rate: The rate used to convert the amount.
-  - Is Reimbursement: Whether the expense is a reimbursement or not.
   - Split mode: The method used to split the expense (e.g., Evenly, By shares, By percentage, By amount).
   - Paid By: The paying user
-  - UserA, UserB: User-specific data or balances (e.g., amount owed or contributed by each user).
+  - UserA, UserB: Per-participant saldo for this expense (payer advances vs owed amount). Saldos per row sum to 0.
 
   Example Table:
-  +------------+------------------+----------+----------+----------+---------------+-------------------+-----------------+------------------+----------------------+----------+--------+-----------+
-  | Date       | Description      | Category | Currency | Cost     | Original cost | Original currency | Conversion rate | Is reinbursement | Split mode           | Paid By  | User A | User B    |
-  +------------+------------------+----------+----------+----------+---------------+-------------------+-----------------+------------------+----------------------+----------+--------+-----------+
-  | 2025-01-06 | Dinner with team | Food     | INR      | 5000     |               |                   |                 | No               | Evenly               | User A   | 2500   | -2500     |
-  +------------+------------------+----------+----------+----------+---------------+-------------------+-----------------+------------------+----------------------+----------+--------+-----------+
-  | 2025-02-07 | Plane tickets    | Travel   | INR      | 97264.09 | 1000          | EUR               | 97.2641         | No               | Unevenly - By amount | User B   | -80000 | -17264.09 |
-  +------------+------------------+----------+----------+----------+---------------+-------------------+-----------------+------------------+----------------------+----------+--------+-----------+
+  +------------+------------------+----------+----------+----------+---------------+-------------------+-----------------+----------------------+----------+--------+-----------+
+  | Date       | Description      | Category | Currency | Cost     | Original cost | Original currency | Conversion rate | Split mode           | Paid By  | User A | User B    |
+  +------------+------------------+----------+----------+----------+---------------+-------------------+-----------------+----------------------+----------+--------+-----------+
+  | 2025-01-06 | Dinner with team | Food     | INR      | 5000     |               |                   |                 | Evenly               | User A   | 2500   | -2500     |
+  +------------+------------------+----------+----------+----------+---------------+-------------------+-----------------+----------------------+----------+--------+-----------+
+  | 2025-02-07 | Plane tickets    | Travel   | INR      | 97264.09 | 1000          | EUR               | 97.2641         | Unevenly - By amount | User B   | -80000 | -17264.09 |
+  +------------+------------------+----------+----------+----------+---------------+-------------------+-----------------+----------------------+----------+--------+-----------+
 
   */
 
@@ -94,9 +93,8 @@ export async function GET(
     { label: 'Original cost', value: 'originalAmount' },
     { label: 'Original currency', value: 'originalCurrency' },
     { label: 'Conversion rate', value: 'conversionRate' },
-    { label: 'Is Reimbursement', value: 'isReimbursement' },
     { label: 'Split mode', value: 'splitMode' },
-    { label: 'Paid By', value: 'paidBy'},
+    { label: 'Paid By', value: 'paidBy' },
     ...group.participants.map((participant) => ({
       label: participant.name,
       value: participant.name,
@@ -105,53 +103,88 @@ export async function GET(
 
   const currency = getCurrencyFromGroup(group)
 
-  const participantIdNameMap = Object.fromEntries(group.participants.map(p => [p.id, p.name])) as Record<string, string>
+  const participantIdNameMap = Object.fromEntries(
+    group.participants.map((p) => [p.id, p.name]),
+  ) as Record<string, string>
 
-  const expenses = group.expenses.map((expense) => ({
-    date: formatDate(expense.expenseDate),
-    title: expense.title,
-    categoryName: expense.category?.name || '',
-    currency: group.currencyCode ?? group.currency,
-    amount: formatAmountAsDecimal(expense.amount, currency),
-    originalAmount: expense.originalAmount
-      ? formatAmountAsDecimal(
-          expense.originalAmount,
-          getCurrency(expense.originalCurrency),
-        )
-      : null,
-    originalCurrency: expense.originalCurrency,
-    conversionRate: expense.conversionRate
-      ? expense.conversionRate.toString()
-      : null,
-    paidBy: participantIdNameMap[expense.paidById],
-    isReimbursement: expense.isReimbursement ? 'Yes' : 'No',
-    splitMode: splitModeLabel[expense.splitMode],
-    ...Object.fromEntries(
-      group.participants.map((participant) => {
-        const { totalShares, participantShare } = expense.paidFor.reduce(
-          (acc, { participantId, shares }) => {
-            acc.totalShares += shares
-            if (participantId === participant.id) {
-              acc.participantShare = shares
-            }
-            return acc
-          },
-          { totalShares: 0, participantShare: 0 },
-        )
+  const expenses = group.expenses.map((expense) => {
+    const normalizedAmount = Number(expense.amount)
+    const normalizedOriginalAmount = expense.originalAmount
+      ? Number(expense.originalAmount)
+      : null
+    const normalizedConversionRate = expense.conversionRate
+      ? Number(expense.conversionRate)
+      : null
 
-        const isPaidByParticipant = expense.paidById === participant.id
-        const participantAmountShare = +formatAmountAsDecimal(
-          (expense.amount / totalShares) * participantShare,
-          currency,
-        )
+    // Total amount of the expense in major currency units (e.g. cents -> dollars)
+    // This is used to compute the payer's net saldo for this single expense.
+    const totalAmount = +formatAmountAsDecimal(normalizedAmount, currency)
+    // Map of participantId -> shares for quick lookups when building saldos.
+    const shareByParticipant = Object.fromEntries(
+      expense.paidFor.map(({ participantId, shares }) => [
+        participantId,
+        shares,
+      ]),
+    ) as Record<string, number>
+    const totalShares = expense.paidFor.reduce(
+      (sum, { shares }) => sum + shares,
+      0,
+    )
 
-        return [
-          participant.name,
-          participantAmountShare * (isPaidByParticipant ? 1 : -1),
-        ]
-      }),
-    ),
-  }))
+    return {
+      date: formatDate(expense.expenseDate),
+      title: expense.title,
+      categoryName: expense.category?.name || '',
+      currency: group.currencyCode ?? group.currency,
+      // Costs should not count reimbursements as spending in CSV totals
+      amount: formatAmountAsDecimal(
+        expense.isReimbursement ? 0 : normalizedAmount,
+        currency,
+      ),
+      originalAmount: normalizedOriginalAmount
+        ? formatAmountAsDecimal(
+            normalizedOriginalAmount,
+            getCurrency(expense.originalCurrency),
+          )
+        : null,
+      originalCurrency: expense.originalCurrency,
+      conversionRate: normalizedConversionRate
+        ? normalizedConversionRate.toString()
+        : null,
+      paidBy: participantIdNameMap[expense.paidById],
+      splitMode: splitModeLabel[expense.splitMode],
+      // For every participant we export the *saldo* (net effect) of this single expense:
+      // - For the paying participant (paidBy):
+      //     saldo = totalAmount - participantShareAmount
+      //   -> how much they effectively advance for others.
+      // - For all other participants:
+      //     saldo = -participantShareAmount
+      //   -> how much they owe to the payer for this expense.
+      //
+      // The sum of all participant saldos for a given expense is always 0,
+      // which makes the CSV easy to aggregate in tools like Excel.
+      ...Object.fromEntries(
+        group.participants.map((participant) => {
+          const participantShare = shareByParticipant[participant.id] ?? 0
+
+          const participantShareAmount =
+            totalShares === 0
+              ? 0
+              : +formatAmountAsDecimal(
+                  (normalizedAmount / totalShares) * participantShare,
+                  currency,
+                )
+
+          const isPaidByParticipant = expense.paidById === participant.id
+          const saldo = isPaidByParticipant
+            ? totalAmount - participantShareAmount
+            : -participantShareAmount
+
+          return [participant.name, saldo]
+        }),
+      ),
+    }
+  })
 
   const json2csvParser = new Parser({ fields })
   const csv = json2csvParser.parse(expenses)
