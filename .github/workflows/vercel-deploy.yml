@@ -1,13 +1,15 @@
 name: Deploy no Vercel
 
-env: 
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID}}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID}}
-
 on: 
   push: 
     branches: 
       - imsi-action
+      
+env: 
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID}}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID}}
+
+
 
 jobs: 
   Deploy-Prodution:
