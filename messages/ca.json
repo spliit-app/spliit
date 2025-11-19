@@ -44,7 +44,7 @@
   "ExpenseCard": {
     "paidBy": "Pagada per <strong>{paidBy}</strong> per a <paidFor></paidFor>",
     "receivedBy": "Debuda per <strong>{paidBy}</strong> para <paidFor></paidFor>",
-    "yourBalance": "El teu balanç: balance:",
+    "yourBalance": "El teu balanç:",
     "everyone": "totes",
     "notInvolved": "No ets implicat o implicada"
   },

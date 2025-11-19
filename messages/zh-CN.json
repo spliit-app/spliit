@@ -124,7 +124,8 @@
     "CurrencyCodeField": {
       "label": "首选货币",
       "createDescription": "所有的交易将使用此币种。",
-      "customOption": "自定义"
+      "customOption": "自定义",
+      "editDescription": "所有金额和余额将以此货币表示。更改此项不会转换已输入的费用，除非新货币的\"辅助单位\"与现有货币不同（例如从美元改为日元）"
     }
   },
   "ExpenseForm": {
@@ -152,7 +153,8 @@
       "splitModeDescription": "选择如何划分这笔收入。",
       "attachDescription": "查看并为这笔收入附加收据。",
       "currencyField": {
-        "label": "收入币种"
+        "label": "收入币种",
+        "description": "收入所使用的货币。"
       }
     },
     "Expense": {
@@ -180,7 +182,8 @@
       "splitModeDescription": "选择如何划分这笔消费。",
       "attachDescription": "查看并为这笔消费附加收据。",
       "currencyField": {
-        "label": "支出币种"
+        "label": "支出币种",
+        "description": "支出所使用的货币。"
       },
       "recurrenceRule": {
         "label": "订阅式支出",
