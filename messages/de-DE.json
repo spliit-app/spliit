@@ -119,7 +119,15 @@
       "saving": "Speichert…",
       "create": "Erstellen",
       "creating": "Erstellt…",
-      "cancel": "Abbrechen"
+      "cancel": "Abbrechen",
+      "Delete": {
+        "title": "Gruppe löschen?",
+        "description": "Das Löschen einer Gruppe führt zu einer 30-tägigen Deaktivierungsphase, nach deren Ablauf alle Daten endgültig gelöscht werden und nicht mehr wiederhergestellt werden können."
+      }
+    },
+    "Delete": {
+      "title": "Gruppe löschen",
+      "description": "Dies führt zu einer 30-tägigen Deaktivierungsphase, nach deren Ablauf alle Daten endgültig gelöscht werden und nicht mehr wiederhergestellt werden können."
     },
     "CurrencyCodeField": {
       "label": "Hauptwährung",
@@ -127,6 +135,16 @@
       "customOption": "benutzerdefiniert",
       "editDescription": "Alle Beträge und Salden werden in dieser Währung angegeben. Bei Änderung dieser, werden bereits eingegebene Ausgaben NICHT umgerechnet, es sei denn, die Währung hat andere \"kleinere Einheiten\" als die aktuelle (z. B. Wechsel von US-Dollar zu Japanischem Yen)"
     }
+  },
+  "DeleteGroupButton": {
+    "title": "Gruppe löschen",
+    "description": "Willst du diese Gruppe wirklich löschen? Gib zum Bestätigen den Gruppennamen ein:",
+    "groupNameField": "Gruppenname"
+  },
+  "DeleteGroupNotice": {
+    "title": "Zur Löschung vorgemerkte Gruppe",
+    "description": "Diese Gruppe wurde zur Löschung vorgemerkt und wird am {date} endgültig gelöscht. Wenn du diese Gruppe reaktivieren möchtest, klicke auf die Schaltfläche unten.",
+    "restore": "Gruppe wiederherstellen"
   },
   "ExpenseForm": {
     "Income": {

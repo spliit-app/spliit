@@ -42,6 +42,7 @@ import { useEffect, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { CurrencySelector } from './currency-selector'
 import { Textarea } from './ui/textarea'
+import { DeleteGroupButton } from '@/app/groups/[groupId]/delete-group-button'
 
 export type Props = {
   group?: NonNullable<Awaited<ReturnType<typeof getGroup>>>
@@ -357,8 +358,7 @@ export function GroupForm({
             </div>
           </CardContent>
         </Card>
-
-        <div className="flex mt-4 gap-2">
+        <div className="flex mt-4 mb-8 gap-2">
           <SubmitButton
             loadingContent={t(group ? 'Settings.saving' : 'Settings.creating')}
             onClick={updateActiveUser}
@@ -372,7 +372,17 @@ export function GroupForm({
             </Button>
           )}
         </div>
-      </form>
+
+        {group && !group.deleteAt && (<Card className="border-red-700">
+          <CardHeader>
+            <CardTitle className="text-red-700">{t('Delete.title')}</CardTitle>
+            <CardDescription>{t('Delete.description')}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {group && <DeleteGroupButton group={group} />}
+          </CardContent>
+        </Card>)}
+        </form>
     </Form>
   )
 }
