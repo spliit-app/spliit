@@ -241,7 +241,25 @@
     "cancel": "Annulla",
     "reimbursement": "Rimborso",
     "conversionRateState": {
-      "refresh": "Aggiornare"
+      "refresh": "Aggiornare",
+      "loading": "Recuperando i tassi di cambio…",
+      "success": "Tassi ottenuti:",
+      "error": "Ops, non siamo riusciti a ottenere i tassi più recenti.",
+      "staleRate": "Tasso di utilizzo:",
+      "noRate": "Inserisci qui sotto un tasso personalizzato.",
+      "currencyNotFound": "Ops, Frankfurter non dispone del tasso di cambio per questa valuta in questo giorno.",
+      "noDate": "Inserisci la data della spesa per ottenere il tasso di cambio.",
+      "dateMismatch": "Tassi a partire dalla data: {date}",
+      "customRate": "Utilizzando il tasso personalizzato"
+    },
+    "conversionUnavailable": "Per impostare una valuta diversa per ogni spesa e convertire gli importi, seleziona una valuta non personalizzata per il gruppo.",
+    "originalAmountField": {
+      "label": "Importo da convertire"
+    },
+    "conversionRateField": {
+      "label": "Tasso di cambio",
+      "useApi": "Usa i tassi di Frankfurter",
+      "useCustom": "Usa tasso personalizzato"
     }
   },
   "ExpenseDocumentsInput": {
@@ -353,7 +371,8 @@
     "paidForMin1": "La spesa deve essere pagata per almeno un partecipante.",
     "noZeroShares": "Tutti gli importi devono essere superiori a 0.",
     "amountSum": "La somma degli importi deve essere uguale all'importo della spesa.",
-    "percentageSum": "La somma delle percentuali deve essere uguale a 100."
+    "percentageSum": "La somma delle percentuali deve essere uguale a 100.",
+    "ratePositive": "Il tasso deve essere strettamente maggiore di zero."
   },
   "Categories": {
     "search": "Cerca categoria...",
@@ -422,6 +441,19 @@
       "Trash": "Rifiuti",
       "TV/Phone/Internet": "TV/Telefono/Internet",
       "Water": "Acqua"
+    }
+  },
+  "Currencies": {
+    "search": "Cerca valuta...",
+    "noCurrency": "Nessuna valuta trovata.",
+    "custom": {
+      "heading": "Personalizzato"
+    },
+    "common": {
+      "heading": "Più comune"
+    },
+    "other": {
+      "heading": "Altre valute"
     }
   }
 }
