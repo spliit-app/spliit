@@ -1,0 +1,451 @@
+{
+  "Homepage": {
+    "title": "Bagikan <strong>Expenses</strong> dengan <strong>Teman & Keluarga</strong>",
+    "description": "Selamat datang di <strong>Spliit</strong> instance yang baru !",
+    "button": {
+      "groups": "Ke grup",
+      "github": "GitHub"
+    }
+  },
+  "Header": {
+    "groups": "Grup"
+  },
+  "Footer": {
+    "madeIn": "Dibuat di Montréal, Québec 🇨🇦",
+    "builtBy": "Dibuat oleh <author>Sebastien Castiel</author> dan <source>kontributor lainnya</source>"
+  },
+  "Expenses": {
+    "title": "Pengeluaran",
+    "description": "Berikut adalah pengeluaran yang Anda buat untuk grup Anda.",
+    "create": "Buat pengeluaran",
+    "createFirst": "Buat yang pertama",
+    "noExpenses": "Grup Anda belum memiliki pengeluaran apa pun.",
+    "export": "Ekspor",
+    "exportJson": "Ekspor ke JSON",
+    "exportCsv": "Ekspor ke CSV",
+    "searchPlaceholder": "Cari pengeluaran…",
+    "ActiveUserModal": {
+      "title": "Siapa nama anda?",
+      "description": "Beritahu kami nama Anda agar kami dapat menyesuaikan cara informasi ditampilkan.",
+      "nobody": "Saya tidak ingin memilih siapa pun",
+      "save": "Simpan perubahan",
+      "footer": "Pengaturan ini dapat diubah nanti di pengaturan grup."
+    },
+    "Groups": {
+      "upcoming": "Mendatang",
+      "thisWeek": "Minggu ini",
+      "earlierThisMonth": "Awal bulan ini",
+      "lastMonth": "Bulan lalu",
+      "earlierThisYear": "Awal tahun ini",
+      "lastYear": "Tahun lalu",
+      "older": "Lebih tua"
+    }
+  },
+  "ExpenseCard": {
+    "paidBy": "Dibayar oleh <strong>{paidBy}</strong> untuk <paidFor></paidFor>",
+    "everyone": "semua orang",
+    "receivedBy": "Diterima oleh <strong>{paidBy}</strong> untuk <paidFor></paidFor>",
+    "yourBalance": "Saldo Anda:",
+    "notInvolved": "Anda tidak terlibat"
+  },
+  "Groups": {
+    "myGroups": "Grup saya",
+    "create": "Buat",
+    "loadingRecent": "Memuat grup terbaru…",
+    "NoRecent": {
+      "description": "Anda belum mengunjungi grup mana pun baru-baru ini.",
+      "create": "Buat",
+      "orAsk": "atau minta teman untuk mengirimi Anda tautan ke situs yang sudah ada."
+    },
+    "recent": "Grup terbaru",
+    "starred": "Grup berbintang",
+    "archived": "Grup terarsipkan",
+    "archive": "Arsipkan grup",
+    "unarchive": "Batalkan pengarsipan grup",
+    "removeRecent": "Hapus dari grup terbaru",
+    "RecentRemovedToast": {
+      "title": "Grup telah dihapus",
+      "description": "Grup ini telah dihapus dari daftar grup terbaru Anda.",
+      "undoAlt": "Urungkan penghapusan grup",
+      "undo": "Urungkan"
+    },
+    "AddByURL": {
+      "button": "Tambahkan melalui URL",
+      "title": "Tambahkan grup melalui URL",
+      "description": "Jika suatu grup dibagikan kepada Anda, Anda dapat menempelkan URL-nya di sini untuk menambahkannya ke daftar Anda.",
+      "error": "Ups, kami tidak dapat menemukan grup dari URL yang Anda berikan…"
+    },
+    "NotFound": {
+      "text": "Grup ini tidak dapat ditemukan.",
+      "link": "Buka grup yang baru saja dikunjungi"
+    }
+  },
+  "GroupForm": {
+    "title": "Informasi grup",
+    "NameField": {
+      "label": "Nama grup",
+      "placeholder": "Liburan sekolah",
+      "description": "Masukkan nama untuk grup Anda."
+    },
+    "InformationField": {
+      "label": "Informasi grup",
+      "placeholder": "Informasi apa yang relevan bagi peserta kelompok?"
+    },
+    "CurrencyField": {
+      "label": "Simbol mata uang",
+      "placeholder": "$, €, £…",
+      "description": "Kita akan menggunakannya untuk menampilkan jumlah."
+    },
+    "CurrencyCodeField": {
+      "label": "Mata uang utama",
+      "createDescription": "Semua jumlah dan saldo akan dalam mata uang ini.",
+      "editDescription": "Semua jumlah dan saldo akan menggunakan mata uang ini. Mengubah mata uang ini TIDAK akan mengonversi pengeluaran yang sudah dimasukkan, kecuali jika mata uang tersebut memiliki \"unit minor\" yang berbeda dari mata uang saat ini (misalnya, berubah dari Dolar AS ke Yen Jepang)",
+      "customOption": "Kustom"
+    },
+    "Participants": {
+      "title": "Peserta",
+      "description": "Masukkan nama untuk setiap peserta.",
+      "protectedParticipant": "Peserta ini adalah bagian dari pengeluaran, dan tidak dapat dihapus.",
+      "new": "Baru",
+      "add": "Tambahkan peserta",
+      "John": "John",
+      "Jane": "Janet",
+      "Jack": "Jacksen"
+    },
+    "Settings": {
+      "title": "Pengaturan lokal",
+      "description": "Pengaturan ini ditetapkan per perangkat, dan digunakan untuk menyesuaikan pengalaman Anda.",
+      "ActiveUserField": {
+        "label": "Pengguna aktif",
+        "placeholder": "Pilih peserta",
+        "none": "Tidak ada",
+        "description": "Pengguna digunakan sebagai default untuk membayar pengeluaran."
+      },
+      "save": "Simpan",
+      "saving": "Meyimpan…",
+      "create": "Buat",
+      "creating": "Membuat…",
+      "cancel": "Batalkan"
+    }
+  },
+  "ExpenseForm": {
+    "Income": {
+      "create": "Buat pemasukan",
+      "edit": "Ubah pemasukan",
+      "TitleField": {
+        "label": "Judul pemasukan",
+        "placeholder": "Restoran Senin malam",
+        "description": "Masukkan deskripsi untuk pemasukan."
+      },
+      "DateField": {
+        "label": "Tanggal pemasukan",
+        "description": "Masukkan tanggal penerimaan pemasukan."
+      },
+      "currencyField": {
+        "label": "Mata uang pemasukan",
+        "description": "Mata uang di mana pemasukan diterima."
+      },
+      "categoryFieldDescription": "Pilih kategori pemasukan.",
+      "paidByField": {
+        "label": "Diterima oleh",
+        "description": "Pilih peserta yang menerima pemasukan."
+      },
+      "paidFor": {
+        "title": "Diterima untuk",
+        "description": "Pilih untuk siapa pemasukan tersebut diterima."
+      },
+      "splitModeDescription": "Pilih cara membagi pemasukan.",
+      "attachDescription": "Lihat dan lampirkan tanda terima pada pemasukan."
+    },
+    "Expense": {
+      "create": "Buat pengeluaran",
+      "edit": "Ubah pengeluaran",
+      "TitleField": {
+        "label": "Judul pengeluaran",
+        "placeholder": "Restoran Senin malam",
+        "description": "Masukkan deskripsi untuk pengeluaran."
+      },
+      "DateField": {
+        "label": "Tanggal pengeluaran",
+        "description": "Masukkan tanggal pembayaran pengeluaran."
+      },
+      "currencyField": {
+        "label": "Mata uang pengeluaran",
+        "description": "Mata uang yang digunakan untuk membayar pengeluaran tersebut."
+      },
+      "categoryFieldDescription": "Pilih kategori pengeluaran.",
+      "paidByField": {
+        "label": "Dibayar oleh",
+        "placeholder": "Pilih peserta",
+        "description": "Pilih peserta yang membayar pengeluaran."
+      },
+      "recurrenceRule": {
+        "label": "Pengeluaran Berulang",
+        "description": "Pilih seberapa sering pengeluaran harus diulang.",
+        "none": "Tidak ada",
+        "daily": "Setiap hari",
+        "weekly": "Setiap minggu",
+        "monthly": "Setiap bulan"
+      },
+      "paidFor": {
+        "title": "Dibayar oleh",
+        "description": "Pilih untuk siapa biaya tersebut dibayarkan."
+      },
+      "splitModeDescription": "Pilih cara membagi pengeluaran.",
+      "attachDescription": "Lihat dan lampirkan tanda terima pada pengeluaran."
+    },
+    "amountField": {
+      "label": "Jumlah"
+    },
+    "conversionUnavailable": "Untuk menetapkan mata uang yang berbeda per pengeluaran dan mengonversi jumlahnya, pilih mata uang non-kustom untuk grup tersebut.",
+    "originalAmountField": {
+      "label": "Jumlah untuk dikonversi"
+    },
+    "conversionRateField": {
+      "useApi": "Gunakan kurs dari Frankfurter",
+      "useCustom": "Gunakan kurs kustom",
+      "label": "Kurs"
+    },
+    "conversionRateState": {
+      "loading": "Mendapatkan kurs…",
+      "success": "Kurs yang didapatkan:",
+      "error": "Ups, kami tidak bisa mendapatkan kurs terkini.",
+      "staleRate": "Menggunakan kurs:",
+      "noRate": "Masukkan kurs kustom di bawah ini.",
+      "currencyNotFound": "Ups, Frankfurter tidak memiliki kurs untuk mata uang ini pada hari ini.",
+      "noDate": "Masukkan tanggal pengeluaran untuk mendapatkan kurs.",
+      "dateMismatch": "Kurs pada tanggal: {date}",
+      "refresh": "Muat ulang",
+      "customRate": "Menggunakan kurs kustom"
+    },
+    "isReimbursementField": {
+      "label": "Ini adalah reimburse"
+    },
+    "categoryField": {
+      "label": "Kategori"
+    },
+    "notesField": {
+      "label": "Catatan"
+    },
+    "selectNone": "Pilih tidak ada",
+    "selectAll": "Pilih semua",
+    "shares": "porsi",
+    "advancedOptions": "Opsi lanjutan pembagian…",
+    "SplitModeField": {
+      "label": "Mode pembagian",
+      "evenly": "Bagi merata",
+      "byShares": "Tidak merata – Berdasarkan porsi",
+      "byPercentage": "Tidak merata – Berdasarkan persenan",
+      "byAmount": "Tidak merata – Berdasarkan jumlah",
+      "saveAsDefault": "Simpan sebagai opsi pembagian default"
+    },
+    "DeletePopup": {
+      "label": "Hapus",
+      "title": "Hapus pengeluaran?",
+      "description": "Apakah Anda yakin ingin menghapus pengeluaran ini? Tindakan ini tidak dapat dibatalkan.",
+      "yes": "Iya",
+      "cancel": "Batalkan"
+    },
+    "attachDocuments": "Lampirkan dokumen",
+    "create": "Buat",
+    "creating": "Membuat…",
+    "save": "Simpan",
+    "saving": "Menyimpan…",
+    "cancel": "Batalkan",
+    "reimbursement": "Reimburse"
+  },
+  "Currencies": {
+    "custom": {
+      "heading": "Kustom"
+    },
+    "search": "Cari mata uang...",
+    "noCurrency": "Tidak ada mata uang yang ditemukan.",
+    "common": {
+      "heading": "Paling umum"
+    },
+    "other": {
+      "heading": "Mata uang lainnya"
+    }
+  },
+  "ExpenseDocumentsInput": {
+    "TooBigToast": {
+      "title": "Ukuran file terlalu besar",
+      "description": "Ukuran file maksimum yang dapat Anda unggah adalah {maxSize}. Ukuran file Anda adalah {size}."
+    },
+    "ErrorToast": {
+      "title": "Error saat mengunggah dokumen",
+      "description": "Terjadi kesalahan saat mengunggah dokumen. Silakan coba lagi nanti atau pilih file lain.",
+      "retry": "Ulangi"
+    }
+  },
+  "CreateFromReceipt": {
+    "Dialog": {
+      "triggerTitle": "Buat pengeluaran dari tanda terima",
+      "title": "Buat dari tanda terima",
+      "description": "Ekstrak informasi pengeluaran dari foto tanda terima.",
+      "body": "Unggah foto struk, dan kami akan memindainya untuk mengekstrak informasi pengeluaran jika memungkinkan.",
+      "selectImage": "Pilih gambar…",
+      "titleLabel": "Judul:",
+      "categoryLabel": "Kategori:",
+      "amountLabel": "Jumlah:",
+      "dateLabel": "Tanggal:",
+      "editNext": "Anda dapat mengedit informasi pengeluaran berikutnya.",
+      "continue": "Lanjutkan"
+    },
+    "unknown": "Tidak diketahui",
+    "TooBigToast": {
+      "title": "File terlalu besar",
+      "description": "Ukuran file maksimum yang dapat Anda unggah adalah {maxSize}. Ukuran file Anda adalah {size}."
+    },
+    "ErrorToast": {
+      "title": "Error saat mengunggah dokumen",
+      "description": "Terjadi kesalahan saat mengunggah dokumen. Silakan coba lagi nanti atau pilih file lain.",
+      "retry": "Ulangi"
+    }
+  },
+  "Balances": {
+    "title": "Saldo",
+    "description": "Ini adalah jumlah yang dibayarkan atau yang diterima oleh setiap peserta.",
+    "Reimbursements": {
+      "title": "Saran reimburse",
+      "description": "Berikut adalah saran untuk reimburse yang optimal antara peserta.",
+      "noImbursements": "Sepertinya grup Anda tidak memerlukan reimburse apa pun 😁",
+      "owes": "<strong>{from}</strong> berutang <strong>{to}</strong>",
+      "markAsPaid": "Tandai sebagai telah dibayar"
+    }
+  },
+  "Stats": {
+    "title": "Statistik",
+    "Totals": {
+      "title": "Total",
+      "description": "Ringkasan pengeluaran seluruh grup.",
+      "groupSpendings": "Total pengeluaran grup",
+      "groupEarnings": "Total pemasukan grup",
+      "yourSpendings": "Total pengeluaran Anda",
+      "yourEarnings": "Total pemasukan Anda",
+      "yourShare": "Total bagian Anda"
+    }
+  },
+  "Activity": {
+    "title": "Aktivitas",
+    "description": "Overview semua aktivitas dalam grup ini.",
+    "noActivity": "Belum ada aktivitas di grup Anda.",
+    "someone": "Seseorang",
+    "settingsModified": "Pengaturan grup diubah oleh <strong>{participant}</strong>.",
+    "expenseCreated": "Pengeluaran <em>{expense}</em> dibuat oleh <strong>{participant}</strong>.",
+    "expenseUpdated": "Pengeluaran <em>{expense}</em> diperbarui oleh <strong>{participant}</strong>.",
+    "expenseDeleted": "Pengeluaran <em>{expense}</em> dihapus oleh <strong>{participant}</strong>.",
+    "Groups": {
+      "today": "Hari ini",
+      "yesterday": "Kemarin",
+      "earlierThisWeek": "Awal minggu ini",
+      "lastWeek": "Minggu lalu",
+      "earlierThisMonth": "Awal bulan ini",
+      "lastMonth": "Bulan lalu",
+      "earlierThisYear": "Awal tahun ini",
+      "lastYear": "Tahun lalu",
+      "older": "Lebih lama"
+    }
+  },
+  "Information": {
+    "title": "Informasi",
+    "description": "Gunakan tempat ini untuk menambahkan informasi apa pun yang relevan bagi peserta grup.",
+    "empty": "Belum ada informasi grup."
+  },
+  "Settings": {
+    "title": "Pengaturan"
+  },
+  "Share": {
+    "title": "Bagikan",
+    "description": "Agar peserta lain dapat melihat grup dan menambahkan pengeluaran, bagikan URL-nya dengan mereka.",
+    "warning": "Peringatan!",
+    "warningHelp": "Setiap orang yang memiliki URL grup akan dapat melihat dan mengedit pengeluaran. Bagikan dengan hati-hati!"
+  },
+  "SchemaErrors": {
+    "min1": "Masukkan setidaknya satu karakter.",
+    "min2": "Masukkan setidaknya dua karakter.",
+    "max5": "Masukkan maksimal lima karakter.",
+    "max50": "Masukkan maksimal 50 karakter.",
+    "duplicateParticipantName": "Peserta lain sudah menggunakan nama ini.",
+    "titleRequired": "Silakan masukkan judul.",
+    "invalidNumber": "Nomor tidak valid.",
+    "amountRequired": "Anda harus memasukkan jumlah.",
+    "amountNotZero": "Jumlahnya tidak boleh nol.",
+    "amountTenMillion": "Jumlahnya harus kurang dari 10.000.000.",
+    "ratePositive": "Angkanya harus lebih besar dari nol.",
+    "paidByRequired": "Anda harus memilih peserta.",
+    "paidForMin1": "Pengeluaran harus dibayarkan untuk setidaknya satu peserta.",
+    "noZeroShares": "Semua porsi harus lebih tinggi dari 0.",
+    "amountSum": "Total harus sama dengan jumlah pengeluaran.",
+    "percentageSum": "Total persentase harus sama dengan 100."
+  },
+  "Categories": {
+    "search": "Cari kategori...",
+    "noCategory": "Tidak ada kategori yang ditemukan.",
+    "Uncategorized": {
+      "heading": "Tidak Berkategori",
+      "General": "Umum",
+      "Payment": "Pembayaran"
+    },
+    "Entertainment": {
+      "heading": "Hiburan",
+      "Entertainment": "Hiburan",
+      "Games": "Game",
+      "Movies": "Film",
+      "Music": "Musik",
+      "Sports": "Olah Raga"
+    },
+    "Food and Drink": {
+      "heading": "Makanan dan Minuman",
+      "Food and Drink": "Makanan dan Minuman",
+      "Dining Out": "Makan luar",
+      "Groceries": "Belanja",
+      "Liquor": "Minuman Keras"
+    },
+    "Home": {
+      "heading": "Rumah",
+      "Home": "Rumah",
+      "Electronics": "Elektronik",
+      "Furniture": "Furnitur",
+      "Household Supplies": "Kebutuhan rumah",
+      "Maintenance": "Perawatan rumah",
+      "Mortgage": "Cicilan",
+      "Pets": "Binatang peliharaan",
+      "Rent": "Sewa",
+      "Services": "Servis"
+    },
+    "Life": {
+      "heading": "Kehidupan",
+      "Childcare": "Anak-anak",
+      "Clothing": "Pakaian",
+      "Donation": "Donasi",
+      "Education": "Edukasi",
+      "Gifts": "Hadiah",
+      "Insurance": "Asuransi",
+      "Medical Expenses": "Kesehatan",
+      "Taxes": "Pajak"
+    },
+    "Transportation": {
+      "heading": "Transportasi",
+      "Transportation": "Transpotrasi",
+      "Bicycle": "Sepeda",
+      "Bus/Train": "Bis/Kereta",
+      "Car": "Mobil",
+      "Gas/Fuel": "Bensin",
+      "Hotel": "Hotel",
+      "Parking": "Parkir",
+      "Plane": "Pesawat",
+      "Taxi": "Taksi"
+    },
+    "Utilities": {
+      "heading": "Utilitas",
+      "Utilities": "Utilitas",
+      "Cleaning": "Kebersihan",
+      "Electricity": "Listrik",
+      "Heat/Gas": "Gas",
+      "Trash": "Sampah",
+      "TV/Phone/Internet": "TV/HP/Internet",
+      "Water": "Air"
+    }
+  }
+}

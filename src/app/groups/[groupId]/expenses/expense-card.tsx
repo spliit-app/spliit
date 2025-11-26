@@ -5,7 +5,7 @@ import { DocumentsCount } from '@/app/groups/[groupId]/expenses/documents-count'
 import { Button } from '@/components/ui/button'
 import { getGroupExpenses } from '@/lib/api'
 import { Currency } from '@/lib/currency'
-import { cn, formatCurrency, formatDate } from '@/lib/utils'
+import { cn, formatCurrency, formatDateOnly } from '@/lib/utils'
 import { ChevronRight } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
@@ -99,7 +99,7 @@ export function ExpenseCard({
           <DocumentsCount count={expense._count.documents} />
         </div>
         <div className="text-xs text-muted-foreground">
-          {formatDate(expense.expenseDate, locale, { dateStyle: 'medium' })}
+          {formatDateOnly(expense.expenseDate, locale, { dateStyle: 'medium' })}
         </div>
       </div>
       <Button

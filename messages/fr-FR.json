@@ -1,6 +1,6 @@
 {
   "Homepage": {
-    "title": "Partagez <strong>vos dépenses</strong> avec  <strong>vos amis</strong> & <strong>votre famille :)</strong>",
+    "title": "Partagez <strong>vos dépenses</strong> avec <strong>vos amis & votre famille</strong>",
     "description": "Bienvenue sur votre instance <strong>Spliit</strong> !",
     "button": {
       "groups": "Accéder aux groupes",
@@ -38,12 +38,15 @@
       "earlierThisYear": "Plus tôt cette année",
       "lastYear": "L'année dernière",
       "older": "Plus ancien"
-    }
+    },
+    "export": "Exporter"
   },
   "ExpenseCard": {
     "paidBy": "Payé par <strong>{paidBy}</strong> pour <paidFor></paidFor>",
     "receivedBy": "Reçu par <strong>{paidBy}</strong> pour <paidFor></paidFor>",
-    "yourBalance": "Votre solde :"
+    "yourBalance": "Votre solde :",
+    "everyone": "tout le monde",
+    "notInvolved": "Vous n'êtes pas concerné"
   },
   "Groups": {
     "myGroups": "Mes groupes",
@@ -99,9 +102,9 @@
       "protectedParticipant": "Ce participant fait partie des dépenses et ne peut pas être supprimé.",
       "new": "Nouveau",
       "add": "Ajouter un participant",
-      "John": "John",
-      "Jane": "Jane",
-      "Jack": "Jack"
+      "John": "Jean",
+      "Jane": "Jeanne",
+      "Jack": "Jacques"
     },
     "Settings": {
       "title": "Paramètres locaux",
@@ -117,6 +120,12 @@
       "create": "Créer",
       "creating": "Création…",
       "cancel": "Annuler"
+    },
+    "CurrencyCodeField": {
+      "label": "Devise principale",
+      "createDescription": "Tous les montants et soldes seront dans cette devise.",
+      "editDescription": "Tous les montants et soldes seront exprimés dans cette devise. La modification de cette option n'entraînera PAS la conversion des dépenses déjà saisies, sauf si la devise a des « unités mineures » différentes de celles de la devise actuelle (par exemple, passage du dollar américain au yen japonais)",
+      "customOption": "Personnalisée"
     }
   },
   "ExpenseForm": {
@@ -150,7 +159,11 @@
         "description": "Sélectionnez pour qui le revenu a été reçu."
       },
       "splitModeDescription": "Sélectionnez comment diviser le revenu.",
-      "attachDescription": "Voir et joindre des reçus au revenu."
+      "attachDescription": "Voir et joindre des reçus au revenu.",
+      "currencyField": {
+        "label": "Devise de la recette",
+        "description": "La devise dans laquelle le revenu a été reçu."
+      }
     },
     "Expense": {
       "create": "Créer une dépense",
@@ -167,7 +180,8 @@
       "categoryFieldDescription": "Sélectionnez la catégorie de dépense.",
       "paidByField": {
         "label": "Payé par",
-        "description": "Sélectionnez le participant qui a réglé la dépense."
+        "description": "Sélectionnez le participant qui a réglé la dépense.",
+        "placeholder": "Sélectionner un participant"
       },
       "recurrenceRule": {
         "label": "Récurrence de la dépense",
@@ -179,10 +193,14 @@
       },
       "paidFor": {
         "title": "Payé pour",
-        "description": "Sélectionnez les participants concernés"
+        "description": "Sélectionnez les participants concernés."
       },
       "splitModeDescription": "Sélectionnez comment diviser la dépense.",
-      "attachDescription": "Voir et joindre des reçus à la dépense."
+      "attachDescription": "Voir et joindre des reçus à la dépense.",
+      "currencyField": {
+        "label": "Devise de la dépense",
+        "description": "La devise dans laquelle la dépense a été payée."
+      }
     },
     "amountField": {
       "label": "Montant"
@@ -221,7 +239,28 @@
     "save": "Sauvegarder",
     "saving": "Sauvegarde…",
     "cancel": "Annuler",
-    "reimbursement": "Remboursement"
+    "reimbursement": "Remboursement",
+    "conversionUnavailable": "Pour définir une devise différente pour chaque dépense et convertir les montants, sélectionnez une devise non personnalisée pour le groupe.",
+    "originalAmountField": {
+      "label": "Montant à convertir"
+    },
+    "conversionRateField": {
+      "useCustom": "Utiliser un taux personnalisé",
+      "label": "Taux de change",
+      "useApi": "Utiliser les taux de change de Frankfurter"
+    },
+    "conversionRateState": {
+      "loading": "Obtention des taux de change…",
+      "success": "Taux obtenus :",
+      "error": "Oups, nous n'avons pas pu obtenir les taux de change les plus récents.",
+      "refresh": "Actualiser",
+      "staleRate": "Taux de change utilisé :",
+      "noRate": "Saisissez un taux de change personnalisé ci-dessous.",
+      "currencyNotFound": "Oups, Frankfurter n’a pas le taux de change pour cette devise à cette date.",
+      "noDate": "Saisissez la date de la dépense pour obtenir un taux de change.",
+      "dateMismatch": "Taux de change le {date}",
+      "customRate": "Utilisation d’un taux personnalisé"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
@@ -332,7 +371,8 @@
     "paidForMin1": "La dépense doit concerner au moins un participant.",
     "noZeroShares": "Toutes les parts doivent être supérieures à 0.",
     "amountSum": "La somme des montants doit être égale au montant de la dépense.",
-    "percentageSum": "La somme des pourcentages doit être égale à 100."
+    "percentageSum": "La somme des pourcentages doit être égale à 100.",
+    "ratePositive": "Le taux de change doit être strictement supérieur à zéro."
   },
   "Categories": {
     "search": "Rechercher une catégorie…",
@@ -348,7 +388,7 @@
       "Games": "Jeux",
       "Movies": "Films",
       "Music": "Musique",
-      "Sports": "Sports"
+      "Sports": "Sport"
     },
     "Food and Drink": {
       "heading": "Nourriture et boissons",
@@ -377,7 +417,8 @@
       "Gifts": "Cadeaux",
       "Insurance": "Assurance",
       "Medical Expenses": "Dépenses médicales",
-      "Taxes": "Impôts"
+      "Taxes": "Impôts",
+      "Donation": "Don"
     },
     "Transportation": {
       "heading": "Transport",
@@ -400,6 +441,19 @@
       "Trash": "Poubelle",
       "TV/Phone/Internet": "TV/Téléphone/Internet",
       "Water": "Eau"
+    }
+  },
+  "Currencies": {
+    "search": "Chercher une devise...",
+    "noCurrency": "Aucune devise trouvée.",
+    "custom": {
+      "heading": "Personnalisée"
+    },
+    "common": {
+      "heading": "Les plus courantes"
+    },
+    "other": {
+      "heading": "Autres devises"
     }
   }
 }

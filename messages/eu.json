@@ -1,0 +1,451 @@
+{
+  "Homepage": {
+    "title": "Partekatu <strong>gastuak lagunekin eta familiarekin</strong>",
+    "description": "Ongi etorri zure <strong>Spliit</strong> intantzia berrira!",
+    "button": {
+      "groups": "Joan taldeetara",
+      "github": "GitHub"
+    }
+  },
+  "Header": {
+    "groups": "Taldeak"
+  },
+  "Footer": {
+    "madeIn": "Montrealen egina, Quebec 🇨🇦",
+    "builtBy": "<author>Sebastien Castiel</author> eta <source>laguntzaileek</source> egina"
+  },
+  "Expenses": {
+    "title": "Gastuak",
+    "description": "Hemen talde honetan sortutako gastuak aurkituko dituzu.",
+    "create": "Sortu gastua",
+    "createFirst": "Sortu lehenengoa",
+    "noExpenses": "Talde honek oraindik ez du gasturik.",
+    "export": "Esportatu",
+    "exportJson": "Esportatu JSONera",
+    "Groups": {
+      "earlierThisYear": "Urte hasieran",
+      "lastYear": "Iaz",
+      "older": "Zaharrena",
+      "upcoming": "Laster",
+      "thisWeek": "Aste honetan",
+      "earlierThisMonth": "Hilabete hasieran",
+      "lastMonth": "Aurreko hilabetean"
+    },
+    "exportCsv": "Esportatu CSVra",
+    "searchPlaceholder": "Bilatu gastu bat…",
+    "ActiveUserModal": {
+      "title": "Nor zara?",
+      "description": "Esan zein parte-hartzaile zaren, informazioa nola bistaratzen den pertsonalizatzeko.",
+      "nobody": "Ez dut inor aukeratu nahi",
+      "save": "Gorde aldaketak",
+      "footer": "Doikuntza hori geroago alda daiteke taldearen konfigurazioan."
+    }
+  },
+  "ExpenseCard": {
+    "paidBy": "<strong>{paidBy}</strong>-k ordaindua <paidFor></paidFor>-rentzat",
+    "everyone": "denak",
+    "receivedBy": "<strong>{paidBy}</strong>-k jasota <paidFor></paidFor>-rentzat",
+    "yourBalance": "Zure saldoa:",
+    "notInvolved": "Ez duzu parte hartzen"
+  },
+  "Groups": {
+    "myGroups": "Nire taldeak",
+    "create": "Sortu",
+    "loadingRecent": "Azken taldeak kargatzen…",
+    "NoRecent": {
+      "description": "Azken aldian ez duzu talderik bisitatu.",
+      "create": "Sortu bat",
+      "orAsk": "edo eskatu lagun bati lehendik dagoen baten esteka bidaltzeko."
+    },
+    "recent": "Azken taldeak",
+    "starred": "Gogoko taldeak",
+    "archived": "Gordetako taldeak",
+    "archive": "Gorde taldea",
+    "unarchive": "Kendu taldea artxibotik",
+    "removeRecent": "Kendu azken taldeetatik",
+    "RecentRemovedToast": {
+      "title": "Taldea ezabatu da",
+      "description": "Taldea azken taldeen zerrendatik ezabatu da.",
+      "undoAlt": "Desegin taldearen ezabatzea",
+      "undo": "Desegin"
+    },
+    "AddByURL": {
+      "button": "Gehitu URL bidez",
+      "title": "Gehitu talde bat URL bidez",
+      "description": "Talde bat zurekin partekatu bada, hemen itsatsi dezakezu bere URLa zure zerrendara gehitzeko.",
+      "error": "Oops, ezin dugu taldea aurkitu zuk emandako URLtik…"
+    },
+    "NotFound": {
+      "text": "Talde hori ez da existitzen.",
+      "link": "Joan bisitatutako azken taldeetara"
+    }
+  },
+  "GroupForm": {
+    "title": "Taldeko informazioa",
+    "NameField": {
+      "label": "Taldearen izena",
+      "placeholder": "Udako oporrak",
+      "description": "Eman izena zure taldeari."
+    },
+    "InformationField": {
+      "label": "Taldeko informazioa",
+      "placeholder": "Zer informazio da garrantzitsua taldeko parte-hartzaileentzat?"
+    },
+    "CurrencyField": {
+      "label": "Monetaren ikurra",
+      "placeholder": "$, €, £…",
+      "description": "Zenbatekoak erakusteko erabiliko dugu."
+    },
+    "CurrencyCodeField": {
+      "label": "Moneta nagusia",
+      "createDescription": "Zenbatekoak eta saldoak monetan honetan adieraziko dira.",
+      "editDescription": "Zenbateko eta saldo guztiak moneta honetan adieraziko dira. Hori aldatuz gero, EZ dira bihurtuko lehendik sartutako gastuak, dibisak egungoaren \"unitate txiki\" desberdinak dituenean izan ezik (adib. AEBko dolarretik Japoniako yenera aldatuz)",
+      "customOption": "Pertsonalizatua"
+    },
+    "Participants": {
+      "title": "Kideak",
+      "description": "Sartu kide bakoitzaren izena.",
+      "protectedParticipant": "Kide hauek gastuak dituzte eta ezin dira ezabatu.",
+      "new": "Berria",
+      "add": "Gehitu kidea",
+      "John": "Jon",
+      "Jane": "Jone",
+      "Jack": "Santi"
+    },
+    "Settings": {
+      "title": "Ezarpen lokalak",
+      "description": "Ezarpen hauek gailuari lotuta daude eta zure esperientzia pertsonalizatzeko erabiltzen dira.",
+      "ActiveUserField": {
+        "label": "Erabiltzaile aktiboa",
+        "placeholder": "Hautatu kide bat",
+        "none": "Bat ere ez",
+        "description": "Gastuak ordaintzeko lehenetsi gisa erabiltzen den erabiltzailea."
+      },
+      "save": "Gorde",
+      "saving": "Gordetzen…",
+      "create": "Sortu",
+      "creating": "Sortzen…",
+      "cancel": "Utzi"
+    }
+  },
+  "ExpenseForm": {
+    "Income": {
+      "create": "Sortu diru-sarrera",
+      "edit": "Editatu diru-sarrera",
+      "TitleField": {
+        "label": "Diru-sarreraren izena",
+        "placeholder": "Astelehenen arratseko jatetxea",
+        "description": "Sartu diru-sarreraren deskripzioa."
+      },
+      "DateField": {
+        "label": "Diru-sarreraren data",
+        "description": "Sartu diru-sarrera jaso den data."
+      },
+      "currencyField": {
+        "label": "Diru-sarreraren moneta",
+        "description": "Diru-sarrerak zein monetan jaso diren."
+      },
+      "categoryFieldDescription": "Hautatu diru-sarreraren kategoria.",
+      "paidByField": {
+        "label": "Zeinek jaso du",
+        "description": "Hautatu zein kidek jaso duen diru-sarrera."
+      },
+      "paidFor": {
+        "title": "Nork jaso du",
+        "description": "Hautatu norentzat jaso den diru-sarrera."
+      },
+      "splitModeDescription": "Hautatu nola zatitu diru-sarrera.",
+      "attachDescription": "Ordainagiriak ikusi eta diru-sarrerei erantsi."
+    },
+    "Expense": {
+      "create": "Sortu gastua",
+      "edit": "Editatu gastua",
+      "TitleField": {
+        "label": "Gastuaren izena",
+        "placeholder": "Astelehen arratseko jatetxea",
+        "description": "Sartu gastuaren deskripzioa."
+      },
+      "DateField": {
+        "label": "Gastuaren data",
+        "description": "Sartu gastua ordaindu deneko data."
+      },
+      "currencyField": {
+        "label": "Gastuaren moneta",
+        "description": "Gastua zein monetatan ordaindu den."
+      },
+      "categoryFieldDescription": "Hautatu gastuaren kategoria.",
+      "paidByField": {
+        "label": "Zeinek ordaindu du",
+        "placeholder": "Hautatu kide bat",
+        "description": "Hautatu gastua ordaindu duen kidea."
+      },
+      "recurrenceRule": {
+        "label": "Gastu errepikakorra",
+        "description": "Hautatu gastua zein maiztasunez errepikatu behar den.",
+        "none": "Bat ere ez",
+        "daily": "Egunero",
+        "weekly": "Astero",
+        "monthly": "Hilabetero"
+      },
+      "paidFor": {
+        "title": "Honentzat ordaindu da",
+        "description": "Hautatu gastua norentzat ordaindu den."
+      },
+      "splitModeDescription": "Hautatu nola zatitu gastua.",
+      "attachDescription": "Ikusi eta erantsi gastuaren ordainagiriak."
+    },
+    "amountField": {
+      "label": "Zenbatekoa"
+    },
+    "conversionUnavailable": "Gastu bakoitzeko moneta bat ezartzeko eta zenbatekoak bihurtzeko, hautatu taldearentzako moneta ez-pertsonalizatu bat.",
+    "originalAmountField": {
+      "label": "Bihurtzeko zenbatekoa"
+    },
+    "conversionRateField": {
+      "useApi": "Erabili Frankfurter-en tasak",
+      "useCustom": "Erabili tasa pertsonalizatua",
+      "label": "Kanbio-tasa"
+    },
+    "conversionRateState": {
+      "loading": "Kanbio-tasak eskuratzen…",
+      "success": "Eskuratutako tasak:",
+      "error": "Oops, ezin izan ditugu azken tasak lortu.",
+      "staleRate": "Erabilitako tasa:",
+      "noRate": "Sartu tarifa pertsonalizatua behean.",
+      "currencyNotFound": "Oops, Frankfurterrek ez du moneta honen tasa gaur egun.",
+      "noDate": "Sartu gastuaren data bihurketa-tasa lortzeko.",
+      "dateMismatch": "Tarifak datarako: {date}",
+      "refresh": "Eguneratu",
+      "customRate": "Tasa pertsonalizatua erabiltzen"
+    },
+    "isReimbursementField": {
+      "label": "Hau diru-itzultzea da"
+    },
+    "categoryField": {
+      "label": "Kategoria"
+    },
+    "notesField": {
+      "label": "Oharrak"
+    },
+    "selectNone": "Hautatu bat ere ez",
+    "selectAll": "Hautatu denak",
+    "shares": "partekatzea(k)",
+    "advancedOptions": "Zatitzeko aukera aurreratuak…",
+    "SplitModeField": {
+      "label": "Zatitzeko modua",
+      "evenly": "Zati berdinetan",
+      "byShares": "Zati ezberdinetan - Partekatzetan",
+      "byPercentage": "Zati ezberdinetan - ehunekoen bidez",
+      "byAmount": "Zati desberdinetan - zenbatekoen bidez",
+      "saveAsDefault": "Gorde gogoko zatitze modu gisa"
+    },
+    "DeletePopup": {
+      "label": "Ezabatu",
+      "title": "Ezabatu gastu hau?",
+      "description": "Benetan gastu hau ezabatu nahi duzu? Ekintzak ez dauka atzera bueltarik.",
+      "yes": "Bai",
+      "cancel": "Utzi"
+    },
+    "attachDocuments": "Erantsi dokumentuak",
+    "create": "Sortu",
+    "creating": "Sortzen…",
+    "save": "Gorde",
+    "saving": "Gordetzen…",
+    "cancel": "Utzi",
+    "reimbursement": "Diru-itzultzea"
+  },
+  "ExpenseDocumentsInput": {
+    "TooBigToast": {
+      "title": "Fitxategia handiegia da",
+      "description": "Igo dezakezun fitxategirik handiena {maxSize} da. Zureak {size} pisatzen du."
+    },
+    "ErrorToast": {
+      "title": "Errorea dokumentua igotzean",
+      "description": "Errore bat gertatu da dokumentua igotzean. Saiatu geroago edo hautatu beste fitxategi bat.",
+      "retry": "Saiatu berriro"
+    }
+  },
+  "CreateFromReceipt": {
+    "Dialog": {
+      "triggerTitle": "Sortu gastua ordainagiri batetik",
+      "title": "Sortu ordainagiritik",
+      "description": "Erauzi gastuaren informazioa ordainagiriren argazkitik.",
+      "body": "Igo ordainagiri baten argazkia eta eskaneatuko dugu gastuaren informazioa erauzteko, ahal badugu.",
+      "selectImage": "Hautatu irudia…",
+      "titleLabel": "Titulua:",
+      "categoryLabel": "Kategoria:",
+      "amountLabel": "Zenbatekoa:",
+      "dateLabel": "Data:",
+      "editNext": "Ondoren, gastuaren informazioa editatzeko aukera izango duzu.",
+      "continue": "Jarraitu"
+    },
+    "unknown": "Ezezaguna",
+    "TooBigToast": {
+      "title": "Fitxategia handiegia da",
+      "description": "Igo dezakezun fitxategiaren gehienezko tamaina {maxSize} da. Zureak {size} pisatzen du."
+    },
+    "ErrorToast": {
+      "title": "Errorea dokumentua igotzean",
+      "description": "Dokumentua igotzean errore bat gertatu da. Saiatu berriro beranduago edo hautatu beste fitxategi bat.",
+      "retry": "Saiatu berriro"
+    }
+  },
+  "Balances": {
+    "title": "Saldoak",
+    "description": "Hau da kide bakoitzak ordaindu edo jaso duen zenbatekoa.",
+    "Reimbursements": {
+      "title": "Proposatutako diru-itzulketak",
+      "description": "Hona hemen kideen arteko ditu-itzulketak optimizatzeko proposamenak.",
+      "noImbursements": "Antza denez zure taldeak ez du diru-itzulketarik behar 😁",
+      "owes": "<strong>{from}</strong> zor dio <strong>{to}</strong>-ri",
+      "markAsPaid": "Markatu ordainduta gisa"
+    }
+  },
+  "Stats": {
+    "title": "Estatistikak",
+    "Totals": {
+      "title": "Denetara",
+      "description": "Talde osoaren gastuen laburpena.",
+      "groupSpendings": "Talde osoaren gastuak",
+      "groupEarnings": "Talde osoaren diru-sarrerak",
+      "yourSpendings": "Zure gastuak denetara",
+      "yourEarnings": "Zure diru-sarrerak denetara",
+      "yourShare": "Zure parte osoa"
+    }
+  },
+  "Activity": {
+    "title": "Jarduera",
+    "description": "Talde honetako jarduera guztien ikuspegi orokorra.",
+    "noActivity": "Oraindik ez dago jarduerarik zure taldean.",
+    "someone": "Norbait",
+    "settingsModified": "<strong>{participant}</strong>-k taldearen ezarpenak aldatu ditu.",
+    "expenseCreated": "<em>{expense}</em>ko gastua sortu du <strong>{participant}</strong>-k.",
+    "expenseUpdated": "<em>{expense}</em>ko gastua <strong>{participant}</strong>-k sortua.",
+    "expenseDeleted": "<em>{expense}</em>ko gastua ezabatu du <strong>{participant}</strong>-k.",
+    "Groups": {
+      "today": "Gaur",
+      "yesterday": "Atzo",
+      "earlierThisWeek": "Aste honen hasieran",
+      "lastWeek": "Pasa den astean",
+      "earlierThisMonth": "Hilabete honen hasieran",
+      "lastMonth": "Pasa den hilabetean",
+      "earlierThisYear": "Urte honen hasieran",
+      "lastYear": "Iaz",
+      "older": "Zaharragoak"
+    }
+  },
+  "Information": {
+    "title": "Informazioa",
+    "description": "Erabili leku hau taldeko kideentzat garrantzitsua izan daitekeen edozein informazio gehitzeko.",
+    "empty": "Oraindik ez dago taldearen informaziorik."
+  },
+  "Settings": {
+    "title": "Ezarpenak"
+  },
+  "Share": {
+    "title": "Partekatu",
+    "description": "Beste kide batzuek taldea ikusteko eta gastuak gehitzeko, partekatu haiekin URLa.",
+    "warning": "Kontuz!",
+    "warningHelp": "Taldeko URLa duen edozein pertsonak gastuak ikusi eta editatu ahal izango ditu. Partekatu kontuz!"
+  },
+  "SchemaErrors": {
+    "min1": "Sartu gutxienez karaktere bat.",
+    "min2": "Sartu gutxienez bi karaktere.",
+    "max5": "Sartu gutxienez bost karaktere.",
+    "max50": "Sartu gutxienez 50 karaktere.",
+    "duplicateParticipantName": "Badago izen hori duen beste kide bat.",
+    "titleRequired": "Sartu titulu bat.",
+    "invalidNumber": "Zenbaki baliogabea.",
+    "amountRequired": "Zenbateko bat sartu behar duzu.",
+    "amountNotZero": "Zenbatekoa ezin da zero izan.",
+    "amountTenMillion": "Zenbatekoa 10.000.000 baino txikiagoa izan behar du.",
+    "ratePositive": "Tasa zero baino handiagoa izan behar du.",
+    "paidByRequired": "Kide bat hautatu behar duzu.",
+    "paidForMin1": "Gastua gutxienez kide batek ordaindu behar du.",
+    "noZeroShares": "Parte guztiek zero baino handiagoak izan behar dute.",
+    "amountSum": "Zenbatekoen baturak gastuaren zenbatekoa berdindu behar du.",
+    "percentageSum": "Ehunekoen baturak 100 izan behar du."
+  },
+  "Categories": {
+    "search": "Bilatu kategoria...",
+    "noCategory": "Ez da kategoriarik aurkitu.",
+    "Uncategorized": {
+      "heading": "Kategoriarik gabe",
+      "General": "Orokorra",
+      "Payment": "Ordainketa"
+    },
+    "Entertainment": {
+      "heading": "Aisia",
+      "Entertainment": "Aisia",
+      "Games": "Jolasak",
+      "Movies": "Filmak",
+      "Music": "Musika",
+      "Sports": "Kirolak"
+    },
+    "Food and Drink": {
+      "heading": "Janari-edariak",
+      "Food and Drink": "Janari-edariak",
+      "Dining Out": "Kanpoan afaltzea",
+      "Groceries": "Janariak",
+      "Liquor": "Likoreak"
+    },
+    "Home": {
+      "heading": "Etxea",
+      "Home": "Etxea",
+      "Electronics": "Elektronika",
+      "Furniture": "Altzariak",
+      "Household Supplies": "Etxeko hornidurak",
+      "Maintenance": "Mantenua",
+      "Mortgage": "Hipoteka",
+      "Pets": "Maskotak",
+      "Rent": "Etxeko errenta",
+      "Services": "Zerbitzuak"
+    },
+    "Life": {
+      "heading": "Bizitza",
+      "Childcare": "Umeen zaintza",
+      "Clothing": "Arropa",
+      "Donation": "Dohaintza",
+      "Education": "Hezkuntza",
+      "Gifts": "Opariak",
+      "Insurance": "Asegurua",
+      "Medical Expenses": "Osasun gastuak",
+      "Taxes": "Zergak"
+    },
+    "Transportation": {
+      "heading": "Garraioa",
+      "Transportation": "Garraioa",
+      "Bicycle": "Bizikleta",
+      "Bus/Train": "Autobusa/Trena",
+      "Car": "Autoa",
+      "Gas/Fuel": "Gasolina/Erregaia",
+      "Hotel": "Hotela",
+      "Parking": "Aparkalekua",
+      "Plane": "Hegazkina",
+      "Taxi": "Taxia"
+    },
+    "Utilities": {
+      "heading": "Erabilgarritasunak",
+      "Utilities": "Erabilgarritasunak",
+      "Cleaning": "Garbiketa",
+      "Electricity": "Elektrizitatea",
+      "Heat/Gas": "Berokuntza/Gasa",
+      "Trash": "Zaborra",
+      "TV/Phone/Internet": "TV/Telefonoa/Interneta",
+      "Water": "Ura"
+    }
+  },
+  "Currencies": {
+    "search": "Bilatu moneta...",
+    "noCurrency": "Ez da monetarik aurkitu.",
+    "custom": {
+      "heading": "Pertsonalizatua"
+    },
+    "common": {
+      "heading": "Ohikoena"
+    },
+    "other": {
+      "heading": "Beste monetak"
+    }
+  }
+}

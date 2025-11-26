@@ -116,7 +116,7 @@ model ExpensePaidFor {
 
 model Activity {
   id            String       @id
-  group         Group        @relation(fields: [groupId], references: [id])
+  group         Group        @relation(fields: [groupId], references: [id], onDelete: Cascade)
   groupId       String
   time          DateTime     @default(now())
   activityType  ActivityType

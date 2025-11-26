@@ -1,7 +1,7 @@
 {
   "Homepage": {
-    "title": "Comparteix <strong>Despeses</strong> amb <strong>Família i Amics</strong>",
-    "description": "benvinguda a <strong>Spliit</strong>!",
+    "title": "Comparteix <strong>despeses</strong> amb <strong>família i amics</strong>",
+    "description": "Benvinguda a <strong>Spliit</strong>!",
     "button": {
       "groups": "Veure els grups",
       "github": "GitHub"
@@ -38,12 +38,15 @@
       "earlierThisYear": "A inicis d'aquest any",
       "lastYear": "L'any passat",
       "older": "Més antics"
-    }
+    },
+    "export": "Exportar"
   },
   "ExpenseCard": {
     "paidBy": "Pagada per <strong>{paidBy}</strong> per a <paidFor></paidFor>",
     "receivedBy": "Debuda per <strong>{paidBy}</strong> para <paidFor></paidFor>",
-    "yourBalance": "El teu balanç: balance:"
+    "yourBalance": "El teu balanç: balance:",
+    "everyone": "totes",
+    "notInvolved": "No ets implicat o implicada"
   },
   "Groups": {
     "myGroups": "Els meus grups",
@@ -117,6 +120,12 @@
       "create": "Crear",
       "creating": "Creant",
       "cancel": "Cancel·lar"
+    },
+    "CurrencyCodeField": {
+      "label": "Divisa principal",
+      "createDescription": "Totes les quantitats i els balanços es mostraràn en aquesta moneda.",
+      "editDescription": "Totes les quantitas i balanços es mostraràn en aquesta moneda. Canviar açò NO convertirà despeses ja enregistrades, excepte quan la moneda tinga \"unitats menors\" diferents que la actual (per exemple, canviar de Dólars estadounidencs a Yens japonesos)",
+      "customOption": "Personalitzat"
     }
   },
   "ExpenseForm": {
@@ -140,7 +149,6 @@
       "recurrenceRule": {
         "label": "Recurrència de la despesa",
         "description": "Selecciona amb quina freqüència cal que es repeteixi la despesa.",
-
         "none": "Puntual",
         "daily": "Diària",
         "weekly": "Setmanal",
@@ -151,7 +159,11 @@
         "description": "Selecciona per a qui s'ha efectuat el pagament."
       },
       "splitModeDescription": "Selecciona com vols dividir la despesa.",
-      "attachDescription": "Veure i adjuntar tiquets a la despesa."
+      "attachDescription": "Veure i adjuntar tiquets a la despesa.",
+      "currencyField": {
+        "label": "Moneda del ingrés",
+        "description": "La moneda en la que l'ingrés va ser rebut."
+      }
     },
     "Expense": {
       "create": "Crear despesa",
@@ -168,14 +180,27 @@
       "categoryFieldDescription": "Selecciona la cateogria de la despesa.",
       "paidByField": {
         "label": "Pagat per",
-        "description": "Selecciona la participant que ha pagat la despesa."
+        "description": "Selecciona la participant que ha pagat la despesa.",
+        "placeholder": "Tria un membre"
       },
       "paidFor": {
         "title": "Pagado per a",
         "description": "Sleecciona per a qui s'ha pagat la despesa."
       },
       "splitModeDescription": "Selecciona com vols dividir la despesa.",
-      "attachDescription": "eure i adjuntar tiquets a la despesa."
+      "attachDescription": "eure i adjuntar tiquets a la despesa.",
+      "currencyField": {
+        "label": "Moneda de la despesa",
+        "description": "La moneda en la que la despesa es va pagar."
+      },
+      "recurrenceRule": {
+        "label": "Despesa recurrent",
+        "description": "Tria la freqüència amb la que la despesa s'ha de repetir.",
+        "none": "Cap",
+        "daily": "Diàriament",
+        "weekly": "Setmanalment",
+        "monthly": "Mensualment"
+      }
     },
     "amountField": {
       "label": "Quantitat"
@@ -214,7 +239,28 @@
     "save": "Desar",
     "saving": "Desant",
     "cancel": "Cancel·lar",
-    "reimbursement": "Reemborsament"
+    "reimbursement": "Reemborsament",
+    "conversionUnavailable": "Per a seleccionar una moneda diferent per despesa i convertir quantitats, tria una moneda no personalitzada per al grup.",
+    "originalAmountField": {
+      "label": "Quantitat a convertir"
+    },
+    "conversionRateField": {
+      "useApi": "Emprar les tases de Frankfurter",
+      "useCustom": "Utilitzar tasa personalitzada",
+      "label": "Tasa de conversió"
+    },
+    "conversionRateState": {
+      "loading": "Aconseguint tases d'intercanvi…",
+      "success": "Tases obtingudes:",
+      "error": "Ups, no hem pogut aconseguit les tases mes recents.",
+      "staleRate": "Utilizant la tasa:",
+      "noRate": "Introdueix una tasa personalitzada ací.",
+      "currencyNotFound": "Ups, Frankfurter no té la tasa per a la moneda triada aquest dia.",
+      "noDate": "Introdueix la data de ka despesa per a aconseguir la tasa de conversió.",
+      "dateMismatch": "Tases per a la data: {date}",
+      "refresh": "Refrescar",
+      "customRate": "Emprant tasa personalitzada"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
@@ -325,7 +371,8 @@
     "paidForMin1": "La despesa ha de ser pagada com a mínim per a una participant",
     "noZeroShares": "Totes les participacions han de ser superiors a 0",
     "amountSum": "La suma dels imports ha de ser igual a la suma de la despesa",
-    "percentageSum": "La suma dels percentatges ha de ser igual a 100"
+    "percentageSum": "La suma dels percentatges ha de ser igual a 100",
+    "ratePositive": "La tasa ha de ser estrictament major que zero."
   },
   "Categories": {
     "search": "Cercar categoria...",
@@ -370,7 +417,8 @@
       "Gifts": "Regals",
       "Insurance": "Assegurança",
       "Medical Expenses": "Despeses mèdiques",
-      "Taxes": "Impostos"
+      "Taxes": "Impostos",
+      "Donation": "Donació"
     },
     "Transportation": {
       "heading": "Transport",
@@ -393,6 +441,19 @@
       "Trash": "Ecombraries",
       "TV/Phone/Internet": "TV/Telèfon/Internet",
       "Water": "Aigua"
+    }
+  },
+  "Currencies": {
+    "search": "Buscar moneda...",
+    "noCurrency": "No s'han trobat monedes.",
+    "custom": {
+      "heading": "Personalitzat"
+    },
+    "common": {
+      "heading": "Més comunes"
+    },
+    "other": {
+      "heading": "Altres monedes"
     }
   }
 }

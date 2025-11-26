@@ -38,12 +38,15 @@
       "earlierThisYear": "Dieses Jahr",
       "lastYear": "Letztes Jahr",
       "older": "Älter"
-    }
+    },
+    "export": "Exportieren"
   },
   "ExpenseCard": {
     "paidBy": "Gezahlt von <strong>{paidBy}</strong> für <paidFor></paidFor>",
     "receivedBy": "Empfangen von <strong>{paidBy}</strong> für <paidFor></paidFor>",
-    "yourBalance": "Deine Bilanz:"
+    "yourBalance": "Deine Bilanz:",
+    "everyone": "jeder",
+    "notInvolved": "Du bist nicht involviert"
   },
   "Groups": {
     "myGroups": "Meine Gruppen",
@@ -117,6 +120,12 @@
       "create": "Erstellen",
       "creating": "Erstellt…",
       "cancel": "Abbrechen"
+    },
+    "CurrencyCodeField": {
+      "label": "Hauptwährung",
+      "createDescription": "Alle Beträge und Salden werden in dieser Währung angegeben.",
+      "customOption": "benutzerdefiniert",
+      "editDescription": "Alle Beträge und Salden werden in dieser Währung angegeben. Bei Änderung dieser, werden bereits eingegebene Ausgaben NICHT umgerechnet, es sei denn, die Währung hat andere \"kleinere Einheiten\" als die aktuelle (z. B. Wechsel von US-Dollar zu Japanischem Yen)"
     }
   },
   "ExpenseForm": {
@@ -150,7 +159,11 @@
         "description": "Wähle für wen die Einnahme empfangen wurde."
       },
       "splitModeDescription": "Wähle, wie die Einnahme aufgeteilt werden soll.",
-      "attachDescription": "Füge der Einnahme einen Beleg hinzu."
+      "attachDescription": "Füge der Einnahme einen Beleg hinzu.",
+      "currencyField": {
+        "label": "Währung der Einnahme",
+        "description": "Die Währung, in der die Einnahmen erhalten wurden."
+      }
     },
     "Expense": {
       "create": "Ausgabe erstellen",
@@ -183,7 +196,11 @@
         "description": "Wähle für wen die Ausgabe gezahlt wurde."
       },
       "splitModeDescription": "Wähle, wie die Ausgabe aufgeteilt werden soll.",
-      "attachDescription": "Füge der Ausgabe einen Beleg hinzu."
+      "attachDescription": "Füge der Ausgabe einen Beleg hinzu.",
+      "currencyField": {
+        "label": "Währung der Ausgabe",
+        "description": "Die Währung, in der die Ausgabe bezahlt wurde."
+      }
     },
     "amountField": {
       "label": "Betrag"
@@ -222,7 +239,28 @@
     "save": "Speichern",
     "saving": "Speichert…",
     "cancel": "Abbrechen",
-    "reimbursement": "Rückzahlung"
+    "reimbursement": "Rückzahlung",
+    "conversionUnavailable": "Um für jede Ausgabe eine andere Währung festzulegen und Beträge umzurechnen, wählen Sie eine nicht benutzerdefinierte Währung für die Gruppe aus.",
+    "originalAmountField": {
+      "label": "Umzurechnender Betrag"
+    },
+    "conversionRateState": {
+      "customRate": "Benutzerdefinierte Rate verwenden",
+      "loading": "Wechselkurse abrufen…",
+      "success": "Erhaltene Zinssätze:",
+      "error": "Oops, wir konnten die aktuellsten Zinssätze nicht abrufen.",
+      "staleRate": "Verwendeter Zinssatz:",
+      "noRate": "Geben Sie unten einen benutzerdefinierten Zinssatz ein.",
+      "noDate": "Geben Sie das Ausgabedatum ein, um einen Umrechnungskurs zu erhalten.",
+      "dateMismatch": "Zinssätze von Datum: {date}",
+      "refresh": "Aktualisiere",
+      "currencyNotFound": "Oops, Frankfurter hat für diese Währung an diesem Tag keinen Zinssatz."
+    },
+    "conversionRateField": {
+      "useCustom": "Benutze individuelle Rate",
+      "label": "Wechselkurs",
+      "useApi": "Benutze Zinssätze von Frankfurter"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
@@ -240,7 +278,7 @@
       "triggerTitle": "Ausgabe von Rechnungsbeleg erstellen",
       "title": "Von Rechnungsbeleg erstellen",
       "description": "Ausgabeninformationen von einem Foto einer Rechnung lesen.",
-      "body": "Lade ein Foto der Rechnung hoch und wir versuchen die Ausgabeinformationen zu extrahieren",
+      "body": "Lade ein Foto der Rechnung hoch und wir versuchen die Ausgabeinformationen zu extrahieren.",
       "selectImage": "Bild wählen…",
       "titleLabel": "Titel:",
       "categoryLabel": "Kategorie:",
@@ -295,7 +333,7 @@
     "Groups": {
       "today": "Heute",
       "yesterday": "Gestern",
-      "earlierThisWeek": "Diese Woche",
+      "earlierThisWeek": "Anfang dieser Woche",
       "lastWeek": "Letze Woche",
       "earlierThisMonth": "Diesen Monat",
       "lastMonth": "Letzen Monat",
@@ -328,12 +366,13 @@
     "invalidNumber": "Zahl nicht valide.",
     "amountRequired": "Du musst einen Betrag angeben.",
     "amountNotZero": "Der Betrag darf nicht 0 sein.",
-    "amountTenMillion": "Der Betrag muss kleiner als 10.000.000 sein",
+    "amountTenMillion": "Der Betrag muss kleiner als 10.000.000 sein.",
     "paidByRequired": "Du musst ein Mitglied auswählen.",
     "paidForMin1": "Die Ausgabe muss mindestens für ein Mitglied bezahlt werden.",
     "noZeroShares": "Alle Anteile müssen größer als 0 sein.",
     "amountSum": "Die Summe der Beträge muss dem Betrag der Ausgabe entsprechen.",
-    "percentageSum": "Die Summe der prozentualen Anteile muss 100 ergeben."
+    "percentageSum": "Die Summe der prozentualen Anteile muss 100 ergeben.",
+    "ratePositive": "Der Zinssatz muss unbedingt größer als Null sein."
   },
   "Categories": {
     "search": "Nach Kategorie suchen...",
@@ -402,6 +441,19 @@
       "Trash": "Müll",
       "TV/Phone/Internet": "TV/Internet/Telefonie",
       "Water": "Wasser"
+    }
+  },
+  "Currencies": {
+    "search": "Währung suchen...",
+    "noCurrency": "Keine Währungen gefunden.",
+    "other": {
+      "heading": "Andere Währungen"
+    },
+    "custom": {
+      "heading": "Benutzerdefinierte"
+    },
+    "common": {
+      "heading": "Geläufigste"
     }
   }
 }

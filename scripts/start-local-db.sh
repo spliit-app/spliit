@@ -6,6 +6,6 @@ else
     echo "postgres is not running, starting it"
     docker rm postgres --force
     mkdir -p postgres-data
-    docker run --name spliit-db -d -p 5432:5432 -e POSTGRES_PASSWORD=1234 -v "/$(pwd)/postgres-data:/var/lib/postgresql/data" postgres
+    docker run --name spliit-db -d -p 5432:5432 -e POSTGRES_PASSWORD=1234 -v "/$(pwd)/postgres-data:/var/lib/postgresql" postgres
     sleep 5 # Wait for postgres to start
 fi
