@@ -244,8 +244,10 @@ export function GroupForm({
             <Button
               variant="outline"
               size="sm"
+              type="button"
               onClick={() => {
-                const sorted = [...fields].sort((a, b) =>
+                const currentValues = form.getValues('participants')
+                const sorted = [...currentValues].sort((a, b) =>
                   (a.name || '').localeCompare(b.name || ''),
                 )
                 replace(sorted)
@@ -259,19 +261,19 @@ export function GroupForm({
               collisionDetection={closestCenter}
               onDragEnd={({ active, over }) => {
                 if (over && active.id !== over.id) {
-                  const oldIndex = fields.findIndex((f) => f.id === active.id)
-                  const newIndex = fields.findIndex((f) => f.id === over.id)
+                  const oldIndex = Number(active.id)
+                  const newIndex = Number(over.id)
                   move(oldIndex, newIndex)
                 }
               }}
             >
               <SortableContext
-                items={fields.map((f) => f.id as string)}
+                items={fields.map((_, index) => String(index))}
                 strategy={verticalListSortingStrategy}
               >
                 <ul className="flex flex-col gap-2">
                   {fields.map((item, index) => (
-                    <SortableParticipant key={item.id} id={item.id as string}>
+                    <SortableParticipant key={item.id} id={String(index)}>
                       <li key={item.key}>
                         <FormField
                           control={form.control}
@@ -282,7 +284,7 @@ export function GroupForm({
                                 Participant #{index + 1}
                               </FormLabel>
                               <FormControl>
-                                <div className="flex gap-2">
+                                <div className="flex gap-2 !mt-0">
                                   <Input
                                     className="text-base"
                                     {...field}

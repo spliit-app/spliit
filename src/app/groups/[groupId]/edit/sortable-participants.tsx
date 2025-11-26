@@ -21,11 +21,15 @@ export function SortableParticipant({
     <div
       ref={setNodeRef}
       style={style}
-      {...attributes}
-      {...listeners}
       className="flex items-center gap-2 p-3 rounded-lg border bg-card shadow-sm"
     >
-      <GripVertical className="w-4 h-4 text-muted-foreground cursor-grab" />
+      <div
+        {...attributes}
+        {...listeners}
+        className="cursor-grab active:cursor-grabbing"
+      >
+        <GripVertical className="w-4 h-4 text-muted-foreground" />
+      </div>
       <div className="flex-1">{children}</div>
     </div>
   )
