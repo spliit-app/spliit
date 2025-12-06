@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Locale, locales } from '@/i18n'
+import { Locale, locales } from '@/i18n/request'
 import {
   Currency,
   supportedCurrencyCodeType,

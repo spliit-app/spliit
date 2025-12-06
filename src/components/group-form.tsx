@@ -30,7 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Locale } from '@/i18n'
+import { Locale } from '@/i18n/request'
 import { getGroup } from '@/lib/api'
 import { defaultCurrencyList, getCurrency } from '@/lib/currency'
 import { GroupFormValues, groupFormSchema } from '@/lib/schemas'
@@ -65,13 +65,14 @@ export function GroupForm({
       ? {
           name: group.name,
           information: group.information ?? '',
-          currency: group.currency,
-          currencyCode: group.currencyCode,
+          currency: group.currency ?? '',
+          currencyCode: group.currencyCode ?? '',
           participants: group.participants,
         }
       : {
           name: '',
           information: '',
+          currency: '',
           currencyCode: process.env.NEXT_PUBLIC_DEFAULT_CURRENCY_CODE || 'USD', // TODO: If NEXT_PUBLIC_DEFAULT_CURRENCY_CODE, is not set, determine the default currency code based on locale
           participants: [
             { name: t('Participants.John') },

@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Locale, localeLabels } from '@/i18n'
+import { Locale, localeLabels } from '@/i18n/request'
 import { setUserLocale } from '@/lib/locale'
 import { useLocale } from 'next-intl'
 
