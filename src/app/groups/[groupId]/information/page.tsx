@@ -5,10 +5,11 @@ export const metadata: Metadata = {
   title: 'Group Information',
 }
 
-export default function InformationPage({
-  params: { groupId },
+export default async function InformationPage({
+  params,
 }: {
-  params: { groupId: string }
+  params: Promise<{ groupId: string }>
 }) {
+  const { groupId } = await params
   return <GroupInformation groupId={groupId} />
 }

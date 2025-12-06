@@ -1,4 +1,4 @@
-import { Locale } from '@/i18n'
+import { Locale } from '@/i18n/request'
 import currencyList from './currency-data.json'
 
 export type Currency = {

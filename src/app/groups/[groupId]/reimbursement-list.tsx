@@ -33,8 +33,8 @@ export function ReimbursementList({
           <div className="flex flex-col gap-1 items-start sm:flex-row sm:items-baseline sm:gap-4">
             <div>
               {t.rich('owes', {
-                from: getParticipant(reimbursement.from)?.name,
-                to: getParticipant(reimbursement.to)?.name,
+                from: getParticipant(reimbursement.from)?.name ?? '',
+                to: getParticipant(reimbursement.to)?.name ?? '',
                 strong: (chunks) => <strong>{chunks}</strong>,
               })}
             </div>

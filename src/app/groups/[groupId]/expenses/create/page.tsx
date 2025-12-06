@@ -7,10 +7,11 @@ export const metadata: Metadata = {
 }
 
 export default async function ExpensePage({
-  params: { groupId },
+  params,
 }: {
-  params: { groupId: string }
+  params: Promise<{ groupId: string }>
 }) {
+  const { groupId } = await params
   return (
     <CreateExpenseForm
       groupId={groupId}
