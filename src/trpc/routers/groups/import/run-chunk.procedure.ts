@@ -1,9 +1,11 @@
 import { createExpense } from '@/lib/api'
 import { prisma } from '@/lib/prisma'
-import { type ExpenseFormValues } from '@/lib/schemas'
+import { expenseFormSchema, type ExpenseFormValues } from '@/lib/schemas'
 import { baseProcedure } from '@/trpc/init'
 import { z } from 'zod'
 import { getImportChunkSize } from './shared'
+
+const storageSchema = z.array(expenseFormSchema)
 
 // Consumes the next chunk of expenses and creates them in the DB.
 export const runCreateImportFromFileChunkProcedure = baseProcedure
@@ -38,7 +40,18 @@ export const runCreateImportFromFileChunkProcedure = baseProcedure
       })
     }
 
-    const allExpenses = job.expensesToCreate as unknown as ExpenseFormValues[]
+    // Safely parse expenses from JSON.
+    const parseResult = storageSchema.safeParse(job.expensesToCreate)
+    if (!parseResult.success) {
+      const msg = 'Import job data is corrupted.'
+      await prisma.importJob.update({
+        where: { id: jobId },
+        data: { status: 'FAILED', error: msg },
+      })
+      throw new Error(msg)
+    }
+    const allExpenses = parseResult.data
+
     const step = Math.max(1, getImportChunkSize())
     const startIndex = job.nextIndex
     const endIndex = Math.min(startIndex + step, allExpenses.length)
