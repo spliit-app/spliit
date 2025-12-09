@@ -55,7 +55,7 @@ describe('SpliitJsonFormat', () => {
       })
 
       const result = format.parseToInternal(content)
-      
+
       expect(result.errors).toHaveLength(0)
       expect(result.group).toEqual({
         name: 'My Group',
@@ -63,7 +63,7 @@ describe('SpliitJsonFormat', () => {
         currencyCode: undefined,
         participants: [{ name: 'Alice' }, { name: 'Bob' }],
       })
-      
+
       expect(result.expenses).toHaveLength(1)
       const expense = result.expenses[0]
       expect(expense.title).toBe('Lunch')
@@ -71,10 +71,10 @@ describe('SpliitJsonFormat', () => {
       expect(expense.paidBy).toBe('Alice') // ID resolved to name
       expect(expense.paidFor).toHaveLength(2)
       expect(expense.paidFor).toContainEqual(
-        expect.objectContaining({ participant: 'Bob', shares: 1 })
+        expect.objectContaining({ participant: 'Bob', shares: 1 }),
       )
       expect(expense.paidFor).toContainEqual(
-        expect.objectContaining({ participant: 'Alice', shares: 2 })
+        expect.objectContaining({ participant: 'Alice', shares: 2 }),
       )
       expect(expense.expenseDate).toBeInstanceOf(Date)
       expect(expense.expenseDate.toISOString()).toContain('2023-05-20')
@@ -90,21 +90,26 @@ describe('SpliitJsonFormat', () => {
       })
 
       const result = format.parseToInternal(content)
-      const names = result.group?.participants?.map(p => p.name)
+      const names = result.group?.participants?.map((p) => p.name)
       expect(names).toEqual(['p1', 'Participant 2'])
     })
 
     it('should collect errors for invalid expenses', () => {
-       const content = JSON.stringify({
+      const content = JSON.stringify({
         participants: [{ id: 'p1', name: 'Alice' }],
         expenses: [
-          { paidById: 'p1', amount: 'invalid', title: 'Bad Amount', expenseDate: '2023-01-01' },
+          {
+            paidById: 'p1',
+            amount: 'invalid',
+            title: 'Bad Amount',
+            expenseDate: '2023-01-01',
+          },
         ],
       })
-      
+
       // Note: The current implementation is quite lenient.
       // - "invalid" amount might throw during coercion.
-      
+
       const result = format.parseToInternal(content)
       expect(result.errors).toHaveLength(1)
       expect(result.errors?.[0].message).toContain('Invalid amount')

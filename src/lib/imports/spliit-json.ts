@@ -144,18 +144,14 @@ export class SpliitJsonFormat implements ImportFormat {
   priority = 100
 
   detect(content: string): number {
-    // Parse and validate minimal structure using the full content.
     return looksLikeSpliitJson(content) ? 0.95 : 0
   }
 
-  // Convert parsed export into internal ExpenseFormValues.
-  // Participant ids remain as synthesized participant-<n> from parseSpliitJson.
   parseToInternal(content: string): {
     expenses: ExpenseFormValues[]
     group?: import('@/lib/imports/types').ImportParsedGroupInfo
     errors?: { row: number; message: string }[]
   } {
-    // Parse complete JSON
     let raw: any
     try {
       raw = JSON.parse(content)
@@ -163,20 +159,32 @@ export class SpliitJsonFormat implements ImportFormat {
       throw new Error('Invalid JSON: unable to parse file contents.')
     }
 
-    // Assume a well-formed export and avoid strict participant validation here.
-    // Any malformed expense will be skipped and reported.
+    const { externalIdToName, participantNames } = this.extractParticipants(
+      raw?.participants,
+    )
+    const { expenses, errors } = this.extractExpenses(
+      raw?.expenses,
+      externalIdToName,
+    )
 
-    const expenses: ExpenseFormValues[] = []
-    const errors: { row: number; message: string }[] = []
+    const group = {
+      name: raw?.name ?? undefined,
+      currency: raw?.currency ?? undefined,
+      currencyCode: raw?.currencyCode ?? undefined,
+      participants: participantNames.length
+        ? participantNames.map((name) => ({ name }))
+        : undefined,
+    }
 
-    const rawExpenses = Array.isArray(raw?.expenses) ? raw.expenses : []
+    return { expenses, group, errors }
+  }
 
-    // Build a lookup from external participant id -> display name.
-    // Fallbacks ensure we always get a stable, human-readable name.
+  private extractParticipants(rawParticipants: any[]) {
     const externalIdToName = new Map<string, string>()
     const participantNames: string[] = []
-    if (Array.isArray(raw?.participants)) {
-      raw.participants.forEach((p: any, i: number) => {
+
+    if (Array.isArray(rawParticipants)) {
+      rawParticipants.forEach((p: any, i: number) => {
         const id = typeof p?.id === 'string' ? p.id.trim() : ''
         const nameRaw = typeof p?.name === 'string' ? p.name.trim() : ''
         const name = nameRaw || id || `Participant ${i + 1}`
@@ -184,37 +192,83 @@ export class SpliitJsonFormat implements ImportFormat {
         if (id) externalIdToName.set(id, name)
       })
     }
+    return { externalIdToName, participantNames }
+  }
 
-    // Build paidFor list from raw entries.
-    // Rules:
-    // - Keep only the first entry per participantId (ignore duplicates)
-    // - Coerce shares to positive integers (min 1)
-    const parsePaidFor = (entries: any[]): ExpenseFormValues['paidFor'] => {
-      const seen = new Set<string>()
-      const paidFor: ExpenseFormValues['paidFor'] = []
-      entries.forEach((pf: any) => {
-        const rawId = String(pf?.participantId ?? '').trim()
-        if (!rawId) throw new Error('paidFor without participantId')
-        if (seen.has(rawId)) return
-        seen.add(rawId)
-        const shares = Math.max(
-          1,
-          Math.trunc(coerceNumber(pf?.shares ?? 1, 'shares')),
+  private extractExpenses(
+    rawExpenses: any[],
+    externalIdToName: Map<string, string>,
+  ) {
+    const expenses: ExpenseFormValues[] = []
+    const errors: { row: number; message: string }[] = []
+
+    const list = Array.isArray(rawExpenses) ? rawExpenses : []
+
+    list.forEach((e: any, index: number) => {
+      try {
+        const paidByRaw = String(e?.paidById ?? '').trim()
+        if (!paidByRaw) throw new Error('Missing paidById')
+        const paidBy = externalIdToName.get(paidByRaw) ?? paidByRaw
+
+        const paidFor = this.extractPaidFor(
+          Array.isArray(e?.paidFor) ? e.paidFor : [],
+          externalIdToName,
         )
-        const name = externalIdToName.get(rawId) ?? rawId
-        paidFor.push({ participant: name, shares, originalAmount: undefined })
-      })
-      return paidFor
-    }
 
-    // Build the minimal ExpenseFormValues input for schema parsing.
-    // Applies light coercion + sensible defaults; schema handles the rest.
-    const toFormBase = (
-      e: any,
-      index: number,
-      paidBy: string,
-      paidFor: ExpenseFormValues['paidFor'],
-    ) => ({
+        const base = this.mapToFormBase(
+          e,
+          index,
+          paidBy,
+          paidFor,
+        )
+        const result = expenseFormSchema.safeParse(base)
+        if (result.success) {
+          expenses.push(result.data)
+        } else {
+          const message =
+            result.error.issues.map((i) => i.message).join(', ') ||
+            'Invalid expense'
+          errors.push({ row: index + 1, message })
+        }
+      } catch (err: any) {
+        errors.push({
+          row: index + 1,
+          message: String(err?.message ?? 'Invalid expense'),
+        })
+      }
+    })
+
+    return { expenses, errors }
+  }
+
+  private extractPaidFor(
+    entries: any[],
+    externalIdToName: Map<string, string>,
+  ): ExpenseFormValues['paidFor'] {
+    const seen = new Set<string>()
+    const paidFor: ExpenseFormValues['paidFor'] = []
+    entries.forEach((pf: any) => {
+      const rawId = String(pf?.participantId ?? '').trim()
+      if (!rawId) throw new Error('paidFor without participantId')
+      if (seen.has(rawId)) return
+      seen.add(rawId)
+      const shares = Math.max(
+        1,
+        Math.trunc(coerceNumber(pf?.shares ?? 1, 'shares')),
+      )
+      const name = externalIdToName.get(rawId) ?? rawId
+      paidFor.push({ participant: name, shares, originalAmount: undefined })
+    })
+    return paidFor
+  }
+
+  private mapToFormBase(
+    e: any,
+    index: number,
+    paidBy: string,
+    paidFor: ExpenseFormValues['paidFor'],
+  ) {
+    return {
       expenseDate: coerceDate(e?.expenseDate),
       title: String(e?.title ?? '').trim() || `Expense ${index + 1}`,
       category: resolveCategoryId(e?.categoryId ?? e?.category),
@@ -237,42 +291,7 @@ export class SpliitJsonFormat implements ImportFormat {
       notes: e?.notes ?? undefined,
       recurrenceRule:
         (e?.recurrenceRule as ExpenseFormValues['recurrenceRule']) ?? 'NONE',
-    })
-
-    rawExpenses.forEach((e: any, index: number) => {
-      try {
-        const paidByRaw = String(e?.paidById ?? '').trim()
-        if (!paidByRaw) throw new Error('Missing paidById')
-        const paidBy = externalIdToName.get(paidByRaw) ?? paidByRaw
-
-        const paidFor = parsePaidFor(Array.isArray(e?.paidFor) ? e.paidFor : [])
-        const base = toFormBase(e, index, paidBy, paidFor)
-        const result = expenseFormSchema.safeParse(base)
-        if (result.success) expenses.push(result.data)
-        else {
-          const message =
-            result.error.issues.map((i) => i.message).join(', ') ||
-            'Invalid expense'
-          errors.push({ row: index + 1, message })
-        }
-      } catch (err: any) {
-        errors.push({
-          row: index + 1,
-          message: String(err?.message ?? 'Invalid expense'),
-        })
-      }
-    })
-
-    const group = {
-      name: raw?.name ?? undefined,
-      currency: raw?.currency ?? undefined,
-      currencyCode: raw?.currencyCode ?? undefined,
-      participants: participantNames.length
-        ? participantNames.map((name) => ({ name }))
-        : undefined,
     }
-
-    return { expenses, group, errors }
   }
 }
 
