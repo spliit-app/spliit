@@ -15,6 +15,13 @@ export const startCreateImportFromFileProcedure = baseProcedure
     }),
   )
   .mutation(async ({ input: { fileContent, groupName } }) => {
+    // Maintenance: Clean up old jobs (older than 24h) to prevent table bloat.
+    // This is a simple strategy that runs on every new import start.
+    const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000)
+    await prisma.importJob.deleteMany({
+      where: { createdAt: { lt: yesterday } },
+    })
+
     const trimmed = fileContent.trim()
     if (!trimmed) throw new Error('Uploaded file was empty.')
     const result = await buildExpensesFromFileImport(trimmed)
