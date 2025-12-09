@@ -21,6 +21,7 @@ model Group {
   expenses     Expense[]
   activities   Activity[]
   createdAt    DateTime      @default(now())
+  importJobs   ImportJob[]
 }
 
 model Participant {
@@ -130,4 +131,27 @@ enum ActivityType {
   CREATE_EXPENSE
   UPDATE_EXPENSE
   DELETE_EXPENSE
+}
+
+model ImportJob {
+  id                String          @id
+  group             Group           @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  groupId           String
+  status            ImportJobStatus @default(PENDING)
+  expensesToCreate  Json
+  totalExpenses     Int
+  processedExpenses Int             @default(0)
+  nextIndex         Int             @default(0)
+  createdExpenseIds String[]        @default([])
+  error             String?
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+}
+
+enum ImportJobStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
 }
