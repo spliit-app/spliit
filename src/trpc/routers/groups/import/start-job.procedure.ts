@@ -1,9 +1,9 @@
 import { createGroup } from '@/lib/api'
 import { buildExpensesFromFileImport } from '@/lib/imports/file-import'
+import { prisma } from '@/lib/prisma'
 import { baseProcedure } from '@/trpc/init'
 import { nanoid } from 'nanoid'
 import { z } from 'zod'
-import { createImportJobs } from './shared'
 
 // Starts a new import job: creates the group and stages expenses.
 export const startCreateImportFromFileProcedure = baseProcedure
@@ -68,13 +68,14 @@ export const startCreateImportFromFileProcedure = baseProcedure
     const remappedExpenses = result.expenses.map(remapExpense)
 
     const jobId = nanoid()
-    createImportJobs.set(jobId, {
-      id: jobId,
-      groupId: group.id,
-      groupName: group.name,
-      expenses: remappedExpenses,
-      nextIndex: 0,
-      createdExpenseIds: [],
+    await prisma.importJob.create({
+      data: {
+        id: jobId,
+        groupId: group.id,
+        status: 'PENDING',
+        expensesToCreate: remappedExpenses as any, // Prisma Json handling
+        totalExpenses: remappedExpenses.length,
+      },
     })
 
     return {

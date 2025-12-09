@@ -1,63 +1,96 @@
 import { createExpense } from '@/lib/api'
+import { prisma } from '@/lib/prisma'
+import { type ExpenseFormValues } from '@/lib/schemas'
 import { baseProcedure } from '@/trpc/init'
 import { z } from 'zod'
-import {
-  createImportJobs,
-  createImportResults,
-  getImportChunkSize,
-} from './shared'
+import { getImportChunkSize } from './shared'
 
 // Consumes the next chunk of expenses and creates them in the DB.
 export const runCreateImportFromFileChunkProcedure = baseProcedure
   .input(z.object({ jobId: z.string().min(1) }))
   .mutation(async ({ input: { jobId } }) => {
-    const job = createImportJobs.get(jobId)
-    if (!job) throw new Error('Import job not found or already completed.')
+    const job = await prisma.importJob.findUnique({
+      where: { id: jobId },
+      include: { group: true },
+    })
 
-    // Fixed chunk size to keep each request short and predictable
+    if (!job) throw new Error('Import job not found.')
+    if (job.status === 'COMPLETED') {
+      return {
+        processed: job.totalExpenses,
+        total: job.totalExpenses,
+        remaining: 0,
+        done: true,
+        resultId: job.id,
+        groupId: job.groupId,
+        groupName: job.group.name,
+      }
+    }
+    if (job.status === 'CANCELLED' || job.status === 'FAILED') {
+      throw new Error(`Import job is ${job.status.toLowerCase()}.`)
+    }
+
+    // Mark as processing if strictly pending
+    if (job.status === 'PENDING') {
+      await prisma.importJob.update({
+        where: { id: jobId },
+        data: { status: 'PROCESSING' },
+      })
+    }
+
+    const allExpenses = job.expensesToCreate as unknown as ExpenseFormValues[]
     const step = Math.max(1, getImportChunkSize())
     const startIndex = job.nextIndex
-    const endIndex = Math.min(job.nextIndex + step, job.expenses.length)
+    const endIndex = Math.min(startIndex + step, allExpenses.length)
 
+    const createdIds: string[] = []
     let nextIndex = startIndex
+
     try {
       for (let index = startIndex; index < endIndex; index++) {
-        const expense = job.expenses[index]
-        if (expense) {
+        const rawExpense = allExpenses[index]
+        if (rawExpense) {
+          // JSON serialization turns dates into strings; revive them.
+          const expense = {
+            ...rawExpense,
+            expenseDate: new Date(rawExpense.expenseDate),
+          }
           const createdExpense = await createExpense(expense, job.groupId)
-          job.createdExpenseIds.push(createdExpense.id)
+          createdIds.push(createdExpense.id)
         }
         nextIndex = index + 1
       }
     } catch (error) {
-      createImportJobs.delete(jobId)
+      await prisma.importJob.update({
+        where: { id: jobId },
+        data: {
+          status: 'FAILED',
+          error: error instanceof Error ? error.message : String(error),
+        },
+      })
       throw error
     }
 
-    job.nextIndex = nextIndex
-    const done = job.nextIndex >= job.expenses.length
-    let resultId: string | undefined
-    if (done) {
-      createImportResults.set(jobId, {
-        id: jobId,
-        groupId: job.groupId,
-        groupName: job.groupName,
-        expenseIds: [...job.createdExpenseIds],
-        totalExpenses: job.expenses.length,
-        processedExpenses: job.nextIndex,
-        status: 'completed',
-      })
-      createImportJobs.delete(jobId)
-      resultId = jobId
-    }
+    const done = nextIndex >= allExpenses.length
+    const newStatus = done ? 'COMPLETED' : 'PROCESSING'
+
+    await prisma.importJob.update({
+      where: { id: jobId },
+      data: {
+        nextIndex,
+        processedExpenses: nextIndex,
+        createdExpenseIds: { push: createdIds },
+        status: newStatus,
+      },
+    })
 
     return {
-      processed: job.nextIndex,
-      total: job.expenses.length,
-      remaining: Math.max(job.expenses.length - job.nextIndex, 0),
+      processed: nextIndex,
+      total: allExpenses.length,
+      remaining: Math.max(allExpenses.length - nextIndex, 0),
       done,
-      resultId,
+      resultId: done ? jobId : undefined,
       groupId: job.groupId,
-      groupName: job.groupName,
+      groupName: job.group.name,
     }
   })
