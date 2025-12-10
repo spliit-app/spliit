@@ -18,8 +18,8 @@ import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
   DialogDescription,
+  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
@@ -96,10 +96,12 @@ export function FileImportModal({
     processState === 'analyzing' || processState === 'importing'
 
   // Reset process when modal closes
+  const prevOpenRef = useRef(open)
   useEffect(() => {
-    if (!open) {
+    if (prevOpenRef.current && !open) {
       resetProcess()
     }
+    prevOpenRef.current = open
   }, [open, resetProcess])
 
   const handleScroll = useCallback(() => {
