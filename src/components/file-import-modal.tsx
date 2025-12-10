@@ -19,11 +19,12 @@ import {
   Dialog,
   DialogContent,
   DialogHeader,
+  DialogDescription,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Label } from '@/components/ui/label'
-import { Loader2, Upload } from 'lucide-react'
+import { Upload } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Input } from './ui/input'
 
@@ -240,6 +241,7 @@ export function FileImportModal({
       open={open}
       // Clicking the built-in X should request cancel when a job is running; overlay/ESC are blocked separately.
       onOpenChange={(next) => {
+        if (next === open) return
         if (!next && jobRunning) {
           // Request cancel and keep the dialog open until the loop completes and shows the result.
           requestCancel()
@@ -268,16 +270,14 @@ export function FileImportModal({
       >
         <DialogHeader>
           <DialogTitle>{t('title')}</DialogTitle>
+          <DialogDescription
+            id="file-import-dialog-description"
+            className="sr-only"
+          >
+            {t('analysisExplanation')}
+          </DialogDescription>
         </DialogHeader>
         <div className="relative">
-          {(processState === 'analyzing' || processState === 'importing') && (
-            <div className="absolute inset-0 z-10 flex items-center justify-center rounded-lg bg-background/80">
-              <div className="flex flex-col items-center gap-2 text-sm text-muted-foreground">
-                <Loader2 className="h-6 w-6 animate-spin text-primary" />
-                <span>{t('processing')}</span>
-              </div>
-            </div>
-          )}
           <div
             ref={scrollContainerRef}
             onScroll={handleScroll}
