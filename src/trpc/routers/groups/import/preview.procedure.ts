@@ -7,7 +7,10 @@ import { z } from 'zod'
 export const previewImportGroupFromFileProcedure = baseProcedure
   .input(
     z.object({
-      fileContent: z.string().min(1),
+      fileContent: z
+        .string()
+        .min(1)
+        .max(10 * 1024 * 1024), // 10MB limit
       fileName: z.string().trim().optional(),
     }),
   )

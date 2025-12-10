@@ -8,6 +8,7 @@ export type ImportBuildResult = {
   expenses: ExpenseFormValues[]
   errors: { row: number; message: string }[]
   participantSummaries: ImportParticipantSummary[]
+  participants: string[]
   group?: import('@/lib/imports/types').ImportParsedGroupInfo
   format: { id: string; label: string }
 }
@@ -65,6 +66,20 @@ export async function buildExpensesFromFileImport(
   const { expenses, errors, group, format } =
     parseWithDetectionInternal(trimmed)
 
+  // Derive definitive participant list for group creation.
+  // Prefer participants supplied by the adapter; otherwise derive from expenses.
+  let participantNames: string[] | undefined = group?.participants?.map(
+    (p) => p.name,
+  )
+  if (!participantNames || participantNames.length === 0) {
+    const set = new Set<string>()
+    for (const e of expenses) {
+      set.add(e.paidBy)
+      for (const pf of e.paidFor) set.add(pf.participant)
+    }
+    participantNames = Array.from(set)
+  }
+
   return {
     expenses,
     errors,
@@ -72,6 +87,7 @@ export async function buildExpensesFromFileImport(
       expenses,
       group,
     ),
+    participants: participantNames,
     group,
     format: { id: format.id, label: format.label },
   }

@@ -54,7 +54,7 @@ const normalize = (value: unknown) =>
     .toLowerCase()
 
 // Seeded category ids (see prisma/migrations/20240108194443_add_categories/migration.sql)
-const CATEGORY_LOOKUP: Record<string, number> = {
+export const CATEGORY_LOOKUP: Record<string, number> = {
   'uncategorized|general': 0,
   'uncategorized|payment': 1,
   'entertainment|entertainment': 2,
@@ -101,7 +101,7 @@ const CATEGORY_LOOKUP: Record<string, number> = {
   'life|donation': 43, // see follow-up migration 20250308000000_add_category_donation
 }
 
-const resolveCategoryId = (value: unknown): number => {
+export const resolveCategoryId = (value: unknown): number => {
   // Numeric ids pass through.
   if (typeof value === 'number' && Number.isFinite(value))
     return Math.max(0, Math.trunc(value))
@@ -215,12 +215,7 @@ export class SpliitJsonFormat implements ImportFormat {
           externalIdToName,
         )
 
-        const base = this.mapToFormBase(
-          e,
-          index,
-          paidBy,
-          paidFor,
-        )
+        const base = this.mapToFormBase(e, index, paidBy, paidFor)
         const result = expenseFormSchema.safeParse(base)
         if (result.success) {
           expenses.push(result.data)

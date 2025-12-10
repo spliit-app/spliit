@@ -9,7 +9,10 @@ import { z } from 'zod'
 export const startCreateImportFromFileProcedure = baseProcedure
   .input(
     z.object({
-      fileContent: z.string().min(1),
+      fileContent: z
+        .string()
+        .min(1)
+        .max(10 * 1024 * 1024), // 10MB limit
       groupName: z.string().trim().optional(),
       fileName: z.string().trim().optional(),
     }),
@@ -32,18 +35,7 @@ export const startCreateImportFromFileProcedure = baseProcedure
       )
     }
 
-    // Prefer participants supplied by the adapter; otherwise derive from expenses.
-    let participantNames: string[] | undefined =
-      result.group?.participants?.map((p) => p.name)
-    if (!participantNames || participantNames.length === 0) {
-      const set = new Set<string>()
-      for (const e of result.expenses) {
-        set.add(e.paidBy)
-        for (const pf of e.paidFor) set.add(pf.participant)
-      }
-      participantNames = Array.from(set)
-    }
-    if (participantNames.length === 0)
+    if (result.participants.length === 0)
       throw new Error('No participants found in file.')
 
     const currency =
@@ -56,7 +48,7 @@ export const startCreateImportFromFileProcedure = baseProcedure
       information: undefined,
       currency,
       currencyCode,
-      participants: participantNames.map((name) => ({ name })),
+      participants: result.participants.map((name) => ({ name })),
     })
 
     // Map names to DB IDs; adapters use participant names directly in expenses.

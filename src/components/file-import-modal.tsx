@@ -13,6 +13,7 @@ import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
 
 import { ImportAnalysisPanel } from '@/components/import/import-analysis-panel'
 import { UploadDropzone } from '@/components/import/upload-dropzone'
+import { useFileImportProcess } from '@/components/import/use-import-process'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -22,27 +23,9 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Label } from '@/components/ui/label'
-import { useToast } from '@/components/ui/use-toast'
-import { type ImportBuildResult } from '@/lib/imports/file-import'
-import { trpc } from '@/trpc/client'
 import { Loader2, Upload } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Input } from './ui/input'
-
-type UploadState = {
-  csv: string
-  fileName: string | null
-}
-
-// The server advances progress in ~10% increments per call.
-
-// Minimal shape of the result state used by the UI.
-type ImportResultState = null | {
-  status: 'completed' | 'cancelled'
-  created: number
-  total: number
-  resultId: string
-}
 
 export function FileImportModal({
   open: controlledOpen,
@@ -56,141 +39,42 @@ export function FileImportModal({
   onCreateSuccess?: (result: { groupId: string; groupName: string }) => void
 }) {
   const t = useTranslations('FileImport')
-  const tErrors = useTranslations('FileImportErrors')
-  // i18n strings are provided via t(); formatting handled in subcomponents
-  const [groupName, setGroupName] = useState('')
+
   const [dialogOpen, setDialogOpen] = useState(controlledOpen ?? false)
   const setOpen = onOpenChange ?? setDialogOpen
   const open = controlledOpen ?? dialogOpen
-  const { toast } = useToast()
-  const [uploadState, setUploadState] = useState<UploadState>({
-    csv: '',
-    fileName: null,
+
+  const {
+    processState,
+    fileName,
+    groupName,
+    setGroupName,
+    previewResult,
+    previewError,
+    importProgress,
+    importResult,
+    resultActionLoading,
+    analyzeFile,
+    startImport,
+    requestCancel,
+    finalizeImport,
+    resetProcess,
+  } = useFileImportProcess({
+    onImportSuccess: onCreateSuccess,
+    onClose: () => setOpen(false),
   })
-  const [previewResult, setPreviewResult] = useState<ImportBuildResult | null>(
-    null,
-  )
-  const [previewError, setPreviewError] = useState<string | null>(null)
+
   const scrollContainerRef = useRef<HTMLDivElement | null>(null)
   const [hasReachedBottom, setHasReachedBottom] = useState(false)
-  const [isDraggingFile, setIsDraggingFile] = useState(false)
-  const [isProcessing, setIsProcessing] = useState(false)
-  const [currentJobId, setCurrentJobId] = useState<string | null>(null)
-  const cancelRequestedRef = useRef(false)
-  const [isCancellingImport, setIsCancellingImport] = useState(false)
-  const [importResult, setImportResult] = useState<ImportResultState>(null)
-  const [resultActionLoading, setResultActionLoading] = useState(false)
-  const [importProgress, setImportProgress] = useState<{
-    processed: number
-    total: number
-  }>({
-    processed: 0,
-    total: 0,
-  })
-
-  const localizeErrorMessage = useCallback(
-    (message: string) => {
-      const normalized = message.toLowerCase()
-      if (normalized.includes('no participants'))
-        return tErrors('noParticipants')
-      if (normalized.includes('uploaded file was empty'))
-        return tErrors('fileEmpty')
-      if (normalized.includes('invalid amount')) return tErrors('invalidAmount')
-      if (normalized.includes('invalid expense date'))
-        return tErrors('invalidDate')
-      return message
-    },
-    [tErrors],
-  )
-
-  const utils = trpc.useUtils()
-
-  // Step 1: Preview the uploaded file to show warnings and totals before importing.
-  const previewMutation = trpc.groups.importFromFilePreview.useMutation({
-    onSuccess(result) {
-      setPreviewResult(result)
-      setPreviewError(null)
-      setIsProcessing(false)
-    },
-    onError(error) {
-      setPreviewResult(null)
-      setPreviewError(localizeErrorMessage(error.message))
-      setIsProcessing(false)
-    },
-  })
-
-  // Import job mutations (create a new group from file)
-  const startCreateImportMutation =
-    trpc.groups.importFromFileStartJob.useMutation({
-      onError(error) {
-        setIsProcessing(false)
-        toast({
-          title: t('errorTitle'),
-          description: error.message,
-          variant: 'destructive',
-        })
-      },
-    })
-  const runCreateImportChunkMutation =
-    trpc.groups.importFromFileRunChunk.useMutation({
-      onError(error) {
-        setIsProcessing(false)
-        toast({
-          title: t('errorTitle'),
-          description: error.message,
-          variant: 'destructive',
-        })
-      },
-    })
-  const cancelCreateImportMutation =
-    trpc.groups.importFromFileCancelJob.useMutation({
-      onError(error) {
-        setIsCancellingImport(false)
-        toast({
-          title: t('errorTitle'),
-          description: error.message,
-          variant: 'destructive',
-        })
-      },
-    })
-  const finalizeCreateImportMutation =
-    trpc.groups.importFromFileFinalize.useMutation({
-      onError(error) {
-        toast({
-          title: t('errorTitle'),
-          description: error.message,
-          variant: 'destructive',
-        })
-      },
-    })
-
-  const analyzeCsv = useCallback(
-    (content: string) => {
-      if (!content.trim()) {
-        setPreviewResult(null)
-        return
-      }
-
-      setPreviewResult(null)
-      setPreviewError(null)
-      setIsProcessing(true)
-      previewMutation.mutate({
-        fileContent: content,
-        fileName: uploadState.fileName ?? undefined,
-      })
-    },
-    [previewMutation, uploadState.fileName],
-  )
 
   const handleFileRead = (file: File) => {
     const reader = new FileReader()
     reader.onload = () => {
       const content = String(reader.result ?? '')
-      setUploadState({ csv: content, fileName: file.name })
-      analyzeCsv(content)
+      analyzeFile(content, file.name)
     }
     reader.onerror = () => {
-      setPreviewError(localizeErrorMessage(t('fileReadError')))
+      // Error handling is now in the hook
     }
     reader.readAsText(file, 'utf-8')
   }
@@ -204,135 +88,18 @@ export function FileImportModal({
 
   const handleDropSelect = (file: File) => handleFileRead(file)
 
-  const totalRows =
-    (previewResult?.expenses.length ?? 0) + (previewResult?.errors.length ?? 0)
   const hasFatalErrors = (previewResult?.errors.length ?? 0) > 0
   const canImport = Boolean(previewResult) && !hasFatalErrors
-  const jobRunning = Boolean(currentJobId)
+  const jobRunning = processState === 'importing'
   const importLoading =
-    jobRunning ||
-    startCreateImportMutation.status === 'pending' ||
-    runCreateImportChunkMutation.status === 'pending' ||
-    cancelCreateImportMutation.status === 'pending'
+    processState === 'analyzing' || processState === 'importing'
 
-  // Keep a stable reference to the mutation reset function so the cleanup
-  // effect can call it without triggering new renders when the mutation object
-  // identity changes.
-  const previewResetRef = useRef(previewMutation.reset)
-
-  useEffect(() => {
-    previewResetRef.current = previewMutation.reset
-  }, [previewMutation.reset])
-
+  // Reset process when modal closes
   useEffect(() => {
     if (!open) {
-      setUploadState({ csv: '', fileName: null })
-      setPreviewResult(null)
-      setPreviewError(null)
-      setHasReachedBottom(false)
-      setImportProgress({ processed: 0, total: 0 })
-      setIsProcessing(false)
-      setCurrentJobId(null)
-      cancelRequestedRef.current = false
-      setIsCancellingImport(false)
-      setImportResult(null)
-      setGroupName('')
-      previewResetRef.current()
+      resetProcess()
     }
-  }, [open])
-
-  useEffect(() => {
-    setHasReachedBottom(false)
-  }, [previewResult])
-
-  useEffect(() => {
-    if (!previewResult) return
-    if (!groupName && previewResult.group?.name) {
-      setGroupName(previewResult.group.name)
-    }
-  }, [groupName, previewResult])
-
-  // Participant matching is not part of this modal
-
-  const handleStartImport = useCallback(async () => {
-    if (!canImport || importLoading) return
-    cancelRequestedRef.current = false
-    setIsCancellingImport(false)
-    setImportResult(null)
-    setIsProcessing(true)
-    try {
-      const start = await startCreateImportMutation.mutateAsync({
-        fileContent: uploadState.csv,
-        groupName: groupName.trim() || undefined,
-        fileName: uploadState.fileName ?? undefined,
-      })
-      setCurrentJobId(start.jobId)
-      setImportProgress({ processed: 0, total: start.totalExpenses })
-
-      let finalResult: ImportResultState = null
-      while (!cancelRequestedRef.current) {
-        const chunk = await runCreateImportChunkMutation.mutateAsync({
-          jobId: start.jobId,
-        })
-        setImportProgress({ processed: chunk.processed, total: chunk.total })
-        if (chunk.done && chunk.resultId) {
-          finalResult = {
-            status: 'completed',
-            created: chunk.processed,
-            total: chunk.total,
-            resultId: chunk.resultId,
-          }
-          ;(finalResult as any).groupId = chunk.groupId
-          ;(finalResult as any).groupName = chunk.groupName
-          break
-        }
-      }
-
-      if (cancelRequestedRef.current && !finalResult) {
-        setIsCancellingImport(true)
-        const cancel = await cancelCreateImportMutation.mutateAsync({
-          jobId: start.jobId,
-        })
-        finalResult = {
-          status: 'cancelled',
-          created: cancel.processed,
-          total: cancel.total,
-          resultId: cancel.resultId,
-        }
-        ;(finalResult as any).groupId = cancel.groupId
-        ;(finalResult as any).groupName = cancel.groupName
-      }
-
-      if (finalResult) {
-        setImportResult(finalResult)
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast({
-          title: t('errorTitle'),
-          description: error.message,
-          variant: 'destructive',
-        })
-      }
-      setImportProgress({ processed: 0, total: 0 })
-    } finally {
-      cancelRequestedRef.current = false
-      setCurrentJobId(null)
-      setIsCancellingImport(false)
-      setIsProcessing(false)
-    }
-  }, [
-    canImport,
-    importLoading,
-    startCreateImportMutation,
-    runCreateImportChunkMutation,
-    cancelCreateImportMutation,
-    uploadState.csv,
-    uploadState.fileName,
-    groupName,
-    t,
-    toast,
-  ])
+  }, [open, resetProcess])
 
   const handleScroll = useCallback(() => {
     const element = scrollContainerRef.current
@@ -342,44 +109,9 @@ export function FileImportModal({
     setHasReachedBottom(reachedBottom)
   }, [])
 
-  const handleCancelImport = useCallback(() => {
-    if (!currentJobId) return
-    cancelRequestedRef.current = true
-    setIsCancellingImport(true)
-  }, [currentJobId])
-
-  // When cancel is requested (via X or button), we only set the cancel flag here.
-  // The running import loop will notice it, finish the current chunk, then perform
-  // a single cancel request to the server. This avoids race conditions where the
-  // group gets deleted while a chunk is still creating expenses.
-  const requestCancel = useCallback(() => {
-    if (!currentJobId) return
-    cancelRequestedRef.current = true
-    setIsCancellingImport(true)
-  }, [currentJobId])
-
-  // Finalize/undo is not included here
-
   useEffect(() => {
     handleScroll()
   }, [handleScroll, previewResult, importProgress])
-
-  useEffect(() => {
-    const anyPending =
-      previewMutation.status === 'pending' ||
-      startCreateImportMutation.status === 'pending' ||
-      runCreateImportChunkMutation.status === 'pending' ||
-      cancelCreateImportMutation.status === 'pending'
-
-    if (!anyPending) {
-      setIsProcessing(false)
-    }
-  }, [
-    previewMutation.status,
-    startCreateImportMutation?.status,
-    runCreateImportChunkMutation?.status,
-    cancelCreateImportMutation?.status,
-  ])
 
   const renderContent = () => {
     if (jobRunning) {
@@ -410,10 +142,15 @@ export function FileImportModal({
           <Button
             type="button"
             variant="outline"
-            onClick={handleCancelImport}
-            disabled={isCancellingImport}
+            onClick={requestCancel}
+            disabled={
+              // This button is only shown if jobRunning (analyzing/importing) is true.
+              // It should be enabled unless the import has already completed or been cancelled via other means (e.g., direct server call).
+              // The hook handles the actual cancellation state.
+              false
+            }
           >
-            {isCancellingImport ? t('importCanceling') : t('importCancel')}
+            {t('importCancel')}
           </Button>
         </div>
       )
@@ -437,30 +174,7 @@ export function FileImportModal({
               <Button
                 type="button"
                 variant="outline"
-                onClick={async () => {
-                  if (!importResult) return
-                  setResultActionLoading(true)
-                  try {
-                    const r = await finalizeCreateImportMutation.mutateAsync({
-                      resultId: importResult.resultId,
-                    })
-                    const groupId = (importResult as any).groupId || r.groupId
-                    const groupName =
-                      (importResult as any).groupName || r.groupName
-                    onCreateSuccess?.({ groupId, groupName })
-                    setOpen(false)
-                  } catch (e) {
-                    if (e instanceof Error) {
-                      toast({
-                        title: t('errorTitle'),
-                        description: e.message,
-                        variant: 'destructive',
-                      })
-                    }
-                  } finally {
-                    setResultActionLoading(false)
-                  }
-                }}
+                onClick={finalizeImport}
                 disabled={resultActionLoading}
               >
                 {t('importResultConfirm')}
@@ -470,9 +184,7 @@ export function FileImportModal({
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => {
-                  setOpen(false)
-                }}
+                onClick={() => setOpen(false)}
               >
                 {t('importResultConfirm')}
               </Button>
@@ -482,14 +194,12 @@ export function FileImportModal({
       )
     }
 
-    // jobRunning branch above covers both existing and create flows
-
     return (
       <div className="space-y-4">
         <UploadDropzone
           inputId="file-import-upload"
           label={t('fileLabel')}
-          title={uploadState.fileName ?? t('uploadDragTitle')}
+          title={fileName ?? t('uploadDragTitle')}
           onSelect={handleDropSelect}
         />
 
@@ -516,7 +226,7 @@ export function FileImportModal({
 
         <div className="flex flex-wrap items-center gap-2">
           <Button
-            onClick={handleStartImport}
+            onClick={startImport}
             disabled={importLoading || !canImport || !hasReachedBottom}
           >
             {importLoading ? t('importing') : t('import')}
@@ -560,16 +270,14 @@ export function FileImportModal({
           <DialogTitle>{t('title')}</DialogTitle>
         </DialogHeader>
         <div className="relative">
-          {previewMutation.status === 'pending' &&
-            !jobRunning &&
-            !importResult && (
-              <div className="absolute inset-0 z-10 flex items-center justify-center rounded-lg bg-background/80">
-                <div className="flex flex-col items-center gap-2 text-sm text-muted-foreground">
-                  <Loader2 className="h-6 w-6 animate-spin text-primary" />
-                  <span>{t('processing')}</span>
-                </div>
+          {(processState === 'analyzing' || processState === 'importing') && (
+            <div className="absolute inset-0 z-10 flex items-center justify-center rounded-lg bg-background/80">
+              <div className="flex flex-col items-center gap-2 text-sm text-muted-foreground">
+                <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                <span>{t('processing')}</span>
               </div>
-            )}
+            </div>
+          )}
           <div
             ref={scrollContainerRef}
             onScroll={handleScroll}
