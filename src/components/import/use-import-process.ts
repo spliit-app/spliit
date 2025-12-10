@@ -317,7 +317,14 @@ export function useFileImportProcess(options?: {
       setResultActionLoading(false)
       resetProcess()
     }
-  }, [importResult, finalizeCreateImportMutation, options, toast, t, resetProcess])
+  }, [
+    importResult,
+    finalizeCreateImportMutation,
+    options,
+    toast,
+    t,
+    resetProcess,
+  ])
 
   return {
     // State
