@@ -3,7 +3,10 @@
 import { useCallback, useRef, useState } from 'react'
 
 import { useToast } from '@/components/ui/use-toast'
-import { type ImportBuildResult } from '@/lib/imports/file-import'
+import {
+  buildExpensesFromFileImport,
+  type ImportBuildResult,
+} from '@/lib/imports/file-import'
 import { trpc } from '@/trpc/client'
 import { useTranslations } from 'next-intl'
 
@@ -65,34 +68,14 @@ export function useFileImportProcess(options?: {
       if (normalized.includes('invalid amount')) return tErrors('invalidAmount')
       if (normalized.includes('invalid expense date'))
         return tErrors('invalidDate')
+      if (normalized.includes('unsupported file format'))
+        return tErrors('unsupportedFormat')
       return message
     },
     [tErrors],
   )
 
   const utils = trpc.useUtils()
-
-  // Step 1: Preview the uploaded file to show warnings and totals before importing.
-  const previewMutation = trpc.groups.importFromFilePreview.useMutation({
-    onMutate() {
-      setProcessState('analyzing')
-      setPreviewResult(null)
-      setPreviewError(null)
-    },
-    onSuccess(result) {
-      setPreviewResult(result)
-      setPreviewError(null)
-      setProcessState('preview')
-      if (result.group?.name) {
-        setGroupName(result.group.name)
-      }
-    },
-    onError(error) {
-      setPreviewResult(null)
-      setPreviewError(localizeErrorMessage(error.message))
-      setProcessState('error')
-    },
-  })
 
   // Import job mutations (create a new group from file)
   const startCreateImportMutation =
@@ -141,7 +124,7 @@ export function useFileImportProcess(options?: {
     })
 
   const analyzeFile = useCallback(
-    (content: string, name: string | null) => {
+    async (content: string, name: string | null) => {
       if (!content.trim()) {
         setPreviewResult(null)
         setPreviewError(null)
@@ -151,12 +134,26 @@ export function useFileImportProcess(options?: {
 
       setFileContent(content)
       setFileName(name)
-      previewMutation.mutate({
-        fileContent: content,
-        fileName: name ?? undefined,
-      })
+      setProcessState('analyzing')
+      setPreviewResult(null)
+      setPreviewError(null)
+
+      try {
+        const result = await buildExpensesFromFileImport(content)
+
+        setPreviewResult(result)
+        setProcessState('preview')
+        if (result.group?.name) {
+          setGroupName(result.group.name)
+        }
+      } catch (error) {
+        setPreviewResult(null)
+        const msg = error instanceof Error ? error.message : 'Analysis failed'
+        setPreviewError(localizeErrorMessage(msg))
+        setProcessState('error')
+      }
     },
-    [previewMutation],
+    [localizeErrorMessage],
   )
 
   const handleStartImport = useCallback(async () => {
@@ -278,13 +275,11 @@ export function useFileImportProcess(options?: {
     setImportResult(null)
     setResultActionLoading(false)
     setImportProgress({ processed: 0, total: 0 })
-    previewMutation.reset() // Reset tRPC state
     startCreateImportMutation.reset()
     runCreateImportChunkMutation.reset()
     cancelCreateImportMutation.reset()
     finalizeCreateImportMutation.reset()
   }, [
-    previewMutation,
     startCreateImportMutation,
     runCreateImportChunkMutation,
     cancelCreateImportMutation,

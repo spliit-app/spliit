@@ -17,7 +17,9 @@ import '@/lib/imports/spliit-json'
 
 // Choose the most likely format for given content.
 // Returns the selected ImportFormat instance or null if none match.
-export function detectFormat(content: string): ImportFormat | null {
+export async function detectFormat(
+  content: string,
+): Promise<ImportFormat | null> {
   return importFormats.detect(content)
 }
 
@@ -26,16 +28,16 @@ export function detectFormat(content: string): ImportFormat | null {
 // - Detection: calls detectFormat(...) to select an adapter based on content head and context.
 // - Parsing: invokes the adapter's parseToInternal(...) to produce ExpenseFormValues.
 // - Meta: adapters may optionally return meta information (e.g., source currency/name).
-export function parseWithDetectionInternal(content: string): {
+export async function parseWithDetectionInternal(content: string): Promise<{
   expenses: import('@/lib/schemas').ExpenseFormValues[]
   format: ImportFormat
   group?: ImportParsedGroupInfo
   errors: { row: number; message: string }[]
-} {
-  const format = detectFormat(content)
+}> {
+  const format = await detectFormat(content)
   if (!format) throw new Error('Unsupported file format.')
   if (!format.parseToInternal)
     throw new Error('Format does not support internal parsing.')
-  const { expenses, group, errors } = format.parseToInternal(content)
+  const { expenses, group, errors } = await format.parseToInternal(content)
   return { expenses, group, format, errors: errors ?? [] }
 }

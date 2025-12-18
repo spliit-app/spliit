@@ -64,7 +64,7 @@ export async function buildExpensesFromFileImport(
   if (!trimmed) throw new Error('Uploaded file was empty.')
 
   const { expenses, errors, group, format } =
-    parseWithDetectionInternal(trimmed)
+    await parseWithDetectionInternal(trimmed)
 
   // Derive definitive participant list for group creation.
   // Prefer participants supplied by the adapter; otherwise derive from expenses.

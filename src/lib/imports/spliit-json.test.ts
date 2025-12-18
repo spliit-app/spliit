@@ -8,16 +8,16 @@ describe('SpliitJsonFormat', () => {
   const format = new SpliitJsonFormat()
 
   describe('detect', () => {
-    it('should return 0 for invalid JSON', () => {
-      expect(format.detect('invalid json')).toBe(0)
+    it('should return 0 for invalid JSON', async () => {
+      expect(await format.detect('invalid json')).toBe(0)
     })
 
-    it('should return 0 for JSON without required fields', () => {
-      expect(format.detect('{}')).toBe(0)
-      expect(format.detect('{"foo": "bar"}')).toBe(0)
+    it('should return 0 for JSON without required fields', async () => {
+      expect(await format.detect('{}')).toBe(0)
+      expect(await format.detect('{"foo": "bar"}')).toBe(0)
     })
 
-    it('should return a high score for valid Spliit JSON', () => {
+    it('should return a high score for valid Spliit JSON', async () => {
       const content = JSON.stringify({
         participants: [{ name: 'Alice' }, { name: 'Bob' }],
         expenses: [
@@ -30,12 +30,12 @@ describe('SpliitJsonFormat', () => {
           },
         ],
       })
-      expect(format.detect(content)).toBeGreaterThan(0.8)
+      expect(await format.detect(content)).toBeGreaterThan(0.8)
     })
   })
 
   describe('parseToInternal', () => {
-    it('should parse a valid export correctly', () => {
+    it('should parse a valid export correctly', async () => {
       const content = JSON.stringify({
         participants: [
           { id: 'p1', name: 'Alice' },
@@ -58,7 +58,7 @@ describe('SpliitJsonFormat', () => {
         currency: '$',
       })
 
-      const result = format.parseToInternal(content)
+      const result = await format.parseToInternal(content)
 
       expect(result.errors).toHaveLength(0)
       expect(result.group).toEqual({
@@ -84,7 +84,7 @@ describe('SpliitJsonFormat', () => {
       expect(expense.expenseDate.toISOString()).toContain('2023-05-20')
     })
 
-    it('should handle missing participant names by falling back to ID or index', () => {
+    it('should handle missing participant names by falling back to ID or index', async () => {
       const content = JSON.stringify({
         participants: [
           { id: 'p1' }, // No name
@@ -93,12 +93,12 @@ describe('SpliitJsonFormat', () => {
         expenses: [],
       })
 
-      const result = format.parseToInternal(content)
+      const result = await format.parseToInternal(content)
       const names = result.group?.participants?.map((p) => p.name)
       expect(names).toEqual(['p1', 'Participant 2'])
     })
 
-    it('should collect errors for invalid expenses', () => {
+    it('should collect errors for invalid expenses', async () => {
       const content = JSON.stringify({
         participants: [{ id: 'p1', name: 'Alice' }],
         expenses: [
@@ -114,7 +114,7 @@ describe('SpliitJsonFormat', () => {
       // Note: The current implementation is quite lenient.
       // - "invalid" amount might throw during coercion.
 
-      const result = format.parseToInternal(content)
+      const result = await format.parseToInternal(content)
       expect(result.errors).toHaveLength(1)
       expect(result.errors?.[0].message).toContain('Invalid amount')
     })

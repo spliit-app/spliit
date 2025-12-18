@@ -28,7 +28,7 @@ export class DebugImportFormat implements ImportFormat {
     return content
   }
 
-  detect(content: string): number {
+  async detect(content: string): Promise<number> {
     const trimmed = content.trimStart()
     if (
       trimmed.startsWith('DEBUG_IMPORT') ||
@@ -38,7 +38,7 @@ export class DebugImportFormat implements ImportFormat {
     return 0
   }
 
-  parseToInternal(content: string) {
+  async parseToInternal(content: string) {
     // Debug format: only emit errors from payload lines after marker.
     // Usage:
     //   DEBUG_ERRORS\n

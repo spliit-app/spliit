@@ -143,15 +143,15 @@ export class SpliitJsonFormat implements ImportFormat {
   label = 'Spliit JSON'
   priority = 100
 
-  detect(content: string): number {
+  async detect(content: string): Promise<number> {
     return looksLikeSpliitJson(content) ? 0.95 : 0
   }
 
-  parseToInternal(content: string): {
+  async parseToInternal(content: string): Promise<{
     expenses: ExpenseFormValues[]
     group?: import('@/lib/imports/types').ImportParsedGroupInfo
     errors?: { row: number; message: string }[]
-  } {
+  }> {
     let raw: any
     try {
       raw = JSON.parse(content)

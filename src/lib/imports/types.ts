@@ -25,13 +25,13 @@ export interface ImportFormat {
   priority: number
   // Detection on the full content. Return 0 to opt out.
   // Implementations may do a fast check or a full parse depending on format.
-  detect(content: string): number
+  detect(content: string): Promise<number>
   // Parse full content into internal values.
-  parseToInternal?: (content: string) => {
+  parseToInternal?: (content: string) => Promise<{
     expenses: ExpenseFormValues[]
     group?: ImportParsedGroupInfo
     errors?: { row: number; message: string }[]
-  }
+  }>
 }
 
 // Simple in-memory registry of available formats.
@@ -48,9 +48,14 @@ export class ImportFormatRegistry {
   // - Each format returns a score in [0..1]; 0 means "not a candidate".
   // - Rank by score (desc), then by format.priority (desc) for deterministic tie‑breaks.
   // - Return the top candidate or null if no format opts in.
-  detect(content: string) {
-    const candidates = this.list()
-      .map((f) => ({ format: f, score: f.detect(content) }))
+  async detect(content: string) {
+    const scored = await Promise.all(
+      this.list().map(async (f) => ({
+        format: f,
+        score: await f.detect(content),
+      })),
+    )
+    const candidates = scored
       .filter((x) => x.score > 0)
       .sort(
         (a, b) => b.score - a.score || b.format.priority - a.format.priority,

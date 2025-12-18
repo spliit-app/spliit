@@ -11,7 +11,6 @@ import {
   cancelCreateImportFromFileProcedure,
   finalizeCreateImportFromFileProcedure,
   importGroupFromFileProcedure,
-  previewImportGroupFromFileProcedure,
   runCreateImportFromFileChunkProcedure,
   startCreateImportFromFileProcedure,
 } from './import'
@@ -28,7 +27,6 @@ export const groupsRouter = createTRPCRouter({
   list: listGroupsProcedure,
   create: createGroupProcedure,
   importFromFile: importGroupFromFileProcedure,
-  importFromFilePreview: previewImportGroupFromFileProcedure,
   importFromFileStartJob: startCreateImportFromFileProcedure,
   importFromFileRunChunk: runCreateImportFromFileChunkProcedure,
   importFromFileCancelJob: cancelCreateImportFromFileProcedure,
