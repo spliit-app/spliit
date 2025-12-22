@@ -161,7 +161,7 @@
       "splitModeDescription": "Sélectionnez comment diviser le revenu.",
       "attachDescription": "Voir et joindre des reçus au revenu.",
       "currencyField": {
-        "label": "Devise de la recette",
+        "label": "Devise du revenu",
         "description": "La devise dans laquelle le revenu a été reçu."
       }
     },
