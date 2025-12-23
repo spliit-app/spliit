@@ -7,6 +7,7 @@ import {
   buildExpensesFromFileImport,
   type ImportBuildResult,
 } from '@/lib/imports/file-import'
+import { ExpenseFormValues } from '@/lib/schemas'
 import { trpc } from '@/trpc/client'
 import { useTranslations } from 'next-intl'
 
@@ -29,6 +30,9 @@ export type FileImportProcessState =
   | 'cancelled'
   | 'error'
 
+const BATCH_SIZE = 50
+const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10MB
+
 export function useFileImportProcess(options?: {
   onImportSuccess?: (result: { groupId: string; groupName: string }) => void
   onClose?: () => void
@@ -46,8 +50,10 @@ export function useFileImportProcess(options?: {
     null,
   )
   const [previewError, setPreviewError] = useState<string | null>(null)
-  const [currentJobId, setCurrentJobId] = useState<string | null>(null)
+
+  // Ref to stop the loop
   const cancelRequestedRef = useRef(false)
+
   const [importResult, setImportResult] = useState<ImportResultState>(null)
   const [resultActionLoading, setResultActionLoading] = useState(false)
   const [importProgress, setImportProgress] = useState<{
@@ -77,70 +83,43 @@ export function useFileImportProcess(options?: {
 
   const utils = trpc.useUtils()
 
-  // Import job mutations (create a new group from file)
-  const startCreateImportMutation =
-    trpc.groups.importFromFileStartJob.useMutation({
-      onError(error) {
-        setProcessState('error')
-        toast({
-          title: t('errorTitle'),
-          description: error.message,
-          variant: 'destructive',
-        })
-      },
-    })
-  const runCreateImportChunkMutation =
-    trpc.groups.importFromFileRunChunk.useMutation({
-      onError(error) {
-        setProcessState('error')
-        toast({
-          title: t('errorTitle'),
-          description: error.message,
-          variant: 'destructive',
-        })
-      },
-    })
-  const cancelCreateImportMutation =
-    trpc.groups.importFromFileCancelJob.useMutation({
-      onError(error) {
-        // If cancellation itself fails, report it but don't change state too much
-        // as the job might still be in a weird state.
-        toast({
-          title: t('errorTitle'),
-          description: error.message,
-          variant: 'destructive',
-        })
-      },
-    })
-  const finalizeCreateImportMutation =
-    trpc.groups.importFromFileFinalize.useMutation({
-      onError(error) {
-        toast({
-          title: t('errorTitle'),
-          description: error.message,
-          variant: 'destructive',
-        })
-      },
-    })
+  // Mutations
+  const createGroupMutation = trpc.groups.create.useMutation()
+  const processBatchMutation = trpc.groups.importProcessBatch.useMutation()
 
   const analyzeFile = useCallback(
-    async (content: string, name: string | null) => {
-      if (!content.trim()) {
-        setPreviewResult(null)
-        setPreviewError(null)
-        setProcessState('idle')
+    async (file: File) => {
+      if (file.size > MAX_FILE_SIZE) {
+        toast({
+          title: t('errorTitle'),
+          description: t('fileTooLarge', { size: '10MB' }),
+          variant: 'destructive',
+        })
         return
       }
 
-      setFileContent(content)
-      setFileName(name)
+      setFileName(file.name)
       setProcessState('analyzing')
       setPreviewResult(null)
       setPreviewError(null)
 
       try {
-        const result = await buildExpensesFromFileImport(content)
+        const content = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader()
+          reader.onload = () => resolve(String(reader.result ?? ''))
+          reader.onerror = () => reject(new Error('Failed to read file'))
+          reader.readAsText(file, 'utf-8')
+        })
 
+        if (!content.trim()) {
+          setPreviewResult(null)
+          setPreviewError(null)
+          setProcessState('idle')
+          return
+        }
+
+        setFileContent(content)
+        const result = await buildExpensesFromFileImport(content)
         setPreviewResult(result)
         setProcessState('preview')
         if (result.group?.name) {
@@ -153,7 +132,7 @@ export function useFileImportProcess(options?: {
         setProcessState('error')
       }
     },
-    [localizeErrorMessage],
+    [localizeErrorMessage, t, toast],
   )
 
   const handleStartImport = useCallback(async () => {
@@ -167,79 +146,122 @@ export function useFileImportProcess(options?: {
 
     cancelRequestedRef.current = false
     setProcessState('importing')
-    setImportResult(null) // Clear previous results
+    setImportResult(null)
+
+    const totalExpenses = previewResult.expenses.length
+    setImportProgress({ processed: 0, total: totalExpenses })
 
     try {
-      const start = await startCreateImportMutation.mutateAsync({
-        fileContent: fileContent,
-        groupName: groupName.trim() || undefined,
-        fileName: fileName ?? undefined,
+      // 1. Create Group
+      let importParticipants = previewResult.group?.participants || []
+      if (
+        importParticipants.length === 0 &&
+        previewResult.participants.length > 0
+      ) {
+        importParticipants = previewResult.participants.map((name) => ({
+          id: name,
+          name,
+        }))
+      }
+
+      const finalGroupName =
+        groupName.trim() || previewResult.group?.name || 'Imported Group'
+
+      const createdGroup = await createGroupMutation.mutateAsync({
+        groupFormValues: {
+          name: finalGroupName,
+          currency: previewResult.group?.currency || '$',
+          currencyCode: previewResult.group?.currencyCode,
+          participants: importParticipants.map((p) => ({ name: p.name })),
+          information: `Imported from ${fileName || 'file'}`,
+        },
       })
-      setCurrentJobId(start.jobId)
-      setImportProgress({ processed: 0, total: start.totalExpenses })
 
-      let finalResult: ImportResultState = null
-      while (!cancelRequestedRef.current) {
-        const chunk = await runCreateImportChunkMutation.mutateAsync({
-          jobId: start.jobId,
-        })
-        setImportProgress({ processed: chunk.processed, total: chunk.total })
+      const groupId = createdGroup.id
+      const createdParticipants = createdGroup.participants
 
-        // If the chunk processing indicates completion, break the loop
-        if (chunk.done && chunk.resultId) {
-          finalResult = {
-            status: 'completed',
-            created: chunk.processed,
-            total: chunk.total,
-            resultId: chunk.resultId,
-            groupId: chunk.groupId,
-            groupName: chunk.groupName,
-          }
-          break
-        }
-        // If an error occurred during chunk processing, it will be caught by the mutation's onError
-        // and set the processState to 'error', breaking this loop implicitly.
+      // Create a map of ImportID -> RealID
+      // We map by Name because createGroup creates them in order or we match by name.
+      // Assuming unique names for simplicity in this context.
+      const nameToRealId = new Map<string, string>()
+      for (const p of createdParticipants) {
+        nameToRealId.set(p.name, p.id)
       }
 
-      if (cancelRequestedRef.current && !finalResult && currentJobId) {
-        // Only attempt to cancel if we have a currentJobId
-        const cancel = await cancelCreateImportMutation.mutateAsync({
-          jobId: currentJobId,
+      const importIdToRealId = new Map<string, string>()
+      for (const ip of importParticipants) {
+        const realId = nameToRealId.get(ip.name)
+        if (realId && ip.id) {
+          importIdToRealId.set(ip.id, realId)
+        }
+      }
+
+      // Helper to remap expense
+      const remapExpense = (exp: ExpenseFormValues): ExpenseFormValues => ({
+        ...exp,
+        paidBy:
+          importIdToRealId.get(exp.paidBy) ??
+          nameToRealId.get(exp.paidBy) ??
+          exp.paidBy,
+        paidFor: exp.paidFor.map((pf) => ({
+          ...pf,
+          participant:
+            importIdToRealId.get(pf.participant) ??
+            nameToRealId.get(pf.participant) ??
+            pf.participant,
+        })),
+      })
+
+      // 2. Process Batches
+      const expenses = previewResult.expenses
+      let processedCount = 0
+
+      for (let i = 0; i < expenses.length; i += BATCH_SIZE) {
+        if (cancelRequestedRef.current) break
+
+        const chunk = expenses.slice(i, i + BATCH_SIZE).map(remapExpense)
+
+        await processBatchMutation.mutateAsync({
+          groupId,
+          expenses: chunk,
         })
-        finalResult = {
+
+        processedCount += chunk.length
+        setImportProgress({ processed: processedCount, total: totalExpenses })
+      }
+
+      if (cancelRequestedRef.current) {
+        // Cancelled
+        setImportResult({
           status: 'cancelled',
-          created: cancel.processed,
-          total: cancel.total,
-          resultId: cancel.resultId,
-          groupId: cancel.groupId,
-          groupName: cancel.groupName,
-        }
-      }
-
-      if (finalResult) {
-        setImportResult(finalResult)
-        setProcessState(finalResult.status) // Set 'completed' or 'cancelled'
-        if (
-          finalResult.status === 'completed' &&
-          finalResult.groupId &&
-          finalResult.groupName
-        ) {
-          options?.onImportSuccess?.({
-            groupId: finalResult.groupId,
-            groupName: finalResult.groupName,
-          })
-        }
+          created: processedCount,
+          total: totalExpenses,
+          resultId: groupId, // Using groupId as resultId
+          groupId,
+          groupName: finalGroupName,
+        })
+        setProcessState('cancelled')
       } else {
-        // Fallback for cases where loop ends without finalResult (e.g., external error or implicit break)
-        setProcessState('error')
+        // Completed
+        setImportResult({
+          status: 'completed',
+          created: processedCount,
+          total: totalExpenses,
+          resultId: groupId,
+          groupId,
+          groupName: finalGroupName,
+        })
+        setProcessState('completed')
+        options?.onImportSuccess?.({ groupId, groupName: finalGroupName })
       }
     } catch (error) {
-      // Error will be handled by mutation's onError callback.
-      // processState will already be 'error'.
-      setImportProgress({ processed: 0, total: 0 })
-    } finally {
-      cancelRequestedRef.current = false
-      setCurrentJobId(null) // Job is either done, cancelled or failed.
+      console.error(error)
+      setProcessState('error')
+      toast({
+        title: t('errorTitle'),
+        description: error instanceof Error ? error.message : 'Unknown error',
+        variant: 'destructive',
+      })
     }
   }, [
     fileContent,
@@ -247,21 +269,16 @@ export function useFileImportProcess(options?: {
     groupName,
     previewResult,
     processState,
-    startCreateImportMutation,
-    runCreateImportChunkMutation,
-    cancelCreateImportMutation,
+    createGroupMutation,
+    processBatchMutation,
     options,
-    currentJobId, // Include currentJobId to ensure consistent behavior in finalResult checks
+    toast,
+    t,
   ])
 
   const requestCancel = useCallback(() => {
-    // This function is called from the UI (e.g. closing the modal)
-    // It signals the import loop to stop after the current chunk.
-    if (currentJobId) {
-      cancelRequestedRef.current = true
-      // No state change here, the loop in handleStartImport will handle it after the chunk.
-    }
-  }, [currentJobId])
+    cancelRequestedRef.current = true
+  }, [])
 
   const resetProcess = useCallback(() => {
     setProcessState('idle')
@@ -270,59 +287,18 @@ export function useFileImportProcess(options?: {
     setGroupName('')
     setPreviewResult(null)
     setPreviewError(null)
-    setCurrentJobId(null)
     cancelRequestedRef.current = false
     setImportResult(null)
     setResultActionLoading(false)
     setImportProgress({ processed: 0, total: 0 })
-    startCreateImportMutation.reset()
-    runCreateImportChunkMutation.reset()
-    cancelCreateImportMutation.reset()
-    finalizeCreateImportMutation.reset()
-  }, [
-    startCreateImportMutation,
-    runCreateImportChunkMutation,
-    cancelCreateImportMutation,
-    finalizeCreateImportMutation,
-  ])
+  }, [])
 
   const finalizeImport = useCallback(async () => {
-    if (
-      !importResult ||
-      importResult.status !== 'completed' ||
-      !importResult.resultId
-    )
-      return
-    setResultActionLoading(true)
-    try {
-      await finalizeCreateImportMutation.mutateAsync({
-        resultId: importResult.resultId,
-      })
-      // The modal might close, or reset to idle.
-      options?.onClose?.() // Close the modal
-    } catch (e) {
-      if (e instanceof Error) {
-        toast({
-          title: t('errorTitle'),
-          description: e.message,
-          variant: 'destructive',
-        })
-      }
-    } finally {
-      setResultActionLoading(false)
-      resetProcess()
-    }
-  }, [
-    importResult,
-    finalizeCreateImportMutation,
-    options,
-    toast,
-    t,
-    resetProcess,
-  ])
+    // Just close the modal, as the import is already done client-side.
+    options?.onClose?.()
+  }, [options])
 
   return {
-    // State
     processState,
     fileContent,
     fileName,
@@ -333,11 +309,10 @@ export function useFileImportProcess(options?: {
     importResult,
     resultActionLoading,
 
-    // Actions
     setGroupName,
     analyzeFile,
     startImport: handleStartImport,
-    requestCancel, // Naming consistency for external consumers
+    requestCancel,
     finalizeImport,
     resetProcess,
   }

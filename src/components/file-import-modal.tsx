@@ -69,15 +69,7 @@ export function FileImportModal({
   const [hasReachedBottom, setHasReachedBottom] = useState(false)
 
   const handleFileRead = (file: File) => {
-    const reader = new FileReader()
-    reader.onload = () => {
-      const content = String(reader.result ?? '')
-      analyzeFile(content, file.name)
-    }
-    reader.onerror = () => {
-      // Error handling is now in the hook
-    }
-    reader.readAsText(file, 'utf-8')
+    analyzeFile(file)
   }
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
