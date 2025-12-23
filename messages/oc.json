@@ -51,6 +51,32 @@
   "Groups": {
     "myGroups": "Mos grops",
     "create": "Crear",
-    "loadingRecent": "Cargament dels grops recents…"
+    "loadingRecent": "Cargament dels grops recents…",
+    "NoRecent": {
+      "create": "Ne crear un"
+    },
+    "recent": "Grops recents",
+    "starred": "Grops preferits",
+    "archived": "Grops archivats",
+    "archive": "Archivar lo grop",
+    "unarchive": "Desarchivar lo grop",
+    "removeRecent": "Tirar dels grops recents",
+    "RecentRemovedToast": {
+      "undo": "Desfar",
+      "title": "Lo grop es estat suprimit"
+    },
+    "AddByURL": {
+      "button": "Apondre per URL"
+    },
+    "NotFound": {
+      "text": "Aqueste grop existís pas."
+    }
+  },
+  "GroupForm": {
+    "title": "Informacions del grop",
+    "NameField": {
+      "label": "Nom del grop",
+      "placeholder": "Vacanças d'estiu"
+    }
   }
 }
