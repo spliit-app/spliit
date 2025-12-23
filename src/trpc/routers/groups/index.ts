@@ -7,13 +7,7 @@ import { getGroupProcedure } from '@/trpc/routers/groups/get.procedure'
 import { groupStatsRouter } from '@/trpc/routers/groups/stats'
 import { updateGroupProcedure } from '@/trpc/routers/groups/update.procedure'
 import { getGroupDetailsProcedure } from './getDetails.procedure'
-import {
-  cancelCreateImportFromFileProcedure,
-  finalizeCreateImportFromFileProcedure,
-  importGroupFromFileProcedure,
-  runCreateImportFromFileChunkProcedure,
-  startCreateImportFromFileProcedure,
-} from './import'
+import { importGroupFromFileProcedure, processBatchProcedure } from './import'
 import { listGroupsProcedure } from './list.procedure'
 
 export const groupsRouter = createTRPCRouter({
@@ -27,9 +21,6 @@ export const groupsRouter = createTRPCRouter({
   list: listGroupsProcedure,
   create: createGroupProcedure,
   importFromFile: importGroupFromFileProcedure,
-  importFromFileStartJob: startCreateImportFromFileProcedure,
-  importFromFileRunChunk: runCreateImportFromFileChunkProcedure,
-  importFromFileCancelJob: cancelCreateImportFromFileProcedure,
-  importFromFileFinalize: finalizeCreateImportFromFileProcedure,
+  importProcessBatch: processBatchProcedure,
   update: updateGroupProcedure,
 })
