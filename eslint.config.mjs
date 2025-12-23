@@ -10,6 +10,8 @@ const eslintConfig = defineConfig([
     'out/**',
     'build/**',
     'next-env.d.ts',
+    'postgres-data/**',
+    'node_modules/**',
   ]),
   {
     rules: {
