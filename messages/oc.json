@@ -63,20 +63,30 @@
     "removeRecent": "Tirar dels grops recents",
     "RecentRemovedToast": {
       "undo": "Desfar",
-      "title": "Lo grop es estat suprimit"
+      "title": "Lo grop es estat suprimit",
+      "undoAlt": "Anullar la supression del grop"
     },
     "AddByURL": {
-      "button": "Apondre per URL"
+      "button": "Apondre per URL",
+      "title": "Apondre un grop via URL"
     },
     "NotFound": {
-      "text": "Aqueste grop existís pas."
+      "text": "Aqueste grop existís pas.",
+      "link": "Anar als darrièrs grops consultats"
     }
   },
   "GroupForm": {
     "title": "Informacions del grop",
     "NameField": {
       "label": "Nom del grop",
-      "placeholder": "Vacanças d'estiu"
+      "placeholder": "Vacanças d'estiu",
+      "description": "Picatz un nom per vòstre grop."
+    },
+    "InformationField": {
+      "label": "Informacions del grop"
+    },
+    "CurrencyField": {
+      "placeholder": "$, €, £…"
     }
   }
 }
