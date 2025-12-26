@@ -176,7 +176,7 @@ function ReceiptDialogContent() {
           </Button>
           <div className="col-span-2">
             <strong>{t('Dialog.titleLabel')}</strong>
-            <div>{receiptInfo ? receiptInfo.title ?? <Unknown /> : '…'}</div>
+            <div>{receiptInfo ? (receiptInfo.title ?? <Unknown />) : '…'}</div>
           </div>
           <div className="col-span-2">
             <strong>{t('Dialog.categoryLabel')}</strong>
