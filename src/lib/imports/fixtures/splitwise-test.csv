@@ -1,0 +1,11 @@
+Date,Description,Category,Cost,Currency,Alice,Bob,Charlie
+2025-11-15,Simple equal single payer,General,30.00,EUR,20.00,-10.00,-10.00
+2025-11-15,Uneven single payer,General,40.00,EUR,20.00,-10.00,-10.00
+2025-11-16,Multi-payer equal split,General,30.00,EUR,5.00,5.00,-10.00
+2025-11-17,Self-payment equal shares,General,90.00,EUR,0.00,0.00,0.00
+2025-11-18,No-op row,General,0.00,EUR,0.00,0.00,0.00
+2025-11-19,Payment Bob→Charlie,Payment,25.00,EUR,0.00,25.00,-25.00
+2025-11-20,Payment Alice→Bob+Charlie,Payment,15.00,EUR,15.00,-10.00,-5.00
+2025-11-21,Zero-delta participant,General,50.00,EUR,10.00,-10.00,0.00
+2025-11-22,Zero total with deltas (invalid),General,0.00,EUR,10.00,-10.00,0.00
+2025-11-23,Payment no-op,Payment,0.00,EUR,0.00,0.00,0.00
