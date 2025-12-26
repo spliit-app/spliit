@@ -5,6 +5,7 @@ import {
 } from '@/lib/imports/types'
 // Self-registering formats (side effect imports)
 import '@/lib/imports/formats/debug-format'
+import '@/lib/imports/formats/splitwise/index'
 import '@/lib/imports/spliit-json'
 
 // Registry entry points
