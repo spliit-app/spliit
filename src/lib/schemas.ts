@@ -119,9 +119,10 @@ export const expenseFormSchema = z
         }
       }),
     splitMode: z
-      .enum<SplitMode, [SplitMode, ...SplitMode[]]>(
-        Object.values(SplitMode) as any,
-      )
+      .enum<
+        SplitMode,
+        [SplitMode, ...SplitMode[]]
+      >(Object.values(SplitMode) as any)
       .default('EVENLY'),
     saveDefaultSplittingOptions: z.boolean(),
     isReimbursement: z.boolean(),
@@ -137,9 +138,10 @@ export const expenseFormSchema = z
       .default([]),
     notes: z.string().optional(),
     recurrenceRule: z
-      .enum<RecurrenceRule, [RecurrenceRule, ...RecurrenceRule[]]>(
-        Object.values(RecurrenceRule) as any,
-      )
+      .enum<
+        RecurrenceRule,
+        [RecurrenceRule, ...RecurrenceRule[]]
+      >(Object.values(RecurrenceRule) as any)
       .default('NONE'),
   })
   .superRefine((expense, ctx) => {
