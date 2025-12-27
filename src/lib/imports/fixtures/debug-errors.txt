@@ -1,0 +1,6 @@
+DEBUG_ERRORS
+
+Invalid amount in row 3
+Missing paidById
+Invalid expense date: 2024-99-99
+Participant ID not found: user-xyz

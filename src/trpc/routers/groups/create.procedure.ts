@@ -11,5 +11,5 @@ export const createGroupProcedure = baseProcedure
   )
   .mutation(async ({ input: { groupFormValues } }) => {
     const group = await createGroup(groupFormValues)
-    return { groupId: group.id }
+    return group
   })

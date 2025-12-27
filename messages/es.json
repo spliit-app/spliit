@@ -52,6 +52,15 @@
     "myGroups": "Mis grupos",
     "create": "Crear",
     "loadingRecent": "Cargando grupos recientes…",
+    "CreateOptions": {
+      "openMenu": "Abrir opciones de creación",
+      "newGroup": "Nuevo grupo",
+      "importFromFile": "Importar desde archivo"
+    },
+    "ImportDialog": {
+      "successTitle": "Grupo creado",
+      "successDescription": "El grupo {name} se creó a partir de la importación."
+    },
     "NoRecent": {
       "description": "No has visitado ningun grupo recientemente.",
       "create": "Crea uno",
@@ -447,5 +456,48 @@
     "other": {
       "heading": "Otras monedas"
     }
+  }
+  ,
+  "FileImport": {
+    "title": "Importar grupo desde archivo",
+    "buttonLabel": "Abrir diálogo de importación",
+    "errorTitle": "Error",
+    "processing": "Procesando…",
+    "fileLabel": "Seleccionar un archivo",
+    "uploadDragTitle": "Suelta un archivo aquí o haz clic para seleccionar",
+    "uploadDragDescription": "Compatible: JSON (Spliit‑JSON) y archivos de depuración",
+    "fileReadError": "No se pudo leer el archivo seleccionado.",
+    "newGroupNameLabel": "Nombre del nuevo grupo",
+    "newGroupNamePlaceholder": "Introduce un nombre de grupo (opcional)",
+    "analysisAwaiting": "Esperando el análisis del archivo…",
+    "analysisExplanation": "Selecciona un archivo para analizar su contenido antes de importar.",
+    "previewErrorTitle": "No pudimos analizar tu archivo",
+    "generalInfoTitle": "Información general",
+    "generalInfoFormat": "Formato",
+    "generalInfoRows": "Filas",
+    "generalInfoInvalidRows": "Filas inválidas",
+    "generalInfoTotal": "Monto total",
+    "generalInfoParticipants": "Participantes y saldos",
+    "generalInfoParticipantsEmpty": "No se detectó información de participantes.",
+    "generalInfoUnknown": "Desconocido",
+    "analysisHeaderTitle": "Problemas en el encabezado",
+    "analysisGeneralWarningsTitle": "Advertencias generales",
+    "analysisCategoryTitle": "Advertencias de categorías",
+    "analysisErrorsTitle": "Errores por fila",
+    "analysisFatalHint": "Corrige estos errores para habilitar la importación.",
+    "import": "Importar",
+    "importing": "Importando…",
+    "importProgressLabel": "Importando gastos",
+    "importCancel": "Cancelar importación",
+    "importCanceling": "Cancelando…",
+    "importResultCompleted": "{created} de {total} filas importadas",
+    "importResultCancelledSimple": "Importación cancelada",
+    "importResultConfirm": "Continuar"
+  },
+  "FileImportErrors": {
+    "noParticipants": "No hay participantes definidos en el archivo.",
+    "fileEmpty": "El archivo subido estaba vacío.",
+    "invalidAmount": "Monto inválido en una o más filas.",
+    "invalidDate": "Fecha de gasto inválida en una o más filas."
   }
 }
