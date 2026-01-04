@@ -225,6 +225,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "MYR": {
+      "name": "Ringgit Malaysia",
+      "symbol_native": "RM",
+      "symbol": "RM",
+      "code": "MYR",
+      "name_plural": "Malaysian ringgits",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "NZD": {
       "name": "Dolar Selandia Baru",
       "symbol_native": "$",
@@ -494,6 +503,15 @@
       "symbol": "MX$",
       "code": "MXN",
       "name_plural": "Mexican pesos",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "MYR": {
+      "name": "ringgit de Malàisia",
+      "symbol_native": "RM",
+      "symbol": "RM",
+      "code": "MYR",
+      "name_plural": "Malaysian ringgits",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -769,6 +787,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "MYR": {
+      "name": "malajsijský ringgit",
+      "symbol_native": "RM",
+      "symbol": "RM",
+      "code": "MYR",
+      "name_plural": "Malaysian ringgits",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "NZD": {
       "name": "novozélandský dolar",
       "symbol_native": "$",
@@ -1038,6 +1065,15 @@
       "symbol": "MX$",
       "code": "MXN",
       "name_plural": "Mexican pesos",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "MYR": {
+      "name": "Malaysischer Ringgit",
+      "symbol_native": "RM",
+      "symbol": "RM",
+      "code": "MYR",
+      "name_plural": "Malaysian ringgits",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -1313,6 +1349,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "MYR": {
+      "name": "Malaysian Ringgit",
+      "symbol_native": "RM",
+      "symbol": "RM",
+      "code": "MYR",
+      "name_plural": "Malaysian ringgits",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "NZD": {
       "name": "New Zealand Dollar",
       "symbol_native": "$",
@@ -1582,6 +1627,15 @@
       "symbol": "MX$",
       "code": "MXN",
       "name_plural": "Mexican pesos",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "MYR": {
+      "name": "ringit",
+      "symbol_native": "RM",
+      "symbol": "RM",
+      "code": "MYR",
+      "name_plural": "Malaysian ringgits",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -1857,6 +1911,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "MYR": {
+      "name": "Malaysiako ringgita",
+      "symbol_native": "RM",
+      "symbol": "RM",
+      "code": "MYR",
+      "name_plural": "Malaysian ringgits",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "NZD": {
       "name": "Zeelanda Berriko dolarra",
       "symbol_native": "$",
@@ -2126,6 +2189,15 @@
       "symbol": "MX$",
       "code": "MXN",
       "name_plural": "Mexican pesos",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "MYR": {
+      "name": "ringgit malais",
+      "symbol_native": "RM",
+      "symbol": "RM",
+      "code": "MYR",
+      "name_plural": "Malaysian ringgits",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -2401,6 +2473,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "MYR": {
+      "name": "ringgit malese",
+      "symbol_native": "RM",
+      "symbol": "RM",
+      "code": "MYR",
+      "name_plural": "Malaysian ringgits",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "NZD": {
       "name": "dollaro neozelandese",
       "symbol_native": "$",
@@ -2670,6 +2751,15 @@
       "symbol": "MX$",
       "code": "MXN",
       "name_plural": "Mexican pesos",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "MYR": {
+      "name": "Maleisische ringgit",
+      "symbol_native": "RM",
+      "symbol": "RM",
+      "code": "MYR",
+      "name_plural": "Malaysian ringgits",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -2945,6 +3035,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "MYR": {
+      "name": "ringgit malezyjski",
+      "symbol_native": "RM",
+      "symbol": "RM",
+      "code": "MYR",
+      "name_plural": "Malaysian ringgits",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "NZD": {
       "name": "dolar nowozelandzki",
       "symbol_native": "$",
@@ -3214,6 +3313,15 @@
       "symbol": "MX$",
       "code": "MXN",
       "name_plural": "Mexican pesos",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "MYR": {
+      "name": "Ringgit malaio",
+      "symbol_native": "RM",
+      "symbol": "RM",
+      "code": "MYR",
+      "name_plural": "Malaysian ringgits",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -3489,6 +3597,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "MYR": {
+      "name": "Ringgit malaio",
+      "symbol_native": "RM",
+      "symbol": "RM",
+      "code": "MYR",
+      "name_plural": "Malaysian ringgits",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "NZD": {
       "name": "Dólar neozelandês",
       "symbol_native": "$",
@@ -3758,6 +3875,15 @@
       "symbol": "MX$",
       "code": "MXN",
       "name_plural": "Mexican pesos",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "MYR": {
+      "name": "ringgit malaiezian",
+      "symbol_native": "RM",
+      "symbol": "RM",
+      "code": "MYR",
+      "name_plural": "Malaysian ringgits",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -4033,6 +4159,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "MYR": {
+      "name": "Malesian ringgit",
+      "symbol_native": "RM",
+      "symbol": "RM",
+      "code": "MYR",
+      "name_plural": "Malaysian ringgits",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "NZD": {
       "name": "Uuden-Seelannin dollari",
       "symbol_native": "$",
@@ -4302,6 +4437,15 @@
       "symbol": "MX$",
       "code": "MXN",
       "name_plural": "Mexican pesos",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "MYR": {
+      "name": "Malezya Ringgiti",
+      "symbol_native": "RM",
+      "symbol": "RM",
+      "code": "MYR",
+      "name_plural": "Malaysian ringgits",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -4577,6 +4721,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "MYR": {
+      "name": "Малайзийский ринггит",
+      "symbol_native": "RM",
+      "symbol": "RM",
+      "code": "MYR",
+      "name_plural": "Malaysian ringgits",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "NZD": {
       "name": "Новозеландский доллар",
       "symbol_native": "$",
@@ -4846,6 +4999,15 @@
       "symbol": "MX$",
       "code": "MXN",
       "name_plural": "Mexican pesos",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "MYR": {
+      "name": "малайзійський рингіт",
+      "symbol_native": "RM",
+      "symbol": "RM",
+      "code": "MYR",
+      "name_plural": "Malaysian ringgits",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -5121,6 +5283,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "MYR": {
+      "name": "רינגיט מלזי",
+      "symbol_native": "RM",
+      "symbol": "RM",
+      "code": "MYR",
+      "name_plural": "Malaysian ringgits",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "NZD": {
       "name": "דולר ניו זילנדי",
       "symbol_native": "$",
@@ -5390,6 +5561,15 @@
       "symbol": "MX$",
       "code": "MXN",
       "name_plural": "Mexican pesos",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "MYR": {
+      "name": "말레이시아 링깃",
+      "symbol_native": "RM",
+      "symbol": "RM",
+      "code": "MYR",
+      "name_plural": "Malaysian ringgits",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -5665,6 +5845,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "MYR": {
+      "name": "マレーシア リンギット",
+      "symbol_native": "RM",
+      "symbol": "RM",
+      "code": "MYR",
+      "name_plural": "Malaysian ringgits",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "NZD": {
       "name": "ニュージーランド ドル",
       "symbol_native": "$",
@@ -5937,6 +6126,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "MYR": {
+      "name": "马来西亚林吉特",
+      "symbol_native": "RM",
+      "symbol": "RM",
+      "code": "MYR",
+      "name_plural": "Malaysian ringgits",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "NZD": {
       "name": "新西兰元",
       "symbol_native": "$",
@@ -6206,6 +6404,15 @@
       "symbol": "MX$",
       "code": "MXN",
       "name_plural": "Mexican pesos",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "MYR": {
+      "name": "马来西亚林吉特",
+      "symbol_native": "RM",
+      "symbol": "RM",
+      "code": "MYR",
+      "name_plural": "Malaysian ringgits",
       "rounding": 0,
       "decimal_digits": 2
     },
