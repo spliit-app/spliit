@@ -130,8 +130,8 @@ export const expenseFormSchema = z
         z.object({
           id: z.string(),
           url: z.string().url(),
-          width: z.number().int().min(1),
-          height: z.number().int().min(1),
+          width: z.number().int().min(1).nullish(),
+          height: z.number().int().min(1).nullish(),
         }),
       )
       .default([]),

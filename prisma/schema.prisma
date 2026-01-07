@@ -68,8 +68,8 @@ model Expense {
 model ExpenseDocument {
   id        String   @id
   url       String
-  width     Int
-  height    Int
+  width     Int?
+  height    Int?
   Expense   Expense? @relation(fields: [expenseId], references: [id])
   expenseId String?
 }
