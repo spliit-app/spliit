@@ -20,7 +20,7 @@ import { useToast } from '@/components/ui/use-toast'
 import { randomId } from '@/lib/api'
 import { ExpenseFormValues } from '@/lib/schemas'
 import { formatFileSize } from '@/lib/utils'
-import { Loader2, Plus, Trash, X } from 'lucide-react'
+import { FileText, Loader2, Plus, Trash, X } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import { getImageData, usePresignedUpload } from 'next-s3-upload'
 import Image from 'next/image'
@@ -56,8 +56,16 @@ export function ExpenseDocumentsInput({ documents, updateDocuments }: Props) {
     const upload = async () => {
       try {
         setPending(true)
-        const { width, height } = await getImageData(file)
-        if (!width || !height) throw new Error('Cannot get image dimensions')
+        let width = null
+        let height = null
+
+        if (file.type.startsWith('image/')) {
+          const dims = await getImageData(file)
+          width = dims.width
+          height = dims.height
+          if (!width || !height) throw new Error('Cannot get image dimensions')
+        }
+
         const { url } = await uploadToS3(file)
         updateDocuments([...documents, { id: randomId(), url, width, height }])
       } catch (err) {
@@ -84,7 +92,10 @@ export function ExpenseDocumentsInput({ documents, updateDocuments }: Props) {
 
   return (
     <div>
-      <FileInput onChange={handleFileChange} accept="image/jpeg,image/png" />
+      <FileInput
+        onChange={handleFileChange}
+        accept="image/jpeg,image/png,application/pdf"
+      />
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 [&_*]:aspect-square">
         {documents.map((doc) => (
@@ -147,15 +158,19 @@ export function DocumentThumbnail({
       <DialogTrigger asChild>
         <Button
           variant="secondary"
-          className="w-full h-full border overflow-hidden rounded shadow-inner"
+          className="w-full h-full border overflow-hidden rounded shadow-inner p-0"
         >
-          <Image
-            width={300}
-            height={300}
-            className="object-contain"
-            src={document.url}
-            alt=""
-          />
+          {document.width && document.height ? (
+            <Image
+              width={300}
+              height={300}
+              className="object-contain"
+              src={document.url}
+              alt=""
+            />
+          ) : (
+            <FileText className="w-12 h-12 text-muted-foreground" />
+          )}
         </Button>
       </DialogTrigger>
       <DialogContent className="p-4 w-[100vw] max-w-[100vw] h-[100dvh] max-h-[100dvh] sm:max-w-[calc(100vw-32px)] sm:max-h-[calc(100dvh-32px)] [&>:last-child]:hidden">
@@ -194,13 +209,20 @@ export function DocumentThumbnail({
             <CarouselContent>
               {documents.map((document, index) => (
                 <CarouselItem key={index}>
-                  <Image
-                    className="object-contain w-[calc(100vw-32px)] h-[calc(100dvh-32px-40px-16px-48px)] sm:w-[calc(100vw-32px-32px)] sm:h-[calc(100dvh-32px-40px-16px-32px-48px)]"
-                    src={document.url}
-                    width={document.width}
-                    height={document.height}
-                    alt=""
-                  />
+                  {document.width && document.height ? (
+                    <Image
+                      className="object-contain w-[calc(100vw-32px)] h-[calc(100dvh-32px-40px-16px-48px)] sm:w-[calc(100vw-32px-32px)] sm:h-[calc(100dvh-32px-40px-16px-32px-48px)]"
+                      src={document.url}
+                      width={document.width}
+                      height={document.height}
+                      alt=""
+                    />
+                  ) : (
+                    <iframe
+                      className="w-[calc(100vw-32px)] h-[calc(100dvh-32px-40px-16px-48px)] sm:w-[calc(100vw-32px-32px)] sm:h-[calc(100dvh-32px-40px-16px-32px-48px)]"
+                      src={document.url}
+                    />
+                  )}
                 </CarouselItem>
               ))}
             </CarouselContent>
