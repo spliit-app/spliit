@@ -121,7 +121,80 @@
         "none": "Nenhum",
         "description": "Utilizador usado por defeito para pagar despesas."
       },
-      "save": "Gravar"
+      "save": "Gravar",
+      "saving": "A guardar…",
+      "create": "Criar",
+      "creating": "A criar…",
+      "cancel": "Cancelar"
+    }
+  },
+  "ExpenseForm": {
+    "Income": {
+      "TitleField": {
+        "placeholder": "Restaurante de segunda à noite",
+        "label": "Título",
+        "description": "Descrição do ganho."
+      },
+      "create": "Registar ganho",
+      "edit": "Editar ganho",
+      "DateField": {
+        "label": "Data",
+        "description": "Data em que recebeste o montante."
+      },
+      "currencyField": {
+        "label": "Moeda",
+        "description": "A moeda em que recebeste o montante."
+      },
+      "categoryFieldDescription": "A categoria deste ganho.",
+      "paidByField": {
+        "label": "Recebido por",
+        "description": "Seleciona o participante que recebeu o montante."
+      },
+      "paidFor": {
+        "title": ""
+      },
+      "splitModeDescription": "Como dividir o ganho.",
+      "attachDescription": "Consulta e anexa recibos ao ganho."
+    },
+    "Expense": {
+      "create": "Registar despesa",
+      "edit": "Editar despesa",
+      "TitleField": {
+        "label": "Título",
+        "placeholder": "Restaurante de segunda à noite",
+        "description": "Descrição da despesa."
+      },
+      "DateField": {
+        "label": "Data",
+        "description": "Data em que a despesa foi paga."
+      },
+      "currencyField": {
+        "label": "Moeda",
+        "description": "A moeda na qual a despesa foi paga."
+      },
+      "paidByField": {
+        "label": "Paga por",
+        "placeholder": "Seleciona um participante",
+        "description": "Seleciona o participante que pagou esta despesa."
+      },
+      "recurrenceRule": {
+        "label": "Recorrência",
+        "description": "Frequência com que a despesa se deve repetir.",
+        "none": "Nenhuma",
+        "daily": "Diária",
+        "weekly": "Semanal",
+        "monthly": "Mensal"
+      },
+      "paidFor": {
+        "title": "Paga a",
+        "description": "A quem a despesa foi paga."
+      },
+      "splitModeDescription": "Como dividir a despesa.",
+      "attachDescription": "Consulta e anexa recibos à despesa.",
+      "categoryFieldDescription": "Categoria da despesa."
+    },
+    "amountField": {
+      "label": "Montante"
     }
   }
 }
