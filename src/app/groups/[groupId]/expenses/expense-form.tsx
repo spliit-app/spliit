@@ -54,7 +54,8 @@ import {
 import { AppRouterOutput } from '@/trpc/routers/_app'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RecurrenceRule } from '@prisma/client'
-import { ChevronRight, Save } from 'lucide-react'
+import { Calculator, ChevronRight, Save } from 'lucide-react'
+import { AmountCalculator } from './amount-calculator'
 import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
@@ -64,6 +65,8 @@ import { match } from 'ts-pattern'
 import { DeletePopup } from '../../../../components/delete-popup'
 import { extractCategoryFromTitle } from '../../../../components/expense-form-actions'
 import { Textarea } from '../../../../components/ui/textarea'
+import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
 const enforceCurrencyPattern = (value: string) =>
   value
@@ -187,29 +190,29 @@ export function ExpenseForm({
     resolver: zodResolver(expenseFormSchema),
     defaultValues: expense
       ? {
-          title: expense.title,
-          expenseDate: expense.expenseDate ?? new Date(),
-          amount: amountAsDecimal(expense.amount, groupCurrency),
-          originalCurrency: expense.originalCurrency ?? group.currencyCode,
-          originalAmount: expense.originalAmount ?? undefined,
-          conversionRate: expense.conversionRate?.toNumber(),
-          category: expense.categoryId,
-          paidBy: expense.paidById,
-          paidFor: expense.paidFor.map(({ participantId, shares }) => ({
-            participant: participantId,
-            shares: (expense.splitMode === 'BY_AMOUNT'
-              ? amountAsDecimal(shares, groupCurrency)
-              : (shares / 100).toString()) as any, // Convert to string to ensure consistent handling
-          })),
-          splitMode: expense.splitMode,
-          saveDefaultSplittingOptions: false,
-          isReimbursement: expense.isReimbursement,
-          documents: expense.documents,
-          notes: expense.notes ?? '',
-          recurrenceRule: expense.recurrenceRule ?? undefined,
-        }
+        title: expense.title,
+        expenseDate: expense.expenseDate ?? new Date(),
+        amount: amountAsDecimal(expense.amount, groupCurrency),
+        originalCurrency: expense.originalCurrency ?? group.currencyCode,
+        originalAmount: expense.originalAmount ?? undefined,
+        conversionRate: expense.conversionRate?.toNumber(),
+        category: expense.categoryId,
+        paidBy: expense.paidById,
+        paidFor: expense.paidFor.map(({ participantId, shares }) => ({
+          participant: participantId,
+          shares: (expense.splitMode === 'BY_AMOUNT'
+            ? amountAsDecimal(shares, groupCurrency)
+            : (shares / 100).toString()) as any, // Convert to string to ensure consistent handling
+        })),
+        splitMode: expense.splitMode,
+        saveDefaultSplittingOptions: false,
+        isReimbursement: expense.isReimbursement,
+        documents: expense.documents,
+        notes: expense.notes ?? '',
+        recurrenceRule: expense.recurrenceRule ?? undefined,
+      }
       : searchParams.get('reimbursement')
-      ? {
+        ? {
           title: t('reimbursement'),
           expenseDate: new Date(),
           amount: amountAsDecimal(
@@ -224,9 +227,9 @@ export function ExpenseForm({
           paidFor: [
             searchParams.get('to')
               ? {
-                  participant: searchParams.get('to')!,
-                  shares: '1' as any, // String for consistent form handling
-                }
+                participant: searchParams.get('to')!,
+                shares: '1' as any, // String for consistent form handling
+              }
               : undefined,
           ],
           isReimbursement: true,
@@ -236,7 +239,7 @@ export function ExpenseForm({
           notes: '',
           recurrenceRule: RecurrenceRule.NONE,
         }
-      : {
+        : {
           title: searchParams.get('title') ?? '',
           expenseDate: searchParams.get('date')
             ? new Date(searchParams.get('date') as string)
@@ -256,13 +259,13 @@ export function ExpenseForm({
           saveDefaultSplittingOptions: false,
           documents: searchParams.get('imageUrl')
             ? [
-                {
-                  id: randomId(),
-                  url: searchParams.get('imageUrl') as string,
-                  width: Number(searchParams.get('imageWidth')),
-                  height: Number(searchParams.get('imageHeight')),
-                },
-              ]
+              {
+                id: randomId(),
+                url: searchParams.get('imageUrl') as string,
+                width: Number(searchParams.get('imageWidth')),
+                height: Number(searchParams.get('imageHeight')),
+              },
+            ]
             : [],
           notes: '',
           recurrenceRule: RecurrenceRule.NONE,
@@ -415,9 +418,8 @@ export function ExpenseForm({
     let ratesDisplay = ''
     if (exchangeRate.data) {
       // non breaking spaces so the rate text is not split with line feeds
-      ratesDisplay = `${form.getValues('originalCurrency')}\xa01\xa0=\xa0${
-        group.currencyCode
-      }\xa0${exchangeRate.data}`
+      ratesDisplay = `${form.getValues('originalCurrency')}\xa01\xa0=\xa0${group.currencyCode
+        }\xa0${exchangeRate.data}`
     }
     if (exchangeRate.error) {
       if (exchangeRate.error instanceof RangeError && exchangeRate.data)
@@ -537,9 +539,8 @@ export function ExpenseForm({
             />
 
             <div
-              className={`sm:order-4 ${
-                !conversionRequired ? 'max-sm:hidden sm:invisible' : ''
-              } col-span-2 md:col-span-1 space-y-2`}
+              className={`sm:order-4 ${!conversionRequired ? 'max-sm:hidden sm:invisible' : ''
+                } col-span-2 md:col-span-1 space-y-2`}
             >
               <FormField
                 control={form.control}
@@ -609,11 +610,10 @@ export function ExpenseForm({
                     name="conversionRate"
                     render={({ field: { onChange, ...field } }) => (
                       <FormItem
-                        className={`sm:order-4 ${
-                          !conversionRequired
-                            ? 'max-sm:hidden sm:invisible'
-                            : ''
-                        }`}
+                        className={`sm:order-4 ${!conversionRequired
+                          ? 'max-sm:hidden sm:invisible'
+                          : ''
+                          }`}
                       >
                         <FormLabel>{t('conversionRateField.label')}</FormLabel>
                         <div className="flex items-baseline gap-2">
@@ -678,25 +678,46 @@ export function ExpenseForm({
                   <div className="flex items-baseline gap-2">
                     <span>{group.currency}</span>
                     <FormControl>
-                      <Input
-                        className="text-base max-w-[120px]"
-                        type="text"
-                        inputMode="decimal"
-                        placeholder="0.00"
-                        onChange={(event) => {
-                          const v = enforceCurrencyPattern(event.target.value)
-                          const income = Number(v) < 0
-                          setIsIncome(income)
-                          if (income) form.setValue('isReimbursement', false)
-                          onChange(v)
-                        }}
-                        onFocus={(e) => {
-                          // we're adding a small delay to get around safaris issue with onMouseUp deselecting things again
-                          const target = e.currentTarget
-                          setTimeout(() => target.select(), 1)
-                        }}
-                        {...field}
-                      />
+                      <InputGroup className="text-base max-w-[120px]">
+                        <InputGroupInput
+                          type="text"
+                          inputMode="decimal"
+                          placeholder="0.00"
+                          onChange={(event) => {
+                            const v = enforceCurrencyPattern(event.target.value)
+                            const income = Number(v) < 0
+                            setIsIncome(income)
+                            if (income) form.setValue('isReimbursement', false)
+                            onChange(v)
+                          }}
+                          onFocus={(e) => {
+                            // we're adding a small delay to get around safaris issue with onMouseUp deselecting things again
+                            const target = e.currentTarget
+                            setTimeout(() => target.select(), 1)
+                          }}
+                          {...field}
+                        />
+                        <InputGroupAddon className='pr-0' align="inline-end">
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button variant="ghost" size="icon">
+                                <Calculator/>
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent side='right' className="w-auto p-3">
+                              <AmountCalculator 
+                                initialValue={String(field.value || '')}
+                                onApply={(value) => {
+                                  const income = Number(value) < 0
+                                  setIsIncome(income)
+                                  if (income) form.setValue('isReimbursement', false)
+                                  onChange(value)
+                                }}
+                              />
+                            </PopoverContent>
+                          </Popover>
+                        </InputGroupAddon>
+                      </InputGroup>
                     </FormControl>
                   </div>
                   <FormMessage />
@@ -823,11 +844,11 @@ export function ExpenseForm({
                   const newPaidFor = allSelected
                     ? []
                     : group.participants.map((p) => ({
-                        participant: p.id,
-                        shares: (paidFor.find(
-                          (pfor) => pfor.participant === p.id,
-                        )?.shares ?? '1') as any, // Use string to ensure consistent schema handling
-                      }))
+                      participant: p.id,
+                      shares: (paidFor.find(
+                        (pfor) => pfor.participant === p.id,
+                      )?.shares ?? '1') as any, // Use string to ensure consistent schema handling
+                    }))
                   form.setValue('paidFor', newPaidFor as any, {
                     shouldDirty: true,
                     shouldTouch: true,
@@ -836,7 +857,7 @@ export function ExpenseForm({
                 }}
               >
                 {form.getValues().paidFor.length ===
-                group.participants.length ? (
+                  group.participants.length ? (
                   <>{t('selectNone')}</>
                 ) : (
                   <>{t('selectAll')}</>
@@ -861,9 +882,8 @@ export function ExpenseForm({
                       render={({ field }) => {
                         return (
                           <div
-                            data-id={`${id}/${form.getValues().splitMode}/${
-                              group.currency
-                            }`}
+                            data-id={`${id}/${form.getValues().splitMode}/${group.currency
+                              }`}
                             className="flex flex-wrap gap-y-4 items-center border-t last-of-type:border-b last-of-type:!mb-4 -mx-6 px-6 py-3"
                           >
                             <FormItem className="flex-1 flex flex-row items-start space-x-3 space-y-0">
@@ -880,23 +900,23 @@ export function ExpenseForm({
                                     }
                                     checked
                                       ? form.setValue(
-                                          'paidFor',
-                                          [
-                                            ...field.value,
-                                            {
-                                              participant: id,
-                                              shares: '1', // Use string to ensure consistent schema handling
-                                            },
-                                          ] as any,
-                                          options,
-                                        )
+                                        'paidFor',
+                                        [
+                                          ...field.value,
+                                          {
+                                            participant: id,
+                                            shares: '1', // Use string to ensure consistent schema handling
+                                          },
+                                        ] as any,
+                                        options,
+                                      )
                                       : form.setValue(
-                                          'paidFor',
-                                          field.value?.filter(
-                                            (value) => value.participant !== id,
-                                          ),
-                                          options,
-                                        )
+                                        'paidFor',
+                                        field.value?.filter(
+                                          (value) => value.participant !== id,
+                                        ),
+                                        options,
+                                      )
                                   }}
                                 />
                               </FormControl>
@@ -924,15 +944,15 @@ export function ExpenseForm({
                                               },
                                               shares:
                                                 form.watch('splitMode') ===
-                                                'BY_PERCENTAGE'
+                                                  'BY_PERCENTAGE'
                                                   ? Number(shares) * 100 // Convert percentage to basis points (e.g., 50% -> 5000)
                                                   : form.watch('splitMode') ===
                                                     'BY_AMOUNT'
-                                                  ? amountAsMinorUnits(
+                                                    ? amountAsMinorUnits(
                                                       shares,
                                                       groupCurrency,
                                                     )
-                                                  : shares,
+                                                    : shares,
                                               expenseId: '',
                                               participantId: '',
                                             }),
@@ -1017,15 +1037,15 @@ export function ExpenseForm({
                                                     field.value.map((p) =>
                                                       p.participant === id
                                                         ? {
-                                                            participant: id,
-                                                            originalAmount:
-                                                              event.target
-                                                                .value,
-                                                            shares:
-                                                              enforceCurrencyPattern(
-                                                                convertedAmount,
-                                                              ),
-                                                          }
+                                                          participant: id,
+                                                          originalAmount:
+                                                            event.target
+                                                              .value,
+                                                          shares:
+                                                            enforceCurrencyPattern(
+                                                              convertedAmount,
+                                                            ),
+                                                        }
                                                         : p,
                                                     ),
                                                   )
@@ -1107,13 +1127,13 @@ export function ExpenseForm({
                                                   field.value.map((p) =>
                                                     p.participant === id
                                                       ? {
-                                                          participant: id,
-                                                          shares:
-                                                            enforceCurrencyPattern(
-                                                              event.target
-                                                                .value,
-                                                            ),
-                                                        }
+                                                        participant: id,
+                                                        shares:
+                                                          enforceCurrencyPattern(
+                                                            event.target
+                                                              .value,
+                                                          ),
+                                                      }
                                                       : p,
                                                   ),
                                                 )
@@ -1124,15 +1144,15 @@ export function ExpenseForm({
                                               }}
                                               inputMode={
                                                 form.getValues().splitMode ===
-                                                'BY_AMOUNT'
+                                                  'BY_AMOUNT'
                                                   ? 'decimal'
                                                   : 'numeric'
                                               }
                                               step={
                                                 form.getValues().splitMode ===
-                                                'BY_AMOUNT'
+                                                  'BY_AMOUNT'
                                                   ? 10 **
-                                                    -groupCurrency.decimal_digits
+                                                  -groupCurrency.decimal_digits
                                                   : 1
                                               }
                                             />
