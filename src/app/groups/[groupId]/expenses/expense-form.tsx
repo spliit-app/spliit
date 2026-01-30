@@ -34,7 +34,6 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Locale } from '@/i18n/request'
-import { randomId } from '@/lib/api'
 import { defaultCurrencyList, getCurrency } from '@/lib/currency'
 import { RuntimeFeatureFlags } from '@/lib/featureFlags'
 import { useActiveUser, useCurrencyRate } from '@/lib/hooks'
@@ -257,7 +256,7 @@ export function ExpenseForm({
           documents: searchParams.get('imageUrl')
             ? [
                 {
-                  id: randomId(),
+                  id: searchParams.get('imageId') as string,
                   url: searchParams.get('imageUrl') as string,
                   width: Number(searchParams.get('imageWidth')),
                   height: Number(searchParams.get('imageHeight')),
@@ -289,6 +288,7 @@ export function ExpenseForm({
       delete values.originalAmount
       delete values.originalCurrency
     }
+
     return onSubmit(values, activeUserId ?? undefined)
   }
 

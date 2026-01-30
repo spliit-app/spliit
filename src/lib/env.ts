@@ -21,6 +21,10 @@ const envSchema = z
       interpretEnvVarAsBool,
       z.boolean().default(false),
     ),
+    NEXT_PUBLIC_S3_MAX_FILE_SIZE: z.preprocess((v) => {
+      if (typeof v === 'string' && v.length) return Number(v)
+      return undefined
+    }, z.number().optional()),
     NEXT_PUBLIC_DEFAULT_CURRENCY_CODE: z.string().optional(),
     S3_UPLOAD_KEY: z.string().optional(),
     S3_UPLOAD_SECRET: z.string().optional(),
@@ -36,6 +40,9 @@ const envSchema = z
       z.boolean().default(false),
     ),
     OPENAI_API_KEY: z.string().optional(),
+    OPENAI_BASE_URL: z.string().optional(),
+    OPENAI_IMAGE_MODEL: z.string().optional(),
+    OPENAI_TEXT_MODEL: z.string().optional(),
   })
   .superRefine((env, ctx) => {
     if (

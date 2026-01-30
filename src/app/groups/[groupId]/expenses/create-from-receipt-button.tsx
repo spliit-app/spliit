@@ -25,6 +25,8 @@ import {
 } from '@/components/ui/drawer'
 import { ToastAction } from '@/components/ui/toast'
 import { useToast } from '@/components/ui/use-toast'
+import { documentUrl, uploadDocument } from '@/lib/api/documents'
+import { MAX_FILE_SIZE, getImageData, useFileInput } from '@/lib/file-utils'
 import { useMediaQuery } from '@/lib/hooks'
 import {
   formatCurrency,
@@ -35,13 +37,10 @@ import {
 import { trpc } from '@/trpc/client'
 import { ChevronRight, FileQuestion, Loader2, Receipt } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
-import { getImageData, usePresignedUpload } from 'next-s3-upload'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { PropsWithChildren, ReactNode, useState } from 'react'
 import { useCurrentGroup } from '../current-group-context'
-
-const MAX_FILE_SIZE = 5 * 1024 ** 2
 
 export function CreateFromReceiptButton() {
   const t = useTranslations('CreateFromReceipt')
@@ -85,12 +84,16 @@ function ReceiptDialogContent() {
   const locale = useLocale()
   const t = useTranslations('CreateFromReceipt')
   const [pending, setPending] = useState(false)
-  const { uploadToS3, FileInput, openFileDialog } = usePresignedUpload()
   const { toast } = useToast()
   const router = useRouter()
   const [receiptInfo, setReceiptInfo] = useState<
     | null
-    | (ReceiptExtractedInfo & { url: string; width?: number; height?: number })
+    | (ReceiptExtractedInfo & {
+        id: string
+        url: string
+        width?: number
+        height?: number
+      })
   >(null)
 
   const handleFileChange = async (file: File) => {
@@ -109,13 +112,32 @@ function ReceiptDialogContent() {
     const upload = async () => {
       try {
         setPending(true)
-        console.log('Uploading image…')
-        let { url } = await uploadToS3(file)
-        console.log('Extracting information from receipt…')
-        const { amount, categoryId, date, title } =
-          await extractExpenseInformationFromImage(url)
         const { width, height } = await getImageData(file)
-        setReceiptInfo({ amount, categoryId, date, title, url, width, height })
+        if (!width || !height) {
+          toast({
+            title: t('ErrorToast.title'),
+            description: t('CannotGetImageDimensions'),
+            variant: 'destructive',
+          })
+          return
+        }
+
+        // upload and get created record
+        const created = await uploadDocument(file, { width, height })
+
+        const { amount, categoryId, date, title } =
+          await extractExpenseInformationFromImage(created.id)
+
+        setReceiptInfo({
+          amount,
+          categoryId,
+          date,
+          title,
+          id: created.id,
+          url: created.url,
+          width,
+          height,
+        })
       } catch (err) {
         console.error(err)
         toast({
@@ -138,6 +160,11 @@ function ReceiptDialogContent() {
     upload()
   }
 
+  const { FileInput, openFileDialog } = useFileInput(
+    handleFileChange,
+    'image/jpeg,image/png',
+  )
+
   const receiptInfoCategory =
     (receiptInfo?.categoryId &&
       categories?.find((c) => String(c.id) === receiptInfo.categoryId)) ||
@@ -147,7 +174,7 @@ function ReceiptDialogContent() {
     <div className="prose prose-sm dark:prose-invert">
       <p>{t('Dialog.body')}</p>
       <div>
-        <FileInput onChange={handleFileChange} accept="image/jpeg,image/png" />
+        <FileInput accept="image/jpeg,image/png" />
         <div className="grid gap-x-4 gap-y-2 grid-cols-3">
           <Button
             variant="secondary"
@@ -161,11 +188,12 @@ function ReceiptDialogContent() {
             ) : receiptInfo ? (
               <div className="absolute top-2 left-2 bottom-2 right-2">
                 <Image
-                  src={receiptInfo.url}
+                  src={documentUrl(receiptInfo.id)}
                   width={receiptInfo.width}
                   height={receiptInfo.height}
                   className="w-full h-full m-0 object-contain drop-shadow-lg"
                   alt="Scanned receipt"
+                  unoptimized={true}
                 />
               </div>
             ) : (
@@ -254,7 +282,9 @@ function ReceiptDialogContent() {
                 receiptInfo.date
               }&title=${encodeURIComponent(
                 receiptInfo.title ?? '',
-              )}&imageUrl=${encodeURIComponent(receiptInfo.url)}&imageWidth=${
+              )}&imageUrl=${encodeURIComponent(
+                receiptInfo.url,
+              )}&imageId=${encodeURIComponent(receiptInfo.id)}&imageWidth=${
                 receiptInfo.width
               }&imageHeight=${receiptInfo.height}`,
             )

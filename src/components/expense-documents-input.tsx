@@ -17,12 +17,12 @@ import {
 } from '@/components/ui/dialog'
 import { ToastAction } from '@/components/ui/toast'
 import { useToast } from '@/components/ui/use-toast'
-import { randomId } from '@/lib/api'
+import { documentUrl, uploadDocument } from '@/lib/api/documents'
+import { MAX_FILE_SIZE, getImageData, useFileInput } from '@/lib/file-utils'
 import { ExpenseFormValues } from '@/lib/schemas'
 import { formatFileSize } from '@/lib/utils'
 import { Loader2, Plus, Trash, X } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
-import { getImageData, usePresignedUpload } from 'next-s3-upload'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
@@ -31,13 +31,10 @@ type Props = {
   updateDocuments: (documents: ExpenseFormValues['documents']) => void
 }
 
-const MAX_FILE_SIZE = 5 * 1024 ** 2
-
 export function ExpenseDocumentsInput({ documents, updateDocuments }: Props) {
   const locale = useLocale()
   const t = useTranslations('ExpenseDocumentsInput')
   const [pending, setPending] = useState(false)
-  const { FileInput, openFileDialog, uploadToS3 } = usePresignedUpload() // use presigned uploads to addtionally support providers other than AWS
   const { toast } = useToast()
 
   const handleFileChange = async (file: File) => {
@@ -57,9 +54,27 @@ export function ExpenseDocumentsInput({ documents, updateDocuments }: Props) {
       try {
         setPending(true)
         const { width, height } = await getImageData(file)
-        if (!width || !height) throw new Error('Cannot get image dimensions')
-        const { url } = await uploadToS3(file)
-        updateDocuments([...documents, { id: randomId(), url, width, height }])
+        if (!width || !height) {
+          // avoid throwing an error that will be immediately caught; show a toast and abort
+          toast({
+            title: t('ErrorToast.title'),
+            description: t('CannotGetImageDimensions'),
+            variant: 'destructive',
+          })
+          return
+        }
+        // upload and get created record
+        const created = await uploadDocument(file, { width, height })
+
+        updateDocuments([
+          ...documents,
+          {
+            id: created.id,
+            url: created.url,
+            width: created.width,
+            height: created.height,
+          },
+        ])
       } catch (err) {
         console.error(err)
         toast({
@@ -82,9 +97,14 @@ export function ExpenseDocumentsInput({ documents, updateDocuments }: Props) {
     upload()
   }
 
+  const { FileInput, openFileDialog } = useFileInput(
+    handleFileChange,
+    'image/jpeg,image/png',
+  )
+
   return (
     <div>
-      <FileInput onChange={handleFileChange} accept="image/jpeg,image/png" />
+      <FileInput accept="image/jpeg,image/png" />
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 [&_*]:aspect-square">
         {documents.map((doc) => (
@@ -153,8 +173,9 @@ export function DocumentThumbnail({
             width={300}
             height={300}
             className="object-contain"
-            src={document.url}
+            src={documentUrl(document.id)}
             alt=""
+            unoptimized={true}
           />
         </Button>
       </DialogTrigger>
@@ -196,10 +217,11 @@ export function DocumentThumbnail({
                 <CarouselItem key={index}>
                   <Image
                     className="object-contain w-[calc(100vw-32px)] h-[calc(100dvh-32px-40px-16px-48px)] sm:w-[calc(100vw-32px-32px)] sm:h-[calc(100dvh-32px-40px-16px-32px-48px)]"
-                    src={document.url}
+                    src={documentUrl(document.id)}
                     width={document.width}
                     height={document.height}
                     alt=""
+                    unoptimized={true}
                   />
                 </CarouselItem>
               ))}

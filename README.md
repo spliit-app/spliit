@@ -81,7 +81,7 @@ The application has a health check endpoint that can be used to check if the app
 
 Spliit offers users to upload images (to an AWS S3 bucket) and attach them to expenses. To enable this feature:
 
-- Follow the instructions in the _S3 bucket_ and _IAM user_ sections of [next-s3-upload](https://next-s3-upload.codingvalue.com/setup#s3-bucket) to create and set up an S3 bucket where images will be stored.
+- Create an S3 bucket on AWS or any S3-compatible provider.
 - Update your environments variables with appropriate values:
 
 ```.env
@@ -100,17 +100,18 @@ S3_UPLOAD_ENDPOINT=http://localhost:9000
 
 ### Create expense from receipt
 
-You can offer users to create expense by uploading a receipt. This feature relies on [OpenAI GPT-4 with Vision](https://platform.openai.com/docs/guides/vision) and a public S3 storage endpoint.
+You can offer users to create expense by uploading a receipt. This feature relies on a vision-enabled LLM, and S3 storage for the uploaded images.
 
 To enable the feature:
 
 - You must enable expense documents feature as well (see section above). That might change in the future, but for now we need to store images to make receipt scanning work.
-- Subscribe to OpenAI API and get access to GPT 4 with Vision (you might need to buy credits in advance).
+- Subscribe to an OpenAI API compatible provider and get access to model with _vision_.
 - Update your environment variables with appropriate values:
 
 ```.env
 NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT=true
 OPENAI_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+OPENAI_IMAGE_MODEL=gpt-5-nano
 ```
 
 ### Deduce category from title
@@ -120,6 +121,7 @@ You can offer users to automatically deduce the expense category from the title.
 ```.env
 NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT=true
 OPENAI_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+OPENAI_TEXT_MODEL=gtp3.5-turbo
 ```
 
 ## License
