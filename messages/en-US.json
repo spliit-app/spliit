@@ -73,7 +73,17 @@
       "button": "Add by URL",
       "title": "Add a group by URL",
       "description": "If a group was shared with you, you can paste its URL here to add it to your list.",
-      "error": "Oops, we are not able to find the group from the URL you provided…"
+      "error": "Oops, we are not able to find the group from the URL you provided…",
+      "urlMode": "Enter URL",
+      "qrMode": "Scan QR",
+      "scanner": {
+        "startCamera": "Start Camera",
+        "stopScanning": "Stop Scanning",
+        "permissionDenied": "Camera permission denied. Please allow camera access to scan QR codes.",
+        "noCamera": "No camera found on this device.",
+        "cameraError": "Failed to start camera. Please try again.",
+        "permissionError": "Unable to access camera. Please check permissions."
+      }
     },
     "NotFound": {
       "text": "This group does not exist.",
@@ -347,7 +357,12 @@
     "title": "Share",
     "description": "For other participants to see the group and add expenses, share its URL with them.",
     "warning": "Warning!",
-    "warningHelp": "Every person with the group URL will be able to see and edit expenses. Share with caution!"
+    "warningHelp": "Every person with the group URL will be able to see and edit expenses. Share with caution!",
+    "qrCode": {
+      "title": "Share via QR Code",
+      "description": "Scan this QR code to open the group on any device.",
+      "download": "Download QR Code"
+    }
   },
   "SchemaErrors": {
     "min1": "Enter at least one character.",
