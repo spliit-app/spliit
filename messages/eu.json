@@ -252,7 +252,13 @@
     "save": "Gorde",
     "saving": "Gordetzen…",
     "cancel": "Utzi",
-    "reimbursement": "Diru-itzultzea"
+    "reimbursement": "Diru-itzultzea",
+    "Calculator": {
+      "applyButton": "Aplikatu",
+      "keyboardHintCalculate": "Erabili teklatua • Enter kalkulatzeko",
+      "keyboardHintApply": "Erabili teklatua • Enter aplikatzeko",
+      "openCalculator": "Ireki zenbateko kalkulagailua"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {

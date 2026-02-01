@@ -214,7 +214,13 @@
     "save": "Uložit",
     "saving": "Ukládání…",
     "cancel": "Zrušit",
-    "reimbursement": "Proplacení"
+    "reimbursement": "Proplacení",
+    "Calculator": {
+      "applyButton": "Použít",
+      "keyboardHintCalculate": "Použijte klávesnici • Enter pro výpočet",
+      "keyboardHintApply": "Použijte klávesnici • Enter pro aplikaci",
+      "openCalculator": "Otevřít kalkulačku částky"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {

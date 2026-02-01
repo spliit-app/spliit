@@ -231,6 +231,12 @@
       "success": "Taxas obtidas:",
       "error": "Opa, não conseguimos obter as taxas mais recentes.",
       "refresh": "Atualizar"
+    },
+    "Calculator": {
+      "applyButton": "Aplicar",
+      "keyboardHintCalculate": "Use o teclado • Enter para calcular",
+      "keyboardHintApply": "Use o teclado • Enter para aplicar",
+      "openCalculator": "Abrir calculadora de valor"
     }
   },
   "ExpenseDocumentsInput": {

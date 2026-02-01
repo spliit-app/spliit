@@ -252,6 +252,12 @@
       "refresh": "更新",
       "customRate": "カスタムレートを使用中",
       "dateMismatch": "適用開始日: {date}"
+    },
+    "Calculator": {
+      "applyButton": "適用",
+      "keyboardHintCalculate": "キーボードを使用 • Enterで計算",
+      "keyboardHintApply": "キーボードを使用 • Enterで適用",
+      "openCalculator": "金額計算機を開く"
     }
   },
   "ExpenseDocumentsInput": {

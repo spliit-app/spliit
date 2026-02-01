@@ -252,6 +252,12 @@
       "dateMismatch": "Tasas para la fecha: {date}",
       "refresh": "Actualizar",
       "customRate": "Utilizando tasa personalizada"
+    },
+    "Calculator": {
+      "applyButton": "Aplicar",
+      "keyboardHintCalculate": "Usar teclado • Enter para calcular",
+      "keyboardHintApply": "Usar teclado • Enter para aplicar",
+      "openCalculator": "Abrir calculadora de importe"
     }
   },
   "ExpenseDocumentsInput": {

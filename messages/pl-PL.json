@@ -214,7 +214,13 @@
     "save": "Zapisz",
     "saving": "Zapisywanie…",
     "cancel": "Anuluj",
-    "reimbursement": "Zwrot środków"
+    "reimbursement": "Zwrot środków",
+    "Calculator": {
+      "applyButton": "Zastosuj",
+      "keyboardHintCalculate": "Użyj klawiatury • Enter aby obliczyć",
+      "keyboardHintApply": "Użyj klawiatury • Enter aby zastosować",
+      "openCalculator": "Otwórz kalkulator kwoty"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {

@@ -205,7 +205,13 @@
     "save": "儲存",
     "saving": "儲存中……",
     "cancel": "取消",
-    "reimbursement": "報銷"
+    "reimbursement": "報銷",
+    "Calculator": {
+      "applyButton": "套用",
+      "keyboardHintCalculate": "使用鍵盤 • Enter 鍵計算",
+      "keyboardHintApply": "使用鍵盤 • Enter 鍵套用",
+      "openCalculator": "開啟金額計算機"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {

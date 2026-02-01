@@ -8,6 +8,11 @@ import { useState, useCallback, useEffect, useRef } from 'react'
 interface AmountCalculatorProps {
   onApply: (value: string) => void
   initialValue?: string
+  translations?: {
+    applyButton: string
+    keyboardHintCalculate: string
+    keyboardHintApply: string
+  }
 }
 
 type Operator = '+' | '-' | '×' | '÷'
@@ -15,10 +20,17 @@ type Operator = '+' | '-' | '×' | '÷'
 const isOperator = (char: string): char is Operator => 
   ['+', '-', '×', '÷'].includes(char)
 
-export function AmountCalculator({ onApply, initialValue }: AmountCalculatorProps) {
+export function AmountCalculator({ onApply, initialValue, translations }: AmountCalculatorProps) {
   const [display, setDisplay] = useState(initialValue || '0')
   const [hasResult, setHasResult] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
+
+  // Default translations if not provided
+  const t = translations || {
+    applyButton: 'Apply',
+    keyboardHintCalculate: 'Use keyboard • Enter to calculate',
+    keyboardHintApply: 'Use keyboard • Enter to apply',
+  }
 
   const getLastChar = () => display.slice(-1)
 
@@ -69,31 +81,92 @@ export function AmountCalculator({ onApply, initialValue }: AmountCalculatorProp
     })
   }, [hasResult])
 
-  const calculate = useCallback(() => {
+  // Safe expression evaluator without eval
+  const evaluateExpression = useCallback((expr: string): number | null => {
     try {
-      // Replace display operators with JS operators
-      const expression = display
-        .replace(/×/g, '*')
-        .replace(/÷/g, '/')
+      // Parse and evaluate the expression safely
+      // Replace display operators with standard ones
+      const normalized = expr.replace(/×/g, '*').replace(/÷/g, '/')
       
       // Remove trailing operator if present
-      const cleanExpression = expression.replace(/[+\-*/]$/, '')
+      const cleaned = normalized.replace(/[+\-*/]$/, '')
       
-      if (!cleanExpression) return
+      if (!cleaned) return null
       
-      // Safe evaluation using Function constructor
-      const result = new Function(`return ${cleanExpression}`)()
+      // Split into tokens (numbers and operators)
+      const tokens: (number | string)[] = []
+      let currentNumber = ''
       
-      if (typeof result === 'number' && isFinite(result)) {
-        // Round to 2 decimal places for currency
-        const rounded = Math.round(result * 100) / 100
-        setDisplay(rounded.toString())
-        setHasResult(true)
+      for (let i = 0; i < cleaned.length; i++) {
+        const char = cleaned[i]
+        if (char === '+' || char === '-' || char === '*' || char === '/') {
+          if (currentNumber) {
+            const num = parseFloat(currentNumber)
+            if (isNaN(num)) return null
+            tokens.push(num)
+            currentNumber = ''
+          }
+          tokens.push(char)
+        } else if ((char >= '0' && char <= '9') || char === '.') {
+          currentNumber += char
+        } else {
+          return null // Invalid character
+        }
       }
+      
+      if (currentNumber) {
+        const num = parseFloat(currentNumber)
+        if (isNaN(num)) return null
+        tokens.push(num)
+      }
+      
+      // Evaluate using operator precedence
+      // First pass: handle * and /
+      let i = 0
+      while (i < tokens.length) {
+        if (tokens[i] === '*' || tokens[i] === '/') {
+          const left = tokens[i - 1] as number
+          const operator = tokens[i] as string
+          const right = tokens[i + 1] as number
+          
+          const result = operator === '*' ? left * right : left / right
+          tokens.splice(i - 1, 3, result)
+        } else {
+          i++
+        }
+      }
+      
+      // Second pass: handle + and -
+      i = 0
+      while (i < tokens.length) {
+        if (tokens[i] === '+' || tokens[i] === '-') {
+          const left = tokens[i - 1] as number
+          const operator = tokens[i] as string
+          const right = tokens[i + 1] as number
+          
+          const result = operator === '+' ? left + right : left - right
+          tokens.splice(i - 1, 3, result)
+        } else {
+          i++
+        }
+      }
+      
+      const result = tokens[0] as number
+      return typeof result === 'number' && isFinite(result) ? result : null
     } catch {
-      // Invalid expression, do nothing
+      return null
     }
-  }, [display])
+  }, [])
+
+  const calculate = useCallback(() => {
+    const result = evaluateExpression(display)
+    if (result !== null) {
+      // Round to 2 decimal places for currency
+      const rounded = Math.round(result * 100) / 100
+      setDisplay(rounded.toString())
+      setHasResult(true)
+    }
+  }, [display, evaluateExpression])
 
   const handleApply = useCallback(() => {
     // Calculate first if there's a pending operation
@@ -102,17 +175,26 @@ export function AmountCalculator({ onApply, initialValue }: AmountCalculatorProp
       return
     }
     
-    // If not already calculated, calculate first
+    let valueToApply = display
+    
+    // If not already calculated, calculate now and use the result
     if (!hasResult && /[+\-×÷]/.test(display)) {
-      calculate()
+      const result = evaluateExpression(display)
+      if (result !== null) {
+        const rounded = Math.round(result * 100) / 100
+        valueToApply = rounded.toString()
+        // Also update display state for consistency
+        setDisplay(valueToApply)
+        setHasResult(true)
+      }
     }
     
-    const value = display.replace(/^0+(?=\d)/, '')
+    const value = valueToApply.replace(/^0+(?=\d)/, '')
     onApply(value || '0')
-  }, [display, hasResult, calculate, onApply])
+  }, [display, hasResult, evaluateExpression, onApply])
 
-  // Keyboard support
-  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+  // Keyboard support - handle at container level instead of globally
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     const key = e.key
     
     // Prevent default for calculator keys to avoid form submission etc.
@@ -169,16 +251,13 @@ export function AmountCalculator({ onApply, initialValue }: AmountCalculatorProp
     }
   }, [appendToDisplay, calculate, backspace, clear, hasResult, handleApply])
 
-  // Auto-focus container and attach keyboard listener
+  // Auto-focus container on mount
   useEffect(() => {
     const container = containerRef.current
     if (container) {
       container.focus()
     }
-
-    document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [handleKeyDown])
+  }, [])
 
   const buttons: (string | { label: React.ReactNode; value: string; className?: string })[] = [
     { label: 'C', value: 'clear', className: 'text-destructive font-semibold' },
@@ -216,6 +295,7 @@ export function AmountCalculator({ onApply, initialValue }: AmountCalculatorProp
       ref={containerRef}
       tabIndex={-1}
       className="flex flex-col gap-3 w-56 outline-none"
+      onKeyDown={handleKeyDown}
     >
       {/* Display */}
       <div className="bg-muted rounded-md p-3 text-right">
@@ -258,12 +338,12 @@ export function AmountCalculator({ onApply, initialValue }: AmountCalculatorProp
         className="w-full mt-1"
         onClick={handleApply}
       >
-        Apply
+        {t.applyButton}
       </Button>
 
       {/* Keyboard hint */}
       <p className="text-xs text-muted-foreground text-center">
-        Use keyboard • Enter to {hasResult ? 'apply' : 'calculate'}
+        {hasResult ? t.keyboardHintApply : t.keyboardHintCalculate}
       </p>
     </div>
   )

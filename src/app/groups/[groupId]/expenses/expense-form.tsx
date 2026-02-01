@@ -701,13 +701,24 @@ export function ExpenseForm({
                         <InputGroupAddon className='pr-0' align="inline-end">
                           <Popover open={isCalculatorOpen} onOpenChange={setIsCalculatorOpen}>
                             <PopoverTrigger asChild>
-                              <Button variant="ghost" size="icon">
+                              <Button 
+                                type="button"
+                                variant="ghost" 
+                                size="icon"
+                                aria-label={t('Calculator.openCalculator')}
+                                title={t('Calculator.openCalculator')}
+                              >
                                 <Calculator />
                               </Button>
                             </PopoverTrigger>
                             <PopoverContent side='right' className="w-auto p-3">
                               <AmountCalculator
                                 initialValue={String(field.value || '')}
+                                translations={{
+                                  applyButton: t('Calculator.applyButton'),
+                                  keyboardHintCalculate: t('Calculator.keyboardHintCalculate'),
+                                  keyboardHintApply: t('Calculator.keyboardHintApply'),
+                                }}
                                 onApply={(value) => {
                                   const income = Number(value) < 0
                                   setIsIncome(income)
