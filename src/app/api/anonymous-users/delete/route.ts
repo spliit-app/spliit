@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma'
 import { NextResponse } from 'next/server'
 import { rateLimit, getRateLimitIdentifier } from '@/lib/rate-limit'
+import { requireSession, deleteSessionCookie } from '@/lib/session'
 
 export async function POST(request: Request) {
   // Apply rate limiting
@@ -21,10 +22,28 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Missing id' }, { status: 400 })
   }
 
+  // Require valid session and verify user owns the account
+  const authResult = await requireSession(request)
+  if ('error' in authResult) {
+    return authResult.error
+  }
+
+  if (authResult.session.userId !== body.id) {
+    return NextResponse.json(
+      { error: 'Not authorized to delete this account' },
+      { status: 403 }
+    )
+  }
+
   try {
     await prisma.anonymousUser.delete({
       where: { id: body.id },
     })
+    
+    const response = NextResponse.json({ ok: true })
+    response.headers.set('Set-Cookie', deleteSessionCookie())
+    
+    return response
   } catch (error) {
     return NextResponse.json(
       { error: 'Failed to delete account' },

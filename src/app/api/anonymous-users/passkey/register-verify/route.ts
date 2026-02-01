@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import { verifyRegistrationResponse } from '@simplewebauthn/server'
 import { prisma } from '@/lib/prisma'
 import { rateLimit, getRateLimitIdentifier } from '@/lib/rate-limit'
+import {
+  sessionStore,
+  createSessionCookie,
+  getSessionToken,
+  SESSION_MAX_AGE,
+} from '@/lib/session'
 
 function getRpId(request: NextRequest) {
   try {
@@ -33,22 +39,38 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const { userId, response, challenge } = await request.json() as {
+    const { userId, response: credentialResponse } = await request.json() as {
       userId: string
       response: any
-      challenge: string
     }
 
-    if (!userId || !response || !challenge) {
+    if (!userId || !credentialResponse) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
       )
     }
 
+    // Get challenge from server-side session
+    const sessionToken = getSessionToken(request)
+    if (!sessionToken) {
+      return NextResponse.json(
+        { error: 'No active session. Please restart registration.' },
+        { status: 401 }
+      )
+    }
+
+    const expectedChallenge = await sessionStore.getChallenge(sessionToken)
+    if (!expectedChallenge) {
+      return NextResponse.json(
+        { error: 'Challenge expired or invalid. Please restart registration.' },
+        { status: 401 }
+      )
+    }
+
     const verification = await verifyRegistrationResponse({
-      response,
-      expectedChallenge: challenge,
+      response: credentialResponse,
+      expectedChallenge,
       expectedOrigin: getExpectedOrigin(request),
       expectedRPID: getRpId(request),
     })
@@ -74,7 +96,13 @@ export async function POST(request: NextRequest) {
       },
     })
 
-    return NextResponse.json({ verified: true })
+    // Update session to verified state with full expiration
+    const newSessionToken = await sessionStore.create(userId)
+    
+    const response = NextResponse.json({ verified: true })
+    response.headers.set('Set-Cookie', createSessionCookie(newSessionToken, SESSION_MAX_AGE))
+    
+    return response
   } catch (error) {
     console.error('Error verifying registration:', error)
     

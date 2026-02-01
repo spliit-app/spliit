@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { generateRegistrationOptions } from '@simplewebauthn/server'
 import { rateLimit, getRateLimitIdentifier } from '@/lib/rate-limit'
+import { sessionStore, createSessionCookie, getSession } from '@/lib/session'
 
 const rpName = 'Spliit'
 
@@ -50,7 +51,31 @@ export async function POST(request: NextRequest) {
       },
     })
 
-    return NextResponse.json(options)
+    // Create or get session to store challenge
+    let session = await getSession(request)
+    let sessionToken: string
+    
+    if (!session) {
+      // Create temporary session for registration
+      sessionToken = await sessionStore.create(userId, 10 * 60 * 1000) // 10 min for registration
+    } else {
+      sessionToken = request.headers.get('cookie')?.split(';')
+        .find(c => c.trim().startsWith('anon_session='))
+        ?.split('=')[1] || await sessionStore.create(userId)
+    }
+    
+    // Store challenge server-side
+    await sessionStore.storeChallenge(sessionToken, options.challenge)
+    
+    const response = NextResponse.json({
+      ...options,
+      // Don't send challenge to client
+      challenge: undefined,
+    })
+    
+    response.headers.set('Set-Cookie', createSessionCookie(sessionToken, 600)) // 10 min cookie
+    
+    return response
   } catch (error) {
     console.error('Error generating registration options:', error)
     return NextResponse.json(

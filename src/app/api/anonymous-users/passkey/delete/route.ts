@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma'
 import { NextResponse } from 'next/server'
 import { rateLimit, getRateLimitIdentifier } from '@/lib/rate-limit'
+import { requireSession } from '@/lib/session'
 
 export async function POST(request: Request) {
   // Apply rate limiting
@@ -19,6 +20,19 @@ export async function POST(request: Request) {
 
   if (!body?.userId) {
     return NextResponse.json({ error: 'Missing userId' }, { status: 400 })
+  }
+
+  // Require valid session and verify user owns the account
+  const authResult = await requireSession(request)
+  if ('error' in authResult) {
+    return authResult.error
+  }
+
+  if (authResult.session.userId !== body.userId) {
+    return NextResponse.json(
+      { error: 'Not authorized to delete passkey for this account' },
+      { status: 403 }
+    )
   }
 
   try {

@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma'
 import { NextResponse } from 'next/server'
 import { rateLimit, getRateLimitIdentifier } from '@/lib/rate-limit'
+import { requireSession, deleteSessionCookie } from '@/lib/session'
 
 export async function GET(request: Request) {
   // Apply rate limiting
@@ -66,6 +67,19 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Missing fields' }, { status: 400 })
   }
 
+  // Require valid session and verify user owns the account
+  const authResult = await requireSession(request)
+  if ('error' in authResult) {
+    return authResult.error
+  }
+
+  if (authResult.session.userId !== body.id) {
+    return NextResponse.json(
+      { error: 'Not authorized to modify groups for this account' },
+      { status: 403 }
+    )
+  }
+
   // If groups array is empty, check if user should be deleted
   if (body.groups.length === 0) {
     const existingUser = await prisma.anonymousUser.findUnique({
@@ -81,7 +95,11 @@ export async function POST(request: Request) {
       await prisma.anonymousUser.delete({
         where: { id: body.id },
       })
-      return NextResponse.json({ ok: true, deleted: true })
+      
+      const response = NextResponse.json({ ok: true, deleted: true })
+      response.headers.set('Set-Cookie', deleteSessionCookie())
+      
+      return response
     }
     
     // If user has auth configured, just remove groups

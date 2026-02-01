@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { verifyAuthenticationResponse } from '@simplewebauthn/server'
 import { prisma } from '@/lib/prisma'
 import { rateLimit, getRateLimitIdentifier } from '@/lib/rate-limit'
+import { sessionStore, createSessionCookie, getSessionToken } from '@/lib/session'
 
 function getRpId(request: NextRequest) {
   try {
@@ -33,15 +34,31 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const { response, challenge } = await request.json() as {
+    const { response } = await request.json() as {
       response: any
-      challenge: string
     }
 
-    if (!response || !challenge) {
+    if (!response) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
+      )
+    }
+
+    // Get challenge from server-side session
+    const sessionToken = getSessionToken(request)
+    if (!sessionToken) {
+      return NextResponse.json(
+        { error: 'No active session. Please restart authentication.' },
+        { status: 401 }
+      )
+    }
+
+    const expectedChallenge = await sessionStore.getChallenge(sessionToken)
+    if (!expectedChallenge) {
+      return NextResponse.json(
+        { error: 'Challenge expired or invalid. Please restart authentication.' },
+        { status: 401 }
       )
     }
 
@@ -76,7 +93,7 @@ export async function POST(request: NextRequest) {
 
     const verification = await verifyAuthenticationResponse({
       response,
-      expectedChallenge: challenge,
+      expectedChallenge,
       expectedOrigin: getExpectedOrigin(request),
       expectedRPID: getRpId(request),
       authenticator: {
@@ -114,12 +131,19 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    return NextResponse.json({
+    // Create authenticated session
+    const newSessionToken = await sessionStore.create(user.id)
+    
+    const jsonResponse = NextResponse.json({
       verified: true,
       id: user.id,
       username: user.username,
       groups: user.groups,
     })
+    
+    jsonResponse.headers.set('Set-Cookie', createSessionCookie(newSessionToken))
+    
+    return jsonResponse
   } catch (error) {
     console.error('Error verifying authentication:', error)
     return NextResponse.json(

@@ -1,6 +1,11 @@
 import { prisma } from '@/lib/prisma'
 import { NextResponse } from 'next/server'
 import { rateLimit, getRateLimitIdentifier } from '@/lib/rate-limit'
+import {
+  sessionStore,
+  createSessionCookie,
+  getSession,
+} from '@/lib/session'
 
 export async function POST(request: Request) {
   // Apply rate limiting
@@ -27,6 +32,15 @@ export async function POST(request: Request) {
 
   // If currentPassphraseHash is provided, verify it matches before updating
   if (body.currentPassphraseHash) {
+    // For updates, require existing session
+    const session = await getSession(request)
+    if (!session || session.userId !== body.id) {
+      return NextResponse.json(
+        { error: 'Not authorized to update this account' },
+        { status: 403 },
+      )
+    }
+
     const user = await prisma.anonymousUser.findUnique({
       where: { id: body.id },
       select: { passphraseHash: true },
@@ -53,6 +67,14 @@ export async function POST(request: Request) {
         passphraseHash: body.passphraseHash,
       },
     })
+
+    // Create session for authenticated user
+    const sessionToken = await sessionStore.create(body.id)
+    
+    const response = NextResponse.json({ ok: true })
+    response.headers.set('Set-Cookie', createSessionCookie(sessionToken))
+    
+    return response
   } catch (error: unknown) {
     if (
       error &&

@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma'
 import { NextResponse } from 'next/server'
 import { rateLimit, getRateLimitIdentifier } from '@/lib/rate-limit'
+import { sessionStore, createSessionCookie } from '@/lib/session'
 
 export async function POST(request: Request) {
   // Apply rate limiting
@@ -35,7 +36,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Not found' }, { status: 404 })
   }
 
-  return NextResponse.json({
+  // Create session for recovered user
+  const sessionToken = await sessionStore.create(user.id)
+
+  const response = NextResponse.json({
     id: user.id,
     username: user.username,
     groups: user.groups.map((group) => ({
@@ -43,4 +47,8 @@ export async function POST(request: Request) {
       groupName: group.groupName,
     })),
   })
+  
+  response.headers.set('Set-Cookie', createSessionCookie(sessionToken))
+  
+  return response
 }

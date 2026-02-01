@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { generateAuthenticationOptions } from '@simplewebauthn/server'
 import { prisma } from '@/lib/prisma'
 import { rateLimit, getRateLimitIdentifier } from '@/lib/rate-limit'
+import { sessionStore, createSessionCookie } from '@/lib/session'
 
 function getRpId(request: NextRequest) {
   try {
@@ -55,7 +56,20 @@ export async function POST(request: NextRequest) {
       userVerification: 'preferred',
     })
 
-    return NextResponse.json(options)
+    // Create temporary session to store challenge
+    const tempUserId = userId || 'temp-' + Date.now()
+    const sessionToken = await sessionStore.create(tempUserId, 10 * 60 * 1000) // 10 min
+    await sessionStore.storeChallenge(sessionToken, options.challenge)
+    
+    const response = NextResponse.json({
+      ...options,
+      // Don't send challenge to client
+      challenge: undefined,
+    })
+    
+    response.headers.set('Set-Cookie', createSessionCookie(sessionToken, 600)) // 10 min cookie
+    
+    return response
   } catch (error) {
     console.error('Error generating authentication options:', error)
     return NextResponse.json(
