@@ -41,6 +41,7 @@ export function RecentGroupListCard({
   refreshGroupsFromStorage,
   isLoggedIn,
   associatedGroupIds,
+  activeGroupIds,
 }: {
   group: RecentGroup
   groupDetail?: AppRouterOutput['groups']['list']['groups'][number]
@@ -49,6 +50,7 @@ export function RecentGroupListCard({
   refreshGroupsFromStorage: () => void
   isLoggedIn: boolean
   associatedGroupIds: string[]
+  activeGroupIds: string[]
 }) {
   const router = useRouter()
   const locale = useLocale()
@@ -56,6 +58,9 @@ export function RecentGroupListCard({
   const t = useTranslations('Groups')
   const tExpenses = useTranslations('Expenses')
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+  const canManageGroup =
+    isLoggedIn &&
+    (associatedGroupIds.includes(group.id) || activeGroupIds.includes(group.id))
 
   return (
     <li key={group.id}>
@@ -109,7 +114,7 @@ export function RecentGroupListCard({
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    {isLoggedIn && associatedGroupIds.includes(group.id) && (
+                    {canManageGroup && (
                       <DropdownMenuItem asChild>
                         <Link
                           prefetch={false}
@@ -165,7 +170,7 @@ export function RecentGroupListCard({
                         <p>{t('removeRecent')}</p>
                       </div>
                     </DropdownMenuItem>
-                    {isLoggedIn && associatedGroupIds.includes(group.id) && (
+                    {canManageGroup && (
                       <DropdownMenuItem
                         className="text-destructive"
                         onClick={(event) => {

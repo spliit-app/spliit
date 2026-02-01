@@ -23,6 +23,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
+import { trpc } from '@/trpc/client'
 import { MoreVertical, Check } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser'
@@ -134,6 +135,7 @@ export function AnonymousAuthMenu() {
   const [removeGroupsOnUnlink, setRemoveGroupsOnUnlink] = useState(false)
   const [recentGroups, setRecentGroupsState] = useState<RecentGroup[]>([])
   const [associatedGroupIds, setAssociatedGroupIds] = useState<string[]>([])
+  const [activeGroupIds, setActiveGroupIds] = useState<string[]>([])
   const [passphrase, setPassphrase] = useState('')
   const [currentPassphrase, setCurrentPassphrase] = useState('')
   const [newPassphrase, setNewPassphrase] = useState('')
@@ -164,6 +166,22 @@ export function AnonymousAuthMenu() {
     () => new Set(associatedGroupIds),
     [associatedGroupIds],
   )
+
+  const activeGroupDetailsQuery = trpc.groups.list.useQuery(
+    { groupIds: activeGroupIds },
+    { enabled: open && isLinked && activeGroupIds.length > 0 },
+  )
+
+  const profileGroups = useMemo(() => {
+    if (!isLinked) return []
+
+    const groupsFromApi = activeGroupDetailsQuery.data?.groups
+    if (groupsFromApi && groupsFromApi.length > 0) {
+      return groupsFromApi.map((group) => ({ id: group.id, name: group.name }))
+    }
+
+    return recentGroups.filter((group) => activeGroupIds.includes(group.id))
+  }, [recentGroups, activeGroupDetailsQuery.data?.groups, activeGroupIds, isLinked])
 
   useEffect(() => {
     const existingAuthId = localStorage.getItem(AUTH_STORAGE_KEY)
@@ -223,6 +241,36 @@ export function AnonymousAuthMenu() {
   }, [])
 
   useEffect(() => {
+    if (!open) return
+    setRecentGroupsState(getRecentGroups())
+
+    const storedAssociations = localStorage.getItem(ASSOCIATED_GROUPS_KEY)
+    setAssociatedGroupIds(
+      storedAssociations ? (JSON.parse(storedAssociations) as string[]) : [],
+    )
+
+    if (!isLinked) {
+      setActiveGroupIds([])
+      return
+    }
+
+    const nextActiveGroupIds = new Set<string>()
+    for (let i = 0; i < localStorage.length; i += 1) {
+      const key = localStorage.key(i)
+      if (!key || !key.endsWith('-activeUser')) continue
+      if (key === 'newGroup-activeUser') continue
+
+      const groupId = key.replace(/-activeUser$/, '')
+      const activeUser = localStorage.getItem(key)
+      if (activeUser && activeUser !== 'None') {
+        nextActiveGroupIds.add(groupId)
+      }
+    }
+
+    setActiveGroupIds(Array.from(nextActiveGroupIds))
+  }, [open, isLinked])
+
+  useEffect(() => {
     if (!authId) return
     void (async () => {
       try {
@@ -279,7 +327,7 @@ export function AnonymousAuthMenu() {
   async function handleSaveAssociations() {
     if (!authId) return
     setIsSaving(true)
-    const payload = recentGroups
+    const payload = profileGroups
       .filter((group) => associatedGroups.has(group.id))
       .map((group) => ({ groupId: group.id, groupName: group.name }))
 
@@ -766,13 +814,13 @@ export function AnonymousAuthMenu() {
           <div className="space-y-6">
             <div className="space-y-3">
               <h3 className="text-sm font-semibold">Associated groups</h3>
-              {recentGroups.length === 0 ? (
+              {profileGroups.length === 0 ? (
                 <p className="text-sm text-muted-foreground">
                   Visit or add a group first to associate it.
                 </p>
               ) : (
                 <div className="space-y-2">
-                  {recentGroups.map((group) => (
+                  {profileGroups.map((group) => (
                     <label
                       key={group.id}
                       className="flex items-center gap-3 text-sm"
