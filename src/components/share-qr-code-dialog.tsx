@@ -12,7 +12,7 @@ import {
 import { QrCode } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { QRCodeSVG } from 'qrcode.react'
-import { useEffect, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 
 interface Props {
     url: string
@@ -21,6 +21,7 @@ interface Props {
 
 export function ShareQrCodeDialog({ url, groupName }: Props) {
     const t = useTranslations('Share')
+    const qrCodeId = useId()
     const [logoDataUrl, setLogoDataUrl] = useState<string>('')
 
     useEffect(() => {
@@ -42,7 +43,7 @@ export function ShareQrCodeDialog({ url, groupName }: Props) {
     }, [])
 
     const handleDownload = () => {
-        const svg = document.getElementById('qr-code-svg')
+        const svg = document.getElementById(qrCodeId)
         if (!svg) return
 
         const svgData = new XMLSerializer().serializeToString(svg)
@@ -85,7 +86,7 @@ export function ShareQrCodeDialog({ url, groupName }: Props) {
                 <div className="flex flex-col items-center gap-4 py-4">
                     <div className="bg-white p-4 rounded-lg">
                         <QRCodeSVG
-                            id="qr-code-svg"
+                            id={qrCodeId}
                             value={url}
                             size={256}
                             level="H"

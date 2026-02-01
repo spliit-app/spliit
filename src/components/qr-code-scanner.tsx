@@ -3,7 +3,8 @@
 import { Button } from '@/components/ui/button'
 import { Html5Qrcode } from 'html5-qrcode'
 import { Camera, X } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { useTranslations } from 'next-intl'
+import { useEffect, useId, useRef, useState } from 'react'
 
 interface Props {
     onScan: (url: string) => void
@@ -12,10 +13,12 @@ interface Props {
 }
 
 export function QrCodeScanner({ onScan, onError, onClose }: Props) {
+    const t = useTranslations('Groups.AddByURL.scanner')
     const [isScanning, setIsScanning] = useState(false)
     const [hasPermission, setHasPermission] = useState<boolean | null>(null)
     const scannerRef = useRef<Html5Qrcode | null>(null)
-    const elementId = useRef(`qr-reader-${Math.random().toString(36).substr(2, 9)}`)
+    const uniqueId = useId()
+    const elementId = `qr-reader-${uniqueId}`
 
     useEffect(() => {
         return () => {
@@ -28,7 +31,7 @@ export function QrCodeScanner({ onScan, onError, onClose }: Props) {
 
     const startScanning = async () => {
         try {
-            const html5QrCode = new Html5Qrcode(elementId.current)
+            const html5QrCode = new Html5Qrcode(elementId)
             scannerRef.current = html5QrCode
 
             await html5QrCode.start(
@@ -56,11 +59,11 @@ export function QrCodeScanner({ onScan, onError, onClose }: Props) {
             setIsScanning(false)
             if (onError) {
                 if (err.name === 'NotAllowedError') {
-                    onError('Camera permission denied. Please allow camera access to scan QR codes.')
+                    onError(t('permissionDenied'))
                 } else if (err.name === 'NotFoundError') {
-                    onError('No camera found on this device.')
+                    onError(t('noCamera'))
                 } else {
-                    onError('Failed to start camera. Please try again.')
+                    onError(t('cameraError'))
                 }
             }
         }
@@ -82,7 +85,7 @@ export function QrCodeScanner({ onScan, onError, onClose }: Props) {
 
     return (
         <div className="flex flex-col gap-3">
-            <div id={elementId.current} className="w-full" />
+            <div id={elementId} className="w-full" />
 
             {!isScanning && hasPermission === null && (
                 <Button
@@ -91,7 +94,7 @@ export function QrCodeScanner({ onScan, onError, onClose }: Props) {
                     className="w-full"
                 >
                     <Camera className="w-4 h-4 mr-2" />
-                    Start Camera
+                    {t('startCamera')}
                 </Button>
             )}
 
@@ -103,13 +106,13 @@ export function QrCodeScanner({ onScan, onError, onClose }: Props) {
                     className="w-full"
                 >
                     <X className="w-4 h-4 mr-2" />
-                    Stop Scanning
+                    {t('stopScanning')}
                 </Button>
             )}
 
             {hasPermission === false && (
                 <div className="text-sm text-destructive text-center">
-                    Unable to access camera. Please check permissions.
+                    {t('permissionError')}
                 </div>
             )}
         </div>
