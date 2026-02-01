@@ -39,9 +39,10 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const { userId, response: credentialResponse } = await request.json() as {
+    const { userId, response: credentialResponse, challenge: clientChallenge } = await request.json() as {
       userId: string
       response: any
+      challenge: string
     }
 
     if (!userId || !credentialResponse) {
@@ -51,7 +52,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Get challenge from server-side session
+    // Get challenge from server-side session for verification
     const sessionToken = getSessionToken(request)
     if (!sessionToken) {
       return NextResponse.json(
@@ -60,17 +61,25 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const expectedChallenge = await sessionStore.getChallenge(sessionToken)
-    if (!expectedChallenge) {
+    const serverChallenge = await sessionStore.getChallenge(sessionToken)
+    if (!serverChallenge) {
       return NextResponse.json(
         { error: 'Challenge expired or invalid. Please restart registration.' },
         { status: 401 }
       )
     }
 
+    // Verify that client challenge matches server challenge (prevents client manipulation)
+    if (clientChallenge !== serverChallenge) {
+      return NextResponse.json(
+        { error: 'Challenge mismatch. Possible tampering detected.' },
+        { status: 401 }
+      )
+    }
+
     const verification = await verifyRegistrationResponse({
       response: credentialResponse,
-      expectedChallenge,
+      expectedChallenge: serverChallenge,
       expectedOrigin: getExpectedOrigin(request),
       expectedRPID: getRpId(request),
     })

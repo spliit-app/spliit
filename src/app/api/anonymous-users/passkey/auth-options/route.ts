@@ -56,16 +56,13 @@ export async function POST(request: NextRequest) {
       userVerification: 'preferred',
     })
 
-    // Create temporary session to store challenge
+    // Create temporary session to store challenge for server-side verification
     const tempUserId = userId || 'temp-' + Date.now()
     const sessionToken = await sessionStore.create(tempUserId, 10 * 60 * 1000) // 10 min
     await sessionStore.storeChallenge(sessionToken, options.challenge)
     
-    const response = NextResponse.json({
-      ...options,
-      // Don't send challenge to client
-      challenge: undefined,
-    })
+    // Send options including challenge to client (required by WebAuthn)
+    const response = NextResponse.json(options)
     
     response.headers.set('Set-Cookie', createSessionCookie(sessionToken, 600)) // 10 min cookie
     

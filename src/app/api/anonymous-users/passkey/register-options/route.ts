@@ -64,14 +64,11 @@ export async function POST(request: NextRequest) {
         ?.split('=')[1] || await sessionStore.create(userId)
     }
     
-    // Store challenge server-side
+    // Store challenge server-side for verification
     await sessionStore.storeChallenge(sessionToken, options.challenge)
     
-    const response = NextResponse.json({
-      ...options,
-      // Don't send challenge to client
-      challenge: undefined,
-    })
+    // Send options including challenge to client (required by WebAuthn)
+    const response = NextResponse.json(options)
     
     response.headers.set('Set-Cookie', createSessionCookie(sessionToken, 600)) // 10 min cookie
     
