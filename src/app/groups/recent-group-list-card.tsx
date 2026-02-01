@@ -6,6 +6,7 @@ import {
   unarchiveGroup,
   unstarGroup,
 } from '@/app/groups/recent-groups-helpers'
+import { DeleteGroupDialog } from '@/components/delete-group-dialog'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -17,10 +18,20 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useToast } from '@/components/ui/use-toast'
 import { AppRouterOutput } from '@/trpc/routers/_app'
 import { StarFilledIcon } from '@radix-ui/react-icons'
-import { Calendar, MoreHorizontal, Star, Users } from 'lucide-react'
+import {
+  Archive,
+  ArchiveX,
+  Calendar,
+  MoreHorizontal,
+  Star,
+  Trash2,
+  Users,
+  X,
+} from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 export function RecentGroupListCard({
   group,
@@ -39,6 +50,8 @@ export function RecentGroupListCard({
   const locale = useLocale()
   const toast = useToast()
   const t = useTranslations('Groups')
+  const tExpenses = useTranslations('Expenses')
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
 
   return (
     <li key={group.id}>
@@ -92,20 +105,21 @@ export function RecentGroupListCard({
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem
-                      className="text-destructive"
-                      onClick={(event) => {
-                        event.stopPropagation()
-                        deleteRecentGroup(group)
-                        refreshGroupsFromStorage()
-
-                        toast.toast({
-                          title: t('RecentRemovedToast.title'),
-                          description: t('RecentRemovedToast.description'),
-                        })
-                      }}
-                    >
-                      {t('removeRecent')}
+                    <DropdownMenuItem asChild>
+                      <Link
+                        prefetch={false}
+                        href={`/groups/${group.id}/backup/export`}
+                        target="_blank"
+                        title={tExpenses('exportBackup')}
+                        onClick={(event) => {
+                          event.stopPropagation()
+                        }}
+                      >
+                        <div className="flex items-center gap-2">
+                          <Archive className="w-4 h-4" />
+                          <p>{tExpenses('exportBackup')}</p>
+                        </div>
+                      </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={(event) => {
@@ -119,7 +133,43 @@ export function RecentGroupListCard({
                         refreshGroupsFromStorage()
                       }}
                     >
-                      {t(isArchived ? 'unarchive' : 'archive')}
+                      <div className="flex items-center gap-2">
+                        {isArchived ? (
+                          <ArchiveX className="w-4 h-4" />
+                        ) : (
+                          <Archive className="w-4 h-4" />
+                        )}
+                        <p>{t(isArchived ? 'unarchive' : 'archive')}</p>
+                      </div>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        deleteRecentGroup(group)
+                        refreshGroupsFromStorage()
+
+                        toast.toast({
+                          title: t('RecentRemovedToast.title'),
+                          description: t('RecentRemovedToast.description'),
+                        })
+                      }}
+                    >
+                      <div className="flex items-center gap-2">
+                        <X className="w-4 h-4" />
+                        <p>{t('removeRecent')}</p>
+                      </div>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      className="text-destructive"
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        setShowDeleteDialog(true)
+                      }}
+                    >
+                      <div className="flex items-center gap-2">
+                        <Trash2 className="w-4 h-4" />
+                        <p>{t('deleteGroup')}</p>
+                      </div>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -154,6 +204,16 @@ export function RecentGroupListCard({
           </div>
         </div>
       </Button>
+
+      <DeleteGroupDialog
+        groupId={group.id}
+        open={showDeleteDialog}
+        onOpenChange={setShowDeleteDialog}
+        onSuccess={() => {
+          deleteRecentGroup(group)
+          refreshGroupsFromStorage()
+        }}
+      />
     </li>
   )
 }

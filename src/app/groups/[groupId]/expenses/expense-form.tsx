@@ -526,6 +526,7 @@ export function ExpenseForm({
                         className="text-base"
                         disabled={true}
                         {...field}
+                        value={field.value ?? ''}
                         placeholder={group.currency}
                       />
                     )}

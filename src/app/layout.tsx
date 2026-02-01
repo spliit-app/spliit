@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Toaster } from '@/components/ui/toaster'
 import { env } from '@/lib/env'
 import { TRPCProvider } from '@/trpc/client'
+import { Analytics } from '@vercel/analytics/react'
 import type { Metadata, Viewport } from 'next'
 import { NextIntlClientProvider, useTranslations } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
@@ -169,6 +170,7 @@ export default async function RootLayout({
               <ProgressBar />
             </Suspense>
             <Content>{children}</Content>
+            <Analytics />
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>

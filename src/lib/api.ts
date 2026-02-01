@@ -97,7 +97,7 @@ export async function createExpense(
       documents: {
         createMany: {
           data: expenseFormValues.documents.map((doc) => ({
-            id: randomId(),
+            id: doc.id || randomId(),
             url: doc.url,
             width: doc.width,
             height: doc.height,
@@ -119,6 +119,11 @@ export async function deleteExpense(
     participantId,
     expenseId,
     data: existingExpense?.title,
+  })
+
+  // Delete expense documents first
+  await prisma.expenseDocument.deleteMany({
+    where: { expenseId },
   })
 
   await prisma.expense.delete({
@@ -326,6 +331,38 @@ export async function updateGroup(
   })
 }
 
+export async function deleteGroup(groupId: string) {
+  return prisma.group.delete({
+    where: { id: groupId },
+  })
+}
+
+/**
+ * Delete group with optional S3 document cleanup
+ * S3 deletion is delegated to a server action in delete-group-actions.ts
+ */
+export async function deleteGroupWithDocuments(
+  groupId: string,
+  deleteDocuments: boolean,
+) {
+  // S3 deletion is handled in the TRPC procedure which calls the server action
+  // This function only handles database deletion
+
+  // Always remove expense document records to avoid dangling references
+  await prisma.expenseDocument.deleteMany({
+    where: {
+      Expense: {
+        groupId,
+      },
+    },
+  })
+
+  // Delete the group and all related data (cascade deletes)
+  return prisma.group.delete({
+    where: { id: groupId },
+  })
+}
+
 export async function getGroup(groupId: string) {
   return prisma.group.findUnique({
     where: { id: groupId },
@@ -335,6 +372,16 @@ export async function getGroup(groupId: string) {
 
 export async function getCategories() {
   return prisma.category.findMany()
+}
+
+export async function getGroupDocumentCount(groupId: string) {
+  return prisma.expenseDocument.count({
+    where: {
+      Expense: {
+        groupId: groupId,
+      },
+    },
+  })
 }
 
 export async function getGroupExpenses(

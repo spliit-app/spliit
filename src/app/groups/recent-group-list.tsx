@@ -6,11 +6,19 @@ import {
   getRecentGroups,
   getStarredGroups,
 } from '@/app/groups/recent-groups-helpers'
+import { ImportJSONButton } from '@/components/import-json-button'
+import { RestoreBackupButton } from '@/components/restore-backup-button'
 import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { getGroups } from '@/lib/api'
 import { trpc } from '@/trpc/client'
 import { AppRouterOutput } from '@/trpc/routers/_app'
-import { Loader2 } from 'lucide-react'
+import { Loader2, MoreVertical } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { PropsWithChildren, useEffect, useState } from 'react'
@@ -222,6 +230,9 @@ function GroupsPage({
   reload,
 }: PropsWithChildren<{ reload: () => void }>) {
   const t = useTranslations('Groups')
+  const [showRestoreDialog, setShowRestoreDialog] = useState(false)
+  const [showImportJSONDialog, setShowImportJSONDialog] = useState(false)
+
   return (
     <>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
@@ -229,6 +240,21 @@ function GroupsPage({
           <Link href="/groups">{t('myGroups')}</Link>
         </h1>
         <div className="flex gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="icon">
+                <MoreVertical className="w-4 h-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onSelect={() => setShowRestoreDialog(true)}>
+                {t('restoreBackup')}
+              </DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => setShowImportJSONDialog(true)}>
+                {t('importJSON')}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <AddGroupByUrlButton reload={reload} />
           <Button asChild>
             <Link href="/groups/create">
@@ -239,6 +265,20 @@ function GroupsPage({
         </div>
       </div>
       <div>{children}</div>
+
+      {showRestoreDialog && (
+        <RestoreBackupButton
+          open={showRestoreDialog}
+          onOpenChange={setShowRestoreDialog}
+        />
+      )}
+
+      {showImportJSONDialog && (
+        <ImportJSONButton
+          open={showImportJSONDialog}
+          onOpenChange={setShowImportJSONDialog}
+        />
+      )}
     </>
   )
 }

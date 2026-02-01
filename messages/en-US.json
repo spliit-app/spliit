@@ -21,6 +21,7 @@
     "createFirst": "Create the first one",
     "noExpenses": "Your group doesn’t contain any expense yet.",
     "export": "Export",
+    "exportBackup": "Create Backup",
     "exportJson": "Export to JSON",
     "exportCsv": "Export to CSV",
     "searchPlaceholder": "Search for an expense…",
@@ -51,6 +52,8 @@
   "Groups": {
     "myGroups": "My groups",
     "create": "Create",
+    "restoreBackup": "Restore Backup",
+    "importJSON": "Import from JSON",
     "loadingRecent": "Loading recent groups…",
     "NoRecent": {
       "description": "You have not visited any group recently.",
@@ -63,6 +66,19 @@
     "archive": "Archive group",
     "unarchive": "Unarchive group",
     "removeRecent": "Remove from recent groups",
+    "deleteGroup": "Delete group permanently",
+    "DeleteGroupDialog": {
+      "title": "Delete group permanently?",
+      "description": "This action cannot be undone. All expenses, participants, and activity history will be permanently deleted. Please create a backup first if you want to preserve this data.",
+      "backup": "Create Backup",
+      "cancel": "Cancel",
+      "delete": "Delete Permanently",
+      "documentWarning": {
+        "title": "This group contains {count, plural, one {# image} other {# images}}",
+        "description": "These images are stored in the cloud and do not form part of the backup. If you delete them, they cannot be recovered.",
+        "checkbox": "Also delete all images when deleting the group"
+      }
+    },
     "RecentRemovedToast": {
       "title": "Group has been removed",
       "description": "The group was removed from your recent groups list.",
@@ -468,6 +484,67 @@
     "other": {
       "heading": "Other currencies"
     }
+  },
+  "Backup": {
+    "restoreBackup": "Restore Backup",
+    "restoreBackupTitle": "Restore Group Backup",
+    "restoreBackupDescription": "Upload a backup file to restore or create a group. The system will check if the group exists and guide you through the restoration process.",
+    "analyzing": "Analyzing...",
+    "analyzeBackup": "Analyze Backup",
+    "groupName": "Group Name",
+    "backupDate": "Backup Date",
+    "groupNotFound": "This group doesn't exist yet. Click below to create it from the backup.",
+    "creating": "Creating...",
+    "createGroup": "Create Group from Backup",
+    "backupIsNewer": "This backup contains newer data than your current group.",
+    "currentVersion": "Current group last updated",
+    "changes": "Changes in backup",
+    "addedExpenses": "{count} new expense(s)",
+    "addedParticipants": "{count} new participant(s)",
+    "restoring": "Restoring...",
+    "restoreDifferences": "Restore New Data",
+    "backupIsOlder": "Warning: This backup is older than your current group data.",
+    "rollingBack": "Rolling back...",
+    "rollbackToBackup": "Rollback to Backup Version",
+    "rollbackWarning": "This will delete all current data and replace it with the backup. This action cannot be undone!",
+    "backupIsSame": "This backup is identical to your current group data.",
+    "cancel": "Cancel"
+  },
+  "JSONImport": {
+    "importJSON": "Import from JSON",
+    "importJSONTitle": "Import Group from JSON Export",
+    "importJSONDescription": "Upload a JSON export file to migrate a group from another Spliit instance. The system will analyze the file and guide you through the import process.",
+    "analyzing": "Analyzing...",
+    "analyzeJSON": "Analyze JSON File",
+    "groupName": "Group Name",
+    "exportDate": "Export Date",
+    "limitations": "Important Limitations",
+    "groupNotFound": "This group doesn't exist yet. Click below to create it from the JSON export.",
+    "creating": "Creating...",
+    "createGroup": "Create Group from JSON",
+    "jsonIsNewer": "This JSON export contains newer data than your current group.",
+    "currentVersion": "Current group last updated",
+    "changes": "Changes in JSON export",
+    "addedExpenses": "~{count} new expense(s) (approximate)",
+    "addedParticipants": "{count} new participant(s)",
+    "restoring": "Importing...",
+    "importDifferences": "Import New Data",
+    "jsonIsOlder": "Warning: This JSON export is older than your current group data.",
+    "rollingBack": "Rolling back...",
+    "rollbackToJSON": "Rollback to JSON Version",
+    "rollbackWarning": "This will delete all current data and replace it with the JSON export. This action cannot be undone!",
+    "jsonIsSame": "This JSON export appears to match your current group data.",
+    "cancel": "Cancel"
+  },
+  "DeleteData": {
+    "undoImport": "Undo Last Import",
+    "undoImportDescription": "Remove all data added during the most recent JSON import",
+    "undoWarning": "This will remove all expenses, participants, and activities added during the last import. This action cannot be undone!",
+    "cancel": "Cancel",
+    "confirm": "Undo Import",
+    "deleting": "Undoing...",
+    "success": "Import undone successfully",
+    "error": "Failed to undo import"
   },
   "Share": {
     "title": "Share",
