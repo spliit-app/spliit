@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { verifyAuthenticationResponse } from '@simplewebauthn/server'
-import type { AuthenticationResponseJSON } from '@simplewebauthn/types'
 import { prisma } from '@/lib/prisma'
 import { rateLimit, getRateLimitIdentifier } from '@/lib/rate-limit'
 
@@ -35,7 +34,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const { response, challenge } = await request.json() as {
-      response: AuthenticationResponseJSON
+      response: any
       challenge: string
     }
 

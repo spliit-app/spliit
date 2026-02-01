@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { generateAuthenticationOptions } from '@simplewebauthn/server'
-import type { AuthenticatorTransportFuture } from '@simplewebauthn/types'
 import { prisma } from '@/lib/prisma'
 import { rateLimit, getRateLimitIdentifier } from '@/lib/rate-limit'
 
@@ -31,24 +30,20 @@ export async function POST(request: NextRequest) {
     const { userId } = body
 
     // Support both credential-specific and discoverable authentication
-    let allowCredentials: { id: string; transports?: AuthenticatorTransportFuture[] }[] | undefined
+    let allowCredentials: { id: string }[] | undefined
 
     if (userId) {
-      // Get the user's credential ID and transports from the database
+      // Get the user's credential ID from the database
       const user = await prisma.anonymousUser.findUnique({
         where: { id: userId },
         select: { 
           passkeyCredentialId: true,
-          passkeyTransports: true,
         },
       })
 
       if (user?.passkeyCredentialId) {
         allowCredentials = [{
           id: user.passkeyCredentialId,
-          transports: user.passkeyTransports 
-            ? (JSON.parse(user.passkeyTransports) as AuthenticatorTransportFuture[])
-            : undefined,
         }]
       }
     }

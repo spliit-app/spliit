@@ -26,7 +26,6 @@ import { useToast } from '@/components/ui/use-toast'
 import { MoreVertical, Check } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser'
-import type { PublicKeyCredentialCreationOptionsJSON, PublicKeyCredentialRequestOptionsJSON } from '@simplewebauthn/types'
 
 const AUTH_STORAGE_KEY = 'anonymousAuthId'
 const ASSOCIATED_GROUPS_KEY = 'anonymousAssociatedGroups'
@@ -495,7 +494,7 @@ export function AnonymousAuthMenu() {
         throw new Error('Failed to get registration options')
       }
 
-      const options = (await optionsResponse.json()) as PublicKeyCredentialCreationOptionsJSON
+      const options = (await optionsResponse.json()) as any
 
       // Start the registration ceremony
       const registrationResponse = await startRegistration(options)
@@ -549,7 +548,7 @@ export function AnonymousAuthMenu() {
         throw new Error('No passkey registered for this account')
       }
 
-      const options = (await optionsResponse.json()) as PublicKeyCredentialRequestOptionsJSON
+      const options = (await optionsResponse.json()) as any
 
       // Start the authentication ceremony
       const authenticationResponse = await startAuthentication(options)
@@ -792,17 +791,7 @@ export function AnonymousAuthMenu() {
             <div className="space-y-3">
               <h3 className="text-sm font-semibold">Account access</h3>
               {!isLinked ? (
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault()
-                    if (preferRecover) {
-                      handleRecover()
-                    } else {
-                      handleSavePassphrase()
-                    }
-                  }}
-                  className="space-y-3"
-                >
+                <div className="space-y-3">
                   <p className="text-sm text-muted-foreground">
                     Use the same username and passphrase to create or recover your
                     anonymous account.
@@ -844,8 +833,9 @@ export function AnonymousAuthMenu() {
                   )}
                   <div className="flex flex-wrap gap-2">
                     <Button
-                      type="submit"
+                      type="button"
                       variant={preferRecover ? 'secondary' : 'default'}
+                      onClick={handleSavePassphrase}
                       disabled={
                         isSaving ||
                         !passphrase.trim() ||
@@ -867,7 +857,7 @@ export function AnonymousAuthMenu() {
                       {isRecovering ? 'Recovering…' : 'Recover account'}
                     </Button>
                   </div>
-                </form>
+                </div>
               ) : (
                 <>
                   <p className="text-sm text-muted-foreground">
