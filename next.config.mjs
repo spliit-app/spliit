@@ -22,8 +22,14 @@ if (process.env.S3_UPLOAD_ENDPOINT) {
   })
 }
 
+const workspaceRoot = new URL('.', import.meta.url).pathname
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  outputFileTracingRoot: workspaceRoot,
+  turbopack: {
+    root: workspaceRoot,
+  },
   images: {
     remotePatterns
   },

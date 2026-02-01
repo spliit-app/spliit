@@ -34,6 +34,16 @@ export function saveRecentGroup(group: RecentGroup) {
   )
 }
 
+export function setRecentGroups(groups: RecentGroups) {
+  const parseResult = recentGroupsSchema.safeParse(groups)
+  if (!parseResult.success) {
+    // Invalid data; do not overwrite existing localStorage value
+    console.error('Invalid groups data provided to setRecentGroups', parseResult.error)
+    return
+  }
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(parseResult.data))
+}
+
 export function deleteRecentGroup(group: RecentGroup) {
   const recentGroups = getRecentGroups()
   localStorage.setItem(

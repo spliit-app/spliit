@@ -1,4 +1,5 @@
 import { ApplePwaSplash } from '@/app/apple-pwa-splash'
+import { AnonymousAuthMenu } from '@/components/anonymous-auth-menu'
 import { LocaleSwitcher } from '@/components/locale-switcher'
 import { ProgressBar } from '@/components/progress-bar'
 import { ThemeProvider } from '@/components/theme-provider'
@@ -69,20 +70,22 @@ function Content({ children }: { children: React.ReactNode }) {
   return (
     <TRPCProvider>
       <header className="fixed top-0 left-0 right-0 h-16 flex justify-between bg-white dark:bg-gray-950 bg-opacity-50 dark:bg-opacity-50 p-2 border-b backdrop-blur-sm z-50">
-        <Link
-          className="flex items-center gap-2 hover:scale-105 transition-transform"
-          href="/"
-        >
-          <h1>
-            <Image
-              src="/logo-with-text.png"
-              className="m-1 h-auto w-auto"
-              width={(35 * 522) / 180}
-              height={35}
-              alt="Spliit"
-            />
-          </h1>
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            className="flex items-center gap-2 hover:scale-105 transition-transform"
+            href="/"
+          >
+            <h1>
+              <Image
+                src="/logo-with-text.png"
+                className="m-1 h-auto w-auto"
+                width={(35 * 522) / 180}
+                height={35}
+                alt="Spliit"
+              />
+            </h1>
+          </Link>
+        </div>
         <div role="navigation" aria-label="Menu" className="flex">
           <ul className="flex items-center text-sm">
             <li>
@@ -100,6 +103,9 @@ function Content({ children }: { children: React.ReactNode }) {
             </li>
             <li>
               <ThemeToggle />
+            </li>
+            <li>
+              <AnonymousAuthMenu />
             </li>
           </ul>
         </div>

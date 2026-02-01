@@ -20,6 +20,7 @@ model Group {
   participants Participant[]
   expenses     Expense[]
   activities   Activity[]
+  anonymousUserGroups AnonymousUserGroup[]
   createdAt    DateTime      @default(now())
 }
 
@@ -123,6 +124,32 @@ model Activity {
   participantId String?
   expenseId     String?
   data          String?
+}
+
+model AnonymousUser {
+  id                      String                @id
+  username                String?               @unique
+  passphraseHash          String?               @unique
+  passkeysEnabled         Boolean               @default(false)
+  passkeyCredentialId     String?               @unique
+  passkeyPublicKey        Bytes?
+  passkeyCounter          Int?
+  passkeyTransports       String?
+  groups                  AnonymousUserGroup[]
+  createdAt               DateTime              @default(now())
+  updatedAt               DateTime              @updatedAt
+}
+
+model AnonymousUserGroup {
+  anonymousUser   AnonymousUser @relation(fields: [anonymousUserId], references: [id], onDelete: Cascade)
+  anonymousUserId String
+  group           Group         @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  groupId         String
+  groupName       String
+  createdAt       DateTime      @default(now())
+
+  @@id([anonymousUserId, groupId])
+  @@index([groupId])
 }
 
 enum ActivityType {
