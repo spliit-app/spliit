@@ -617,14 +617,29 @@ export function AnonymousAuthMenu() {
   async function handleConfirmUnlink(removeGroups: boolean) {
     setShowUnlinkDialog(false)
     
+    // If removing groups and user is linked, clear groups from server first
+    if (removeGroups && isLinked && authId) {
+      try {
+        await fetch('/api/anonymous-users/groups', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ id: authId, groups: [] }),
+        })
+      } catch (error) {
+        console.error('Failed to clear groups from server:', error)
+      }
+    }
+    
     localStorage.removeItem(AUTH_STORAGE_KEY)
     localStorage.removeItem(USERNAME_STORAGE_KEY)
     localStorage.removeItem(LINKED_STORAGE_KEY)
     if (removeGroups) {
       localStorage.removeItem(ASSOCIATED_GROUPS_KEY)
       setRecentGroups([])
+      setRecentGroupsState([])
+    } else {
+      setRecentGroupsState(getRecentGroups())
     }
-    setRecentGroupsState(removeGroups ? [] : getRecentGroups())
     setIsLinked(false)
     setPasskeyEnabled(false)
     setAssociatedGroupIds([])
@@ -682,8 +697,10 @@ export function AnonymousAuthMenu() {
     if (removeGroups) {
       localStorage.removeItem(ASSOCIATED_GROUPS_KEY)
       setRecentGroups([])
+      setRecentGroupsState([])
+    } else {
+      setRecentGroupsState(getRecentGroups())
     }
-    setRecentGroupsState(removeGroups ? [] : getRecentGroups())
     setIsLinked(false)
     setPasskeyEnabled(false)
     setAssociatedGroupIds([])
