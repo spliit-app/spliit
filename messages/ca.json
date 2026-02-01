@@ -260,6 +260,12 @@
       "dateMismatch": "Tases per a la data: {date}",
       "refresh": "Refrescar",
       "customRate": "Emprant tasa personalitzada"
+    },
+    "Calculator": {
+      "applyButton": "Aplicar",
+      "keyboardHintCalculate": "Utilitzar teclat • Enter per calcular",
+      "keyboardHintApply": "Utilitzar teclat • Enter per aplicar",
+      "openCalculator": "Obrir calculadora d'import"
     }
   },
   "ExpenseDocumentsInput": {

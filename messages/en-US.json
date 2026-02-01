@@ -192,7 +192,6 @@
       "recurrenceRule": {
         "label": "Expense Recurrence",
         "description": "Select how often the expense should repeat.",
-
         "none": "None",
         "daily": "Daily",
         "weekly": "Weekly",
@@ -263,7 +262,13 @@
     "save": "Save",
     "saving": "Saving…",
     "cancel": "Cancel",
-    "reimbursement": "Reimbursement"
+    "reimbursement": "Reimbursement",
+    "Calculator": {
+      "applyButton": "Apply",
+      "keyboardHintCalculate": "Use keyboard • Enter to calculate",
+      "keyboardHintApply": "Use keyboard • Enter to apply",
+      "openCalculator": "Open amount calculator"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {

@@ -205,7 +205,13 @@
     "save": "Salvează",
     "saving": "Se salvează…",
     "cancel": "Anulează",
-    "reimbursement": "Rambursare"
+    "reimbursement": "Rambursare",
+    "Calculator": {
+      "applyButton": "Aplică",
+      "keyboardHintCalculate": "Folosește tastatura • Enter pentru a calcula",
+      "keyboardHintApply": "Folosește tastatura • Enter pentru a aplica",
+      "openCalculator": "Deschide calculatorul de sumă"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {

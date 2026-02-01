@@ -260,6 +260,12 @@
       "noDate": "Saisissez la date de la dépense pour obtenir un taux de change.",
       "dateMismatch": "Taux de change le {date}",
       "customRate": "Utilisation d’un taux personnalisé"
+    },
+    "Calculator": {
+      "applyButton": "Appliquer",
+      "keyboardHintCalculate": "Utiliser le clavier • Entrée pour calculer",
+      "keyboardHintApply": "Utiliser le clavier • Entrée pour appliquer",
+      "openCalculator": "Ouvrir la calculatrice de montant"
     }
   },
   "ExpenseDocumentsInput": {

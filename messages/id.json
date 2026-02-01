@@ -252,7 +252,13 @@
     "save": "Simpan",
     "saving": "Menyimpan…",
     "cancel": "Batalkan",
-    "reimbursement": "Reimburse"
+    "reimbursement": "Reimburse",
+    "Calculator": {
+      "applyButton": "Terapkan",
+      "keyboardHintCalculate": "Gunakan keyboard • Enter untuk menghitung",
+      "keyboardHintApply": "Gunakan keyboard • Enter untuk menerapkan",
+      "openCalculator": "Buka kalkulator jumlah"
+    }
   },
   "Currencies": {
     "custom": {

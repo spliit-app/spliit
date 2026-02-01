@@ -252,7 +252,13 @@
     "save": "שמור",
     "saving": "שומר…",
     "cancel": "ביטול",
-    "reimbursement": "החזר"
+    "reimbursement": "החזר",
+    "Calculator": {
+      "applyButton": "החל",
+      "keyboardHintCalculate": "השתמש במקלדת • Enter לחישוב",
+      "keyboardHintApply": "השתמש במקלדת • Enter להחלה",
+      "openCalculator": "פתח מחשבון סכומים"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {

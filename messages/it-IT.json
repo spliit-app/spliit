@@ -228,6 +228,12 @@
     "reimbursement": "Rimborso",
     "conversionRateState": {
       "refresh": "Aggiornare"
+    },
+    "Calculator": {
+      "applyButton": "Applica",
+      "keyboardHintCalculate": "Usa tastiera • Invio per calcolare",
+      "keyboardHintApply": "Usa tastiera • Invio per applicare",
+      "openCalculator": "Apri calcolatrice importo"
     }
   },
   "ExpenseDocumentsInput": {

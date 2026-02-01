@@ -205,7 +205,13 @@
     "save": "Tallenna",
     "saving": "Tallennetaan…",
     "cancel": "Peruuta",
-    "reimbursement": "Velanmaksu"
+    "reimbursement": "Velanmaksu",
+    "Calculator": {
+      "applyButton": "Käytä",
+      "keyboardHintCalculate": "Käytä näppäimistöä • Enter laskemiseen",
+      "keyboardHintApply": "Käytä näppäimistöä • Enter käyttämiseen",
+      "openCalculator": "Avaa summan laskin"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {

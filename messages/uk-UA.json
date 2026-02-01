@@ -205,7 +205,13 @@
     "save": "Зберегти",
     "saving": "Збереження..",
     "cancel": "Скасувати",
-    "reimbursement": "Відшкодування"
+    "reimbursement": "Відшкодування",
+    "Calculator": {
+      "applyButton": "Застосувати",
+      "keyboardHintCalculate": "Використовуйте клавіатуру • Enter для розрахунку",
+      "keyboardHintApply": "Використовуйте клавіатуру • Enter для застосування",
+      "openCalculator": "Відкрити калькулятор суми"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {

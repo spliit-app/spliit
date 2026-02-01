@@ -244,6 +244,12 @@
       "noDate": "请输入交易发生日期来获取当天的汇率。",
       "refresh": "刷新",
       "customRate": "使用自定义汇率"
+    },
+    "Calculator": {
+      "applyButton": "应用",
+      "keyboardHintCalculate": "使用键盘 • Enter 键计算",
+      "keyboardHintApply": "使用键盘 • Enter 键应用",
+      "openCalculator": "打开金额计算器"
     }
   },
   "ExpenseDocumentsInput": {

@@ -184,7 +184,13 @@
       }
     },
     "reimbursement": "정산",
-    "cancel": "취소"
+    "cancel": "취소",
+    "Calculator": {
+      "applyButton": "적용",
+      "keyboardHintCalculate": "키보드 사용 • Enter로 계산",
+      "keyboardHintApply": "키보드 사용 • Enter로 적용",
+      "openCalculator": "금액 계산기 열기"
+    }
   },
   "Balances": {
     "title": "잔액",

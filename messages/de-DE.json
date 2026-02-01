@@ -260,6 +260,12 @@
       "useCustom": "Benutze individuelle Rate",
       "label": "Wechselkurs",
       "useApi": "Benutze Zinssätze von Frankfurter"
+    },
+    "Calculator": {
+      "applyButton": "Anwenden",
+      "keyboardHintCalculate": "Tastatur verwenden • Enter zum Berechnen",
+      "keyboardHintApply": "Tastatur verwenden • Enter zum Anwenden",
+      "openCalculator": "Betragsrechner öffnen"
     }
   },
   "ExpenseDocumentsInput": {

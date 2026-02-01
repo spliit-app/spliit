@@ -206,7 +206,13 @@
     "save": "Сохранить",
     "saving": "Сохранение…",
     "cancel": "Отмена",
-    "reimbursement": "Возмещение"
+    "reimbursement": "Возмещение",
+    "Calculator": {
+      "applyButton": "Применить",
+      "keyboardHintCalculate": "Используйте клавиатуру • Enter для расчета",
+      "keyboardHintApply": "Используйте клавиатуру • Enter для применения",
+      "openCalculator": "Открыть калькулятор суммы"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {

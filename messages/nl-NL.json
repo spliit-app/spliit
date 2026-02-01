@@ -260,6 +260,12 @@
       "dateMismatch": "Wisselkoers van: {date}",
       "refresh": "Ververs",
       "customRate": "Aangepaste wisselkoers wordt gebruikt"
+    },
+    "Calculator": {
+      "applyButton": "Toepassen",
+      "keyboardHintCalculate": "Gebruik toetsenbord • Enter om te berekenen",
+      "keyboardHintApply": "Gebruik toetsenbord • Enter om toe te passen",
+      "openCalculator": "Bedragcalculator openen"
     }
   },
   "ExpenseDocumentsInput": {
