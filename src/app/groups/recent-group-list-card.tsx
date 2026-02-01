@@ -39,12 +39,16 @@ export function RecentGroupListCard({
   isStarred,
   isArchived,
   refreshGroupsFromStorage,
+  isLoggedIn,
+  associatedGroupIds,
 }: {
   group: RecentGroup
   groupDetail?: AppRouterOutput['groups']['list']['groups'][number]
   isStarred: boolean
   isArchived: boolean
   refreshGroupsFromStorage: () => void
+  isLoggedIn: boolean
+  associatedGroupIds: string[]
 }) {
   const router = useRouter()
   const locale = useLocale()
@@ -105,22 +109,24 @@ export function RecentGroupListCard({
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem asChild>
-                      <Link
-                        prefetch={false}
-                        href={`/groups/${group.id}/backup/export`}
-                        target="_blank"
-                        title={tExpenses('exportBackup')}
-                        onClick={(event) => {
-                          event.stopPropagation()
-                        }}
-                      >
-                        <div className="flex items-center gap-2">
-                          <Archive className="w-4 h-4" />
-                          <p>{tExpenses('exportBackup')}</p>
-                        </div>
-                      </Link>
-                    </DropdownMenuItem>
+                    {isLoggedIn && associatedGroupIds.includes(group.id) && (
+                      <DropdownMenuItem asChild>
+                        <Link
+                          prefetch={false}
+                          href={`/groups/${group.id}/backup/export`}
+                          target="_blank"
+                          title={tExpenses('exportBackup')}
+                          onClick={(event) => {
+                            event.stopPropagation()
+                          }}
+                        >
+                          <div className="flex items-center gap-2">
+                            <Archive className="w-4 h-4" />
+                            <p>{tExpenses('exportBackup')}</p>
+                          </div>
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
                     <DropdownMenuItem
                       onClick={(event) => {
                         event.stopPropagation()
@@ -159,18 +165,20 @@ export function RecentGroupListCard({
                         <p>{t('removeRecent')}</p>
                       </div>
                     </DropdownMenuItem>
-                    <DropdownMenuItem
-                      className="text-destructive"
-                      onClick={(event) => {
-                        event.stopPropagation()
-                        setShowDeleteDialog(true)
-                      }}
-                    >
-                      <div className="flex items-center gap-2">
-                        <Trash2 className="w-4 h-4" />
-                        <p>{t('deleteGroup')}</p>
-                      </div>
-                    </DropdownMenuItem>
+                    {isLoggedIn && associatedGroupIds.includes(group.id) && (
+                      <DropdownMenuItem
+                        className="text-destructive"
+                        onClick={(event) => {
+                          event.stopPropagation()
+                          setShowDeleteDialog(true)
+                        }}
+                      >
+                        <div className="flex items-center gap-2">
+                          <Trash2 className="w-4 h-4" />
+                          <p>{t('deleteGroup')}</p>
+                        </div>
+                      </DropdownMenuItem>
+                    )}
                   </DropdownMenuContent>
                 </DropdownMenu>
               </span>

@@ -115,6 +115,20 @@ function RecentGroupList_({
     groupIds: groups.map((group) => group.id),
   })
 
+  // Get login state and associated groups from localStorage
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [associatedGroupIds, setAssociatedGroupIds] = useState<string[]>([])
+
+  useEffect(() => {
+    const linkedStatus = localStorage.getItem('anonymousLinked')
+    setIsLoggedIn(linkedStatus === 'true')
+
+    const storedAssociations = localStorage.getItem('anonymousAssociatedGroups')
+    setAssociatedGroupIds(
+      storedAssociations ? (JSON.parse(storedAssociations) as string[]) : [],
+    )
+  }, [])
+
   if (isLoading || !data) {
     return (
       <GroupsPage reload={refreshGroupsFromStorage}>
@@ -159,6 +173,8 @@ function RecentGroupList_({
             archivedGroups={archivedGroups}
             starredGroups={starredGroups}
             refreshGroupsFromStorage={refreshGroupsFromStorage}
+            isLoggedIn={isLoggedIn}
+            associatedGroupIds={associatedGroupIds}
           />
         </>
       )}
@@ -172,6 +188,8 @@ function RecentGroupList_({
             archivedGroups={archivedGroups}
             starredGroups={starredGroups}
             refreshGroupsFromStorage={refreshGroupsFromStorage}
+            isLoggedIn={isLoggedIn}
+            associatedGroupIds={associatedGroupIds}
           />
         </>
       )}
@@ -186,6 +204,8 @@ function RecentGroupList_({
               archivedGroups={archivedGroups}
               starredGroups={starredGroups}
               refreshGroupsFromStorage={refreshGroupsFromStorage}
+              isLoggedIn={isLoggedIn}
+              associatedGroupIds={associatedGroupIds}
             />
           </div>
         </>
@@ -200,12 +220,16 @@ function GroupList({
   starredGroups,
   archivedGroups,
   refreshGroupsFromStorage,
+  isLoggedIn,
+  associatedGroupIds,
 }: {
   groups: RecentGroups
   groupDetails?: AppRouterOutput['groups']['list']['groups']
   starredGroups: string[]
   archivedGroups: string[]
   refreshGroupsFromStorage: () => void
+  isLoggedIn: boolean
+  associatedGroupIds: string[]
 }) {
   return (
     <ul className="grid gap-2 sm:grid-cols-2">
@@ -219,6 +243,8 @@ function GroupList({
           isStarred={starredGroups.includes(group.id)}
           isArchived={archivedGroups.includes(group.id)}
           refreshGroupsFromStorage={refreshGroupsFromStorage}
+          isLoggedIn={isLoggedIn}
+          associatedGroupIds={associatedGroupIds}
         />
       ))}
     </ul>
