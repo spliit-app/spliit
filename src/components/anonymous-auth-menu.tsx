@@ -4,7 +4,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import {
   RecentGroup,
   getRecentGroups,
-  setRecentGroups,
+  setRecentGroups as saveRecentGroupsToStorage,
 } from '@/app/groups/recent-groups-helpers'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -128,6 +128,7 @@ export function AnonymousAuthMenu() {
   const { toast } = useToast()
   const [open, setOpen] = useState(false)
   const [showUnlinkDialog, setShowUnlinkDialog] = useState(false)
+  const [unlinkMode, setUnlinkMode] = useState<'signout' | 'delete' | null>(null)
   const [authId, setAuthId] = useState<string | null>(null)
   const [pendingRefreshTarget, setPendingRefreshTarget] = useState<
     'groups' | 'refresh' | null
@@ -180,8 +181,12 @@ export function AnonymousAuthMenu() {
       return groupsFromApi.map((group) => ({ id: group.id, name: group.name }))
     }
 
-    return recentGroups.filter((group) => activeGroupIds.includes(group.id))
-  }, [recentGroups, activeGroupDetailsQuery.data?.groups, activeGroupIds, isLinked])
+    // Show groups that either have an active user OR are in the associated groups list
+    return recentGroups.filter(
+      (group) =>
+        activeGroupIds.includes(group.id) || associatedGroupIds.includes(group.id),
+    )
+  }, [recentGroups, activeGroupDetailsQuery.data?.groups, activeGroupIds, associatedGroupIds, isLinked, open])
 
   useEffect(() => {
     const existingAuthId = localStorage.getItem(AUTH_STORAGE_KEY)
@@ -219,6 +224,7 @@ export function AnonymousAuthMenu() {
         const response = await fetch('/api/anonymous-users/ensure', {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
+          credentials: 'include',
           body: JSON.stringify({ id: nextAuthId, username: nextUsername }),
         })
 
@@ -287,7 +293,7 @@ export function AnonymousAuthMenu() {
         if (!data.groups.length) return
 
         const mergedGroups = mergeRecentGroups(getRecentGroups(), data.groups)
-        setRecentGroups(mergedGroups)
+        saveRecentGroupsToStorage(mergedGroups)
         setRecentGroupsState(mergedGroups)
 
         const storedAssociations = localStorage.getItem(ASSOCIATED_GROUPS_KEY)
@@ -325,7 +331,7 @@ export function AnonymousAuthMenu() {
   }, [open, pendingRefreshTarget, router])
 
   async function handleSaveAssociations() {
-    if (!authId) return
+    if (!authId || !isLinked) return
     setIsSaving(true)
     const payload = profileGroups
       .filter((group) => associatedGroups.has(group.id))
@@ -334,16 +340,26 @@ export function AnonymousAuthMenu() {
     const response = await fetch('/api/anonymous-users/groups', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ id: authId, groups: payload }),
     })
 
     setIsSaving(false)
 
     if (!response.ok) {
-      toast({
-        title: 'Failed to save groups',
-        description: 'Please try again.',
-      })
+      const errorData = (await response.json().catch(() => ({}))) as { error?: string }
+      
+      if (response.status === 401) {
+        toast({
+          title: 'Session expired',
+          description: 'Please recover your account to save group associations. Use your username and passphrase to log back in.',
+        })
+      } else {
+        toast({
+          title: 'Failed to save groups',
+          description: errorData.error || 'Please try again.',
+        })
+      }
       return
     }
 
@@ -364,6 +380,7 @@ export function AnonymousAuthMenu() {
     const response = await fetch('/api/anonymous-users/passphrase', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({
         id: authId,
         username: username.trim(),
@@ -398,6 +415,7 @@ export function AnonymousAuthMenu() {
     const response = await fetch('/api/anonymous-users/recover', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({
         username: username.trim(),
         passphraseHash,
@@ -427,8 +445,8 @@ export function AnonymousAuthMenu() {
     }
 
     const mergedGroups = mergeRecentGroups(getRecentGroups(), data.groups)
-    setRecentGroups(mergedGroups)
-    setRecentGroupsState(mergedGroups)
+    saveRecentGroupsToStorage(mergedGroups) // Save to localStorage
+    setRecentGroupsState(mergedGroups) // Update state
 
     const recoveredIds = data.groups.map((group) => group.groupId)
     setAssociatedGroupIds(recoveredIds)
@@ -441,7 +459,8 @@ export function AnonymousAuthMenu() {
     setPassphrase('')
     localStorage.setItem(LINKED_STORAGE_KEY, 'true')
     setIsLinked(true)
-    refreshGroupsAfterLogin()
+    // Don't refresh - recovery sets up all state correctly
+    // Just ensure the dialog will show updated groups by reopening
   }
 
   async function handleChangePassphrase() {
@@ -453,6 +472,7 @@ export function AnonymousAuthMenu() {
     const response = await fetch('/api/anonymous-users/passphrase', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({
         id: authId,
         username: username.trim(),
@@ -487,6 +507,7 @@ export function AnonymousAuthMenu() {
       const response = await fetch('/api/anonymous-users/passkey/delete', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ userId: authId }),
       })
 
@@ -535,6 +556,7 @@ export function AnonymousAuthMenu() {
       const optionsResponse = await fetch('/api/anonymous-users/passkey/register-options', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ userId: authId, username: username.trim() }),
       })
 
@@ -551,6 +573,7 @@ export function AnonymousAuthMenu() {
       const verifyResponse = await fetch('/api/anonymous-users/passkey/register-verify', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({
           userId: authId,
           response: registrationResponse,
@@ -589,6 +612,7 @@ export function AnonymousAuthMenu() {
       const optionsResponse = await fetch('/api/anonymous-users/passkey/auth-options', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ userId: authId || undefined }),
       })
 
@@ -605,6 +629,7 @@ export function AnonymousAuthMenu() {
       const verifyResponse = await fetch('/api/anonymous-users/passkey/auth-verify', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({
           response: authenticationResponse,
           challenge: options.challenge,
@@ -631,8 +656,8 @@ export function AnonymousAuthMenu() {
         }
 
         const mergedGroups = mergeRecentGroups(getRecentGroups(), data.groups)
-        setRecentGroups(mergedGroups)
-        setRecentGroupsState(mergedGroups)
+        saveRecentGroupsToStorage(mergedGroups) // Save to localStorage
+        setRecentGroupsState(mergedGroups) // Update state
 
         const recoveredIds = data.groups.map((group) => group.groupId)
         setAssociatedGroupIds(recoveredIds)
@@ -665,26 +690,20 @@ export function AnonymousAuthMenu() {
   async function handleConfirmUnlink(removeGroups: boolean) {
     setShowUnlinkDialog(false)
     
-    // If removing groups and user is linked, clear groups from server first
-    if (removeGroups && isLinked && authId) {
-      try {
-        await fetch('/api/anonymous-users/groups', {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({ id: authId, groups: [] }),
-        })
-      } catch (error) {
-        console.error('Failed to clear groups from server:', error)
-      }
-    }
+    // Note: Groups remain in database for account recovery
+    // removeGroups only affects localStorage visibility
     
     localStorage.removeItem(AUTH_STORAGE_KEY)
     localStorage.removeItem(USERNAME_STORAGE_KEY)
     localStorage.removeItem(LINKED_STORAGE_KEY)
     if (removeGroups) {
       localStorage.removeItem(ASSOCIATED_GROUPS_KEY)
-      setRecentGroups([])
-      setRecentGroupsState([])
+      // Only remove associated groups from recent groups, keep others
+      const remainingGroups = recentGroups.filter(
+        (group) => !associatedGroupIds.includes(group.id),
+      )
+      saveRecentGroupsToStorage(remainingGroups)
+      setRecentGroupsState(remainingGroups)
     } else {
       setRecentGroupsState(getRecentGroups())
     }
@@ -704,6 +723,7 @@ export function AnonymousAuthMenu() {
     void fetch('/api/anonymous-users/ensure', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ id: nextAuthId, username: nextUsername }),
     })
     
@@ -714,28 +734,42 @@ export function AnonymousAuthMenu() {
         : 'You are now using a new anonymous account on this device.',
     })
 
-    if (removeGroups && pathname.startsWith('/groups/')) {
-      router.replace('/groups')
+    if (removeGroups) {
+      if (pathname.startsWith('/groups/')) {
+        router.replace('/groups')
+      } else {
+        router.refresh()
+      }
     } else {
       router.refresh()
     }
   }
 
   async function handleDeleteAccount(removeGroups: boolean) {
-    if (!authId) return
+    if (!authId || !isLinked) return
     setShowUnlinkDialog(false)
 
     const response = await fetch('/api/anonymous-users/delete', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ id: authId }),
     })
 
     if (!response.ok) {
-      toast({
-        title: 'Failed to delete account',
-        description: 'Please try again.',
-      })
+      const errorData = (await response.json().catch(() => ({}))) as { error?: string }
+      
+      if (response.status === 401) {
+        toast({
+          title: 'Session expired',
+          description: 'Please recover your account to delete it. Use your username and passphrase to log back in.',
+        })
+      } else {
+        toast({
+          title: 'Failed to delete account',
+          description: errorData.error || 'Please try again.',
+        })
+      }
       return
     }
 
@@ -744,8 +778,12 @@ export function AnonymousAuthMenu() {
     localStorage.removeItem(LINKED_STORAGE_KEY)
     if (removeGroups) {
       localStorage.removeItem(ASSOCIATED_GROUPS_KEY)
-      setRecentGroups([])
-      setRecentGroupsState([])
+      // Only remove associated groups from recent groups, keep others
+      const remainingGroups = recentGroups.filter(
+        (group) => !associatedGroupIds.includes(group.id),
+      )
+      saveRecentGroupsToStorage(remainingGroups)
+      setRecentGroupsState(remainingGroups)
     } else {
       setRecentGroupsState(getRecentGroups())
     }
@@ -765,6 +803,7 @@ export function AnonymousAuthMenu() {
     void fetch('/api/anonymous-users/ensure', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ id: nextAuthId, username: nextUsername }),
     })
 
@@ -775,8 +814,12 @@ export function AnonymousAuthMenu() {
         : 'Account deleted. You are now using a new anonymous account on this device.',
     })
 
-    if (removeGroups && pathname.startsWith('/groups/')) {
-      router.replace('/groups')
+    if (removeGroups) {
+      if (pathname.startsWith('/groups/')) {
+        router.replace('/groups')
+      } else {
+        router.refresh()
+      }
     } else {
       router.refresh()
     }
@@ -790,22 +833,30 @@ export function AnonymousAuthMenu() {
             variant="ghost"
             size="icon"
             className="text-primary"
-            aria-label="Anonymous account"
+            aria-label="Account"
           >
             <MoreVertical className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
           <DropdownMenuItem onClick={() => setOpen(true)}>
-            Anonymous account
+            Account
           </DropdownMenuItem>
+          {isLinked && (
+            <DropdownMenuItem onClick={() => {
+              setUnlinkMode('signout')
+              setShowUnlinkDialog(true)
+            }}>
+              Sign out
+            </DropdownMenuItem>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Anonymous account</DialogTitle>
+            <DialogTitle>Account Profile</DialogTitle>
             <DialogDescription>
               Link groups to this device or recover them on another device.
             </DialogDescription>
@@ -856,7 +907,17 @@ export function AnonymousAuthMenu() {
             <div className="space-y-3">
               <h3 className="text-sm font-semibold">Account access</h3>
               {!isLinked ? (
-                <div className="space-y-3">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault()
+                    if (preferRecover) {
+                      handleRecover()
+                    } else {
+                      handleSavePassphrase()
+                    }
+                  }}
+                  className="space-y-3"
+                >
                   <p className="text-sm text-muted-foreground">
                     Use the same username and passphrase to create or recover your
                     anonymous account.
@@ -898,31 +959,40 @@ export function AnonymousAuthMenu() {
                   )}
                   <div className="flex flex-wrap gap-2">
                     <Button
-                      type="button"
+                      type="submit"
                       variant={preferRecover ? 'secondary' : 'default'}
-                      onClick={handleSavePassphrase}
                       disabled={
                         isSaving ||
+                        isRecovering ||
                         !passphrase.trim() ||
                         !authId ||
                         !username.trim() ||
                         !isPassphraseValid(passphraseComplexity)
                       }
                     >
-                      {isSaving ? 'Saving…' : 'New account'}
+                      {isSaving ? 'Saving…' : preferRecover ? 'Recover account' : 'New account'}
                     </Button>
                     <Button
                       type="button"
                       variant={preferRecover ? 'default' : 'secondary'}
-                      onClick={handleRecover}
+                      onClick={preferRecover ? () => {
+                        handleSavePassphrase()
+                      } : () => {
+                        handleRecover()
+                      }}
                       disabled={
-                        isRecovering || !passphrase.trim() || !username.trim()
+                        isSaving ||
+                        isRecovering ||
+                        !passphrase.trim() ||
+                        !authId ||
+                        !username.trim() ||
+                        !isPassphraseValid(passphraseComplexity)
                       }
                     >
-                      {isRecovering ? 'Recovering…' : 'Recover account'}
+                      {preferRecover ? (isSaving ? 'Saving…' : 'New account') : (isRecovering ? 'Recovering…' : 'Recover account')}
                     </Button>
                   </div>
-                </div>
+                </form>
               ) : (
                 <>
                   <p className="text-sm text-muted-foreground">
@@ -1063,10 +1133,13 @@ export function AnonymousAuthMenu() {
                 <div className="flex flex-wrap gap-2">
                   <Button
                     type="button"
-                    variant="outline"
-                    onClick={handleUnlink}
+                    variant="destructive"
+                    onClick={() => {
+                      setUnlinkMode('delete')
+                      setShowUnlinkDialog(true)
+                    }}
                   >
-                    Sign out from device
+                    Delete account
                   </Button>
                 </div>
               </div>
@@ -1075,13 +1148,19 @@ export function AnonymousAuthMenu() {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={showUnlinkDialog} onOpenChange={setShowUnlinkDialog}>
+      <Dialog open={showUnlinkDialog} onOpenChange={(open) => {
+        setShowUnlinkDialog(open)
+        if (!open) setUnlinkMode(null)
+      }}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Sign out from device or delete account</DialogTitle>
+            <DialogTitle>
+              {unlinkMode === 'signout' ? 'Sign out from device' : 'Delete account'}
+            </DialogTitle>
             <DialogDescription>
-              Choose whether to sign out from this device or delete the account entirely.
-              Group removal only affects this browser’s recent list.
+              {unlinkMode === 'signout'
+                ? 'Are you sure you want to sign out from this device?'
+                : 'Are you sure you want to delete your account? This action cannot be undone.'}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
@@ -1105,22 +1184,32 @@ export function AnonymousAuthMenu() {
               </div>
             </div>
             <div className="space-y-2">
-              <p className="text-sm font-semibold">Actions</p>
               <div className="flex flex-wrap gap-2">
                 <Button
                   type="button"
-                  variant="outline"
-                  onClick={() => handleConfirmUnlink(removeGroupsOnUnlink)}
+                  variant="ghost"
+                  onClick={() => setShowUnlinkDialog(false)}
                 >
-                  Sign out from device
+                  Cancel
                 </Button>
-                <Button
-                  type="button"
-                  variant="destructive"
-                  onClick={() => handleDeleteAccount(removeGroupsOnUnlink)}
-                >
-                  Delete account
-                </Button>
+                {unlinkMode === 'signout' && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => handleConfirmUnlink(removeGroupsOnUnlink)}
+                  >
+                    Sign out
+                  </Button>
+                )}
+                {unlinkMode === 'delete' && (
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    onClick={() => handleDeleteAccount(removeGroupsOnUnlink)}
+                  >
+                    Delete account
+                  </Button>
+                )}
               </div>
             </div>
           </div>

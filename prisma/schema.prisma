@@ -136,6 +136,7 @@ model AnonymousUser {
   passkeyCounter          Int?
   passkeyTransports       String?
   groups                  AnonymousUserGroup[]
+  sessions                AnonymousSession[]
   createdAt               DateTime              @default(now())
   updatedAt               DateTime              @updatedAt
 }
@@ -150,6 +151,21 @@ model AnonymousUserGroup {
 
   @@id([anonymousUserId, groupId])
   @@index([groupId])
+}
+
+model AnonymousSession {
+  id                 String        @id @default(uuid())
+  token              String        @unique
+  anonymousUser      AnonymousUser @relation(fields: [anonymousUserId], references: [id], onDelete: Cascade)
+  anonymousUserId    String
+  createdAt          DateTime      @default(now())
+  expiresAt          DateTime
+  challenge          String?
+  challengeCreatedAt DateTime?
+
+  @@index([token])
+  @@index([expiresAt])
+  @@index([anonymousUserId])
 }
 
 enum ActivityType {

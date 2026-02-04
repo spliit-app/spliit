@@ -63,7 +63,7 @@ export async function POST(request: Request) {
     groups?: Array<{ groupId: string; groupName: string }>
   } | null
 
-  if (!body?.id || !body.groups) {
+  if (!body?.id || body.groups === undefined) {
     return NextResponse.json({ error: 'Missing fields' }, { status: 400 })
   }
 
