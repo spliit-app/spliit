@@ -26,6 +26,7 @@ export async function GET(request: Request) {
     where: { id },
     select: {
       passkeysEnabled: true,
+      passphraseHash: true,
       groups: true,
     },
   })
@@ -34,6 +35,7 @@ export async function GET(request: Request) {
     return NextResponse.json({
       groups: [],
       passkeysEnabled: false,
+      hasPassphrase: false,
     })
   }
 
@@ -43,6 +45,7 @@ export async function GET(request: Request) {
       groupName: group.groupName,
     })),
     passkeysEnabled: user.passkeysEnabled,
+    hasPassphrase: !!user.passphraseHash,
   })
 }
 

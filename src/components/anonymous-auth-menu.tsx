@@ -165,6 +165,9 @@ export function AnonymousAuthMenu() {
   const [showAddPasskeyDialog, setShowAddPasskeyDialog] = useState(false)
   const [newPasskeyName, setNewPasskeyName] = useState('')
   const [passkeyToDelete, setPasskeyToDelete] = useState<string | null>(null)
+  const [isResettingWithPasskey, setIsResettingWithPasskey] = useState(false)
+  const [passkeyResetMode, setPasskeyResetMode] = useState(false)
+  const [hasExistingPassphrase, setHasExistingPassphrase] = useState(false)
   const preferRecover = !usernameJustGenerated && username.trim().length > 0 && passphrase.trim().length > 0
 
   const passphraseComplexity = useMemo(
@@ -322,7 +325,11 @@ export function AnonymousAuthMenu() {
           })
           return
         }
-        const data = (await response.json()) as { groups: AnonymousGroup[]; passkeysEnabled?: boolean }
+        const data = (await response.json()) as { groups: AnonymousGroup[]; passkeysEnabled?: boolean; hasPassphrase?: boolean }
+        
+        // Update passphrase state
+        setHasExistingPassphrase(data.hasPassphrase ?? false)
+        
         if (!data.groups.length) return
 
         const mergedGroups = mergeRecentGroups(getRecentGroups(), data.groups)
@@ -493,7 +500,17 @@ export function AnonymousAuthMenu() {
   }
 
   async function handleChangePassphrase() {
-    if (!authId || !currentPassphrase.trim() || !newPassphrase.trim() || !username.trim()) return
+    if (!authId || !newPassphrase.trim() || !username.trim()) return
+    
+    // Always require current passphrase for normal change flow
+    if (!currentPassphrase.trim()) {
+      toast({
+        title: 'Current passphrase required',
+        description: 'Please enter your current passphrase.',
+      })
+      return
+    }
+    
     setIsChangingPassphrase(true)
     const currentHash = await hashPassphrase(currentPassphrase.trim())
     const newHash = await hashPassphrase(newPassphrase.trim())
@@ -512,9 +529,10 @@ export function AnonymousAuthMenu() {
     setIsChangingPassphrase(false)
 
     if (!response.ok) {
+      const errorData = (await response.json().catch(() => ({}))) as { error?: string }
       toast({
-        title: 'Current passphrase incorrect',
-        description: 'Please verify your current passphrase and try again.',
+        title: 'Failed to update passphrase',
+        description: errorData.error || 'Please verify your current passphrase and try again.',
       })
       return
     }
@@ -526,6 +544,105 @@ export function AnonymousAuthMenu() {
     setCurrentPassphrase('')
     setNewPassphrase('')
     setIsChangePassphraseMode(false)
+  }
+
+  async function handleSetPassphraseAfterPasskeyAuth() {
+    if (!authId || !newPassphrase.trim() || !username.trim()) return
+    
+    setIsChangingPassphrase(true)
+    const newHash = await hashPassphrase(newPassphrase.trim())
+
+    const response = await fetch('/api/anonymous-users/passphrase', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({
+        id: authId,
+        username: username.trim(),
+        passphraseHash: newHash,
+        resetWithPasskey: true,
+      }),
+    })
+    setIsChangingPassphrase(false)
+
+    if (!response.ok) {
+      const errorData = (await response.json().catch(() => ({}))) as { error?: string }
+      toast({
+        title: 'Failed to set passphrase',
+        description: errorData.error || 'Please try again.',
+      })
+      return
+    }
+
+    toast({
+      title: 'Passphrase set',
+      description: 'Your new passphrase is now active.',
+    })
+    setNewPassphrase('')
+    setPasskeyResetMode(false)
+    setHasExistingPassphrase(true)
+  }
+
+  async function handleResetPassphraseWithPasskey() {
+    if (!authId || !username.trim()) {
+      toast({
+        title: 'Account required',
+        description: 'Please ensure you are logged in.',
+      })
+      return
+    }
+
+    setIsResettingWithPasskey(true)
+
+    try {
+      // Get authentication options from the server
+      const optionsResponse = await fetch('/api/anonymous-users/passkey/auth-options', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ userId: authId }),
+      })
+
+      if (!optionsResponse.ok) {
+        throw new Error('Failed to get authentication options')
+      }
+
+      const options = (await optionsResponse.json()) as any
+
+      // Start the authentication ceremony
+      const authenticationResponse = await startAuthentication(options)
+
+      // Verify the authentication with the server
+      const verifyResponse = await fetch('/api/anonymous-users/passkey/auth-verify', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          response: authenticationResponse,
+          challenge: options.challenge,
+        }),
+      })
+
+      if (!verifyResponse.ok) {
+        throw new Error('Authentication failed')
+      }
+
+      // Authentication successful, enable passkey reset mode (no current passphrase needed)
+      setPasskeyResetMode(true)
+      setCurrentPassphrase('') // Clear any current passphrase field
+      toast({
+        title: 'Authentication successful',
+        description: 'You can now set a new passphrase.',
+      })
+    } catch (error) {
+      console.error('Passkey authentication error:', error)
+      toast({
+        title: 'Authentication failed',
+        description: error instanceof Error ? error.message : 'Please try again.',
+      })
+    } finally {
+      setIsResettingWithPasskey(false)
+    }
   }
 
   async function handleDeletePasskey(passkeyId: string) {
@@ -1058,6 +1175,8 @@ export function AnonymousAuthMenu() {
                   <p className="text-sm text-muted-foreground">
                     {isChangePassphraseMode
                       ? 'Enter your current passphrase and choose a new one.'
+                      : passkeyResetMode
+                      ? 'Authenticated with passkey. Choose a new passphrase.'
                       : 'Manage your account security.'}
                   </p>
                   <div className="text-sm">
@@ -1120,13 +1239,82 @@ export function AnonymousAuthMenu() {
                         </Button>
                       </div>
                     </form>
-                  ) : (
-                    <Button
-                      type="button"
-                      onClick={() => setIsChangePassphraseMode(true)}
+                  ) : passkeyResetMode ? (
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault()
+                        handleSetPassphraseAfterPasskeyAuth()
+                      }}
+                      className="space-y-3"
                     >
-                      Change passphrase
-                    </Button>
+                      <Input
+                        value={newPassphrase}
+                        onChange={(event) => setNewPassphrase(event.target.value)}
+                        placeholder="New passphrase"
+                        type="password"
+                        name="new-passphrase"
+                        autoComplete="new-password"
+                      />
+                      {newPassphrase.length > 0 && (
+                        <PassphraseComplexityIndicator complexity={newPassphraseComplexity} />
+                      )}
+                      <div className="flex flex-wrap gap-2">
+                        <Button
+                          type="submit"
+                          disabled={
+                            isChangingPassphrase ||
+                            !newPassphrase.trim() ||
+                            !isPassphraseValid(newPassphraseComplexity)
+                          }
+                        >
+                          {isChangingPassphrase ? 'Setting…' : 'Set passphrase'}
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => {
+                            setPasskeyResetMode(false)
+                            setNewPassphrase('')
+                          }}
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    </form>
+                  ) : (
+                    <div className="flex flex-wrap gap-2">
+                      {hasExistingPassphrase ? (
+                        <Button
+                          type="button"
+                          onClick={() => setIsChangePassphraseMode(true)}
+                        >
+                          Change passphrase
+                        </Button>
+                      ) : passkeys.length > 0 ? (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={handleResetPassphraseWithPasskey}
+                          disabled={isResettingWithPasskey}
+                        >
+                          {isResettingWithPasskey ? 'Authenticating…' : 'Set passphrase with passkey'}
+                        </Button>
+                      ) : (
+                        <p className="text-sm text-muted-foreground">
+                          Add a passkey first to set a passphrase, or create a new account with a passphrase.
+                        </p>
+                      )}
+                      {hasExistingPassphrase && passkeys.length > 0 && (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={handleResetPassphraseWithPasskey}
+                          disabled={isResettingWithPasskey}
+                        >
+                          {isResettingWithPasskey ? 'Authenticating…' : 'Reset with passkey'}
+                        </Button>
+                      )}
+                    </div>
                   )}
                 </>
               )}
