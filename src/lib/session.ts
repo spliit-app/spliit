@@ -1,4 +1,5 @@
 import { randomBytes } from 'crypto'
+import { prisma } from './prisma'
 
 /**
  * Session data structure for anonymous users
@@ -19,11 +20,9 @@ export interface AnonymousSession {
 }
 
 /**
- * In-memory session storage
- * In production, this should be replaced with Redis or a database-backed solution
+ * Database-backed session storage
  */
 class SessionStore {
-  private sessions: Map<string, AnonymousSession> = new Map()
   private cleanupInterval: NodeJS.Timeout | null = null
 
   constructor() {
@@ -51,11 +50,13 @@ class SessionStore {
     const now = new Date()
     const expiresAt = new Date(now.getTime() + expiresInMs)
 
-    this.sessions.set(token, {
-      userId,
-      createdAt: now,
-      expiresAt,
-      verified: true,
+    await prisma.anonymousSession.create({
+      data: {
+        token,
+        anonymousUserId: userId,
+        createdAt: now,
+        expiresAt,
+      },
     })
 
     return token
@@ -65,7 +66,9 @@ class SessionStore {
    * Get a session by token
    */
   async get(token: string): Promise<AnonymousSession | null> {
-    const session = this.sessions.get(token)
+    const session = await prisma.anonymousSession.findUnique({
+      where: { token },
+    })
     
     if (!session) {
       return null
@@ -73,11 +76,20 @@ class SessionStore {
 
     // Check if session has expired
     if (new Date() > session.expiresAt) {
-      this.sessions.delete(token)
+      await prisma.anonymousSession.delete({
+        where: { token },
+      })
       return null
     }
 
-    return session
+    return {
+      userId: session.anonymousUserId,
+      createdAt: session.createdAt,
+      expiresAt: session.expiresAt,
+      verified: true,
+      challenge: session.challenge ?? undefined,
+      challengeCreatedAt: session.challengeCreatedAt ?? undefined,
+    }
   }
 
   /**
@@ -90,9 +102,12 @@ class SessionStore {
       return false
     }
 
-    this.sessions.set(token, {
-      ...session,
-      ...data,
+    await prisma.anonymousSession.update({
+      where: { token },
+      data: {
+        challenge: data.challenge ?? undefined,
+        challengeCreatedAt: data.challengeCreatedAt ?? undefined,
+      },
     })
 
     return true
@@ -102,7 +117,9 @@ class SessionStore {
    * Delete a session
    */
   async delete(token: string): Promise<void> {
-    this.sessions.delete(token)
+    await prisma.anonymousSession.deleteMany({
+      where: { token },
+    })
   }
 
   /**
@@ -158,21 +175,67 @@ class SessionStore {
   }
 
   /**
-   * Cleanup expired sessions
+   * Cleanup expired sessions and temporary users
    */
-  private cleanup(): void {
+  private async cleanup(): Promise<void> {
     const now = new Date()
-    let cleaned = 0
 
-    for (const [token, session] of this.sessions.entries()) {
-      if (now > session.expiresAt) {
-        this.sessions.delete(token)
-        cleaned++
+    try {
+      const result = await prisma.anonymousSession.deleteMany({
+        where: {
+          expiresAt: {
+            lt: now,
+          },
+        },
+      })
+
+      if (result.count > 0) {
+        console.log(`[SessionStore] Cleaned up ${result.count} expired sessions`)
       }
-    }
 
-    if (cleaned > 0) {
-      console.log(`[SessionStore] Cleaned up ${cleaned} expired sessions`)
+      // Also cleanup temporary users that were created for discoverable credentials
+      // and no longer have any active sessions
+      const tempUsers = await prisma.anonymousUser.findMany({
+        where: {
+          id: {
+            startsWith: 'temp-auth-',
+          },
+        },
+        select: {
+          id: true,
+          sessions: {
+            select: {
+              expiresAt: true,
+            },
+          },
+        },
+      })
+
+      // Collect IDs of users to delete
+      const userIdsToDelete: string[] = []
+      for (const user of tempUsers) {
+        // If user has no sessions or all sessions are expired, mark for deletion
+        const hasActiveSessions = user.sessions.some(
+          (session) => session.expiresAt > now,
+        )
+        if (!hasActiveSessions) {
+          userIdsToDelete.push(user.id)
+        }
+      }
+
+      // Delete all temporary users in a single operation
+      if (userIdsToDelete.length > 0) {
+        const deleteResult = await prisma.anonymousUser.deleteMany({
+          where: { id: { in: userIdsToDelete } },
+        })
+        if (deleteResult.count > 0) {
+          console.log(
+            `[SessionStore] Cleaned up ${deleteResult.count} temporary users`,
+          )
+        }
+      }
+    } catch (error) {
+      console.error('[SessionStore] Error cleaning up sessions:', error)
     }
   }
 
@@ -189,8 +252,8 @@ class SessionStore {
   /**
    * Get session count (for monitoring)
    */
-  getSessionCount(): number {
-    return this.sessions.size
+  async getSessionCount(): Promise<number> {
+    return prisma.anonymousSession.count()
   }
 }
 
@@ -293,4 +356,21 @@ export async function requireSession(
   }
 
   return { session, token }
+}
+
+/**
+ * Get session from Next.js headers (for tRPC procedures)
+ */
+export async function getSessionFromHeaders(): Promise<AnonymousSession | null> {
+  const { headers } = await import('next/headers')
+  const headersList = await headers()
+  const cookieHeader = headersList.get('cookie')
+  const host = headersList.get('host') || 'localhost'
+  const protocol = headersList.get('x-forwarded-proto') || 'http'
+  const requestUrl = `${protocol}://${host}`
+  const request = new Request(requestUrl, {
+    headers: { cookie: cookieHeader || '' },
+  })
+  
+  return getSession(request)
 }

@@ -34,18 +34,18 @@ export async function POST(request: NextRequest) {
     let allowCredentials: { id: string }[] | undefined
 
     if (userId) {
-      // Get the user's credential ID from the database
-      const user = await prisma.anonymousUser.findUnique({
-        where: { id: userId },
+      // Get the user's passkey credential IDs from the database
+      const passkeys = await prisma.passkey.findMany({
+        where: { anonymousUserId: userId },
         select: { 
-          passkeyCredentialId: true,
+          credentialId: true,
         },
       })
 
-      if (user?.passkeyCredentialId) {
-        allowCredentials = [{
-          id: user.passkeyCredentialId,
-        }]
+      if (passkeys.length > 0) {
+        allowCredentials = passkeys.map(p => ({
+          id: p.credentialId,
+        }))
       }
     }
 
@@ -57,8 +57,28 @@ export async function POST(request: NextRequest) {
     })
 
     // Create temporary session to store challenge for server-side verification
-    const tempUserId = userId || 'temp-' + Date.now()
-    const sessionToken = await sessionStore.create(tempUserId, 10 * 60 * 1000) // 10 min
+    let sessionToken: string
+    if (userId) {
+      // Check if user exists; do not create an incomplete user here
+      const existingUser = await prisma.anonymousUser.findUnique({
+        where: { id: userId },
+      })
+      if (!existingUser) {
+        return NextResponse.json(
+          { error: 'User not found. Please log in again.' },
+          { status: 404 }
+        )
+      }
+      sessionToken = await sessionStore.create(userId, 10 * 60 * 1000) // 10 min
+    } else {
+      // For discoverable credentials without userId, create a temporary user
+      // This user will be cleaned up by SessionStore when the session expires
+      const tempUserId = 'temp-auth-' + crypto.randomUUID()
+      await prisma.anonymousUser.create({
+        data: { id: tempUserId },
+      })
+      sessionToken = await sessionStore.create(tempUserId, 10 * 60 * 1000) // 10 min
+    }
     await sessionStore.storeChallenge(sessionToken, options.challenge)
     
     // Send options including challenge to client (required by WebAuthn)

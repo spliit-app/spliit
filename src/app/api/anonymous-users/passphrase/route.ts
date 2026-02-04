@@ -24,29 +24,66 @@ export async function POST(request: Request) {
     username?: string
     passphraseHash?: string
     currentPassphraseHash?: string
+    resetWithPasskey?: boolean
   } | null
 
   if (!body?.id || !body?.passphraseHash || !body?.username) {
     return NextResponse.json({ error: 'Missing fields' }, { status: 400 })
   }
 
-  // If currentPassphraseHash is provided, verify it matches before updating
-  if (body.currentPassphraseHash) {
-    // For updates, require existing session
-    const session = await getSession(request)
-    if (!session || session.userId !== body.id) {
+  // Always require a valid session
+  const session = await getSession(request)
+  if (!session || session.userId !== body.id) {
+    return NextResponse.json(
+      { error: 'Not authorized to update this account' },
+      { status: 403 },
+    )
+  }
+
+  // If resetWithPasskey is true, verify user has passkeys
+  if (body.resetWithPasskey) {
+    const passkeyCount = await prisma.passkey.count({
+      where: { anonymousUserId: body.id },
+    })
+
+    if (passkeyCount === 0) {
       return NextResponse.json(
-        { error: 'Not authorized to update this account' },
+        { error: 'No passkeys found. Cannot reset passphrase without current passphrase.' },
         { status: 403 },
       )
     }
+    // Passkey verification already done during session creation
+    // Allow passphrase reset without current passphrase
+  } else {
+    // For regular updates, current passphrase is required
+    if (!body.currentPassphraseHash) {
+      return NextResponse.json(
+        { error: 'Current passphrase is required. Use passkey reset if you forgot your passphrase.' },
+        { status: 400 },
+      )
+    }
 
+    // Verify current passphrase matches
     const user = await prisma.anonymousUser.findUnique({
       where: { id: body.id },
       select: { passphraseHash: true },
     })
 
-    if (!user || user.passphraseHash !== body.currentPassphraseHash) {
+    if (!user) {
+      return NextResponse.json(
+        { error: 'User not found' },
+        { status: 404 },
+      )
+    }
+
+    if (!user.passphraseHash) {
+      return NextResponse.json(
+        { error: 'No passphrase set. Use passkey reset to set initial passphrase.' },
+        { status: 400 },
+      )
+    }
+
+    if (user.passphraseHash !== body.currentPassphraseHash) {
       return NextResponse.json(
         { error: 'Current passphrase is incorrect' },
         { status: 401 },

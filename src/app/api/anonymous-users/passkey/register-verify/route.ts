@@ -39,10 +39,11 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const { userId, response: credentialResponse, challenge: clientChallenge } = await request.json() as {
+    const { userId, response: credentialResponse, challenge: clientChallenge, name } = await request.json() as {
       userId: string
       response: any
       challenge: string
+      name?: string
     }
 
     if (!userId || !credentialResponse) {
@@ -93,15 +94,23 @@ export async function POST(request: NextRequest) {
 
     const { credentialID, credentialPublicKey, counter } = verification.registrationInfo
 
-    // Store the credential in the database
+    // Create a new Passkey record
+    await prisma.passkey.create({
+      data: {
+        anonymousUserId: userId,
+        name: name || `Passkey ${new Date().toLocaleDateString()}`,
+        credentialId: credentialID,
+        publicKey: Buffer.from(credentialPublicKey),
+        counter: counter,
+        transports: null,
+      },
+    })
+
+    // Update user to mark passkeys as enabled
     await prisma.anonymousUser.update({
       where: { id: userId },
       data: {
         passkeysEnabled: true,
-        passkeyCredentialId: credentialID,
-        passkeyPublicKey: Buffer.from(credentialPublicKey),
-        passkeyCounter: counter,
-        passkeyTransports: null,
       },
     })
 

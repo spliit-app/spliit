@@ -74,26 +74,30 @@ export async function POST(request: NextRequest) {
     // Extract credential ID from the response
     const credentialId = response.id
 
-    // Find the user by credential ID
-    const user = await prisma.anonymousUser.findFirst({
-      where: { passkeyCredentialId: credentialId },
+    // Find the passkey by credential ID
+    const passkey = await prisma.passkey.findUnique({
+      where: { credentialId: credentialId },
       select: {
         id: true,
-        username: true,
-        passkeyCredentialId: true,
-        passkeyPublicKey: true,
-        passkeyCounter: true,
-        passkeyTransports: true,
-        groups: {
+        credentialId: true,
+        publicKey: true,
+        counter: true,
+        anonymousUser: {
           select: {
-            groupId: true,
-            groupName: true,
+            id: true,
+            username: true,
+            groups: {
+              select: {
+                groupId: true,
+                groupName: true,
+              },
+            },
           },
         },
       },
     })
 
-    if (!user?.passkeyCredentialId || !user.passkeyPublicKey) {
+    if (!passkey) {
       return NextResponse.json(
         { error: 'No passkey registered for this credential' },
         { status: 404 }
@@ -106,9 +110,9 @@ export async function POST(request: NextRequest) {
       expectedOrigin: getExpectedOrigin(request),
       expectedRPID: getRpId(request),
       authenticator: {
-        credentialID: user.passkeyCredentialId,
-        credentialPublicKey: user.passkeyPublicKey,
-        counter: user.passkeyCounter || 0,
+        credentialID: passkey.credentialId,
+        credentialPublicKey: passkey.publicKey,
+        counter: passkey.counter,
       },
     })
 
@@ -119,16 +123,16 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Update the counter with optimistic locking to prevent race conditions
-    // Only update if the counter hasn't changed since we read it
-    const currentCounter = user.passkeyCounter || 0
-    const updateResult = await prisma.anonymousUser.updateMany({
+    // Update the counter and lastUsedAt with optimistic locking to prevent race conditions
+    const currentCounter = passkey.counter
+    const updateResult = await prisma.passkey.updateMany({
       where: { 
-        id: user.id,
-        passkeyCounter: currentCounter, // Ensure counter hasn't changed
+        id: passkey.id,
+        counter: currentCounter, // Ensure counter hasn't changed
       },
       data: {
-        passkeyCounter: verification.authenticationInfo.newCounter,
+        counter: verification.authenticationInfo.newCounter,
+        lastUsedAt: new Date(),
       },
     })
 
@@ -141,13 +145,13 @@ export async function POST(request: NextRequest) {
     }
 
     // Create authenticated session
-    const newSessionToken = await sessionStore.create(user.id)
+    const newSessionToken = await sessionStore.create(passkey.anonymousUser.id)
     
     const jsonResponse = NextResponse.json({
       verified: true,
-      id: user.id,
-      username: user.username,
-      groups: user.groups,
+      id: passkey.anonymousUser.id,
+      username: passkey.anonymousUser.username,
+      groups: passkey.anonymousUser.groups,
     })
     
     jsonResponse.headers.set('Set-Cookie', createSessionCookie(newSessionToken))

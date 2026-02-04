@@ -1,7 +1,7 @@
 import { ApplePwaSplash } from '@/app/apple-pwa-splash'
 import { AnonymousAuthMenu } from '@/components/anonymous-auth-menu'
 import { LocaleSwitcher } from '@/components/locale-switcher'
-import { ProgressBar } from '@/components/progress-bar'
+import { ProgressBarWrapper } from '@/components/progress-bar-wrapper'
 import { ThemeProvider } from '@/components/theme-provider'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { Button } from '@/components/ui/button'
@@ -82,6 +82,7 @@ function Content({ children }: { children: React.ReactNode }) {
                 width={(35 * 522) / 180}
                 height={35}
                 alt="Spliit"
+                loading="eager"
               />
             </h1>
           </Link>
@@ -123,6 +124,7 @@ function Content({ children }: { children: React.ReactNode }) {
                 width={(35 * 522) / 180}
                 height={35}
                 alt="Spliit"
+                loading="lazy"
               />
             </Link>
           </div>
@@ -173,7 +175,7 @@ export default async function RootLayout({
             disableTransitionOnChange
           >
             <Suspense>
-              <ProgressBar />
+              <ProgressBarWrapper />
             </Suspense>
             <Content>{children}</Content>
             <Analytics />
