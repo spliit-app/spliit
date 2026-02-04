@@ -27,6 +27,8 @@ import { trpc } from '@/trpc/client'
 import { MoreVertical, Check } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser'
+import { RestoreBackupButton } from '@/components/restore-backup-button'
+import { ImportJSONButton } from '@/components/import-json-button'
 
 const AUTH_STORAGE_KEY = 'anonymousAuthId'
 const ASSOCIATED_GROUPS_KEY = 'anonymousAssociatedGroups'
@@ -129,6 +131,8 @@ export function AnonymousAuthMenu() {
   const [open, setOpen] = useState(false)
   const [showUnlinkDialog, setShowUnlinkDialog] = useState(false)
   const [unlinkMode, setUnlinkMode] = useState<'signout' | 'delete' | null>(null)
+  const [showRestoreDialog, setShowRestoreDialog] = useState(false)
+  const [showImportJSONDialog, setShowImportJSONDialog] = useState(false)
   const [authId, setAuthId] = useState<string | null>(null)
   const [pendingRefreshTarget, setPendingRefreshTarget] = useState<
     'groups' | 'refresh' | null
@@ -843,12 +847,20 @@ export function AnonymousAuthMenu() {
             Account
           </DropdownMenuItem>
           {isLinked && (
-            <DropdownMenuItem onClick={() => {
-              setUnlinkMode('signout')
-              setShowUnlinkDialog(true)
-            }}>
-              Sign out
-            </DropdownMenuItem>
+            <>
+              <DropdownMenuItem onClick={() => setShowRestoreDialog(true)}>
+                Restore from backup
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setShowImportJSONDialog(true)}>
+                Import from JSON
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => {
+                setUnlinkMode('signout')
+                setShowUnlinkDialog(true)
+              }}>
+                Sign out
+              </DropdownMenuItem>
+            </>
           )}
         </DropdownMenuContent>
       </DropdownMenu>
@@ -1215,6 +1227,20 @@ export function AnonymousAuthMenu() {
           </div>
         </DialogContent>
       </Dialog>
+
+      {showRestoreDialog && (
+        <RestoreBackupButton
+          open={showRestoreDialog}
+          onOpenChange={setShowRestoreDialog}
+        />
+      )}
+
+      {showImportJSONDialog && (
+        <ImportJSONButton
+          open={showImportJSONDialog}
+          onOpenChange={setShowImportJSONDialog}
+        />
+      )}
     </>
   )
 }

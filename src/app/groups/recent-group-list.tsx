@@ -276,6 +276,12 @@ function GroupsPage({
   const t = useTranslations('Groups')
   const [showRestoreDialog, setShowRestoreDialog] = useState(false)
   const [showImportJSONDialog, setShowImportJSONDialog] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    const linkedStatus = localStorage.getItem('anonymousLinked')
+    setIsLoggedIn(linkedStatus === 'true')
+  }, [])
 
   return (
     <>
@@ -284,21 +290,23 @@ function GroupsPage({
           <Link href="/groups">{t('myGroups')}</Link>
         </h1>
         <div className="flex gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="icon">
-                <MoreVertical className="w-4 h-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onSelect={() => setShowRestoreDialog(true)}>
-                {t('restoreBackup')}
-              </DropdownMenuItem>
-              <DropdownMenuItem onSelect={() => setShowImportJSONDialog(true)}>
-                {t('importJSON')}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {!isLoggedIn && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="icon">
+                  <MoreVertical className="w-4 h-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onSelect={() => setShowRestoreDialog(true)}>
+                  {t('restoreBackup')}
+                </DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => setShowImportJSONDialog(true)}>
+                  {t('importJSON')}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
           <AddGroupByUrlButton reload={reload} />
           <Button asChild>
             <Link href="/groups/create">

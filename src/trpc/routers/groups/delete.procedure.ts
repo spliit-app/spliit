@@ -1,6 +1,10 @@
 import { deleteGroupS3Documents } from '@/app/groups/delete-group-actions'
 import { deleteGroupWithDocuments } from '@/lib/api'
+import { prisma } from '@/lib/prisma'
+import { getSession } from '@/lib/session'
 import { baseProcedure } from '@/trpc/init'
+import { TRPCError } from '@trpc/server'
+import { headers } from 'next/headers'
 import { z } from 'zod'
 
 export const deleteGroupProcedure = baseProcedure
@@ -11,6 +15,39 @@ export const deleteGroupProcedure = baseProcedure
     }),
   )
   .mutation(async ({ input: { groupId, deleteDocuments } }) => {
+    // Get session from request headers
+    const headersList = await headers()
+    const cookieHeader = headersList.get('cookie')
+    const request = new Request('http://localhost', {
+      headers: { cookie: cookieHeader || '' },
+    })
+    
+    const session = await getSession(request)
+    
+    if (!session) {
+      throw new TRPCError({
+        code: 'UNAUTHORIZED',
+        message: 'You must be logged in to delete a group',
+      })
+    }
+
+    // Check if user has this group in their associated groups
+    const userGroup = await prisma.anonymousUserGroup.findUnique({
+      where: {
+        anonymousUserId_groupId: {
+          anonymousUserId: session.userId,
+          groupId: groupId,
+        },
+      },
+    })
+
+    if (!userGroup) {
+      throw new TRPCError({
+        code: 'FORBIDDEN',
+        message: 'You are not authorized to delete this group',
+      })
+    }
+
     // Delete S3 documents if requested (server action handles env safely)
     if (deleteDocuments) {
       await deleteGroupS3Documents(groupId)
