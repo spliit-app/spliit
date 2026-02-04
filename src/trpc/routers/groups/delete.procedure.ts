@@ -1,10 +1,9 @@
 import { deleteGroupS3Documents } from '@/app/groups/delete-group-actions'
 import { deleteGroupWithDocuments } from '@/lib/api'
 import { prisma } from '@/lib/prisma'
-import { getSession } from '@/lib/session'
+import { getSessionFromHeaders } from '@/lib/session'
 import { baseProcedure } from '@/trpc/init'
 import { TRPCError } from '@trpc/server'
-import { headers } from 'next/headers'
 import { z } from 'zod'
 
 export const deleteGroupProcedure = baseProcedure
@@ -16,13 +15,7 @@ export const deleteGroupProcedure = baseProcedure
   )
   .mutation(async ({ input: { groupId, deleteDocuments } }) => {
     // Get session from request headers
-    const headersList = await headers()
-    const cookieHeader = headersList.get('cookie')
-    const request = new Request('http://localhost', {
-      headers: { cookie: cookieHeader || '' },
-    })
-    
-    const session = await getSession(request)
+    const session = await getSessionFromHeaders()
     
     if (!session) {
       throw new TRPCError({

@@ -57,18 +57,22 @@ export async function POST(request: NextRequest) {
     })
 
     // Create temporary session to store challenge for server-side verification
-    // Ensure the user exists in the database before creating a session
     let sessionToken: string
     if (userId) {
-      // Check if user exists, create if not
-      await prisma.anonymousUser.upsert({
+      // Check if user exists; do not create an incomplete user here
+      const existingUser = await prisma.anonymousUser.findUnique({
         where: { id: userId },
-        create: { id: userId },
-        update: {},
       })
+      if (!existingUser) {
+        return NextResponse.json(
+          { error: 'User not found. Please log in again.' },
+          { status: 404 }
+        )
+      }
       sessionToken = await sessionStore.create(userId, 10 * 60 * 1000) // 10 min
     } else {
       // For discoverable credentials without userId, create a temporary user
+      // This user will be cleaned up by SessionStore when the session expires
       const tempUserId = 'temp-auth-' + crypto.randomUUID()
       await prisma.anonymousUser.create({
         data: { id: tempUserId },

@@ -175,7 +175,7 @@ class SessionStore {
   }
 
   /**
-   * Cleanup expired sessions
+   * Cleanup expired sessions and temporary users
    */
   private async cleanup(): Promise<void> {
     const now = new Date()
@@ -191,6 +191,48 @@ class SessionStore {
 
       if (result.count > 0) {
         console.log(`[SessionStore] Cleaned up ${result.count} expired sessions`)
+      }
+
+      // Also cleanup temporary users that were created for discoverable credentials
+      // and no longer have any active sessions
+      const tempUsers = await prisma.anonymousUser.findMany({
+        where: {
+          id: {
+            startsWith: 'temp-auth-',
+          },
+        },
+        select: {
+          id: true,
+          sessions: {
+            select: {
+              expiresAt: true,
+            },
+          },
+        },
+      })
+
+      // Collect IDs of users to delete
+      const userIdsToDelete: string[] = []
+      for (const user of tempUsers) {
+        // If user has no sessions or all sessions are expired, mark for deletion
+        const hasActiveSessions = user.sessions.some(
+          (session) => session.expiresAt > now,
+        )
+        if (!hasActiveSessions) {
+          userIdsToDelete.push(user.id)
+        }
+      }
+
+      // Delete all temporary users in a single operation
+      if (userIdsToDelete.length > 0) {
+        const deleteResult = await prisma.anonymousUser.deleteMany({
+          where: { id: { in: userIdsToDelete } },
+        })
+        if (deleteResult.count > 0) {
+          console.log(
+            `[SessionStore] Cleaned up ${deleteResult.count} temporary users`,
+          )
+        }
       }
     } catch (error) {
       console.error('[SessionStore] Error cleaning up sessions:', error)
@@ -314,4 +356,21 @@ export async function requireSession(
   }
 
   return { session, token }
+}
+
+/**
+ * Get session from Next.js headers (for tRPC procedures)
+ */
+export async function getSessionFromHeaders(): Promise<AnonymousSession | null> {
+  const { headers } = await import('next/headers')
+  const headersList = await headers()
+  const cookieHeader = headersList.get('cookie')
+  const host = headersList.get('host') || 'localhost'
+  const protocol = headersList.get('x-forwarded-proto') || 'http'
+  const requestUrl = `${protocol}://${host}`
+  const request = new Request(requestUrl, {
+    headers: { cookie: cookieHeader || '' },
+  })
+  
+  return getSession(request)
 }

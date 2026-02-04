@@ -279,8 +279,10 @@ function GroupsPage({
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   useEffect(() => {
-    const linkedStatus = localStorage.getItem('anonymousLinked')
-    setIsLoggedIn(linkedStatus === 'true')
+    if (typeof window !== 'undefined') {
+      const linkedStatus = localStorage.getItem('anonymousLinked')
+      setIsLoggedIn(linkedStatus === 'true')
+    }
   }, [])
 
   return (
