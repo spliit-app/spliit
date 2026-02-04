@@ -971,8 +971,11 @@ export function AnonymousAuthMenu() {
                   )}
                   <div className="flex flex-wrap gap-2">
                     <Button
-                      type="submit"
+                      type={preferRecover ? 'button' : 'submit'}
                       variant={preferRecover ? 'secondary' : 'default'}
+                      onClick={preferRecover ? () => {
+                        handleSavePassphrase()
+                      } : undefined}
                       disabled={
                         isSaving ||
                         isRecovering ||
@@ -982,14 +985,12 @@ export function AnonymousAuthMenu() {
                         !isPassphraseValid(passphraseComplexity)
                       }
                     >
-                      {isSaving ? 'Saving…' : preferRecover ? 'Recover account' : 'New account'}
+                      {isSaving ? 'Saving…' : 'New account'}
                     </Button>
                     <Button
-                      type="button"
+                      type={preferRecover ? 'submit' : 'button'}
                       variant={preferRecover ? 'default' : 'secondary'}
-                      onClick={preferRecover ? () => {
-                        handleSavePassphrase()
-                      } : () => {
+                      onClick={preferRecover ? undefined : () => {
                         handleRecover()
                       }}
                       disabled={
@@ -1001,7 +1002,7 @@ export function AnonymousAuthMenu() {
                         !isPassphraseValid(passphraseComplexity)
                       }
                     >
-                      {preferRecover ? (isSaving ? 'Saving…' : 'New account') : (isRecovering ? 'Recovering…' : 'Recover account')}
+                      {isRecovering ? 'Recovering…' : 'Existing account'}
                     </Button>
                   </div>
                 </form>
