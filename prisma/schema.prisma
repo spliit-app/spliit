@@ -131,14 +131,31 @@ model AnonymousUser {
   username                String?               @unique
   passphraseHash          String?               @unique
   passkeysEnabled         Boolean               @default(false)
-  passkeyCredentialId     String?               @unique
-  passkeyPublicKey        Bytes?
-  passkeyCounter          Int?
-  passkeyTransports       String?
+  passkeyCredentialId     String?               @unique // Deprecated - kept for migration
+  passkeyPublicKey        Bytes?                        // Deprecated - kept for migration
+  passkeyCounter          Int?                          // Deprecated - kept for migration
+  passkeyTransports       String?                       // Deprecated - kept for migration
   groups                  AnonymousUserGroup[]
   sessions                AnonymousSession[]
+  passkeys                Passkey[]
   createdAt               DateTime              @default(now())
   updatedAt               DateTime              @updatedAt
+}
+
+model Passkey {
+  id                String        @id @default(uuid())
+  anonymousUser     AnonymousUser @relation(fields: [anonymousUserId], references: [id], onDelete: Cascade)
+  anonymousUserId   String
+  name              String
+  credentialId      String        @unique
+  publicKey         Bytes
+  counter           Int
+  transports        String?
+  createdAt         DateTime      @default(now())
+  lastUsedAt        DateTime      @default(now())
+
+  @@index([anonymousUserId])
+  @@index([credentialId])
 }
 
 model AnonymousUserGroup {

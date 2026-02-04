@@ -40,6 +40,13 @@ type AnonymousGroup = {
   groupName: string
 }
 
+type Passkey = {
+  id: string
+  name: string
+  createdAt: string
+  lastUsedAt: string
+}
+
 async function hashPassphrase(passphrase: string) {
   const encoder = new TextEncoder()
   const data = encoder.encode(passphrase)
@@ -148,13 +155,16 @@ export function AnonymousAuthMenu() {
   const [isSaving, setIsSaving] = useState(false)
   const [isRecovering, setIsRecovering] = useState(false)
   const [isChangingPassphrase, setIsChangingPassphrase] = useState(false)
-  const [passkeyEnabled, setPasskeyEnabled] = useState(false)
+  const [passkeys, setPasskeys] = useState<Passkey[]>([])
   const [isRegisteringPasskey, setIsRegisteringPasskey] = useState(false)
   const [isAuthenticatingPasskey, setIsAuthenticatingPasskey] = useState(false)
   const [isLinked, setIsLinked] = useState(false)
   const [usernameJustGenerated, setUsernameJustGenerated] = useState(false)
   const [isChangePassphraseMode, setIsChangePassphraseMode] = useState(false)
   const [isDeletingPasskey, setIsDeletingPasskey] = useState(false)
+  const [showAddPasskeyDialog, setShowAddPasskeyDialog] = useState(false)
+  const [newPasskeyName, setNewPasskeyName] = useState('')
+  const [passkeyToDelete, setPasskeyToDelete] = useState<string | null>(null)
   const preferRecover = !usernameJustGenerated && username.trim().length > 0 && passphrase.trim().length > 0
 
   const passphraseComplexity = useMemo(
@@ -280,6 +290,25 @@ export function AnonymousAuthMenu() {
     setActiveGroupIds(Array.from(nextActiveGroupIds))
   }, [open, isLinked])
 
+  // Fetch passkeys when dialog opens and user is linked
+  useEffect(() => {
+    if (!open || !isLinked || !authId) return
+    
+    void (async () => {
+      try {
+        const response = await fetch(`/api/anonymous-users/passkey/list?userId=${authId}`)
+        if (!response.ok) {
+          console.error('Failed to fetch passkeys')
+          return
+        }
+        const data = (await response.json()) as { passkeys: Passkey[] }
+        setPasskeys(data.passkeys)
+      } catch (error) {
+        console.error('Error fetching passkeys:', error)
+      }
+    })()
+  }, [open, isLinked, authId])
+
   useEffect(() => {
     if (!authId) return
     void (async () => {
@@ -307,10 +336,6 @@ export function AnonymousAuthMenu() {
         )
         setAssociatedGroupIds(mergedIds)
         localStorage.setItem(ASSOCIATED_GROUPS_KEY, JSON.stringify(mergedIds))
-
-        if (data.passkeysEnabled) {
-          setPasskeyEnabled(true)
-        }
       } catch (error) {
         // Ensure failures are not silent and are visible to users and developers
         console.error('Failed to sync anonymous user groups', error)
@@ -503,7 +528,7 @@ export function AnonymousAuthMenu() {
     setIsChangePassphraseMode(false)
   }
 
-  async function handleDeletePasskey() {
+  async function handleDeletePasskey(passkeyId: string) {
     if (!authId) return
     setIsDeletingPasskey(true)
 
@@ -512,17 +537,24 @@ export function AnonymousAuthMenu() {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ userId: authId }),
+        body: JSON.stringify({ userId: authId, passkeyId }),
       })
 
       if (!response.ok) {
         throw new Error('Failed to delete passkey')
       }
 
-      setPasskeyEnabled(false)
+      // Refresh passkey list
+      const listResponse = await fetch(`/api/anonymous-users/passkey/list?userId=${authId}`)
+      if (listResponse.ok) {
+        const data = (await listResponse.json()) as { passkeys: Passkey[] }
+        setPasskeys(data.passkeys)
+      }
+
+      setPasskeyToDelete(null)
       toast({
         title: 'Passkey removed',
-        description: 'You can register a new passkey anytime.',
+        description: 'The passkey has been removed from your account.',
       })
     } catch (error) {
       console.error('Error deleting passkey:', error)
@@ -533,7 +565,6 @@ export function AnonymousAuthMenu() {
     } finally {
       setIsDeletingPasskey(false)
     }
-
   }
 
   function refreshGroupsAfterLogin() {
@@ -549,6 +580,14 @@ export function AnonymousAuthMenu() {
       toast({
         title: 'Username required',
         description: 'Please set a username before registering a passkey.',
+      })
+      return
+    }
+
+    if (!newPasskeyName.trim()) {
+      toast({
+        title: 'Name required',
+        description: 'Please enter a name for your passkey.',
       })
       return
     }
@@ -582,6 +621,7 @@ export function AnonymousAuthMenu() {
           userId: authId,
           response: registrationResponse,
           challenge: options.challenge,
+          name: newPasskeyName.trim(),
         }),
       })
 
@@ -589,9 +629,17 @@ export function AnonymousAuthMenu() {
         throw new Error('Failed to verify registration')
       }
 
-      setPasskeyEnabled(true)
+      // Refresh passkey list
+      const listResponse = await fetch(`/api/anonymous-users/passkey/list?userId=${authId}`)
+      if (listResponse.ok) {
+        const data = (await listResponse.json()) as { passkeys: Passkey[] }
+        setPasskeys(data.passkeys)
+      }
+
       localStorage.setItem(LINKED_STORAGE_KEY, 'true')
       setIsLinked(true)
+      setShowAddPasskeyDialog(false)
+      setNewPasskeyName('')
       toast({
         title: 'Passkey registered',
         description: 'You can now use your passkey to log in.',
@@ -667,7 +715,6 @@ export function AnonymousAuthMenu() {
         setAssociatedGroupIds(recoveredIds)
         localStorage.setItem(ASSOCIATED_GROUPS_KEY, JSON.stringify(recoveredIds))
 
-        setPasskeyEnabled(true)
         localStorage.setItem(LINKED_STORAGE_KEY, 'true')
         setIsLinked(true)
         toast({
@@ -712,7 +759,7 @@ export function AnonymousAuthMenu() {
       setRecentGroupsState(getRecentGroups())
     }
     setIsLinked(false)
-    setPasskeyEnabled(false)
+    setPasskeys([])
     setAssociatedGroupIds([])
     
     const nextAuthId = crypto.randomUUID()
@@ -792,7 +839,7 @@ export function AnonymousAuthMenu() {
       setRecentGroupsState(getRecentGroups())
     }
     setIsLinked(false)
-    setPasskeyEnabled(false)
+    setPasskeys([])
     setAssociatedGroupIds([])
 
     const nextAuthId = crypto.randomUUID()
@@ -1103,39 +1150,39 @@ export function AnonymousAuthMenu() {
               ) : (
                 <>
                   <p className="text-sm text-muted-foreground">
-                    {passkeyEnabled
-                      ? 'Manage your passkey for this account.'
-                      : 'Generate a passkey for quick, passwordless login.'}
+                    {passkeys.length > 0
+                      ? 'Manage your passkeys for this account.'
+                      : 'Add a passkey for quick, passwordless login.'}
                   </p>
-                  <div className="flex flex-wrap gap-2">
-                    {passkeyEnabled ? (
-                      <>
-                        <Button
-                          type="button"
-                          onClick={handleRegisterPasskey}
-                          disabled={isRegisteringPasskey || !authId || !username.trim()}
-                        >
-                          {isRegisteringPasskey ? 'Registering…' : 'Replace passkey'}
-                        </Button>
-                        <Button
-                          type="button"
-                          variant="destructive"
-                          onClick={handleDeletePasskey}
-                          disabled={isDeletingPasskey}
-                        >
-                          {isDeletingPasskey ? 'Removing…' : 'Remove passkey'}
-                        </Button>
-                      </>
-                    ) : (
-                      <Button
-                        type="button"
-                        onClick={handleRegisterPasskey}
-                        disabled={isRegisteringPasskey || !authId || !username.trim()}
-                      >
-                        {isRegisteringPasskey ? 'Registering…' : 'Generate passkey'}
-                      </Button>
-                    )}
-                  </div>
+                  {passkeys.length > 0 && (
+                    <div className="space-y-2 mb-3">
+                      {passkeys.map((passkey) => (
+                        <div key={passkey.id} className="flex items-center justify-between p-2 border rounded">
+                          <div className="flex-1">
+                            <p className="text-sm font-medium">{passkey.name}</p>
+                            <p className="text-xs text-muted-foreground">
+                              Created {new Date(passkey.createdAt).toLocaleDateString()}
+                            </p>
+                          </div>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setPasskeyToDelete(passkey.id)}
+                          >
+                            Remove
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <Button
+                    type="button"
+                    onClick={() => setShowAddPasskeyDialog(true)}
+                    disabled={!authId || !username.trim()}
+                  >
+                    Add passkey
+                  </Button>
                 </>
               )}
             </div>
@@ -1242,6 +1289,74 @@ export function AnonymousAuthMenu() {
           onOpenChange={setShowImportJSONDialog}
         />
       )}
+
+      <Dialog open={showAddPasskeyDialog} onOpenChange={setShowAddPasskeyDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add Passkey</DialogTitle>
+            <DialogDescription>
+              Enter a name for this passkey to help you identify it later.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Input
+                value={newPasskeyName}
+                onChange={(e) => setNewPasskeyName(e.target.value)}
+                placeholder="e.g., MacBook Pro, iPhone"
+                autoFocus
+              />
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => {
+                  setShowAddPasskeyDialog(false)
+                  setNewPasskeyName('')
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="button"
+                onClick={handleRegisterPasskey}
+                disabled={isRegisteringPasskey || !newPasskeyName.trim()}
+              >
+                {isRegisteringPasskey ? 'Registering…' : 'Add passkey'}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={passkeyToDelete !== null} onOpenChange={(open) => !open && setPasskeyToDelete(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Remove Passkey</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to remove this passkey? You will need to use another authentication method to access your account.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-wrap gap-2">
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => setPasskeyToDelete(null)}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={() => passkeyToDelete && handleDeletePasskey(passkeyToDelete)}
+              disabled={isDeletingPasskey}
+            >
+              {isDeletingPasskey ? 'Removing…' : 'Remove passkey'}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   )
 }

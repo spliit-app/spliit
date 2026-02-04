@@ -15,11 +15,12 @@ export async function POST(request: Request) {
     )
   }
   const body = (await request.json().catch(() => null)) as {
+    passkeyId?: string
     userId?: string
   } | null
 
-  if (!body?.userId) {
-    return NextResponse.json({ error: 'Missing userId' }, { status: 400 })
+  if (!body?.passkeyId || !body?.userId) {
+    return NextResponse.json({ error: 'Missing passkeyId or userId' }, { status: 400 })
   }
 
   // Require valid session and verify user owns the account
@@ -36,16 +37,36 @@ export async function POST(request: Request) {
   }
 
   try {
-    await prisma.anonymousUser.update({
-      where: { id: body.userId },
-      data: {
-        passkeysEnabled: false,
-        passkeyCredentialId: null,
-        passkeyPublicKey: null,
-        passkeyCounter: null,
-        passkeyTransports: null,
-      },
+    // Verify the passkey belongs to this user
+    const passkey = await prisma.passkey.findUnique({
+      where: { id: body.passkeyId },
+      select: { anonymousUserId: true },
     })
+
+    if (!passkey || passkey.anonymousUserId !== body.userId) {
+      return NextResponse.json(
+        { error: 'Passkey not found or does not belong to this user' },
+        { status: 404 }
+      )
+    }
+
+    // Delete the passkey
+    await prisma.passkey.delete({
+      where: { id: body.passkeyId },
+    })
+
+    // Check if user has any remaining passkeys
+    const remainingPasskeys = await prisma.passkey.count({
+      where: { anonymousUserId: body.userId },
+    })
+
+    // If no passkeys remain, disable passkeys on user
+    if (remainingPasskeys === 0) {
+      await prisma.anonymousUser.update({
+        where: { id: body.userId },
+        data: { passkeysEnabled: false },
+      })
+    }
 
     return NextResponse.json({ ok: true })
   } catch (error) {
