@@ -57,8 +57,24 @@ export async function POST(request: NextRequest) {
     })
 
     // Create temporary session to store challenge for server-side verification
-    const tempUserId = userId || 'temp-' + Date.now()
-    const sessionToken = await sessionStore.create(tempUserId, 10 * 60 * 1000) // 10 min
+    // Ensure the user exists in the database before creating a session
+    let sessionToken: string
+    if (userId) {
+      // Check if user exists, create if not
+      await prisma.anonymousUser.upsert({
+        where: { id: userId },
+        create: { id: userId },
+        update: {},
+      })
+      sessionToken = await sessionStore.create(userId, 10 * 60 * 1000) // 10 min
+    } else {
+      // For discoverable credentials without userId, create a temporary user
+      const tempUserId = 'temp-auth-' + crypto.randomUUID()
+      await prisma.anonymousUser.create({
+        data: { id: tempUserId },
+      })
+      sessionToken = await sessionStore.create(tempUserId, 10 * 60 * 1000) // 10 min
+    }
     await sessionStore.storeChallenge(sessionToken, options.challenge)
     
     // Send options including challenge to client (required by WebAuthn)
