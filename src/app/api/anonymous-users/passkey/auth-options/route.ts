@@ -34,18 +34,18 @@ export async function POST(request: NextRequest) {
     let allowCredentials: { id: string }[] | undefined
 
     if (userId) {
-      // Get the user's credential ID from the database
-      const user = await prisma.anonymousUser.findUnique({
-        where: { id: userId },
+      // Get the user's passkey credential IDs from the database
+      const passkeys = await prisma.passkey.findMany({
+        where: { anonymousUserId: userId },
         select: { 
-          passkeyCredentialId: true,
+          credentialId: true,
         },
       })
 
-      if (user?.passkeyCredentialId) {
-        allowCredentials = [{
-          id: user.passkeyCredentialId,
-        }]
+      if (passkeys.length > 0) {
+        allowCredentials = passkeys.map(p => ({
+          id: p.credentialId,
+        }))
       }
     }
 
