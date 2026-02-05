@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Support both credential-specific and discoverable authentication
-    let allowCredentials: { id: string }[] | undefined
+    let allowCredentials: { id: string; type: 'public-key' }[] | undefined
 
     if (resolvedUserId) {
       // Get the user's passkey credential IDs from the database
@@ -63,6 +63,7 @@ export async function POST(request: NextRequest) {
       if (passkeys.length > 0) {
         allowCredentials = passkeys.map(p => ({
           id: p.credentialId,
+          type: 'public-key',
         }))
       } else {
         return NextResponse.json(
