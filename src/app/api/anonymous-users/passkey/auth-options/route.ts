@@ -27,16 +27,34 @@ export async function POST(request: NextRequest) {
   try {
     const body = (await request.json().catch(() => ({}))) as {
       userId?: string
+      username?: string
     }
-    const { userId } = body
+    const { userId, username } = body
+
+    let resolvedUserId = userId
+    if (!resolvedUserId && username) {
+      const user = await prisma.anonymousUser.findUnique({
+        where: { username },
+        select: { id: true },
+      })
+
+      if (!user) {
+        return NextResponse.json(
+          { error: 'User not found. Please check your username.' },
+          { status: 404 }
+        )
+      }
+
+      resolvedUserId = user.id
+    }
 
     // Support both credential-specific and discoverable authentication
     let allowCredentials: { id: string }[] | undefined
 
-    if (userId) {
+    if (resolvedUserId) {
       // Get the user's passkey credential IDs from the database
       const passkeys = await prisma.passkey.findMany({
-        where: { anonymousUserId: userId },
+        where: { anonymousUserId: resolvedUserId },
         select: { 
           credentialId: true,
         },
@@ -46,6 +64,11 @@ export async function POST(request: NextRequest) {
         allowCredentials = passkeys.map(p => ({
           id: p.credentialId,
         }))
+      } else {
+        return NextResponse.json(
+          { error: 'No passkeys found for this account.' },
+          { status: 404 }
+        )
       }
     }
 
@@ -58,10 +81,10 @@ export async function POST(request: NextRequest) {
 
     // Create temporary session to store challenge for server-side verification
     let sessionToken: string
-    if (userId) {
+    if (resolvedUserId) {
       // Check if user exists; do not create an incomplete user here
       const existingUser = await prisma.anonymousUser.findUnique({
-        where: { id: userId },
+        where: { id: resolvedUserId },
       })
       if (!existingUser) {
         return NextResponse.json(
@@ -69,7 +92,7 @@ export async function POST(request: NextRequest) {
           { status: 404 }
         )
       }
-      sessionToken = await sessionStore.create(userId, 10 * 60 * 1000) // 10 min
+      sessionToken = await sessionStore.create(resolvedUserId, 10 * 60 * 1000) // 10 min
     } else {
       // For discoverable credentials without userId, create a temporary user
       // This user will be cleaned up by SessionStore when the session expires
