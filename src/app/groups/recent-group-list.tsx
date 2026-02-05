@@ -292,7 +292,7 @@ function GroupsPage({
           <Link href="/groups">{t('myGroups')}</Link>
         </h1>
         <div className="flex gap-2">
-          {!isLoggedIn && (
+          {isLoggedIn && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon">
