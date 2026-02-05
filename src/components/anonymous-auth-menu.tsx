@@ -799,19 +799,11 @@ export function AnonymousAuthMenu() {
   }
 
   async function handleAuthenticatePasskey() {
-    if (!isLinked && !username.trim()) {
-      toast({
-        title: 'Username required',
-        description: 'Enter your username to locate your passkey-enabled account.',
-      })
-      return
-    }
-
     setIsAuthenticatingPasskey(true)
 
     try {
       // Get authentication options from the server
-      // Pass authId only when linked; otherwise use username to find the account
+      // Pass authId only when linked; otherwise try discoverable credentials first
       const optionsResponse = await fetch('/api/anonymous-users/passkey/auth-options', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -819,12 +811,26 @@ export function AnonymousAuthMenu() {
         body: JSON.stringify(
           isLinked
             ? { userId: authId || undefined }
-            : { username: username.trim() },
+            : username.trim()
+              ? { username: username.trim() }
+              : {},
         ),
       })
 
       if (!optionsResponse.ok) {
-        throw new Error('No passkey registered for this account')
+        const errorData = (await optionsResponse.json().catch(() => ({}))) as {
+          error?: string
+        }
+
+        if (!isLinked && !username.trim()) {
+          toast({
+            title: 'Passkey not found',
+            description: 'Try entering your username and retrying passkey login.',
+          })
+          return
+        }
+
+        throw new Error(errorData.error || 'No passkey registered for this account')
       }
 
       const options = (await optionsResponse.json()) as any
@@ -880,10 +886,17 @@ export function AnonymousAuthMenu() {
       }
     } catch (error) {
       console.error('Passkey authentication error:', error)
-      toast({
-        title: 'Authentication failed',
-        description: error instanceof Error ? error.message : 'Please try again.',
-      })
+      if (!isLinked && !username.trim()) {
+        toast({
+          title: 'Passkey not found',
+          description: 'Try entering your username and retrying passkey login.',
+        })
+      } else {
+        toast({
+          title: 'Authentication failed',
+          description: error instanceof Error ? error.message : 'Please try again.',
+        })
+      }
     } finally {
       setIsAuthenticatingPasskey(false)
     }

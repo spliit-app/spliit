@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
   // Apply rate limiting
   const identifier = getRateLimitIdentifier(request)
   const rateLimitResult = rateLimit(identifier)
-  
+
   if (!rateLimitResult.success) {
     return NextResponse.json(
       { error: 'Too many requests. Please try again later.' },
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
       // Get the user's passkey credential IDs from the database
       const passkeys = await prisma.passkey.findMany({
         where: { anonymousUserId: resolvedUserId },
-        select: { 
+        select: {
           credentialId: true,
         },
       })
@@ -103,12 +103,12 @@ export async function POST(request: NextRequest) {
       sessionToken = await sessionStore.create(tempUserId, 10 * 60 * 1000) // 10 min
     }
     await sessionStore.storeChallenge(sessionToken, options.challenge)
-    
+
     // Send options including challenge to client (required by WebAuthn)
     const response = NextResponse.json(options)
-    
+
     response.headers.set('Set-Cookie', createSessionCookie(sessionToken, 600)) // 10 min cookie
-    
+
     return response
   } catch (error) {
     console.error('Error generating authentication options:', error)
