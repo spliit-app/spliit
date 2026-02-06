@@ -390,8 +390,7 @@
     "other": {
       "heading": "그 외 통화"
     }
-  }
-,
+  },
   "JSONImport": {
     "importSuccessTitle": "Import completed",
     "importSuccessDescription": "{name}",

@@ -453,8 +453,7 @@
     "other": {
       "heading": "מטבעות אחרים"
     }
-  }
-,
+  },
   "JSONImport": {
     "importSuccessTitle": "Import completed",
     "importSuccessDescription": "{name}",

@@ -453,8 +453,7 @@
     "other": {
       "heading": "その他の通貨"
     }
-  }
-,
+  },
   "JSONImport": {
     "importSuccessTitle": "Import completed",
     "importSuccessDescription": "{name}",

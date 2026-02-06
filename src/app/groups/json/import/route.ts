@@ -146,13 +146,12 @@ export async function POST(req: Request) {
 
       return NextResponse.json({
         success: true,
-        message: `Group ${
-          mode === 'create'
+        message: `Group ${mode === 'create'
             ? 'created'
             : mode === 'rollback'
-            ? 'rolled back'
-            : 'updated'
-        } successfully`,
+              ? 'rolled back'
+              : 'updated'
+          } successfully`,
         groupId: jsonData.id,
         mode,
       })

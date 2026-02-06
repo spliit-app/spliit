@@ -391,8 +391,7 @@
       "TV/Phone/Internet": "TV/Telefon/İnternet",
       "Water": "Su"
     }
-  }
-,
+  },
   "JSONImport": {
     "importSuccessTitle": "Import completed",
     "importSuccessDescription": "{name}",

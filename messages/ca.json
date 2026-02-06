@@ -461,8 +461,7 @@
     "other": {
       "heading": "Altres monedes"
     }
-  }
-,
+  },
   "JSONImport": {
     "importSuccessTitle": "Import completed",
     "importSuccessDescription": "{name}",

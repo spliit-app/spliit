@@ -461,8 +461,7 @@
     "common": {
       "heading": "Geläufigste"
     }
-  }
-,
+  },
   "JSONImport": {
     "importSuccessTitle": "Import completed",
     "importSuccessDescription": "{name}",

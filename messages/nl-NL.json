@@ -461,8 +461,7 @@
       "heading": "Andere valuta"
     },
     "search": "Valuta zoeken..."
-  }
-,
+  },
   "JSONImport": {
     "importSuccessTitle": "Import completed",
     "importSuccessDescription": "{name}",

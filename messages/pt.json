@@ -123,8 +123,7 @@
       },
       "save": "Gravar"
     }
-  }
-,
+  },
   "JSONImport": {
     "importSuccessTitle": "Import completed",
     "importSuccessDescription": "{name}",

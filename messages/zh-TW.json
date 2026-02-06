@@ -391,8 +391,7 @@
       "TV/Phone/Internet": "電視/電話/網路",
       "Water": "水費"
     }
-  }
-,
+  },
   "JSONImport": {
     "importSuccessTitle": "Import completed",
     "importSuccessDescription": "{name}",

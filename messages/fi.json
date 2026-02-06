@@ -381,8 +381,7 @@
       "TV/Phone/Internet": "TV/Puhelin/Internet",
       "Water": "Vesi"
     }
-  }
-,
+  },
   "JSONImport": {
     "importSuccessTitle": "Import completed",
     "importSuccessDescription": "{name}",

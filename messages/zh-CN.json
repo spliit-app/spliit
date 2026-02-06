@@ -445,8 +445,7 @@
     "other": {
       "heading": "其他币种"
     }
-  }
-,
+  },
   "JSONImport": {
     "importSuccessTitle": "Import completed",
     "importSuccessDescription": "{name}",

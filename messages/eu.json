@@ -453,8 +453,7 @@
     "other": {
       "heading": "Beste monetak"
     }
-  }
-,
+  },
   "JSONImport": {
     "importSuccessTitle": "Import completed",
     "importSuccessDescription": "{name}",

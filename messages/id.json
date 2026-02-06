@@ -453,8 +453,7 @@
       "TV/Phone/Internet": "TV/HP/Internet",
       "Water": "Air"
     }
-  }
-,
+  },
   "JSONImport": {
     "importSuccessTitle": "Import completed",
     "importSuccessDescription": "{name}",
