@@ -453,5 +453,11 @@
     "other": {
       "heading": "מטבעות אחרים"
     }
+  },
+  "JSONImport": {
+    "importSuccessTitle": "הייבוא הושלם",
+    "importSuccessDescription": "{name}",
+    "importAssociationWarningTitle": "שיוך ממתין",
+    "importAssociationWarningDescription": "ייבאנו את הקבוצה, אך לא הצלחנו לשמור את הרשאות החשבון. פתח את הפרופיל שלך ולחץ על \"שמור\" כדי להשלים."
   }
 }

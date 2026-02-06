@@ -461,5 +461,11 @@
     "other": {
       "heading": "Altres monedes"
     }
+  },
+  "JSONImport": {
+    "importSuccessTitle": "Importació completada",
+    "importSuccessDescription": "{name}",
+    "importAssociationWarningTitle": "Associació pendent",
+    "importAssociationWarningDescription": "Hem importat el grup, però no hem pogut desar els permisos del compte. Obre el teu perfil i fes clic a Desa per finalitzar."
   }
 }

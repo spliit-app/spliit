@@ -29,9 +29,9 @@ import { useEffect, useMemo, useState } from 'react'
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser'
 import { RestoreBackupButton } from '@/components/restore-backup-button'
 import { ImportJSONButton } from '@/components/import-json-button'
+import { ASSOCIATED_GROUPS_KEY } from '@/lib/anonymous-constants'
 
 const AUTH_STORAGE_KEY = 'anonymousAuthId'
-const ASSOCIATED_GROUPS_KEY = 'anonymousAssociatedGroups'
 const USERNAME_STORAGE_KEY = 'anonymousUsername'
 const LINKED_STORAGE_KEY = 'anonymousLinked'
 
@@ -174,7 +174,7 @@ export function AnonymousAuthMenu() {
     () => checkPassphraseComplexity(passphrase),
     [passphrase]
   )
-  
+
   const newPassphraseComplexity = useMemo(
     () => checkPassphraseComplexity(newPassphrase),
     [newPassphrase]
@@ -296,7 +296,7 @@ export function AnonymousAuthMenu() {
   // Fetch passkeys when dialog opens and user is linked
   useEffect(() => {
     if (!open || !isLinked || !authId) return
-    
+
     void (async () => {
       try {
         const response = await fetch(`/api/anonymous-users/passkey/list?userId=${authId}`)
@@ -326,10 +326,10 @@ export function AnonymousAuthMenu() {
           return
         }
         const data = (await response.json()) as { groups: AnonymousGroup[]; passkeysEnabled?: boolean; hasPassphrase?: boolean }
-        
+
         // Update passphrase state
         setHasExistingPassphrase(data.hasPassphrase ?? false)
-        
+
         if (!data.groups.length) return
 
         const mergedGroups = mergeRecentGroups(getRecentGroups(), data.groups)
@@ -383,7 +383,7 @@ export function AnonymousAuthMenu() {
 
       if (!response.ok) {
         const errorData = (await response.json().catch(() => ({}))) as { error?: string }
-        
+
         if (response.status === 401) {
           toast({
             title: 'Session expired',
@@ -527,7 +527,7 @@ export function AnonymousAuthMenu() {
 
   async function handleChangePassphrase() {
     if (!authId || !newPassphrase.trim() || !username.trim()) return
-    
+
     // Always require current passphrase for normal change flow
     if (!currentPassphrase.trim()) {
       toast({
@@ -536,7 +536,7 @@ export function AnonymousAuthMenu() {
       })
       return
     }
-    
+
     setIsChangingPassphrase(true)
     const currentHash = await hashPassphrase(currentPassphrase.trim())
     const newHash = await hashPassphrase(newPassphrase.trim())
@@ -574,7 +574,7 @@ export function AnonymousAuthMenu() {
 
   async function handleSetPassphraseAfterPasskeyAuth() {
     if (!authId || !newPassphrase.trim() || !username.trim()) return
-    
+
     setIsChangingPassphrase(true)
     const newHash = await hashPassphrase(newPassphrase.trim())
 
@@ -803,16 +803,34 @@ export function AnonymousAuthMenu() {
 
     try {
       // Get authentication options from the server
-      // Pass authId if available, otherwise use discoverable credentials
+      // Pass authId only when linked; otherwise try discoverable credentials first
       const optionsResponse = await fetch('/api/anonymous-users/passkey/auth-options', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ userId: authId || undefined }),
+        body: JSON.stringify(
+          isLinked
+            ? { userId: authId || undefined }
+            : username.trim()
+              ? { username: username.trim() }
+              : {},
+        ),
       })
 
       if (!optionsResponse.ok) {
-        throw new Error('No passkey registered for this account')
+        const errorData = (await optionsResponse.json().catch(() => ({}))) as {
+          error?: string
+        }
+
+        if (!isLinked && !username.trim()) {
+          toast({
+            title: 'Passkey not found',
+            description: 'Try entering your username and retrying passkey login.',
+          })
+          return
+        }
+
+        throw new Error(errorData.error || 'No passkey registered for this account')
       }
 
       const options = (await optionsResponse.json()) as any
@@ -868,10 +886,17 @@ export function AnonymousAuthMenu() {
       }
     } catch (error) {
       console.error('Passkey authentication error:', error)
-      toast({
-        title: 'Authentication failed',
-        description: error instanceof Error ? error.message : 'Please try again.',
-      })
+      if (!isLinked && !username.trim()) {
+        toast({
+          title: 'Passkey not found',
+          description: 'Try entering your username and retrying passkey login.',
+        })
+      } else {
+        toast({
+          title: 'Authentication failed',
+          description: error instanceof Error ? error.message : 'Please try again.',
+        })
+      }
     } finally {
       setIsAuthenticatingPasskey(false)
     }
@@ -883,10 +908,10 @@ export function AnonymousAuthMenu() {
 
   async function handleConfirmUnlink(removeGroups: boolean) {
     setShowUnlinkDialog(false)
-    
+
     // Note: Groups remain in database for account recovery
     // removeGroups only affects localStorage visibility
-    
+
     localStorage.removeItem(AUTH_STORAGE_KEY)
     localStorage.removeItem(USERNAME_STORAGE_KEY)
     localStorage.removeItem(LINKED_STORAGE_KEY)
@@ -904,23 +929,23 @@ export function AnonymousAuthMenu() {
     setIsLinked(false)
     setPasskeys([])
     setAssociatedGroupIds([])
-    
+
     const nextAuthId = crypto.randomUUID()
     localStorage.setItem(AUTH_STORAGE_KEY, nextAuthId)
     setAuthId(nextAuthId)
-    
+
     const nextUsername = generateUsername()
     localStorage.setItem(USERNAME_STORAGE_KEY, nextUsername)
     setUsername(nextUsername)
     setUsernameJustGenerated(true)
-    
+
     void fetch('/api/anonymous-users/ensure', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       credentials: 'include',
       body: JSON.stringify({ id: nextAuthId, username: nextUsername }),
     })
-    
+
     toast({
       title: 'Unlinked from device',
       description: removeGroups
@@ -952,7 +977,7 @@ export function AnonymousAuthMenu() {
 
     if (!response.ok) {
       const errorData = (await response.json().catch(() => ({}))) as { error?: string }
-      
+
       if (response.status === 401) {
         toast({
           title: 'Session expired',
@@ -1202,8 +1227,8 @@ export function AnonymousAuthMenu() {
                     {isChangePassphraseMode
                       ? 'Enter your current passphrase and choose a new one.'
                       : passkeyResetMode
-                      ? 'Authenticated with passkey. Choose a new passphrase.'
-                      : 'Manage your account security.'}
+                        ? 'Authenticated with passkey. Choose a new passphrase.'
+                        : 'Manage your account security.'}
                   </p>
                   <div className="text-sm">
                     <label className="block text-xs font-semibold mb-2">Username</label>

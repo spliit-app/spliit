@@ -401,5 +401,11 @@
       "TV/Phone/Internet": "TV/Telefon/Internet",
       "Water": "Woda"
     }
+  },
+  "JSONImport": {
+    "importSuccessTitle": "Import zakończony",
+    "importSuccessDescription": "{name}",
+    "importAssociationWarningTitle": "Oczekujące powiązanie",
+    "importAssociationWarningDescription": "Zaimportowaliśmy grupę, ale nie mogliśmy zapisać uprawnień kont. Otwórz swój profil i kliknij \"Zapisz\", aby zakończyć."
   }
 }

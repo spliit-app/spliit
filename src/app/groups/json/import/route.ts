@@ -43,7 +43,7 @@ export async function POST(req: Request) {
     // Read the JSON file
     const text = await file.text()
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const jsonData: JSONImportData = JSON.parse(
+    let jsonData: JSONImportData = JSON.parse(
       text,
     ) as unknown as JSONImportData
 
@@ -123,6 +123,14 @@ export async function POST(req: Request) {
         )
       }
 
+      if (mode === 'create') {
+        const importDate = new Date().toISOString().split('T')[0]
+        jsonData = {
+          ...jsonData,
+          name: `${jsonData.name} (imported ${importDate})`,
+        }
+      }
+
       // Execute restore in a transaction (increase timeout for large imports)
       await prisma.$transaction(
         async (tx) => {
@@ -138,13 +146,12 @@ export async function POST(req: Request) {
 
       return NextResponse.json({
         success: true,
-        message: `Group ${
-          mode === 'create'
+        message: `Group ${mode === 'create'
             ? 'created'
             : mode === 'rollback'
-            ? 'rolled back'
-            : 'updated'
-        } successfully`,
+              ? 'rolled back'
+              : 'updated'
+          } successfully`,
         groupId: jsonData.id,
         mode,
       })

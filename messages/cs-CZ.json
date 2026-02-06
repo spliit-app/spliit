@@ -401,5 +401,11 @@
       "TV/Phone/Internet": "TV/Telefon/Internet",
       "Water": "Voda"
     }
+  },
+  "JSONImport": {
+    "importSuccessTitle": "Import dokončen",
+    "importSuccessDescription": "{name}",
+    "importAssociationWarningTitle": "Čekající přiřazení",
+    "importAssociationWarningDescription": "Skupina byla importována, ale nepodařilo se uložit oprávnění účtů. Otevřete svůj profil a kliknutím na Uložit import dokončete."
   }
 }

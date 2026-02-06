@@ -453,5 +453,11 @@
     "other": {
       "heading": "Beste monetak"
     }
+  },
+  "JSONImport": {
+    "importSuccessTitle": "Inportazioa osatu da",
+    "importSuccessDescription": "{name}",
+    "importAssociationWarningTitle": "Elkarketa zain",
+    "importAssociationWarningDescription": "Taldea inportatu dugu, baina ezin izan dugu kontu-baimenik gorde. Ireki zure profila eta egin klik Gorde botoian azken urratsa egiteko."
   }
 }

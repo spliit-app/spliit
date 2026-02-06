@@ -391,5 +391,11 @@
       "TV/Phone/Internet": "TV/Telefon/İnternet",
       "Water": "Su"
     }
+  },
+  "JSONImport": {
+    "importSuccessTitle": "İçe aktarma tamamlandı",
+    "importSuccessDescription": "{name}",
+    "importAssociationWarningTitle": "İlişkilendirme beklemede",
+    "importAssociationWarningDescription": "Grubu içe aktardık ancak hesap izinlerini kaydedemedik. Profili açıp Kaydet'e tıklayarak işlemi tamamlayın."
   }
 }

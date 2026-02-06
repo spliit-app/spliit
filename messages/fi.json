@@ -381,5 +381,11 @@
       "TV/Phone/Internet": "TV/Puhelin/Internet",
       "Water": "Vesi"
     }
+  },
+  "JSONImport": {
+    "importSuccessTitle": "Tuonti valmis",
+    "importSuccessDescription": "{name}",
+    "importAssociationWarningTitle": "Yhdistäminen kesken",
+    "importAssociationWarningDescription": "Toimme ryhmän, mutta emme voineet tallentaa käyttäjäoikeuksia. Avaa profiilisi ja viimeistele tallennus painamalla Tallenna."
   }
 }

@@ -391,5 +391,11 @@
       "TV/Phone/Internet": "ТБ/Телефон/Інтернет",
       "Water": "Вода"
     }
+  },
+  "JSONImport": {
+    "importSuccessTitle": "Імпорт завершено",
+    "importSuccessDescription": "{name}",
+    "importAssociationWarningTitle": "Очікується прив'язка",
+    "importAssociationWarningDescription": "Ми імпортували групу, але не змогли зберегти дозволи облікового запису. Відкрийте свій профіль і натисніть «Зберегти», щоб завершити."
   }
 }
