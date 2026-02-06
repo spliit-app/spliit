@@ -392,9 +392,9 @@
     }
   },
   "JSONImport": {
-    "importSuccessTitle": "Import completed",
+    "importSuccessTitle": "가져오기가 완료되었어요",
     "importSuccessDescription": "{name}",
-    "importAssociationWarningTitle": "Association pending",
-    "importAssociationWarningDescription": "We imported the group, but could not save account permissions. Open your profile and click Save to finalize."
+    "importAssociationWarningTitle": "연결이 보류 중이에요",
+    "importAssociationWarningDescription": "그룹은 가져왔지만 계정 권한은 저장하지 못했어요. 프로필을 열고 \"저장\"을 눌러 마무리해 주세요."
   }
 }

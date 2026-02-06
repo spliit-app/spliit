@@ -417,9 +417,9 @@
     }
   },
   "JSONImport": {
-    "importSuccessTitle": "Import completed",
+    "importSuccessTitle": "Importazione completata",
     "importSuccessDescription": "{name}",
-    "importAssociationWarningTitle": "Association pending",
-    "importAssociationWarningDescription": "We imported the group, but could not save account permissions. Open your profile and click Save to finalize."
+    "importAssociationWarningTitle": "Associazione in sospeso",
+    "importAssociationWarningDescription": "Abbiamo importato il gruppo, ma non è stato possibile salvare i permessi dell'account. Apri il tuo profilo e fai clic su Salva per completare l'operazione."
   }
 }

@@ -393,9 +393,9 @@
     }
   },
   "JSONImport": {
-    "importSuccessTitle": "Import completed",
+    "importSuccessTitle": "İçe aktarma tamamlandı",
     "importSuccessDescription": "{name}",
-    "importAssociationWarningTitle": "Association pending",
-    "importAssociationWarningDescription": "We imported the group, but could not save account permissions. Open your profile and click Save to finalize."
+    "importAssociationWarningTitle": "İlişkilendirme beklemede",
+    "importAssociationWarningDescription": "Grubu içe aktardık ancak hesap izinlerini kaydedemedik. Profili açıp Kaydet'e tıklayarak işlemi tamamlayın."
   }
 }

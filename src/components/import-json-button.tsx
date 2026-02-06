@@ -17,6 +17,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { trpc } from '@/trpc/client'
 import { useToast } from '@/components/ui/use-toast'
+import { ASSOCIATED_GROUPS_KEY } from '@/lib/anonymous-constants'
 
 type AnalysisResult = {
   result: 'NEWER' | 'OLDER' | 'SAME' | 'NOT_FOUND'
@@ -68,11 +69,10 @@ export function ImportJSONButton({
     const linkedStatus = localStorage.getItem('anonymousLinked')
     if (linkedStatus !== 'true') return
 
-    const storageKey = 'anonymousAssociatedGroups'
-    const raw = localStorage.getItem(storageKey)
+    const raw = localStorage.getItem(ASSOCIATED_GROUPS_KEY)
     const current = raw ? (JSON.parse(raw) as string[]) : []
     if (!current.includes(groupId)) {
-      localStorage.setItem(storageKey, JSON.stringify([...current, groupId]))
+      localStorage.setItem(ASSOCIATED_GROUPS_KEY, JSON.stringify([...current, groupId]))
     }
   }
 
@@ -83,8 +83,7 @@ export function ImportJSONButton({
     const authId = localStorage.getItem('anonymousAuthId')
     if (!authId) return
 
-    const storageKey = 'anonymousAssociatedGroups'
-    const raw = localStorage.getItem(storageKey)
+    const raw = localStorage.getItem(ASSOCIATED_GROUPS_KEY)
     const current = raw ? (JSON.parse(raw) as string[]) : []
     const mergedIds = current.includes(groupId)
       ? current
@@ -235,6 +234,7 @@ export function ImportJSONButton({
       setRemoteSummary(summaryName)
       await analyzeJSON(nextFile)
     } catch (err) {
+      console.error('Failed to fetch JSON from remote site:', err)
       setError('Failed to fetch JSON from the remote site.')
     } finally {
       setRemoteLoading(false)

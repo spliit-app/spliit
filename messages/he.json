@@ -455,9 +455,9 @@
     }
   },
   "JSONImport": {
-    "importSuccessTitle": "Import completed",
+    "importSuccessTitle": "הייבוא הושלם",
     "importSuccessDescription": "{name}",
-    "importAssociationWarningTitle": "Association pending",
-    "importAssociationWarningDescription": "We imported the group, but could not save account permissions. Open your profile and click Save to finalize."
+    "importAssociationWarningTitle": "שיוך ממתין",
+    "importAssociationWarningDescription": "ייבאנו את הקבוצה, אך לא הצלחנו לשמור את הרשאות החשבון. פתח את הפרופיל שלך ולחץ על \"שמור\" כדי להשלים."
   }
 }

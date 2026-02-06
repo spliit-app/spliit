@@ -29,9 +29,9 @@ import { useEffect, useMemo, useState } from 'react'
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser'
 import { RestoreBackupButton } from '@/components/restore-backup-button'
 import { ImportJSONButton } from '@/components/import-json-button'
+import { ASSOCIATED_GROUPS_KEY } from '@/lib/anonymous-constants'
 
 const AUTH_STORAGE_KEY = 'anonymousAuthId'
-const ASSOCIATED_GROUPS_KEY = 'anonymousAssociatedGroups'
 const USERNAME_STORAGE_KEY = 'anonymousUsername'
 const LINKED_STORAGE_KEY = 'anonymousLinked'
 
