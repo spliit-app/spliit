@@ -450,6 +450,6 @@
     "importSuccessTitle": "导入完成",
     "importSuccessDescription": "{name}",
     "importAssociationWarningTitle": "关联待处理",
-    "importAssociationWarningDescription": "我们已导入该群组，但无法保存账户权限。请打开你的个人资料并点击"保存"以完成操作。"
+    "importAssociationWarningDescription": "我们已导入该群组，但无法保存账户权限。请打开你的个人资料并点击\"保存\"以完成操作。"
   }
 }

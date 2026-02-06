@@ -406,6 +406,6 @@
     "importSuccessTitle": "Import zakończony",
     "importSuccessDescription": "{name}",
     "importAssociationWarningTitle": "Oczekujące powiązanie",
-    "importAssociationWarningDescription": "Zaimportowaliśmy grupę, ale nie mogliśmy zapisać uprawnień kont. Otwórz swój profil i kliknij „Zapisz", aby zakończyć."
+    "importAssociationWarningDescription": "Zaimportowaliśmy grupę, ale nie mogliśmy zapisać uprawnień kont. Otwórz swój profil i kliknij \"Zapisz\", aby zakończyć."
   }
 }

@@ -466,6 +466,6 @@
     "importSuccessTitle": "Import abgeschlossen",
     "importSuccessDescription": "{name}",
     "importAssociationWarningTitle": "Verknüpfung ausstehend",
-    "importAssociationWarningDescription": "Wir haben die Gruppe importiert, konnten aber die Kontoberechtigungen nicht speichern. Öffne dein Profil und klicke auf „Speichern", um den Vorgang abzuschließen."
+    "importAssociationWarningDescription": "Wir haben die Gruppe importiert, konnten aber die Kontoberechtigungen nicht speichern. Öffne dein Profil und klicke auf \"Speichern\", um den Vorgang abzuschließen."
   }
 }
