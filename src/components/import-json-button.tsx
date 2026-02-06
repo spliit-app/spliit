@@ -376,7 +376,7 @@ export function ImportJSONButton({
 
           {file && !analysis && (
             <Button
-              onClick={analyzeJSON}
+              onClick={() => analyzeJSON()}
               disabled={analyzing}
               className="w-full"
             >

@@ -2,7 +2,7 @@ import { env } from '@/lib/env'
 import type { JSONImportData } from '@/lib/json-import'
 import { prisma } from '@/lib/prisma'
 import { NextResponse } from 'next/server'
-import superjson from 'superjson'
+import superjson, { type SuperJSONResult } from 'superjson'
 
 type TrpcBatchEntry = {
     result?: {
@@ -35,7 +35,7 @@ function deserializeTrpcData(entry: TrpcBatchEntry) {
     const data = entry.result.data as { json?: unknown; meta?: unknown }
     if (data && typeof data === 'object' && 'json' in data) {
         try {
-            return superjson.deserialize(data)
+            return superjson.deserialize(data as SuperJSONResult)
         } catch (error) {
             return (data as { json?: unknown }).json
         }
