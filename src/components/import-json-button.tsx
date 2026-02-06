@@ -1,6 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import { getRecentGroups, saveRecentGroup } from '@/app/groups/recent-groups-helpers'
 import {
   Dialog,
   DialogContent,
@@ -14,6 +15,8 @@ import { AlertTriangle, Loader2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { trpc } from '@/trpc/client'
+import { useToast } from '@/components/ui/use-toast'
 
 type AnalysisResult = {
   result: 'NEWER' | 'OLDER' | 'SAME' | 'NOT_FOUND'
@@ -37,10 +40,16 @@ export function ImportJSONButton({
 } = {}) {
   const t = useTranslations('JSONImport')
   const router = useRouter()
+  const { toast } = useToast()
+  const utils = trpc.useUtils()
   const [internalOpen, setInternalOpen] = useState(false)
   const open = controlledOpen !== undefined ? controlledOpen : internalOpen
   const setOpen = controlledOnOpenChange || setInternalOpen
   const [file, setFile] = useState<File | null>(null)
+  const [importMode, setImportMode] = useState<'file' | 'url'>('file')
+  const [remoteUrl, setRemoteUrl] = useState('')
+  const [remoteLoading, setRemoteLoading] = useState(false)
+  const [remoteSummary, setRemoteSummary] = useState<string | null>(null)
   const [analyzing, setAnalyzing] = useState(false)
   const [restoring, setRestoring] = useState(false)
   const [analysis, setAnalysis] = useState<{
@@ -50,24 +59,82 @@ export function ImportJSONButton({
   } | null>(null)
   const [error, setError] = useState<string | null>(null)
 
+  const getImportedGroupName = (name: string) => {
+    const importDate = new Date().toISOString().split('T')[0]
+    return `${name} (imported ${importDate})`
+  }
+
+  const addGroupToAssociatedList = (groupId: string) => {
+    const linkedStatus = localStorage.getItem('anonymousLinked')
+    if (linkedStatus !== 'true') return
+
+    const storageKey = 'anonymousAssociatedGroups'
+    const raw = localStorage.getItem(storageKey)
+    const current = raw ? (JSON.parse(raw) as string[]) : []
+    if (!current.includes(groupId)) {
+      localStorage.setItem(storageKey, JSON.stringify([...current, groupId]))
+    }
+  }
+
+  const syncAssociatedGroups = async (groupId: string, groupName: string) => {
+    const linkedStatus = localStorage.getItem('anonymousLinked')
+    if (linkedStatus !== 'true') return
+
+    const authId = localStorage.getItem('anonymousAuthId')
+    if (!authId) return
+
+    const storageKey = 'anonymousAssociatedGroups'
+    const raw = localStorage.getItem(storageKey)
+    const current = raw ? (JSON.parse(raw) as string[]) : []
+    const mergedIds = current.includes(groupId)
+      ? current
+      : [...current, groupId]
+
+    const recentGroups = getRecentGroups()
+    const recentMap = new Map(recentGroups.map((group) => [group.id, group.name]))
+    recentMap.set(groupId, groupName)
+
+    const payload = mergedIds.map((id) => ({
+      groupId: id,
+      groupName: recentMap.get(id) ?? id,
+    }))
+
+    const response = await fetch('/api/anonymous-users/groups', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ id: authId, groups: payload }),
+    })
+
+    if (!response.ok) {
+      toast({
+        title: t('importAssociationWarningTitle'),
+        description: t('importAssociationWarningDescription'),
+        variant: 'destructive',
+      })
+    }
+  }
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0]
     if (selectedFile) {
       setFile(selectedFile)
       setAnalysis(null)
       setError(null)
+      setRemoteSummary(null)
     }
   }
 
-  const analyzeJSON = async () => {
-    if (!file) return
+  const analyzeJSON = async (targetFile?: File | null) => {
+    const fileToAnalyze = targetFile ?? file
+    if (!fileToAnalyze) return
 
     setAnalyzing(true)
     setError(null)
 
     try {
       const formData = new FormData()
-      formData.append('file', file)
+      formData.append('file', fileToAnalyze)
       formData.append('action', 'analyze')
 
       const response = await fetch('/groups/json/import', {
@@ -105,6 +172,75 @@ export function ImportJSONButton({
     }
   }
 
+  const fetchRemoteJSON = async () => {
+    if (!remoteUrl.trim()) return
+
+    setRemoteLoading(true)
+    setError(null)
+    setRemoteSummary(null)
+
+    try {
+      let parsedUrl: URL
+      try {
+        parsedUrl = new URL(remoteUrl.trim())
+      } catch (parseError) {
+        setError('Enter a valid URL from another Spliit site.')
+        return
+      }
+
+      if (parsedUrl.origin === window.location.origin) {
+        setError('Use a different site URL than this one.')
+        return
+      }
+
+      const groupIdMatch = parsedUrl.pathname.match(/\/groups\/([^/]+)/)
+      const groupId = groupIdMatch?.[1]
+      if (!groupId) {
+        setError('Could not find a group ID in that URL.')
+        return
+      }
+
+      const existing = await utils.groups.get.fetch({ groupId })
+      if (existing.group) {
+        setError('That group already exists on this site.')
+        return
+      }
+
+      const response = await fetch('/groups/json/import/remote', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ url: parsedUrl.toString() }),
+      })
+
+      const data = (await response.json()) as {
+        jsonData?: unknown
+        groupName?: string
+        error?: string
+      }
+
+      if (!response.ok || !data.jsonData) {
+        setError(data.error || 'Failed to fetch JSON from the remote site.')
+        return
+      }
+
+      const jsonText = JSON.stringify(data.jsonData)
+      const nextFile = new File([jsonText], `Spliit Import - ${groupId}.json`, {
+        type: 'application/json',
+      })
+      setFile(nextFile)
+      setAnalysis(null)
+      const summaryName = data.groupName
+        ? `Ready to import: ${getImportedGroupName(data.groupName)}`
+        : 'Remote JSON is ready to import.'
+      setRemoteSummary(summaryName)
+      await analyzeJSON(nextFile)
+    } catch (err) {
+      setError('Failed to fetch JSON from the remote site.')
+    } finally {
+      setRemoteLoading(false)
+    }
+  }
+
   const handleRestore = async (action: 'restore' | 'rollback') => {
     if (!file) return
 
@@ -139,6 +275,19 @@ export function ImportJSONButton({
         return
       }
 
+      const baseName = analysis?.groupName ?? 'Imported group'
+      const groupName =
+        analysis?.result.result === 'NOT_FOUND'
+          ? getImportedGroupName(baseName)
+          : baseName
+      saveRecentGroup({ id: data.groupId, name: groupName })
+      addGroupToAssociatedList(data.groupId)
+      await syncAssociatedGroups(data.groupId, groupName)
+      toast({
+        title: t('importSuccessTitle'),
+        description: t('importSuccessDescription', { name: groupName }),
+      })
+
       // Redirect to the restored group
       router.push(`/groups/${data.groupId}`)
       router.refresh()
@@ -163,13 +312,66 @@ export function ImportJSONButton({
         </DialogHeader>
 
         <div className="space-y-4 py-4">
+          <div className="flex flex-wrap gap-2">
+            <Button
+              type="button"
+              variant={importMode === 'file' ? 'default' : 'outline'}
+              onClick={() => {
+                setImportMode('file')
+                setError(null)
+              }}
+            >
+              Import from file
+            </Button>
+            <Button
+              type="button"
+              variant={importMode === 'url' ? 'default' : 'outline'}
+              onClick={() => {
+                setImportMode('url')
+                setError(null)
+              }}
+            >
+              Import from URL
+            </Button>
+          </div>
+
           <div className="space-y-2">
-            <Input
-              type="file"
-              accept=".json"
-              onChange={handleFileChange}
-              disabled={analyzing || restoring}
-            />
+            {importMode === 'file' ? (
+              <Input
+                type="file"
+                accept=".json"
+                onChange={handleFileChange}
+                disabled={analyzing || restoring}
+              />
+            ) : (
+              <div className="flex flex-wrap gap-2">
+                <Input
+                  type="url"
+                  placeholder="https://spliit.app/groups/..."
+                  value={remoteUrl}
+                  onChange={(event) => {
+                    setRemoteUrl(event.target.value)
+                    setError(null)
+                  }}
+                  disabled={remoteLoading || analyzing || restoring}
+                  className="flex-1 min-w-[240px]"
+                />
+                <Button
+                  type="button"
+                  onClick={fetchRemoteJSON}
+                  disabled={remoteLoading || analyzing || restoring}
+                >
+                  {remoteLoading ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    'Fetch JSON'
+                  )}
+                </Button>
+              </div>
+            )}
+            {remoteSummary && (
+              <p className="text-sm text-muted-foreground">{remoteSummary}</p>
+            )}
           </div>
 
           {file && !analysis && (
@@ -216,7 +418,10 @@ export function ImportJSONButton({
 
               <div className="p-4 bg-slate-50 rounded-md space-y-2">
                 <div className="font-medium">
-                  {t('groupName')}: {analysis.groupName}
+                  {t('groupName')}:{' '}
+                  {analysis.result.result === 'NOT_FOUND'
+                    ? getImportedGroupName(analysis.groupName)
+                    : analysis.groupName}
                 </div>
                 <div className="text-sm text-slate-600">
                   {t('exportDate')}:{' '}
