@@ -10,7 +10,8 @@ import {
 } from '@/components/ui/dialog'
 import { Badge } from '@/components/ui/badge'
 import { useTranslations } from 'next-intl'
-import { Sparkles, QrCode, Archive, Calculator, Lock, Trash2 } from 'lucide-react'
+import { Sparkles, QrCode, Archive, Calculator, Lock, Trash2, ExternalLink } from 'lucide-react'
+import Link from 'next/link'
 
 interface Props {
   open: boolean
@@ -100,11 +101,27 @@ export function NewFeaturesDialog({ open, onOpenChange }: Props) {
           })}
         </div>
 
-        <div className="flex items-center justify-between pt-4 border-t">
-          <p className="text-xs text-muted-foreground">
+        <div className="flex flex-col gap-3 pt-4 border-t">
+          <div className="flex items-center justify-between">
+            <Button
+              variant="link"
+              className="h-auto p-0 text-xs"
+              asChild
+            >
+              <Link
+                href="https://github.com/carnach/spliit/blob/release/docs/user-guides/new-features.md"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View Full Guide
+                <ExternalLink className="w-3 h-3 ml-1" />
+              </Link>
+            </Button>
+            <Button onClick={() => onOpenChange(false)}>Got it</Button>
+          </div>
+          <p className="text-xs text-muted-foreground text-center">
             Tap on specific features in the app to learn more
           </p>
-          <Button onClick={() => onOpenChange(false)}>Got it</Button>
         </div>
       </DialogContent>
     </Dialog>
