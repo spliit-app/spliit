@@ -1,7 +1,10 @@
 'use client'
 
+import {
+  getRecentGroups,
+  saveRecentGroup,
+} from '@/app/groups/recent-groups-helpers'
 import { Button } from '@/components/ui/button'
-import { getRecentGroups, saveRecentGroup } from '@/app/groups/recent-groups-helpers'
 import {
   Dialog,
   DialogContent,
@@ -11,13 +14,13 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
+import { useToast } from '@/components/ui/use-toast'
+import { ASSOCIATED_GROUPS_KEY } from '@/lib/anonymous-constants'
+import { trpc } from '@/trpc/client'
 import { AlertTriangle, Loader2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { trpc } from '@/trpc/client'
-import { useToast } from '@/components/ui/use-toast'
-import { ASSOCIATED_GROUPS_KEY } from '@/lib/anonymous-constants'
 
 type AnalysisResult = {
   result: 'NEWER' | 'OLDER' | 'SAME' | 'NOT_FOUND'
@@ -72,7 +75,10 @@ export function ImportJSONButton({
     const raw = localStorage.getItem(ASSOCIATED_GROUPS_KEY)
     const current = raw ? (JSON.parse(raw) as string[]) : []
     if (!current.includes(groupId)) {
-      localStorage.setItem(ASSOCIATED_GROUPS_KEY, JSON.stringify([...current, groupId]))
+      localStorage.setItem(
+        ASSOCIATED_GROUPS_KEY,
+        JSON.stringify([...current, groupId]),
+      )
     }
   }
 
@@ -90,7 +96,9 @@ export function ImportJSONButton({
       : [...current, groupId]
 
     const recentGroups = getRecentGroups()
-    const recentMap = new Map(recentGroups.map((group) => [group.id, group.name]))
+    const recentMap = new Map(
+      recentGroups.map((group) => [group.id, group.name]),
+    )
     recentMap.set(groupId, groupName)
 
     const payload = mergedIds.map((id) => ({
@@ -150,12 +158,12 @@ export function ImportJSONButton({
       }
 
       if (!response.ok) {
-        setError(data.error || 'Failed to analyze JSON file')
+        setError(data.error || t('errorAnalysisFailed'))
         return
       }
 
       if (!data.comparison || !data.groupName) {
-        setError('Invalid response from server')
+        setError(t('errorInvalidResponse'))
         return
       }
 
@@ -165,7 +173,7 @@ export function ImportJSONButton({
         warnings: data.warnings || [],
       })
     } catch (err) {
-      setError('Failed to analyze JSON file')
+      setError(t('errorAnalysisFailed'))
     } finally {
       setAnalyzing(false)
     }
@@ -183,25 +191,25 @@ export function ImportJSONButton({
       try {
         parsedUrl = new URL(remoteUrl.trim())
       } catch (parseError) {
-        setError('Enter a valid URL from another Spliit site.')
+        setError(t('errorInvalidURL'))
         return
       }
 
       if (parsedUrl.origin === window.location.origin) {
-        setError('Use a different site URL than this one.')
+        setError(t('errorSameOrigin'))
         return
       }
 
       const groupIdMatch = parsedUrl.pathname.match(/\/groups\/([^/]+)/)
       const groupId = groupIdMatch?.[1]
       if (!groupId) {
-        setError('Could not find a group ID in that URL.')
+        setError(t('errorNoGroupID'))
         return
       }
 
       const existing = await utils.groups.get.fetch({ groupId })
       if (existing.group) {
-        setError('That group already exists on this site.')
+        setError(t('errorGroupExists'))
         return
       }
 
@@ -218,7 +226,7 @@ export function ImportJSONButton({
       }
 
       if (!response.ok || !data.jsonData) {
-        setError(data.error || 'Failed to fetch JSON from the remote site.')
+        setError(data.error || t('errorRemoteFetch'))
         return
       }
 
@@ -229,13 +237,15 @@ export function ImportJSONButton({
       setFile(nextFile)
       setAnalysis(null)
       const summaryName = data.groupName
-        ? `Ready to import: ${getImportedGroupName(data.groupName)}`
-        : 'Remote JSON is ready to import.'
+        ? t('remoteReadyWithName', {
+            name: getImportedGroupName(data.groupName),
+          })
+        : t('remoteReady')
       setRemoteSummary(summaryName)
       await analyzeJSON(nextFile)
     } catch (err) {
       console.error('Failed to fetch JSON from remote site:', err)
-      setError('Failed to fetch JSON from the remote site.')
+      setError(t('errorRemoteFetch'))
     } finally {
       setRemoteLoading(false)
     }
@@ -266,12 +276,12 @@ export function ImportJSONButton({
       }
 
       if (!response.ok) {
-        setError(data.error || 'Failed to import JSON')
+        setError(data.error || t('errorImportFailed'))
         return
       }
 
       if (!data.groupId) {
-        setError('Invalid response from server')
+        setError(t('errorInvalidResponse'))
         return
       }
 
@@ -282,7 +292,15 @@ export function ImportJSONButton({
           : baseName
       saveRecentGroup({ id: data.groupId, name: groupName })
       addGroupToAssociatedList(data.groupId)
-      await syncAssociatedGroups(data.groupId, groupName)
+
+      // Attempt to sync associated groups, but don't fail the import if this fails
+      try {
+        await syncAssociatedGroups(data.groupId, groupName)
+      } catch (syncError) {
+        console.error('Failed to sync associated groups:', syncError)
+        // Continue with success flow even if sync fails
+      }
+
       toast({
         title: t('importSuccessTitle'),
         description: t('importSuccessDescription', { name: groupName }),
@@ -293,7 +311,7 @@ export function ImportJSONButton({
       router.refresh()
       setOpen(false)
     } catch (err) {
-      setError('Failed to import JSON')
+      setError(t('errorImportFailed'))
     } finally {
       setRestoring(false)
     }
@@ -321,7 +339,7 @@ export function ImportJSONButton({
                 setError(null)
               }}
             >
-              Import from file
+              {t('importFromFile')}
             </Button>
             <Button
               type="button"
@@ -331,7 +349,7 @@ export function ImportJSONButton({
                 setError(null)
               }}
             >
-              Import from URL
+              {t('importFromURL')}
             </Button>
           </div>
 
@@ -347,7 +365,7 @@ export function ImportJSONButton({
               <div className="flex flex-wrap gap-2">
                 <Input
                   type="url"
-                  placeholder="https://spliit.app/groups/..."
+                  placeholder={t('urlPlaceholder')}
                   value={remoteUrl}
                   onChange={(event) => {
                     setRemoteUrl(event.target.value)
@@ -364,7 +382,7 @@ export function ImportJSONButton({
                   {remoteLoading ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
                   ) : (
-                    'Fetch JSON'
+                    t('fetchJSON')
                   )}
                 </Button>
               </div>
