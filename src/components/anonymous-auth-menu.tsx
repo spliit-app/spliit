@@ -1356,8 +1356,8 @@ export function AnonymousAuthMenu() {
                     {isChangePassphraseMode
                       ? 'Enter your current passphrase and choose a new one.'
                       : passkeyResetMode
-                      ? 'Authenticated with passkey. Choose a new passphrase.'
-                      : 'Manage your account security.'}
+                        ? 'Authenticated with passkey. Choose a new passphrase.'
+                        : 'Manage your account security.'}
                   </p>
                   <div className="text-sm">
                     <label className="block text-xs font-semibold mb-2">
