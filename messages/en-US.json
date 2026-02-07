@@ -538,7 +538,21 @@
     "rollbackToJSON": "Rollback to JSON Version",
     "rollbackWarning": "This will delete all current data and replace it with the JSON export. This action cannot be undone!",
     "jsonIsSame": "This JSON export appears to match your current group data.",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "importFromFile": "Import from file",
+    "importFromURL": "Import from URL",
+    "urlPlaceholder": "https://example.com/groups/...",
+    "fetchJSON": "Fetch JSON",
+    "errorInvalidURL": "Enter a valid URL from another Spliit site.",
+    "errorSameOrigin": "Use a different site URL than this one.",
+    "errorNoGroupID": "Could not find a group ID in that URL.",
+    "errorGroupExists": "That group already exists on this site.",
+    "errorRemoteFetch": "Failed to fetch JSON from the remote site.",
+    "remoteReadyWithName": "Ready to import: {name}",
+    "remoteReady": "Remote JSON is ready to import.",
+    "errorAnalysisFailed": "Failed to analyze JSON file",
+    "errorInvalidResponse": "Invalid response from server",
+    "errorImportFailed": "Failed to import JSON"
   },
   "DeleteData": {
     "undoImport": "Undo Last Import",
@@ -549,16 +563,5 @@
     "deleting": "Undoing...",
     "success": "Import undone successfully",
     "error": "Failed to undo import"
-  },
-  "Share": {
-    "title": "Share",
-    "description": "For other participants to see the group and add expenses, share its URL with them.",
-    "warning": "Warning!",
-    "warningHelp": "Every person with the group URL will be able to see and edit expenses. Share with caution!",
-    "qrCode": {
-      "title": "Share via QR Code",
-      "description": "Scan this QR code to open the group on any device.",
-      "download": "Download QR Code"
-    }
   }
 }
