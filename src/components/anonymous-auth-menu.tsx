@@ -29,9 +29,9 @@ import { useEffect, useMemo, useState } from 'react'
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser'
 import { RestoreBackupButton } from '@/components/restore-backup-button'
 import { ImportJSONButton } from '@/components/import-json-button'
+import { ASSOCIATED_GROUPS_KEY } from '@/lib/anonymous-constants'
 
 const AUTH_STORAGE_KEY = 'anonymousAuthId'
-const ASSOCIATED_GROUPS_KEY = 'anonymousAssociatedGroups'
 const USERNAME_STORAGE_KEY = 'anonymousUsername'
 const LINKED_STORAGE_KEY = 'anonymousLinked'
 
@@ -174,7 +174,7 @@ export function AnonymousAuthMenu() {
     () => checkPassphraseComplexity(passphrase),
     [passphrase]
   )
-  
+
   const newPassphraseComplexity = useMemo(
     () => checkPassphraseComplexity(newPassphrase),
     [newPassphrase]
@@ -203,7 +203,7 @@ export function AnonymousAuthMenu() {
       (group) =>
         activeGroupIds.includes(group.id) || associatedGroupIds.includes(group.id),
     )
-  }, [recentGroups, activeGroupDetailsQuery.data?.groups, activeGroupIds, associatedGroupIds, isLinked, open])
+  }, [recentGroups, activeGroupDetailsQuery.data?.groups, activeGroupIds, associatedGroupIds, isLinked])
 
   useEffect(() => {
     const existingAuthId = localStorage.getItem(AUTH_STORAGE_KEY)
@@ -299,7 +299,7 @@ export function AnonymousAuthMenu() {
   // Fetch passkeys when dialog opens and user is linked
   useEffect(() => {
     if (!open || !isLinked || !authId) return
-    
+
     void (async () => {
       try {
         const response = await fetch(`/api/anonymous-users/passkey/list?userId=${authId}`)
@@ -329,10 +329,10 @@ export function AnonymousAuthMenu() {
           return
         }
         const data = (await response.json()) as { groups: AnonymousGroup[]; passkeysEnabled?: boolean; hasPassphrase?: boolean }
-        
+
         // Update passphrase state
         setHasExistingPassphrase(data.hasPassphrase ?? false)
-        
+
         if (!data.groups.length) return
 
         const mergedGroups = mergeRecentGroups(getRecentGroups(), data.groups)
@@ -372,139 +372,165 @@ export function AnonymousAuthMenu() {
   async function handleSaveAssociations() {
     if (!authId || !isLinked) return
     setIsSaving(true)
-    const payload = profileGroups
-      .filter((group) => associatedGroups.has(group.id))
-      .map((group) => ({ groupId: group.id, groupName: group.name }))
+    try {
+      const payload = profileGroups
+        .filter((group) => associatedGroups.has(group.id))
+        .map((group) => ({ groupId: group.id, groupName: group.name }))
 
-    const response = await fetch('/api/anonymous-users/groups', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({ id: authId, groups: payload }),
-    })
+      const response = await fetch('/api/anonymous-users/groups', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ id: authId, groups: payload }),
+      })
 
-    setIsSaving(false)
+      if (!response.ok) {
+        const errorData = (await response.json().catch(() => ({}))) as { error?: string }
 
-    if (!response.ok) {
-      const errorData = (await response.json().catch(() => ({}))) as { error?: string }
-      
-      if (response.status === 401) {
-        toast({
-          title: 'Session expired',
-          description: 'Please recover your account to save group associations. Use your username and passphrase to log back in.',
-        })
-      } else {
-        toast({
-          title: 'Failed to save groups',
-          description: errorData.error || 'Please try again.',
-        })
+        if (response.status === 401) {
+          toast({
+            title: 'Session expired',
+            description: 'Please recover your account to save group associations. Use your username and passphrase to log back in.',
+          })
+        } else {
+          toast({
+            title: 'Failed to save groups',
+            description: errorData.error || 'Please try again.',
+          })
+        }
+        return
       }
-      return
-    }
 
-    localStorage.setItem(
-      ASSOCIATED_GROUPS_KEY,
-      JSON.stringify(Array.from(associatedGroups)),
-    )
-    toast({
-      title: 'Groups saved',
-      description: 'These groups are now linked to your anonymous account.',
-    })
+      localStorage.setItem(
+        ASSOCIATED_GROUPS_KEY,
+        JSON.stringify(Array.from(associatedGroups)),
+      )
+      toast({
+        title: 'Groups saved',
+        description: 'These groups are now linked to your anonymous account.',
+      })
+    } catch (error) {
+      console.error('Error saving group associations:', error)
+      toast({
+        title: 'Network error',
+        description: 'Unable to save groups. Please check your connection and try again.',
+      })
+    } finally {
+      setIsSaving(false)
+    }
   }
 
   async function handleSavePassphrase() {
     if (!authId || !passphrase.trim() || !username.trim()) return
     setIsSaving(true)
-    const passphraseHash = await hashPassphrase(passphrase.trim())
-    const response = await fetch('/api/anonymous-users/passphrase', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({
-        id: authId,
-        username: username.trim(),
-        passphraseHash,
-      }),
-    })
-    setIsSaving(false)
-
-    if (!response.ok) {
-      toast({
-        title: 'Passphrase already in use',
-        description: 'Choose a different passphrase and try again.',
+    try {
+      const passphraseHash = await hashPassphrase(passphrase.trim())
+      const response = await fetch('/api/anonymous-users/passphrase', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          id: authId,
+          username: username.trim(),
+          passphraseHash,
+        }),
       })
-      return
-    }
 
-    toast({
-      title: 'Account saved',
-      description: 'Use this username and passphrase to recover later.',
-    })
-    setPassphrase('')
-    localStorage.setItem(USERNAME_STORAGE_KEY, username.trim())
-    localStorage.setItem(LINKED_STORAGE_KEY, 'true')
-    setIsLinked(true)
-    refreshGroupsAfterLogin()
+      if (!response.ok) {
+        toast({
+          title: 'Passphrase already in use',
+          description: 'Choose a different passphrase and try again.',
+        })
+        return
+      }
+
+      toast({
+        title: 'Account saved',
+        description: 'Use this username and passphrase to recover later.',
+      })
+      setPassphrase('')
+      localStorage.setItem(USERNAME_STORAGE_KEY, username.trim())
+      localStorage.setItem(LINKED_STORAGE_KEY, 'true')
+      setIsLinked(true)
+      refreshGroupsAfterLogin()
+    } catch (error) {
+      console.error('Error saving passphrase:', error)
+      toast({
+        title: 'Network error',
+        description: 'Unable to save passphrase. Please check your connection and try again.',
+      })
+    } finally {
+      setIsSaving(false)
+    }
   }
 
   async function handleRecover() {
     if (!passphrase.trim() || !username.trim()) return
     setIsRecovering(true)
-    const passphraseHash = await hashPassphrase(passphrase.trim())
-    const response = await fetch('/api/anonymous-users/recover', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({
-        username: username.trim(),
-        passphraseHash,
-      }),
-    })
-    setIsRecovering(false)
-
-    if (!response.ok) {
-      toast({
-        title: 'Recovery failed',
-        description: 'No account was found for that passphrase.',
+    try {
+      const passphraseHash = await hashPassphrase(passphrase.trim())
+      const response = await fetch('/api/anonymous-users/recover', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          username: username.trim(),
+          passphraseHash,
+        }),
       })
-      return
+
+      if (!response.ok) {
+        toast({
+          title: 'Recovery failed',
+          description: 'No account was found for that passphrase.',
+        })
+        return
+      }
+
+      const data = (await response.json()) as {
+        id: string
+        username: string | null
+        groups: AnonymousGroup[]
+      }
+
+      localStorage.setItem(AUTH_STORAGE_KEY, data.id)
+      setAuthId(data.id)
+      if (data.username) {
+        localStorage.setItem(USERNAME_STORAGE_KEY, data.username)
+        setUsername(data.username)
+      }
+
+      const mergedGroups = mergeRecentGroups(getRecentGroups(), data.groups)
+      saveRecentGroupsToStorage(mergedGroups) // Save to localStorage
+      setRecentGroupsState(mergedGroups) // Update state
+
+      const recoveredIds = data.groups.map((group) => group.groupId)
+      setAssociatedGroupIds(recoveredIds)
+      localStorage.setItem(ASSOCIATED_GROUPS_KEY, JSON.stringify(recoveredIds))
+
+      toast({
+        title: 'Account recovered',
+        description: 'Your associated groups were restored on this device.',
+      })
+      setPassphrase('')
+      localStorage.setItem(LINKED_STORAGE_KEY, 'true')
+      setIsLinked(true)
+      // Don't refresh - recovery sets up all state correctly
+      // Just ensure the dialog will show updated groups by reopening
+    } catch (error) {
+      console.error('Error recovering account:', error)
+      toast({
+        title: 'Network error',
+        description: 'Unable to recover account. Please check your connection and try again.',
+      })
+    } finally {
+      setIsRecovering(false)
     }
-
-    const data = (await response.json()) as {
-      id: string
-      username: string | null
-      groups: AnonymousGroup[]
-    }
-
-    localStorage.setItem(AUTH_STORAGE_KEY, data.id)
-    setAuthId(data.id)
-    if (data.username) {
-      localStorage.setItem(USERNAME_STORAGE_KEY, data.username)
-      setUsername(data.username)
-    }
-
-    const mergedGroups = mergeRecentGroups(getRecentGroups(), data.groups)
-    saveRecentGroupsToStorage(mergedGroups) // Save to localStorage
-    setRecentGroupsState(mergedGroups) // Update state
-
-    const recoveredIds = data.groups.map((group) => group.groupId)
-    setAssociatedGroupIds(recoveredIds)
-    localStorage.setItem(ASSOCIATED_GROUPS_KEY, JSON.stringify(recoveredIds))
-
-    toast({
-      title: 'Account recovered',
-      description: 'Your associated groups were restored on this device.',
-    })
-    setPassphrase('')
-    localStorage.setItem(LINKED_STORAGE_KEY, 'true')
-    setIsLinked(true)
-    // Don't refresh - recovery sets up all state correctly
-    // Just ensure the dialog will show updated groups by reopening
   }
 
   async function handleChangePassphrase() {
     if (!authId || !newPassphrase.trim() || !username.trim()) return
-    
+
     // Always require current passphrase for normal change flow
     if (!currentPassphrase.trim()) {
       toast({
@@ -513,7 +539,7 @@ export function AnonymousAuthMenu() {
       })
       return
     }
-    
+
     setIsChangingPassphrase(true)
     const currentHash = await hashPassphrase(currentPassphrase.trim())
     const newHash = await hashPassphrase(newPassphrase.trim())
@@ -551,7 +577,7 @@ export function AnonymousAuthMenu() {
 
   async function handleSetPassphraseAfterPasskeyAuth() {
     if (!authId || !newPassphrase.trim() || !username.trim()) return
-    
+
     setIsChangingPassphrase(true)
     const newHash = await hashPassphrase(newPassphrase.trim())
 
@@ -780,16 +806,34 @@ export function AnonymousAuthMenu() {
 
     try {
       // Get authentication options from the server
-      // Pass authId if available, otherwise use discoverable credentials
+      // Pass authId only when linked; otherwise try discoverable credentials first
       const optionsResponse = await fetch('/api/anonymous-users/passkey/auth-options', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ userId: authId || undefined }),
+        body: JSON.stringify(
+          isLinked
+            ? { userId: authId || undefined }
+            : username.trim()
+              ? { username: username.trim() }
+              : {},
+        ),
       })
 
       if (!optionsResponse.ok) {
-        throw new Error('No passkey registered for this account')
+        const errorData = (await optionsResponse.json().catch(() => ({}))) as {
+          error?: string
+        }
+
+        if (!isLinked && !username.trim()) {
+          toast({
+            title: 'Passkey not found',
+            description: 'Try entering your username and retrying passkey login.',
+          })
+          return
+        }
+
+        throw new Error(errorData.error || 'No passkey registered for this account')
       }
 
       const options = (await optionsResponse.json()) as any
@@ -845,10 +889,17 @@ export function AnonymousAuthMenu() {
       }
     } catch (error) {
       console.error('Passkey authentication error:', error)
-      toast({
-        title: 'Authentication failed',
-        description: error instanceof Error ? error.message : 'Please try again.',
-      })
+      if (!isLinked && !username.trim()) {
+        toast({
+          title: 'Passkey not found',
+          description: 'Try entering your username and retrying passkey login.',
+        })
+      } else {
+        toast({
+          title: 'Authentication failed',
+          description: error instanceof Error ? error.message : 'Please try again.',
+        })
+      }
     } finally {
       setIsAuthenticatingPasskey(false)
     }
@@ -860,10 +911,10 @@ export function AnonymousAuthMenu() {
 
   async function handleConfirmUnlink(removeGroups: boolean) {
     setShowUnlinkDialog(false)
-    
+
     // Note: Groups remain in database for account recovery
     // removeGroups only affects localStorage visibility
-    
+
     localStorage.removeItem(AUTH_STORAGE_KEY)
     localStorage.removeItem(USERNAME_STORAGE_KEY)
     localStorage.removeItem(LINKED_STORAGE_KEY)
@@ -881,23 +932,23 @@ export function AnonymousAuthMenu() {
     setIsLinked(false)
     setPasskeys([])
     setAssociatedGroupIds([])
-    
+
     const nextAuthId = crypto.randomUUID()
     localStorage.setItem(AUTH_STORAGE_KEY, nextAuthId)
     setAuthId(nextAuthId)
-    
+
     const nextUsername = generateUsername()
     localStorage.setItem(USERNAME_STORAGE_KEY, nextUsername)
     setUsername(nextUsername)
     setUsernameJustGenerated(true)
-    
+
     void fetch('/api/anonymous-users/ensure', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       credentials: 'include',
       body: JSON.stringify({ id: nextAuthId, username: nextUsername }),
     })
-    
+
     toast({
       title: 'Unlinked from device',
       description: removeGroups
@@ -929,7 +980,7 @@ export function AnonymousAuthMenu() {
 
     if (!response.ok) {
       const errorData = (await response.json().catch(() => ({}))) as { error?: string }
-      
+
       if (response.status === 401) {
         toast({
           title: 'Session expired',
@@ -1179,8 +1230,8 @@ export function AnonymousAuthMenu() {
                     {isChangePassphraseMode
                       ? 'Enter your current passphrase and choose a new one.'
                       : passkeyResetMode
-                      ? 'Authenticated with passkey. Choose a new passphrase.'
-                      : 'Manage your account security.'}
+                        ? 'Authenticated with passkey. Choose a new passphrase.'
+                        : 'Manage your account security.'}
                   </p>
                   <div className="text-sm">
                     <label className="block text-xs font-semibold mb-2">Username</label>

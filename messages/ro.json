@@ -391,5 +391,11 @@
       "TV/Phone/Internet": "TV/Telefon/Internet",
       "Water": "Apă"
     }
+  },
+  "JSONImport": {
+    "importSuccessTitle": "Import finalizat",
+    "importSuccessDescription": "{name}",
+    "importAssociationWarningTitle": "Asociere în așteptare",
+    "importAssociationWarningDescription": "Am importat grupul, dar nu am putut salva permisiunile contului. Deschide-ți profilul și apasă Salvează pentru a finaliza."
   }
 }

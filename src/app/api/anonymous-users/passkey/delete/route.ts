@@ -50,23 +50,26 @@ export async function POST(request: Request) {
       )
     }
 
-    // Delete the passkey
-    await prisma.passkey.delete({
-      where: { id: body.passkeyId },
-    })
-
-    // Check if user has any remaining passkeys
-    const remainingPasskeys = await prisma.passkey.count({
-      where: { anonymousUserId: body.userId },
-    })
-
-    // If no passkeys remain, disable passkeys on user
-    if (remainingPasskeys === 0) {
-      await prisma.anonymousUser.update({
-        where: { id: body.userId },
-        data: { passkeysEnabled: false },
+    // Delete the passkey and update passkeysEnabled atomically
+    await prisma.$transaction(async (tx) => {
+      // Delete the passkey
+      await tx.passkey.delete({
+        where: { id: body.passkeyId },
       })
-    }
+
+      // Check if user has any remaining passkeys
+      const remainingPasskeys = await tx.passkey.count({
+        where: { anonymousUserId: body.userId },
+      })
+
+      // If no passkeys remain, disable passkeys on user
+      if (remainingPasskeys === 0) {
+        await tx.anonymousUser.update({
+          where: { id: body.userId },
+          data: { passkeysEnabled: false },
+        })
+      }
+    })
 
     return NextResponse.json({ ok: true })
   } catch (error) {

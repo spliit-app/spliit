@@ -461,5 +461,11 @@
     "other": {
       "heading": "Autres devises"
     }
+  },
+  "JSONImport": {
+    "importSuccessTitle": "Importation terminée",
+    "importSuccessDescription": "{name}",
+    "importAssociationWarningTitle": "Association en attente",
+    "importAssociationWarningDescription": "Nous avons importé le groupe, mais n'avons pas pu enregistrer les autorisations du compte. Ouvrez votre profil et cliquez sur « Enregistrer » pour finaliser."
   }
 }

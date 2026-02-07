@@ -123,5 +123,11 @@
       },
       "save": "Gravar"
     }
+  },
+  "JSONImport": {
+    "importSuccessTitle": "Importação concluída",
+    "importSuccessDescription": "{name}",
+    "importAssociationWarningTitle": "Associação pendente",
+    "importAssociationWarningDescription": "Importámos o grupo, mas não conseguimos guardar as permissões da conta. Abre o teu perfil e clica em Gravar para finalizar."
   }
 }

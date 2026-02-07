@@ -461,5 +461,11 @@
       "heading": "Andere valuta"
     },
     "search": "Valuta zoeken..."
+  },
+  "JSONImport": {
+    "importSuccessTitle": "Import voltooid",
+    "importSuccessDescription": "{name}",
+    "importAssociationWarningTitle": "Koppeling in behandeling",
+    "importAssociationWarningDescription": "We hebben de groep geïmporteerd, maar konden de accountrechten niet opslaan. Open je profiel en klik op Opslaan om het te voltooien."
   }
 }

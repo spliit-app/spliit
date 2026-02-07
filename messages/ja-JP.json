@@ -453,5 +453,11 @@
     "other": {
       "heading": "その他の通貨"
     }
+  },
+  "JSONImport": {
+    "importSuccessTitle": "インポートが完了しました",
+    "importSuccessDescription": "{name}",
+    "importAssociationWarningTitle": "関連付けが保留中です",
+    "importAssociationWarningDescription": "グループはインポートしましたが、アカウントの権限を保存できませんでした。プロフィールを開き、「保存」をクリックして完了してください。"
   }
 }

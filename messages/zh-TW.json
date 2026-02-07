@@ -391,5 +391,11 @@
       "TV/Phone/Internet": "電視/電話/網路",
       "Water": "水費"
     }
+  },
+  "JSONImport": {
+    "importSuccessTitle": "匯入已完成",
+    "importSuccessDescription": "{name}",
+    "importAssociationWarningTitle": "關聯尚未完成",
+    "importAssociationWarningDescription": "我們已匯入此群組，但無法儲存帳戶權限。請開啟你的個人檔案並點擊「儲存」以完成設定。"
   }
 }

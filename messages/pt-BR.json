@@ -431,5 +431,11 @@
     "other": {
       "heading": "Outras moedas"
     }
+  },
+  "JSONImport": {
+    "importSuccessTitle": "Importação concluída",
+    "importSuccessDescription": "{name}",
+    "importAssociationWarningTitle": "Associação pendente",
+    "importAssociationWarningDescription": "Importamos o grupo, mas não foi possível salvar as permissões da conta. Abra seu perfil e clique em Salvar para finalizar."
   }
 }

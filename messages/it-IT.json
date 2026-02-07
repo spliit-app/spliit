@@ -415,5 +415,11 @@
       "TV/Phone/Internet": "TV/Telefono/Internet",
       "Water": "Acqua"
     }
+  },
+  "JSONImport": {
+    "importSuccessTitle": "Importazione completata",
+    "importSuccessDescription": "{name}",
+    "importAssociationWarningTitle": "Associazione in sospeso",
+    "importAssociationWarningDescription": "Abbiamo importato il gruppo, ma non è stato possibile salvare i permessi dell'account. Apri il tuo profilo e fai clic su Salva per completare l'operazione."
   }
 }

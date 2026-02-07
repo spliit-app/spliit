@@ -155,7 +155,6 @@ model Passkey {
   lastUsedAt        DateTime      @default(now())
 
   @@index([anonymousUserId])
-  @@index([credentialId])
 }
 
 model AnonymousUserGroup {

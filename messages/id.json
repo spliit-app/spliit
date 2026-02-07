@@ -453,5 +453,11 @@
       "TV/Phone/Internet": "TV/HP/Internet",
       "Water": "Air"
     }
+  },
+  "JSONImport": {
+    "importSuccessTitle": "Impor selesai",
+    "importSuccessDescription": "{name}",
+    "importAssociationWarningTitle": "Asosiasi tertunda",
+    "importAssociationWarningDescription": "Kami mengimpor grup, tetapi tidak dapat menyimpan izin akun. Buka profil Anda dan klik Simpan untuk menyelesaikannya."
   }
 }
