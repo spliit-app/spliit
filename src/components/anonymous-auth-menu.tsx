@@ -223,6 +223,9 @@ export function AnonymousAuthMenu() {
       localStorage.setItem(USERNAME_STORAGE_KEY, nextUsername)
     }
 
+    // Only show username if user is already linked
+    // When not linked (signing in), keep the field empty to avoid confusion
+    // especially for passkey authentication
     if (isUserLinked) {
       setUsername(nextUsername)
     } else {
