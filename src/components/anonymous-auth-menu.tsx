@@ -29,6 +29,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser'
 import { RestoreBackupButton } from '@/components/restore-backup-button'
 import { ImportJSONButton } from '@/components/import-json-button'
+import { NewFeaturesDialog } from '@/components/new-features-dialog'
 import { ASSOCIATED_GROUPS_KEY } from '@/lib/anonymous-constants'
 
 const AUTH_STORAGE_KEY = 'anonymousAuthId'
@@ -140,6 +141,7 @@ export function AnonymousAuthMenu() {
   const [unlinkMode, setUnlinkMode] = useState<'signout' | 'delete' | null>(null)
   const [showRestoreDialog, setShowRestoreDialog] = useState(false)
   const [showImportJSONDialog, setShowImportJSONDialog] = useState(false)
+  const [showNewFeaturesDialog, setShowNewFeaturesDialog] = useState(false)
   const [authId, setAuthId] = useState<string | null>(null)
   const [pendingRefreshTarget, setPendingRefreshTarget] = useState<
     'groups' | 'refresh' | null
@@ -1061,24 +1063,42 @@ export function AnonymousAuthMenu() {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
-          <DropdownMenuItem onClick={() => setOpen(true)}>
+          <DropdownMenuItem onSelect={(event) => {
+            event.preventDefault()
+            setOpen(true)
+          }}>
             Account
           </DropdownMenuItem>
           {isLinked && (
             <>
-              <DropdownMenuItem onClick={() => setShowRestoreDialog(true)}>
+              <DropdownMenuItem onSelect={(event) => {
+                event.preventDefault()
+                setShowRestoreDialog(true)
+              }}>
                 Restore from backup
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setShowImportJSONDialog(true)}>
+              <DropdownMenuItem onSelect={(event) => {
+                event.preventDefault()
+                setShowImportJSONDialog(true)
+              }}>
                 Import from JSON
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => {
-                setUnlinkMode('signout')
-                setShowUnlinkDialog(true)
-              }}>
-                Sign out
-              </DropdownMenuItem>
             </>
+          )}
+          <DropdownMenuItem onSelect={(event) => {
+            event.preventDefault()
+            setShowNewFeaturesDialog(true)
+          }}>
+            ✨ What's New
+          </DropdownMenuItem>
+          {isLinked && (
+            <DropdownMenuItem onSelect={(event) => {
+              event.preventDefault()
+              setUnlinkMode('signout')
+              setShowUnlinkDialog(true)
+            }}>
+              Sign out
+            </DropdownMenuItem>
           )}
         </DropdownMenuContent>
       </DropdownMenu>
@@ -1531,6 +1551,11 @@ export function AnonymousAuthMenu() {
           onOpenChange={setShowImportJSONDialog}
         />
       )}
+
+      <NewFeaturesDialog
+        open={showNewFeaturesDialog}
+        onOpenChange={setShowNewFeaturesDialog}
+      />
 
       <Dialog open={showAddPasskeyDialog} onOpenChange={setShowAddPasskeyDialog}>
         <DialogContent>
