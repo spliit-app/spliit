@@ -56,7 +56,7 @@ This document summarizes the new user-facing features released in the Spliit app
 ## Documentation Created
 
 ### 1. **User Guide: NEW_FEATURES_GUIDE.md**
-📄 **File:** `/Users/gevert/repos/spliit/NEW_FEATURES_GUIDE.md`
+📄 **File:** `NEW_FEATURES_GUIDE.md`
 
 A comprehensive, user-friendly markdown guide covering:
 - Step-by-step instructions for each feature
@@ -68,7 +68,7 @@ A comprehensive, user-friendly markdown guide covering:
 **Audience:** End users, customer support, documentation sites
 
 ### 2. **In-App Feature Showcase: NewFeaturesDialog Component**
-📄 **File:** `/Users/gevert/repos/spliit/src/components/new-features-dialog.tsx`
+📄 **File:** `src/components/new-features-dialog.tsx`
 
 An interactive dialog component showing:
 - Visual feature cards with icons
@@ -84,7 +84,7 @@ An interactive dialog component showing:
 - Clean, modern design matching Spliit UI
 
 ### 3. **Menu Integration: Account Dropdown Update**
-📄 **File:** `/Users/gevert/repos/spliit/src/components/anonymous-auth-menu.tsx`
+📄 **File:** `src/components/anonymous-auth-menu.tsx`
 
 Updated the account menu dropdown to include:
 - New "✨ What's New" menu item

@@ -1175,37 +1175,32 @@ export function AnonymousAuthMenu() {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
-          <DropdownMenuItem onSelect={(event) => {
-            event.preventDefault()
+          <DropdownMenuItem onSelect={() => {
             setOpen(true)
           }}>
             Account
           </DropdownMenuItem>
           {isLinked && (
             <>
-              <DropdownMenuItem onSelect={(event) => {
-                event.preventDefault()
+              <DropdownMenuItem onSelect={() => {
                 setShowRestoreDialog(true)
               }}>
                 Restore from backup
               </DropdownMenuItem>
-              <DropdownMenuItem onSelect={(event) => {
-                event.preventDefault()
+              <DropdownMenuItem onSelect={() => {
                 setShowImportJSONDialog(true)
               }}>
                 Import from JSON
               </DropdownMenuItem>
             </>
           )}
-          <DropdownMenuItem onSelect={(event) => {
-            event.preventDefault()
+          <DropdownMenuItem onSelect={() => {
             setShowNewFeaturesDialog(true)
           }}>
             ✨ What's New
           </DropdownMenuItem>
           {isLinked && (
-            <DropdownMenuItem onSelect={(event) => {
-              event.preventDefault()
+            <DropdownMenuItem onSelect={() => {
               setUnlinkMode('signout')
               setShowUnlinkDialog(true)
             }}>
