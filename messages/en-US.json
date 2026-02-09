@@ -1,7 +1,7 @@
 {
   "Homepage": {
     "title": "Share <strong>Expenses</strong> with <strong>Friends & Family</strong>",
-    "description": "Welcome to your new <strong>Spliit</strong> instance !",
+    "description": "Welcome to your forked <strong>Spliit</strong> instance !",
     "button": {
       "groups": "Go to groups",
       "github": "GitHub"
@@ -11,8 +11,8 @@
     "groups": "Groups"
   },
   "Footer": {
-    "madeIn": "Made in Montréal, Québec 🇨🇦",
-    "builtBy": "Built by <author>Sebastien Castiel</author> and <source>contributors</source>"
+    "madeIn": "Forked from Spliit.app",
+    "builtBy": "Original built by <author>Sebastien Castiel</author> and <source>contributors</source>"
   },
   "Expenses": {
     "title": "Expenses",

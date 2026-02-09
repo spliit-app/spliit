@@ -124,4 +124,8 @@ fs.writeFileSync(path.resolve(publicDir, 'logo.svg'), svgContent, 'utf8')
 
 fs.rmSync(tempDir, { recursive: true, force: true })
 
+const nextCacheDir = path.resolve(repoRoot, '.next')
+fs.rmSync(nextCacheDir, { recursive: true, force: true })
+
 console.log(`Icons generated. Archived old assets in ${archiveRoot}`)
+console.log('[generate-icons] Cleared .next cache to refresh image assets.')
