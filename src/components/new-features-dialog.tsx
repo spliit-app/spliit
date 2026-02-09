@@ -62,7 +62,7 @@ export function NewFeaturesDialog({ open, onOpenChange }: Props) {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-yellow-500" />
-            What's New in Spliit
+            What's New in Spliit Forked
           </DialogTitle>
           <DialogDescription>
             Discover the latest features to make expense sharing easier and more secure
