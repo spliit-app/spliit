@@ -1,0 +1,130 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "sqlite"
+  url       = env("SQLITE_URL")
+}
+
+model Group {
+  id           String        @id
+  name         String
+  information  String?
+  currency     String        @default("$")
+  currencyCode String?
+  participants Participant[]
+  expenses     Expense[]
+  activities   Activity[]
+  createdAt    DateTime      @default(now())
+}
+
+model Participant {
+  id              String           @id
+  name            String
+  group           Group            @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  groupId         String
+  expensesPaidBy  Expense[]
+  expensesPaidFor ExpensePaidFor[]
+}
+
+model Category {
+  id       Int       @id @default(autoincrement())
+  grouping String
+  name     String
+  Expense  Expense[]
+}
+
+model Expense {
+  id               String            @id
+  group            Group             @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  expenseDate      DateTime          @default(now())
+  title            String
+  category         Category?         @relation(fields: [categoryId], references: [id])
+  categoryId       Int               @default(0)
+  amount           Int
+  originalAmount   Int?
+  originalCurrency String?
+  conversionRate   Decimal?
+  paidBy           Participant       @relation(fields: [paidById], references: [id], onDelete: Cascade)
+  paidById         String
+  paidFor          ExpensePaidFor[]
+  groupId          String
+  isReimbursement  Boolean           @default(false)
+  splitMode        SplitMode         @default(EVENLY)
+  createdAt        DateTime          @default(now())
+  documents        ExpenseDocument[]
+  notes            String?
+
+  recurrenceRule         RecurrenceRule?       @default(NONE)
+  recurringExpenseLink   RecurringExpenseLink?
+  recurringExpenseLinkId String?
+}
+
+model ExpenseDocument {
+  id        String   @id
+  url       String
+  width     Int
+  height    Int
+  Expense   Expense? @relation(fields: [expenseId], references: [id])
+  expenseId String?
+}
+
+enum SplitMode {
+  EVENLY
+  BY_SHARES
+  BY_PERCENTAGE
+  BY_AMOUNT
+}
+
+model RecurringExpenseLink {
+  id                    String  @id
+  groupId               String
+  currentFrameExpense   Expense @relation(fields: [currentFrameExpenseId], references: [id], onDelete: Cascade)
+  currentFrameExpenseId String  @unique
+
+  // Note: We do not want to link to the next expense because once it is created, it should be 
+  // treated as it's own independent entity. This means that if a user wants to delete an Expense
+  // and any prior related recurring expenses, they'll need to delete them one by one.
+  nextExpenseCreatedAt DateTime?
+  nextExpenseDate      DateTime
+
+}
+
+enum RecurrenceRule {
+  NONE
+  DAILY
+  WEEKLY
+  MONTHLY
+}
+
+model ExpensePaidFor {
+  expense       Expense     @relation(fields: [expenseId], references: [id], onDelete: Cascade)
+  participant   Participant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  expenseId     String
+  participantId String
+  shares        Int         @default(1)
+
+  @@id([expenseId, participantId])
+}
+
+model Activity {
+  id            String       @id
+  group         Group        @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  groupId       String
+  time          DateTime     @default(now())
+  activityType  ActivityType
+  participantId String?
+  expenseId     String?
+  data          String?
+}
+
+enum ActivityType {
+  UPDATE_GROUP
+  CREATE_EXPENSE
+  UPDATE_EXPENSE
+  DELETE_EXPENSE
+}

@@ -7,8 +7,13 @@ const interpretEnvVarAsBool = (val: unknown): boolean => {
 
 const envSchema = z
   .object({
-    POSTGRES_URL_NON_POOLING: z.string().url(),
-    POSTGRES_PRISMA_URL: z.string().url(),
+    DATABASE_PROVIDER: z
+      .enum(['none', 'postgresql', 'sqlite'])
+      .optional()
+      .default('none'),
+    POSTGRES_URL_NON_POOLING: z.string().url().optional(),
+    POSTGRES_PRISMA_URL: z.string().url().optional(),
+    SQLITE_URL: z.string().optional(),
     NEXT_PUBLIC_BASE_URL: z
       .string()
       .optional()
@@ -38,6 +43,29 @@ const envSchema = z
     OPENAI_API_KEY: z.string().optional(),
   })
   .superRefine((env, ctx) => {
+    if (env.DATABASE_PROVIDER === 'postgresql') {
+      if (!env.POSTGRES_PRISMA_URL) {
+        ctx.addIssue({
+          code: ZodIssueCode.custom,
+          message:
+            'POSTGRES_PRISMA_URL is required when DATABASE_PROVIDER is "postgresql"',
+        })
+      }
+      if (!env.POSTGRES_URL_NON_POOLING) {
+        ctx.addIssue({
+          code: ZodIssueCode.custom,
+          message:
+            'POSTGRES_URL_NON_POOLING is required when DATABASE_PROVIDER is "postgresql"',
+        })
+      }
+    }
+    if (env.DATABASE_PROVIDER === 'sqlite' && !env.SQLITE_URL) {
+      ctx.addIssue({
+        code: ZodIssueCode.custom,
+        message:
+          'SQLITE_URL is required when DATABASE_PROVIDER is "sqlite"',
+      })
+    }
     if (
       env.NEXT_PUBLIC_ENABLE_EXPENSE_DOCUMENTS &&
       // S3_UPLOAD_ENDPOINT is fully optional as it will only be used for providers other than AWS
