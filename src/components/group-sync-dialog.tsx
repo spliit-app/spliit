@@ -315,7 +315,7 @@ export function GroupSyncDialog({
 
                     {syncPreflight && !syncLoading && (
                         <div className="space-y-4">
-                            <div className="rounded-md border bg-slate-50 p-3 text-sm space-y-1">
+                            <div className="rounded-md border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200 space-y-1">
                                 <div>
                                     {t('Sync.remoteSource', {
                                         url: formatGroupSourceUrl(syncPreflight.sourceUrl),
@@ -335,7 +335,7 @@ export function GroupSyncDialog({
                                             {userSyncLines.map((line) => renderSyncLine(line))}
                                         </div>
                                     ) : (
-                                        <div className="rounded-md border bg-slate-50 p-2 text-xs text-muted-foreground">
+                                        <div className="rounded-md border border-slate-200 bg-slate-50 p-2 text-xs text-slate-600 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200">
                                             {t('Sync.noUserChanges')}
                                         </div>
                                     )}
@@ -348,7 +348,7 @@ export function GroupSyncDialog({
                                             {expenseSyncLines.map((line) => renderSyncLine(line))}
                                         </div>
                                     ) : (
-                                        <div className="rounded-md border bg-slate-50 p-2 text-xs text-muted-foreground">
+                                        <div className="rounded-md border border-slate-200 bg-slate-50 p-2 text-xs text-slate-600 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200">
                                             {t('Sync.noExpenseChanges')}
                                         </div>
                                     )}
@@ -356,7 +356,7 @@ export function GroupSyncDialog({
                             )}
 
                             {syncPreflight.syncLines.length === 0 && (
-                                <div className="rounded-md border bg-slate-50 p-3 text-sm text-muted-foreground">
+                                <div className="rounded-md border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200">
                                     {t('Sync.nothingToSync')}
                                 </div>
                             )}
