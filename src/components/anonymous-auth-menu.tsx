@@ -29,6 +29,7 @@ import { trpc } from '@/trpc/client'
 import { startAuthentication, startRegistration } from '@simplewebauthn/browser'
 import { Check, MoreVertical } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { useEffect, useMemo, useState } from 'react'
 import { NewFeaturesDialog } from '@/components/new-features-dialog'
 
@@ -107,18 +108,16 @@ function mergeRecentGroups(
   return merged
 }
 
+type PassphraseRequirement = {
+  label: string
+  met: boolean
+}
+
 function PassphraseComplexityIndicator({
-  complexity,
+  requirements,
 }: {
-  complexity: PassphraseComplexity
+  requirements: PassphraseRequirement[]
 }) {
-  const requirements = [
-    { label: 'At least 8 characters', met: complexity.minLength },
-    { label: 'One uppercase letter', met: complexity.hasUppercase },
-    { label: 'One lowercase letter', met: complexity.hasLowercase },
-    { label: 'One number', met: complexity.hasNumber },
-    { label: 'One special character', met: complexity.hasSpecial },
-  ]
 
   return (
     <div className="space-y-1">
@@ -147,6 +146,7 @@ function PassphraseComplexityIndicator({
 }
 
 export function AnonymousAuthMenu() {
+  const t = useTranslations('AnonymousAuthMenu')
   const router = useRouter()
   const pathname = usePathname()
   const { toast } = useToast()
@@ -190,6 +190,31 @@ export function AnonymousAuthMenu() {
     !usernameJustGenerated &&
     username.trim().length > 0 &&
     passphrase.trim().length > 0
+
+  const buildPassphraseRequirements = (
+    complexity: PassphraseComplexity,
+  ): PassphraseRequirement[] => [
+    {
+      label: t('passphrase.requirements.minLength'),
+      met: complexity.minLength,
+    },
+    {
+      label: t('passphrase.requirements.uppercase'),
+      met: complexity.hasUppercase,
+    },
+    {
+      label: t('passphrase.requirements.lowercase'),
+      met: complexity.hasLowercase,
+    },
+    {
+      label: t('passphrase.requirements.number'),
+      met: complexity.hasNumber,
+    },
+    {
+      label: t('passphrase.requirements.special'),
+      met: complexity.hasSpecial,
+    },
+  ]
 
   const passphraseComplexity = useMemo(
     () => checkPassphraseComplexity(passphrase),
@@ -279,9 +304,8 @@ export function AnonymousAuthMenu() {
         if (!response.ok) {
           toast({
             variant: 'destructive',
-            title: 'Unable to initialize anonymous session',
-            description:
-              'Please try refreshing the page. If the problem persists, try again later.',
+            title: t('toasts.initFailed.title'),
+            description: t('toasts.initFailed.description'),
           })
         }
       } catch (error) {
@@ -291,9 +315,8 @@ export function AnonymousAuthMenu() {
         )
         toast({
           variant: 'destructive',
-          title: 'Network error while initializing',
-          description:
-            'Check your connection and refresh the page to try again.',
+          title: t('toasts.initNetwork.title'),
+          description: t('toasts.initNetwork.description'),
         })
       }
     })()
@@ -358,9 +381,8 @@ export function AnonymousAuthMenu() {
         if (!response.ok) {
           toast({
             variant: 'destructive',
-            title: 'Failed to sync groups',
-            description:
-              'We could not load your groups. Your local groups list may be out of date.',
+            title: t('toasts.syncGroupsFailed.title'),
+            description: t('toasts.syncGroupsFailed.description'),
           })
           return
         }
@@ -393,9 +415,8 @@ export function AnonymousAuthMenu() {
         console.error('Failed to sync anonymous user groups', error)
         toast({
           variant: 'destructive',
-          title: 'Failed to sync groups',
-          description:
-            'We could not load your groups. Your local groups list may be out of date.',
+          title: t('toasts.syncGroupsFailed.title'),
+          description: t('toasts.syncGroupsFailed.description'),
         })
       }
     })()
@@ -434,14 +455,14 @@ export function AnonymousAuthMenu() {
 
         if (response.status === 401) {
           toast({
-            title: 'Session expired',
-            description:
-              'Please recover your account to save group associations. Use your username and passphrase to log back in.',
+            title: t('toasts.sessionExpired.title'),
+            description: t('toasts.sessionExpired.saveAssociations'),
           })
         } else {
           toast({
-            title: 'Failed to save groups',
-            description: errorData.error || 'Please try again.',
+            title: t('toasts.saveGroupsFailed.title'),
+            description:
+              errorData.error || t('toasts.saveGroupsFailed.description'),
           })
         }
         return
@@ -452,15 +473,14 @@ export function AnonymousAuthMenu() {
         JSON.stringify(Array.from(associatedGroups)),
       )
       toast({
-        title: 'Groups saved',
-        description: 'These groups are now linked to your anonymous account.',
+        title: t('toasts.groupsSaved.title'),
+        description: t('toasts.groupsSaved.description'),
       })
     } catch (error) {
       console.error('Error saving group associations:', error)
       toast({
-        title: 'Network error',
-        description:
-          'Unable to save groups. Please check your connection and try again.',
+        title: t('toasts.networkError.title'),
+        description: t('toasts.networkError.saveGroups'),
       })
     } finally {
       setIsSaving(false)
@@ -485,15 +505,15 @@ export function AnonymousAuthMenu() {
 
       if (!response.ok) {
         toast({
-          title: 'Passphrase already in use',
-          description: 'Choose a different passphrase and try again.',
+          title: t('toasts.passphraseInUse.title'),
+          description: t('toasts.passphraseInUse.description'),
         })
         return
       }
 
       toast({
-        title: 'Account saved',
-        description: 'Use this username and passphrase to recover later.',
+        title: t('toasts.accountSaved.title'),
+        description: t('toasts.accountSaved.description'),
       })
       setPassphrase('')
       localStorage.setItem(USERNAME_STORAGE_KEY, username.trim())
@@ -503,9 +523,8 @@ export function AnonymousAuthMenu() {
     } catch (error) {
       console.error('Error saving passphrase:', error)
       toast({
-        title: 'Network error',
-        description:
-          'Unable to save passphrase. Please check your connection and try again.',
+        title: t('toasts.networkError.title'),
+        description: t('toasts.networkError.savePassphrase'),
       })
     } finally {
       setIsSaving(false)
@@ -529,8 +548,8 @@ export function AnonymousAuthMenu() {
 
       if (!response.ok) {
         toast({
-          title: 'Recovery failed',
-          description: 'No account was found for that passphrase.',
+          title: t('toasts.recoveryFailed.title'),
+          description: t('toasts.recoveryFailed.description'),
         })
         return
       }
@@ -557,8 +576,8 @@ export function AnonymousAuthMenu() {
       localStorage.setItem(ASSOCIATED_GROUPS_KEY, JSON.stringify(recoveredIds))
 
       toast({
-        title: 'Account recovered',
-        description: 'Your associated groups were restored on this device.',
+        title: t('toasts.accountRecovered.title'),
+        description: t('toasts.accountRecovered.description'),
       })
       setPassphrase('')
       localStorage.setItem(LINKED_STORAGE_KEY, 'true')
@@ -568,9 +587,8 @@ export function AnonymousAuthMenu() {
     } catch (error) {
       console.error('Error recovering account:', error)
       toast({
-        title: 'Network error',
-        description:
-          'Unable to recover account. Please check your connection and try again.',
+        title: t('toasts.networkError.title'),
+        description: t('toasts.networkError.recoverAccount'),
       })
     } finally {
       setIsRecovering(false)
@@ -583,8 +601,8 @@ export function AnonymousAuthMenu() {
     // Always require current passphrase for normal change flow
     if (!currentPassphrase.trim()) {
       toast({
-        title: 'Current passphrase required',
-        description: 'Please enter your current passphrase.',
+        title: t('toasts.currentPassphraseRequired.title'),
+        description: t('toasts.currentPassphraseRequired.description'),
       })
       return
     }
@@ -611,17 +629,16 @@ export function AnonymousAuthMenu() {
         error?: string
       }
       toast({
-        title: 'Failed to update passphrase',
+        title: t('toasts.updatePassphraseFailed.title'),
         description:
-          errorData.error ||
-          'Please verify your current passphrase and try again.',
+          errorData.error || t('toasts.updatePassphraseFailed.description'),
       })
       return
     }
 
     toast({
-      title: 'Passphrase updated',
-      description: 'Your new passphrase is now active.',
+      title: t('toasts.passphraseUpdated.title'),
+      description: t('toasts.passphraseUpdated.description'),
     })
     setCurrentPassphrase('')
     setNewPassphrase('')
@@ -652,15 +669,16 @@ export function AnonymousAuthMenu() {
         error?: string
       }
       toast({
-        title: 'Failed to set passphrase',
-        description: errorData.error || 'Please try again.',
+        title: t('toasts.setPassphraseFailed.title'),
+        description:
+          errorData.error || t('toasts.setPassphraseFailed.description'),
       })
       return
     }
 
     toast({
-      title: 'Passphrase set',
-      description: 'Your new passphrase is now active.',
+      title: t('toasts.passphraseSet.title'),
+      description: t('toasts.passphraseSet.description'),
     })
     setNewPassphrase('')
     setPasskeyResetMode(false)
@@ -670,8 +688,8 @@ export function AnonymousAuthMenu() {
   async function handleResetPassphraseWithPasskey() {
     if (!authId || !username.trim()) {
       toast({
-        title: 'Account required',
-        description: 'Please ensure you are logged in.',
+        title: t('toasts.accountRequired.title'),
+        description: t('toasts.accountRequired.description'),
       })
       return
     }
@@ -691,7 +709,7 @@ export function AnonymousAuthMenu() {
       )
 
       if (!optionsResponse.ok) {
-        throw new Error('Failed to get authentication options')
+        throw new Error(t('errors.authOptionsFailed'))
       }
 
       const options = (await optionsResponse.json()) as any
@@ -714,22 +732,24 @@ export function AnonymousAuthMenu() {
       )
 
       if (!verifyResponse.ok) {
-        throw new Error('Authentication failed')
+        throw new Error(t('errors.authenticationFailed'))
       }
 
       // Authentication successful, enable passkey reset mode (no current passphrase needed)
       setPasskeyResetMode(true)
       setCurrentPassphrase('') // Clear any current passphrase field
       toast({
-        title: 'Authentication successful',
-        description: 'You can now set a new passphrase.',
+        title: t('toasts.authSuccess.title'),
+        description: t('toasts.authSuccess.description'),
       })
     } catch (error) {
       console.error('Passkey authentication error:', error)
       toast({
-        title: 'Authentication failed',
+        title: t('toasts.authFailed.title'),
         description:
-          error instanceof Error ? error.message : 'Please try again.',
+          error instanceof Error
+            ? error.message
+            : t('toasts.authFailed.description'),
       })
     } finally {
       setIsResettingWithPasskey(false)
@@ -749,7 +769,7 @@ export function AnonymousAuthMenu() {
       })
 
       if (!response.ok) {
-        throw new Error('Failed to delete passkey')
+        throw new Error(t('errors.deletePasskeyFailed'))
       }
 
       // Refresh passkey list
@@ -763,14 +783,14 @@ export function AnonymousAuthMenu() {
 
       setPasskeyToDelete(null)
       toast({
-        title: 'Passkey removed',
-        description: 'The passkey has been removed from your account.',
+        title: t('toasts.passkeyRemoved.title'),
+        description: t('toasts.passkeyRemoved.description'),
       })
     } catch (error) {
       console.error('Error deleting passkey:', error)
       toast({
-        title: 'Failed to remove passkey',
-        description: 'Please try again.',
+        title: t('toasts.removePasskeyFailed.title'),
+        description: t('toasts.removePasskeyFailed.description'),
       })
     } finally {
       setIsDeletingPasskey(false)
@@ -788,16 +808,16 @@ export function AnonymousAuthMenu() {
   async function handleRegisterPasskey() {
     if (!authId || !username.trim()) {
       toast({
-        title: 'Username required',
-        description: 'Please set a username before registering a passkey.',
+        title: t('toasts.usernameRequired.title'),
+        description: t('toasts.usernameRequired.description'),
       })
       return
     }
 
     if (!newPasskeyName.trim()) {
       toast({
-        title: 'Name required',
-        description: 'Please enter a name for your passkey.',
+        title: t('toasts.passkeyNameRequired.title'),
+        description: t('toasts.passkeyNameRequired.description'),
       })
       return
     }
@@ -817,7 +837,7 @@ export function AnonymousAuthMenu() {
       )
 
       if (!optionsResponse.ok) {
-        throw new Error('Failed to get registration options')
+        throw new Error(t('errors.registrationOptionsFailed'))
       }
 
       const options = (await optionsResponse.json()) as any
@@ -842,7 +862,7 @@ export function AnonymousAuthMenu() {
       )
 
       if (!verifyResponse.ok) {
-        throw new Error('Failed to verify registration')
+        throw new Error(t('errors.registrationVerifyFailed'))
       }
 
       // Refresh passkey list
@@ -859,15 +879,17 @@ export function AnonymousAuthMenu() {
       setShowAddPasskeyDialog(false)
       setNewPasskeyName('')
       toast({
-        title: 'Passkey registered',
-        description: 'You can now use your passkey to log in.',
+        title: t('toasts.passkeyRegistered.title'),
+        description: t('toasts.passkeyRegistered.description'),
       })
     } catch (error) {
       console.error('Passkey registration error:', error)
       toast({
-        title: 'Registration failed',
+        title: t('toasts.passkeyRegistrationFailed.title'),
         description:
-          error instanceof Error ? error.message : 'Please try again.',
+          error instanceof Error
+            ? error.message
+            : t('toasts.passkeyRegistrationFailed.description'),
       })
     } finally {
       setIsRegisteringPasskey(false)
@@ -904,8 +926,8 @@ export function AnonymousAuthMenu() {
         // Handle specific error cases based on status code
         if (optionsResponse.status === 429) {
           toast({
-            title: 'Rate limit exceeded',
-            description: 'Too many requests. Please try again later.',
+            title: t('toasts.rateLimit.title'),
+            description: t('toasts.rateLimit.description'),
             variant: 'destructive',
           })
           return
@@ -914,16 +936,15 @@ export function AnonymousAuthMenu() {
         // Only show "not found" guidance when it's actually a not-found case
         if (!isLinked && !username.trim() && optionsResponse.status === 404) {
           toast({
-            title: 'Passkey not found',
-            description:
-              'Try entering your username and retrying passkey login.',
+            title: t('toasts.passkeyNotFound.title'),
+            description: t('toasts.passkeyNotFound.description'),
           })
           return
         }
 
         // For other errors, use the error message from server or a generic message
         throw new Error(
-          errorData.error || 'Authentication failed. Please try again.',
+          errorData.error || t('toasts.authFailed.generic'),
         )
       }
 
@@ -947,7 +968,7 @@ export function AnonymousAuthMenu() {
       )
 
       if (!verifyResponse.ok) {
-        throw new Error('Authentication failed')
+        throw new Error(t('errors.authenticationFailed'))
       }
 
       const data = (await verifyResponse.json()) as {
@@ -979,8 +1000,8 @@ export function AnonymousAuthMenu() {
         localStorage.setItem(LINKED_STORAGE_KEY, 'true')
         setIsLinked(true)
         toast({
-          title: 'Logged in with passkey',
-          description: 'Your associated groups were restored on this device.',
+          title: t('toasts.passkeyLoginSuccess.title'),
+          description: t('toasts.passkeyLoginSuccess.description'),
         })
         refreshGroupsAfterLogin()
       }
@@ -990,8 +1011,8 @@ export function AnonymousAuthMenu() {
       // Detect user cancellation (NotAllowedError)
       if (error instanceof Error && error.name === 'NotAllowedError') {
         toast({
-          title: 'Authentication cancelled',
-          description: 'Passkey authentication was cancelled.',
+          title: t('toasts.authCancelled.title'),
+          description: t('toasts.authCancelled.description'),
         })
         return
       }
@@ -999,15 +1020,17 @@ export function AnonymousAuthMenu() {
       // For not-linked users without username, suggest adding username
       if (!isLinked && !username.trim()) {
         toast({
-          title: 'Passkey not found',
-          description: 'Try entering your username and retrying passkey login.',
+          title: t('toasts.passkeyNotFound.title'),
+          description: t('toasts.passkeyNotFound.description'),
         })
       } else {
         // For all other errors, show the actual error message
         toast({
-          title: 'Authentication failed',
+          title: t('toasts.authFailed.title'),
           description:
-            error instanceof Error ? error.message : 'Please try again.',
+            error instanceof Error
+              ? error.message
+              : t('toasts.authFailed.description'),
           variant: 'destructive',
         })
       }
@@ -1061,10 +1084,10 @@ export function AnonymousAuthMenu() {
     })
 
     toast({
-      title: 'Unlinked from device',
+      title: t('toasts.unlinked.title'),
       description: removeGroups
-        ? 'Associated groups have been removed from your device.'
-        : 'You are now using a new anonymous account on this device.',
+        ? t('toasts.unlinked.descriptionRemoved')
+        : t('toasts.unlinked.descriptionNew'),
     })
 
     if (removeGroups) {
@@ -1096,14 +1119,14 @@ export function AnonymousAuthMenu() {
 
       if (response.status === 401) {
         toast({
-          title: 'Session expired',
-          description:
-            'Please recover your account to delete it. Use your username and passphrase to log back in.',
+          title: t('toasts.sessionExpired.title'),
+          description: t('toasts.sessionExpired.deleteAccount'),
         })
       } else {
         toast({
-          title: 'Failed to delete account',
-          description: errorData.error || 'Please try again.',
+          title: t('toasts.deleteAccountFailed.title'),
+          description:
+            errorData.error || t('toasts.deleteAccountFailed.description'),
         })
       }
       return
@@ -1144,10 +1167,10 @@ export function AnonymousAuthMenu() {
     })
 
     toast({
-      title: 'Account deleted',
+      title: t('toasts.accountDeleted.title'),
       description: removeGroups
-        ? 'Account deleted and groups removed from this device.'
-        : 'Account deleted. You are now using a new anonymous account on this device.',
+        ? t('toasts.accountDeleted.descriptionRemoved')
+        : t('toasts.accountDeleted.descriptionNew'),
     })
 
     if (removeGroups) {
@@ -1169,7 +1192,7 @@ export function AnonymousAuthMenu() {
             variant="ghost"
             size="icon"
             className="text-primary"
-            aria-label="Account"
+            aria-label={t('menu.ariaLabel')}
           >
             <MoreVertical className="h-4 w-4" />
           </Button>
@@ -1178,33 +1201,33 @@ export function AnonymousAuthMenu() {
           <DropdownMenuItem onSelect={() => {
             setOpen(true)
           }}>
-            Account
+            {t('menu.account')}
           </DropdownMenuItem>
           {isLinked && (
             <>
               <DropdownMenuItem onSelect={() => {
                 setShowRestoreDialog(true)
               }}>
-                Restore from backup
+                {t('menu.restoreBackup')}
               </DropdownMenuItem>
               <DropdownMenuItem onSelect={() => {
                 setShowImportJSONDialog(true)
               }}>
-                Import from JSON
+                {t('menu.importJson')}
               </DropdownMenuItem>
             </>
           )}
           <DropdownMenuItem onSelect={() => {
             setShowNewFeaturesDialog(true)
           }}>
-            ✨ What's New
+            {t('menu.whatsNew')}
           </DropdownMenuItem>
           {isLinked && (
             <DropdownMenuItem onSelect={() => {
               setUnlinkMode('signout')
               setShowUnlinkDialog(true)
             }}>
-              Sign out
+              {t('menu.signOut')}
             </DropdownMenuItem>
           )}
         </DropdownMenuContent>
@@ -1213,18 +1236,20 @@ export function AnonymousAuthMenu() {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Account Profile</DialogTitle>
+            <DialogTitle>{t('profile.title')}</DialogTitle>
             <DialogDescription>
-              Link groups to this device or recover them on another device.
+              {t('profile.description')}
             </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-6">
             <div className="space-y-3">
-              <h3 className="text-sm font-semibold">Associated groups</h3>
+              <h3 className="text-sm font-semibold">
+                {t('profile.associatedGroups.title')}
+              </h3>
               {profileGroups.length === 0 ? (
                 <p className="text-sm text-muted-foreground">
-                  Visit or add a group first to associate it.
+                  {t('profile.associatedGroups.empty')}
                 </p>
               ) : (
                 <div className="space-y-2">
@@ -1257,12 +1282,16 @@ export function AnonymousAuthMenu() {
                 onClick={handleSaveAssociations}
                 disabled={isSaving || !authId}
               >
-                {isSaving ? 'Saving…' : 'Save associations'}
+                {isSaving
+                  ? t('profile.associatedGroups.saving')
+                  : t('profile.associatedGroups.save')}
               </Button>
             </div>
 
             <div className="space-y-3">
-              <h3 className="text-sm font-semibold">Account access</h3>
+              <h3 className="text-sm font-semibold">
+                {t('profile.accountAccess.title')}
+              </h3>
               {!isLinked ? (
                 <form
                   onSubmit={(e) => {
@@ -1276,8 +1305,7 @@ export function AnonymousAuthMenu() {
                   className="space-y-3"
                 >
                   <p className="text-sm text-muted-foreground">
-                    Use the same username and passphrase to create or recover
-                    your anonymous account.
+                    {t('profile.accountAccess.description')}
                   </p>
                   <div className="flex gap-2">
                     <Input
@@ -1286,7 +1314,7 @@ export function AnonymousAuthMenu() {
                         setUsername(event.target.value)
                         setUsernameJustGenerated(false)
                       }}
-                      placeholder="Anonymous username"
+                      placeholder={t('profile.accountAccess.usernamePlaceholder')}
                       name="anonymous-username"
                       autoComplete="username"
                     />
@@ -1300,13 +1328,13 @@ export function AnonymousAuthMenu() {
                         localStorage.setItem(USERNAME_STORAGE_KEY, next)
                       }}
                     >
-                      Generate
+                      {t('profile.accountAccess.generate')}
                     </Button>
                   </div>
                   <Input
                     value={passphrase}
                     onChange={(event) => setPassphrase(event.target.value)}
-                    placeholder="Enter a passphrase"
+                    placeholder={t('profile.accountAccess.passphrasePlaceholder')}
                     type="password"
                     name="anonymous-passphrase"
                     autoComplete={
@@ -1315,7 +1343,9 @@ export function AnonymousAuthMenu() {
                   />
                   {passphrase.length > 0 && (
                     <PassphraseComplexityIndicator
-                      complexity={passphraseComplexity}
+                      requirements={buildPassphraseRequirements(
+                        passphraseComplexity,
+                      )}
                     />
                   )}
                   <div className="flex flex-wrap gap-2">
@@ -1338,7 +1368,9 @@ export function AnonymousAuthMenu() {
                         !isPassphraseValid(passphraseComplexity)
                       }
                     >
-                      {isSaving ? 'Saving…' : 'New account'}
+                      {isSaving
+                        ? t('profile.accountAccess.saving')
+                        : t('profile.accountAccess.newAccount')}
                     </Button>
                     <Button
                       type={preferRecover ? 'submit' : 'button'}
@@ -1359,7 +1391,9 @@ export function AnonymousAuthMenu() {
                         !isPassphraseValid(passphraseComplexity)
                       }
                     >
-                      {isRecovering ? 'Recovering…' : 'Existing account'}
+                      {isRecovering
+                        ? t('profile.accountAccess.recovering')
+                        : t('profile.accountAccess.existingAccount')}
                     </Button>
                   </div>
                 </form>
@@ -1367,14 +1401,14 @@ export function AnonymousAuthMenu() {
                 <>
                   <p className="text-sm text-muted-foreground">
                     {isChangePassphraseMode
-                      ? 'Enter your current passphrase and choose a new one.'
+                      ? t('profile.accountAccess.changePrompt')
                       : passkeyResetMode
-                        ? 'Authenticated with passkey. Choose a new passphrase.'
-                        : 'Manage your account security.'}
+                        ? t('profile.accountAccess.passkeyPrompt')
+                        : t('profile.accountAccess.managePrompt')}
                   </p>
                   <div className="text-sm">
                     <label className="block text-xs font-semibold mb-2">
-                      Username
+                      {t('profile.accountAccess.usernameLabel')}
                     </label>
                     <Input
                       value={username}
@@ -1395,7 +1429,9 @@ export function AnonymousAuthMenu() {
                         onChange={(event) =>
                           setCurrentPassphrase(event.target.value)
                         }
-                        placeholder="Current passphrase"
+                        placeholder={t(
+                          'profile.accountAccess.currentPassphrasePlaceholder',
+                        )}
                         type="password"
                         name="current-passphrase"
                         autoComplete="current-password"
@@ -1405,14 +1441,18 @@ export function AnonymousAuthMenu() {
                         onChange={(event) =>
                           setNewPassphrase(event.target.value)
                         }
-                        placeholder="New passphrase"
+                        placeholder={t(
+                          'profile.accountAccess.newPassphrasePlaceholder',
+                        )}
                         type="password"
                         name="new-passphrase"
                         autoComplete="new-password"
                       />
                       {newPassphrase.length > 0 && (
                         <PassphraseComplexityIndicator
-                          complexity={newPassphraseComplexity}
+                          requirements={buildPassphraseRequirements(
+                            newPassphraseComplexity,
+                          )}
                         />
                       )}
                       <div className="flex flex-wrap gap-2">
@@ -1426,8 +1466,8 @@ export function AnonymousAuthMenu() {
                           }
                         >
                           {isChangingPassphrase
-                            ? 'Updating…'
-                            : 'Change passphrase'}
+                            ? t('profile.accountAccess.updating')
+                            : t('profile.accountAccess.changePassphrase')}
                         </Button>
                         <Button
                           type="button"
@@ -1438,7 +1478,7 @@ export function AnonymousAuthMenu() {
                             setNewPassphrase('')
                           }}
                         >
-                          Cancel
+                          {t('common.cancel')}
                         </Button>
                       </div>
                     </form>
@@ -1455,14 +1495,18 @@ export function AnonymousAuthMenu() {
                         onChange={(event) =>
                           setNewPassphrase(event.target.value)
                         }
-                        placeholder="New passphrase"
+                        placeholder={t(
+                          'profile.accountAccess.newPassphrasePlaceholder',
+                        )}
                         type="password"
                         name="new-passphrase"
                         autoComplete="new-password"
                       />
                       {newPassphrase.length > 0 && (
                         <PassphraseComplexityIndicator
-                          complexity={newPassphraseComplexity}
+                          requirements={buildPassphraseRequirements(
+                            newPassphraseComplexity,
+                          )}
                         />
                       )}
                       <div className="flex flex-wrap gap-2">
@@ -1474,7 +1518,9 @@ export function AnonymousAuthMenu() {
                             !isPassphraseValid(newPassphraseComplexity)
                           }
                         >
-                          {isChangingPassphrase ? 'Setting…' : 'Set passphrase'}
+                          {isChangingPassphrase
+                            ? t('profile.accountAccess.setting')
+                            : t('profile.accountAccess.setPassphrase')}
                         </Button>
                         <Button
                           type="button"
@@ -1484,7 +1530,7 @@ export function AnonymousAuthMenu() {
                             setNewPassphrase('')
                           }}
                         >
-                          Cancel
+                          {t('common.cancel')}
                         </Button>
                       </div>
                     </form>
@@ -1495,7 +1541,7 @@ export function AnonymousAuthMenu() {
                           type="button"
                           onClick={() => setIsChangePassphraseMode(true)}
                         >
-                          Change passphrase
+                          {t('profile.accountAccess.changePassphrase')}
                         </Button>
                       ) : passkeys.length > 0 ? (
                         <Button
@@ -1505,13 +1551,12 @@ export function AnonymousAuthMenu() {
                           disabled={isResettingWithPasskey}
                         >
                           {isResettingWithPasskey
-                            ? 'Authenticating…'
-                            : 'Set passphrase with passkey'}
+                            ? t('profile.accountAccess.authenticating')
+                            : t('profile.accountAccess.setWithPasskey')}
                         </Button>
                       ) : (
                         <p className="text-sm text-muted-foreground">
-                          Add a passkey first to set a passphrase, or create a
-                          new account with a passphrase.
+                          {t('profile.accountAccess.passkeyFirst')}
                         </p>
                       )}
                       {hasExistingPassphrase && passkeys.length > 0 && (
@@ -1522,8 +1567,8 @@ export function AnonymousAuthMenu() {
                           disabled={isResettingWithPasskey}
                         >
                           {isResettingWithPasskey
-                            ? 'Authenticating…'
-                            : 'Reset with passkey'}
+                            ? t('profile.accountAccess.authenticating')
+                            : t('profile.accountAccess.resetWithPasskey')}
                         </Button>
                       )}
                     </div>
@@ -1533,11 +1578,13 @@ export function AnonymousAuthMenu() {
             </div>
 
             <div className="space-y-3">
-              <h3 className="text-sm font-semibold">Passkey login</h3>
+              <h3 className="text-sm font-semibold">
+                {t('profile.passkeyLogin.title')}
+              </h3>
               {!isLinked ? (
                 <>
                   <p className="text-sm text-muted-foreground">
-                    Use your passkey to log in on this device.
+                    {t('profile.passkeyLogin.notLinkedDescription')}
                   </p>
                   <Button
                     type="button"
@@ -1545,16 +1592,16 @@ export function AnonymousAuthMenu() {
                     disabled={isAuthenticatingPasskey}
                   >
                     {isAuthenticatingPasskey
-                      ? 'Authenticating…'
-                      : 'Use passkey'}
+                      ? t('profile.passkeyLogin.authenticating')
+                      : t('profile.passkeyLogin.usePasskey')}
                   </Button>
                 </>
               ) : (
                 <>
                   <p className="text-sm text-muted-foreground">
                     {passkeys.length > 0
-                      ? 'Manage your passkeys for this account.'
-                      : 'Add a passkey for quick, passwordless login.'}
+                      ? t('profile.passkeyLogin.manageDescription')
+                      : t('profile.passkeyLogin.addDescription')}
                   </p>
                   {passkeys.length > 0 && (
                     <div className="space-y-2 mb-3">
@@ -1568,8 +1615,11 @@ export function AnonymousAuthMenu() {
                               {passkey.name}
                             </p>
                             <p className="text-xs text-muted-foreground">
-                              Created{' '}
-                              {new Date(passkey.createdAt).toLocaleDateString()}
+                              {t('profile.passkeyLogin.created', {
+                                date: new Date(
+                                  passkey.createdAt,
+                                ).toLocaleDateString(),
+                              })}
                             </p>
                           </div>
                           <Button
@@ -1578,7 +1628,7 @@ export function AnonymousAuthMenu() {
                             size="sm"
                             onClick={() => setPasskeyToDelete(passkey.id)}
                           >
-                            Remove
+                            {t('profile.passkeyLogin.remove')}
                           </Button>
                         </div>
                       ))}
@@ -1589,7 +1639,7 @@ export function AnonymousAuthMenu() {
                     onClick={() => setShowAddPasskeyDialog(true)}
                     disabled={!authId || !username.trim()}
                   >
-                    Add passkey
+                    {t('profile.passkeyLogin.addPasskey')}
                   </Button>
                 </>
               )}
@@ -1597,7 +1647,9 @@ export function AnonymousAuthMenu() {
 
             {isLinked && (
               <div className="space-y-3">
-                <h3 className="text-sm font-semibold">Profile actions</h3>
+                <h3 className="text-sm font-semibold">
+                  {t('profile.profileActions.title')}
+                </h3>
                 <div className="flex flex-wrap gap-2">
                   <Button
                     type="button"
@@ -1607,7 +1659,7 @@ export function AnonymousAuthMenu() {
                       setShowUnlinkDialog(true)
                     }}
                   >
-                    Delete account
+                    {t('profile.profileActions.deleteAccount')}
                   </Button>
                 </div>
               </div>
@@ -1627,32 +1679,34 @@ export function AnonymousAuthMenu() {
           <DialogHeader>
             <DialogTitle>
               {unlinkMode === 'signout'
-                ? 'Sign out from device'
-                : 'Delete account'}
+                ? t('unlinkDialog.signOutTitle')
+                : t('unlinkDialog.deleteTitle')}
             </DialogTitle>
             <DialogDescription>
               {unlinkMode === 'signout'
-                ? 'Are you sure you want to sign out from this device?'
-                : 'Are you sure you want to delete your account? This action cannot be undone.'}
+                ? t('unlinkDialog.signOutDescription')
+                : t('unlinkDialog.deleteDescription')}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             <div className="space-y-2">
-              <p className="text-sm font-semibold">Associated groups</p>
+              <p className="text-sm font-semibold">
+                {t('unlinkDialog.associatedGroupsTitle')}
+              </p>
               <div className="flex flex-wrap gap-2">
                 <Button
                   type="button"
                   variant={removeGroupsOnUnlink ? 'outline' : 'default'}
                   onClick={() => setRemoveGroupsOnUnlink(false)}
                 >
-                  Keep in recent list
+                  {t('unlinkDialog.keepRecent')}
                 </Button>
                 <Button
                   type="button"
                   variant={removeGroupsOnUnlink ? 'default' : 'outline'}
                   onClick={() => setRemoveGroupsOnUnlink(true)}
                 >
-                  Remove from recent list
+                  {t('unlinkDialog.removeRecent')}
                 </Button>
               </div>
             </div>
@@ -1663,7 +1717,7 @@ export function AnonymousAuthMenu() {
                   variant="ghost"
                   onClick={() => setShowUnlinkDialog(false)}
                 >
-                  Cancel
+                  {t('common.cancel')}
                 </Button>
                 {unlinkMode === 'signout' && (
                   <Button
@@ -1671,7 +1725,7 @@ export function AnonymousAuthMenu() {
                     variant="outline"
                     onClick={() => handleConfirmUnlink(removeGroupsOnUnlink)}
                   >
-                    Sign out
+                    {t('unlinkDialog.signOutAction')}
                   </Button>
                 )}
                 {unlinkMode === 'delete' && (
@@ -1680,7 +1734,7 @@ export function AnonymousAuthMenu() {
                     variant="destructive"
                     onClick={() => handleDeleteAccount(removeGroupsOnUnlink)}
                   >
-                    Delete account
+                    {t('unlinkDialog.deleteAction')}
                   </Button>
                 )}
               </div>
@@ -1714,9 +1768,9 @@ export function AnonymousAuthMenu() {
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Add Passkey</DialogTitle>
+            <DialogTitle>{t('addPasskey.title')}</DialogTitle>
             <DialogDescription>
-              Enter a name for this passkey to help you identify it later.
+              {t('addPasskey.description')}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
@@ -1724,7 +1778,7 @@ export function AnonymousAuthMenu() {
               <Input
                 value={newPasskeyName}
                 onChange={(e) => setNewPasskeyName(e.target.value)}
-                placeholder="e.g., MacBook Pro, iPhone"
+                placeholder={t('addPasskey.placeholder')}
                 autoFocus
               />
             </div>
@@ -1737,14 +1791,16 @@ export function AnonymousAuthMenu() {
                   setNewPasskeyName('')
                 }}
               >
-                Cancel
+                {t('common.cancel')}
               </Button>
               <Button
                 type="button"
                 onClick={handleRegisterPasskey}
                 disabled={isRegisteringPasskey || !newPasskeyName.trim()}
               >
-                {isRegisteringPasskey ? 'Registering…' : 'Add passkey'}
+                {isRegisteringPasskey
+                  ? t('addPasskey.registering')
+                  : t('addPasskey.confirm')}
               </Button>
             </div>
           </div>
@@ -1757,10 +1813,9 @@ export function AnonymousAuthMenu() {
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Remove Passkey</DialogTitle>
+            <DialogTitle>{t('removePasskey.title')}</DialogTitle>
             <DialogDescription>
-              Are you sure you want to remove this passkey? You will need to use
-              another authentication method to access your account.
+              {t('removePasskey.description')}
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-wrap gap-2">
@@ -1769,7 +1824,7 @@ export function AnonymousAuthMenu() {
               variant="ghost"
               onClick={() => setPasskeyToDelete(null)}
             >
-              Cancel
+              {t('common.cancel')}
             </Button>
             <Button
               type="button"
@@ -1779,7 +1834,9 @@ export function AnonymousAuthMenu() {
               }
               disabled={isDeletingPasskey}
             >
-              {isDeletingPasskey ? 'Removing…' : 'Remove passkey'}
+              {isDeletingPasskey
+                ? t('removePasskey.removing')
+                : t('removePasskey.confirm')}
             </Button>
           </div>
         </DialogContent>

@@ -8,6 +8,7 @@ import {
 } from '@/app/groups/recent-groups-helpers'
 import { Button } from '@/components/ui/button'
 import { getGroups } from '@/lib/api'
+import { ASSOCIATED_GROUPS_KEY } from '@/lib/anonymous-constants'
 import { trpc } from '@/trpc/client'
 import { AppRouterOutput } from '@/trpc/routers/_app'
 import { Loader2 } from 'lucide-react'
@@ -116,11 +117,30 @@ function RecentGroupList_({
     const linkedStatus = localStorage.getItem('anonymousLinked')
     setIsLoggedIn(linkedStatus === 'true')
 
-    const storedAssociations = localStorage.getItem('anonymousAssociatedGroups')
+    const storedAssociations = localStorage.getItem(ASSOCIATED_GROUPS_KEY)
     setAssociatedGroupIds(
       storedAssociations ? (JSON.parse(storedAssociations) as string[]) : [],
     )
   }, [])
+
+  useEffect(() => {
+    if (!data?.groups) return
+    const storedAssociations = localStorage.getItem(ASSOCIATED_GROUPS_KEY)
+    const currentAssociations = storedAssociations
+      ? (JSON.parse(storedAssociations) as string[])
+      : []
+    const existingGroupIds = new Set(data.groups.map((group) => group.id))
+    const nextAssociations = currentAssociations.filter((groupId) =>
+      existingGroupIds.has(groupId),
+    )
+    if (nextAssociations.length !== currentAssociations.length) {
+      localStorage.setItem(
+        ASSOCIATED_GROUPS_KEY,
+        JSON.stringify(nextAssociations),
+      )
+      setAssociatedGroupIds(nextAssociations)
+    }
+  }, [data?.groups])
 
   useEffect(() => {
     const nextActiveGroupIds = groups

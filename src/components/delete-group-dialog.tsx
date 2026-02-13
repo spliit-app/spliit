@@ -34,11 +34,29 @@ export function DeleteGroupDialog({
   const [isDeleting, setIsDeleting] = useState(false)
   const [deleteDocuments, setDeleteDocuments] = useState(false)
   const [documentCount, setDocumentCount] = useState<number | null>(null)
+  const [linkedUrl, setLinkedUrl] = useState<string | null>(null)
+  const [purgeRemote, setPurgeRemote] = useState(false)
 
   const documentCountQuery = trpc.groups.getDocumentCount.useQuery(
     { groupId },
     { enabled: open },
   )
+
+  useEffect(() => {
+    if (!open) return
+    const loadLinkedUrl = async () => {
+      try {
+        const response = await fetch(`/api/groups/${groupId}/has-import-marker`)
+        const result = (await response.json()) as {
+          sourceUrl?: string | null
+        }
+        setLinkedUrl(result.sourceUrl ?? null)
+      } catch {
+        setLinkedUrl(null)
+      }
+    }
+    loadLinkedUrl()
+  }, [groupId, open])
 
   useEffect(() => {
     if (documentCountQuery.data !== undefined) {
@@ -74,6 +92,31 @@ export function DeleteGroupDialog({
 
   const handleDelete = async () => {
     setIsDeleting(true)
+    if (purgeRemote && linkedUrl) {
+      try {
+        const response = await fetch(
+          `/api/groups/${groupId}/remote-purge`,
+          { method: 'POST' },
+        )
+        const result = (await response.json()) as {
+          error?: string
+        }
+        if (!response.ok) {
+          throw new Error(result.error || 'Failed to purge remote group')
+        }
+      } catch (error) {
+        setIsDeleting(false)
+        toast.toast({
+          title: t('DeleteGroupDialog.remotePurge.errorTitle'),
+          description:
+            error instanceof Error
+              ? error.message
+              : t('DeleteGroupDialog.remotePurge.errorDescription'),
+          variant: 'destructive',
+        })
+        return
+      }
+    }
     await deleteGroupMutation.mutateAsync({
       groupId,
       deleteDocuments,
@@ -109,6 +152,29 @@ export function DeleteGroupDialog({
               />
               <span className="text-xs text-amber-900">
                 {t('Groups.DeleteGroupDialog.documentWarning.checkbox')}
+              </span>
+            </label>
+          </div>
+        )}
+
+        {linkedUrl && (
+          <div className="bg-amber-50 border border-amber-200 rounded p-3 text-sm">
+            <p className="font-medium text-amber-900 mb-2">
+              {t('DeleteGroupDialog.remotePurge.title')}
+            </p>
+            <p className="text-amber-800 text-xs mb-3">
+              {t('DeleteGroupDialog.remotePurge.description')}
+            </p>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={purgeRemote}
+                onChange={(e) => setPurgeRemote(e.target.checked)}
+                className="rounded"
+                disabled={isDeleting}
+              />
+              <span className="text-xs text-amber-900">
+                {t('DeleteGroupDialog.remotePurge.checkbox')}
               </span>
             </label>
           </div>

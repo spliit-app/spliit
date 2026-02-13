@@ -20,6 +20,8 @@
     "create": "Criar despesa",
     "createFirst": "Crie a primeira",
     "noExpenses": "Seu grupo ainda não contém nenhuma despesa.",
+    "export": "Exportar",
+    "exportBackup": "Create Backup",
     "exportJson": "Exportar para JSON",
     "exportCsv": "Exportar para CSV",
     "searchPlaceholder": "Pesquisar por uma despesa…",
@@ -38,19 +40,20 @@
       "earlierThisYear": "Anteriores neste ano",
       "lastYear": "Ano passado",
       "older": "Mais antigas"
-    },
-    "export": "Exportar"
+    }
   },
   "ExpenseCard": {
     "paidBy": "Pago por <strong>{paidBy}</strong> para <paidFor></paidFor>",
+    "everyone": "Todos",
     "receivedBy": "Recebido por <strong>{paidBy}</strong> para <paidFor></paidFor>",
     "yourBalance": "Seu saldo:",
-    "everyone": "Todos",
     "notInvolved": "Você não está envolvido"
   },
   "Groups": {
     "myGroups": "Meus grupos",
     "create": "Criar",
+    "restoreBackup": "Restore Backup",
+    "importJSON": "Import from JSON",
     "loadingRecent": "Carregando grupos recentes…",
     "NoRecent": {
       "description": "Você não visitou nenhum grupo recentemente.",
@@ -63,21 +66,144 @@
     "archive": "Arquivar grupo",
     "unarchive": "Desarquivar grupo",
     "removeRecent": "Remover dos grupos recentes",
+    "deleteGroup": "Delete group permanently",
+    "DeleteGroupDialog": {
+      "title": "Delete group permanently?",
+      "description": "This action cannot be undone. All expenses, participants, and activity history will be permanently deleted. Please create a backup first if you want to preserve this data.",
+      "backup": "Create Backup",
+      "cancel": "Cancel",
+      "delete": "Delete Permanently",
+      "remotePurge": {
+        "title": "Remote group cleanup",
+        "description": "This group is linked to a remote copy. You can also remove all expenses and participants from the remote group (a single placeholder participant will remain).",
+        "checkbox": "Also purge the remote group",
+        "errorTitle": "Remote purge failed",
+        "errorDescription": "Failed to purge the remote group."
+      },
+      "documentWarning": {
+        "title": "This group contains {count, plural, one {# image} other {# images}}",
+        "description": "These images are stored in the cloud and do not form part of the backup. If you delete them, they cannot be recovered.",
+        "checkbox": "Also delete all images when deleting the group"
+      }
+    },
     "RecentRemovedToast": {
       "title": "Grupo removido",
       "description": "O grupo foi removido da sua lista de grupos recentes.",
       "undoAlt": "Desfazer remoção do grupo",
       "undo": "Desfazer"
     },
+    "Sync": {
+      "menuItem": "Sincronizar despesas com remoto",
+      "dialogTitle": "Sincronizar despesas com remoto",
+      "dialogDescription": "Revise as alterações por direção e selecione exatamente quais atualizações aplicar entre remoto e local.",
+      "loading": "Preparando diferenças remotas...",
+      "errorPrepare": "Falha ao preparar a sincronização.",
+      "errorExecute": "Falha ao sincronizar despesas.",
+      "toastTitle": "Sincronização concluída",
+      "toastDescription": "As ações de sincronização selecionadas foram aplicadas.",
+      "remoteSource": "Origem remota: {url}",
+      "directionHelp": "Direção: alterne Local ↔ Remoto para criar ações de criação ou exclusão",
+      "usersSection": "Usuários",
+      "expensesSection": "Despesas",
+      "noUserChanges": "Sem alterações de usuários.",
+      "noExpenseChanges": "Sem alterações de despesas.",
+      "nothingToSync": "Nada para sincronizar. Local e remoto já estão alinhados.",
+      "cancel": "Cancelar",
+      "syncNow": "Sincronizar agora",
+      "syncing": "Sincronizando...",
+      "user": "Usuário",
+      "expenseWithDate": "Despesa · {date}",
+      "presence": "Local: {local} · Remoto: {remote}",
+      "remoteToLocal": "Remoto → Local",
+      "localToRemote": "Local → Remoto",
+      "Presence": {
+        "present": "presente",
+        "missing": "ausente"
+      },
+      "Actions": {
+        "createLocalUser": "Criar usuário no Local",
+        "createRemoteUser": "Criar usuário no Remoto",
+        "deleteLocalUser": "Excluir usuário no Local",
+        "deleteRemoteUser": "Excluir usuário no Remoto",
+        "createLocalExpense": "Criar despesa no Local",
+        "createRemoteExpense": "Criar despesa no Remoto",
+        "updateLocalExpense": "Atualizar despesa no Local",
+        "updateRemoteExpense": "Atualizar despesa no Remoto",
+        "deleteLocalExpense": "Excluir despesa no Local",
+        "deleteRemoteExpense": "Excluir despesa no Remoto"
+      }
+    },
+    "LinkedUrl": {
+      "title": "URL vinculada",
+      "linkOption": "Link to remote group",
+      "description": "Este link é usado para sincronização. Limpe-o para desvincular este grupo.",
+      "placeholder": "https://spliit.app/groups/...",
+      "save": "Salvar",
+      "saving": "Salvando...",
+      "toastUpdated": "URL vinculada atualizada.",
+      "toastUnlinked": "Grupo desvinculado da URL remota.",
+      "errorUpdate": "Falha ao atualizar o link."
+    },
+    "AdvancedSettings": {
+      "button": "Advanced settings",
+      "title": "Advanced settings",
+      "description": "Linking and sync tools for this group."
+    },
     "AddByURL": {
       "button": "Adicionar por URL",
       "title": "Adicionar um grupo por URL",
       "description": "Se um grupo foi compartilhado com você, você pode colar sua URL aqui para adicioná-lo à sua lista.",
-      "error": "Ops, não conseguimos encontrar o grupo a partir da URL fornecida…"
+      "error": "Ops, não conseguimos encontrar o grupo a partir da URL fornecida…",
+      "hostMismatchTitle": "Open local or remote?",
+      "hostMismatchPrompt": "This link points to {host}. A local group with the same ID exists. Press OK to open the local group, or Cancel to go to {host}.",
+      "hostMismatchNotFound": "No matching local group found. You can import this group from the other instance.",
+      "hostMismatchLocalAction": "Open local group",
+      "hostMismatchRemoteAction": "Go to remote",
+      "hostMismatchCancel": "Cancel",
+      "importFromUrlAction": "Open JSON import",
+      "urlMode": "Enter URL",
+      "qrMode": "Scan QR",
+      "scanner": {
+        "startCamera": "Start Camera",
+        "stopScanning": "Stop Scanning",
+        "permissionDenied": "Camera permission denied. Please allow camera access to scan QR codes.",
+        "noCamera": "No camera found on this device.",
+        "cameraError": "Failed to start camera. Please try again.",
+        "permissionError": "Unable to access camera. Please check permissions."
+      }
     },
     "NotFound": {
       "text": "Este grupo não existe.",
       "link": "Ir para grupos visitados recentemente"
+    }
+  },
+  "NewFeaturesDialog": {
+    "title": "Novidades no Spliit",
+    "description": "Descubra os recursos mais recentes para tornar o compartilhamento de despesas mais fácil e seguro",
+    "footer": "Toque em recursos específicos no app para saber mais",
+    "button": "Mais detalhes",
+    "badge": "Novo",
+    "features": {
+      "groupSync": {
+        "title": "Sincronização de grupos",
+        "description": "Sincronize despesas entre grupos vinculados com um clique para manter cópias locais e remotas alinhadas."
+      },
+      "linkedUrlSafety": {
+        "title": "Segurança de URL vinculada",
+        "description": "Vincule a URL de um grupo remoto com verificações de similaridade para evitar dados incompatíveis."
+      },
+      "remotePurge": {
+        "title": "Limpeza remota ao excluir",
+        "description": "Opcionalmente, limpe um grupo remoto vinculado ao excluir localmente, com uma etapa extra de confirmação."
+      },
+      "arabicSupport": {
+        "title": "Suporte ao idioma árabe",
+        "description": "A tradução completa para o árabe agora está disponível em todo o app."
+      },
+      "advancedSettings": {
+        "title": "Configurações avançadas",
+        "description": "As opções de sincronizar, vincular, desfazer importação completa e excluir agora ficam em Configurações avançadas para usuários conectados."
+      }
     }
   },
   "GroupForm": {
@@ -95,6 +221,12 @@
       "label": "Símbolo da moeda",
       "placeholder": "$, €, £, R$…",
       "description": "Vamos usá-lo para exibir valores."
+    },
+    "CurrencyCodeField": {
+      "label": "Moeda principal",
+      "createDescription": "Todos os valores e saldos estarão nesta moeda.",
+      "editDescription": "Todos os valores e saldos estarão nesta moeda. A sua alteração NÃO irá converter despesas já registradas, exceto quando a moeda possuir \"unidades menores\" que a atual (ex. Alterar de Dólar Americano para Yen Japonês)",
+      "customOption": "Customizado"
     },
     "Participants": {
       "title": "Participantes",
@@ -120,12 +252,6 @@
       "create": "Criar",
       "creating": "Criando…",
       "cancel": "Cancelar"
-    },
-    "CurrencyCodeField": {
-      "label": "Moeda principal",
-      "createDescription": "Todos os valores e saldos estarão nesta moeda.",
-      "editDescription": "Todos os valores e saldos estarão nesta moeda. A sua alteração NÃO irá converter despesas já registradas, exceto quando a moeda possuir \"unidades menores\" que a atual (ex. Alterar de Dólar Americano para Yen Japonês)",
-      "customOption": "Customizado"
     }
   },
   "ExpenseForm": {
@@ -140,6 +266,10 @@
       "DateField": {
         "label": "Data da receita",
         "description": "Insira a data em que a receita foi recebida."
+      },
+      "currencyField": {
+        "label": "Currency of income",
+        "description": "The currency in which the income was received."
       },
       "categoryFieldDescription": "Selecione a categoria da receita.",
       "paidByField": {
@@ -165,18 +295,16 @@
         "label": "Data da despesa",
         "description": "Insira a data em que a despesa foi paga."
       },
+      "currencyField": {
+        "label": "Currency of expense",
+        "description": "The currency in which the expense was paid."
+      },
       "categoryFieldDescription": "Selecione a categoria da despesa.",
       "paidByField": {
         "label": "Pago por",
-        "description": "Selecione o participante que pagou a despesa.",
-        "placeholder": "Selecione um participante"
+        "placeholder": "Selecione um participante",
+        "description": "Selecione o participante que pagou a despesa."
       },
-      "paidFor": {
-        "title": "Pago para",
-        "description": "Selecione para quem a despesa foi paga."
-      },
-      "splitModeDescription": "Selecione como dividir a despesa.",
-      "attachDescription": "Veja e anexe recibos à despesa.",
       "recurrenceRule": {
         "label": "Recorrência da Despesa",
         "description": "Selecione a frequência de recorrência da despesa.",
@@ -184,10 +312,37 @@
         "daily": "Diariamente",
         "weekly": "Semanalmente",
         "monthly": "Mensalmente"
-      }
+      },
+      "paidFor": {
+        "title": "Pago para",
+        "description": "Selecione para quem a despesa foi paga."
+      },
+      "splitModeDescription": "Selecione como dividir a despesa.",
+      "attachDescription": "Veja e anexe recibos à despesa."
     },
     "amountField": {
       "label": "Valor"
+    },
+    "conversionUnavailable": "To set a different currency per expense and convert amounts, select a non-custom currency for the group.",
+    "originalAmountField": {
+      "label": "Amount to convert"
+    },
+    "conversionRateField": {
+      "useApi": "Use rates from Frankfurter",
+      "useCustom": "Use custom rate",
+      "label": "Taxa de câmbio"
+    },
+    "conversionRateState": {
+      "loading": "Getting exchange rates…",
+      "success": "Taxas obtidas:",
+      "error": "Opa, não conseguimos obter as taxas mais recentes.",
+      "staleRate": "Using rate:",
+      "noRate": "Enter a custom rate below.",
+      "currencyNotFound": "Oops, Frankfurter does not have the rate for this currency at this day.",
+      "noDate": "Enter the expense date to get a conversion rate.",
+      "dateMismatch": "Rates from date: {date}",
+      "refresh": "Atualizar",
+      "customRate": "Using custom rate"
     },
     "isReimbursementField": {
       "label": "Isso é um reembolso"
@@ -224,14 +379,6 @@
     "saving": "Salvando…",
     "cancel": "Cancelar",
     "reimbursement": "Reembolso",
-    "conversionRateField": {
-      "label": "Taxa de câmbio"
-    },
-    "conversionRateState": {
-      "success": "Taxas obtidas:",
-      "error": "Opa, não conseguimos obter as taxas mais recentes.",
-      "refresh": "Atualizar"
-    },
     "Calculator": {
       "applyButton": "Aplicar",
       "keyboardHintCalculate": "Use o teclado • Enter para calcular",
@@ -331,7 +478,12 @@
     "title": "Compartilhar",
     "description": "Para que outros participantes vejam o grupo e adicionem despesas, compartilhe o link com eles.",
     "warning": "Aviso!",
-    "warningHelp": "Toda pessoa com o link do grupo poderá ver e editar despesas. Compartilhe com cautela!"
+    "warningHelp": "Toda pessoa com o link do grupo poderá ver e editar despesas. Compartilhe com cautela!",
+    "qrCode": {
+      "title": "Share via QR Code",
+      "description": "Scan this QR code to open the group on any device.",
+      "download": "Download QR Code"
+    }
   },
   "SchemaErrors": {
     "min1": "Digite pelo menos um caractere.",
@@ -344,6 +496,7 @@
     "amountRequired": "Você deve inserir um valor.",
     "amountNotZero": "O valor não deve ser zero.",
     "amountTenMillion": "O valor deve ser inferior a 10.000.000.",
+    "ratePositive": "The rate must be strictly greater than zero.",
     "paidByRequired": "Você deve selecionar um participante.",
     "paidForMin1": "A despesa deve ser paga para pelo menos um participante.",
     "noZeroShares": "Todas as partes devem ser maiores que 0.",
@@ -389,12 +542,12 @@
       "heading": "Vida",
       "Childcare": "Cuidados infantis",
       "Clothing": "Roupas",
+      "Donation": "Doação",
       "Education": "Educação",
       "Gifts": "Presentes",
       "Insurance": "Seguro",
       "Medical Expenses": "Despesas médicas",
-      "Taxes": "Impostos",
-      "Donation": "Doação"
+      "Taxes": "Impostos"
     },
     "Transportation": {
       "heading": "Transporte",
@@ -432,10 +585,339 @@
       "heading": "Outras moedas"
     }
   },
+  "Backup": {
+    "restoreBackup": "Restore Backup",
+    "restoreBackupTitle": "Restore Group Backup",
+    "restoreBackupDescription": "Upload a backup file to restore or create a group. The system will check if the group exists and guide you through the restoration process.",
+    "analyzing": "Analyzing...",
+    "analyzeBackup": "Analyze Backup",
+    "groupName": "Group Name",
+    "backupDate": "Backup Date",
+    "groupNotFound": "This group doesn't exist yet. Click below to create it from the backup.",
+    "creating": "Creating...",
+    "createGroup": "Create Group from Backup",
+    "backupIsNewer": "This backup contains newer data than your current group.",
+    "currentVersion": "Current group last updated",
+    "changes": "Changes in backup",
+    "addedExpenses": "{count} new expense(s)",
+    "addedParticipants": "{count} new participant(s)",
+    "restoring": "Restoring...",
+    "restoreDifferences": "Restore New Data",
+    "backupIsOlder": "Warning: This backup is older than your current group data.",
+    "rollingBack": "Rolling back...",
+    "rollbackToBackup": "Rollback to Backup Version",
+    "rollbackWarning": "This will delete all current data and replace it with the backup. This action cannot be undone!",
+    "backupIsSame": "This backup is identical to your current group data.",
+    "cancel": "Cancel"
+  },
   "JSONImport": {
+    "importJSON": "Import from JSON",
+    "importJSONTitle": "Import Group from JSON Export",
+    "importJSONDescription": "Upload a JSON export file to migrate a group from another Spliit instance. The system will analyze the file and guide you through the import process.",
     "importSuccessTitle": "Importação concluída",
     "importSuccessDescription": "{name}",
     "importAssociationWarningTitle": "Associação pendente",
-    "importAssociationWarningDescription": "Importamos o grupo, mas não foi possível salvar as permissões da conta. Abra seu perfil e clique em Salvar para finalizar."
+    "importAssociationWarningDescription": "Importamos o grupo, mas não foi possível salvar as permissões da conta. Abra seu perfil e clique em Salvar para finalizar.",
+    "analyzing": "Analyzing...",
+    "analyzeJSON": "Analyze JSON File",
+    "groupName": "Group Name",
+    "exportDate": "Export Date",
+    "limitations": "Important Limitations",
+    "groupNotFound": "This group doesn't exist yet. Click below to create it from the JSON export.",
+    "creating": "Creating...",
+    "createGroup": "Create Group from JSON",
+    "jsonIsNewer": "This JSON export contains newer data than your current group.",
+    "currentVersion": "Current group last updated",
+    "changes": "Changes in JSON export",
+    "addedExpenses": "~{count} new expense(s) (approximate)",
+    "addedParticipants": "{count} new participant(s)",
+    "restoring": "Importing...",
+    "importDifferences": "Import New Data",
+    "jsonIsOlder": "Warning: This JSON export is older than your current group data.",
+    "rollingBack": "Rolling back...",
+    "rollbackToJSON": "Rollback to JSON Version",
+    "rollbackWarning": "This will delete all current data and replace it with the JSON export. This action cannot be undone!",
+    "jsonIsSame": "This JSON export appears to match your current group data.",
+    "cancel": "Cancel",
+    "importFromFile": "Import from file",
+    "importFromURL": "Import from URL",
+    "urlPlaceholder": "https://example.com/groups/...",
+    "fetchJSON": "Fetch JSON",
+    "errorInvalidURL": "Enter a valid URL from another Spliit site.",
+    "errorSameOrigin": "Use a different site URL than this one.",
+    "errorNoGroupID": "Could not find a group ID in that URL.",
+    "errorGroupExists": "That group already exists on this site.",
+    "errorGroupExistsDeleted": "This group still exists on the server. Delete it from Advanced settings before importing again.",
+    "errorRemoteFetch": "Failed to fetch JSON from the remote site.",
+    "remoteReadyWithName": "Ready to import: {name}",
+    "remoteReady": "Remote JSON is ready to import.",
+    "errorAnalysisFailed": "Failed to analyze JSON file",
+    "errorInvalidResponse": "Invalid response from server",
+    "errorImportFailed": "Failed to import JSON",
+    "jsonIsMergeable": "This JSON export is older, but it contains expenses that are missing in your group.",
+    "conflictsTitle": "Conflicting expenses found",
+    "conflictsDescription": "Choose which expenses should be updated to match the JSON export.",
+    "conflictApplyAllUpdate": "Update all",
+    "conflictApplyAllKeep": "Keep all",
+    "conflictDifferenceLabel": "Differs in",
+    "conflictFieldCategory": "category",
+    "conflictFieldSplitMode": "split mode",
+    "conflictFieldPaidFor": "paid for",
+    "conflictUpdateLabel": "Check to update this expense to match the JSON export.",
+    "paidBy": "Paid by",
+    "conflictDefaultAll": "Default to update all conflicts",
+    "conflictCurrentLabel": "Current",
+    "conflictJsonLabel": "JSON",
+    "conflictNone": "None",
+    "conflictEmpty": "None"
+  },
+  "DeleteData": {
+    "undoImport": "Desfazer importacao completa",
+    "undoImportDescription": "Remove all data added during the most recent JSON import",
+    "undoWarning": "This will remove all expenses, participants, and activities added during the last import. This action cannot be undone!",
+    "cancel": "Cancel",
+    "confirm": "Undo Import",
+    "deleting": "Undoing...",
+    "success": "Import undone successfully",
+    "error": "Failed to undo import"
+  },
+  "AnonymousAuthMenu": {
+    "menu": {
+      "ariaLabel": "Account",
+      "account": "Account",
+      "restoreBackup": "Restore from backup",
+      "importJson": "Import from JSON",
+      "whatsNew": "✨ What's New",
+      "signOut": "Sign out"
+    },
+    "profile": {
+      "title": "Account Profile",
+      "description": "Link groups to this device or recover them on another device.",
+      "associatedGroups": {
+        "title": "Associated groups",
+        "empty": "Visit or add a group first to associate it.",
+        "save": "Save associations",
+        "saving": "Saving..."
+      },
+      "accountAccess": {
+        "title": "Account access",
+        "description": "Use the same username and passphrase to create or recover your anonymous account.",
+        "usernamePlaceholder": "Anonymous username",
+        "generate": "Generate",
+        "passphrasePlaceholder": "Enter a passphrase",
+        "saving": "Saving...",
+        "recovering": "Recovering...",
+        "newAccount": "New account",
+        "existingAccount": "Existing account",
+        "changePrompt": "Enter your current passphrase and choose a new one.",
+        "passkeyPrompt": "Authenticated with passkey. Choose a new passphrase.",
+        "managePrompt": "Manage your account security.",
+        "usernameLabel": "Username",
+        "currentPassphrasePlaceholder": "Current passphrase",
+        "newPassphrasePlaceholder": "New passphrase",
+        "updating": "Updating...",
+        "changePassphrase": "Change passphrase",
+        "setting": "Setting...",
+        "setPassphrase": "Set passphrase",
+        "authenticating": "Authenticating...",
+        "setWithPasskey": "Set passphrase with passkey",
+        "resetWithPasskey": "Reset with passkey",
+        "passkeyFirst": "Add a passkey first to set a passphrase, or create a new account with a passphrase."
+      },
+      "passkeyLogin": {
+        "title": "Passkey login",
+        "notLinkedDescription": "Use your passkey to log in on this device.",
+        "authenticating": "Authenticating...",
+        "usePasskey": "Use passkey",
+        "manageDescription": "Manage your passkeys for this account.",
+        "addDescription": "Add a passkey for quick, passwordless login.",
+        "created": "Created {date}",
+        "remove": "Remove",
+        "addPasskey": "Add passkey"
+      },
+      "profileActions": {
+        "title": "Profile actions",
+        "deleteAccount": "Delete account"
+      }
+    },
+    "unlinkDialog": {
+      "signOutTitle": "Sign out from device",
+      "deleteTitle": "Delete account",
+      "signOutDescription": "Are you sure you want to sign out from this device?",
+      "deleteDescription": "Are you sure you want to delete your account? This action cannot be undone.",
+      "associatedGroupsTitle": "Associated groups",
+      "keepRecent": "Keep in recent list",
+      "removeRecent": "Remove from recent list",
+      "signOutAction": "Sign out",
+      "deleteAction": "Delete account"
+    },
+    "addPasskey": {
+      "title": "Add Passkey",
+      "description": "Enter a name for this passkey to help you identify it later.",
+      "placeholder": "e.g., MacBook Pro, iPhone",
+      "registering": "Registering...",
+      "confirm": "Add passkey"
+    },
+    "removePasskey": {
+      "title": "Remove Passkey",
+      "description": "Are you sure you want to remove this passkey? You will need to use another authentication method to access your account.",
+      "removing": "Removing...",
+      "confirm": "Remove passkey"
+    },
+    "common": {
+      "cancel": "Cancel"
+    },
+    "passphrase": {
+      "requirements": {
+        "minLength": "At least 8 characters",
+        "uppercase": "One uppercase letter",
+        "lowercase": "One lowercase letter",
+        "number": "One number",
+        "special": "One special character"
+      }
+    },
+    "errors": {
+      "authOptionsFailed": "Failed to get authentication options",
+      "authenticationFailed": "Authentication failed",
+      "deletePasskeyFailed": "Failed to delete passkey",
+      "registrationOptionsFailed": "Failed to get registration options",
+      "registrationVerifyFailed": "Failed to verify registration"
+    },
+    "toasts": {
+      "initFailed": {
+        "title": "Unable to initialize anonymous session",
+        "description": "Please try refreshing the page. If the problem persists, try again later."
+      },
+      "initNetwork": {
+        "title": "Network error while initializing",
+        "description": "Check your connection and refresh the page to try again."
+      },
+      "syncGroupsFailed": {
+        "title": "Failed to sync groups",
+        "description": "We could not load your groups. Your local groups list may be out of date."
+      },
+      "sessionExpired": {
+        "title": "Session expired",
+        "saveAssociations": "Please recover your account to save group associations. Use your username and passphrase to log back in.",
+        "deleteAccount": "Please recover your account to delete it. Use your username and passphrase to log back in."
+      },
+      "saveGroupsFailed": {
+        "title": "Failed to save groups",
+        "description": "Please try again."
+      },
+      "groupsSaved": {
+        "title": "Groups saved",
+        "description": "These groups are now linked to your anonymous account."
+      },
+      "networkError": {
+        "title": "Network error",
+        "saveGroups": "Unable to save groups. Please check your connection and try again.",
+        "savePassphrase": "Unable to save passphrase. Please check your connection and try again.",
+        "recoverAccount": "Unable to recover account. Please check your connection and try again."
+      },
+      "passphraseInUse": {
+        "title": "Passphrase already in use",
+        "description": "Choose a different passphrase and try again."
+      },
+      "accountSaved": {
+        "title": "Account saved",
+        "description": "Use this username and passphrase to recover later."
+      },
+      "recoveryFailed": {
+        "title": "Recovery failed",
+        "description": "No account was found for that passphrase."
+      },
+      "accountRecovered": {
+        "title": "Account recovered",
+        "description": "Your associated groups were restored on this device."
+      },
+      "currentPassphraseRequired": {
+        "title": "Current passphrase required",
+        "description": "Please enter your current passphrase."
+      },
+      "updatePassphraseFailed": {
+        "title": "Failed to update passphrase",
+        "description": "Please verify your current passphrase and try again."
+      },
+      "passphraseUpdated": {
+        "title": "Passphrase updated",
+        "description": "Your new passphrase is now active."
+      },
+      "setPassphraseFailed": {
+        "title": "Failed to set passphrase",
+        "description": "Please try again."
+      },
+      "passphraseSet": {
+        "title": "Passphrase set",
+        "description": "Your new passphrase is now active."
+      },
+      "accountRequired": {
+        "title": "Account required",
+        "description": "Please ensure you are logged in."
+      },
+      "authSuccess": {
+        "title": "Authentication successful",
+        "description": "You can now set a new passphrase."
+      },
+      "authFailed": {
+        "title": "Authentication failed",
+        "description": "Please try again.",
+        "generic": "Authentication failed. Please try again."
+      },
+      "passkeyRemoved": {
+        "title": "Passkey removed",
+        "description": "The passkey has been removed from your account."
+      },
+      "removePasskeyFailed": {
+        "title": "Failed to remove passkey",
+        "description": "Please try again."
+      },
+      "usernameRequired": {
+        "title": "Username required",
+        "description": "Please set a username before registering a passkey."
+      },
+      "passkeyNameRequired": {
+        "title": "Name required",
+        "description": "Please enter a name for your passkey."
+      },
+      "passkeyRegistered": {
+        "title": "Passkey registered",
+        "description": "You can now use your passkey to log in."
+      },
+      "passkeyRegistrationFailed": {
+        "title": "Registration failed",
+        "description": "Please try again."
+      },
+      "rateLimit": {
+        "title": "Rate limit exceeded",
+        "description": "Too many requests. Please try again later."
+      },
+      "passkeyNotFound": {
+        "title": "Passkey not found",
+        "description": "Try entering your username and retrying passkey login."
+      },
+      "passkeyLoginSuccess": {
+        "title": "Logged in with passkey",
+        "description": "Your associated groups were restored on this device."
+      },
+      "authCancelled": {
+        "title": "Authentication cancelled",
+        "description": "Passkey authentication was cancelled."
+      },
+      "unlinked": {
+        "title": "Unlinked from device",
+        "descriptionRemoved": "Associated groups have been removed from your device.",
+        "descriptionNew": "You are now using a new anonymous account on this device."
+      },
+      "deleteAccountFailed": {
+        "title": "Failed to delete account",
+        "description": "Please try again."
+      },
+      "accountDeleted": {
+        "title": "Account deleted",
+        "descriptionRemoved": "Account deleted and groups removed from this device.",
+        "descriptionNew": "Account deleted. You are now using a new anonymous account on this device."
+      }
+    }
   }
 }

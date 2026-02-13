@@ -108,9 +108,9 @@ If you're on a new device or cleared your browser data:
 When you no longer need a group, you can permanently delete it.
 
 ### Delete a Group
-1. Go to your groups list
-2. Click the **more options menu** (three dots) on the group card
-3. Select **Delete group**
+1. Open the group you want to remove
+2. Go to **Advanced settings**
+3. In the **Delete group** section, click **Delete Permanently**
 4. A confirmation dialog will appear warning you about the consequences
 5. Create a backup if you want to keep any data
 6. Check the box to also delete uploaded images (if any)
@@ -121,6 +121,37 @@ When you no longer need a group, you can permanently delete it.
 - All expenses, participants, and activity history will be deleted
 - Uploaded images are stored in the cloud and won't be part of the backup
 - Only available if you're logged in and have an associated account
+
+### Optional: Purge a Linked Remote Group
+If the group is linked to a remote instance, you can also purge the remote group when deleting locally.
+
+1. In the delete dialog, enable **Also purge the remote group**
+2. Confirm deletion
+
+This removes all remote expenses and participants (a single placeholder participant remains on the remote side).
+
+---
+
+## 🔄 Group Sync: Keep Local and Remote Aligned
+
+If your group is linked to a remote instance, you can sync changes between them.
+
+### Sync a Group
+1. Open the group
+2. Go to **Advanced settings**
+3. Enable **Link to remote group** and save a linked URL
+4. Click **Sync now** to review and apply changes
+
+You can select which changes to apply and choose the direction per change (local → remote or remote → local).
+
+---
+
+## 🌐 Arabic Language Support
+
+Spliit now includes an LLM-generated Arabic translation for the full app UI.
+
+### Enable Arabic
+Use your browser or app language settings to switch to Arabic. The interface will update automatically.
 
 ---
 

@@ -275,25 +275,35 @@ export function ExpenseForm({
   const [isCalculatorOpen, setIsCalculatorOpen] = useState(false)
   const activeUserId = useActiveUser(group.id)
 
-  const submit = async (values: ExpenseFormValues) => {
+  const prepareValuesForSubmit = async (values: ExpenseFormValues) => {
+    const preparedValues: ExpenseFormValues = {
+      ...values,
+    }
+
     await persistDefaultSplittingOptions(group.id, values)
 
     // Store monetary amounts in minor units (cents)
-    values.amount = amountAsMinorUnits(values.amount, groupCurrency)
-    values.paidFor = values.paidFor.map(({ participant, shares }) => ({
+    preparedValues.amount = amountAsMinorUnits(preparedValues.amount, groupCurrency)
+    preparedValues.paidFor = preparedValues.paidFor.map(({ participant, shares }) => ({
       participant,
       shares:
-        values.splitMode === 'BY_AMOUNT'
+        preparedValues.splitMode === 'BY_AMOUNT'
           ? amountAsMinorUnits(shares, groupCurrency)
           : shares,
     }))
 
     // Currency should be blank if same as group currency
     if (!conversionRequired) {
-      delete values.originalAmount
-      delete values.originalCurrency
+      delete preparedValues.originalAmount
+      delete preparedValues.originalCurrency
     }
-    return onSubmit(values, activeUserId ?? undefined)
+
+    return preparedValues
+  }
+
+  const submit = async (values: ExpenseFormValues) => {
+    const preparedValues = await prepareValuesForSubmit(values)
+    return onSubmit(preparedValues, activeUserId ?? undefined)
   }
 
   const [isIncome, setIsIncome] = useState(Number(form.getValues().amount) < 0)
@@ -613,8 +623,8 @@ export function ExpenseForm({
                     render={({ field: { onChange, ...field } }) => (
                       <FormItem
                         className={`sm:order-4 ${!conversionRequired
-                            ? 'max-sm:hidden sm:invisible'
-                            : ''
+                          ? 'max-sm:hidden sm:invisible'
+                          : ''
                           }`}
                       >
                         <FormLabel>{t('conversionRateField.label')}</FormLabel>
@@ -702,9 +712,9 @@ export function ExpenseForm({
                         <InputGroupAddon className='pr-0' align="inline-end">
                           <Popover open={isCalculatorOpen} onOpenChange={setIsCalculatorOpen}>
                             <PopoverTrigger asChild>
-                              <Button 
+                              <Button
                                 type="button"
-                                variant="ghost" 
+                                variant="ghost"
                                 size="icon"
                                 aria-label={t('Calculator.openCalculator')}
                                 title={t('Calculator.openCalculator')}

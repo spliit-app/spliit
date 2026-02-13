@@ -3,6 +3,7 @@ import { getRequestConfig } from 'next-intl/server'
 import { getUserLocale } from '../lib/locale'
 
 export const localeLabels = {
+  ar: 'العربية',
   id: 'Bahasa Indonesia',
   ca: 'Català',
   'cs-CZ': 'Česky',
