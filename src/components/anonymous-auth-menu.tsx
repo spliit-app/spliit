@@ -124,9 +124,8 @@ function PassphraseComplexityIndicator({
       {requirements.map((req) => (
         <div key={req.label} className="flex items-center gap-2 text-xs">
           <div
-            className={`w-4 h-4 rounded-full flex items-center justify-center ${
-              req.met ? 'bg-green-500' : 'bg-gray-200 dark:bg-gray-700'
-            }`}
+            className={`w-4 h-4 rounded-full flex items-center justify-center ${req.met ? 'bg-green-500' : 'bg-gray-200 dark:bg-gray-700'
+              }`}
           >
             {req.met && <Check className="w-3 h-3 text-white" />}
           </div>
@@ -194,27 +193,27 @@ export function AnonymousAuthMenu() {
   const buildPassphraseRequirements = (
     complexity: PassphraseComplexity,
   ): PassphraseRequirement[] => [
-    {
-      label: t('passphrase.requirements.minLength'),
-      met: complexity.minLength,
-    },
-    {
-      label: t('passphrase.requirements.uppercase'),
-      met: complexity.hasUppercase,
-    },
-    {
-      label: t('passphrase.requirements.lowercase'),
-      met: complexity.hasLowercase,
-    },
-    {
-      label: t('passphrase.requirements.number'),
-      met: complexity.hasNumber,
-    },
-    {
-      label: t('passphrase.requirements.special'),
-      met: complexity.hasSpecial,
-    },
-  ]
+      {
+        label: t('passphrase.requirements.minLength'),
+        met: complexity.minLength,
+      },
+      {
+        label: t('passphrase.requirements.uppercase'),
+        met: complexity.hasUppercase,
+      },
+      {
+        label: t('passphrase.requirements.lowercase'),
+        met: complexity.hasLowercase,
+      },
+      {
+        label: t('passphrase.requirements.number'),
+        met: complexity.hasNumber,
+      },
+      {
+        label: t('passphrase.requirements.special'),
+        met: complexity.hasSpecial,
+      },
+    ]
 
   const passphraseComplexity = useMemo(
     () => checkPassphraseComplexity(passphrase),
@@ -395,21 +394,29 @@ export function AnonymousAuthMenu() {
         // Update passphrase state
         setHasExistingPassphrase(data.hasPassphrase ?? false)
 
+        const serverGroupIds = data.groups.map((group) => group.groupId)
+        if (isLinked) {
+          setAssociatedGroupIds(serverGroupIds)
+          localStorage.setItem(
+            ASSOCIATED_GROUPS_KEY,
+            JSON.stringify(serverGroupIds),
+          )
+        }
+
         if (!data.groups.length) return
 
         const mergedGroups = mergeRecentGroups(getRecentGroups(), data.groups)
         saveRecentGroupsToStorage(mergedGroups)
         setRecentGroupsState(mergedGroups)
 
-        const storedAssociations = localStorage.getItem(ASSOCIATED_GROUPS_KEY)
-        const storedIds = storedAssociations
-          ? (JSON.parse(storedAssociations) as string[])
-          : []
-        const mergedIds = Array.from(
-          new Set([...storedIds, ...data.groups.map((group) => group.groupId)]),
-        )
-        setAssociatedGroupIds(mergedIds)
-        localStorage.setItem(ASSOCIATED_GROUPS_KEY, JSON.stringify(mergedIds))
+        if (!isLinked) {
+          const storedAssociations = localStorage.getItem(ASSOCIATED_GROUPS_KEY)
+          setAssociatedGroupIds(
+            storedAssociations
+              ? (JSON.parse(storedAssociations) as string[])
+              : [],
+          )
+        }
       } catch (error) {
         // Ensure failures are not silent and are visible to users and developers
         console.error('Failed to sync anonymous user groups', error)
@@ -420,7 +427,7 @@ export function AnonymousAuthMenu() {
         })
       }
     })()
-  }, [authId])
+  }, [authId, isLinked])
 
   useEffect(() => {
     if (open || !pendingRefreshTarget) return
@@ -912,8 +919,8 @@ export function AnonymousAuthMenu() {
             isLinked
               ? { userId: authId || undefined }
               : username.trim()
-              ? { username: username.trim() }
-              : {},
+                ? { username: username.trim() }
+                : {},
           ),
         },
       )
@@ -1355,8 +1362,8 @@ export function AnonymousAuthMenu() {
                       onClick={
                         preferRecover
                           ? () => {
-                              handleSavePassphrase()
-                            }
+                            handleSavePassphrase()
+                          }
                           : undefined
                       }
                       disabled={
@@ -1379,8 +1386,8 @@ export function AnonymousAuthMenu() {
                         preferRecover
                           ? undefined
                           : () => {
-                              handleRecover()
-                            }
+                            handleRecover()
+                          }
                       }
                       disabled={
                         isSaving ||
