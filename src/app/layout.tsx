@@ -16,7 +16,7 @@ import { Suspense } from 'react'
 import './globals.css'
 
 export async function generateMetadata() {
-  const t = useTranslations('Homepage')
+  const t = await useTranslations('Homepage')
 
   return {
     metadataBase: new URL(env.NEXT_PUBLIC_BASE_URL),

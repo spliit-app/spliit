@@ -3,7 +3,7 @@ import { Metadata } from 'next'
 import { useTranslations } from 'next-intl'
 
 export async function generateMetadata() {
-  const t = useTranslations('Stats')
+  const t = await useTranslations('Stats')
 
   return {
     title: t('Totals.title'),

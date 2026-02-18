@@ -21,7 +21,7 @@ import { useCurrentGroup } from '../current-group-context'
 export const revalidate = 3600
 
 export async function generateMetadata() {
-  const t = useTranslations('Expenses')
+  const t = await useTranslations('Expenses')
 
   return {
     title: t('title'),

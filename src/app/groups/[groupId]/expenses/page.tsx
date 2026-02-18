@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl'
 export const revalidate = 3600
 
 export async function generateMetadata() {
-  const t = useTranslations('Expenses')
+  const t = await useTranslations('Expenses')
 
   return {
     title: t('title'),
