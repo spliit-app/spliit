@@ -61,6 +61,7 @@ export async function generateMetadata() {
       },
     ],
   };
+}
 
 export const viewport: Viewport = {
   themeColor: '#047857',
