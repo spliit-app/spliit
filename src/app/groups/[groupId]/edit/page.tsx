@@ -3,8 +3,6 @@ import { Metadata } from 'next'
 import { useTranslations } from 'next-intl'
 
 export async function generateMetadata() {
-
-export async function generateMetadata() {
   const t = useTranslations('Settings')
 
   return {
