@@ -20,10 +20,12 @@ import { useCurrentGroup } from '../current-group-context'
 
 export const revalidate = 3600
 
-const t = useTranslations('Expenses')
+export async function generateMetadata() {
+  const t = useTranslations('Expenses')
 
-export const metadata: Metadata = {
-  title: t('title'),
+  return {
+    title: t('title'),
+  };
 }
 
 export default function GroupExpensesPageClient({
@@ -31,6 +33,7 @@ export default function GroupExpensesPageClient({
 }: {
   enableReceiptExtract: boolean
 }) {
+  const t = useTranslations('Expenses')
   const { groupId } = useCurrentGroup()
 
   return (

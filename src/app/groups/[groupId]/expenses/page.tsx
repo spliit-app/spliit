@@ -3,12 +3,14 @@ import { env } from '@/lib/env'
 import { Metadata } from 'next'
 import { useTranslations } from 'next-intl'
 
-const t = useTranslations('Activity')
-
 export const revalidate = 3600
 
-export const metadata: Metadata = {
-  title: t('title'),
+export async function generateMetadata() {
+  const t = useTranslations('Activity')
+
+  return {
+    title: t('title'),
+  };
 }
 
 export default async function GroupExpensesPage() {

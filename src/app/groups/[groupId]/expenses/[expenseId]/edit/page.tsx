@@ -5,8 +5,12 @@ import { useTranslations } from 'next-intl'
 
 const t = useTranslations('ExpenseForm')
 
-export const metadata: Metadata = {
-  title: t('Expense.edit'),
+export async function generateMetadata() {
+  const t = useTranslations('ExpenseForm')
+
+  return {
+    title: t('Expense.edit'),
+  };
 }
 
 export default async function EditExpensePage({

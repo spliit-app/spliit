@@ -3,10 +3,12 @@ import { getRuntimeFeatureFlags } from '@/lib/featureFlags'
 import { Metadata } from 'next'
 import { useTranslations } from 'next-intl'
 
-const t = useTranslations('ExpenseForm')
+export async function generateMetadata() {
+  const t = useTranslations('ExpenseForm')
 
-export const metadata: Metadata = {
-  title: t('Expense.create'),
+  return {
+    title: t('Expense.create'),
+  };
 }
 
 export default async function ExpensePage({
