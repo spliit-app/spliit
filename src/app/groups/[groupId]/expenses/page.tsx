@@ -1,12 +1,11 @@
 import GroupExpensesPageClient from '@/app/groups/[groupId]/expenses/page.client'
 import { env } from '@/lib/env'
-import { Metadata } from 'next'
-import { useTranslations } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 
 export const revalidate = 3600
 
 export async function generateMetadata() {
-  const t = await useTranslations('Expenses')
+  const t = await getTranslations('Expenses')
 
   return {
     title: t('title'),

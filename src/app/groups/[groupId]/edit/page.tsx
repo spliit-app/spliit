@@ -1,9 +1,8 @@
 import { EditGroup } from '@/app/groups/[groupId]/edit/edit-group'
-import { Metadata } from 'next'
-import { useTranslations } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 
 export async function generateMetadata() {
-  const t = await useTranslations('Settings')
+  const t = await getTranslations('Settings')
 
   return {
     title: t('title'),

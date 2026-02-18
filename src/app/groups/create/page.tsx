@@ -1,9 +1,8 @@
 import { CreateGroup } from '@/app/groups/create/create-group'
-import { Metadata } from 'next'
-import { useTranslations } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 
 export async function generateMetadata() {
-  const t = await useTranslations('Groups')
+  const t = await getTranslations('Groups')
 
   return {
     title: t('NoRecent.create'),

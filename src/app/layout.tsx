@@ -9,14 +9,14 @@ import { env } from '@/lib/env'
 import { TRPCProvider } from '@/trpc/client'
 import type { Metadata, Viewport } from 'next'
 import { NextIntlClientProvider, useTranslations } from 'next-intl'
-import { getLocale, getMessages } from 'next-intl/server'
+import { getLocale, getMessages, getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Suspense } from 'react'
 import './globals.css'
 
 export async function generateMetadata() {
-  const t = await useTranslations('Homepage')
+  const t = await getTranslations('Homepage')
 
   return {
     metadataBase: new URL(env.NEXT_PUBLIC_BASE_URL),

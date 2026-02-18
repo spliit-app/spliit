@@ -1,10 +1,9 @@
 import { CreateExpenseForm } from '@/app/groups/[groupId]/expenses/create-expense-form'
 import { getRuntimeFeatureFlags } from '@/lib/featureFlags'
-import { Metadata } from 'next'
-import { useTranslations } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 
 export async function generateMetadata() {
-  const t = await useTranslations('ExpenseForm')
+  const t = await getTranslations('ExpenseForm')
 
   return {
     title: t('Expense.create'),

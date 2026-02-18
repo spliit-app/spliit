@@ -1,9 +1,8 @@
 import { RecentGroupList } from '@/app/groups/recent-group-list'
-import { Metadata } from 'next'
-import { useTranslations } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 
 export async function generateMetadata() {
-  const t = await useTranslations('Groups')
+  const t = await getTranslations('Groups')
 
   return {
     title: t('recent'),

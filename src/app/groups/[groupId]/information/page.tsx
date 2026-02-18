@@ -1,9 +1,8 @@
 import GroupInformation from '@/app/groups/[groupId]/information/group-information'
-import { Metadata } from 'next'
-import { useTranslations } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 
 export async function generateMetadata() {
-  const t = await useTranslations('GroupForm')
+  const t = await getTranslations('GroupForm')
 
   return {
     title: t('title'),
