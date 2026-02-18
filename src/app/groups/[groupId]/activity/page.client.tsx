@@ -9,12 +9,13 @@ import {
 import { Metadata } from 'next'
 import { useTranslations } from 'next-intl'
 
+const t = useTranslations('Activity')
+
 export const metadata: Metadata = {
-  title: 'Activity',
+  title: t('title'),
 }
 
 export function ActivityPageClient() {
-  const t = useTranslations('Activity')
 
   return (
     <>

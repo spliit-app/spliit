@@ -1,8 +1,11 @@
 import GroupInformation from '@/app/groups/[groupId]/information/group-information'
 import { Metadata } from 'next'
+import { useTranslations } from 'next-intl'
+
+const t = useTranslations('GroupForm')
 
 export const metadata: Metadata = {
-  title: 'Group Information',
+  title: t('title'),
 }
 
 export default async function InformationPage({

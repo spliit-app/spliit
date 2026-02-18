@@ -1,11 +1,14 @@
 import GroupExpensesPageClient from '@/app/groups/[groupId]/expenses/page.client'
 import { env } from '@/lib/env'
 import { Metadata } from 'next'
+import { useTranslations } from 'next-intl'
+
+const t = useTranslations('Activity')
 
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Expenses',
+  title: t('title'),
 }
 
 export default async function GroupExpensesPage() {
