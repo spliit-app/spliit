@@ -15,49 +15,52 @@ import Link from 'next/link'
 import { Suspense } from 'react'
 import './globals.css'
 
-export const metadata: Metadata = {
-  metadataBase: new URL(env.NEXT_PUBLIC_BASE_URL),
-  title: {
-    default: 'Spliit · Share Expenses with Friends & Family',
-    template: '%s · Spliit',
-  },
-  description:
-    'Spliit is a minimalist web application to share expenses with friends and family. No ads, no account, no problem.',
-  openGraph: {
-    title: 'Spliit · Share Expenses with Friends & Family',
+export async function generateMetadata() {
+  const t = useTranslations('Homepage')
+
+  return {
+    metadataBase: new URL(env.NEXT_PUBLIC_BASE_URL),
+    title: {
+      default: t('title'),
+      template: '%s · Spliit',
+    },
     description:
       'Spliit is a minimalist web application to share expenses with friends and family. No ads, no account, no problem.',
-    images: `/banner.png`,
-    type: 'website',
-    url: '/',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    creator: '@scastiel',
-    site: '@scastiel',
-    images: `/banner.png`,
-    title: 'Spliit · Share Expenses with Friends & Family',
-    description:
-      'Spliit is a minimalist web application to share expenses with friends and family. No ads, no account, no problem.',
-  },
-  appleWebApp: {
-    capable: true,
-    title: 'Spliit',
-  },
-  applicationName: 'Spliit',
-  icons: [
-    {
-      url: '/android-chrome-192x192.png',
-      sizes: '192x192',
-      type: 'image/png',
+    openGraph: {
+      title: t('title'),
+      description:
+        'Spliit is a minimalist web application to share expenses with friends and family. No ads, no account, no problem.',
+      images: `/banner.png`,
+      type: 'website',
+      url: '/',
     },
-    {
-      url: '/android-chrome-512x512.png',
-      sizes: '512x512',
-      type: 'image/png',
+    twitter: {
+      card: 'summary_large_image',
+      creator: '@scastiel',
+      site: '@scastiel',
+      images: `/banner.png`,
+      title: t('title'),
+      description:
+        'Spliit is a minimalist web application to share expenses with friends and family. No ads, no account, no problem.',
     },
-  ],
-}
+    appleWebApp: {
+      capable: true,
+      title: 'Spliit',
+    },
+    applicationName: 'Spliit',
+    icons: [
+      {
+        url: '/android-chrome-192x192.png',
+        sizes: '192x192',
+        type: 'image/png',
+      },
+      {
+        url: '/android-chrome-512x512.png',
+        sizes: '512x512',
+        type: 'image/png',
+      },
+    ],
+  };
 
 export const viewport: Viewport = {
   themeColor: '#047857',
