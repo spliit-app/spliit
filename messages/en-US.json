@@ -266,6 +266,35 @@
       "retry": "Retry"
     }
   },
+  "ImportFromSplitwise": {
+    "triggerTitle": "Import from Splitwise",
+    "next": "Next",
+    "back": "Back",
+    "parseError": "Could not parse the CSV file. Please ensure it is a valid Splitwise export.",
+    "importError": "Something went wrong while importing. Please try again.",
+    "Dialog": {
+      "title": "Import from Splitwise",
+      "description": "Import your expenses from a Splitwise CSV export file."
+    },
+    "Step1": {
+      "description": "Export your group's expenses from Splitwise as a CSV file, then upload it here.",
+      "selectFile": "Select CSV file…",
+      "fileSelected": "{count} expenses found in file"
+    },
+    "Step2": {
+      "description": "Match each Splitwise participant to a member of this group. Unmapped participants will be excluded from expense splits.",
+      "unmapped": "Skip this participant"
+    },
+    "Step3": {
+      "summary": "{importable} expenses ready to import, {skipped} skipped (no payer identified).",
+      "dateColumn": "Date",
+      "descriptionColumn": "Description",
+      "amountColumn": "Amount",
+      "importButton": "Import {count} expenses",
+      "importing": "Importing…",
+      "importSuccess": "{count} expenses imported successfully"
+    }
+  },
   "CreateFromReceipt": {
     "Dialog": {
       "triggerTitle": "Create expense from receipt",
