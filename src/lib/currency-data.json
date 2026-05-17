@@ -269,6 +269,15 @@
       "name_plural": "South African rand",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "COP": {
+      "name": "Peso Kolombia",
+      "symbol_native": "$",
+      "symbol": "CO$",
+      "code": "COP",
+      "name_plural": "Colombian pesos",
+      "rounding": 0,
+      "decimal_digits": 0
     }
   },
   "ca": {
@@ -541,6 +550,15 @@
       "name_plural": "South African rand",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "COP": {
+      "name": "peso colombià",
+      "symbol_native": "$",
+      "symbol": "CO$",
+      "code": "COP",
+      "name_plural": "Colombian pesos",
+      "rounding": 0,
+      "decimal_digits": 0
     }
   },
   "cs-CZ": {
@@ -813,6 +831,15 @@
       "name_plural": "South African rand",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "COP": {
+      "name": "kolumbijské peso",
+      "symbol_native": "$",
+      "symbol": "CO$",
+      "code": "COP",
+      "name_plural": "Colombian pesos",
+      "rounding": 0,
+      "decimal_digits": 0
     }
   },
   "de-DE": {
@@ -1085,6 +1112,15 @@
       "name_plural": "South African rand",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "COP": {
+      "name": "Kolumbianischer Peso",
+      "symbol_native": "$",
+      "symbol": "CO$",
+      "code": "COP",
+      "name_plural": "Colombian pesos",
+      "rounding": 0,
+      "decimal_digits": 0
     }
   },
   "en-US": {
@@ -1357,6 +1393,15 @@
       "name_plural": "South African rand",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "COP": {
+      "name": "Colombian Peso",
+      "symbol_native": "$",
+      "symbol": "CO$",
+      "code": "COP",
+      "name_plural": "Colombian pesos",
+      "rounding": 0,
+      "decimal_digits": 0
     }
   },
   "es": {
@@ -1629,6 +1674,15 @@
       "name_plural": "South African rand",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "COP": {
+      "name": "peso colombiano",
+      "symbol_native": "$",
+      "symbol": "CO$",
+      "code": "COP",
+      "name_plural": "Colombian pesos",
+      "rounding": 0,
+      "decimal_digits": 0
     }
   },
   "eu": {
@@ -1901,6 +1955,15 @@
       "name_plural": "South African rand",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "COP": {
+      "name": "Kolonbiako pesoa",
+      "symbol_native": "$",
+      "symbol": "CO$",
+      "code": "COP",
+      "name_plural": "Colombian pesos",
+      "rounding": 0,
+      "decimal_digits": 0
     }
   },
   "fr-FR": {
@@ -2173,6 +2236,15 @@
       "name_plural": "South African rand",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "COP": {
+      "name": "peso colombien",
+      "symbol_native": "$",
+      "symbol": "CO$",
+      "code": "COP",
+      "name_plural": "Colombian pesos",
+      "rounding": 0,
+      "decimal_digits": 0
     }
   },
   "it-IT": {
@@ -2445,6 +2517,15 @@
       "name_plural": "South African rand",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "COP": {
+      "name": "peso colombiano",
+      "symbol_native": "$",
+      "symbol": "CO$",
+      "code": "COP",
+      "name_plural": "Colombian pesos",
+      "rounding": 0,
+      "decimal_digits": 0
     }
   },
   "nl-NL": {
@@ -2717,6 +2798,15 @@
       "name_plural": "South African rand",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "COP": {
+      "name": "Colombiaanse peso",
+      "symbol_native": "$",
+      "symbol": "CO$",
+      "code": "COP",
+      "name_plural": "Colombian pesos",
+      "rounding": 0,
+      "decimal_digits": 0
     }
   },
   "pl-PL": {
@@ -2989,6 +3079,15 @@
       "name_plural": "South African rand",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "COP": {
+      "name": "peso kolumbijskie",
+      "symbol_native": "$",
+      "symbol": "CO$",
+      "code": "COP",
+      "name_plural": "Colombian pesos",
+      "rounding": 0,
+      "decimal_digits": 0
     }
   },
   "pt": {
@@ -3261,6 +3360,15 @@
       "name_plural": "South African rand",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "COP": {
+      "name": "Peso colombiano",
+      "symbol_native": "$",
+      "symbol": "CO$",
+      "code": "COP",
+      "name_plural": "Colombian pesos",
+      "rounding": 0,
+      "decimal_digits": 0
     }
   },
   "pt-BR": {
@@ -3533,6 +3641,15 @@
       "name_plural": "South African rand",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "COP": {
+      "name": "Peso colombiano",
+      "symbol_native": "$",
+      "symbol": "CO$",
+      "code": "COP",
+      "name_plural": "Colombian pesos",
+      "rounding": 0,
+      "decimal_digits": 0
     }
   },
   "ro": {
@@ -3805,6 +3922,15 @@
       "name_plural": "South African rand",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "COP": {
+      "name": "peso columbian",
+      "symbol_native": "$",
+      "symbol": "CO$",
+      "code": "COP",
+      "name_plural": "Colombian pesos",
+      "rounding": 0,
+      "decimal_digits": 0
     }
   },
   "fi": {
@@ -4077,6 +4203,15 @@
       "name_plural": "South African rand",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "COP": {
+      "name": "Kolumbian peso",
+      "symbol_native": "$",
+      "symbol": "CO$",
+      "code": "COP",
+      "name_plural": "Colombian pesos",
+      "rounding": 0,
+      "decimal_digits": 0
     }
   },
   "tr-TR": {
@@ -4349,6 +4484,15 @@
       "name_plural": "South African rand",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "COP": {
+      "name": "Kolombiya Pesosu",
+      "symbol_native": "$",
+      "symbol": "CO$",
+      "code": "COP",
+      "name_plural": "Colombian pesos",
+      "rounding": 0,
+      "decimal_digits": 0
     }
   },
   "ru-RU": {
@@ -4621,6 +4765,15 @@
       "name_plural": "South African rand",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "COP": {
+      "name": "Колумбийское песо",
+      "symbol_native": "$",
+      "symbol": "CO$",
+      "code": "COP",
+      "name_plural": "Colombian pesos",
+      "rounding": 0,
+      "decimal_digits": 0
     }
   },
   "uk-UA": {
@@ -4893,6 +5046,15 @@
       "name_plural": "South African rand",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "COP": {
+      "name": "колумбійський песо",
+      "symbol_native": "$",
+      "symbol": "CO$",
+      "code": "COP",
+      "name_plural": "Colombian pesos",
+      "rounding": 0,
+      "decimal_digits": 0
     }
   },
   "he": {
@@ -5165,6 +5327,15 @@
       "name_plural": "South African rand",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "COP": {
+      "name": "פסו קולומביאני",
+      "symbol_native": "$",
+      "symbol": "CO$",
+      "code": "COP",
+      "name_plural": "Colombian pesos",
+      "rounding": 0,
+      "decimal_digits": 0
     }
   },
   "ko": {
@@ -5437,6 +5608,15 @@
       "name_plural": "South African rand",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "COP": {
+      "name": "콜롬비아 페소",
+      "symbol_native": "$",
+      "symbol": "CO$",
+      "code": "COP",
+      "name_plural": "Colombian pesos",
+      "rounding": 0,
+      "decimal_digits": 0
     }
   },
   "ja-JP": {
@@ -5709,6 +5889,15 @@
       "name_plural": "South African rand",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "COP": {
+      "name": "コロンビア ペソ",
+      "symbol_native": "$",
+      "symbol": "CO$",
+      "code": "COP",
+      "name_plural": "Colombian pesos",
+      "rounding": 0,
+      "decimal_digits": 0
     }
   },
   "zh-CN": {
@@ -5981,6 +6170,15 @@
       "name_plural": "South African rand",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "COP": {
+      "name": "哥伦比亚比索",
+      "symbol_native": "$",
+      "symbol": "CO$",
+      "code": "COP",
+      "name_plural": "Colombian pesos",
+      "rounding": 0,
+      "decimal_digits": 0
     }
   },
   "zh-TW": {
@@ -6253,6 +6451,15 @@
       "name_plural": "South African rand",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "COP": {
+      "name": "哥伦比亚比索",
+      "symbol_native": "$",
+      "symbol": "CO$",
+      "code": "COP",
+      "name_plural": "Colombian pesos",
+      "rounding": 0,
+      "decimal_digits": 0
     }
   }
 }
