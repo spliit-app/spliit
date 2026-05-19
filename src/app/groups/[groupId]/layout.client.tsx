@@ -1,6 +1,10 @@
 'use client'
 
 import { useToast } from '@/components/ui/use-toast'
+import {
+  IMPORTING_GROUP_AT_KEY,
+  IMPORTING_GROUP_KEY,
+} from '@/lib/anonymous-constants'
 import { trpc } from '@/trpc/client'
 import { useTranslations } from 'next-intl'
 import { PropsWithChildren, useEffect } from 'react'
@@ -17,13 +21,27 @@ export function GroupLayoutClient({
   const { toast } = useToast()
 
   useEffect(() => {
+    if (data?.group) {
+      localStorage.removeItem(IMPORTING_GROUP_KEY)
+      localStorage.removeItem(IMPORTING_GROUP_AT_KEY)
+      return
+    }
+
     if (data && !data.group) {
+      const importingGroupId = localStorage.getItem(IMPORTING_GROUP_KEY)
+      const importingAt = localStorage.getItem(IMPORTING_GROUP_AT_KEY)
+      const importingAtTime = importingAt ? Date.parse(importingAt) : NaN
+      const isImporting =
+        importingGroupId === groupId &&
+        Number.isFinite(importingAtTime) &&
+        Date.now() - importingAtTime < 5 * 60 * 1000
+
       toast({
-        description: t('text'),
-        variant: 'destructive',
+        description: isImporting ? t('importing') : t('text'),
+        variant: isImporting ? undefined : 'destructive',
       })
     }
-  }, [data])
+  }, [data, groupId, t, toast])
 
   const props =
     isLoading || !data?.group

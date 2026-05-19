@@ -21,6 +21,7 @@
     "createFirst": "Maak de eerste",
     "noExpenses": "Je groep heeft nog geen uitgaven.",
     "export": "Exporteren",
+    "exportBackup": "Create Backup",
     "exportJson": "Exporteren naar JSON",
     "exportCsv": "Exporteren naar CSV",
     "searchPlaceholder": "Zoek naar een uitgave…",
@@ -51,6 +52,8 @@
   "Groups": {
     "myGroups": "Mijn groepen",
     "create": "Maak",
+    "restoreBackup": "Restore Backup",
+    "importJSON": "Import from JSON",
     "loadingRecent": "Recente groepen laden…",
     "NoRecent": {
       "description": "Je hebt de laatste tijd geen groepen bezocht.",
@@ -63,21 +66,144 @@
     "archive": "Archiveer groep",
     "unarchive": "Herstel groep",
     "removeRecent": "Verwijder uit recente groepen",
+    "deleteGroup": "Delete group permanently",
+    "DeleteGroupDialog": {
+      "title": "Delete group permanently?",
+      "description": "This action cannot be undone. All expenses, participants, and activity history will be permanently deleted. Please create a backup first if you want to preserve this data.",
+      "backup": "Create Backup",
+      "cancel": "Cancel",
+      "delete": "Delete Permanently",
+      "remotePurge": {
+        "title": "Remote group cleanup",
+        "description": "This group is linked to a remote copy. You can also remove all expenses and participants from the remote group (a single placeholder participant will remain).",
+        "checkbox": "Also purge the remote group",
+        "errorTitle": "Remote purge failed",
+        "errorDescription": "Failed to purge the remote group."
+      },
+      "documentWarning": {
+        "title": "This group contains {count, plural, one {# image} other {# images}}",
+        "description": "These images are stored in the cloud and do not form part of the backup. If you delete them, they cannot be recovered.",
+        "checkbox": "Also delete all images when deleting the group"
+      }
+    },
     "RecentRemovedToast": {
       "title": "Groep verwijderd",
       "description": "Deze groep is verwijderd uit je recente groepen.",
       "undoAlt": "Maak het verwijderen van de groep ongedaan",
       "undo": "Ongedaan maken"
     },
+    "Sync": {
+      "menuItem": "Uitgaven synchroniseren met extern",
+      "dialogTitle": "Uitgaven synchroniseren met extern",
+      "dialogDescription": "Bekijk wijzigingen per richting en selecteer precies welke updates je tussen extern en lokaal wilt toepassen.",
+      "loading": "Extern verschil voorbereiden...",
+      "errorPrepare": "Synchronisatie voorbereiden mislukt.",
+      "errorExecute": "Uitgaven synchroniseren mislukt.",
+      "toastTitle": "Synchronisatie voltooid",
+      "toastDescription": "Geselecteerde synchronisatieacties zijn toegepast.",
+      "remoteSource": "Externe bron: {url}",
+      "directionHelp": "Richting: schakel Lokaal ↔ Extern om acties voor maken of verwijderen te maken",
+      "usersSection": "Gebruikers",
+      "expensesSection": "Uitgaven",
+      "noUserChanges": "Geen gebruikerswijzigingen.",
+      "noExpenseChanges": "Geen uitgavenwijzigingen.",
+      "nothingToSync": "Niets om te synchroniseren. Lokaal en extern zijn al gelijk.",
+      "cancel": "Annuleren",
+      "syncNow": "Nu synchroniseren",
+      "syncing": "Synchroniseren...",
+      "user": "Gebruiker",
+      "expenseWithDate": "Uitgave · {date}",
+      "presence": "Lokaal: {local} · Extern: {remote}",
+      "remoteToLocal": "Extern → Lokaal",
+      "localToRemote": "Lokaal → Extern",
+      "Presence": {
+        "present": "aanwezig",
+        "missing": "ontbreekt"
+      },
+      "Actions": {
+        "createLocalUser": "Gebruiker op lokaal maken",
+        "createRemoteUser": "Gebruiker op extern maken",
+        "deleteLocalUser": "Gebruiker op lokaal verwijderen",
+        "deleteRemoteUser": "Gebruiker op extern verwijderen",
+        "createLocalExpense": "Uitgave op lokaal maken",
+        "createRemoteExpense": "Uitgave op extern maken",
+        "updateLocalExpense": "Uitgave op lokaal bijwerken",
+        "updateRemoteExpense": "Uitgave op extern bijwerken",
+        "deleteLocalExpense": "Uitgave op lokaal verwijderen",
+        "deleteRemoteExpense": "Uitgave op extern verwijderen"
+      }
+    },
+    "LinkedUrl": {
+      "title": "Gekoppelde URL",
+      "linkOption": "Link to remote group",
+      "description": "Deze link wordt gebruikt voor synchronisatie. Maak deze leeg om de koppeling van deze groep te verwijderen.",
+      "placeholder": "https://spliit.app/groups/...",
+      "save": "Opslaan",
+      "saving": "Opslaan...",
+      "toastUpdated": "Gekoppelde URL bijgewerkt.",
+      "toastUnlinked": "Groep ontkoppeld van externe URL.",
+      "errorUpdate": "Link bijwerken mislukt."
+    },
+    "AdvancedSettings": {
+      "button": "Advanced settings",
+      "title": "Advanced settings",
+      "description": "Linking and sync tools for this group."
+    },
     "AddByURL": {
       "button": "Voeg toe met URL",
       "title": "Voeg een groep toe met een URL",
       "description": "Als een groep met je gedeeld is, kun je de URL hier plakken om deze aan je lijst toe te voegen.",
-      "error": "Oeps, we kunnen de groep niet vinden met de URL die je hebt opgegeven…"
+      "error": "Oeps, we kunnen de groep niet vinden met de URL die je hebt opgegeven…",
+      "hostMismatchTitle": "Open local or remote?",
+      "hostMismatchPrompt": "This link points to {host}. A local group with the same ID exists. Press OK to open the local group, or Cancel to go to {host}.",
+      "hostMismatchNotFound": "No matching local group found. You can import this group from the other instance.",
+      "hostMismatchLocalAction": "Open local group",
+      "hostMismatchRemoteAction": "Go to remote",
+      "hostMismatchCancel": "Cancel",
+      "importFromUrlAction": "Open JSON import",
+      "urlMode": "Enter URL",
+      "qrMode": "Scan QR",
+      "scanner": {
+        "startCamera": "Start Camera",
+        "stopScanning": "Stop Scanning",
+        "permissionDenied": "Camera permission denied. Please allow camera access to scan QR codes.",
+        "noCamera": "No camera found on this device.",
+        "cameraError": "Failed to start camera. Please try again.",
+        "permissionError": "Unable to access camera. Please check permissions."
+      }
     },
     "NotFound": {
       "text": "Deze groep bestaat niet.",
       "link": "Ga naar je recente groepen"
+    }
+  },
+  "NewFeaturesDialog": {
+    "title": "Nieuw in Spliit",
+    "description": "Ontdek de nieuwste functies om het delen van uitgaven makkelijker en veiliger te maken",
+    "footer": "Tik in de app op specifieke functies om meer te weten te komen",
+    "button": "Meer details",
+    "badge": "Nieuw",
+    "features": {
+      "groupSync": {
+        "title": "Groepssynchronisatie",
+        "description": "Synchroniseer uitgaven tussen gekoppelde groepen met één klik om lokale en externe kopieën gelijk te houden."
+      },
+      "linkedUrlSafety": {
+        "title": "Veiligheid van gekoppelde URL",
+        "description": "Koppel een externe groeps-URL met vergelijkingscontroles om verkeerde gegevens te voorkomen."
+      },
+      "remotePurge": {
+        "title": "Externe opschoning bij verwijderen",
+        "description": "Optioneel kun je een gekoppelde externe groep opschonen wanneer je lokaal verwijdert, met een extra bevestigingsstap."
+      },
+      "arabicSupport": {
+        "title": "Ondersteuning voor Arabisch",
+        "description": "Volledige Arabische vertaling is nu beschikbaar in de hele app."
+      },
+      "advancedSettings": {
+        "title": "Geavanceerde instellingen",
+        "description": "Opties voor synchroniseren, koppelen, volledige import ongedaan maken en verwijderen staan nu in Geavanceerde instellingen voor ingelogde gebruikers."
+      }
     }
   },
   "GroupForm": {
@@ -95,6 +221,12 @@
       "label": "Symbool van de valuta",
       "placeholder": "€, $, £…",
       "description": "Die gebruiken we om de bedragen in de groep aan te geven."
+    },
+    "CurrencyCodeField": {
+      "label": "Hoofdvaluta",
+      "createDescription": "Alle hoeveelheden en saldi worden in deze valuta weergegeven.",
+      "editDescription": "Alle bedragen en saldi worden in deze valuta weergegeven. Als je dit wijzigt, worden reeds ingevoerde uitgaven NIET omgerekend, behalve wanneer de valuta andere \"kleinste eenheden\" heeft dan de huidige (bijvoorbeeld bij een wijziging van Amerikaanse dollar naar Japanse yen)",
+      "customOption": "Aangepast"
     },
     "Participants": {
       "title": "Deelnemers",
@@ -120,12 +252,6 @@
       "create": "Groep maken",
       "creating": "Aan het maken…",
       "cancel": "Annuleren"
-    },
-    "CurrencyCodeField": {
-      "label": "Hoofdvaluta",
-      "createDescription": "Alle hoeveelheden en saldi worden in deze valuta weergegeven.",
-      "editDescription": "Alle bedragen en saldi worden in deze valuta weergegeven. Als je dit wijzigt, worden reeds ingevoerde uitgaven NIET omgerekend, behalve wanneer de valuta andere \"kleinste eenheden\" heeft dan de huidige (bijvoorbeeld bij een wijziging van Amerikaanse dollar naar Japanse yen)",
-      "customOption": "Aangepast"
     }
   },
   "ExpenseForm": {
@@ -141,29 +267,21 @@
         "label": "Datum inkomen",
         "description": "Voer de datum in waarop het inkomen is ontvangen."
       },
+      "currencyField": {
+        "label": "Munteenheid van inkomen",
+        "description": "De munteenheid waar het inkomen in is ontvangen."
+      },
       "categoryFieldDescription": "Selecteer de inkomencategorie.",
       "paidByField": {
         "label": "Ontvangen door",
         "description": "Selecteer de deelnemer die het inkomen heeft ontvangen."
-      },
-      "recurrenceRule": {
-        "label": "Terugkerend inkomen",
-        "description": "Kies hoe vaak het inkomen herhaald wordt.",
-        "none": "Niet",
-        "daily": "Dagelijks",
-        "weekly": "Wekelijks",
-        "monthly": "Maandelijks"
       },
       "paidFor": {
         "title": "Ontvangen voor",
         "description": "Selecteer voor wie het inkomen is ontvangen."
       },
       "splitModeDescription": "Selecteer hoe het inkomen verdeeld moet worden.",
-      "attachDescription": "Bekijk en voeg bijlagen toe aan het inkomen.",
-      "currencyField": {
-        "label": "Munteenheid van inkomen",
-        "description": "De munteenheid waar het inkomen in is ontvangen."
-      }
+      "attachDescription": "Bekijk en voeg bijlagen toe aan het inkomen."
     },
     "Expense": {
       "create": "Maak uitgave",
@@ -177,11 +295,15 @@
         "label": "Datum uitgave",
         "description": "Voer de datum in waarop de uitgave is gedaan."
       },
+      "currencyField": {
+        "label": "Munteenheid van uitgave",
+        "description": "De munteenheid waar de uitgave in is betaald."
+      },
       "categoryFieldDescription": "Selecteer de uitgavecategorie.",
       "paidByField": {
         "label": "Betaald door",
-        "description": "Selecteer de deelnemer die de uitgave heeft gedaan.",
-        "placeholder": "Selecteer een deelnemer"
+        "placeholder": "Selecteer een deelnemer",
+        "description": "Selecteer de deelnemer die de uitgave heeft gedaan."
       },
       "recurrenceRule": {
         "label": "Terugkerende uitgave",
@@ -196,14 +318,31 @@
         "description": "Selecteer voor wie de uitgave is gedaan."
       },
       "splitModeDescription": "Selecteer hoe de uitgave verdeeld moet worden.",
-      "attachDescription": "Bekijk en voeg bijlagen toe aan de uitgave.",
-      "currencyField": {
-        "label": "Munteenheid van uitgave",
-        "description": "De munteenheid waar de uitgave in is betaald."
-      }
+      "attachDescription": "Bekijk en voeg bijlagen toe aan de uitgave."
     },
     "amountField": {
       "label": "Bedrag"
+    },
+    "conversionUnavailable": "Om een andere munteenheid in te stellen voor een uitgave en bedragen om te rekenen, kies een standaard munteenheid voor de groep.",
+    "originalAmountField": {
+      "label": "Om te rekenen bedrag"
+    },
+    "conversionRateField": {
+      "useApi": "Gebruik koersen van Frankfurter",
+      "useCustom": "Gebruik aangepaste koers",
+      "label": "Wisselkoers"
+    },
+    "conversionRateState": {
+      "loading": "Wisselkoers aan het ophalen…",
+      "success": "Verkregen wisselkoers:",
+      "error": "Oeps, we konden de nieuwste wisselkoersen niet verkrijgen.",
+      "staleRate": "Gebruikte wisselkoers:",
+      "noRate": "Voer hieronder een aangepaste koers in.",
+      "currencyNotFound": "Oeps, Frankfurter heeft geen koersen voor deze munteenheid op deze dag.",
+      "noDate": "Voer de datum van de uitgave in om een wisselkoers te krijgen.",
+      "dateMismatch": "Wisselkoers van: {date}",
+      "refresh": "Ververs",
+      "customRate": "Aangepaste wisselkoers wordt gebruikt"
     },
     "isReimbursementField": {
       "label": "Dit is een terugbetaling"
@@ -240,27 +379,6 @@
     "saving": "Aan het opslaan…",
     "cancel": "Annuleren",
     "reimbursement": "Terugbetaling",
-    "conversionUnavailable": "Om een andere munteenheid in te stellen voor een uitgave en bedragen om te rekenen, kies een standaard munteenheid voor de groep.",
-    "originalAmountField": {
-      "label": "Om te rekenen bedrag"
-    },
-    "conversionRateField": {
-      "useApi": "Gebruik koersen van Frankfurter",
-      "useCustom": "Gebruik aangepaste koers",
-      "label": "Wisselkoers"
-    },
-    "conversionRateState": {
-      "loading": "Wisselkoers aan het ophalen…",
-      "success": "Verkregen wisselkoers:",
-      "error": "Oeps, we konden de nieuwste wisselkoersen niet verkrijgen.",
-      "staleRate": "Gebruikte wisselkoers:",
-      "noRate": "Voer hieronder een aangepaste koers in.",
-      "currencyNotFound": "Oeps, Frankfurter heeft geen koersen voor deze munteenheid op deze dag.",
-      "noDate": "Voer de datum van de uitgave in om een wisselkoers te krijgen.",
-      "dateMismatch": "Wisselkoers van: {date}",
-      "refresh": "Ververs",
-      "customRate": "Aangepaste wisselkoers wordt gebruikt"
-    },
     "Calculator": {
       "applyButton": "Toepassen",
       "keyboardHintCalculate": "Gebruik toetsenbord • Enter om te berekenen",
@@ -360,7 +478,12 @@
     "title": "Delen",
     "description": "Om andere deelnemers de groep te laten zien en uitgaven toe te voegen, deel je de URL met hen.",
     "warning": "Waarschuwing!",
-    "warningHelp": "Iedereen met de groeps-URL kan de uitgaven zien en bewerken. Deel voorzichtig!"
+    "warningHelp": "Iedereen met de groeps-URL kan de uitgaven zien en bewerken. Deel voorzichtig!",
+    "qrCode": {
+      "title": "Share via QR Code",
+      "description": "Scan this QR code to open the group on any device.",
+      "download": "Download QR Code"
+    }
   },
   "SchemaErrors": {
     "min1": "Vul ten minste één karakter in.",
@@ -373,12 +496,12 @@
     "amountRequired": "Vul een bedrag in.",
     "amountNotZero": "Het bedrag moet hoger zijn dan 0.",
     "amountTenMillion": "Het bedrag mag niet hoger zijn dan 10,000,000.",
+    "ratePositive": "De koers moet groter dan nul zijn.",
     "paidByRequired": "Selecteer een deelnemer die de uitgave heeft gedaan.",
     "paidForMin1": "De uitgave moet voor ten minste één deelnemer zijn gedaan.",
     "noZeroShares": "Een deel mag niet 0 zijn.",
     "amountSum": "Het totaalbedrag moet gelijk zijn aan het uitgavebedrag.",
-    "percentageSum": "Het totaalpercentage moet gelijk zijn aan 100%.",
-    "ratePositive": "De koers moet groter dan nul zijn."
+    "percentageSum": "Het totaalpercentage moet gelijk zijn aan 100%."
   },
   "Categories": {
     "search": "Categorie zoeken…",
@@ -450,6 +573,7 @@
     }
   },
   "Currencies": {
+    "search": "Valuta zoeken...",
     "noCurrency": "Geen valuta gevonden.",
     "custom": {
       "heading": "Aangepast"
@@ -459,13 +583,341 @@
     },
     "other": {
       "heading": "Andere valuta"
-    },
-    "search": "Valuta zoeken..."
+    }
+  },
+  "Backup": {
+    "restoreBackup": "Restore Backup",
+    "restoreBackupTitle": "Restore Group Backup",
+    "restoreBackupDescription": "Upload a backup file to restore or create a group. The system will check if the group exists and guide you through the restoration process.",
+    "analyzing": "Analyzing...",
+    "analyzeBackup": "Analyze Backup",
+    "groupName": "Group Name",
+    "backupDate": "Backup Date",
+    "groupNotFound": "This group doesn't exist yet. Click below to create it from the backup.",
+    "creating": "Creating...",
+    "createGroup": "Create Group from Backup",
+    "backupIsNewer": "This backup contains newer data than your current group.",
+    "currentVersion": "Current group last updated",
+    "changes": "Changes in backup",
+    "addedExpenses": "{count} new expense(s)",
+    "addedParticipants": "{count} new participant(s)",
+    "restoring": "Restoring...",
+    "restoreDifferences": "Restore New Data",
+    "backupIsOlder": "Warning: This backup is older than your current group data.",
+    "rollingBack": "Rolling back...",
+    "rollbackToBackup": "Rollback to Backup Version",
+    "rollbackWarning": "This will delete all current data and replace it with the backup. This action cannot be undone!",
+    "backupIsSame": "This backup is identical to your current group data.",
+    "cancel": "Cancel"
   },
   "JSONImport": {
+    "importJSON": "Import from JSON",
+    "importJSONTitle": "Import Group from JSON Export",
+    "importJSONDescription": "Upload a JSON export file to migrate a group from another Spliit instance. The system will analyze the file and guide you through the import process.",
     "importSuccessTitle": "Import voltooid",
     "importSuccessDescription": "{name}",
     "importAssociationWarningTitle": "Koppeling in behandeling",
-    "importAssociationWarningDescription": "We hebben de groep geïmporteerd, maar konden de accountrechten niet opslaan. Open je profiel en klik op Opslaan om het te voltooien."
+    "importAssociationWarningDescription": "We hebben de groep geïmporteerd, maar konden de accountrechten niet opslaan. Open je profiel en klik op Opslaan om het te voltooien.",
+    "analyzing": "Analyzing...",
+    "analyzeJSON": "Analyze JSON File",
+    "groupName": "Group Name",
+    "exportDate": "Export Date",
+    "limitations": "Important Limitations",
+    "groupNotFound": "This group doesn't exist yet. Click below to create it from the JSON export.",
+    "creating": "Creating...",
+    "createGroup": "Create Group from JSON",
+    "jsonIsNewer": "This JSON export contains newer data than your current group.",
+    "currentVersion": "Current group last updated",
+    "changes": "Changes in JSON export",
+    "addedExpenses": "~{count} new expense(s) (approximate)",
+    "addedParticipants": "{count} new participant(s)",
+    "restoring": "Importing...",
+    "importDifferences": "Import New Data",
+    "jsonIsOlder": "Warning: This JSON export is older than your current group data.",
+    "rollingBack": "Rolling back...",
+    "rollbackToJSON": "Rollback to JSON Version",
+    "rollbackWarning": "This will delete all current data and replace it with the JSON export. This action cannot be undone!",
+    "jsonIsSame": "This JSON export appears to match your current group data.",
+    "cancel": "Cancel",
+    "importFromFile": "Import from file",
+    "importFromURL": "Import from URL",
+    "urlPlaceholder": "https://example.com/groups/...",
+    "fetchJSON": "Fetch JSON",
+    "errorInvalidURL": "Enter a valid URL from another Spliit site.",
+    "errorSameOrigin": "Use a different site URL than this one.",
+    "errorNoGroupID": "Could not find a group ID in that URL.",
+    "errorGroupExists": "That group already exists on this site.",
+    "errorGroupExistsDeleted": "This group still exists on the server. Delete it from Advanced settings before importing again.",
+    "errorRemoteFetch": "Failed to fetch JSON from the remote site.",
+    "remoteReadyWithName": "Ready to import: {name}",
+    "remoteReady": "Remote JSON is ready to import.",
+    "errorAnalysisFailed": "Failed to analyze JSON file",
+    "errorInvalidResponse": "Invalid response from server",
+    "errorImportFailed": "Failed to import JSON",
+    "jsonIsMergeable": "This JSON export is older, but it contains expenses that are missing in your group.",
+    "conflictsTitle": "Conflicting expenses found",
+    "conflictsDescription": "Choose which expenses should be updated to match the JSON export.",
+    "conflictApplyAllUpdate": "Update all",
+    "conflictApplyAllKeep": "Keep all",
+    "conflictDifferenceLabel": "Differs in",
+    "conflictFieldCategory": "category",
+    "conflictFieldSplitMode": "split mode",
+    "conflictFieldPaidFor": "paid for",
+    "conflictUpdateLabel": "Check to update this expense to match the JSON export.",
+    "paidBy": "Paid by",
+    "conflictDefaultAll": "Default to update all conflicts",
+    "conflictCurrentLabel": "Current",
+    "conflictJsonLabel": "JSON",
+    "conflictNone": "None",
+    "conflictEmpty": "None"
+  },
+  "DeleteData": {
+    "undoImport": "Volledige import ongedaan maken",
+    "undoImportDescription": "Remove all data added during the most recent JSON import",
+    "undoWarning": "This will remove all expenses, participants, and activities added during the last import. This action cannot be undone!",
+    "cancel": "Cancel",
+    "confirm": "Undo Import",
+    "deleting": "Undoing...",
+    "success": "Import undone successfully",
+    "error": "Failed to undo import"
+  },
+  "AnonymousAuthMenu": {
+    "menu": {
+      "ariaLabel": "Account",
+      "account": "Account",
+      "restoreBackup": "Herstellen vanuit back-up",
+      "importJson": "Importeren uit JSON",
+      "whatsNew": "✨ Wat is er nieuw",
+      "signOut": "Afmelden"
+    },
+    "profile": {
+      "title": "Accountprofiel",
+      "description": "Koppel groepen aan dit apparaat of herstel ze op een ander apparaat.",
+      "associatedGroups": {
+        "title": "Gekoppelde groepen",
+        "empty": "Bezoek of voeg eerst een groep toe om deze te koppelen.",
+        "save": "Koppelingen opslaan",
+        "saving": "Bezig met opslaan..."
+      },
+      "accountAccess": {
+        "title": "Accounttoegang",
+        "description": "Gebruik dezelfde gebruikersnaam en wachtzin om je anonieme account aan te maken of te herstellen.",
+        "usernamePlaceholder": "Anonieme gebruikersnaam",
+        "generate": "Genereren",
+        "passphrasePlaceholder": "Voer een wachtzin in",
+        "saving": "Bezig met opslaan...",
+        "recovering": "Bezig met herstellen...",
+        "newAccount": "Nieuw account",
+        "existingAccount": "Bestaand account",
+        "changePrompt": "Voer je huidige wachtzin in en kies een nieuwe.",
+        "passkeyPrompt": "Geverifieerd met passkey. Kies een nieuwe wachtzin.",
+        "managePrompt": "Beheer de beveiliging van je account.",
+        "usernameLabel": "Gebruikersnaam",
+        "currentPassphrasePlaceholder": "Huidige wachtzin",
+        "newPassphrasePlaceholder": "Nieuwe wachtzin",
+        "updating": "Bezig met bijwerken...",
+        "changePassphrase": "Wachtzin wijzigen",
+        "setting": "Bezig met instellen...",
+        "setPassphrase": "Wachtzin instellen",
+        "authenticating": "Bezig met verifiëren...",
+        "setWithPasskey": "Wachtzin instellen met passkey",
+        "resetWithPasskey": "Resetten met passkey",
+        "passkeyFirst": "Voeg eerst een passkey toe om een wachtzin in te stellen, of maak een nieuw account met een wachtzin."
+      },
+      "passkeyLogin": {
+        "title": "Inloggen met passkey",
+        "notLinkedDescription": "Gebruik je passkey om op dit apparaat in te loggen.",
+        "authenticating": "Bezig met verifiëren...",
+        "usePasskey": "Passkey gebruiken",
+        "manageDescription": "Beheer je passkeys voor dit account.",
+        "addDescription": "Voeg een passkey toe voor snel, wachtwoordloos inloggen.",
+        "created": "Gemaakt op {date}",
+        "remove": "Verwijderen",
+        "addPasskey": "Passkey toevoegen"
+      },
+      "profileActions": {
+        "title": "Profielacties",
+        "deleteAccount": "Account verwijderen"
+      }
+    },
+    "unlinkDialog": {
+      "signOutTitle": "Afmelden op dit apparaat",
+      "deleteTitle": "Account verwijderen",
+      "signOutDescription": "Weet je zeker dat je je wilt afmelden op dit apparaat?",
+      "deleteDescription": "Weet je zeker dat je je account wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
+      "associatedGroupsTitle": "Gekoppelde groepen",
+      "keepRecent": "Behouden in recente lijst",
+      "removeRecent": "Verwijderen uit recente lijst",
+      "signOutAction": "Afmelden",
+      "deleteAction": "Account verwijderen"
+    },
+    "addPasskey": {
+      "title": "Passkey toevoegen",
+      "description": "Geef deze passkey een naam om hem later te herkennen.",
+      "placeholder": "bijv. MacBook Pro, iPhone",
+      "registering": "Bezig met registreren...",
+      "confirm": "Passkey toevoegen"
+    },
+    "removePasskey": {
+      "title": "Passkey verwijderen",
+      "description": "Weet je zeker dat je deze passkey wilt verwijderen? Je hebt een andere verificatiemethode nodig om toegang tot je account te krijgen.",
+      "removing": "Bezig met verwijderen...",
+      "confirm": "Passkey verwijderen"
+    },
+    "common": {
+      "cancel": "Annuleren"
+    },
+    "passphrase": {
+      "requirements": {
+        "minLength": "Minstens 8 tekens",
+        "uppercase": "Eén hoofdletter",
+        "lowercase": "Eén kleine letter",
+        "number": "Eén cijfer",
+        "special": "Eén speciaal teken"
+      }
+    },
+    "errors": {
+      "authOptionsFailed": "Kon verificatieopties niet ophalen",
+      "authenticationFailed": "Verificatie mislukt",
+      "deletePasskeyFailed": "Passkey verwijderen mislukt",
+      "registrationOptionsFailed": "Kon registratieopties niet ophalen",
+      "registrationVerifyFailed": "Registratieverificatie mislukt"
+    },
+    "toasts": {
+      "initFailed": {
+        "title": "Anonieme sessie kan niet worden gestart",
+        "description": "Probeer de pagina te vernieuwen. Als het probleem aanhoudt, probeer het later opnieuw."
+      },
+      "initNetwork": {
+        "title": "Netwerkfout tijdens initialiseren",
+        "description": "Controleer je verbinding en vernieuw de pagina om het opnieuw te proberen."
+      },
+      "syncGroupsFailed": {
+        "title": "Groepen synchroniseren mislukt",
+        "description": "We konden je groepen niet laden. Je lokale groepenlijst is mogelijk niet up-to-date."
+      },
+      "sessionExpired": {
+        "title": "Sessie verlopen",
+        "saveAssociations": "Herstel je account om groepskoppelingen op te slaan. Gebruik je gebruikersnaam en wachtzin om opnieuw in te loggen.",
+        "deleteAccount": "Herstel je account om het te verwijderen. Gebruik je gebruikersnaam en wachtzin om opnieuw in te loggen."
+      },
+      "saveGroupsFailed": {
+        "title": "Groepen opslaan mislukt",
+        "description": "Probeer het opnieuw."
+      },
+      "groupsSaved": {
+        "title": "Groepen opgeslagen",
+        "description": "Deze groepen zijn nu gekoppeld aan je anonieme account."
+      },
+      "networkError": {
+        "title": "Netwerkfout",
+        "saveGroups": "Kan groepen niet opslaan. Controleer je verbinding en probeer opnieuw.",
+        "savePassphrase": "Kan wachtzin niet opslaan. Controleer je verbinding en probeer opnieuw.",
+        "recoverAccount": "Kan account niet herstellen. Controleer je verbinding en probeer opnieuw."
+      },
+      "passphraseInUse": {
+        "title": "Wachtzin wordt al gebruikt",
+        "description": "Kies een andere wachtzin en probeer opnieuw."
+      },
+      "accountSaved": {
+        "title": "Account opgeslagen",
+        "description": "Gebruik deze gebruikersnaam en wachtzin om later te herstellen."
+      },
+      "recoveryFailed": {
+        "title": "Herstellen mislukt",
+        "description": "Er is geen account gevonden voor die wachtzin."
+      },
+      "accountRecovered": {
+        "title": "Account hersteld",
+        "description": "Je gekoppelde groepen zijn op dit apparaat hersteld."
+      },
+      "currentPassphraseRequired": {
+        "title": "Huidige wachtzin vereist",
+        "description": "Voer je huidige wachtzin in."
+      },
+      "updatePassphraseFailed": {
+        "title": "Wachtzin bijwerken mislukt",
+        "description": "Controleer je huidige wachtzin en probeer opnieuw."
+      },
+      "passphraseUpdated": {
+        "title": "Wachtzin bijgewerkt",
+        "description": "Je nieuwe wachtzin is nu actief."
+      },
+      "setPassphraseFailed": {
+        "title": "Wachtzin instellen mislukt",
+        "description": "Probeer het opnieuw."
+      },
+      "passphraseSet": {
+        "title": "Wachtzin ingesteld",
+        "description": "Je nieuwe wachtzin is nu actief."
+      },
+      "accountRequired": {
+        "title": "Account vereist",
+        "description": "Zorg dat je bent ingelogd."
+      },
+      "authSuccess": {
+        "title": "Verificatie geslaagd",
+        "description": "Je kunt nu een nieuwe wachtzin instellen."
+      },
+      "authFailed": {
+        "title": "Verificatie mislukt",
+        "description": "Probeer het opnieuw.",
+        "generic": "Verificatie mislukt. Probeer het opnieuw."
+      },
+      "passkeyRemoved": {
+        "title": "Passkey verwijderd",
+        "description": "De passkey is verwijderd van je account."
+      },
+      "removePasskeyFailed": {
+        "title": "Passkey verwijderen mislukt",
+        "description": "Probeer het opnieuw."
+      },
+      "usernameRequired": {
+        "title": "Gebruikersnaam vereist",
+        "description": "Stel een gebruikersnaam in voordat je een passkey registreert."
+      },
+      "passkeyNameRequired": {
+        "title": "Naam vereist",
+        "description": "Voer een naam in voor je passkey."
+      },
+      "passkeyRegistered": {
+        "title": "Passkey geregistreerd",
+        "description": "Je kunt je passkey nu gebruiken om in te loggen."
+      },
+      "passkeyRegistrationFailed": {
+        "title": "Registratie mislukt",
+        "description": "Probeer het opnieuw."
+      },
+      "rateLimit": {
+        "title": "Limiet overschreden",
+        "description": "Te veel verzoeken. Probeer het later opnieuw."
+      },
+      "passkeyNotFound": {
+        "title": "Passkey niet gevonden",
+        "description": "Probeer je gebruikersnaam in te vullen en de passkey-login opnieuw te proberen."
+      },
+      "passkeyLoginSuccess": {
+        "title": "Ingelogd met passkey",
+        "description": "Je gekoppelde groepen zijn op dit apparaat hersteld."
+      },
+      "authCancelled": {
+        "title": "Verificatie geannuleerd",
+        "description": "Passkey-verificatie is geannuleerd."
+      },
+      "unlinked": {
+        "title": "Losgekoppeld van apparaat",
+        "descriptionRemoved": "Gekoppelde groepen zijn van je apparaat verwijderd.",
+        "descriptionNew": "Je gebruikt nu een nieuw anoniem account op dit apparaat."
+      },
+      "deleteAccountFailed": {
+        "title": "Account verwijderen mislukt",
+        "description": "Probeer het opnieuw."
+      },
+      "accountDeleted": {
+        "title": "Account verwijderd",
+        "descriptionRemoved": "Account verwijderd en groepen van dit apparaat verwijderd.",
+        "descriptionNew": "Account verwijderd. Je gebruikt nu een nieuw anoniem account op dit apparaat."
+      }
+    }
   }
 }

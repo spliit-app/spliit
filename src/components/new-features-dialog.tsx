@@ -9,7 +9,15 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { Badge } from '@/components/ui/badge'
-import { Sparkles, QrCode, Archive, Calculator, Lock, Trash2 } from 'lucide-react'
+import {
+  Sparkles,
+  RefreshCw,
+  Link2,
+  Trash2,
+  Languages,
+  Settings,
+} from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 interface Props {
   open: boolean
@@ -17,42 +25,37 @@ interface Props {
 }
 
 export function NewFeaturesDialog({ open, onOpenChange }: Props) {
-
+  const t = useTranslations('NewFeaturesDialog')
   const features = [
     {
-      icon: QrCode,
-      title: 'QR Code Support',
-      description:
-        'Share your groups instantly with a QR code or scan one to join. No more copying URLs!',
-      badge: 'New',
+      icon: RefreshCw,
+      title: t('features.groupSync.title'),
+      description: t('features.groupSync.description'),
+      badge: t('badge'),
     },
     {
-      icon: Archive,
-      title: 'Backup & Restore',
-      description:
-        'Create backups of your expense groups and restore them anytime, anywhere. Never lose your data!',
-      badge: 'New',
-    },
-    {
-      icon: Calculator,
-      title: 'Amount Calculator',
-      description:
-        'Built-in calculator for expenses with keyboard shortcuts. Calculate on the fly while creating expenses.',
-      badge: 'New',
-    },
-    {
-      icon: Lock,
-      title: 'Secure Authentication',
-      description:
-        'Protect your account with passphrase or passkey (biometric) authentication. Recover your groups on any device.',
-      badge: 'New',
+      icon: Link2,
+      title: t('features.linkedUrlSafety.title'),
+      description: t('features.linkedUrlSafety.description'),
+      badge: t('badge'),
     },
     {
       icon: Trash2,
-      title: 'Permanent Group Deletion',
-      description:
-        'Safely delete groups you no longer need with built-in backup reminders and image management.',
-      badge: 'New',
+      title: t('features.remotePurge.title'),
+      description: t('features.remotePurge.description'),
+      badge: t('badge'),
+    },
+    {
+      icon: Languages,
+      title: t('features.arabicSupport.title'),
+      description: t('features.arabicSupport.description'),
+      badge: t('badge'),
+    },
+    {
+      icon: Settings,
+      title: t('features.advancedSettings.title'),
+      description: t('features.advancedSettings.description'),
+      badge: t('badge'),
     },
   ]
 
@@ -62,10 +65,10 @@ export function NewFeaturesDialog({ open, onOpenChange }: Props) {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-yellow-500" />
-            What's New in Spliit Forked
+            {t('title')}
           </DialogTitle>
           <DialogDescription>
-            Discover the latest features to make expense sharing easier and more secure
+            {t('description')}
           </DialogDescription>
         </DialogHeader>
 
@@ -100,7 +103,7 @@ export function NewFeaturesDialog({ open, onOpenChange }: Props) {
 
         <div className="flex flex-col gap-3 pt-4 border-t">
           <p className="text-xs text-muted-foreground text-center">
-            Tap on specific features in the app to learn more
+            {t('footer')}
           </p>
           <div className="flex justify-center">
             <Button
@@ -109,7 +112,7 @@ export function NewFeaturesDialog({ open, onOpenChange }: Props) {
                 onOpenChange(false)
               }}
             >
-              Additional Detail
+              {t('button')}
             </Button>
           </div>
         </div>

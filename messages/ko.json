@@ -1,60 +1,210 @@
 {
+  "Homepage": {
+    "title": "<strong>친구 & 가족</strong>과 <strong>지출</strong>을 함께 관리해요",
+    "description": "<strong>Spliit</strong>와 함께하는 새 시작을 환영해요!",
+    "button": {
+      "groups": "그룹 보기",
+      "github": "깃허브"
+    }
+  },
+  "Header": {
+    "groups": "그룹"
+  },
+  "Footer": {
+    "madeIn": "몬트리올, 퀘벡에서 제작 🇨🇦",
+    "builtBy": "<author>Sebastien Castiel</author>와 <source>공동 작업자들</source>이 함께 만들었어요"
+  },
   "Expenses": {
-    "exportJson": "JSON으로 내보내기",
-    "exportCsv": "CSV로 내보내기",
-    "export": "내보내기",
-    "ActiveUserModal": {
-      "save": "변경내용 저장하기",
-      "title": "당신은 누구인가요?",
-      "description": "당신이 누구인지 알려 주시면, 정보를 더 잘 보여드릴게요.",
-      "nobody": "아무도 선택하지 않을래요",
-      "footer": "이건 나중에 그룹 설정에서 바꿀 수 있어요."
-    },
-    "Groups": {
-      "thisWeek": "이번주",
-      "earlierThisMonth": "이번달 초",
-      "lastMonth": "지난달",
-      "lastYear": "작년",
-      "earlierThisYear": "올해 초",
-      "older": "이전"
-    },
     "title": "지출",
     "description": "그룹에서 만든 지출 항목들을 보여드려요.",
     "create": "지출 추가하기",
+    "createFirst": "첫 지출 추가하기",
     "noExpenses": "그룹에 아직 지출 항목이 없네요.",
+    "export": "내보내기",
+    "exportBackup": "Create Backup",
+    "exportJson": "JSON으로 내보내기",
+    "exportCsv": "CSV로 내보내기",
     "searchPlaceholder": "지출 검색하기…",
-    "createFirst": "첫 지출 추가하기"
+    "ActiveUserModal": {
+      "title": "당신은 누구인가요?",
+      "description": "당신이 누구인지 알려 주시면, 정보를 더 잘 보여드릴게요.",
+      "nobody": "아무도 선택하지 않을래요",
+      "save": "변경내용 저장하기",
+      "footer": "이건 나중에 그룹 설정에서 바꿀 수 있어요."
+    },
+    "Groups": {
+      "upcoming": "Upcoming",
+      "thisWeek": "이번주",
+      "earlierThisMonth": "이번달 초",
+      "lastMonth": "지난달",
+      "earlierThisYear": "올해 초",
+      "lastYear": "작년",
+      "older": "이전"
+    }
+  },
+  "ExpenseCard": {
+    "paidBy": "<strong>{paidBy}</strong>가 <paidFor></paidFor>를 위해 결제함",
+    "everyone": "모두",
+    "receivedBy": "Received by <strong>{paidBy}</strong> for <paidFor></paidFor>",
+    "yourBalance": "내 잔액:",
+    "notInvolved": "당신은 관련이 없어요"
   },
   "Groups": {
     "myGroups": "내 그룹",
     "create": "만들기",
+    "restoreBackup": "Restore Backup",
+    "importJSON": "Import from JSON",
     "loadingRecent": "최신 그룹 불러오는 중…",
     "NoRecent": {
       "description": "최근에 참여한 그룹이 없습니다.",
-      "orAsk": "또는 친구에게 기존 그룹 링크를 보내 달라고 요청하세요.",
-      "create": "그룹 만들기"
+      "create": "그룹 만들기",
+      "orAsk": "또는 친구에게 기존 그룹 링크를 보내 달라고 요청하세요."
     },
     "recent": "최근 그룹",
     "starred": "즐겨찾기 그룹",
     "archived": "아카이브된 그룹",
     "archive": "그룹 아카이브하기",
+    "unarchive": "그룹 다시 불러오기",
+    "removeRecent": "최근 그룹 목록에서 삭제하기",
+    "deleteGroup": "Delete group permanently",
+    "DeleteGroupDialog": {
+      "title": "Delete group permanently?",
+      "description": "This action cannot be undone. All expenses, participants, and activity history will be permanently deleted. Please create a backup first if you want to preserve this data.",
+      "backup": "Create Backup",
+      "cancel": "Cancel",
+      "delete": "Delete Permanently",
+      "remotePurge": {
+        "title": "Remote group cleanup",
+        "description": "This group is linked to a remote copy. You can also remove all expenses and participants from the remote group (a single placeholder participant will remain).",
+        "checkbox": "Also purge the remote group",
+        "errorTitle": "Remote purge failed",
+        "errorDescription": "Failed to purge the remote group."
+      },
+      "documentWarning": {
+        "title": "This group contains {count, plural, one {# image} other {# images}}",
+        "description": "These images are stored in the cloud and do not form part of the backup. If you delete them, they cannot be recovered.",
+        "checkbox": "Also delete all images when deleting the group"
+      }
+    },
     "RecentRemovedToast": {
       "title": "그룹이 삭제되었습니다",
       "description": "그룹이 최신 그룹 목록에서 삭제되었습니다.",
-      "undoAlt": "그룹 삭제 취소"
+      "undoAlt": "그룹 삭제 취소",
+      "undo": "Undo"
+    },
+    "Sync": {
+      "menuItem": "원격과 지출 동기화",
+      "dialogTitle": "원격과 지출 동기화",
+      "dialogDescription": "방향별 변경사항을 검토하고 원격과 로컬 사이에 적용할 업데이트를 정확히 선택하세요.",
+      "loading": "원격 차이 준비 중...",
+      "errorPrepare": "동기화 준비에 실패했습니다.",
+      "errorExecute": "지출 동기화에 실패했습니다.",
+      "toastTitle": "동기화 완료",
+      "toastDescription": "선택한 동기화 작업이 적용되었습니다.",
+      "remoteSource": "원격 소스: {url}",
+      "directionHelp": "방향: 생성 또는 삭제 작업을 만들기 위해 로컬 ↔ 원격 전환",
+      "usersSection": "사용자",
+      "expensesSection": "지출",
+      "noUserChanges": "사용자 변경사항이 없습니다.",
+      "noExpenseChanges": "지출 변경사항이 없습니다.",
+      "nothingToSync": "동기화할 내용이 없습니다. 로컬과 원격이 이미 일치합니다.",
+      "cancel": "취소",
+      "syncNow": "지금 동기화",
+      "syncing": "동기화 중...",
+      "user": "사용자",
+      "expenseWithDate": "지출 · {date}",
+      "presence": "로컬: {local} · 원격: {remote}",
+      "remoteToLocal": "원격 → 로컬",
+      "localToRemote": "로컬 → 원격",
+      "Presence": {
+        "present": "있음",
+        "missing": "없음"
+      },
+      "Actions": {
+        "createLocalUser": "로컬에 사용자 생성",
+        "createRemoteUser": "원격에 사용자 생성",
+        "deleteLocalUser": "로컬의 사용자 삭제",
+        "deleteRemoteUser": "원격의 사용자 삭제",
+        "createLocalExpense": "로컬에 지출 생성",
+        "createRemoteExpense": "원격에 지출 생성",
+        "updateLocalExpense": "로컬의 지출 업데이트",
+        "updateRemoteExpense": "원격의 지출 업데이트",
+        "deleteLocalExpense": "로컬의 지출 삭제",
+        "deleteRemoteExpense": "원격의 지출 삭제"
+      }
+    },
+    "LinkedUrl": {
+      "title": "연결된 URL",
+      "linkOption": "Link to remote group",
+      "description": "이 링크는 동기화에 사용됩니다. 이 그룹 연결을 해제하려면 비우세요.",
+      "placeholder": "https://spliit.app/groups/...",
+      "save": "저장",
+      "saving": "저장 중...",
+      "toastUpdated": "연결된 URL이 업데이트되었습니다.",
+      "toastUnlinked": "그룹이 원격 URL과 연결 해제되었습니다.",
+      "errorUpdate": "링크 업데이트에 실패했습니다."
+    },
+    "AdvancedSettings": {
+      "button": "Advanced settings",
+      "title": "Advanced settings",
+      "description": "Linking and sync tools for this group."
     },
     "AddByURL": {
       "button": "URL로 불러오기",
       "title": "URL로 그룹 불러오기",
       "description": "이미 공유받은 그룹이 있다면, 여기에 URL을 붙여넣어 추가하세요.",
-      "error": "헉, 입력하신 URL에서 그룹을 찾을 수 없네요…"
+      "error": "헉, 입력하신 URL에서 그룹을 찾을 수 없네요…",
+      "hostMismatchTitle": "Open local or remote?",
+      "hostMismatchPrompt": "This link points to {host}. A local group with the same ID exists. Press OK to open the local group, or Cancel to go to {host}.",
+      "hostMismatchNotFound": "No matching local group found. You can import this group from the other instance.",
+      "hostMismatchLocalAction": "Open local group",
+      "hostMismatchRemoteAction": "Go to remote",
+      "hostMismatchCancel": "Cancel",
+      "importFromUrlAction": "Open JSON import",
+      "urlMode": "Enter URL",
+      "qrMode": "Scan QR",
+      "scanner": {
+        "startCamera": "Start Camera",
+        "stopScanning": "Stop Scanning",
+        "permissionDenied": "Camera permission denied. Please allow camera access to scan QR codes.",
+        "noCamera": "No camera found on this device.",
+        "cameraError": "Failed to start camera. Please try again.",
+        "permissionError": "Unable to access camera. Please check permissions."
+      }
     },
     "NotFound": {
       "text": "그룹이 존재하지 않습니다.",
       "link": "최근에 방문한 그룹 보기"
-    },
-    "unarchive": "그룹 다시 불러오기",
-    "removeRecent": "최근 그룹 목록에서 삭제하기"
+    }
+  },
+  "NewFeaturesDialog": {
+    "title": "Spliit의 새로운 소식",
+    "description": "지출 공유를 더 쉽고 안전하게 만드는 최신 기능을 확인하세요",
+    "footer": "앱에서 특정 기능을 탭해 더 알아보세요",
+    "button": "자세히 보기",
+    "badge": "신규",
+    "features": {
+      "groupSync": {
+        "title": "그룹 동기화",
+        "description": "연결된 그룹 간 지출을 한 번의 클릭으로 동기화하여 로컬과 원격 복사본을 맞춥니다."
+      },
+      "linkedUrlSafety": {
+        "title": "연결 URL 안전",
+        "description": "원격 그룹 URL을 유사도 검사와 함께 연결해 데이터 불일치를 방지합니다."
+      },
+      "remotePurge": {
+        "title": "삭제 시 원격 정리",
+        "description": "로컬에서 삭제할 때 연결된 원격 그룹을 선택적으로 정리할 수 있으며, 추가 확인 단계가 있습니다."
+      },
+      "arabicSupport": {
+        "title": "아랍어 지원",
+        "description": "이제 앱 전반에 아랍어 전체 번역이 제공됩니다."
+      },
+      "advancedSettings": {
+        "title": "고급 설정",
+        "description": "동기화, 연결, 전체 가져오기 되돌리기, 삭제 옵션이 로그인 사용자용 고급 설정으로 이동했습니다."
+      }
+    }
   },
   "GroupForm": {
     "title": "그룹 정보",
@@ -75,32 +225,64 @@
     "CurrencyCodeField": {
       "label": "기본 통화",
       "createDescription": "금액, 잔액 전부 이 통화로 표시돼요.",
-      "editDescription": "모든 금액이랑 잔액은 이 통화로 보여요. 통화를 바꿔도 이미 입력한 지출은 바뀌지 않아요. 단, (예: 미국 달러에서 일본 엔으로 바꿀 때처럼) 통화의 소수점 단위가 다를 경우에는 예외가 있을 수 있어요."
+      "editDescription": "모든 금액이랑 잔액은 이 통화로 보여요. 통화를 바꿔도 이미 입력한 지출은 바뀌지 않아요. 단, (예: 미국 달러에서 일본 엔으로 바꿀 때처럼) 통화의 소수점 단위가 다를 경우에는 예외가 있을 수 있어요.",
+      "customOption": "Custom"
     },
     "Participants": {
       "title": "참여자",
       "description": "참가자 이름을 하나씩 입력해 주세요.",
       "protectedParticipant": "이 참가자는 지출에 참여 중이라서 지울 수 없어요.",
+      "new": "New",
       "add": "참가자 추가하기",
       "John": "민수",
       "Jane": "수영",
       "Jack": "길동"
     },
     "Settings": {
+      "title": "Local settings",
+      "description": "이 설정들은 기기별로 저장되며, 사용자 경험을 맞춤화하는 데 사용돼요.",
       "ActiveUserField": {
-        "description": "사용자가 기본 지출 결제자로 사용돼요.",
-        "placeholder": "참가자를 선택해 주세요",
         "label": "활성 사용자",
-        "none": "없음"
+        "placeholder": "참가자를 선택해 주세요",
+        "none": "없음",
+        "description": "사용자가 기본 지출 결제자로 사용돼요."
       },
       "save": "저장",
       "saving": "저장중…",
-      "description": "이 설정들은 기기별로 저장되며, 사용자 경험을 맞춤화하는 데 사용돼요.",
-      "cancel": "취소",
-      "creating": "만드는 중…"
+      "create": "Create",
+      "creating": "만드는 중…",
+      "cancel": "취소"
     }
   },
   "ExpenseForm": {
+    "Income": {
+      "create": "Create income",
+      "edit": "Edit income",
+      "TitleField": {
+        "label": "Income title",
+        "placeholder": "월요일 저녁 식사",
+        "description": "Enter a description for the income."
+      },
+      "DateField": {
+        "label": "Income date",
+        "description": "Enter the date the income was received."
+      },
+      "currencyField": {
+        "label": "Currency of income",
+        "description": "The currency in which the income was received."
+      },
+      "categoryFieldDescription": "Select the income category.",
+      "paidByField": {
+        "label": "Received by",
+        "description": "Select the participant who received the income."
+      },
+      "paidFor": {
+        "title": "Received for",
+        "description": "Select who the income was received for."
+      },
+      "splitModeDescription": "Select how to split the income.",
+      "attachDescription": "See and attach receipts to the income."
+    },
     "Expense": {
       "create": "지출 추가하기",
       "edit": "지출 수정하기",
@@ -126,6 +308,7 @@
       "recurrenceRule": {
         "label": "지출 반복 설정",
         "description": "지출 반복 주기를 선택해 주세요.",
+        "none": "None",
         "daily": "매일",
         "weekly": "매주",
         "monthly": "매달"
@@ -134,10 +317,15 @@
         "title": "비용 부담자들",
         "description": "비용 부담자들을 선택해 주세요."
       },
-      "splitModeDescription": "지출을 어떻게 나눌지 선택해 주세요."
+      "splitModeDescription": "지출을 어떻게 나눌지 선택해 주세요.",
+      "attachDescription": "See and attach receipts to the expense."
     },
     "amountField": {
       "label": "금액"
+    },
+    "conversionUnavailable": "To set a different currency per expense and convert amounts, select a non-custom currency for the group.",
+    "originalAmountField": {
+      "label": "Amount to convert"
     },
     "conversionRateField": {
       "useApi": "Frankfurter의 환율을 사용해요",
@@ -165,6 +353,10 @@
     "notesField": {
       "label": "메모"
     },
+    "selectNone": "Select none",
+    "selectAll": "Select all",
+    "shares": "share(s)",
+    "advancedOptions": "Advanced splitting options…",
     "SplitModeField": {
       "label": "분할 방식",
       "evenly": "똑같이 나누기",
@@ -174,17 +366,19 @@
       "saveAsDefault": "기본 분할 방식으로 저장하기"
     },
     "DeletePopup": {
+      "label": "Delete",
+      "title": "Delete this expense?",
       "description": "정말 이 지출을 삭제할까요? 한 번 삭제하면 되돌릴 수 없어요.",
       "yes": "네",
       "cancel": "취소"
     },
-    "Income": {
-      "TitleField": {
-        "placeholder": "월요일 저녁 식사"
-      }
-    },
-    "reimbursement": "정산",
+    "attachDocuments": "Attach documents",
+    "create": "Create",
+    "creating": "Creating…",
+    "save": "Save",
+    "saving": "Saving…",
     "cancel": "취소",
+    "reimbursement": "정산",
     "Calculator": {
       "applyButton": "적용",
       "keyboardHintCalculate": "키보드 사용 • Enter로 계산",
@@ -192,14 +386,51 @@
       "openCalculator": "금액 계산기 열기"
     }
   },
+  "ExpenseDocumentsInput": {
+    "TooBigToast": {
+      "title": "파일이 너무 커요",
+      "description": "업로드 가능한 최대 파일 크기: {maxSize}, 현재 파일 크기: {size}입니다."
+    },
+    "ErrorToast": {
+      "title": "문서 업로드 중 오류가 발생했어요",
+      "description": "문서 업로드 중 오류가 발생했습니다. 나중에 다시 시도하거나 다른 파일을 선택해 주세요.",
+      "retry": "Retry"
+    }
+  },
+  "CreateFromReceipt": {
+    "Dialog": {
+      "triggerTitle": "영수증으로 지출 추가하기",
+      "title": "Create from receipt",
+      "description": "영수증 사진으로 지출 내역을 자동으로 불러와요.",
+      "body": "영수증 사진을 업로드하면, 가능하면 지출 정보를 스캔해서 추출해 드려요.",
+      "selectImage": "사진 선택하기…",
+      "titleLabel": "제목:",
+      "categoryLabel": "카테고리:",
+      "amountLabel": "금액:",
+      "dateLabel": "날짜:",
+      "editNext": "다음 단계에서 지출 정보를 수정할 수 있습니다.",
+      "continue": "계속하기"
+    },
+    "unknown": "Unknown",
+    "TooBigToast": {
+      "title": "파일이 너무 커요",
+      "description": "업로드 가능한 최대 파일 크기: {maxSize}, 현재 파일 크기: {size}입니다."
+    },
+    "ErrorToast": {
+      "title": "문서 업로드 중 오류가 발생했어요",
+      "description": "문서 업로드 중 오류가 발생했습니다. 나중에 다시 시도하거나 다른 파일을 선택해 주세요.",
+      "retry": "Retry"
+    }
+  },
   "Balances": {
     "title": "잔액",
+    "description": "This is the amount that each participant paid or was paid for.",
     "Reimbursements": {
       "title": "추천 정산 방법",
       "description": "참가자 간에 가장 좋은 정산 방안을 알려드려요.",
       "noImbursements": "그룹에선 따로 정산할 게 없네요 😁",
-      "markAsPaid": "지불 완료로 표시하기",
-      "owes": "<strong>{from}</strong>가 <strong>{to}</strong>에게 돈을 내야 해요"
+      "owes": "<strong>{from}</strong>가 <strong>{to}</strong>에게 돈을 내야 해요",
+      "markAsPaid": "지불 완료로 표시하기"
     }
   },
   "Stats": {
@@ -208,7 +439,9 @@
       "title": "전체 합계",
       "description": "그룹 전체 지출 요약 입니다.",
       "groupSpendings": "그룹 총 지출액",
+      "groupEarnings": "Total group earnings",
       "yourSpendings": "나의 총 지출",
+      "yourEarnings": "Your total earnings",
       "yourShare": "나의 총 부담금"
     }
   },
@@ -216,6 +449,11 @@
     "title": "활동 내역",
     "description": "이 그룹의 모든 활동 개요예요.",
     "noActivity": "아직 그룹에 활동 내역이 없어요.",
+    "someone": "Someone",
+    "settingsModified": "<strong>{participant}</strong>가 그룹 설정을 수정했어요.",
+    "expenseCreated": "<strong>{participant}</strong>가 <em>{expense}</em> 지출 내역을 추가했어요.",
+    "expenseUpdated": "<strong>{participant}</strong>가 <em>{expense}</em> 지출을 수정했어요.",
+    "expenseDeleted": "<strong>{participant}</strong>가 <em>{expense}</em> 지출을 삭제했어요.",
     "Groups": {
       "today": "오늘",
       "yesterday": "어제",
@@ -226,14 +464,34 @@
       "earlierThisYear": "올해 초",
       "lastYear": "작년",
       "older": "이전"
-    },
-    "settingsModified": "<strong>{participant}</strong>가 그룹 설정을 수정했어요.",
-    "expenseCreated": "<strong>{participant}</strong>가 <em>{expense}</em> 지출 내역을 추가했어요.",
-    "expenseUpdated": "<strong>{participant}</strong>가 <em>{expense}</em> 지출을 수정했어요.",
-    "expenseDeleted": "<strong>{participant}</strong>가 <em>{expense}</em> 지출을 삭제했어요."
+    }
+  },
+  "Information": {
+    "title": "정보",
+    "description": "Use this place to add any information that can be relevant to the group participants.",
+    "empty": "아직 그룹 정보가 없어요."
+  },
+  "Settings": {
+    "title": "설정"
+  },
+  "Share": {
+    "title": "공유하기",
+    "description": "다른 참가자들이 그룹을 보고 지출을 추가할 수 있도록 URL을 공유해 주세요.",
+    "warning": "경고!",
+    "warningHelp": "그룹 URL을 가진 사람은 누구나 지출 내역을 보고 수정할 수 있어요. 조심해서 공유하세요!",
+    "qrCode": {
+      "title": "Share via QR Code",
+      "description": "Scan this QR code to open the group on any device.",
+      "download": "Download QR Code"
+    }
   },
   "SchemaErrors": {
+    "min1": "최소 한 글자 이상 입력해 주세요.",
+    "min2": "최소 두 글자 이상 입력해 주세요.",
+    "max5": "Enter at most five characters.",
+    "max50": "Enter at most 50 characters.",
     "duplicateParticipantName": "이미 같은 이름을 가진 참가자가 있어요.",
+    "titleRequired": "제목을 입력해 주세요.",
     "invalidNumber": "잘못된 숫자입니다.",
     "amountRequired": "금액을 입력해 주세요.",
     "amountNotZero": "금액은 0이 될 수 없어요.",
@@ -243,17 +501,15 @@
     "paidForMin1": "",
     "noZeroShares": "각 몫은 0보다 커야 합니다.",
     "amountSum": "금액 합계가 지출 금액과 같아야 해요.",
-    "percentageSum": "퍼센트 합이 100이 되어야 합니다.",
-    "min1": "최소 한 글자 이상 입력해 주세요.",
-    "min2": "최소 두 글자 이상 입력해 주세요.",
-    "titleRequired": "제목을 입력해 주세요."
+    "percentageSum": "퍼센트 합이 100이 되어야 합니다."
   },
   "Categories": {
     "search": "카테고리 선택...",
     "noCategory": "카테고리를 찾을 수 없어요.",
     "Uncategorized": {
       "heading": "카테고리 없음",
-      "General": "일반"
+      "General": "일반",
+      "Payment": "Payment"
     },
     "Entertainment": {
       "heading": "엔터테인먼트",
@@ -279,9 +535,11 @@
       "Maintenance": "수리 / 관리",
       "Mortgage": "주택 담보 대출",
       "Pets": "반려동물",
-      "Rent": "임대료 / 월세"
+      "Rent": "임대료 / 월세",
+      "Services": "Services"
     },
     "Life": {
+      "heading": "생활",
       "Childcare": "육아 / 보육",
       "Clothing": "의류",
       "Donation": "기부",
@@ -289,8 +547,7 @@
       "Gifts": "선물",
       "Insurance": "보험",
       "Medical Expenses": "의료비",
-      "Taxes": "세금",
-      "heading": "생활"
+      "Taxes": "세금"
     },
     "Transportation": {
       "heading": "교통비",
@@ -315,75 +572,12 @@
       "Water": "수도 요금"
     }
   },
-  "Homepage": {
-    "button": {
-      "github": "깃허브",
-      "groups": "그룹 보기"
-    },
-    "title": "<strong>친구 & 가족</strong>과 <strong>지출</strong>을 함께 관리해요",
-    "description": "<strong>Spliit</strong>와 함께하는 새 시작을 환영해요!"
-  },
-  "Header": {
-    "groups": "그룹"
-  },
-  "Footer": {
-    "madeIn": "몬트리올, 퀘벡에서 제작 🇨🇦",
-    "builtBy": "<author>Sebastien Castiel</author>와 <source>공동 작업자들</source>이 함께 만들었어요"
-  },
-  "Settings": {
-    "title": "설정"
-  },
-  "Share": {
-    "warningHelp": "그룹 URL을 가진 사람은 누구나 지출 내역을 보고 수정할 수 있어요. 조심해서 공유하세요!",
-    "warning": "경고!",
-    "title": "공유하기",
-    "description": "다른 참가자들이 그룹을 보고 지출을 추가할 수 있도록 URL을 공유해 주세요."
-  },
-  "ExpenseCard": {
-    "paidBy": "<strong>{paidBy}</strong>가 <paidFor></paidFor>를 위해 결제함",
-    "everyone": "모두",
-    "yourBalance": "내 잔액:",
-    "notInvolved": "당신은 관련이 없어요"
-  },
-  "ExpenseDocumentsInput": {
-    "TooBigToast": {
-      "title": "파일이 너무 커요",
-      "description": "업로드 가능한 최대 파일 크기: {maxSize}, 현재 파일 크기: {size}입니다."
-    },
-    "ErrorToast": {
-      "title": "문서 업로드 중 오류가 발생했어요",
-      "description": "문서 업로드 중 오류가 발생했습니다. 나중에 다시 시도하거나 다른 파일을 선택해 주세요."
-    }
-  },
-  "CreateFromReceipt": {
-    "Dialog": {
-      "triggerTitle": "영수증으로 지출 추가하기",
-      "description": "영수증 사진으로 지출 내역을 자동으로 불러와요.",
-      "body": "영수증 사진을 업로드하면, 가능하면 지출 정보를 스캔해서 추출해 드려요.",
-      "selectImage": "사진 선택하기…",
-      "titleLabel": "제목:",
-      "categoryLabel": "카테고리:",
-      "amountLabel": "금액:",
-      "dateLabel": "날짜:",
-      "editNext": "다음 단계에서 지출 정보를 수정할 수 있습니다.",
-      "continue": "계속하기"
-    },
-    "TooBigToast": {
-      "title": "파일이 너무 커요",
-      "description": "업로드 가능한 최대 파일 크기: {maxSize}, 현재 파일 크기: {size}입니다."
-    },
-    "ErrorToast": {
-      "title": "문서 업로드 중 오류가 발생했어요",
-      "description": "문서 업로드 중 오류가 발생했습니다. 나중에 다시 시도하거나 다른 파일을 선택해 주세요."
-    }
-  },
-  "Information": {
-    "title": "정보",
-    "empty": "아직 그룹 정보가 없어요."
-  },
   "Currencies": {
     "search": "통화 선택하기...",
     "noCurrency": "통화를 찾을 수 없어요.",
+    "custom": {
+      "heading": "Custom"
+    },
     "common": {
       "heading": "가장 많이 쓰이는"
     },
@@ -391,10 +585,339 @@
       "heading": "그 외 통화"
     }
   },
+  "Backup": {
+    "restoreBackup": "Restore Backup",
+    "restoreBackupTitle": "Restore Group Backup",
+    "restoreBackupDescription": "Upload a backup file to restore or create a group. The system will check if the group exists and guide you through the restoration process.",
+    "analyzing": "Analyzing...",
+    "analyzeBackup": "Analyze Backup",
+    "groupName": "Group Name",
+    "backupDate": "Backup Date",
+    "groupNotFound": "This group doesn't exist yet. Click below to create it from the backup.",
+    "creating": "Creating...",
+    "createGroup": "Create Group from Backup",
+    "backupIsNewer": "This backup contains newer data than your current group.",
+    "currentVersion": "Current group last updated",
+    "changes": "Changes in backup",
+    "addedExpenses": "{count} new expense(s)",
+    "addedParticipants": "{count} new participant(s)",
+    "restoring": "Restoring...",
+    "restoreDifferences": "Restore New Data",
+    "backupIsOlder": "Warning: This backup is older than your current group data.",
+    "rollingBack": "Rolling back...",
+    "rollbackToBackup": "Rollback to Backup Version",
+    "rollbackWarning": "This will delete all current data and replace it with the backup. This action cannot be undone!",
+    "backupIsSame": "This backup is identical to your current group data.",
+    "cancel": "Cancel"
+  },
   "JSONImport": {
+    "importJSON": "Import from JSON",
+    "importJSONTitle": "Import Group from JSON Export",
+    "importJSONDescription": "Upload a JSON export file to migrate a group from another Spliit instance. The system will analyze the file and guide you through the import process.",
     "importSuccessTitle": "가져오기가 완료되었어요",
     "importSuccessDescription": "{name}",
     "importAssociationWarningTitle": "연결이 보류 중이에요",
-    "importAssociationWarningDescription": "그룹은 가져왔지만 계정 권한은 저장하지 못했어요. 프로필을 열고 \"저장\"을 눌러 마무리해 주세요."
+    "importAssociationWarningDescription": "그룹은 가져왔지만 계정 권한은 저장하지 못했어요. 프로필을 열고 \"저장\"을 눌러 마무리해 주세요.",
+    "analyzing": "Analyzing...",
+    "analyzeJSON": "Analyze JSON File",
+    "groupName": "Group Name",
+    "exportDate": "Export Date",
+    "limitations": "Important Limitations",
+    "groupNotFound": "This group doesn't exist yet. Click below to create it from the JSON export.",
+    "creating": "Creating...",
+    "createGroup": "Create Group from JSON",
+    "jsonIsNewer": "This JSON export contains newer data than your current group.",
+    "currentVersion": "Current group last updated",
+    "changes": "Changes in JSON export",
+    "addedExpenses": "~{count} new expense(s) (approximate)",
+    "addedParticipants": "{count} new participant(s)",
+    "restoring": "Importing...",
+    "importDifferences": "Import New Data",
+    "jsonIsOlder": "Warning: This JSON export is older than your current group data.",
+    "rollingBack": "Rolling back...",
+    "rollbackToJSON": "Rollback to JSON Version",
+    "rollbackWarning": "This will delete all current data and replace it with the JSON export. This action cannot be undone!",
+    "jsonIsSame": "This JSON export appears to match your current group data.",
+    "cancel": "Cancel",
+    "importFromFile": "Import from file",
+    "importFromURL": "Import from URL",
+    "urlPlaceholder": "https://example.com/groups/...",
+    "fetchJSON": "Fetch JSON",
+    "errorInvalidURL": "Enter a valid URL from another Spliit site.",
+    "errorSameOrigin": "Use a different site URL than this one.",
+    "errorNoGroupID": "Could not find a group ID in that URL.",
+    "errorGroupExists": "That group already exists on this site.",
+    "errorGroupExistsDeleted": "This group still exists on the server. Delete it from Advanced settings before importing again.",
+    "errorRemoteFetch": "Failed to fetch JSON from the remote site.",
+    "remoteReadyWithName": "Ready to import: {name}",
+    "remoteReady": "Remote JSON is ready to import.",
+    "errorAnalysisFailed": "Failed to analyze JSON file",
+    "errorInvalidResponse": "Invalid response from server",
+    "errorImportFailed": "Failed to import JSON",
+    "jsonIsMergeable": "This JSON export is older, but it contains expenses that are missing in your group.",
+    "conflictsTitle": "Conflicting expenses found",
+    "conflictsDescription": "Choose which expenses should be updated to match the JSON export.",
+    "conflictApplyAllUpdate": "Update all",
+    "conflictApplyAllKeep": "Keep all",
+    "conflictDifferenceLabel": "Differs in",
+    "conflictFieldCategory": "category",
+    "conflictFieldSplitMode": "split mode",
+    "conflictFieldPaidFor": "paid for",
+    "conflictUpdateLabel": "Check to update this expense to match the JSON export.",
+    "paidBy": "Paid by",
+    "conflictDefaultAll": "Default to update all conflicts",
+    "conflictCurrentLabel": "Current",
+    "conflictJsonLabel": "JSON",
+    "conflictNone": "None",
+    "conflictEmpty": "None"
+  },
+  "DeleteData": {
+    "undoImport": "전체 가져오기 되돌리기",
+    "undoImportDescription": "Remove all data added during the most recent JSON import",
+    "undoWarning": "This will remove all expenses, participants, and activities added during the last import. This action cannot be undone!",
+    "cancel": "Cancel",
+    "confirm": "Undo Import",
+    "deleting": "Undoing...",
+    "success": "Import undone successfully",
+    "error": "Failed to undo import"
+  },
+  "AnonymousAuthMenu": {
+    "menu": {
+      "ariaLabel": "Account",
+      "account": "Account",
+      "restoreBackup": "Restore from backup",
+      "importJson": "Import from JSON",
+      "whatsNew": "✨ What's New",
+      "signOut": "Sign out"
+    },
+    "profile": {
+      "title": "Account Profile",
+      "description": "Link groups to this device or recover them on another device.",
+      "associatedGroups": {
+        "title": "Associated groups",
+        "empty": "Visit or add a group first to associate it.",
+        "save": "Save associations",
+        "saving": "Saving..."
+      },
+      "accountAccess": {
+        "title": "Account access",
+        "description": "Use the same username and passphrase to create or recover your anonymous account.",
+        "usernamePlaceholder": "Anonymous username",
+        "generate": "Generate",
+        "passphrasePlaceholder": "Enter a passphrase",
+        "saving": "Saving...",
+        "recovering": "Recovering...",
+        "newAccount": "New account",
+        "existingAccount": "Existing account",
+        "changePrompt": "Enter your current passphrase and choose a new one.",
+        "passkeyPrompt": "Authenticated with passkey. Choose a new passphrase.",
+        "managePrompt": "Manage your account security.",
+        "usernameLabel": "Username",
+        "currentPassphrasePlaceholder": "Current passphrase",
+        "newPassphrasePlaceholder": "New passphrase",
+        "updating": "Updating...",
+        "changePassphrase": "Change passphrase",
+        "setting": "Setting...",
+        "setPassphrase": "Set passphrase",
+        "authenticating": "Authenticating...",
+        "setWithPasskey": "Set passphrase with passkey",
+        "resetWithPasskey": "Reset with passkey",
+        "passkeyFirst": "Add a passkey first to set a passphrase, or create a new account with a passphrase."
+      },
+      "passkeyLogin": {
+        "title": "Passkey login",
+        "notLinkedDescription": "Use your passkey to log in on this device.",
+        "authenticating": "Authenticating...",
+        "usePasskey": "Use passkey",
+        "manageDescription": "Manage your passkeys for this account.",
+        "addDescription": "Add a passkey for quick, passwordless login.",
+        "created": "Created {date}",
+        "remove": "Remove",
+        "addPasskey": "Add passkey"
+      },
+      "profileActions": {
+        "title": "Profile actions",
+        "deleteAccount": "Delete account"
+      }
+    },
+    "unlinkDialog": {
+      "signOutTitle": "Sign out from device",
+      "deleteTitle": "Delete account",
+      "signOutDescription": "Are you sure you want to sign out from this device?",
+      "deleteDescription": "Are you sure you want to delete your account? This action cannot be undone.",
+      "associatedGroupsTitle": "Associated groups",
+      "keepRecent": "Keep in recent list",
+      "removeRecent": "Remove from recent list",
+      "signOutAction": "Sign out",
+      "deleteAction": "Delete account"
+    },
+    "addPasskey": {
+      "title": "Add Passkey",
+      "description": "Enter a name for this passkey to help you identify it later.",
+      "placeholder": "e.g., MacBook Pro, iPhone",
+      "registering": "Registering...",
+      "confirm": "Add passkey"
+    },
+    "removePasskey": {
+      "title": "Remove Passkey",
+      "description": "Are you sure you want to remove this passkey? You will need to use another authentication method to access your account.",
+      "removing": "Removing...",
+      "confirm": "Remove passkey"
+    },
+    "common": {
+      "cancel": "Cancel"
+    },
+    "passphrase": {
+      "requirements": {
+        "minLength": "At least 8 characters",
+        "uppercase": "One uppercase letter",
+        "lowercase": "One lowercase letter",
+        "number": "One number",
+        "special": "One special character"
+      }
+    },
+    "errors": {
+      "authOptionsFailed": "Failed to get authentication options",
+      "authenticationFailed": "Authentication failed",
+      "deletePasskeyFailed": "Failed to delete passkey",
+      "registrationOptionsFailed": "Failed to get registration options",
+      "registrationVerifyFailed": "Failed to verify registration"
+    },
+    "toasts": {
+      "initFailed": {
+        "title": "Unable to initialize anonymous session",
+        "description": "Please try refreshing the page. If the problem persists, try again later."
+      },
+      "initNetwork": {
+        "title": "Network error while initializing",
+        "description": "Check your connection and refresh the page to try again."
+      },
+      "syncGroupsFailed": {
+        "title": "Failed to sync groups",
+        "description": "We could not load your groups. Your local groups list may be out of date."
+      },
+      "sessionExpired": {
+        "title": "Session expired",
+        "saveAssociations": "Please recover your account to save group associations. Use your username and passphrase to log back in.",
+        "deleteAccount": "Please recover your account to delete it. Use your username and passphrase to log back in."
+      },
+      "saveGroupsFailed": {
+        "title": "Failed to save groups",
+        "description": "Please try again."
+      },
+      "groupsSaved": {
+        "title": "Groups saved",
+        "description": "These groups are now linked to your anonymous account."
+      },
+      "networkError": {
+        "title": "Network error",
+        "saveGroups": "Unable to save groups. Please check your connection and try again.",
+        "savePassphrase": "Unable to save passphrase. Please check your connection and try again.",
+        "recoverAccount": "Unable to recover account. Please check your connection and try again."
+      },
+      "passphraseInUse": {
+        "title": "Passphrase already in use",
+        "description": "Choose a different passphrase and try again."
+      },
+      "accountSaved": {
+        "title": "Account saved",
+        "description": "Use this username and passphrase to recover later."
+      },
+      "recoveryFailed": {
+        "title": "Recovery failed",
+        "description": "No account was found for that passphrase."
+      },
+      "accountRecovered": {
+        "title": "Account recovered",
+        "description": "Your associated groups were restored on this device."
+      },
+      "currentPassphraseRequired": {
+        "title": "Current passphrase required",
+        "description": "Please enter your current passphrase."
+      },
+      "updatePassphraseFailed": {
+        "title": "Failed to update passphrase",
+        "description": "Please verify your current passphrase and try again."
+      },
+      "passphraseUpdated": {
+        "title": "Passphrase updated",
+        "description": "Your new passphrase is now active."
+      },
+      "setPassphraseFailed": {
+        "title": "Failed to set passphrase",
+        "description": "Please try again."
+      },
+      "passphraseSet": {
+        "title": "Passphrase set",
+        "description": "Your new passphrase is now active."
+      },
+      "accountRequired": {
+        "title": "Account required",
+        "description": "Please ensure you are logged in."
+      },
+      "authSuccess": {
+        "title": "Authentication successful",
+        "description": "You can now set a new passphrase."
+      },
+      "authFailed": {
+        "title": "Authentication failed",
+        "description": "Please try again.",
+        "generic": "Authentication failed. Please try again."
+      },
+      "passkeyRemoved": {
+        "title": "Passkey removed",
+        "description": "The passkey has been removed from your account."
+      },
+      "removePasskeyFailed": {
+        "title": "Failed to remove passkey",
+        "description": "Please try again."
+      },
+      "usernameRequired": {
+        "title": "Username required",
+        "description": "Please set a username before registering a passkey."
+      },
+      "passkeyNameRequired": {
+        "title": "Name required",
+        "description": "Please enter a name for your passkey."
+      },
+      "passkeyRegistered": {
+        "title": "Passkey registered",
+        "description": "You can now use your passkey to log in."
+      },
+      "passkeyRegistrationFailed": {
+        "title": "Registration failed",
+        "description": "Please try again."
+      },
+      "rateLimit": {
+        "title": "Rate limit exceeded",
+        "description": "Too many requests. Please try again later."
+      },
+      "passkeyNotFound": {
+        "title": "Passkey not found",
+        "description": "Try entering your username and retrying passkey login."
+      },
+      "passkeyLoginSuccess": {
+        "title": "Logged in with passkey",
+        "description": "Your associated groups were restored on this device."
+      },
+      "authCancelled": {
+        "title": "Authentication cancelled",
+        "description": "Passkey authentication was cancelled."
+      },
+      "unlinked": {
+        "title": "Unlinked from device",
+        "descriptionRemoved": "Associated groups have been removed from your device.",
+        "descriptionNew": "You are now using a new anonymous account on this device."
+      },
+      "deleteAccountFailed": {
+        "title": "Failed to delete account",
+        "description": "Please try again."
+      },
+      "accountDeleted": {
+        "title": "Account deleted",
+        "descriptionRemoved": "Account deleted and groups removed from this device.",
+        "descriptionNew": "Account deleted. You are now using a new anonymous account on this device."
+      }
+    }
   }
 }

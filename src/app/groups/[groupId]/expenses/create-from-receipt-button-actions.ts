@@ -12,7 +12,7 @@ export async function extractExpenseInformationFromImage(imageUrl: string) {
   const categories = await getCategories()
 
   const body: ChatCompletionCreateParamsNonStreaming = {
-    model: 'gpt-5-nano',
+    model: 'gpt-5.4-mini',
     messages: [
       {
         role: 'user',
@@ -23,8 +23,8 @@ export async function extractExpenseInformationFromImage(imageUrl: string) {
               This image contains a receipt.
               Read the total amount and store it as a non-formatted number without any other text or currency.
               Then guess the category for this receipt among the following categories and store its ID: ${categories.map(
-                (category) => formatCategoryForAIPrompt(category),
-              )}.
+              (category) => formatCategoryForAIPrompt(category),
+            )}.
               Guess the expense’s date and store it as yyyy-mm-dd.
               Guess a title for the expense.
               Return the amount, the category, the date and the title with just a comma between them, without anything else.`,

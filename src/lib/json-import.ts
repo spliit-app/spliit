@@ -1,5 +1,6 @@
 import { Prisma, RecurrenceRule, SplitMode } from '@prisma/client'
 import { randomUUID } from 'crypto'
+import { buildImportMarkerData } from './import-marker'
 
 /**
  * Creates a unique key for a category using grouping and name.
@@ -8,6 +9,66 @@ import { randomUUID } from 'crypto'
  */
 function createCategoryKey(grouping: string, name: string): string {
   return `${grouping}\x1F${name}`
+}
+
+const EXPENSE_KEY_DELIMITER = '\x1E'
+const PAID_FOR_DELIMITER = '\x1D'
+
+function normalizeExpenseDate(value: string | Date): string {
+  return new Date(value).toISOString()
+}
+
+function createPaidForKey(
+  paidFor: Array<{ participantId: string; shares: number }>,
+): string {
+  if (!paidFor.length) return ''
+  return paidFor
+    .slice()
+    .sort(
+      (a, b) =>
+        a.participantId.localeCompare(b.participantId) || a.shares - b.shares,
+    )
+    .map((pf) => `${pf.participantId}:${pf.shares}`)
+    .join(PAID_FOR_DELIMITER)
+}
+
+function joinExpenseKey(parts: string[]): string {
+  return parts.join(EXPENSE_KEY_DELIMITER)
+}
+
+function createExpenseBaseKey(expense: {
+  expenseDate: string | Date
+  title: string
+  amount: number
+  paidById: string
+}): string {
+  return joinExpenseKey([
+    normalizeExpenseDate(expense.expenseDate),
+    expense.title,
+    expense.amount.toString(),
+    expense.paidById,
+  ])
+}
+
+function createExpenseMergeKey(expense: {
+  expenseDate: string | Date
+  title: string
+  amount: number
+  paidById: string
+  splitMode?: string | null
+  category?: { grouping: string; name: string } | null
+  paidFor?: Array<{ participantId: string; shares: number }>
+}): string {
+  const categoryKey = expense.category
+    ? createCategoryKey(expense.category.grouping, expense.category.name)
+    : ''
+  const paidForKey = createPaidForKey(expense.paidFor ?? [])
+  return joinExpenseKey([
+    createExpenseBaseKey(expense),
+    expense.splitMode ?? 'EVENLY',
+    categoryKey,
+    paidForKey,
+  ])
 }
 
 /**
@@ -68,6 +129,7 @@ export type VersionComparison = {
   result: VersionComparisonResult
   existingGroupUpdatedAt?: Date
   jsonExportedAt: Date
+  mergeable?: boolean
 }
 
 export type JSONGroupComparison = {
@@ -78,9 +140,35 @@ export type JSONGroupComparison = {
   removedParticipants: number
 }
 
+export type JSONExpenseConflict = {
+  index: number
+  expenseDate: string
+  title: string
+  amount: number
+  paidById: string
+  paidByName?: string
+  jsonCategory?: string | null
+  existingCategory?: string | null
+  jsonSplitMode: string
+  existingSplitMode: string
+  jsonPaidFor: string[]
+  existingPaidFor: string[]
+  differences: Array<'category' | 'splitMode' | 'paidFor'>
+}
+
 type ExistingGroup = {
-  participants: Array<{ id: string }>
-  expenses: Array<{ id: string; createdAt: Date; expenseDate: Date }>
+  participants: Array<{ id: string; name: string }>
+  expenses: Array<{
+    id: string
+    createdAt: Date
+    expenseDate: Date
+    title: string
+    amount: number
+    paidById: string
+    splitMode: SplitMode
+    category: { grouping: string; name: string } | null
+    paidFor: Array<{ participantId: string; shares: number }>
+  }>
   activities: Array<{ time: Date }>
 }
 
@@ -123,10 +211,10 @@ export function compareJSONVersions(
   const latestExpenseDate =
     jsonData.expenses.length > 0
       ? new Date(
-          Math.max(
-            ...jsonData.expenses.map((e) => new Date(e.expenseDate).getTime()),
-          ),
-        )
+        Math.max(
+          ...jsonData.expenses.map((e) => new Date(e.expenseDate).getTime()),
+        ),
+      )
       : new Date(0)
 
   if (!existingGroup) {
@@ -140,17 +228,17 @@ export function compareJSONVersions(
   const latestExpense =
     existingGroup.expenses.length > 0
       ? new Date(
-          Math.max(
-            ...existingGroup.expenses.map((e) => e.expenseDate.getTime()),
-          ),
-        )
+        Math.max(
+          ...existingGroup.expenses.map((e) => e.expenseDate.getTime()),
+        ),
+      )
       : null
 
   const latestActivity =
     existingGroup.activities.length > 0
       ? new Date(
-          Math.max(...existingGroup.activities.map((a) => a.time.getTime())),
-        )
+        Math.max(...existingGroup.activities.map((a) => a.time.getTime())),
+      )
       : null
 
   const existingGroupUpdatedAt =
@@ -158,24 +246,41 @@ export function compareJSONVersions(
       ? new Date(Math.max(latestExpense.getTime(), latestActivity.getTime()))
       : latestExpense || latestActivity || new Date(0)
 
+  const existingExpenseKeys = new Set(
+    existingGroup.expenses.map((expense) => createExpenseMergeKey(expense)),
+  )
+  const hasMissingExpenses = jsonData.expenses.some(
+    (expense) => !existingExpenseKeys.has(createExpenseMergeKey(expense)),
+  )
+  const existingParticipantIds = new Set(
+    existingGroup.participants.map((p) => p.id),
+  )
+  const hasMissingParticipants = jsonData.participants.some(
+    (p) => !existingParticipantIds.has(p.id),
+  )
+  const mergeable = hasMissingExpenses || hasMissingParticipants
+
   // Compare timestamps
   if (latestExpenseDate.getTime() > existingGroupUpdatedAt.getTime()) {
     return {
       result: VersionComparisonResult.NEWER,
       existingGroupUpdatedAt,
       jsonExportedAt: latestExpenseDate,
+      mergeable,
     }
   } else if (latestExpenseDate.getTime() < existingGroupUpdatedAt.getTime()) {
     return {
       result: VersionComparisonResult.OLDER,
       existingGroupUpdatedAt,
       jsonExportedAt: latestExpenseDate,
+      mergeable,
     }
   } else {
     return {
       result: VersionComparisonResult.SAME,
       existingGroupUpdatedAt,
       jsonExportedAt: latestExpenseDate,
+      mergeable,
     }
   }
 }
@@ -191,29 +296,20 @@ export function calculateJSONDifferences(
     existingGroup.participants.map((p) => p.id),
   )
 
-  // Note: JSON export doesn't include expense IDs, so we can't accurately determine
-  // which expenses are new vs modified. We'll use creation date as a heuristic.
-  const existingExpenseDates = new Set(
-    existingGroup.expenses.map(
-      (e) => e.expenseDate.toISOString().split('T')[0],
-    ),
+  const existingExpenseKeys = new Set(
+    existingGroup.expenses.map((expense) => createExpenseMergeKey(expense)),
   )
 
-  const jsonExpenseDates = new Set(
-    jsonData.expenses.map(
-      (e) => new Date(e.expenseDate).toISOString().split('T')[0],
-    ),
+  const jsonExpenseKeys = new Set(
+    jsonData.expenses.map((expense) => createExpenseMergeKey(expense)),
   )
 
   const addedExpenses = jsonData.expenses.filter(
-    (e) =>
-      !existingExpenseDates.has(
-        new Date(e.expenseDate).toISOString().split('T')[0],
-      ),
+    (expense) => !existingExpenseKeys.has(createExpenseMergeKey(expense)),
   ).length
 
   const removedExpenses = existingGroup.expenses.filter(
-    (e) => !jsonExpenseDates.has(e.expenseDate.toISOString().split('T')[0]),
+    (expense) => !jsonExpenseKeys.has(createExpenseMergeKey(expense)),
   ).length
 
   const addedParticipants = jsonData.participants.filter(
@@ -233,13 +329,98 @@ export function calculateJSONDifferences(
   }
 }
 
+export function calculateJSONConflicts(
+  jsonData: JSONImportData,
+  existingGroup: ExistingGroup,
+): JSONExpenseConflict[] {
+  const participantNames = new Map(
+    jsonData.participants.map((p) => [p.id, p.name]),
+  )
+  const existingParticipantNames = new Map(
+    existingGroup.participants.map((p) => [p.id, p.name]),
+  )
+  const existingByBaseKey = new Map<string, ExistingGroup['expenses']>()
+  const existingMergeKeys = new Set(
+    existingGroup.expenses.map((expense) => createExpenseMergeKey(expense)),
+  )
+
+  for (const expense of existingGroup.expenses) {
+    const baseKey = createExpenseBaseKey(expense)
+    const list = existingByBaseKey.get(baseKey) ?? []
+    list.push(expense)
+    existingByBaseKey.set(baseKey, list)
+  }
+
+  const conflicts: JSONExpenseConflict[] = []
+  jsonData.expenses.forEach((expense, index) => {
+    const mergeKey = createExpenseMergeKey(expense)
+    if (existingMergeKeys.has(mergeKey)) return
+
+    const baseKey = createExpenseBaseKey(expense)
+    const matches = existingByBaseKey.get(baseKey)
+    if (!matches || matches.length === 0) return
+
+    const existing = matches[0]
+    const differences: Array<'category' | 'splitMode' | 'paidFor'> = []
+
+    const existingCategoryKey = existing.category
+      ? createCategoryKey(existing.category.grouping, existing.category.name)
+      : ''
+    const jsonCategoryKey = expense.category
+      ? createCategoryKey(expense.category.grouping, expense.category.name)
+      : ''
+    if (existingCategoryKey !== jsonCategoryKey) differences.push('category')
+
+    if (existing.splitMode !== mapSplitMode(expense.splitMode)) {
+      differences.push('splitMode')
+    }
+
+    const existingPaidForKey = createPaidForKey(existing.paidFor)
+    const jsonPaidForKey = createPaidForKey(expense.paidFor)
+    if (existingPaidForKey !== jsonPaidForKey) differences.push('paidFor')
+
+    conflicts.push({
+      index,
+      expenseDate: expense.expenseDate,
+      title: expense.title,
+      amount: expense.amount,
+      paidById: expense.paidById,
+      paidByName: participantNames.get(expense.paidById),
+      jsonCategory: expense.category
+        ? `${expense.category.grouping}/${expense.category.name}`
+        : null,
+      existingCategory: existing.category
+        ? `${existing.category.grouping}/${existing.category.name}`
+        : null,
+      jsonSplitMode: expense.splitMode,
+      existingSplitMode: existing.splitMode,
+      jsonPaidFor: expense.paidFor.map(
+        (pf) => participantNames.get(pf.participantId) ?? pf.participantId,
+      ),
+      existingPaidFor: existing.paidFor.map(
+        (pf) =>
+          existingParticipantNames.get(pf.participantId) ?? pf.participantId,
+      ),
+      differences,
+    })
+  })
+
+  return conflicts
+}
+
 /**
  * Restore group from JSON export data
  */
+export type JSONImportOptions = {
+  conflictUpdates?: number[]
+  sourceUrl?: string
+}
+
 export async function restoreGroupFromJSON(
   tx: Prisma.TransactionClient,
   jsonData: JSONImportData,
   mode: 'create' | 'update' | 'rollback',
+  options: JSONImportOptions = {},
 ): Promise<void> {
   const importTime = new Date()
 
@@ -267,7 +448,11 @@ export async function restoreGroupFromJSON(
         groupId: jsonData.id,
         activityType: 'UPDATE_GROUP',
         time: importTime,
-        data: `JSON_IMPORT_START:${mode}:${jsonData.expenses.length} expenses`,
+        data: buildImportMarkerData(
+          mode,
+          jsonData.expenses.length,
+          options.sourceUrl,
+        ),
       },
     })
 
@@ -406,7 +591,12 @@ export async function restoreGroupFromJSON(
       where: { id: jsonData.id },
       include: {
         participants: true,
-        expenses: true,
+        expenses: {
+          include: {
+            paidFor: true,
+            category: true,
+          },
+        },
       },
     })
 
@@ -421,7 +611,11 @@ export async function restoreGroupFromJSON(
         groupId: jsonData.id,
         activityType: 'UPDATE_GROUP',
         time: importTime,
-        data: `JSON_IMPORT_START:${mode}:${jsonData.expenses.length} expenses`,
+        data: buildImportMarkerData(
+          mode,
+          jsonData.expenses.length,
+          options.sourceUrl,
+        ),
       },
     })
 
@@ -454,38 +648,55 @@ export async function restoreGroupFromJSON(
       newParticipants.forEach((p) => existingParticipantIds.add(p.id))
     }
 
-    // Add new expenses (based on a composite pseudo-ID: expenseDate + title + amount + paidById)
+    const conflictUpdateSet = new Set(options.conflictUpdates ?? [])
+
     const existingExpenseKeys = new Set(
-      existingGroup.expenses.map(
-        (e) =>
-          `${e.expenseDate.toISOString()}:${e.title}:${e.amount.toString()}:${
-            e.paidById
-          }`,
+      existingGroup.expenses.map((expense) =>
+        createExpenseMergeKey(expense),
       ),
     )
+    const existingExpensesByBaseKey = new Map<string, ExistingGroup['expenses']>()
+    for (const expense of existingGroup.expenses) {
+      const baseKey = createExpenseBaseKey(expense)
+      const list = existingExpensesByBaseKey.get(baseKey) ?? []
+      list.push(expense)
+      existingExpensesByBaseKey.set(baseKey, list)
+    }
 
     const newExpenses: Array<{
       expenseId: string
-      expense: any
+      expense: JSONImportData['expenses'][number]
       categoryId: number | null
     }> = []
+    const expensesToUpdate: Array<{
+      expenseId: string
+      expense: JSONImportData['expenses'][number]
+      categoryId: number | null
+    }> = []
+    const updatedExpenseIds = new Set<string>()
 
     // Pre-create all needed categories
     const categoryMap = new Map<string, number>()
     const categoriesToCheck = new Set<string>()
 
-    for (const expense of jsonData.expenses) {
-      const expenseKey = `${new Date(expense.expenseDate).toISOString()}:${
-        expense.title
-      }:${expense.amount.toString()}:${expense.paidById}`
-      if (!existingExpenseKeys.has(expenseKey) && expense.category) {
+    jsonData.expenses.forEach((expense, index) => {
+      const mergeKey = createExpenseMergeKey(expense)
+      if (existingExpenseKeys.has(mergeKey)) return
+
+      const baseKey = createExpenseBaseKey(expense)
+      const existingMatches = existingExpensesByBaseKey.get(baseKey)
+      if (existingMatches && existingMatches.length > 0) {
+        if (!conflictUpdateSet.has(index)) return
+      }
+
+      if (expense.category) {
         const categoryKey = createCategoryKey(
           expense.category.grouping,
           expense.category.name,
         )
         categoriesToCheck.add(categoryKey)
       }
-    }
+    })
 
     for (const categoryKey of categoriesToCheck) {
       const { grouping, name } = parseCategoryKey(categoryKey)
@@ -503,24 +714,40 @@ export async function restoreGroupFromJSON(
     }
 
     // Filter and prepare new expenses
-    for (const expense of jsonData.expenses) {
-      const expenseKey = `${new Date(expense.expenseDate).toISOString()}:${
-        expense.title
-      }:${expense.amount.toString()}:${expense.paidById}`
-      if (!existingExpenseKeys.has(expenseKey)) {
-        // Validate participant IDs exist
-        if (!existingParticipantIds.has(expense.paidById)) {
+    jsonData.expenses.forEach((expense, index) => {
+      const mergeKey = createExpenseMergeKey(expense)
+      if (existingExpenseKeys.has(mergeKey)) return
+
+      // Validate participant IDs exist
+      if (!existingParticipantIds.has(expense.paidById)) {
+        throw new Error(
+          `Invalid paidById: ${expense.paidById} not found in participants for expense "${expense.title}"`,
+        )
+      }
+      for (const pf of expense.paidFor) {
+        if (!existingParticipantIds.has(pf.participantId)) {
           throw new Error(
-            `Invalid paidById: ${expense.paidById} not found in participants for expense "${expense.title}"`,
+            `Invalid participantId: ${pf.participantId} not found in participants for expense "${expense.title}"`,
           )
         }
-        for (const pf of expense.paidFor) {
-          if (!existingParticipantIds.has(pf.participantId)) {
-            throw new Error(
-              `Invalid participantId: ${pf.participantId} not found in participants for expense "${expense.title}"`,
-            )
-          }
-        }
+      }
+
+      const baseKey = createExpenseBaseKey(expense)
+      const existingMatches = existingExpensesByBaseKey.get(baseKey)
+      if (existingMatches && existingMatches.length > 0) {
+        if (!conflictUpdateSet.has(index)) return
+
+        const createdAtMatch = existingMatches.find(
+          (match) =>
+            normalizeExpenseDate(match.createdAt) ===
+            normalizeExpenseDate(expense.createdAt),
+        )
+        const target =
+          createdAtMatch ||
+          existingMatches.find((match) => !updatedExpenseIds.has(match.id)) ||
+          existingMatches[0]
+
+        if (!target || updatedExpenseIds.has(target.id)) return
 
         let categoryId: number | null = null
         if (expense.category) {
@@ -531,10 +758,23 @@ export async function restoreGroupFromJSON(
           categoryId = categoryMap.get(categoryKey) ?? null
         }
 
-        const expenseId = randomUUID()
-        newExpenses.push({ expenseId, expense, categoryId })
+        updatedExpenseIds.add(target.id)
+        expensesToUpdate.push({ expenseId: target.id, expense, categoryId })
+        return
       }
-    }
+
+      let categoryId: number | null = null
+      if (expense.category) {
+        const categoryKey = createCategoryKey(
+          expense.category.grouping,
+          expense.category.name,
+        )
+        categoryId = categoryMap.get(categoryKey) ?? null
+      }
+
+      const expenseId = randomUUID()
+      newExpenses.push({ expenseId, expense, categoryId })
+    })
 
     if (newExpenses.length > 0) {
       // Batch create expenses
@@ -594,6 +834,57 @@ export async function restoreGroupFromJSON(
         })),
       })
     }
+
+    if (expensesToUpdate.length > 0) {
+      for (const { expenseId, expense, categoryId } of expensesToUpdate) {
+        await tx.expense.update({
+          where: { id: expenseId },
+          data: {
+            expenseDate: new Date(expense.expenseDate),
+            title: expense.title,
+            categoryId: categoryId ?? 0,
+            amount: expense.amount,
+            originalAmount: expense.originalAmount,
+            originalCurrency: expense.originalCurrency,
+            conversionRate: expense.conversionRate
+              ? parseFloat(expense.conversionRate)
+              : null,
+            paidById: expense.paidById,
+            isReimbursement: expense.isReimbursement,
+            splitMode: mapSplitMode(expense.splitMode),
+            recurrenceRule: mapRecurrenceRule(expense.recurrenceRule),
+          },
+        })
+
+        await tx.expensePaidFor.deleteMany({
+          where: { expenseId },
+        })
+
+        if (expense.paidFor.length > 0) {
+          await tx.expensePaidFor.createMany({
+            data: expense.paidFor.map((pf) => ({
+              expenseId,
+              participantId: pf.participantId,
+              shares: pf.shares,
+            })),
+          })
+        }
+      }
+
+      await tx.activity.createMany({
+        data: expensesToUpdate.map(({ expenseId, expense }) => ({
+          id: randomUUID(),
+          groupId: jsonData.id,
+          activityType: 'UPDATE_EXPENSE' as const,
+          time: importTime,
+          expenseId: expenseId,
+          data: JSON.stringify({
+            title: expense.title,
+            importDate: importTime.toISOString(),
+          }),
+        })),
+      })
+    }
   } else if (mode === 'rollback') {
     // Delete all existing expenses and participants, then recreate from JSON
     await tx.expensePaidFor.deleteMany({
@@ -633,7 +924,11 @@ export async function restoreGroupFromJSON(
         groupId: jsonData.id,
         activityType: 'UPDATE_GROUP',
         time: importTime,
-        data: `JSON_IMPORT_START:${mode}:${jsonData.expenses.length} expenses`,
+        data: buildImportMarkerData(
+          mode,
+          jsonData.expenses.length,
+          options.sourceUrl,
+        ),
       },
     })
 

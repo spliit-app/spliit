@@ -6,7 +6,6 @@ import {
   unarchiveGroup,
   unstarGroup,
 } from '@/app/groups/recent-groups-helpers'
-import { DeleteGroupDialog } from '@/components/delete-group-dialog'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -24,14 +23,12 @@ import {
   Calendar,
   MoreHorizontal,
   Star,
-  Trash2,
   Users,
   X,
 } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
 
 export function RecentGroupListCard({
   group,
@@ -57,7 +54,6 @@ export function RecentGroupListCard({
   const toast = useToast()
   const t = useTranslations('Groups')
   const tExpenses = useTranslations('Expenses')
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const canManageGroup =
     isLoggedIn &&
     (associatedGroupIds.includes(group.id) || activeGroupIds.includes(group.id))
@@ -170,20 +166,6 @@ export function RecentGroupListCard({
                         <p>{t('removeRecent')}</p>
                       </div>
                     </DropdownMenuItem>
-                    {canManageGroup && (
-                      <DropdownMenuItem
-                        className="text-destructive"
-                        onClick={(event) => {
-                          event.stopPropagation()
-                          setShowDeleteDialog(true)
-                        }}
-                      >
-                        <div className="flex items-center gap-2">
-                          <Trash2 className="w-4 h-4" />
-                          <p>{t('deleteGroup')}</p>
-                        </div>
-                      </DropdownMenuItem>
-                    )}
                   </DropdownMenuContent>
                 </DropdownMenu>
               </span>
@@ -218,15 +200,6 @@ export function RecentGroupListCard({
         </div>
       </Button>
 
-      <DeleteGroupDialog
-        groupId={group.id}
-        open={showDeleteDialog}
-        onOpenChange={setShowDeleteDialog}
-        onSuccess={() => {
-          deleteRecentGroup(group)
-          refreshGroupsFromStorage()
-        }}
-      />
     </li>
   )
 }

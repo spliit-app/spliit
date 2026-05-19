@@ -1,6 +1,7 @@
 import {
   JSONImportData,
   VersionComparisonResult,
+  calculateJSONConflicts,
   calculateJSONDifferences,
   compareJSONVersions,
   restoreGroupFromJSON,
@@ -67,8 +68,20 @@ export async function POST(req: Request) {
     const existingGroup = await prisma.group.findUnique({
       where: { id: jsonData.id },
       include: {
-        participants: { select: { id: true } },
-        expenses: { select: { id: true, createdAt: true, expenseDate: true } },
+        participants: { select: { id: true, name: true } },
+        expenses: {
+          select: {
+            id: true,
+            createdAt: true,
+            expenseDate: true,
+            title: true,
+            amount: true,
+            paidById: true,
+            splitMode: true,
+            category: { select: { grouping: true, name: true } },
+            paidFor: { select: { participantId: true, shares: true } },
+          },
+        },
         activities: { select: { time: true } },
       },
     })
@@ -78,8 +91,10 @@ export async function POST(req: Request) {
     // If action is 'analyze', just return the comparison
     if (action === 'analyze') {
       let differences
+      let conflicts
       if (existingGroup) {
         differences = calculateJSONDifferences(jsonData, existingGroup)
+        conflicts = calculateJSONConflicts(jsonData, existingGroup)
       }
 
       return NextResponse.json({
@@ -89,9 +104,11 @@ export async function POST(req: Request) {
           existingGroupUpdatedAt:
             comparison.existingGroupUpdatedAt?.toISOString(),
           jsonExportedAt: comparison.jsonExportedAt.toISOString(),
+          mergeable: comparison.mergeable ?? false,
           differences,
         },
         groupName: jsonData.name,
+        conflicts,
         warnings: [
           'JSON import has limitations:',
           '• Activity history is not preserved, it will be regenerated',
@@ -111,7 +128,10 @@ export async function POST(req: Request) {
         mode = 'create'
       } else if (action === 'rollback') {
         mode = 'rollback'
-      } else if (comparison.result === VersionComparisonResult.NEWER) {
+      } else if (
+        comparison.result === VersionComparisonResult.NEWER ||
+        comparison.mergeable
+      ) {
         mode = 'update'
       } else {
         return NextResponse.json(
@@ -121,6 +141,23 @@ export async function POST(req: Request) {
           },
           { status: 400 },
         )
+      }
+
+      let conflictUpdates: number[] | undefined
+      const sourceUrlRaw = formData.get('sourceUrl') as string | null
+      const sourceUrl = sourceUrlRaw?.trim() || undefined
+      const conflictUpdatesRaw = formData.get('conflictUpdates') as
+        | string
+        | null
+      if (conflictUpdatesRaw) {
+        try {
+          const parsed = JSON.parse(conflictUpdatesRaw) as number[]
+          if (Array.isArray(parsed)) {
+            conflictUpdates = parsed
+          }
+        } catch {
+          conflictUpdates = undefined
+        }
       }
 
       if (mode === 'create') {
@@ -134,7 +171,10 @@ export async function POST(req: Request) {
       // Execute restore in a transaction (increase timeout for large imports)
       await prisma.$transaction(
         async (tx) => {
-          await restoreGroupFromJSON(tx, jsonData, mode)
+          await restoreGroupFromJSON(tx, jsonData, mode, {
+            conflictUpdates,
+            sourceUrl,
+          })
         },
         { timeout: 60000, maxWait: 20000 },
       )
@@ -147,10 +187,10 @@ export async function POST(req: Request) {
       return NextResponse.json({
         success: true,
         message: `Group ${mode === 'create'
-            ? 'created'
-            : mode === 'rollback'
-              ? 'rolled back'
-              : 'updated'
+          ? 'created'
+          : mode === 'rollback'
+            ? 'rolled back'
+            : 'updated'
           } successfully`,
         groupId: jsonData.id,
         mode,

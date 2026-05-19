@@ -20,6 +20,8 @@
     "create": "Adaugă o cheltuială",
     "createFirst": "Adaug-o pe prima",
     "noExpenses": "Grupul tău nu conține nicio cheltuială încă.",
+    "export": "Export",
+    "exportBackup": "Create Backup",
     "exportJson": "Salvează în JSON",
     "exportCsv": "Salvează în CSV",
     "searchPlaceholder": "Caută o cheltuială…",
@@ -42,12 +44,16 @@
   },
   "ExpenseCard": {
     "paidBy": "Plătit de <strong>{paidBy}</strong> pentru <paidFor></paidFor>",
+    "everyone": "everyone",
     "receivedBy": "Primit de <strong>{paidBy}</strong> pentru <paidFor></paidFor>",
-    "yourBalance": "Soldul tău:"
+    "yourBalance": "Soldul tău:",
+    "notInvolved": "You are not involved"
   },
   "Groups": {
     "myGroups": "Grupurile mele",
     "create": "Adaugă",
+    "restoreBackup": "Restore Backup",
+    "importJSON": "Import from JSON",
     "loadingRecent": "Se încarcă ultimele tale grupuri…",
     "NoRecent": {
       "description": "Nu ai accesat niciun grup recent.",
@@ -60,21 +66,144 @@
     "archive": "Arhivează grupul",
     "unarchive": "Dezarhivează grupul",
     "removeRecent": "Șterge din ultimele grupuri",
+    "deleteGroup": "Delete group permanently",
+    "DeleteGroupDialog": {
+      "title": "Delete group permanently?",
+      "description": "This action cannot be undone. All expenses, participants, and activity history will be permanently deleted. Please create a backup first if you want to preserve this data.",
+      "backup": "Create Backup",
+      "cancel": "Cancel",
+      "delete": "Delete Permanently",
+      "remotePurge": {
+        "title": "Remote group cleanup",
+        "description": "This group is linked to a remote copy. You can also remove all expenses and participants from the remote group (a single placeholder participant will remain).",
+        "checkbox": "Also purge the remote group",
+        "errorTitle": "Remote purge failed",
+        "errorDescription": "Failed to purge the remote group."
+      },
+      "documentWarning": {
+        "title": "This group contains {count, plural, one {# image} other {# images}}",
+        "description": "These images are stored in the cloud and do not form part of the backup. If you delete them, they cannot be recovered.",
+        "checkbox": "Also delete all images when deleting the group"
+      }
+    },
     "RecentRemovedToast": {
       "title": "Grupul a fost șters.",
       "description": "Grupul a fost șters din lista ta de grupuri recente.",
       "undoAlt": "Anulează ștergerea grupului",
       "undo": "Anulează"
     },
+    "Sync": {
+      "menuItem": "Sincronizează cheltuielile cu remote",
+      "dialogTitle": "Sincronizează cheltuielile cu remote",
+      "dialogDescription": "Revizuiește modificările pe direcții și selectează exact ce actualizări să aplici între remote și local.",
+      "loading": "Se pregătește diferența remote...",
+      "errorPrepare": "Pregătirea sincronizării a eșuat.",
+      "errorExecute": "Sincronizarea cheltuielilor a eșuat.",
+      "toastTitle": "Sincronizare finalizată",
+      "toastDescription": "Acțiunile de sincronizare selectate au fost aplicate.",
+      "remoteSource": "Sursă remote: {url}",
+      "directionHelp": "Direcție: comută Local ↔ Remote pentru a crea acțiuni de creare sau ștergere",
+      "usersSection": "Utilizatori",
+      "expensesSection": "Cheltuieli",
+      "noUserChanges": "Nu există modificări de utilizatori.",
+      "noExpenseChanges": "Nu există modificări de cheltuieli.",
+      "nothingToSync": "Nimic de sincronizat. Local și remote sunt deja aliniate.",
+      "cancel": "Anulează",
+      "syncNow": "Sincronizează acum",
+      "syncing": "Se sincronizează...",
+      "user": "Utilizator",
+      "expenseWithDate": "Cheltuială · {date}",
+      "presence": "Local: {local} · Remote: {remote}",
+      "remoteToLocal": "Remote → Local",
+      "localToRemote": "Local → Remote",
+      "Presence": {
+        "present": "prezent",
+        "missing": "lipsă"
+      },
+      "Actions": {
+        "createLocalUser": "Creează utilizator pe Local",
+        "createRemoteUser": "Creează utilizator pe Remote",
+        "deleteLocalUser": "Șterge utilizator de pe Local",
+        "deleteRemoteUser": "Șterge utilizator de pe Remote",
+        "createLocalExpense": "Creează cheltuială pe Local",
+        "createRemoteExpense": "Creează cheltuială pe Remote",
+        "updateLocalExpense": "Actualizează cheltuială pe Local",
+        "updateRemoteExpense": "Actualizează cheltuială pe Remote",
+        "deleteLocalExpense": "Șterge cheltuială de pe Local",
+        "deleteRemoteExpense": "Șterge cheltuială de pe Remote"
+      }
+    },
+    "LinkedUrl": {
+      "title": "URL conectat",
+      "linkOption": "Link to remote group",
+      "description": "Acest link este folosit pentru sincronizare. Șterge-l pentru a deconecta acest grup.",
+      "placeholder": "https://spliit.app/groups/...",
+      "save": "Salvează",
+      "saving": "Se salvează...",
+      "toastUpdated": "URL-ul conectat a fost actualizat.",
+      "toastUnlinked": "Grupul a fost deconectat de la URL-ul remote.",
+      "errorUpdate": "Actualizarea linkului a eșuat."
+    },
+    "AdvancedSettings": {
+      "button": "Advanced settings",
+      "title": "Advanced settings",
+      "description": "Linking and sync tools for this group."
+    },
     "AddByURL": {
       "button": "Adaugă folosind un URL",
       "title": "Adaugă un grup folosind un URL",
       "description": "Dacă un grup a fost distribuit cu tine, poți atașa URL-ul acestuia aici pentru a-l adăuga în listă.",
-      "error": "Ups, nu am găsit grupul folosind URL-ul primit de la tine…"
+      "error": "Ups, nu am găsit grupul folosind URL-ul primit de la tine…",
+      "hostMismatchTitle": "Open local or remote?",
+      "hostMismatchPrompt": "This link points to {host}. A local group with the same ID exists. Press OK to open the local group, or Cancel to go to {host}.",
+      "hostMismatchNotFound": "No matching local group found. You can import this group from the other instance.",
+      "hostMismatchLocalAction": "Open local group",
+      "hostMismatchRemoteAction": "Go to remote",
+      "hostMismatchCancel": "Cancel",
+      "importFromUrlAction": "Open JSON import",
+      "urlMode": "Enter URL",
+      "qrMode": "Scan QR",
+      "scanner": {
+        "startCamera": "Start Camera",
+        "stopScanning": "Stop Scanning",
+        "permissionDenied": "Camera permission denied. Please allow camera access to scan QR codes.",
+        "noCamera": "No camera found on this device.",
+        "cameraError": "Failed to start camera. Please try again.",
+        "permissionError": "Unable to access camera. Please check permissions."
+      }
     },
     "NotFound": {
       "text": "Acest grup nu există.",
       "link": "Mergi la ultimele grupuri vizitate"
+    }
+  },
+  "NewFeaturesDialog": {
+    "title": "Noutăți în Spliit",
+    "description": "Descoperă cele mai noi funcții pentru a face împărțirea cheltuielilor mai ușoară și mai sigură",
+    "footer": "Atinge funcții specifice în aplicație pentru a afla mai multe",
+    "button": "Mai multe detalii",
+    "badge": "Nou",
+    "features": {
+      "groupSync": {
+        "title": "Sincronizare grup",
+        "description": "Sincronizează cheltuielile între grupuri conectate cu un clic pentru a menține copiile locale și la distanță aliniate."
+      },
+      "linkedUrlSafety": {
+        "title": "Siguranța URL-ului conectat",
+        "description": "Conectează URL-ul unui grup la distanță cu verificări de similitudine pentru a evita neconcordanțe de date."
+      },
+      "remotePurge": {
+        "title": "Curățare la distanță la ștergere",
+        "description": "Opțional, curăță un grup la distanță conectat când îl ștergi local, cu un pas suplimentar de confirmare."
+      },
+      "arabicSupport": {
+        "title": "Suport pentru limba arabă",
+        "description": "Traducerea completă în limba arabă este acum disponibilă în toată aplicația."
+      },
+      "advancedSettings": {
+        "title": "Setări avansate",
+        "description": "Opțiunile de sincronizare, conectare, anulare import complet și ștergere sunt acum în Setări avansate pentru utilizatorii autentificați."
+      }
     }
   },
   "GroupForm": {
@@ -92,6 +221,12 @@
       "label": "Monedă",
       "placeholder": "$, €, £, RON …",
       "description": "O vom folosi pentru a afișa sume."
+    },
+    "CurrencyCodeField": {
+      "label": "Main currency",
+      "createDescription": "All amounts and balances will be in this currency.",
+      "editDescription": "All amounts and balances will be in this currency. Changing this will NOT convert expenses already entered, except when the currency has different \"minor units\" than the current one (e.g. changing from US Dollar to Japanese Yen)",
+      "customOption": "Custom"
     },
     "Participants": {
       "title": "Membri",
@@ -132,6 +267,10 @@
         "label": "Data venitului",
         "description": "Adaugă data la care venitul a fost primit."
       },
+      "currencyField": {
+        "label": "Currency of income",
+        "description": "The currency in which the income was received."
+      },
       "categoryFieldDescription": "Selectează categoria venitului.",
       "paidByField": {
         "label": "Primit de către",
@@ -156,10 +295,23 @@
         "label": "Data cheltuielii",
         "description": "Adaugă data la care cheltuiala a fost facută."
       },
+      "currencyField": {
+        "label": "Currency of expense",
+        "description": "The currency in which the expense was paid."
+      },
       "categoryFieldDescription": "Selectează categoria cheltuielii.",
       "paidByField": {
         "label": "Plătit de către",
+        "placeholder": "Select a participant",
         "description": "Selectează membrul care a plătit cheltuiala."
+      },
+      "recurrenceRule": {
+        "label": "Expense Recurrence",
+        "description": "Select how often the expense should repeat.",
+        "none": "None",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly"
       },
       "paidFor": {
         "title": "Plătit pentru",
@@ -170,6 +322,27 @@
     },
     "amountField": {
       "label": "Sumă"
+    },
+    "conversionUnavailable": "To set a different currency per expense and convert amounts, select a non-custom currency for the group.",
+    "originalAmountField": {
+      "label": "Amount to convert"
+    },
+    "conversionRateField": {
+      "useApi": "Use rates from Frankfurter",
+      "useCustom": "Use custom rate",
+      "label": "Exchange rate"
+    },
+    "conversionRateState": {
+      "loading": "Getting exchange rates…",
+      "success": "Obtained rates:",
+      "error": "Oops, we could not get the most recent rates.",
+      "staleRate": "Using rate:",
+      "noRate": "Enter a custom rate below.",
+      "currencyNotFound": "Oops, Frankfurter does not have the rate for this currency at this day.",
+      "noDate": "Enter the expense date to get a conversion rate.",
+      "dateMismatch": "Rates from date: {date}",
+      "refresh": "Refresh",
+      "customRate": "Using custom rate"
     },
     "isReimbursementField": {
       "label": "Aceasta este o rambursare."
@@ -305,7 +478,12 @@
     "title": "Distribuie",
     "description": "Pentru ca ceilalți participanți să poată vedea grupul și cheltuielile adăugate, distribuie URL-ul acestuia cu ei.",
     "warning": "Avertisment!",
-    "warningHelp": "Oricine are URL-ul grupului va putea să vadă și să editeze cheltuielile. Distribuie cu grijă!"
+    "warningHelp": "Oricine are URL-ul grupului va putea să vadă și să editeze cheltuielile. Distribuie cu grijă!",
+    "qrCode": {
+      "title": "Share via QR Code",
+      "description": "Scan this QR code to open the group on any device.",
+      "download": "Download QR Code"
+    }
   },
   "SchemaErrors": {
     "min1": "Introduceți cel puțin un caracter.",
@@ -318,6 +496,7 @@
     "amountRequired": "Trebuie să introduceți o sumă.",
     "amountNotZero": "Suma nu trebuie să fie zero.",
     "amountTenMillion": "Suma trebuie să fie mai mică de 10,000,000.",
+    "ratePositive": "The rate must be strictly greater than zero.",
     "paidByRequired": "Trebuie să selectați un membru.",
     "paidForMin1": "Cheltuiala trebuie plătită pentru cel puțin un membru.",
     "noZeroShares": "Toate părțile trebuie să fie mai mari de 0.",
@@ -363,6 +542,7 @@
       "heading": "Viață",
       "Childcare": "Îngrijirea copiilor",
       "Clothing": "Îmbrăcăminte",
+      "Donation": "Donation",
       "Education": "Educație",
       "Gifts": "Cadouri",
       "Insurance": "Asigurare",
@@ -392,10 +572,352 @@
       "Water": "Apă"
     }
   },
+  "Currencies": {
+    "search": "Search currency...",
+    "noCurrency": "No currencies found.",
+    "custom": {
+      "heading": "Custom"
+    },
+    "common": {
+      "heading": "Most common"
+    },
+    "other": {
+      "heading": "Other currencies"
+    }
+  },
+  "Backup": {
+    "restoreBackup": "Restore Backup",
+    "restoreBackupTitle": "Restore Group Backup",
+    "restoreBackupDescription": "Upload a backup file to restore or create a group. The system will check if the group exists and guide you through the restoration process.",
+    "analyzing": "Analyzing...",
+    "analyzeBackup": "Analyze Backup",
+    "groupName": "Group Name",
+    "backupDate": "Backup Date",
+    "groupNotFound": "This group doesn't exist yet. Click below to create it from the backup.",
+    "creating": "Creating...",
+    "createGroup": "Create Group from Backup",
+    "backupIsNewer": "This backup contains newer data than your current group.",
+    "currentVersion": "Current group last updated",
+    "changes": "Changes in backup",
+    "addedExpenses": "{count} new expense(s)",
+    "addedParticipants": "{count} new participant(s)",
+    "restoring": "Restoring...",
+    "restoreDifferences": "Restore New Data",
+    "backupIsOlder": "Warning: This backup is older than your current group data.",
+    "rollingBack": "Rolling back...",
+    "rollbackToBackup": "Rollback to Backup Version",
+    "rollbackWarning": "This will delete all current data and replace it with the backup. This action cannot be undone!",
+    "backupIsSame": "This backup is identical to your current group data.",
+    "cancel": "Cancel"
+  },
   "JSONImport": {
+    "importJSON": "Import from JSON",
+    "importJSONTitle": "Import Group from JSON Export",
+    "importJSONDescription": "Upload a JSON export file to migrate a group from another Spliit instance. The system will analyze the file and guide you through the import process.",
     "importSuccessTitle": "Import finalizat",
     "importSuccessDescription": "{name}",
     "importAssociationWarningTitle": "Asociere în așteptare",
-    "importAssociationWarningDescription": "Am importat grupul, dar nu am putut salva permisiunile contului. Deschide-ți profilul și apasă Salvează pentru a finaliza."
+    "importAssociationWarningDescription": "Am importat grupul, dar nu am putut salva permisiunile contului. Deschide-ți profilul și apasă Salvează pentru a finaliza.",
+    "analyzing": "Analyzing...",
+    "analyzeJSON": "Analyze JSON File",
+    "groupName": "Group Name",
+    "exportDate": "Export Date",
+    "limitations": "Important Limitations",
+    "groupNotFound": "This group doesn't exist yet. Click below to create it from the JSON export.",
+    "creating": "Creating...",
+    "createGroup": "Create Group from JSON",
+    "jsonIsNewer": "This JSON export contains newer data than your current group.",
+    "currentVersion": "Current group last updated",
+    "changes": "Changes in JSON export",
+    "addedExpenses": "~{count} new expense(s) (approximate)",
+    "addedParticipants": "{count} new participant(s)",
+    "restoring": "Importing...",
+    "importDifferences": "Import New Data",
+    "jsonIsOlder": "Warning: This JSON export is older than your current group data.",
+    "rollingBack": "Rolling back...",
+    "rollbackToJSON": "Rollback to JSON Version",
+    "rollbackWarning": "This will delete all current data and replace it with the JSON export. This action cannot be undone!",
+    "jsonIsSame": "This JSON export appears to match your current group data.",
+    "cancel": "Cancel",
+    "importFromFile": "Import from file",
+    "importFromURL": "Import from URL",
+    "urlPlaceholder": "https://example.com/groups/...",
+    "fetchJSON": "Fetch JSON",
+    "errorInvalidURL": "Enter a valid URL from another Spliit site.",
+    "errorSameOrigin": "Use a different site URL than this one.",
+    "errorNoGroupID": "Could not find a group ID in that URL.",
+    "errorGroupExists": "That group already exists on this site.",
+    "errorGroupExistsDeleted": "This group still exists on the server. Delete it from Advanced settings before importing again.",
+    "errorRemoteFetch": "Failed to fetch JSON from the remote site.",
+    "remoteReadyWithName": "Ready to import: {name}",
+    "remoteReady": "Remote JSON is ready to import.",
+    "errorAnalysisFailed": "Failed to analyze JSON file",
+    "errorInvalidResponse": "Invalid response from server",
+    "errorImportFailed": "Failed to import JSON",
+    "jsonIsMergeable": "This JSON export is older, but it contains expenses that are missing in your group.",
+    "conflictsTitle": "Conflicting expenses found",
+    "conflictsDescription": "Choose which expenses should be updated to match the JSON export.",
+    "conflictApplyAllUpdate": "Update all",
+    "conflictApplyAllKeep": "Keep all",
+    "conflictDifferenceLabel": "Differs in",
+    "conflictFieldCategory": "category",
+    "conflictFieldSplitMode": "split mode",
+    "conflictFieldPaidFor": "paid for",
+    "conflictUpdateLabel": "Check to update this expense to match the JSON export.",
+    "paidBy": "Paid by",
+    "conflictDefaultAll": "Default to update all conflicts",
+    "conflictCurrentLabel": "Current",
+    "conflictJsonLabel": "JSON",
+    "conflictNone": "None",
+    "conflictEmpty": "None"
+  },
+  "DeleteData": {
+    "undoImport": "Anuleaza importul complet",
+    "undoImportDescription": "Remove all data added during the most recent JSON import",
+    "undoWarning": "This will remove all expenses, participants, and activities added during the last import. This action cannot be undone!",
+    "cancel": "Cancel",
+    "confirm": "Undo Import",
+    "deleting": "Undoing...",
+    "success": "Import undone successfully",
+    "error": "Failed to undo import"
+  },
+  "AnonymousAuthMenu": {
+    "menu": {
+      "ariaLabel": "Account",
+      "account": "Account",
+      "restoreBackup": "Restore from backup",
+      "importJson": "Import from JSON",
+      "whatsNew": "✨ What's New",
+      "signOut": "Sign out"
+    },
+    "profile": {
+      "title": "Account Profile",
+      "description": "Link groups to this device or recover them on another device.",
+      "associatedGroups": {
+        "title": "Associated groups",
+        "empty": "Visit or add a group first to associate it.",
+        "save": "Save associations",
+        "saving": "Saving..."
+      },
+      "accountAccess": {
+        "title": "Account access",
+        "description": "Use the same username and passphrase to create or recover your anonymous account.",
+        "usernamePlaceholder": "Anonymous username",
+        "generate": "Generate",
+        "passphrasePlaceholder": "Enter a passphrase",
+        "saving": "Saving...",
+        "recovering": "Recovering...",
+        "newAccount": "New account",
+        "existingAccount": "Existing account",
+        "changePrompt": "Enter your current passphrase and choose a new one.",
+        "passkeyPrompt": "Authenticated with passkey. Choose a new passphrase.",
+        "managePrompt": "Manage your account security.",
+        "usernameLabel": "Username",
+        "currentPassphrasePlaceholder": "Current passphrase",
+        "newPassphrasePlaceholder": "New passphrase",
+        "updating": "Updating...",
+        "changePassphrase": "Change passphrase",
+        "setting": "Setting...",
+        "setPassphrase": "Set passphrase",
+        "authenticating": "Authenticating...",
+        "setWithPasskey": "Set passphrase with passkey",
+        "resetWithPasskey": "Reset with passkey",
+        "passkeyFirst": "Add a passkey first to set a passphrase, or create a new account with a passphrase."
+      },
+      "passkeyLogin": {
+        "title": "Passkey login",
+        "notLinkedDescription": "Use your passkey to log in on this device.",
+        "authenticating": "Authenticating...",
+        "usePasskey": "Use passkey",
+        "manageDescription": "Manage your passkeys for this account.",
+        "addDescription": "Add a passkey for quick, passwordless login.",
+        "created": "Created {date}",
+        "remove": "Remove",
+        "addPasskey": "Add passkey"
+      },
+      "profileActions": {
+        "title": "Profile actions",
+        "deleteAccount": "Delete account"
+      }
+    },
+    "unlinkDialog": {
+      "signOutTitle": "Sign out from device",
+      "deleteTitle": "Delete account",
+      "signOutDescription": "Are you sure you want to sign out from this device?",
+      "deleteDescription": "Are you sure you want to delete your account? This action cannot be undone.",
+      "associatedGroupsTitle": "Associated groups",
+      "keepRecent": "Keep in recent list",
+      "removeRecent": "Remove from recent list",
+      "signOutAction": "Sign out",
+      "deleteAction": "Delete account"
+    },
+    "addPasskey": {
+      "title": "Add Passkey",
+      "description": "Enter a name for this passkey to help you identify it later.",
+      "placeholder": "e.g., MacBook Pro, iPhone",
+      "registering": "Registering...",
+      "confirm": "Add passkey"
+    },
+    "removePasskey": {
+      "title": "Remove Passkey",
+      "description": "Are you sure you want to remove this passkey? You will need to use another authentication method to access your account.",
+      "removing": "Removing...",
+      "confirm": "Remove passkey"
+    },
+    "common": {
+      "cancel": "Cancel"
+    },
+    "passphrase": {
+      "requirements": {
+        "minLength": "At least 8 characters",
+        "uppercase": "One uppercase letter",
+        "lowercase": "One lowercase letter",
+        "number": "One number",
+        "special": "One special character"
+      }
+    },
+    "errors": {
+      "authOptionsFailed": "Failed to get authentication options",
+      "authenticationFailed": "Authentication failed",
+      "deletePasskeyFailed": "Failed to delete passkey",
+      "registrationOptionsFailed": "Failed to get registration options",
+      "registrationVerifyFailed": "Failed to verify registration"
+    },
+    "toasts": {
+      "initFailed": {
+        "title": "Unable to initialize anonymous session",
+        "description": "Please try refreshing the page. If the problem persists, try again later."
+      },
+      "initNetwork": {
+        "title": "Network error while initializing",
+        "description": "Check your connection and refresh the page to try again."
+      },
+      "syncGroupsFailed": {
+        "title": "Failed to sync groups",
+        "description": "We could not load your groups. Your local groups list may be out of date."
+      },
+      "sessionExpired": {
+        "title": "Session expired",
+        "saveAssociations": "Please recover your account to save group associations. Use your username and passphrase to log back in.",
+        "deleteAccount": "Please recover your account to delete it. Use your username and passphrase to log back in."
+      },
+      "saveGroupsFailed": {
+        "title": "Failed to save groups",
+        "description": "Please try again."
+      },
+      "groupsSaved": {
+        "title": "Groups saved",
+        "description": "These groups are now linked to your anonymous account."
+      },
+      "networkError": {
+        "title": "Network error",
+        "saveGroups": "Unable to save groups. Please check your connection and try again.",
+        "savePassphrase": "Unable to save passphrase. Please check your connection and try again.",
+        "recoverAccount": "Unable to recover account. Please check your connection and try again."
+      },
+      "passphraseInUse": {
+        "title": "Passphrase already in use",
+        "description": "Choose a different passphrase and try again."
+      },
+      "accountSaved": {
+        "title": "Account saved",
+        "description": "Use this username and passphrase to recover later."
+      },
+      "recoveryFailed": {
+        "title": "Recovery failed",
+        "description": "No account was found for that passphrase."
+      },
+      "accountRecovered": {
+        "title": "Account recovered",
+        "description": "Your associated groups were restored on this device."
+      },
+      "currentPassphraseRequired": {
+        "title": "Current passphrase required",
+        "description": "Please enter your current passphrase."
+      },
+      "updatePassphraseFailed": {
+        "title": "Failed to update passphrase",
+        "description": "Please verify your current passphrase and try again."
+      },
+      "passphraseUpdated": {
+        "title": "Passphrase updated",
+        "description": "Your new passphrase is now active."
+      },
+      "setPassphraseFailed": {
+        "title": "Failed to set passphrase",
+        "description": "Please try again."
+      },
+      "passphraseSet": {
+        "title": "Passphrase set",
+        "description": "Your new passphrase is now active."
+      },
+      "accountRequired": {
+        "title": "Account required",
+        "description": "Please ensure you are logged in."
+      },
+      "authSuccess": {
+        "title": "Authentication successful",
+        "description": "You can now set a new passphrase."
+      },
+      "authFailed": {
+        "title": "Authentication failed",
+        "description": "Please try again.",
+        "generic": "Authentication failed. Please try again."
+      },
+      "passkeyRemoved": {
+        "title": "Passkey removed",
+        "description": "The passkey has been removed from your account."
+      },
+      "removePasskeyFailed": {
+        "title": "Failed to remove passkey",
+        "description": "Please try again."
+      },
+      "usernameRequired": {
+        "title": "Username required",
+        "description": "Please set a username before registering a passkey."
+      },
+      "passkeyNameRequired": {
+        "title": "Name required",
+        "description": "Please enter a name for your passkey."
+      },
+      "passkeyRegistered": {
+        "title": "Passkey registered",
+        "description": "You can now use your passkey to log in."
+      },
+      "passkeyRegistrationFailed": {
+        "title": "Registration failed",
+        "description": "Please try again."
+      },
+      "rateLimit": {
+        "title": "Rate limit exceeded",
+        "description": "Too many requests. Please try again later."
+      },
+      "passkeyNotFound": {
+        "title": "Passkey not found",
+        "description": "Try entering your username and retrying passkey login."
+      },
+      "passkeyLoginSuccess": {
+        "title": "Logged in with passkey",
+        "description": "Your associated groups were restored on this device."
+      },
+      "authCancelled": {
+        "title": "Authentication cancelled",
+        "description": "Passkey authentication was cancelled."
+      },
+      "unlinked": {
+        "title": "Unlinked from device",
+        "descriptionRemoved": "Associated groups have been removed from your device.",
+        "descriptionNew": "You are now using a new anonymous account on this device."
+      },
+      "deleteAccountFailed": {
+        "title": "Failed to delete account",
+        "description": "Please try again."
+      },
+      "accountDeleted": {
+        "title": "Account deleted",
+        "descriptionRemoved": "Account deleted and groups removed from this device.",
+        "descriptionNew": "Account deleted. You are now using a new anonymous account on this device."
+      }
+    }
   }
 }

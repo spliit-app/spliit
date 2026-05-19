@@ -44,12 +44,25 @@ This document summarizes the new user-facing features released in the Spliit app
 - Automatic group recovery when signing in
 
 ### 6. **Permanent Group Deletion**
-**Location:** Group options (three dots menu on group card)
+**Location:** Group settings → Advanced settings
 - Safely delete groups that are no longer needed
 - Built-in backup reminder before deletion
 - Warning about uploaded images not being recoverable
 - Option to also delete cloud-stored images
+- Optional remote purge for linked groups (clears remote expenses and participants, leaving a placeholder)
 - Restricted to logged-in users with associated groups
+
+### 7. **Group Sync (Local ↔ Remote)**
+**Location:** Group settings → Advanced settings
+- Link a group to a remote instance via URL
+- Preflight sync shows differences for participants and expenses
+- Choose per-change direction (local → remote or remote → local)
+- Executes selected sync actions with clear summaries
+
+### 8. **Arabic Language Support**
+**Location:** Locale / browser language settings
+- Full Arabic LLM-generated translation across the app UI
+- Works automatically when Arabic is selected in the browser
 
 ---
 
@@ -121,7 +134,13 @@ Updated the account menu dropdown to include:
 - Account menu → "Account" → Set up passphrase or passkeys
 
 **Group Deletion:**
-- Group options menu → "Delete group" → Confirm with backup reminder
+- Group settings → Advanced settings → "Delete Permanently" → Confirm with backup reminder
+
+**Group Sync:**
+- Group settings → Advanced settings → Link to remote group → Sync now
+
+**Arabic:**
+- Switch browser language to Arabic to see the localized UI
 
 ---
 

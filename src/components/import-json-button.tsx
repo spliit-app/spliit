@@ -20,12 +20,13 @@ import { trpc } from '@/trpc/client'
 import { AlertTriangle, Loader2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 type AnalysisResult = {
   result: 'NEWER' | 'OLDER' | 'SAME' | 'NOT_FOUND'
   existingGroupUpdatedAt?: string
   jsonExportedAt: string
+  mergeable?: boolean
   differences?: {
     addedExpenses: number
     removedExpenses: number
@@ -35,12 +36,30 @@ type AnalysisResult = {
   }
 }
 
+type ExpenseConflict = {
+  index: number
+  expenseDate: string
+  title: string
+  amount: number
+  paidById: string
+  paidByName?: string
+  jsonCategory?: string | null
+  existingCategory?: string | null
+  jsonSplitMode: string
+  existingSplitMode: string
+  jsonPaidFor: string[]
+  existingPaidFor: string[]
+  differences: Array<'category' | 'splitMode' | 'paidFor'>
+}
+
 export function ImportJSONButton({
   open: controlledOpen,
   onOpenChange: controlledOnOpenChange,
+  initialUrl,
 }: {
   open?: boolean
   onOpenChange?: (open: boolean) => void
+  initialUrl?: string | null
 } = {}) {
   const t = useTranslations('JSONImport')
   const router = useRouter()
@@ -52,6 +71,9 @@ export function ImportJSONButton({
   const [file, setFile] = useState<File | null>(null)
   const [importMode, setImportMode] = useState<'file' | 'url'>('file')
   const [remoteUrl, setRemoteUrl] = useState('')
+  const [resolvedRemoteUrl, setResolvedRemoteUrl] = useState<string | null>(
+    null,
+  )
   const [remoteLoading, setRemoteLoading] = useState(false)
   const [remoteSummary, setRemoteSummary] = useState<string | null>(null)
   const [analyzing, setAnalyzing] = useState(false)
@@ -60,8 +82,26 @@ export function ImportJSONButton({
     result: AnalysisResult
     groupName: string
     warnings: string[]
+    conflicts: ExpenseConflict[]
   } | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [conflictUpdates, setConflictUpdates] = useState<
+    Record<number, boolean>
+  >({})
+  const [conflictDefaultUpdateAll, setConflictDefaultUpdateAll] =
+    useState(false)
+  const importingGroupKey = 'importingGroupId'
+  const importingGroupAtKey = 'importingGroupAt'
+
+  useEffect(() => {
+    if (!open || !initialUrl) return
+    setImportMode('url')
+    setRemoteUrl(initialUrl)
+    setResolvedRemoteUrl(null)
+    setRemoteSummary(null)
+    setAnalysis(null)
+    setError(null)
+  }, [initialUrl, open])
 
   const getImportedGroupName = (name: string) => {
     const importDate = new Date().toISOString().split('T')[0]
@@ -129,6 +169,8 @@ export function ImportJSONButton({
       setAnalysis(null)
       setError(null)
       setRemoteSummary(null)
+      setConflictUpdates({})
+      setResolvedRemoteUrl(null)
     }
   }
 
@@ -154,6 +196,7 @@ export function ImportJSONButton({
         comparison?: AnalysisResult
         groupName?: string
         warnings?: string[]
+        conflicts?: ExpenseConflict[]
         error?: string
       }
 
@@ -167,11 +210,21 @@ export function ImportJSONButton({
         return
       }
 
+      const conflicts = data.conflicts || []
       setAnalysis({
         result: data.comparison,
         groupName: data.groupName,
         warnings: data.warnings || [],
+        conflicts,
       })
+      setConflictUpdates(
+        Object.fromEntries(
+          conflicts.map((conflict) => [
+            conflict.index,
+            conflictDefaultUpdateAll,
+          ]),
+        ),
+      )
     } catch (err) {
       setError(t('errorAnalysisFailed'))
     } finally {
@@ -206,10 +259,15 @@ export function ImportJSONButton({
         setError(t('errorNoGroupID'))
         return
       }
+      const normalizedGroupUrl = `${parsedUrl.origin}/groups/${groupId}`
 
       const existing = await utils.groups.get.fetch({ groupId })
       if (existing.group) {
-        setError(t('errorGroupExists'))
+        const recentGroups = getRecentGroups()
+        const isInRecent = recentGroups.some((group) => group.id === groupId)
+        setError(
+          isInRecent ? t('errorGroupExists') : t('errorGroupExistsDeleted'),
+        )
         return
       }
 
@@ -234,12 +292,14 @@ export function ImportJSONButton({
       const nextFile = new File([jsonText], `Spliit Import - ${groupId}.json`, {
         type: 'application/json',
       })
+      setResolvedRemoteUrl(normalizedGroupUrl)
       setFile(nextFile)
       setAnalysis(null)
+      setConflictUpdates({})
       const summaryName = data.groupName
         ? t('remoteReadyWithName', {
-            name: getImportedGroupName(data.groupName),
-          })
+          name: getImportedGroupName(data.groupName),
+        })
         : t('remoteReady')
       setRemoteSummary(summaryName)
       await analyzeJSON(nextFile)
@@ -261,6 +321,16 @@ export function ImportJSONButton({
       const formData = new FormData()
       formData.append('file', file)
       formData.append('action', action)
+
+      const selectedConflicts = Object.entries(conflictUpdates)
+        .filter(([, value]) => value)
+        .map(([key]) => Number(key))
+      if (selectedConflicts.length > 0) {
+        formData.append('conflictUpdates', JSON.stringify(selectedConflicts))
+      }
+      if (resolvedRemoteUrl) {
+        formData.append('sourceUrl', resolvedRemoteUrl)
+      }
 
       const response = await fetch('/groups/json/import', {
         method: 'POST',
@@ -284,6 +354,9 @@ export function ImportJSONButton({
         setError(t('errorInvalidResponse'))
         return
       }
+
+      localStorage.setItem(importingGroupKey, data.groupId)
+      localStorage.setItem(importingGroupAtKey, new Date().toISOString())
 
       const baseName = analysis?.groupName ?? 'Imported group'
       const groupName =
@@ -321,6 +394,45 @@ export function ImportJSONButton({
     return new Date(dateString).toLocaleString()
   }
 
+  const formatConflictPaidBy = (conflict: ExpenseConflict) => {
+    return conflict.paidByName || conflict.paidById
+  }
+
+  const formatPaidForList = (values: string[]) => {
+    if (values.length === 0) return t('conflictEmpty')
+    return values.join(', ')
+  }
+
+  const formatCategory = (value?: string | null) => {
+    return value || t('conflictNone')
+  }
+
+  const formatSplitMode = (value: string) => {
+    return value
+  }
+
+  const getConflictDifferenceLabel = (
+    difference: ExpenseConflict['differences'][number],
+  ) => {
+    switch (difference) {
+      case 'category':
+        return t('conflictFieldCategory')
+      case 'splitMode':
+        return t('conflictFieldSplitMode')
+      case 'paidFor':
+        return t('conflictFieldPaidFor')
+      default:
+        return difference
+    }
+  }
+
+  const setAllConflictUpdates = (value: boolean) => {
+    if (!analysis?.conflicts.length) return
+    setConflictUpdates(
+      Object.fromEntries(analysis.conflicts.map((conflict) => [conflict.index, value])),
+    )
+  }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-[600px]">
@@ -337,6 +449,7 @@ export function ImportJSONButton({
               onClick={() => {
                 setImportMode('file')
                 setError(null)
+                setResolvedRemoteUrl(null)
               }}
             >
               {t('importFromFile')}
@@ -520,6 +633,40 @@ export function ImportJSONButton({
                     {t('currentVersion')}:{' '}
                     {formatDate(analysis.result.existingGroupUpdatedAt!)}
                   </div>
+                  {analysis.result.mergeable && (
+                    <div className="p-3 bg-green-50 rounded-md border border-green-200 space-y-2">
+                      <p className="text-sm text-green-800">
+                        {t('jsonIsMergeable')}
+                      </p>
+                      {analysis.result.differences && (
+                        <div className="text-sm text-slate-600">
+                          {t('changes')}:{' '}
+                          {analysis.result.differences.addedExpenses > 0 && (
+                            <span>
+                              {t('addedExpenses', {
+                                count:
+                                  analysis.result.differences.addedExpenses,
+                              })}
+                            </span>
+                          )}
+                        </div>
+                      )}
+                      <Button
+                        onClick={() => handleRestore('restore')}
+                        disabled={restoring}
+                        className="w-full"
+                      >
+                        {restoring ? (
+                          <>
+                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                            {t('restoring')}
+                          </>
+                        ) : (
+                          t('importDifferences')
+                        )}
+                      </Button>
+                    </div>
+                  )}
                   <Button
                     onClick={() => handleRestore('rollback')}
                     disabled={restoring}
@@ -542,8 +689,155 @@ export function ImportJSONButton({
               )}
 
               {analysis.result.result === 'SAME' && (
-                <div className="p-3 bg-slate-50 rounded-md border border-slate-200">
+                <div className="p-3 bg-slate-50 rounded-md border border-slate-200 space-y-3">
                   <p className="text-sm text-slate-600">{t('jsonIsSame')}</p>
+                  {analysis.result.mergeable && (
+                    <div className="p-3 bg-green-50 rounded-md border border-green-200 space-y-2">
+                      <p className="text-sm text-green-800">
+                        {t('jsonIsMergeable')}
+                      </p>
+                      <Button
+                        onClick={() => handleRestore('restore')}
+                        disabled={restoring}
+                        className="w-full"
+                      >
+                        {restoring ? (
+                          <>
+                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                            {t('restoring')}
+                          </>
+                        ) : (
+                          t('importDifferences')
+                        )}
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {analysis.conflicts.length > 0 && (
+                <div className="p-3 bg-amber-50 rounded-md border border-amber-200 space-y-3">
+                  <div className="text-sm text-amber-900">
+                    <div className="font-medium">{t('conflictsTitle')}</div>
+                    <div className="text-amber-800">
+                      {t('conflictsDescription')}
+                    </div>
+                  </div>
+                  <label className="flex items-center gap-2 text-sm text-amber-900">
+                    <input
+                      type="checkbox"
+                      checked={conflictDefaultUpdateAll}
+                      onChange={(event) => {
+                        const checked = event.target.checked
+                        setConflictDefaultUpdateAll(checked)
+                        setAllConflictUpdates(checked)
+                      }}
+                      disabled={restoring}
+                    />
+                    <span>{t('conflictDefaultAll')}</span>
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setAllConflictUpdates(true)}
+                      disabled={restoring}
+                    >
+                      {t('conflictApplyAllUpdate')}
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setAllConflictUpdates(false)}
+                      disabled={restoring}
+                    >
+                      {t('conflictApplyAllKeep')}
+                    </Button>
+                  </div>
+                  <div className="space-y-3">
+                    {analysis.conflicts.map((conflict) => (
+                      <div
+                        key={conflict.index}
+                        className="bg-white rounded-md border border-amber-200 p-3"
+                      >
+                        <label className="flex gap-3 items-start">
+                          <input
+                            type="checkbox"
+                            className="mt-1"
+                            checked={Boolean(conflictUpdates[conflict.index])}
+                            onChange={(event) => {
+                              setConflictUpdates((current) => ({
+                                ...current,
+                                [conflict.index]: event.target.checked,
+                              }))
+                            }}
+                            disabled={restoring}
+                          />
+                          <div className="text-sm text-slate-700 space-y-1">
+                            <div className="font-medium text-slate-900">
+                              {conflict.title}
+                            </div>
+                            <div>
+                              {formatDate(conflict.expenseDate)} - {conflict.amount}
+                            </div>
+                            <div>
+                              {t('paidBy')}: {formatConflictPaidBy(conflict)}
+                            </div>
+                            <div className="text-amber-800">
+                              {t('conflictDifferenceLabel')}:{' '}
+                              {conflict.differences
+                                .map(getConflictDifferenceLabel)
+                                .join(', ')}
+                            </div>
+                            {conflict.differences.includes('category') && (
+                              <div className="text-xs text-slate-600">
+                                <div className="font-medium text-slate-700">
+                                  {t('conflictFieldCategory')}
+                                </div>
+                                <div>
+                                  {t('conflictCurrentLabel')}: {formatCategory(conflict.existingCategory)}
+                                </div>
+                                <div>
+                                  {t('conflictJsonLabel')}: {formatCategory(conflict.jsonCategory)}
+                                </div>
+                              </div>
+                            )}
+                            {conflict.differences.includes('splitMode') && (
+                              <div className="text-xs text-slate-600">
+                                <div className="font-medium text-slate-700">
+                                  {t('conflictFieldSplitMode')}
+                                </div>
+                                <div>
+                                  {t('conflictCurrentLabel')}: {formatSplitMode(conflict.existingSplitMode)}
+                                </div>
+                                <div>
+                                  {t('conflictJsonLabel')}: {formatSplitMode(conflict.jsonSplitMode)}
+                                </div>
+                              </div>
+                            )}
+                            {conflict.differences.includes('paidFor') && (
+                              <div className="text-xs text-slate-600">
+                                <div className="font-medium text-slate-700">
+                                  {t('conflictFieldPaidFor')}
+                                </div>
+                                <div>
+                                  {t('conflictCurrentLabel')}: {formatPaidForList(conflict.existingPaidFor)}
+                                </div>
+                                <div>
+                                  {t('conflictJsonLabel')}: {formatPaidForList(conflict.jsonPaidFor)}
+                                </div>
+                              </div>
+                            )}
+                            <div className="text-xs text-slate-500">
+                              {t('conflictUpdateLabel')}
+                            </div>
+                          </div>
+                        </label>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>

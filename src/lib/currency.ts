@@ -45,24 +45,30 @@ export const supportedCurrencyCodes = [
 ] as const
 export type supportedCurrencyCodeType = (typeof supportedCurrencyCodes)[number]
 
+function currenciesForLocale(locale: Locale) {
+  return (
+    currencyList[locale as keyof typeof currencyList] ?? currencyList['en-US']
+  )
+}
+
 export function defaultCurrencyList(
   locale: Locale = 'en-US',
   customChoice: string | null = null,
 ) {
   const currencies = customChoice
     ? [
-        {
-          name: customChoice,
-          symbol_native: '',
-          symbol: '',
-          code: '',
-          name_plural: customChoice,
-          rounding: 0,
-          decimal_digits: 2,
-        },
-      ]
+      {
+        name: customChoice,
+        symbol_native: '',
+        symbol: '',
+        code: '',
+        name_plural: customChoice,
+        rounding: 0,
+        decimal_digits: 2,
+      },
+    ]
     : []
-  const allCurrencies = currencyList[locale]
+  const allCurrencies = currenciesForLocale(locale)
   return currencies.concat(Object.values(allCurrencies))
 }
 
@@ -81,7 +87,7 @@ export function getCurrency(
     decimal_digits: 2,
   }
   if (!currencyCode || currencyCode === '') return defaultCurrency
-  const currencyListInLocale = currencyList[locale] ?? currencyList['en-US']
+  const currencyListInLocale = currenciesForLocale(locale)
   return (
     currencyListInLocale[currencyCode as supportedCurrencyCodeType] ??
     defaultCurrency
