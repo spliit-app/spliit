@@ -35,7 +35,9 @@ const envSchema = z
       interpretEnvVarAsBool,
       z.boolean().default(false),
     ),
+    AI_PROVIDER: z.enum(['openai', 'anthropic']).default('openai'),
     OPENAI_API_KEY: z.string().optional(),
+    ANTHROPIC_API_KEY: z.string().optional(),
   })
   .superRefine((env, ctx) => {
     if (
@@ -53,15 +55,22 @@ const envSchema = z
       })
     }
     if (
-      (env.NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT ||
-        env.NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT) &&
-      !env.OPENAI_API_KEY
+      env.NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT ||
+      env.NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT
     ) {
-      ctx.addIssue({
-        code: ZodIssueCode.custom,
-        message:
-          'If NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT or NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT is specified, then OPENAI_API_KEY must be specified too',
-      })
+      if (env.AI_PROVIDER === 'anthropic' && !env.ANTHROPIC_API_KEY) {
+        ctx.addIssue({
+          code: ZodIssueCode.custom,
+          message:
+            'If NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT or NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT is specified with AI_PROVIDER=anthropic, then ANTHROPIC_API_KEY must be specified too',
+        })
+      } else if (env.AI_PROVIDER === 'openai' && !env.OPENAI_API_KEY) {
+        ctx.addIssue({
+          code: ZodIssueCode.custom,
+          message:
+            'If NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT or NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT is specified with AI_PROVIDER=openai, then OPENAI_API_KEY must be specified too',
+        })
+      }
     }
   })
 
