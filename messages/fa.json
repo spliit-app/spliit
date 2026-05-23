@@ -22,7 +22,9 @@
     "ActiveUserModal": {
       "description": "لطفاً مشخص کنید کدام شرکت‌کننده هستید تا نمایش اطلاعات را شخصی‌سازی کنیم.",
       "nobody": "نمی خواهم کسی را انتخاب کنم",
-      "save": "تغییرات را ذخیره کن"
+      "save": "تغییرات را ذخیره کن",
+      "title": "خودتان را معرفی کنید.",
+      "footer": "بعداً می‌توانید این گزینه را در تنظیمات گروه تغییر دهید."
     },
     "Groups": {
       "thisWeek": "این هفته",
@@ -30,20 +32,28 @@
       "lastMonth": "ماه گذشته",
       "earlierThisYear": "اویل امسال",
       "lastYear": "سال گذشته",
-      "older": "قدیمی تر"
+      "older": "قدیمی تر",
+      "upcoming": "هزینه های آتی"
     },
-    "exportCsv": "خروجی فایل CSV"
+    "exportCsv": "خروجی فایل CSV",
+    "export": "خروجی",
+    "exportJson": "خروجی فایل JSON"
   },
   "ExpenseCard": {
     "everyone": "همه",
-    "notInvolved": "شامل شما نمی شود"
+    "notInvolved": "شامل شما نمی شود",
+    "paidBy": "پرداخت شده توسط  <strong>{paidBy}</strong> برای <paidFor></paidFor>",
+    "receivedBy": "دریافت شده از <strong>{paidBy}</strong> برای <paidFor></paidFor>",
+    "yourBalance": "تراز شما:"
   },
   "Groups": {
     "myGroups": "گروه های من",
     "create": "افزودن گروه",
     "loadingRecent": "در حال بارگذاری گروه‌های اخیر…",
     "NoRecent": {
-      "orAsk": "یا از دوستتان بخواهید لینک یکی از گروه‌های موجود را برایتان ارسال کند."
+      "orAsk": "یا از دوستتان بخواهید لینک یکی از گروه‌های موجود را برایتان ارسال کند.",
+      "description": "‫هیچ گروهی را اخیراً مشاهده نکرده‌اید.",
+      "create": "افزودن یک گروه"
     },
     "recent": "گروه‌های اخیر",
     "starred": "گروه های ستاره خورده",
@@ -53,7 +63,8 @@
     "removeRecent": "حذف از گروه‌های اخیر",
     "RecentRemovedToast": {
       "title": "گروه حذف شد",
-      "undoAlt": "بازگرداندن گروه حذف شده"
+      "undoAlt": "بازگرداندن گروه حذف شده",
+      "undo": "واگرد"
     },
     "AddByURL": {
       "button": "افزودن با استفاده از لینک",
@@ -140,6 +151,33 @@
         "description": "مشخص کنید درآمد برای چه کسی دریافت شده است."
       },
       "splitModeDescription": "نحوه تقسیم درآمد را انتخاب کنید."
+    },
+    "Expense": {
+      "create": "افزودن هزینه",
+      "edit": "اصلاح هزینه",
+      "TitleField": {
+        "label": "عنوان هزینه"
+      },
+      "recurrenceRule": {
+        "daily": "روزانه",
+        "weekly": "هفتگی",
+        "monthly": "ماهانه"
+      },
+      "paidFor": {
+        "title": "پرداخت شده برای"
+      },
+      "splitModeDescription": "انتخاب کنید که هزینه چگونه تقسیم شود.",
+      "attachDescription": "رسید های این پرداخت را ببینید و یا پیوست بزنید."
+    },
+    "amountField": {
+      "label": "مقدار"
+    },
+    "categoryField": {
+      "label": "دسته بندی"
+    },
+    "DeletePopup": {
+      "label": "حذف",
+      "title": "این هزینه را حذف کنیم؟"
     }
   }
 }
