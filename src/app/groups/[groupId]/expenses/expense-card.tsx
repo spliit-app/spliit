@@ -64,33 +64,35 @@ export function ExpenseCard({
     <div
       key={expense.id}
       className={cn(
-        'flex justify-between sm:mx-6 px-4 sm:rounded-lg sm:pr-2 sm:pl-4 py-4 text-sm cursor-pointer hover:bg-accent gap-1 items-stretch',
+        'flex justify-between sm:mx-6 px-4 sm:rounded-lg sm:pr-2 sm:pl-4 py-4 text-sm cursor-pointer hover:bg-accent active:bg-accent gap-2 items-stretch touch-manipulation transition-colors',
         expense.isReimbursement && 'italic',
       )}
       onClick={() => {
         router.push(`/groups/${groupId}/expenses/${expense.id}/edit`)
       }}
     >
-      <CategoryIcon
-        category={expense.category}
-        className="w-4 h-4 mr-2 mt-0.5 text-muted-foreground"
-      />
-      <div className="flex-1">
-        <div className={cn('mb-1', expense.isReimbursement && 'italic')}>
+      <div className="flex items-start pt-0.5">
+        <CategoryIcon
+          category={expense.category}
+          className="w-4 h-4 text-muted-foreground"
+        />
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className={cn('mb-1 font-medium truncate', expense.isReimbursement && 'italic')}>
           {expense.title}
         </div>
-        <div className="text-xs text-muted-foreground">
+        <div className="text-xs text-muted-foreground leading-relaxed">
           <Participants expense={expense} participantCount={participantCount} />
         </div>
-        <div className="text-xs text-muted-foreground">
+        <div className="text-xs text-muted-foreground mt-0.5">
           <ActiveUserBalance {...{ groupId, currency, expense }} />
         </div>
       </div>
-      <div className="flex flex-col justify-between items-end">
+      <div className="flex flex-col justify-between items-end shrink-0">
         <div
           className={cn(
-            'tabular-nums whitespace-nowrap',
-            expense.isReimbursement ? 'italic' : 'font-bold',
+            'tabular-nums whitespace-nowrap font-semibold',
+            expense.isReimbursement && 'italic font-normal',
           )}
         >
           {formatCurrency(currency, expense.amount, locale)}

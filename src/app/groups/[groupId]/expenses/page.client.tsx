@@ -40,10 +40,11 @@ export default function GroupExpensesPageClient({
             <CardTitle>{t('title')}</CardTitle>
             <CardDescription>{t('description')}</CardDescription>
           </CardHeader>
-          <CardHeader className="p-4 sm:p-6 flex flex-row space-y-0 gap-2">
+          <CardHeader className="p-4 sm:p-6 flex flex-row space-y-0 gap-2 items-start">
             <ExportButton groupId={groupId} />
             {enableReceiptExtract && <CreateFromReceiptButton />}
-            <Button asChild size="icon">
+            {/* Add expense button — visible on desktop only; FAB handles mobile */}
+            <Button asChild size="icon" className="hidden sm:flex">
               <Link
                 href={`/groups/${groupId}/expenses/create`}
                 title={t('create')}
@@ -58,6 +59,18 @@ export default function GroupExpensesPageClient({
           <ExpenseList />
         </CardContent>
       </Card>
+
+      {/* Floating action button — mobile only, sits above bottom nav */}
+      <Button
+        asChild
+        size="icon"
+        className="sm:hidden fixed bottom-20 right-4 z-40 w-14 h-14 rounded-full shadow-lg"
+        style={{ bottom: 'calc(5rem + env(safe-area-inset-bottom) + 1rem)' }}
+      >
+        <Link href={`/groups/${groupId}/expenses/create`} title={t('create')}>
+          <Plus className="w-6 h-6" />
+        </Link>
+      </Button>
 
       <ActiveUserModal groupId={groupId} />
     </>

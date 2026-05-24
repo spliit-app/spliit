@@ -43,7 +43,20 @@ import { useCurrentGroup } from '../current-group-context'
 
 const MAX_FILE_SIZE = 5 * 1024 ** 2
 
-export function CreateFromReceiptButton() {
+type ReceiptScannedData = ReceiptExtractedInfo & {
+  url: string
+  width?: number
+  height?: number
+}
+
+function ReceiptDialogOrDrawer({
+  trigger,
+  onReceiptScanned,
+}: {
+  trigger: React.ReactNode
+  onReceiptScanned?: (data: ReceiptScannedData) => void
+}) {
+  const [open, setOpen] = useState(false)
   const t = useTranslations('CreateFromReceipt')
   const isDesktop = useMediaQuery('(min-width: 640px)')
 
@@ -53,15 +66,9 @@ export function CreateFromReceiptButton() {
 
   return (
     <DialogOrDrawer
-      trigger={
-        <Button
-          size="icon"
-          variant="secondary"
-          title={t('Dialog.triggerTitle')}
-        >
-          <Receipt className="w-4 h-4" />
-        </Button>
-      }
+      trigger={trigger}
+      open={open}
+      onOpenChange={setOpen}
       title={
         <>
           <span>{t('Dialog.title')}</span>
@@ -72,12 +79,76 @@ export function CreateFromReceiptButton() {
       }
       description={<>{t('Dialog.description')}</>}
     >
-      <ReceiptDialogContent />
+      <ReceiptDialogContent
+        onReceiptScanned={
+          onReceiptScanned
+            ? (data) => {
+              onReceiptScanned(data)
+              setOpen(false)
+            }
+            : undefined
+        }
+      />
     </DialogOrDrawer>
   )
 }
 
-function ReceiptDialogContent() {
+/** Small icon-only button — used in card headers on desktop */
+export function CreateFromReceiptButton() {
+  const t = useTranslations('CreateFromReceipt')
+
+  return (
+    <ReceiptDialogOrDrawer
+      trigger={
+        <Button
+          size="icon"
+          variant="secondary"
+          title={t('Dialog.triggerTitle')}
+        >
+          <Receipt className="w-4 h-4" />
+        </Button>
+      }
+    />
+  )
+}
+
+/** Full-width banner button — used on the create/edit expense form */
+export function CreateFromReceiptBannerButton({
+  onReceiptScanned,
+}: {
+  onReceiptScanned?: (data: ReceiptScannedData) => void
+}) {
+  const t = useTranslations('CreateFromReceipt')
+
+  return (
+    <ReceiptDialogOrDrawer
+      onReceiptScanned={onReceiptScanned}
+      trigger={
+        <Button
+          variant="outline"
+          className="w-full flex items-center gap-3 h-auto py-4 border-dashed hover:border-solid hover:bg-accent overflow-hidden"
+        >
+          <Receipt className="w-6 h-6 shrink-0 text-primary" />
+          <div className="text-left min-w-0 flex-1">
+            <div className="font-medium truncate">{t('Dialog.triggerTitle')}</div>
+            <div className="text-sm text-muted-foreground font-normal truncate">
+              {t('Dialog.description')}
+            </div>
+          </div>
+          <Badge className="ml-auto shrink-0 bg-pink-700 hover:bg-pink-600 dark:bg-pink-500 dark:hover:bg-pink-600">
+            Beta
+          </Badge>
+        </Button>
+      }
+    />
+  )
+}
+
+function ReceiptDialogContent({
+  onReceiptScanned,
+}: {
+  onReceiptScanned?: (data: ReceiptScannedData) => void
+}) {
   const { group } = useCurrentGroup()
   const { data: categoriesData } = trpc.categories.list.useQuery()
   const categories = categoriesData?.categories
@@ -246,18 +317,19 @@ function ReceiptDialogContent() {
         <Button
           disabled={pending || !receiptInfo}
           onClick={() => {
-            if (!receiptInfo || !group) return
-            router.push(
-              `/groups/${group.id}/expenses/create?amount=${
-                receiptInfo.amount
-              }&categoryId=${receiptInfo.categoryId}&date=${
-                receiptInfo.date
-              }&title=${encodeURIComponent(
-                receiptInfo.title ?? '',
-              )}&imageUrl=${encodeURIComponent(receiptInfo.url)}&imageWidth=${
-                receiptInfo.width
-              }&imageHeight=${receiptInfo.height}`,
-            )
+            if (!receiptInfo) return
+            if (onReceiptScanned) {
+              onReceiptScanned(receiptInfo)
+            } else if (group) {
+              router.push(
+                `/groups/${group.id}/expenses/create?amount=${receiptInfo.amount
+                }&categoryId=${receiptInfo.categoryId}&date=${receiptInfo.date
+                }&title=${encodeURIComponent(
+                  receiptInfo.title ?? '',
+                )}&imageUrl=${encodeURIComponent(receiptInfo.url)}&imageWidth=${receiptInfo.width
+                }&imageHeight=${receiptInfo.height}`,
+              )
+            }
           }}
         >
           {t('Dialog.continue')}
@@ -282,13 +354,17 @@ function CreateFromReceiptDialog({
   title,
   description,
   children,
+  open,
+  onOpenChange,
 }: PropsWithChildren<{
   trigger: ReactNode
   title: ReactNode
   description: ReactNode
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
 }>) {
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -308,13 +384,17 @@ function CreateFromReceiptDrawer({
   title,
   description,
   children,
+  open,
+  onOpenChange,
 }: PropsWithChildren<{
   trigger: ReactNode
   title: ReactNode
   description: ReactNode
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
 }>) {
   return (
-    <Drawer>
+    <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerTrigger asChild>{trigger}</DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>

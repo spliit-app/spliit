@@ -16,6 +16,17 @@ export type RecentGroup = RecentGroups[number]
 const STORAGE_KEY = 'recentGroups'
 const STARRED_GROUPS_STORAGE_KEY = 'starredGroups'
 const ARCHIVED_GROUPS_STORAGE_KEY = 'archivedGroups'
+export const STARTUP_REDIRECT_KEY = 'startupRedirectToRecentGroup'
+
+export function getStartupRedirectEnabled(): boolean {
+  const value = localStorage.getItem(STARTUP_REDIRECT_KEY)
+  // Default is true (redirect to most recent group)
+  return value === null ? true : value === 'true'
+}
+
+export function setStartupRedirectEnabled(enabled: boolean): void {
+  localStorage.setItem(STARTUP_REDIRECT_KEY, String(enabled))
+}
 
 export function getRecentGroups() {
   const groupsInStorageJson = localStorage.getItem(STORAGE_KEY)

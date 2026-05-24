@@ -11,7 +11,7 @@ import { getGroups } from '@/lib/api'
 import { ASSOCIATED_GROUPS_KEY } from '@/lib/anonymous-constants'
 import { trpc } from '@/trpc/client'
 import { AppRouterOutput } from '@/trpc/routers/_app'
-import { Loader2 } from 'lucide-react'
+import { Loader2, Plus } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { PropsWithChildren, useEffect, useState } from 'react'
@@ -289,15 +289,13 @@ function GroupsPage({
 
   return (
     <>
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-        <h1 className="font-bold text-2xl flex-1">
-          <Link href="/groups">{t('myGroups')}</Link>
-        </h1>
-        <div className="flex gap-2">
+      <div className="flex items-center justify-between gap-2">
+        <h1 className="font-bold text-2xl">{t('myGroups')}</h1>
+        <div className="flex gap-2 shrink-0">
           <AddGroupByUrlButton reload={reload} />
-          <Button asChild>
+          <Button asChild size="sm">
             <Link href="/groups/create">
-              {/* <Plus className="w-4 h-4 mr-2" /> */}
+              <Plus className="w-4 h-4 mr-1.5" />
               {t('create')}
             </Link>
           </Button>

@@ -3,6 +3,8 @@
 import {
   RecentGroup,
   getRecentGroups,
+  getStartupRedirectEnabled,
+  setStartupRedirectEnabled,
   setRecentGroups as saveRecentGroupsToStorage,
 } from '@/app/groups/recent-groups-helpers'
 import { ImportJSONButton } from '@/components/import-json-button'
@@ -150,6 +152,7 @@ export function AnonymousAuthMenu() {
   const pathname = usePathname()
   const { toast } = useToast()
   const [open, setOpen] = useState(false)
+  const [startupRedirect, setStartupRedirect] = useState(true)
   const [showUnlinkDialog, setShowUnlinkDialog] = useState(false)
   const [unlinkMode, setUnlinkMode] = useState<'signout' | 'delete' | null>(
     null,
@@ -290,6 +293,7 @@ export function AnonymousAuthMenu() {
     )
 
     setRecentGroupsState(getRecentGroups())
+    setStartupRedirect(getStartupRedirectEnabled())
 
     void (async () => {
       try {
@@ -1650,6 +1654,27 @@ export function AnonymousAuthMenu() {
                   </Button>
                 </>
               )}
+            </div>
+
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold">
+                {t('profile.preferences.title')}
+              </h3>
+              <label className="flex items-start gap-3 text-sm cursor-pointer">
+                <Checkbox
+                  checked={startupRedirect}
+                  onCheckedChange={(checked) => {
+                    const next = checked === true
+                    setStartupRedirect(next)
+                    setStartupRedirectEnabled(next)
+                  }}
+                  className="mt-0.5"
+                />
+                <div>
+                  <p>{t('profile.preferences.startupRedirect')}</p>
+                  <p className="text-muted-foreground text-xs">{t('profile.preferences.startupRedirectDescription')}</p>
+                </div>
+              </label>
             </div>
 
             {isLinked && (

@@ -78,32 +78,32 @@ function Content({ children }: { children: React.ReactNode }) {
   const t = useTranslations()
   return (
     <TRPCProvider>
-      <header className="fixed top-0 left-0 right-0 h-16 flex justify-between bg-white dark:bg-gray-950 bg-opacity-50 dark:bg-opacity-50 p-2 border-b backdrop-blur-sm z-50">
+      <header className="fixed top-0 left-0 right-0 h-14 flex items-center justify-between bg-background/90 backdrop-blur-sm border-b z-50 px-3">
         <div className="flex items-center gap-2">
           <Link
-            className="flex items-center gap-2 hover:scale-105 transition-transform"
+            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
             href="/"
           >
             <h1>
               <Image
                 src="/logo-with-text.png"
                 className="m-1 h-auto w-auto"
-                width={(35 * 522) / 180}
-                height={35}
+                width={(32 * 522) / 180}
+                height={32}
                 alt="Spliit"
                 loading="eager"
               />
             </h1>
           </Link>
         </div>
-        <div role="navigation" aria-label="Menu" className="flex">
-          <ul className="flex items-center text-sm">
+        <nav role="navigation" aria-label="Menu">
+          <ul className="flex items-center gap-0.5">
             <li>
               <Button
                 variant="ghost"
                 size="sm"
                 asChild
-                className="-my-3 text-primary"
+                className="text-primary font-medium"
               >
                 <Link href="/groups">{t('Header.groups')}</Link>
               </Button>
@@ -118,48 +118,11 @@ function Content({ children }: { children: React.ReactNode }) {
               <AnonymousAuthMenu />
             </li>
           </ul>
-        </div>
+        </nav>
       </header>
 
-      <div className="pt-16 flex-1 flex flex-col">{children}</div>
+      <div className="pt-14 flex-1 flex flex-col">{children}</div>
 
-      <footer className="sm:p-8 md:p-16 sm:mt-16 sm:text-sm md:text-base md:mt-32 bg-slate-50 dark:bg-card border-t p-6 mt-8 flex flex-col sm:flex-row sm:justify-between gap-4 text-xs [&_a]:underline">
-        <div className="flex flex-col space-y-2">
-          <div className="sm:text-lg font-semibold text-base flex space-x-2 items-center">
-            <Link className="flex items-center gap-2" href="/">
-              <Image
-                src="/logo-with-text.png"
-                className="m-1 h-auto w-auto"
-                width={(35 * 522) / 180}
-                height={35}
-                alt="Spliit"
-                loading="lazy"
-              />
-            </Link>
-          </div>
-          <div className="flex flex-col space-y a--no-underline-text-white">
-            <span>{t('Footer.madeIn')}</span>
-            <span>
-              {t.rich('Footer.builtBy', {
-                author: (txt) => (
-                  <a href="https://scastiel.dev" target="_blank" rel="noopener">
-                    {txt}
-                  </a>
-                ),
-                source: (txt) => (
-                  <a
-                    href="https://github.com/spliit-app/spliit/graphs/contributors"
-                    target="_blank"
-                    rel="noopener"
-                  >
-                    {txt}
-                  </a>
-                ),
-              })}
-            </span>
-          </div>
-        </div>
-      </footer>
       <Toaster />
     </TRPCProvider>
   )
