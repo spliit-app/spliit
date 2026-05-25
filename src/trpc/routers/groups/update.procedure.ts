@@ -1,6 +1,6 @@
 import { updateGroup } from '@/lib/api'
-import { groupFormSchema } from '@/lib/schemas'
 import { prisma } from '@/lib/prisma'
+import { groupFormSchema } from '@/lib/schemas'
 import { getSessionFromHeaders } from '@/lib/session'
 import { baseProcedure } from '@/trpc/init'
 import { TRPCError } from '@trpc/server'
@@ -17,7 +17,7 @@ export const updateGroupProcedure = baseProcedure
   .mutation(async ({ input: { groupId, groupFormValues, participantId } }) => {
     // Get session from request headers
     const session = await getSessionFromHeaders()
-    
+
     if (!session) {
       throw new TRPCError({
         code: 'UNAUTHORIZED',

@@ -2,8 +2,8 @@
 
 import { DeleteDataButton } from '@/components/delete-data-button'
 import { DeleteGroupDialog } from '@/components/delete-group-dialog'
-import { GroupSyncDialog } from '@/components/group-sync-dialog'
 import { GroupForm } from '@/components/group-form'
+import { GroupSyncDialog } from '@/components/group-sync-dialog'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -158,7 +158,7 @@ export const EditGroup = () => {
                             setLinkEnabled(nextEnabled)
                             if (nextEnabled) {
                               setLinkedUrl((prev) =>
-                                prev ? prev : importSourceUrl ?? '',
+                                prev ? prev : (importSourceUrl ?? ''),
                               )
                             } else {
                               setLinkedUrl('')

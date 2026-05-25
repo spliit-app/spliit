@@ -1,17 +1,17 @@
 import { prisma } from '@/lib/prisma'
+import { getRateLimitIdentifier, rateLimit } from '@/lib/rate-limit'
+import { deleteSessionCookie, requireSession } from '@/lib/session'
 import { NextResponse } from 'next/server'
-import { rateLimit, getRateLimitIdentifier } from '@/lib/rate-limit'
-import { requireSession, deleteSessionCookie } from '@/lib/session'
 
 export async function GET(request: Request) {
   // Apply rate limiting
   const identifier = getRateLimitIdentifier(request)
   const rateLimitResult = rateLimit(identifier)
-  
+
   if (!rateLimitResult.success) {
     return NextResponse.json(
       { error: 'Too many requests. Please try again later.' },
-      { status: 429 }
+      { status: 429 },
     )
   }
 
@@ -40,10 +40,12 @@ export async function GET(request: Request) {
   }
 
   return NextResponse.json({
-    groups: user.groups.map((group: { groupId: string; groupName: string }) => ({
-      groupId: group.groupId,
-      groupName: group.groupName,
-    })),
+    groups: user.groups.map(
+      (group: { groupId: string; groupName: string }) => ({
+        groupId: group.groupId,
+        groupName: group.groupName,
+      }),
+    ),
     passkeysEnabled: user.passkeysEnabled,
     hasPassphrase: !!user.passphraseHash,
   })
@@ -53,11 +55,11 @@ export async function POST(request: Request) {
   // Apply rate limiting
   const identifier = getRateLimitIdentifier(request)
   const rateLimitResult = rateLimit(identifier)
-  
+
   if (!rateLimitResult.success) {
     return NextResponse.json(
       { error: 'Too many requests. Please try again later.' },
-      { status: 429 }
+      { status: 429 },
     )
   }
 
@@ -79,7 +81,7 @@ export async function POST(request: Request) {
   if (authResult.session.userId !== body.id) {
     return NextResponse.json(
       { error: 'Not authorized to modify groups for this account' },
-      { status: 403 }
+      { status: 403 },
     )
   }
 
@@ -94,17 +96,21 @@ export async function POST(request: Request) {
     })
 
     // Delete user if they have no auth configured
-    if (existingUser && !existingUser.passphraseHash && !existingUser.passkeysEnabled) {
+    if (
+      existingUser &&
+      !existingUser.passphraseHash &&
+      !existingUser.passkeysEnabled
+    ) {
       await prisma.anonymousUser.delete({
         where: { id: body.id },
       })
-      
+
       const response = NextResponse.json({ ok: true, deleted: true })
       response.headers.set('Set-Cookie', deleteSessionCookie())
-      
+
       return response
     }
-    
+
     // If user has auth configured, just remove groups
     if (existingUser) {
       await prisma.anonymousUserGroup.deleteMany({
@@ -112,7 +118,7 @@ export async function POST(request: Request) {
       })
       return NextResponse.json({ ok: true })
     }
-    
+
     // User doesn't exist, nothing to do
     return NextResponse.json({ ok: true })
   }

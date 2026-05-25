@@ -27,9 +27,12 @@ class SessionStore {
 
   constructor() {
     // Cleanup expired sessions every 5 minutes
-    this.cleanupInterval = setInterval(() => {
-      this.cleanup()
-    }, 5 * 60 * 1000)
+    this.cleanupInterval = setInterval(
+      () => {
+        this.cleanup()
+      },
+      5 * 60 * 1000,
+    )
   }
 
   /**
@@ -69,7 +72,7 @@ class SessionStore {
     const session = await prisma.anonymousSession.findUnique({
       where: { token },
     })
-    
+
     if (!session) {
       return null
     }
@@ -95,9 +98,12 @@ class SessionStore {
   /**
    * Update a session
    */
-  async update(token: string, data: Partial<AnonymousSession>): Promise<boolean> {
+  async update(
+    token: string,
+    data: Partial<AnonymousSession>,
+  ): Promise<boolean> {
     const session = await this.get(token)
-    
+
     if (!session) {
       return false
     }
@@ -131,7 +137,7 @@ class SessionStore {
     ttlMs: number = 5 * 60 * 1000, // 5 minutes
   ): Promise<boolean> {
     const session = await this.get(token)
-    
+
     if (!session) {
       return false
     }
@@ -148,7 +154,7 @@ class SessionStore {
    */
   async getChallenge(token: string): Promise<string | null> {
     const session = await this.get(token)
-    
+
     if (!session?.challenge || !session.challengeCreatedAt) {
       return null
     }
@@ -190,7 +196,9 @@ class SessionStore {
       })
 
       if (result.count > 0) {
-        console.log(`[SessionStore] Cleaned up ${result.count} expired sessions`)
+        console.log(
+          `[SessionStore] Cleaned up ${result.count} expired sessions`,
+        )
       }
 
       // Also cleanup temporary users that were created for discoverable credentials
@@ -269,9 +277,12 @@ export const SESSION_MAX_AGE = 7 * 24 * 60 * 60 // 7 days in seconds
 /**
  * Helper to create session cookie header
  */
-export function createSessionCookie(token: string, maxAge: number = SESSION_MAX_AGE): string {
+export function createSessionCookie(
+  token: string,
+  maxAge: number = SESSION_MAX_AGE,
+): string {
   const isProduction = process.env.NODE_ENV === 'production'
-  
+
   return [
     `${SESSION_COOKIE_NAME}=${token}`,
     `Max-Age=${maxAge}`,
@@ -296,13 +307,15 @@ export function deleteSessionCookie(): string {
  */
 export function getSessionToken(request: Request): string | null {
   const cookieHeader = request.headers.get('cookie')
-  
+
   if (!cookieHeader) {
     return null
   }
 
   const cookies = cookieHeader.split(';').map((c) => c.trim())
-  const sessionCookie = cookies.find((c) => c.startsWith(`${SESSION_COOKIE_NAME}=`))
+  const sessionCookie = cookies.find((c) =>
+    c.startsWith(`${SESSION_COOKIE_NAME}=`),
+  )
 
   if (!sessionCookie) {
     return null
@@ -314,9 +327,11 @@ export function getSessionToken(request: Request): string | null {
 /**
  * Get validated session from request
  */
-export async function getSession(request: Request): Promise<AnonymousSession | null> {
+export async function getSession(
+  request: Request,
+): Promise<AnonymousSession | null> {
   const token = getSessionToken(request)
-  
+
   if (!token) {
     return null
   }
@@ -331,7 +346,7 @@ export async function requireSession(
   request: Request,
 ): Promise<{ session: AnonymousSession; token: string } | { error: Response }> {
   const token = getSessionToken(request)
-  
+
   if (!token) {
     return {
       error: new Response(JSON.stringify({ error: 'Not authenticated' }), {
@@ -342,7 +357,7 @@ export async function requireSession(
   }
 
   const session = await sessionStore.get(token)
-  
+
   if (!session) {
     return {
       error: new Response(
@@ -371,6 +386,6 @@ export async function getSessionFromHeaders(): Promise<AnonymousSession | null> 
   const request = new Request(requestUrl, {
     headers: { cookie: cookieHeader || '' },
   })
-  
+
   return getSession(request)
 }

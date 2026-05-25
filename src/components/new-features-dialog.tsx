@@ -1,5 +1,6 @@
 'use client'
 
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -8,14 +9,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { Badge } from '@/components/ui/badge'
 import {
-  Sparkles,
-  RefreshCw,
-  Link2,
-  Trash2,
   Languages,
+  Link2,
+  RefreshCw,
   Settings,
+  Sparkles,
+  Trash2,
 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
@@ -67,9 +67,7 @@ export function NewFeaturesDialog({ open, onOpenChange }: Props) {
             <Sparkles className="w-5 h-5 text-yellow-500" />
             {t('title')}
           </DialogTitle>
-          <DialogDescription>
-            {t('description')}
-          </DialogDescription>
+          <DialogDescription>{t('description')}</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-4">

@@ -1,16 +1,16 @@
 import { prisma } from '@/lib/prisma'
+import { getRateLimitIdentifier, rateLimit } from '@/lib/rate-limit'
 import { NextResponse } from 'next/server'
-import { rateLimit, getRateLimitIdentifier } from '@/lib/rate-limit'
 
 export async function POST(request: Request) {
   // Apply rate limiting
   const identifier = getRateLimitIdentifier(request)
   const rateLimitResult = rateLimit(identifier)
-  
+
   if (!rateLimitResult.success) {
     return NextResponse.json(
       { error: 'Too many requests. Please try again later.' },
-      { status: 429 }
+      { status: 429 },
     )
   }
 

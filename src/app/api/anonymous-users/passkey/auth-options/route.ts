@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { generateAuthenticationOptions } from '@simplewebauthn/server'
 import { prisma } from '@/lib/prisma'
-import { rateLimit, getRateLimitIdentifier } from '@/lib/rate-limit'
-import { sessionStore, createSessionCookie } from '@/lib/session'
+import { getRateLimitIdentifier, rateLimit } from '@/lib/rate-limit'
+import { createSessionCookie, sessionStore } from '@/lib/session'
+import { generateAuthenticationOptions } from '@simplewebauthn/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 function getRpId(request: NextRequest) {
   try {
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
   if (!rateLimitResult.success) {
     return NextResponse.json(
       { error: 'Too many requests. Please try again later.' },
-      { status: 429 }
+      { status: 429 },
     )
   }
 
@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
       if (!user) {
         return NextResponse.json(
           { error: 'User not found. Please check your username.' },
-          { status: 404 }
+          { status: 404 },
         )
       }
 
@@ -61,14 +61,14 @@ export async function POST(request: NextRequest) {
       })
 
       if (passkeys.length > 0) {
-        allowCredentials = passkeys.map(p => ({
+        allowCredentials = passkeys.map((p) => ({
           id: p.credentialId,
           type: 'public-key',
         }))
       } else {
         return NextResponse.json(
           { error: 'No passkeys found for this account.' },
-          { status: 404 }
+          { status: 404 },
         )
       }
     }
@@ -90,7 +90,7 @@ export async function POST(request: NextRequest) {
       if (!existingUser) {
         return NextResponse.json(
           { error: 'User not found. Please log in again.' },
-          { status: 404 }
+          { status: 404 },
         )
       }
       sessionToken = await sessionStore.create(resolvedUserId, 10 * 60 * 1000) // 10 min
@@ -115,7 +115,7 @@ export async function POST(request: NextRequest) {
     console.error('Error generating authentication options:', error)
     return NextResponse.json(
       { error: 'Failed to generate authentication options' },
-      { status: 500 }
+      { status: 500 },
     )
   }
 }

@@ -361,7 +361,7 @@ export async function restoreGroupFromBackup(
       data: expenses.map((expense) => {
         // Use the mapped category ID if available, otherwise use 0 (uncategorized)
         const categoryId = expense.category?.id
-          ? categoryMap.get(expense.category.id) ?? 0
+          ? (categoryMap.get(expense.category.id) ?? 0)
           : 0
 
         return {
@@ -473,7 +473,7 @@ export async function restoreGroupFromBackup(
         data: newExpenses.map((expense) => {
           // Use the mapped category ID if available, otherwise use 0 (uncategorized)
           const categoryId = expense.category?.id
-            ? categoryMap.get(expense.category.id) ?? 0
+            ? (categoryMap.get(expense.category.id) ?? 0)
             : 0
 
           return {

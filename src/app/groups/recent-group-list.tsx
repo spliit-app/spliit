@@ -7,8 +7,8 @@ import {
   getStarredGroups,
 } from '@/app/groups/recent-groups-helpers'
 import { Button } from '@/components/ui/button'
-import { getGroups } from '@/lib/api'
 import { ASSOCIATED_GROUPS_KEY } from '@/lib/anonymous-constants'
+import { getGroups } from '@/lib/api'
 import { trpc } from '@/trpc/client'
 import { AppRouterOutput } from '@/trpc/routers/_app'
 import { Loader2, Plus } from 'lucide-react'
@@ -20,18 +20,18 @@ import { RecentGroupListCard } from './recent-group-list-card'
 export type RecentGroupsState =
   | { status: 'pending' }
   | {
-    status: 'partial'
-    groups: RecentGroups
-    starredGroups: string[]
-    archivedGroups: string[]
-  }
+      status: 'partial'
+      groups: RecentGroups
+      starredGroups: string[]
+      archivedGroups: string[]
+    }
   | {
-    status: 'complete'
-    groups: RecentGroups
-    groupsDetails: Awaited<ReturnType<typeof getGroups>>
-    starredGroups: string[]
-    archivedGroups: string[]
-  }
+      status: 'complete'
+      groups: RecentGroups
+      groupsDetails: Awaited<ReturnType<typeof getGroups>>
+      starredGroups: string[]
+      archivedGroups: string[]
+    }
 
 function sortGroups({
   groups,

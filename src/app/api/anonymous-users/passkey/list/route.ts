@@ -1,17 +1,17 @@
 import { prisma } from '@/lib/prisma'
-import { NextResponse } from 'next/server'
-import { rateLimit, getRateLimitIdentifier } from '@/lib/rate-limit'
+import { getRateLimitIdentifier, rateLimit } from '@/lib/rate-limit'
 import { requireSession } from '@/lib/session'
+import { NextResponse } from 'next/server'
 
 export async function GET(request: Request) {
   // Apply rate limiting
   const identifier = getRateLimitIdentifier(request)
   const rateLimitResult = rateLimit(identifier)
-  
+
   if (!rateLimitResult.success) {
     return NextResponse.json(
       { error: 'Too many requests. Please try again later.' },
-      { status: 429 }
+      { status: 429 },
     )
   }
 
@@ -31,7 +31,7 @@ export async function GET(request: Request) {
   if (authResult.session.userId !== userId) {
     return NextResponse.json(
       { error: 'Not authorized to view passkeys for this account' },
-      { status: 403 }
+      { status: 403 },
     )
   }
 

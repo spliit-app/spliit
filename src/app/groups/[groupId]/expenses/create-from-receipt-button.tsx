@@ -83,9 +83,9 @@ function ReceiptDialogOrDrawer({
         onReceiptScanned={
           onReceiptScanned
             ? (data) => {
-              onReceiptScanned(data)
-              setOpen(false)
-            }
+                onReceiptScanned(data)
+                setOpen(false)
+              }
             : undefined
         }
       />
@@ -130,7 +130,9 @@ export function CreateFromReceiptBannerButton({
         >
           <Receipt className="w-6 h-6 shrink-0 text-primary" />
           <div className="text-left min-w-0 flex-1">
-            <div className="font-medium truncate">{t('Dialog.triggerTitle')}</div>
+            <div className="font-medium truncate">
+              {t('Dialog.triggerTitle')}
+            </div>
             <div className="text-sm text-muted-foreground font-normal truncate">
               {t('Dialog.description')}
             </div>
@@ -247,7 +249,7 @@ function ReceiptDialogContent({
           </Button>
           <div className="col-span-2">
             <strong>{t('Dialog.titleLabel')}</strong>
-            <div>{receiptInfo ? receiptInfo.title ?? <Unknown /> : '…'}</div>
+            <div>{receiptInfo ? (receiptInfo.title ?? <Unknown />) : '…'}</div>
           </div>
           <div className="col-span-2">
             <strong>{t('Dialog.categoryLabel')}</strong>
@@ -322,11 +324,14 @@ function ReceiptDialogContent({
               onReceiptScanned(receiptInfo)
             } else if (group) {
               router.push(
-                `/groups/${group.id}/expenses/create?amount=${receiptInfo.amount
-                }&categoryId=${receiptInfo.categoryId}&date=${receiptInfo.date
+                `/groups/${group.id}/expenses/create?amount=${
+                  receiptInfo.amount
+                }&categoryId=${receiptInfo.categoryId}&date=${
+                  receiptInfo.date
                 }&title=${encodeURIComponent(
                   receiptInfo.title ?? '',
-                )}&imageUrl=${encodeURIComponent(receiptInfo.url)}&imageWidth=${receiptInfo.width
+                )}&imageUrl=${encodeURIComponent(receiptInfo.url)}&imageWidth=${
+                  receiptInfo.width
                 }&imageHeight=${receiptInfo.height}`,
               )
             }

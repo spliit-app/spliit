@@ -61,17 +61,21 @@ export function GroupTabs({ groupId }: Props) {
 
       {/* Mobile bottom navigation bar — fixed, hidden on sm+ */}
       <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-t">
-        <div className="flex h-20" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
+        <div
+          className="flex h-20"
+          style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+        >
           {NAV_ITEMS.map(({ value: v, Icon }) => {
             const isActive = value === v
             return (
               <button
                 key={v}
                 onClick={() => router.push(`/groups/${groupId}/${v}`)}
-                className={`flex-1 flex flex-col items-center justify-center gap-1 transition-colors touch-manipulation ${isActive
+                className={`flex-1 flex flex-col items-center justify-center gap-1 transition-colors touch-manipulation ${
+                  isActive
                     ? 'text-primary'
                     : 'text-muted-foreground active:text-foreground'
-                  }`}
+                }`}
               >
                 <Icon
                   className={`w-6 h-6 transition-transform ${isActive ? 'scale-110' : ''}`}

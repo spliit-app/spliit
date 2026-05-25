@@ -199,7 +199,6 @@ export function RecentGroupListCard({
           </div>
         </div>
       </Button>
-
     </li>
   )
 }

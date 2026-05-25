@@ -1,13 +1,13 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { verifyRegistrationResponse } from '@simplewebauthn/server'
 import { prisma } from '@/lib/prisma'
-import { rateLimit, getRateLimitIdentifier } from '@/lib/rate-limit'
+import { getRateLimitIdentifier, rateLimit } from '@/lib/rate-limit'
 import {
-  sessionStore,
   createSessionCookie,
   getSessionToken,
   SESSION_MAX_AGE,
+  sessionStore,
 } from '@/lib/session'
+import { verifyRegistrationResponse } from '@simplewebauthn/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 function getRpId(request: NextRequest) {
   try {
@@ -30,16 +30,21 @@ export async function POST(request: NextRequest) {
   // Apply rate limiting
   const identifier = getRateLimitIdentifier(request)
   const rateLimitResult = rateLimit(identifier)
-  
+
   if (!rateLimitResult.success) {
     return NextResponse.json(
       { error: 'Too many requests. Please try again later.' },
-      { status: 429 }
+      { status: 429 },
     )
   }
 
   try {
-    const { userId, response: credentialResponse, challenge: clientChallenge, name } = await request.json() as {
+    const {
+      userId,
+      response: credentialResponse,
+      challenge: clientChallenge,
+      name,
+    } = (await request.json()) as {
       userId: string
       response: any
       challenge: string
@@ -49,7 +54,7 @@ export async function POST(request: NextRequest) {
     if (!userId || !credentialResponse) {
       return NextResponse.json(
         { error: 'Missing required fields' },
-        { status: 400 }
+        { status: 400 },
       )
     }
 
@@ -58,7 +63,7 @@ export async function POST(request: NextRequest) {
     if (!sessionToken) {
       return NextResponse.json(
         { error: 'No active session. Please restart registration.' },
-        { status: 401 }
+        { status: 401 },
       )
     }
 
@@ -66,7 +71,7 @@ export async function POST(request: NextRequest) {
     if (!serverChallenge) {
       return NextResponse.json(
         { error: 'Challenge expired or invalid. Please restart registration.' },
-        { status: 401 }
+        { status: 401 },
       )
     }
 
@@ -74,7 +79,7 @@ export async function POST(request: NextRequest) {
     if (clientChallenge !== serverChallenge) {
       return NextResponse.json(
         { error: 'Challenge mismatch. Possible tampering detected.' },
-        { status: 401 }
+        { status: 401 },
       )
     }
 
@@ -88,20 +93,20 @@ export async function POST(request: NextRequest) {
     if (!verification.verified || !verification.registrationInfo) {
       return NextResponse.json(
         { error: 'Verification failed' },
-        { status: 400 }
+        { status: 400 },
       )
     }
 
-    const { credentialID, credentialPublicKey, counter } = verification.registrationInfo
+    const { credential } = verification.registrationInfo
 
     // Create a new Passkey record
     await prisma.passkey.create({
       data: {
         anonymousUserId: userId,
         name: name || `Passkey ${new Date().toLocaleDateString()}`,
-        credentialId: credentialID,
-        publicKey: Buffer.from(credentialPublicKey),
-        counter: counter,
+        credentialId: credential.id,
+        publicKey: Buffer.from(credential.publicKey),
+        counter: credential.counter,
         transports: null,
       },
     })
@@ -116,35 +121,41 @@ export async function POST(request: NextRequest) {
 
     // Update session to verified state with full expiration
     const newSessionToken = await sessionStore.create(userId)
-    
+
     const response = NextResponse.json({ verified: true })
-    response.headers.set('Set-Cookie', createSessionCookie(newSessionToken, SESSION_MAX_AGE))
-    
+    response.headers.set(
+      'Set-Cookie',
+      createSessionCookie(newSessionToken, SESSION_MAX_AGE),
+    )
+
     return response
   } catch (error) {
     console.error('Error verifying registration:', error)
-    
+
     // Provide more specific error messages based on the error type
     if (error instanceof Error) {
       // Check for common error patterns
       if (error.message.includes('Record to update not found')) {
         return NextResponse.json(
-          { error: 'User account not found. Please ensure you have an active account.' },
-          { status: 404 }
+          {
+            error:
+              'User account not found. Please ensure you have an active account.',
+          },
+          { status: 404 },
         )
       }
-      
+
       if (error.message.includes('Unique constraint')) {
         return NextResponse.json(
           { error: 'This passkey is already registered to another account.' },
-          { status: 409 }
+          { status: 409 },
         )
       }
     }
-    
+
     return NextResponse.json(
       { error: 'Failed to verify registration. Please try again.' },
-      { status: 500 }
+      { status: 500 },
     )
   }
 }

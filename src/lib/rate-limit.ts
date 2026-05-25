@@ -1,5 +1,5 @@
 // Simple in-memory rate limiter
-// 
+//
 // IMPORTANT: This rate limiter uses in-memory storage and will not work correctly
 // in multi-instance deployments (e.g., multiple Next.js instances behind a load balancer).
 // Each instance maintains its own rate limit state, effectively multiplying the allowed
@@ -10,7 +10,10 @@ const rateLimitStore = new Map<string, { count: number; resetAt: number }>()
 const RATE_LIMIT_WINDOW = 60 * 1000 // 1 minute
 const RATE_LIMIT_MAX_REQUESTS = 10 // 10 requests per minute
 
-export function rateLimit(identifier: string): { success: boolean; remaining: number } {
+export function rateLimit(identifier: string): {
+  success: boolean
+  remaining: number
+} {
   const now = Date.now()
   const record = rateLimitStore.get(identifier)
 
@@ -43,8 +46,8 @@ export function rateLimit(identifier: string): { success: boolean; remaining: nu
 export function getRateLimitIdentifier(request: Request): string {
   // Use IP address or a combination of IP and user agent
   const forwarded = request.headers.get('x-forwarded-for')
-  const ip = forwarded ? forwarded.split(',')[0].trim() : 
-             request.headers.get('x-real-ip') ?? 
-             'unknown'
+  const ip = forwarded
+    ? forwarded.split(',')[0].trim()
+    : (request.headers.get('x-real-ip') ?? 'unknown')
   return ip
 }
