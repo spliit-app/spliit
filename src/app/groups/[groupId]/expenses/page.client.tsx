@@ -64,7 +64,7 @@ export default function GroupExpensesPageClient({
       <Button
         asChild
         size="icon"
-        className="sm:hidden fixed bottom-20 right-4 z-40 w-14 h-14 rounded-full shadow-lg"
+        className="sm:hidden fixed right-4 z-40 w-14 h-14 rounded-full shadow-lg"
         style={{ bottom: 'calc(5rem + env(safe-area-inset-bottom) + 1rem)' }}
       >
         <Link href={`/groups/${groupId}/expenses/create`} title={t('create')}>

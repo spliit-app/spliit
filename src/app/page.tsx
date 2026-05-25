@@ -40,23 +40,26 @@ export default function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4 w-full text-left">
             {[
               {
+                id: 'no-account',
                 Icon: Users,
-                title: 'No account needed',
-                description: 'Just create a group and share the link.',
+                title: t('Homepage.features.noAccount.title'),
+                description: t('Homepage.features.noAccount.description'),
               },
               {
+                id: 'track-expense',
                 Icon: Receipt,
-                title: 'Track any expense',
-                description: 'Split bills evenly or by custom amounts.',
+                title: t('Homepage.features.trackExpense.title'),
+                description: t('Homepage.features.trackExpense.description'),
               },
               {
+                id: 'settle-up',
                 Icon: Scale,
-                title: 'Settle up easily',
-                description: 'See who owes what at a glance.',
+                title: t('Homepage.features.settleUp.title'),
+                description: t('Homepage.features.settleUp.description'),
               },
-            ].map(({ Icon, title, description }) => (
+            ].map(({ id, Icon, title, description }) => (
               <div
-                key={title}
+                key={id}
                 className="flex gap-3 p-4 rounded-xl border bg-card shadow-sm"
               >
                 <div className="shrink-0 mt-0.5">
