@@ -5,6 +5,20 @@
     "button": {
       "groups": "Siirry ryhmiin",
       "github": "GitHub"
+    },
+    "features": {
+      "noAccount": {
+        "title": "Ei tiliä tarvita",
+        "description": "Luo vain ryhmä ja jaa linkki."
+      },
+      "trackExpense": {
+        "title": "Seuraa kaikkia kuluja",
+        "description": "Jaa laskut tasaisesti tai mukautetuilla summilla."
+      },
+      "settleUp": {
+        "title": "Helppo selvittely",
+        "description": "Näe yhdellä silmäyksellä, kuka on velkaa mitä."
+      }
     }
   },
   "Header": {
@@ -174,7 +188,8 @@
     },
     "NotFound": {
       "text": "Tätä ryhmää ei löydy.",
-      "link": "Siirry äskettäisiin ryhmiin"
+      "link": "Siirry äskettäisiin ryhmiin",
+      "importing": "Tuodaan ryhmää. Tämä voi kestää hetken…"
     }
   },
   "NewFeaturesDialog": {
@@ -443,6 +458,12 @@
       "yourSpendings": "Kulutuksesi",
       "yourEarnings": "Saatavasi",
       "yourShare": "Osuutesi"
+    },
+    "SpendingCharts": {
+      "title": "Kulujen erittely",
+      "description": "Visuaalinen erittely siitä, kuka maksoi ja kuka on mitä velkaa.",
+      "byPayer": "Kulut maksajan mukaan",
+      "byShare": "Osuudet jäsenen mukaan"
     }
   },
   "Activity": {
@@ -738,6 +759,11 @@
       "profileActions": {
         "title": "Profile actions",
         "deleteAccount": "Delete account"
+      },
+      "preferences": {
+        "title": "Asetukset",
+        "startupRedirect": "Avaa viimeisin ryhmä käynnistyksessä",
+        "startupRedirectDescription": "Kun avaat sovelluksen, siirry automaattisesti viimeksi käymääsi ryhmään."
       }
     },
     "unlinkDialog": {

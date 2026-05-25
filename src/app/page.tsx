@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/button'
 import { HomeRedirect } from '@/app/home-redirect'
-import { Github, Receipt, Scale, Users } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { GitFork, Receipt, Scale, Users } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 
@@ -28,9 +28,14 @@ export default function HomePage() {
             <Button asChild size="lg" className="w-full sm:w-auto">
               <Link href="/groups">{t('Homepage.button.groups')}</Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="w-full sm:w-auto"
+            >
               <Link href="https://github.com/carnach/spliit">
-                <Github className="w-4 h-4 mr-2" />
+                <GitFork className="w-4 h-4 mr-2" />
                 {t('Homepage.button.github')}
               </Link>
             </Button>
@@ -66,8 +71,12 @@ export default function HomePage() {
                   <Icon className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                  <p className="font-semibold text-sm text-foreground">{title}</p>
-                  <p className="text-xs text-muted-foreground mt-0.5">{description}</p>
+                  <p className="font-semibold text-sm text-foreground">
+                    {title}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    {description}
+                  </p>
                 </div>
               </div>
             ))}

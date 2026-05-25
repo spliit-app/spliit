@@ -44,9 +44,7 @@ export async function POST(req: Request) {
     // Read the JSON file
     const text = await file.text()
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    let jsonData: JSONImportData = JSON.parse(
-      text,
-    ) as unknown as JSONImportData
+    let jsonData: JSONImportData = JSON.parse(text) as unknown as JSONImportData
 
     // Validate JSON data
     if (
@@ -186,12 +184,13 @@ export async function POST(req: Request) {
 
       return NextResponse.json({
         success: true,
-        message: `Group ${mode === 'create'
-          ? 'created'
-          : mode === 'rollback'
-            ? 'rolled back'
-            : 'updated'
-          } successfully`,
+        message: `Group ${
+          mode === 'create'
+            ? 'created'
+            : mode === 'rollback'
+              ? 'rolled back'
+              : 'updated'
+        } successfully`,
         groupId: jsonData.id,
         mode,
       })

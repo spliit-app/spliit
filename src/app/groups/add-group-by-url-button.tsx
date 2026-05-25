@@ -2,7 +2,6 @@ import { saveRecentGroup } from '@/app/groups/recent-groups-helpers'
 import { ImportJSONButton } from '@/components/import-json-button'
 import { QrCodeScanner } from '@/components/qr-code-scanner'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import {
   Dialog,
   DialogContent,
@@ -11,6 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
 import {
   Popover,
   PopoverContent,
@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/popover'
 import { useMediaQuery } from '@/lib/hooks'
 import { trpc } from '@/trpc/client'
-import { Loader2, Plus, QrCode, Link as LinkIcon } from 'lucide-react'
+import { Link as LinkIcon, Loader2, Plus, QrCode } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 
@@ -40,8 +40,12 @@ export function AddGroupByUrlButton({ reload }: Props) {
   const [hostMismatchOpen, setHostMismatchOpen] = useState(false)
   const [hostMismatchUrl, setHostMismatchUrl] = useState<string | null>(null)
   const [hostMismatchHost, setHostMismatchHost] = useState<string | null>(null)
-  const [hostMismatchGroupId, setHostMismatchGroupId] = useState<string | null>(null)
-  const [hostMismatchGroupName, setHostMismatchGroupName] = useState<string | null>(null)
+  const [hostMismatchGroupId, setHostMismatchGroupId] = useState<string | null>(
+    null,
+  )
+  const [hostMismatchGroupName, setHostMismatchGroupName] = useState<
+    string | null
+  >(null)
   const utils = trpc.useUtils()
   const placeholderUrl =
     typeof window !== 'undefined'
@@ -188,7 +192,12 @@ export function AddGroupByUrlButton({ reload }: Props) {
                   setImportUrl(null)
                 }}
               />
-              <Button size="icon" type="submit" disabled={pending} className="flex-shrink-0">
+              <Button
+                size="icon"
+                type="submit"
+                disabled={pending}
+                className="flex-shrink-0"
+              >
                 {pending ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
                 ) : (

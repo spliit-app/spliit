@@ -5,6 +5,20 @@
     "button": {
       "groups": "Ga naar groepen",
       "github": "GitHub"
+    },
+    "features": {
+      "noAccount": {
+        "title": "Geen account nodig",
+        "description": "Maak gewoon een groep aan en deel de link."
+      },
+      "trackExpense": {
+        "title": "Houd elke uitgave bij",
+        "description": "Verdeel rekeningen gelijk of met aangepaste bedragen."
+      },
+      "settleUp": {
+        "title": "Eenvoudig afrekenen",
+        "description": "Zie in één oogopslag wie wat verschuldigd is."
+      }
     }
   },
   "Header": {
@@ -21,7 +35,7 @@
     "createFirst": "Maak de eerste",
     "noExpenses": "Je groep heeft nog geen uitgaven.",
     "export": "Exporteren",
-    "exportBackup": "Create Backup",
+    "exportBackup": "Back-up maken",
     "exportJson": "Exporteren naar JSON",
     "exportCsv": "Exporteren naar CSV",
     "searchPlaceholder": "Zoek naar een uitgave…",
@@ -52,8 +66,8 @@
   "Groups": {
     "myGroups": "Mijn groepen",
     "create": "Maak",
-    "restoreBackup": "Restore Backup",
-    "importJSON": "Import from JSON",
+    "restoreBackup": "Back-up herstellen",
+    "importJSON": "Importeren vanuit JSON",
     "loadingRecent": "Recente groepen laden…",
     "NoRecent": {
       "description": "Je hebt de laatste tijd geen groepen bezocht.",
@@ -66,24 +80,24 @@
     "archive": "Archiveer groep",
     "unarchive": "Herstel groep",
     "removeRecent": "Verwijder uit recente groepen",
-    "deleteGroup": "Delete group permanently",
+    "deleteGroup": "Groep definitief verwijderen",
     "DeleteGroupDialog": {
-      "title": "Delete group permanently?",
-      "description": "This action cannot be undone. All expenses, participants, and activity history will be permanently deleted. Please create a backup first if you want to preserve this data.",
-      "backup": "Create Backup",
-      "cancel": "Cancel",
-      "delete": "Delete Permanently",
+      "title": "Groep definitief verwijderen?",
+      "description": "Deze actie kan niet ongedaan worden gemaakt. Alle uitgaven, deelnemers en activiteitengeschiedenis worden permanent verwijderd. Maak eerst een back-up als u deze gegevens wilt bewaren.",
+      "backup": "Back-up maken",
+      "cancel": "Annuleren",
+      "delete": "Definitief verwijderen",
       "remotePurge": {
-        "title": "Remote group cleanup",
-        "description": "This group is linked to a remote copy. You can also remove all expenses and participants from the remote group (a single placeholder participant will remain).",
-        "checkbox": "Also purge the remote group",
-        "errorTitle": "Remote purge failed",
-        "errorDescription": "Failed to purge the remote group."
+        "title": "Externe groep opschonen",
+        "description": "Deze groep is gekoppeld aan een externe kopie. U kunt ook alle uitgaven en deelnemers uit de externe groep verwijderen (er blijft één tijdelijke deelnemer over).",
+        "checkbox": "Ook de externe groep opschonen",
+        "errorTitle": "Opschonen extern mislukt",
+        "errorDescription": "De externe groep kon niet worden opgeschoond."
       },
       "documentWarning": {
-        "title": "This group contains {count, plural, one {# image} other {# images}}",
-        "description": "These images are stored in the cloud and do not form part of the backup. If you delete them, they cannot be recovered.",
-        "checkbox": "Also delete all images when deleting the group"
+        "title": "Deze groep bevat {count, plural, one {# afbeelding} other {# afbeeldingen}}",
+        "description": "Deze afbeeldingen zijn opgeslagen in de cloud en maken geen deel uit van de back-up. Als u ze verwijdert, kunnen ze niet worden hersteld.",
+        "checkbox": "Verwijder ook alle afbeeldingen bij het verwijderen van de groep"
       }
     },
     "RecentRemovedToast": {
@@ -135,7 +149,7 @@
     },
     "LinkedUrl": {
       "title": "Gekoppelde URL",
-      "linkOption": "Link to remote group",
+      "linkOption": "Koppelen aan externe groep",
       "description": "Deze link wordt gebruikt voor synchronisatie. Maak deze leeg om de koppeling van deze groep te verwijderen.",
       "placeholder": "https://spliit.app/groups/...",
       "save": "Opslaan",
@@ -145,36 +159,37 @@
       "errorUpdate": "Link bijwerken mislukt."
     },
     "AdvancedSettings": {
-      "button": "Advanced settings",
-      "title": "Advanced settings",
-      "description": "Linking and sync tools for this group."
+      "button": "Geavanceerde instellingen",
+      "title": "Geavanceerde instellingen",
+      "description": "Hulpmiddelen voor koppeling en synchronisatie van deze groep."
     },
     "AddByURL": {
       "button": "Voeg toe met URL",
       "title": "Voeg een groep toe met een URL",
       "description": "Als een groep met je gedeeld is, kun je de URL hier plakken om deze aan je lijst toe te voegen.",
       "error": "Oeps, we kunnen de groep niet vinden met de URL die je hebt opgegeven…",
-      "hostMismatchTitle": "Open local or remote?",
-      "hostMismatchPrompt": "This link points to {host}. A local group with the same ID exists. Press OK to open the local group, or Cancel to go to {host}.",
-      "hostMismatchNotFound": "No matching local group found. You can import this group from the other instance.",
-      "hostMismatchLocalAction": "Open local group",
-      "hostMismatchRemoteAction": "Go to remote",
-      "hostMismatchCancel": "Cancel",
-      "importFromUrlAction": "Open JSON import",
-      "urlMode": "Enter URL",
-      "qrMode": "Scan QR",
+      "hostMismatchTitle": "Lokaal of extern openen?",
+      "hostMismatchPrompt": "Deze link verwijst naar {host}. Er bestaat al een lokale groep met hetzelfde ID. Druk op OK om de lokale groep te openen of Annuleren om naar {host} te gaan.",
+      "hostMismatchNotFound": "Geen overeenkomstige lokale groep gevonden. U kunt deze groep importeren uit de andere instantie.",
+      "hostMismatchLocalAction": "Lokale groep openen",
+      "hostMismatchRemoteAction": "Ga naar extern",
+      "hostMismatchCancel": "Annuleren",
+      "importFromUrlAction": "JSON-import openen",
+      "urlMode": "URL invoeren",
+      "qrMode": "QR-code scannen",
       "scanner": {
-        "startCamera": "Start Camera",
-        "stopScanning": "Stop Scanning",
-        "permissionDenied": "Camera permission denied. Please allow camera access to scan QR codes.",
-        "noCamera": "No camera found on this device.",
-        "cameraError": "Failed to start camera. Please try again.",
-        "permissionError": "Unable to access camera. Please check permissions."
+        "startCamera": "Camera starten",
+        "stopScanning": "Scannen stoppen",
+        "permissionDenied": "Camera-toestemming geweigerd. Sta cameratoegang toe om QR-codes te scannen.",
+        "noCamera": "Geen camera gevonden op dit apparaat.",
+        "cameraError": "Camera kon niet worden gestart. Probeer het opnieuw.",
+        "permissionError": "Geen toegang tot camera. Controleer de machtigingen."
       }
     },
     "NotFound": {
       "text": "Deze groep bestaat niet.",
-      "link": "Ga naar je recente groepen"
+      "link": "Ga naar je recente groepen",
+      "importing": "Groep importeren. Dit kan even duren…"
     }
   },
   "NewFeaturesDialog": {
@@ -443,6 +458,12 @@
       "yourSpendings": "Jouw totale uitgaven",
       "yourEarnings": "Jouw totale inkomsten",
       "yourShare": "Jouw totale aandeel"
+    },
+    "SpendingCharts": {
+      "title": "Uitgavenoverzicht",
+      "description": "Visueel overzicht van wie betaald heeft en wie wat verschuldigd is.",
+      "byPayer": "Uitgaven per betaler",
+      "byShare": "Aandelen per lid"
     }
   },
   "Activity": {
@@ -480,9 +501,9 @@
     "warning": "Waarschuwing!",
     "warningHelp": "Iedereen met de groeps-URL kan de uitgaven zien en bewerken. Deel voorzichtig!",
     "qrCode": {
-      "title": "Share via QR Code",
-      "description": "Scan this QR code to open the group on any device.",
-      "download": "Download QR Code"
+      "title": "Delen via QR-code",
+      "description": "Scan deze QR-code om de groep op elk apparaat te openen.",
+      "download": "QR-code downloaden"
     }
   },
   "SchemaErrors": {
@@ -514,7 +535,7 @@
     "Entertainment": {
       "heading": "Vermaak",
       "Entertainment": "Vermaak",
-      "Games": "Games",
+      "Games": "Spellen",
       "Movies": "Film",
       "Music": "Muziek",
       "Sports": "Sport"
@@ -586,100 +607,100 @@
     }
   },
   "Backup": {
-    "restoreBackup": "Restore Backup",
-    "restoreBackupTitle": "Restore Group Backup",
-    "restoreBackupDescription": "Upload a backup file to restore or create a group. The system will check if the group exists and guide you through the restoration process.",
-    "analyzing": "Analyzing...",
-    "analyzeBackup": "Analyze Backup",
-    "groupName": "Group Name",
-    "backupDate": "Backup Date",
-    "groupNotFound": "This group doesn't exist yet. Click below to create it from the backup.",
-    "creating": "Creating...",
-    "createGroup": "Create Group from Backup",
-    "backupIsNewer": "This backup contains newer data than your current group.",
-    "currentVersion": "Current group last updated",
-    "changes": "Changes in backup",
-    "addedExpenses": "{count} new expense(s)",
-    "addedParticipants": "{count} new participant(s)",
-    "restoring": "Restoring...",
-    "restoreDifferences": "Restore New Data",
-    "backupIsOlder": "Warning: This backup is older than your current group data.",
-    "rollingBack": "Rolling back...",
-    "rollbackToBackup": "Rollback to Backup Version",
-    "rollbackWarning": "This will delete all current data and replace it with the backup. This action cannot be undone!",
-    "backupIsSame": "This backup is identical to your current group data.",
-    "cancel": "Cancel"
+    "restoreBackup": "Back-up herstellen",
+    "restoreBackupTitle": "Groepsback-up herstellen",
+    "restoreBackupDescription": "Upload een back-upbestand om een groep te herstellen of aan te maken. Het systeem controleert of de groep bestaat en begeleidt u door het herstelproces.",
+    "analyzing": "Analyseren...",
+    "analyzeBackup": "Back-up analyseren",
+    "groupName": "Groepsnaam",
+    "backupDate": "Datum back-up",
+    "groupNotFound": "Deze groep bestaat nog niet. Klik hieronder om hem te maken vanuit de back-up.",
+    "creating": "Aanmaken...",
+    "createGroup": "Groep maken vanuit back-up",
+    "backupIsNewer": "Deze back-up bevat nieuwere gegevens dan uw huidige groep.",
+    "currentVersion": "Huidige groep voor het laatst bijgewerkt",
+    "changes": "Wijzigingen in back-up",
+    "addedExpenses": "{count} nieuwe uitgave(n)",
+    "addedParticipants": "{count} nieuwe deelnemer(s)",
+    "restoring": "Herstellen...",
+    "restoreDifferences": "Nieuwe gegevens herstellen",
+    "backupIsOlder": "Waarschuwing: deze back-up is ouder dan uw huidige groepsgegevens.",
+    "rollingBack": "Terugdraaien...",
+    "rollbackToBackup": "Terugzetten naar back-upversie",
+    "rollbackWarning": "Hierdoor worden alle huidige gegevens verwijderd en vervangen door de back-up. Deze actie kan niet ongedaan worden gemaakt!",
+    "backupIsSame": "Deze back-up is identiek aan uw huidige groepsgegevens.",
+    "cancel": "Annuleren"
   },
   "JSONImport": {
-    "importJSON": "Import from JSON",
-    "importJSONTitle": "Import Group from JSON Export",
-    "importJSONDescription": "Upload a JSON export file to migrate a group from another Spliit instance. The system will analyze the file and guide you through the import process.",
+    "importJSON": "Importeren vanuit JSON",
+    "importJSONTitle": "Groep importeren vanuit JSON-export",
+    "importJSONDescription": "Upload een JSON-exportbestand om een groep van een andere Spliit-instantie te migreren. Het systeem analyseert het bestand en begeleidt u door het importproces.",
     "importSuccessTitle": "Import voltooid",
     "importSuccessDescription": "{name}",
     "importAssociationWarningTitle": "Koppeling in behandeling",
     "importAssociationWarningDescription": "We hebben de groep geïmporteerd, maar konden de accountrechten niet opslaan. Open je profiel en klik op Opslaan om het te voltooien.",
-    "analyzing": "Analyzing...",
-    "analyzeJSON": "Analyze JSON File",
-    "groupName": "Group Name",
-    "exportDate": "Export Date",
-    "limitations": "Important Limitations",
-    "groupNotFound": "This group doesn't exist yet. Click below to create it from the JSON export.",
-    "creating": "Creating...",
-    "createGroup": "Create Group from JSON",
-    "jsonIsNewer": "This JSON export contains newer data than your current group.",
-    "currentVersion": "Current group last updated",
-    "changes": "Changes in JSON export",
-    "addedExpenses": "~{count} new expense(s) (approximate)",
-    "addedParticipants": "{count} new participant(s)",
-    "restoring": "Importing...",
-    "importDifferences": "Import New Data",
-    "jsonIsOlder": "Warning: This JSON export is older than your current group data.",
-    "rollingBack": "Rolling back...",
-    "rollbackToJSON": "Rollback to JSON Version",
-    "rollbackWarning": "This will delete all current data and replace it with the JSON export. This action cannot be undone!",
-    "jsonIsSame": "This JSON export appears to match your current group data.",
-    "cancel": "Cancel",
-    "importFromFile": "Import from file",
-    "importFromURL": "Import from URL",
+    "analyzing": "Analyseren...",
+    "analyzeJSON": "JSON-bestand analyseren",
+    "groupName": "Groepsnaam",
+    "exportDate": "Exportdatum",
+    "limitations": "Belangrijke beperkingen",
+    "groupNotFound": "Deze groep bestaat nog niet. Klik hieronder om hem te maken vanuit de JSON-export.",
+    "creating": "Aanmaken...",
+    "createGroup": "Groep maken vanuit JSON",
+    "jsonIsNewer": "Deze JSON-export bevat nieuwere gegevens dan uw huidige groep.",
+    "currentVersion": "Huidige groep voor het laatst bijgewerkt",
+    "changes": "Wijzigingen in JSON-export",
+    "addedExpenses": "~{count} nieuwe uitgave(n) (bij benadering)",
+    "addedParticipants": "{count} nieuwe deelnemer(s)",
+    "restoring": "Importeren...",
+    "importDifferences": "Nieuwe gegevens importeren",
+    "jsonIsOlder": "Waarschuwing: deze JSON-export is ouder dan uw huidige groepsgegevens.",
+    "rollingBack": "Terugdraaien...",
+    "rollbackToJSON": "Terugzetten naar JSON-versie",
+    "rollbackWarning": "Hierdoor worden alle huidige gegevens verwijderd en vervangen door de JSON-export. Deze actie kan niet ongedaan worden gemaakt!",
+    "jsonIsSame": "Deze JSON-export lijkt overeen te komen met uw huidige groepsgegevens.",
+    "cancel": "Annuleren",
+    "importFromFile": "Importeren vanuit bestand",
+    "importFromURL": "Importeren vanuit URL",
     "urlPlaceholder": "https://example.com/groups/...",
-    "fetchJSON": "Fetch JSON",
-    "errorInvalidURL": "Enter a valid URL from another Spliit site.",
-    "errorSameOrigin": "Use a different site URL than this one.",
-    "errorNoGroupID": "Could not find a group ID in that URL.",
-    "errorGroupExists": "That group already exists on this site.",
-    "errorGroupExistsDeleted": "This group still exists on the server. Delete it from Advanced settings before importing again.",
-    "errorRemoteFetch": "Failed to fetch JSON from the remote site.",
-    "remoteReadyWithName": "Ready to import: {name}",
-    "remoteReady": "Remote JSON is ready to import.",
-    "errorAnalysisFailed": "Failed to analyze JSON file",
-    "errorInvalidResponse": "Invalid response from server",
-    "errorImportFailed": "Failed to import JSON",
-    "jsonIsMergeable": "This JSON export is older, but it contains expenses that are missing in your group.",
-    "conflictsTitle": "Conflicting expenses found",
-    "conflictsDescription": "Choose which expenses should be updated to match the JSON export.",
-    "conflictApplyAllUpdate": "Update all",
-    "conflictApplyAllKeep": "Keep all",
-    "conflictDifferenceLabel": "Differs in",
-    "conflictFieldCategory": "category",
-    "conflictFieldSplitMode": "split mode",
-    "conflictFieldPaidFor": "paid for",
-    "conflictUpdateLabel": "Check to update this expense to match the JSON export.",
-    "paidBy": "Paid by",
-    "conflictDefaultAll": "Default to update all conflicts",
-    "conflictCurrentLabel": "Current",
+    "fetchJSON": "JSON ophalen",
+    "errorInvalidURL": "Voer een geldige URL in van een andere Spliit-site.",
+    "errorSameOrigin": "Gebruik een andere site-URL dan deze.",
+    "errorNoGroupID": "Kon geen groeps-ID vinden in die URL.",
+    "errorGroupExists": "Die groep bestaat al op deze site.",
+    "errorGroupExistsDeleted": "Deze groep bestaat nog op de server. Verwijder hem via de geavanceerde instellingen voordat u opnieuw importeert.",
+    "errorRemoteFetch": "Kan JSON niet ophalen van de externe site.",
+    "remoteReadyWithName": "Klaar om te importeren: {name}",
+    "remoteReady": "Externe JSON is klaar om te importeren.",
+    "errorAnalysisFailed": "Kan JSON-bestand niet analyseren",
+    "errorInvalidResponse": "Ongeldige reactie van server",
+    "errorImportFailed": "Importeren van JSON mislukt",
+    "jsonIsMergeable": "Deze JSON-export is ouder, maar bevat uitgaven die ontbreken in uw groep.",
+    "conflictsTitle": "Conflicterende uitgaven gevonden",
+    "conflictsDescription": "Kies welke uitgaven moeten worden bijgewerkt om overeen te komen met de JSON-export.",
+    "conflictApplyAllUpdate": "Alles bijwerken",
+    "conflictApplyAllKeep": "Alles behouden",
+    "conflictDifferenceLabel": "Verschilt in",
+    "conflictFieldCategory": "categorie",
+    "conflictFieldSplitMode": "splitsingsmodus",
+    "conflictFieldPaidFor": "betaald voor",
+    "conflictUpdateLabel": "Vink aan om deze uitgave bij te werken om overeen te komen met de JSON-export.",
+    "paidBy": "Betaald door",
+    "conflictDefaultAll": "Standaard alle conflicten bijwerken",
+    "conflictCurrentLabel": "Huidig",
     "conflictJsonLabel": "JSON",
-    "conflictNone": "None",
-    "conflictEmpty": "None"
+    "conflictNone": "Geen",
+    "conflictEmpty": "Geen"
   },
   "DeleteData": {
     "undoImport": "Volledige import ongedaan maken",
-    "undoImportDescription": "Remove all data added during the most recent JSON import",
-    "undoWarning": "This will remove all expenses, participants, and activities added during the last import. This action cannot be undone!",
-    "cancel": "Cancel",
-    "confirm": "Undo Import",
-    "deleting": "Undoing...",
-    "success": "Import undone successfully",
-    "error": "Failed to undo import"
+    "undoImportDescription": "Verwijder alle gegevens toegevoegd tijdens de meest recente JSON-import",
+    "undoWarning": "Dit verwijdert alle uitgaven, deelnemers en activiteiten die zijn toegevoegd tijdens de laatste import. Deze actie kan niet ongedaan worden gemaakt!",
+    "cancel": "Annuleren",
+    "confirm": "Import ongedaan maken",
+    "deleting": "Ongedaan maken...",
+    "success": "Import succesvol ongedaan gemaakt",
+    "error": "Import ongedaan maken mislukt"
   },
   "AnonymousAuthMenu": {
     "menu": {
@@ -738,6 +759,11 @@
       "profileActions": {
         "title": "Profielacties",
         "deleteAccount": "Account verwijderen"
+      },
+      "preferences": {
+        "title": "Voorkeuren",
+        "startupRedirect": "Meest recente groep openen bij opstarten",
+        "startupRedirectDescription": "Navigeer bij het openen van de app automatisch naar de laatst bezochte groep."
       }
     },
     "unlinkDialog": {

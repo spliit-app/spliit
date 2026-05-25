@@ -5,6 +5,20 @@
     "button": {
       "groups": "Veure els grups",
       "github": "GitHub"
+    },
+    "features": {
+      "noAccount": {
+        "title": "Sense compte",
+        "description": "Simplement crea un grup i comparteix l'enllaç."
+      },
+      "trackExpense": {
+        "title": "Registra qualsevol despesa",
+        "description": "Divideix les factures equitativament o per imports personalitzats."
+      },
+      "settleUp": {
+        "title": "Salda els deutes fàcilment",
+        "description": "Mira d'un cop d'ull qui deu què."
+      }
     }
   },
   "Header": {
@@ -174,7 +188,8 @@
     },
     "NotFound": {
       "text": "Aquest grup no existeix.",
-      "link": "Anar als darrers grups visitats."
+      "link": "Anar als darrers grups visitats.",
+      "importing": "S'està important el grup. Pot trigar un moment…"
     }
   },
   "NewFeaturesDialog": {
@@ -443,6 +458,12 @@
       "yourSpendings": "Suma de les teves despeses",
       "yourEarnings": "Suma dels teus ingressos",
       "yourShare": "El teu percentatge"
+    },
+    "SpendingCharts": {
+      "title": "Desglossament de despeses",
+      "description": "Desglossament visual de qui ha pagat i qui deu què.",
+      "byPayer": "Despeses per pagador",
+      "byShare": "Parts per membre"
     }
   },
   "Activity": {
@@ -738,6 +759,11 @@
       "profileActions": {
         "title": "Profile actions",
         "deleteAccount": "Delete account"
+      },
+      "preferences": {
+        "title": "Preferències",
+        "startupRedirect": "Obre el grup més recent en iniciar",
+        "startupRedirectDescription": "En obrir l'aplicació, navega automàticament a l'últim grup visitat."
       }
     },
     "unlinkDialog": {

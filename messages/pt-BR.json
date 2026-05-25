@@ -5,6 +5,20 @@
     "button": {
       "groups": "Ir para grupos",
       "github": "GitHub"
+    },
+    "features": {
+      "noAccount": {
+        "title": "Sem necessidade de conta",
+        "description": "Basta criar um grupo e compartilhar o link."
+      },
+      "trackExpense": {
+        "title": "Registre qualquer despesa",
+        "description": "Divida as contas igualmente ou com valores personalizados."
+      },
+      "settleUp": {
+        "title": "Acerte as contas facilmente",
+        "description": "Veja quem deve o quê de relance."
+      }
     }
   },
   "Header": {
@@ -174,7 +188,8 @@
     },
     "NotFound": {
       "text": "Este grupo não existe.",
-      "link": "Ir para grupos visitados recentemente"
+      "link": "Ir para grupos visitados recentemente",
+      "importing": "Importando grupo. Pode levar um momento…"
     }
   },
   "NewFeaturesDialog": {
@@ -443,6 +458,12 @@
       "yourSpendings": "Seus gastos totais",
       "yourEarnings": "Suas receitas totais",
       "yourShare": "Sua participação total"
+    },
+    "SpendingCharts": {
+      "title": "Detalhamento de gastos",
+      "description": "Visão visual de quem pagou e quem deve o quê.",
+      "byPayer": "Gastos por pagador",
+      "byShare": "Cotas por membro"
     }
   },
   "Activity": {
@@ -738,6 +759,11 @@
       "profileActions": {
         "title": "Profile actions",
         "deleteAccount": "Delete account"
+      },
+      "preferences": {
+        "title": "Preferências",
+        "startupRedirect": "Abrir grupo mais recente ao iniciar",
+        "startupRedirectDescription": "Ao abrir o app, navegar automaticamente para o último grupo visitado."
       }
     },
     "unlinkDialog": {

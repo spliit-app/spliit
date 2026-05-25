@@ -1,8 +1,12 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { verifyAuthenticationResponse } from '@simplewebauthn/server'
 import { prisma } from '@/lib/prisma'
-import { rateLimit, getRateLimitIdentifier } from '@/lib/rate-limit'
-import { sessionStore, createSessionCookie, getSessionToken } from '@/lib/session'
+import { getRateLimitIdentifier, rateLimit } from '@/lib/rate-limit'
+import {
+  createSessionCookie,
+  getSessionToken,
+  sessionStore,
+} from '@/lib/session'
+import { verifyAuthenticationResponse } from '@simplewebauthn/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 function getRpId(request: NextRequest) {
   try {
@@ -25,16 +29,16 @@ export async function POST(request: NextRequest) {
   // Apply rate limiting
   const identifier = getRateLimitIdentifier(request)
   const rateLimitResult = rateLimit(identifier)
-  
+
   if (!rateLimitResult.success) {
     return NextResponse.json(
       { error: 'Too many requests. Please try again later.' },
-      { status: 429 }
+      { status: 429 },
     )
   }
 
   try {
-    const { response, challenge: clientChallenge } = await request.json() as {
+    const { response, challenge: clientChallenge } = (await request.json()) as {
       response: any
       challenge: string
     }
@@ -42,7 +46,7 @@ export async function POST(request: NextRequest) {
     if (!response) {
       return NextResponse.json(
         { error: 'Missing required fields' },
-        { status: 400 }
+        { status: 400 },
       )
     }
 
@@ -51,15 +55,17 @@ export async function POST(request: NextRequest) {
     if (!sessionToken) {
       return NextResponse.json(
         { error: 'No active session. Please restart authentication.' },
-        { status: 401 }
+        { status: 401 },
       )
     }
 
     const serverChallenge = await sessionStore.getChallenge(sessionToken)
     if (!serverChallenge) {
       return NextResponse.json(
-        { error: 'Challenge expired or invalid. Please restart authentication.' },
-        { status: 401 }
+        {
+          error: 'Challenge expired or invalid. Please restart authentication.',
+        },
+        { status: 401 },
       )
     }
 
@@ -67,7 +73,7 @@ export async function POST(request: NextRequest) {
     if (clientChallenge !== serverChallenge) {
       return NextResponse.json(
         { error: 'Challenge mismatch. Possible tampering detected.' },
-        { status: 401 }
+        { status: 401 },
       )
     }
 
@@ -100,7 +106,7 @@ export async function POST(request: NextRequest) {
     if (!passkey) {
       return NextResponse.json(
         { error: 'No passkey registered for this credential' },
-        { status: 404 }
+        { status: 404 },
       )
     }
 
@@ -109,9 +115,9 @@ export async function POST(request: NextRequest) {
       expectedChallenge: serverChallenge,
       expectedOrigin: getExpectedOrigin(request),
       expectedRPID: getRpId(request),
-      authenticator: {
-        credentialID: passkey.credentialId,
-        credentialPublicKey: passkey.publicKey,
+      credential: {
+        id: passkey.credentialId,
+        publicKey: passkey.publicKey,
         counter: passkey.counter,
       },
     })
@@ -119,14 +125,14 @@ export async function POST(request: NextRequest) {
     if (!verification.verified) {
       return NextResponse.json(
         { error: 'Verification failed' },
-        { status: 400 }
+        { status: 400 },
       )
     }
 
     // Update the counter and lastUsedAt with optimistic locking to prevent race conditions
     const currentCounter = passkey.counter
     const updateResult = await prisma.passkey.updateMany({
-      where: { 
+      where: {
         id: passkey.id,
         counter: currentCounter, // Ensure counter hasn't changed
       },
@@ -140,28 +146,28 @@ export async function POST(request: NextRequest) {
     if (updateResult.count === 0) {
       return NextResponse.json(
         { error: 'Counter mismatch - possible replay attack detected' },
-        { status: 409 }
+        { status: 409 },
       )
     }
 
     // Create authenticated session
     const newSessionToken = await sessionStore.create(passkey.anonymousUser.id)
-    
+
     const jsonResponse = NextResponse.json({
       verified: true,
       id: passkey.anonymousUser.id,
       username: passkey.anonymousUser.username,
       groups: passkey.anonymousUser.groups,
     })
-    
+
     jsonResponse.headers.set('Set-Cookie', createSessionCookie(newSessionToken))
-    
+
     return jsonResponse
   } catch (error) {
     console.error('Error verifying authentication:', error)
     return NextResponse.json(
       { error: 'Failed to verify authentication' },
-      { status: 500 }
+      { status: 500 },
     )
   }
 }

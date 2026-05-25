@@ -5,6 +5,20 @@
     "button": {
       "groups": "Přejít na skupiny",
       "github": "GitHub"
+    },
+    "features": {
+      "noAccount": {
+        "title": "Bez účtu",
+        "description": "Stačí vytvořit skupinu a sdílet odkaz."
+      },
+      "trackExpense": {
+        "title": "Sledujte každý výdaj",
+        "description": "Rozdělte účty rovnoměrně nebo v libovolných částkách."
+      },
+      "settleUp": {
+        "title": "Snadné vyrovnání",
+        "description": "Přehledně vidíte, kdo komu dluží."
+      }
     }
   },
   "Header": {
@@ -174,7 +188,8 @@
     },
     "NotFound": {
       "text": "Tato skupina neexistuje.",
-      "link": "Přejít na nedávno navštívené skupiny"
+      "link": "Přejít na nedávno navštívené skupiny",
+      "importing": "Import skupiny probíhá. Chvíli strpení…"
     }
   },
   "NewFeaturesDialog": {
@@ -443,6 +458,12 @@
       "yourSpendings": "Vaše celkové výdaje",
       "yourEarnings": "Vaše celkové příjmy",
       "yourShare": "Váš celkový podíl"
+    },
+    "SpendingCharts": {
+      "title": "Přehled výdajů",
+      "description": "Vizuální přehled toho, kdo platil a kdo co dluží.",
+      "byPayer": "Výdaje podle plátce",
+      "byShare": "Podíly podle člena"
     }
   },
   "Activity": {
@@ -738,6 +759,11 @@
       "profileActions": {
         "title": "Profile actions",
         "deleteAccount": "Delete account"
+      },
+      "preferences": {
+        "title": "Předvolby",
+        "startupRedirect": "Otevřít poslední skupinu při spuštění",
+        "startupRedirectDescription": "Při otevření aplikace automaticky přejít na naposledy navštívenou skupinu."
       }
     },
     "unlinkDialog": {

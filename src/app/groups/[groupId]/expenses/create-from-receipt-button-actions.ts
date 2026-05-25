@@ -1,7 +1,11 @@
 'use server'
+import {
+  AI_MODELS,
+  createAnthropicClient,
+  createOpenAIClient,
+} from '@/lib/ai-provider'
 import { getCategories } from '@/lib/api'
 import { env } from '@/lib/env'
-import { AI_MODELS, createAnthropicClient, createOpenAIClient } from '@/lib/ai-provider'
 import { formatCategoryForAIPrompt } from '@/lib/utils'
 
 export async function extractExpenseInformationFromImage(imageUrl: string) {
@@ -12,8 +16,8 @@ export async function extractExpenseInformationFromImage(imageUrl: string) {
               This image contains a receipt.
               Read the total amount and store it as a non-formatted number without any other text or currency.
               Then guess the category for this receipt among the following categories and store its ID: ${categories.map(
-    (category) => formatCategoryForAIPrompt(category),
-  )}.
+                (category) => formatCategoryForAIPrompt(category),
+              )}.
               Guess the expense's date and store it as yyyy-mm-dd.
               Guess a title for the expense.
               Return the amount, the category, the date and the title with just a comma between them, without anything else.`
@@ -55,8 +59,12 @@ export async function extractExpenseInformationFromImage(imageUrl: string) {
     responseText = completion.choices.at(0)?.message.content
   }
 
-  const [amountString, categoryId, date, title] =
-    responseText?.split(',') ?? [null, null, null, null]
+  const [amountString, categoryId, date, title] = responseText?.split(',') ?? [
+    null,
+    null,
+    null,
+    null,
+  ]
   return { amount: Number(amountString), categoryId, date, title }
 }
 

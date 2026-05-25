@@ -1,924 +1,949 @@
 {
-    "Homepage": {
-        "title": "مشاركة <strong>النفقات</strong> مع <strong>الأصدقاء والعائلة</strong>",
-        "description": "مرحبًا بك في مثيل <strong>Spliit</strong> الخاص بك!",
-        "button": {
-            "groups": "اذهب إلى المجموعات",
-            "github": "GitHub"
-        }
+  "Homepage": {
+    "title": "مشاركة <strong>النفقات</strong> مع <strong>الأصدقاء والعائلة</strong>",
+    "description": "مرحبًا بك في مثيل <strong>Spliit</strong> الخاص بك!",
+    "button": {
+      "groups": "اذهب إلى المجموعات",
+      "github": "GitHub"
     },
-    "Header": {
-        "groups": "المجموعات"
-    },
-    "Footer": {
-        "madeIn": "متشعب من Spliit.app",
-        "builtBy": "تم البناء الأصلي بواسطة <author>Sebastien Castiel</author> و<source>المساهمين</source>"
-    },
-    "Expenses": {
-        "title": "نفقات",
-        "description": "فيما يلي النفقات التي قمت بإنشائها لمجموعتك.",
-        "create": "إنشاء حساب",
-        "createFirst": "إنشاء أول واحد",
-        "noExpenses": "مجموعتك لا تحتوي على أي نفقات حتى الآن.",
-        "export": "يصدّر",
-        "exportBackup": "إنشاء نسخة احتياطية",
-        "exportJson": "تصدير إلى JSON",
-        "exportCsv": "تصدير إلى CSV",
-        "searchPlaceholder": "بحث عن المصاريف...",
-        "ActiveUserModal": {
-            "title": "من أنت؟",
-            "description": "أخبرنا أي مشارك أنت حتى نتمكن من تخصيص كيفية عرض المعلومات.",
-            "nobody": "لا أريد أن أختار أحدا",
-            "save": "حفظ التغييرات",
-            "footer": "يمكن تغيير هذا الإعداد لاحقًا في إعدادات المجموعة."
-        },
-        "Groups": {
-            "upcoming": "القادمة",
-            "thisWeek": "هذا الاسبوع",
-            "earlierThisMonth": "في وقت سابق من هذا الشهر",
-            "lastMonth": "الشهر الماضي",
-            "earlierThisYear": "في وقت سابق من هذا العام",
-            "lastYear": "العام الماضي",
-            "older": "أقدم"
-        }
-    },
-    "ExpenseCard": {
-        "paidBy": "تم الدفع بواسطة <strong>{paidBy}</strong> لـ <paidFor></paidFor>",
-        "everyone": "الجميع",
-        "receivedBy": "تم الاستلام بواسطة <strong>{paidBy}</strong> لـ <paidFor></paidFor>",
-        "yourBalance": "رصيدك:",
-        "notInvolved": "أنت لست متورطا"
+    "features": {
+      "noAccount": {
+        "title": "لا حاجة إلى حساب",
+        "description": "فقط أنشئ مجموعة وشارك الرابط."
+      },
+      "trackExpense": {
+        "title": "تتبع أي نفقة",
+        "description": "قسّم الفواتير بالتساوي أو بمبالغ مخصصة."
+      },
+      "settleUp": {
+        "title": "تسوية الحسابات بسهولة",
+        "description": "اعرف من يدين لمن بلمحة."
+      }
+    }
+  },
+  "Header": {
+    "groups": "المجموعات"
+  },
+  "Footer": {
+    "madeIn": "متشعب من Spliit.app",
+    "builtBy": "تم البناء الأصلي بواسطة <author>Sebastien Castiel</author> و<source>المساهمين</source>"
+  },
+  "Expenses": {
+    "title": "نفقات",
+    "description": "فيما يلي النفقات التي قمت بإنشائها لمجموعتك.",
+    "create": "إنشاء حساب",
+    "createFirst": "إنشاء أول واحد",
+    "noExpenses": "مجموعتك لا تحتوي على أي نفقات حتى الآن.",
+    "export": "يصدّر",
+    "exportBackup": "إنشاء نسخة احتياطية",
+    "exportJson": "تصدير إلى JSON",
+    "exportCsv": "تصدير إلى CSV",
+    "searchPlaceholder": "بحث عن المصاريف...",
+    "ActiveUserModal": {
+      "title": "من أنت؟",
+      "description": "أخبرنا أي مشارك أنت حتى نتمكن من تخصيص كيفية عرض المعلومات.",
+      "nobody": "لا أريد أن أختار أحدا",
+      "save": "حفظ التغييرات",
+      "footer": "يمكن تغيير هذا الإعداد لاحقًا في إعدادات المجموعة."
     },
     "Groups": {
-        "myGroups": "مجموعاتي",
-        "create": "يخلق",
-        "restoreBackup": "استعادة النسخة الاحتياطية",
-        "importJSON": "استيراد من JSON",
-        "loadingRecent": "جارٍ تحميل المجموعات الأخيرة...",
-        "NoRecent": {
-            "description": "لم تقم بزيارة أي مجموعة مؤخرا.",
-            "create": "قم بإنشاء واحدة",
-            "orAsk": "أو اطلب من صديق أن يرسل لك رابطًا لواحد موجود."
-        },
-        "recent": "المجموعات الأخيرة",
-        "starred": "المجموعات المميزة بنجمة",
-        "archived": "المجموعات المؤرشفة",
-        "archive": "مجموعة الأرشيف",
-        "unarchive": "إلغاء أرشفة المجموعة",
-        "removeRecent": "إزالة من المجموعات الأخيرة",
-        "deleteGroup": "حذف المجموعة نهائيًا",
-        "DeleteGroupDialog": {
-            "title": "هل تريد حذف المجموعة نهائيًا؟",
-            "description": "لا يمكن التراجع عن هذا الإجراء. سيتم حذف جميع النفقات والمشاركين وسجل النشاط نهائيًا. يرجى إنشاء نسخة احتياطية أولاً إذا كنت تريد الحفاظ على هذه البيانات.",
-            "backup": "إنشاء نسخة احتياطية",
-            "cancel": "يلغي",
-            "delete": "حذف نهائيا",
-            "remotePurge": {
-                "title": "تنظيف المجموعة البعيدة",
-                "description": "هذه المجموعة مرتبطة بنسخة بعيدة. يمكنك أيضا حذف جميع النفقات والمشاركين من المجموعة البعيدة (سيبقى مشارك واحد بديل).",
-                "checkbox": "احذف بيانات المجموعة البعيدة ايضا",
-                "errorTitle": "فشل تنظيف المجموعة البعيدة",
-                "errorDescription": "تعذر حذف بيانات المجموعة البعيدة."
-            },
-            "documentWarning": {
-                "title": "تحتوي هذه المجموعة على {count, plural, one {# image} other {# images}}",
-                "description": "يتم تخزين هذه الصور في السحابة ولا تشكل جزءًا من النسخة الاحتياطية. إذا قمت بحذفها، فلا يمكن استعادتها.",
-                "checkbox": "احذف أيضًا جميع الصور عند حذف المجموعة"
-            }
-        },
-        "RecentRemovedToast": {
-            "title": "تمت إزالة المجموعة",
-            "description": "تمت إزالة المجموعة من قائمة المجموعات الأخيرة لديك.",
-            "undoAlt": "التراجع عن إزالة المجموعة",
-            "undo": "تراجع"
-        },
-        "Sync": {
-            "menuItem": "مزامنة المصروفات مع البعيد",
-            "dialogTitle": "مزامنة المصروفات مع البعيد",
-            "dialogDescription": "راجع التغييرات حسب الاتجاه وحدّد بدقة التحديثات التي تريد تطبيقها بين البعيد والمحلي.",
-            "loading": "جارٍ تجهيز الفروقات مع المصدر البعيد...",
-            "errorPrepare": "فشل تجهيز المزامنة.",
-            "errorExecute": "فشلت مزامنة المصروفات.",
-            "toastTitle": "اكتملت المزامنة",
-            "toastDescription": "تم تطبيق إجراءات المزامنة المحددة.",
-            "remoteSource": "المصدر البعيد: {url}",
-            "directionHelp": "الاتجاه: تبديل محلي ↔ بعيد لإنشاء إجراءات إضافة أو حذف",
-            "usersSection": "المستخدمون",
-            "expensesSection": "المصروفات",
-            "noUserChanges": "لا توجد تغييرات للمستخدمين.",
-            "noExpenseChanges": "لا توجد تغييرات للمصروفات.",
-            "nothingToSync": "لا يوجد ما يمكن مزامنته. المحلي والبعيد متطابقان بالفعل.",
-            "cancel": "إلغاء",
-            "syncNow": "مزامنة الآن",
-            "syncing": "جارٍ المزامنة...",
-            "user": "المستخدم",
-            "expenseWithDate": "مصروف · {date}",
-            "presence": "محلي: {local} · بعيد: {remote}",
-            "remoteToLocal": "بعيد ← محلي",
-            "localToRemote": "محلي → بعيد",
-            "Presence": {
-                "present": "موجود",
-                "missing": "مفقود"
-            },
-            "Actions": {
-                "createLocalUser": "إنشاء مستخدم في المحلي",
-                "createRemoteUser": "إنشاء مستخدم في البعيد",
-                "deleteLocalUser": "حذف المستخدم من المحلي",
-                "deleteRemoteUser": "حذف المستخدم من البعيد",
-                "createLocalExpense": "إنشاء مصروف في المحلي",
-                "createRemoteExpense": "إنشاء مصروف في البعيد",
-                "updateLocalExpense": "تحديث المصروف في المحلي",
-                "updateRemoteExpense": "تحديث المصروف في البعيد",
-                "deleteLocalExpense": "حذف المصروف من المحلي",
-                "deleteRemoteExpense": "حذف المصروف من البعيد"
-            }
-        },
-        "LinkedUrl": {
-            "title": "الرابط المرتبط",
-            "linkOption": "ربط بمجموعة بعيدة",
-            "description": "يُستخدم هذا الرابط للمزامنة. امسحه لإلغاء ربط هذه المجموعة.",
-            "placeholder": "https://spliit.app/groups/...",
-            "save": "حفظ",
-            "saving": "جارٍ الحفظ...",
-            "toastUpdated": "تم تحديث الرابط المرتبط.",
-            "toastUnlinked": "تم إلغاء ربط المجموعة من الرابط البعيد.",
-            "errorUpdate": "فشل تحديث الرابط."
-        },
-        "AdvancedSettings": {
-            "button": "إعدادات متقدمة",
-            "title": "إعدادات متقدمة",
-            "description": "أدوات الربط والمزامنة لهذه المجموعة."
-        },
-        "AddByURL": {
-            "button": "أضف بواسطة URL",
-            "title": "أضف مجموعة حسب عنوان URL",
-            "description": "إذا تمت مشاركة مجموعة معك، فيمكنك لصق عنوان URL الخاص بها هنا لإضافتها إلى قائمتك.",
-            "error": "عفوًا، لم نتمكن من العثور على المجموعة من خلال عنوان URL الذي قدمته...",
-            "hostMismatchTitle": "فتح محلي أم بعيد؟",
-            "hostMismatchPrompt": "هذا الرابط يشير إلى {host}. توجد مجموعة محلية بالمعرف نفسه. اختر مكان فتحها.",
-            "hostMismatchNotFound": "لم يتم العثور على مجموعة محلية مطابقة. يمكنك استيراد هذه المجموعة من النسخة الأخرى.",
-            "hostMismatchLocalAction": "فتح المجموعة المحلية",
-            "hostMismatchRemoteAction": "اذهب إلى البعيد",
-            "hostMismatchCancel": "إلغاء",
-            "importFromUrlAction": "فتح استيراد JSON",
-            "urlMode": "أدخل عنوان URL",
-            "qrMode": "مسح QR",
-            "scanner": {
-                "startCamera": "ابدأ تشغيل الكاميرا",
-                "stopScanning": "توقف عن المسح",
-                "permissionDenied": "تم رفض إذن الكاميرا. يرجى السماح بالوصول إلى الكاميرا لمسح رموز QR.",
-                "noCamera": "لم يتم العثور على كاميرا على هذا الجهاز.",
-                "cameraError": "فشل في تشغيل الكاميرا. يرجى المحاولة مرة أخرى.",
-                "permissionError": "غير قادر على الوصول إلى الكاميرا. يرجى التحقق من الأذونات."
-            }
-        },
-        "NotFound": {
-            "text": "هذه المجموعة غير موجودة.",
-            "importing": "جارٍ استيراد المجموعة. قد يستغرق ذلك بعض الوقت...",
-            "link": "انتقل إلى المجموعات التي تمت زيارتها مؤخرًا"
-        }
+      "upcoming": "القادمة",
+      "thisWeek": "هذا الاسبوع",
+      "earlierThisMonth": "في وقت سابق من هذا الشهر",
+      "lastMonth": "الشهر الماضي",
+      "earlierThisYear": "في وقت سابق من هذا العام",
+      "lastYear": "العام الماضي",
+      "older": "أقدم"
+    }
+  },
+  "ExpenseCard": {
+    "paidBy": "تم الدفع بواسطة <strong>{paidBy}</strong> لـ <paidFor></paidFor>",
+    "everyone": "الجميع",
+    "receivedBy": "تم الاستلام بواسطة <strong>{paidBy}</strong> لـ <paidFor></paidFor>",
+    "yourBalance": "رصيدك:",
+    "notInvolved": "أنت لست متورطا"
+  },
+  "Groups": {
+    "myGroups": "مجموعاتي",
+    "create": "يخلق",
+    "restoreBackup": "استعادة النسخة الاحتياطية",
+    "importJSON": "استيراد من JSON",
+    "loadingRecent": "جارٍ تحميل المجموعات الأخيرة...",
+    "NoRecent": {
+      "description": "لم تقم بزيارة أي مجموعة مؤخرا.",
+      "create": "قم بإنشاء واحدة",
+      "orAsk": "أو اطلب من صديق أن يرسل لك رابطًا لواحد موجود."
     },
-    "NewFeaturesDialog": {
-        "title": "ما الجديد في Spliit",
-        "description": "اكتشف أحدث الميزات لجعل مشاركة النفقات أسهل وأكثر أماناً",
-        "footer": "اضغط على ميزات محددة في التطبيق لمعرفة المزيد",
-        "button": "تفاصيل إضافية",
-        "badge": "جديد",
-        "features": {
-            "groupSync": {
-                "title": "مزامنة المجموعات",
-                "description": "زامن النفقات بين المجموعات المرتبطة بنقرة واحدة للحفاظ على تطابق النسخ المحلية والبعيدة."
-            },
-            "linkedUrlSafety": {
-                "title": "أمان عنوان URL المرتبط",
-                "description": "اربط عنوان URL لمجموعة بعيدة مع فحوصات التشابه لمنع عدم تطابق البيانات."
-            },
-            "remotePurge": {
-                "title": "تنظيف بعيد عند الحذف",
-                "description": "يمكنك اختيارياً تنظيف مجموعة بعيدة مرتبطة عند الحذف محلياً مع خطوة تأكيد إضافية."
-            },
-            "arabicSupport": {
-                "title": "دعم اللغة العربية",
-                "description": "أصبحت الترجمة العربية الكاملة متاحة في جميع أنحاء التطبيق."
-            },
-            "advancedSettings": {
-                "title": "الإعدادات المتقدمة",
-                "description": "خيارات المزامنة والربط والتراجع عن الاستيراد الكامل والحذف أصبحت الآن ضمن الإعدادات المتقدمة للمستخدمين المسجلين."
-            }
-        }
+    "recent": "المجموعات الأخيرة",
+    "starred": "المجموعات المميزة بنجمة",
+    "archived": "المجموعات المؤرشفة",
+    "archive": "مجموعة الأرشيف",
+    "unarchive": "إلغاء أرشفة المجموعة",
+    "removeRecent": "إزالة من المجموعات الأخيرة",
+    "deleteGroup": "حذف المجموعة نهائيًا",
+    "DeleteGroupDialog": {
+      "title": "هل تريد حذف المجموعة نهائيًا؟",
+      "description": "لا يمكن التراجع عن هذا الإجراء. سيتم حذف جميع النفقات والمشاركين وسجل النشاط نهائيًا. يرجى إنشاء نسخة احتياطية أولاً إذا كنت تريد الحفاظ على هذه البيانات.",
+      "backup": "إنشاء نسخة احتياطية",
+      "cancel": "يلغي",
+      "delete": "حذف نهائيا",
+      "remotePurge": {
+        "title": "تنظيف المجموعة البعيدة",
+        "description": "هذه المجموعة مرتبطة بنسخة بعيدة. يمكنك أيضا حذف جميع النفقات والمشاركين من المجموعة البعيدة (سيبقى مشارك واحد بديل).",
+        "checkbox": "احذف بيانات المجموعة البعيدة ايضا",
+        "errorTitle": "فشل تنظيف المجموعة البعيدة",
+        "errorDescription": "تعذر حذف بيانات المجموعة البعيدة."
+      },
+      "documentWarning": {
+        "title": "تحتوي هذه المجموعة على {count, plural, one {# image} other {# images}}",
+        "description": "يتم تخزين هذه الصور في السحابة ولا تشكل جزءًا من النسخة الاحتياطية. إذا قمت بحذفها، فلا يمكن استعادتها.",
+        "checkbox": "احذف أيضًا جميع الصور عند حذف المجموعة"
+      }
     },
-    "AnonymousAuthMenu": {
-        "menu": {
-            "ariaLabel": "الحساب",
-            "account": "الحساب",
-            "restoreBackup": "استعادة من النسخة الاحتياطية",
-            "importJson": "استيراد من JSON",
-            "whatsNew": "✨ ما الجديد",
-            "signOut": "تسجيل الخروج"
-        },
-        "profile": {
-            "title": "ملف الحساب",
-            "description": "اربط المجموعات بهذا الجهاز أو استعدها على جهاز آخر.",
-            "associatedGroups": {
-                "title": "المجموعات المرتبطة",
-                "empty": "قم بزيارة مجموعة أو إضافتها أولاً لربطها.",
-                "save": "حفظ الروابط",
-                "saving": "جارٍ الحفظ..."
-            },
-            "accountAccess": {
-                "title": "الوصول إلى الحساب",
-                "description": "استخدم نفس اسم المستخدم وعبارة المرور لإنشاء حسابك المجهول أو استعادته.",
-                "usernamePlaceholder": "اسم مستخدم مجهول",
-                "generate": "إنشاء",
-                "passphrasePlaceholder": "أدخل عبارة مرور",
-                "saving": "جارٍ الحفظ...",
-                "recovering": "جارٍ الاستعادة...",
-                "newAccount": "حساب جديد",
-                "existingAccount": "حساب موجود",
-                "changePrompt": "أدخل عبارة مرورك الحالية واختر عبارة جديدة.",
-                "passkeyPrompt": "تم التحقق بمفتاح مرور. اختر عبارة مرور جديدة.",
-                "managePrompt": "إدارة أمان حسابك.",
-                "usernameLabel": "اسم المستخدم",
-                "currentPassphrasePlaceholder": "عبارة المرور الحالية",
-                "newPassphrasePlaceholder": "عبارة مرور جديدة",
-                "updating": "جارٍ التحديث...",
-                "changePassphrase": "تغيير عبارة المرور",
-                "setting": "جارٍ الضبط...",
-                "setPassphrase": "تعيين عبارة المرور",
-                "authenticating": "جارٍ التحقق...",
-                "setWithPasskey": "تعيين عبارة المرور باستخدام مفتاح المرور",
-                "resetWithPasskey": "إعادة ضبط بمفتاح المرور",
-                "passkeyFirst": "أضف مفتاح مرور أولاً لتعيين عبارة مرور، أو أنشئ حساباً جديداً بعبارة مرور."
-            },
-            "passkeyLogin": {
-                "title": "تسجيل الدخول بمفتاح المرور",
-                "notLinkedDescription": "استخدم مفتاح المرور لتسجيل الدخول على هذا الجهاز.",
-                "authenticating": "جارٍ التحقق...",
-                "usePasskey": "استخدم مفتاح المرور",
-                "manageDescription": "إدارة مفاتيح المرور لهذا الحساب.",
-                "addDescription": "أضف مفتاح مرور لتسجيل دخول سريع بدون كلمة مرور.",
-                "created": "تم الإنشاء {date}",
-                "remove": "إزالة",
-                "addPasskey": "إضافة مفتاح مرور"
-            },
-            "profileActions": {
-                "title": "إجراءات الحساب",
-                "deleteAccount": "حذف الحساب"
-            }
-        },
-        "unlinkDialog": {
-            "signOutTitle": "تسجيل الخروج من الجهاز",
-            "deleteTitle": "حذف الحساب",
-            "signOutDescription": "هل أنت متأكد أنك تريد تسجيل الخروج من هذا الجهاز؟",
-            "deleteDescription": "هل أنت متأكد أنك تريد حذف حسابك؟ لا يمكن التراجع عن هذا الإجراء.",
-            "associatedGroupsTitle": "المجموعات المرتبطة",
-            "keepRecent": "الاحتفاظ في القائمة الأخيرة",
-            "removeRecent": "إزالة من القائمة الأخيرة",
-            "signOutAction": "تسجيل الخروج",
-            "deleteAction": "حذف الحساب"
-        },
-        "addPasskey": {
-            "title": "إضافة مفتاح مرور",
-            "description": "أدخل اسمًا لمفتاح المرور ليسهل التعرف عليه لاحقًا.",
-            "placeholder": "مثال: MacBook Pro، iPhone",
-            "registering": "جارٍ التسجيل...",
-            "confirm": "إضافة مفتاح مرور"
-        },
-        "removePasskey": {
-            "title": "إزالة مفتاح المرور",
-            "description": "هل أنت متأكد أنك تريد إزالة مفتاح المرور هذا؟ ستحتاج إلى وسيلة تحقق أخرى للوصول إلى حسابك.",
-            "removing": "جارٍ الإزالة...",
-            "confirm": "إزالة مفتاح المرور"
-        },
-        "common": {
-            "cancel": "إلغاء"
-        },
-        "passphrase": {
-            "requirements": {
-                "minLength": "ثمانية أحرف على الأقل",
-                "uppercase": "حرف كبير واحد",
-                "lowercase": "حرف صغير واحد",
-                "number": "رقم واحد",
-                "special": "حرف خاص واحد"
-            }
-        },
-        "errors": {
-            "authOptionsFailed": "فشل الحصول على خيارات المصادقة",
-            "authenticationFailed": "فشلت المصادقة",
-            "deletePasskeyFailed": "فشل حذف مفتاح المرور",
-            "registrationOptionsFailed": "فشل الحصول على خيارات التسجيل",
-            "registrationVerifyFailed": "فشل التحقق من التسجيل"
-        },
-        "toasts": {
-            "initFailed": {
-                "title": "تعذر تهيئة الجلسة المجهولة",
-                "description": "يرجى تحديث الصفحة. إذا استمرت المشكلة، حاول لاحقاً."
-            },
-            "initNetwork": {
-                "title": "خطأ في الشبكة أثناء التهيئة",
-                "description": "تحقق من الاتصال وحدّث الصفحة للمحاولة مرة أخرى."
-            },
-            "syncGroupsFailed": {
-                "title": "فشل مزامنة المجموعات",
-                "description": "تعذر تحميل مجموعاتك. قد تكون قائمتك المحلية غير محدثة."
-            },
-            "sessionExpired": {
-                "title": "انتهت الجلسة",
-                "saveAssociations": "يرجى استعادة حسابك لحفظ ارتباطات المجموعات. استخدم اسم المستخدم وعبارة المرور لتسجيل الدخول مرة أخرى.",
-                "deleteAccount": "يرجى استعادة حسابك لحذفه. استخدم اسم المستخدم وعبارة المرور لتسجيل الدخول مرة أخرى."
-            },
-            "saveGroupsFailed": {
-                "title": "فشل حفظ المجموعات",
-                "description": "يرجى المحاولة مرة أخرى."
-            },
-            "groupsSaved": {
-                "title": "تم حفظ المجموعات",
-                "description": "أصبحت هذه المجموعات مرتبطة بحسابك المجهول."
-            },
-            "networkError": {
-                "title": "خطأ في الشبكة",
-                "saveGroups": "تعذر حفظ المجموعات. يرجى التحقق من الاتصال والمحاولة مرة أخرى.",
-                "savePassphrase": "تعذر حفظ عبارة المرور. يرجى التحقق من الاتصال والمحاولة مرة أخرى.",
-                "recoverAccount": "تعذر استعادة الحساب. يرجى التحقق من الاتصال والمحاولة مرة أخرى."
-            },
-            "passphraseInUse": {
-                "title": "عبارة المرور مستخدمة بالفعل",
-                "description": "اختر عبارة مرور مختلفة وحاول مرة أخرى."
-            },
-            "accountSaved": {
-                "title": "تم حفظ الحساب",
-                "description": "استخدم اسم المستخدم وعبارة المرور لاستعادته لاحقاً."
-            },
-            "recoveryFailed": {
-                "title": "فشلت الاستعادة",
-                "description": "لم يتم العثور على حساب بهذه العبارة."
-            },
-            "accountRecovered": {
-                "title": "تمت استعادة الحساب",
-                "description": "تمت استعادة المجموعات المرتبطة على هذا الجهاز."
-            },
-            "currentPassphraseRequired": {
-                "title": "عبارة المرور الحالية مطلوبة",
-                "description": "يرجى إدخال عبارة المرور الحالية."
-            },
-            "updatePassphraseFailed": {
-                "title": "فشل تحديث عبارة المرور",
-                "description": "يرجى التحقق من عبارة المرور الحالية والمحاولة مرة أخرى."
-            },
-            "passphraseUpdated": {
-                "title": "تم تحديث عبارة المرور",
-                "description": "أصبحت عبارة المرور الجديدة فعالة الآن."
-            },
-            "setPassphraseFailed": {
-                "title": "فشل تعيين عبارة المرور",
-                "description": "يرجى المحاولة مرة أخرى."
-            },
-            "passphraseSet": {
-                "title": "تم تعيين عبارة المرور",
-                "description": "أصبحت عبارة المرور الجديدة فعالة الآن."
-            },
-            "accountRequired": {
-                "title": "الحساب مطلوب",
-                "description": "يرجى التأكد من أنك سجلت الدخول."
-            },
-            "authSuccess": {
-                "title": "تمت المصادقة بنجاح",
-                "description": "يمكنك الآن تعيين عبارة مرور جديدة."
-            },
-            "authFailed": {
-                "title": "فشلت المصادقة",
-                "description": "يرجى المحاولة مرة أخرى.",
-                "generic": "فشلت المصادقة. يرجى المحاولة مرة أخرى."
-            },
-            "passkeyRemoved": {
-                "title": "تمت إزالة مفتاح المرور",
-                "description": "تمت إزالة مفتاح المرور من حسابك."
-            },
-            "removePasskeyFailed": {
-                "title": "فشل إزالة مفتاح المرور",
-                "description": "يرجى المحاولة مرة أخرى."
-            },
-            "usernameRequired": {
-                "title": "اسم المستخدم مطلوب",
-                "description": "يرجى تعيين اسم مستخدم قبل تسجيل مفتاح المرور."
-            },
-            "passkeyNameRequired": {
-                "title": "الاسم مطلوب",
-                "description": "يرجى إدخال اسم لمفتاح المرور."
-            },
-            "passkeyRegistered": {
-                "title": "تم تسجيل مفتاح المرور",
-                "description": "يمكنك الآن استخدام مفتاح المرور لتسجيل الدخول."
-            },
-            "passkeyRegistrationFailed": {
-                "title": "فشل التسجيل",
-                "description": "يرجى المحاولة مرة أخرى."
-            },
-            "rateLimit": {
-                "title": "تم تجاوز حد الطلبات",
-                "description": "عدد كبير من الطلبات. يرجى المحاولة لاحقًا."
-            },
-            "passkeyNotFound": {
-                "title": "لم يتم العثور على مفتاح المرور",
-                "description": "جرّب إدخال اسم المستخدم وإعادة محاولة تسجيل الدخول بمفتاح المرور."
-            },
-            "passkeyLoginSuccess": {
-                "title": "تم تسجيل الدخول بمفتاح المرور",
-                "description": "تمت استعادة المجموعات المرتبطة على هذا الجهاز."
-            },
-            "authCancelled": {
-                "title": "تم إلغاء المصادقة",
-                "description": "تم إلغاء المصادقة بمفتاح المرور."
-            },
-            "unlinked": {
-                "title": "تم فصل الحساب عن الجهاز",
-                "descriptionRemoved": "تمت إزالة المجموعات المرتبطة من جهازك.",
-                "descriptionNew": "أنت تستخدم الآن حساباً مجهولاً جديداً على هذا الجهاز."
-            },
-            "deleteAccountFailed": {
-                "title": "فشل حذف الحساب",
-                "description": "يرجى المحاولة مرة أخرى."
-            },
-            "accountDeleted": {
-                "title": "تم حذف الحساب",
-                "descriptionRemoved": "تم حذف الحساب وإزالة المجموعات من هذا الجهاز.",
-                "descriptionNew": "تم حذف الحساب. أنت تستخدم الآن حساباً مجهولاً جديداً على هذا الجهاز."
-            }
-        }
+    "RecentRemovedToast": {
+      "title": "تمت إزالة المجموعة",
+      "description": "تمت إزالة المجموعة من قائمة المجموعات الأخيرة لديك.",
+      "undoAlt": "التراجع عن إزالة المجموعة",
+      "undo": "تراجع"
     },
-    "GroupForm": {
-        "title": "معلومات المجموعة",
-        "NameField": {
-            "label": "اسم المجموعة",
-            "placeholder": "الإجازات الصيفية",
-            "description": "أدخل اسمًا لمجموعتك."
-        },
-        "InformationField": {
-            "label": "معلومات المجموعة",
-            "placeholder": "ما هي المعلومات ذات الصلة بالمشاركين في المجموعة؟"
-        },
-        "CurrencyField": {
-            "label": "رمز العملة",
-            "placeholder": "$، €، جنيه استرليني...",
-            "description": "سنستخدمه لعرض المبالغ."
-        },
-        "CurrencyCodeField": {
-            "label": "العملة الرئيسية",
-            "createDescription": "جميع المبالغ والأرصدة ستكون بهذه العملة.",
-            "editDescription": "جميع المبالغ والأرصدة ستكون بهذه العملة. لن يؤدي تغيير هذا إلى تحويل النفقات التي تم إدخالها بالفعل، إلا عندما تحتوي العملة على \"وحدات ثانوية\" مختلفة عن العملة الحالية (على سبيل المثال التغيير من الدولار الأمريكي إلى الين الياباني)",
-            "customOption": "مخصص"
-        },
-        "Participants": {
-            "title": "مشاركون",
-            "description": "أدخل الاسم لكل مشارك.",
-            "protectedParticipant": "هذا المشارك جزء من النفقات، ولا يمكن إزالته.",
-            "new": "جديد",
-            "add": "إضافة مشارك",
-            "John": "جون",
-            "Jane": "جين",
-            "Jack": "جاك"
-        },
-        "Settings": {
-            "title": "الإعدادات المحلية",
-            "description": "يتم تعيين هذه الإعدادات لكل جهاز، ويتم استخدامها لتخصيص تجربتك.",
-            "ActiveUserField": {
-                "label": "مستخدم نشط",
-                "placeholder": "اختر مشاركا",
-                "none": "لا أحد",
-                "description": "يستخدم المستخدم كافتراضي لدفع النفقات."
-            },
-            "save": "يحفظ",
-            "saving": "توفير…",
-            "create": "يخلق",
-            "creating": "جارٍ الإنشاء…",
-            "cancel": "يلغي"
-        }
+    "Sync": {
+      "menuItem": "مزامنة المصروفات مع البعيد",
+      "dialogTitle": "مزامنة المصروفات مع البعيد",
+      "dialogDescription": "راجع التغييرات حسب الاتجاه وحدّد بدقة التحديثات التي تريد تطبيقها بين البعيد والمحلي.",
+      "loading": "جارٍ تجهيز الفروقات مع المصدر البعيد...",
+      "errorPrepare": "فشل تجهيز المزامنة.",
+      "errorExecute": "فشلت مزامنة المصروفات.",
+      "toastTitle": "اكتملت المزامنة",
+      "toastDescription": "تم تطبيق إجراءات المزامنة المحددة.",
+      "remoteSource": "المصدر البعيد: {url}",
+      "directionHelp": "الاتجاه: تبديل محلي ↔ بعيد لإنشاء إجراءات إضافة أو حذف",
+      "usersSection": "المستخدمون",
+      "expensesSection": "المصروفات",
+      "noUserChanges": "لا توجد تغييرات للمستخدمين.",
+      "noExpenseChanges": "لا توجد تغييرات للمصروفات.",
+      "nothingToSync": "لا يوجد ما يمكن مزامنته. المحلي والبعيد متطابقان بالفعل.",
+      "cancel": "إلغاء",
+      "syncNow": "مزامنة الآن",
+      "syncing": "جارٍ المزامنة...",
+      "user": "المستخدم",
+      "expenseWithDate": "مصروف · {date}",
+      "presence": "محلي: {local} · بعيد: {remote}",
+      "remoteToLocal": "بعيد ← محلي",
+      "localToRemote": "محلي → بعيد",
+      "Presence": {
+        "present": "موجود",
+        "missing": "مفقود"
+      },
+      "Actions": {
+        "createLocalUser": "إنشاء مستخدم في المحلي",
+        "createRemoteUser": "إنشاء مستخدم في البعيد",
+        "deleteLocalUser": "حذف المستخدم من المحلي",
+        "deleteRemoteUser": "حذف المستخدم من البعيد",
+        "createLocalExpense": "إنشاء مصروف في المحلي",
+        "createRemoteExpense": "إنشاء مصروف في البعيد",
+        "updateLocalExpense": "تحديث المصروف في المحلي",
+        "updateRemoteExpense": "تحديث المصروف في البعيد",
+        "deleteLocalExpense": "حذف المصروف من المحلي",
+        "deleteRemoteExpense": "حذف المصروف من البعيد"
+      }
     },
-    "ExpenseForm": {
-        "Income": {
-            "create": "خلق الدخل",
-            "edit": "تحرير الدخل",
-            "TitleField": {
-                "label": "عنوان الدخل",
-                "placeholder": "مطعم مساء الاثنين",
-                "description": "أدخل وصفًا للدخل."
-            },
-            "DateField": {
-                "label": "تاريخ الدخل",
-                "description": "أدخل تاريخ استلام الدخل."
-            },
-            "currencyField": {
-                "label": "عملة الدخل",
-                "description": "العملة التي تم استلام الدخل بها."
-            },
-            "categoryFieldDescription": "اختر فئة الدخل.",
-            "paidByField": {
-                "label": "تم الاستلام بواسطة",
-                "description": "حدد المشارك الذي حصل على الدخل."
-            },
-            "paidFor": {
-                "title": "تلقى ل",
-                "description": "حدد لمن تم استلام الدخل له."
-            },
-            "splitModeDescription": "حدد كيفية تقسيم الدخل.",
-            "attachDescription": "رؤية وإرفاق الإيصالات بالدخل."
-        },
-        "Expense": {
-            "create": "إنشاء حساب",
-            "edit": "تحرير النفقات",
-            "TitleField": {
-                "label": "عنوان النفقات",
-                "placeholder": "مطعم مساء الاثنين",
-                "description": "أدخل وصفًا للنفقات."
-            },
-            "DateField": {
-                "label": "تاريخ النفقة",
-                "description": "أدخل تاريخ دفع المصاريف."
-            },
-            "currencyField": {
-                "label": "عملة النفقات",
-                "description": "العملة التي تم بها دفع النفقات."
-            },
-            "categoryFieldDescription": "حدد فئة النفقات.",
-            "paidByField": {
-                "label": "تدفع بواسطة",
-                "placeholder": "اختر مشاركا",
-                "description": "اختيار المشارك الذي قام بدفع النفقات."
-            },
-            "recurrenceRule": {
-                "label": "تكرار النفقات",
-                "description": "حدد عدد المرات التي يجب أن تتكرر فيها النفقات.",
-                "none": "لا أحد",
-                "daily": "يوميًا",
-                "weekly": "أسبوعي",
-                "monthly": "شهريا"
-            },
-            "paidFor": {
-                "title": "دفعت ثمنها",
-                "description": "حدد لمن تم دفع النفقات."
-            },
-            "splitModeDescription": "حدد كيفية تقسيم النفقات.",
-            "attachDescription": "الاطلاع على الإيصالات وإرفاقها بالنفقة."
-        },
-        "amountField": {
-            "label": "كمية"
-        },
-        "conversionUnavailable": "لتعيين عملة مختلفة لكل حساب وتحويل المبالغ، حدد عملة غير مخصصة للمجموعة.",
-        "originalAmountField": {
-            "label": "المبلغ المطلوب تحويله"
-        },
-        "conversionRateField": {
-            "useApi": "استخدم الأسعار من Frankfurter",
-            "useCustom": "استخدام معدل مخصص",
-            "label": "سعر الصرف"
-        },
-        "conversionRateState": {
-            "loading": "الحصول على أسعار الصرف...",
-            "success": "المعدلات التي تم الحصول عليها:",
-            "error": "عفوًا، لم نتمكن من الحصول على أحدث الأسعار.",
-            "staleRate": "معدل الاستخدام:",
-            "noRate": "أدخل سعرًا مخصصًا أدناه.",
-            "currencyNotFound": "عفوًا، Frankfurter لا يوجد سعر لهذه العملة في هذا اليوم.",
-            "noDate": "أدخل تاريخ النفقات للحصول على معدل التحويل.",
-            "dateMismatch": "الأسعار من التاريخ: {date}",
-            "refresh": "ينعش",
-            "customRate": "باستخدام معدل مخصص"
-        },
-        "isReimbursementField": {
-            "label": "هذا هو السداد"
-        },
-        "categoryField": {
-            "label": "فئة"
-        },
-        "notesField": {
-            "label": "ملحوظات"
-        },
-        "selectNone": "حدد لا شيء",
-        "selectAll": "حدد الكل",
-        "shares": "حصة (حصص)",
-        "advancedOptions": "خيارات التقسيم المتقدمة...",
-        "SplitModeField": {
-            "label": "وضع الانقسام",
-            "evenly": "بالتساوي",
-            "byShares": "بشكل غير متساو – بالأسهم",
-            "byPercentage": "بشكل غير متساو – بالنسبة المئوية",
-            "byAmount": "بشكل غير متساو – حسب المبلغ",
-            "saveAsDefault": "حفظ كخيارات التقسيم الافتراضية"
-        },
-        "DeletePopup": {
-            "label": "يمسح",
-            "title": "هل تريد حذف هذه النفقات؟",
-            "description": "هل تريد حقًا حذف هذه النفقات؟ هذا الإجراء لا رجعة فيه.",
-            "yes": "نعم",
-            "cancel": "يلغي"
-        },
-        "attachDocuments": "إرفاق المستندات",
-        "create": "يخلق",
-        "creating": "جارٍ الإنشاء…",
-        "save": "يحفظ",
-        "saving": "توفير…",
-        "cancel": "يلغي",
-        "reimbursement": "السداد",
-        "Calculator": {
-            "applyButton": "يتقدم",
-            "keyboardHintCalculate": "استخدام لوحة المفاتيح • أدخل لحساب",
-            "keyboardHintApply": "استخدام لوحة المفاتيح • أدخل لتطبيق",
-            "openCalculator": "فتح حاسبة المبلغ"
-        }
+    "LinkedUrl": {
+      "title": "الرابط المرتبط",
+      "linkOption": "ربط بمجموعة بعيدة",
+      "description": "يُستخدم هذا الرابط للمزامنة. امسحه لإلغاء ربط هذه المجموعة.",
+      "placeholder": "https://spliit.app/groups/...",
+      "save": "حفظ",
+      "saving": "جارٍ الحفظ...",
+      "toastUpdated": "تم تحديث الرابط المرتبط.",
+      "toastUnlinked": "تم إلغاء ربط المجموعة من الرابط البعيد.",
+      "errorUpdate": "فشل تحديث الرابط."
     },
-    "ExpenseDocumentsInput": {
-        "TooBigToast": {
-            "title": "الملف كبير جدًا",
-            "description": "الحد الأقصى لحجم الملف الذي يمكنك تحميله هو {maxSize}. لك {size}."
-        },
-        "ErrorToast": {
-            "title": "حدث خطأ أثناء تحميل المستند",
-            "description": "حدث خطأ ما أثناء تحميل المستند. يرجى إعادة المحاولة لاحقًا أو تحديد ملف مختلف.",
-            "retry": "أعد المحاولة"
-        }
+    "AdvancedSettings": {
+      "button": "إعدادات متقدمة",
+      "title": "إعدادات متقدمة",
+      "description": "أدوات الربط والمزامنة لهذه المجموعة."
     },
-    "CreateFromReceipt": {
-        "Dialog": {
-            "triggerTitle": "إنشاء حساب من الاستلام",
-            "title": "إنشاء من الاستلام",
-            "description": "استخراج معلومات النفقات من صورة الإيصال.",
-            "body": "قم بتحميل صورة الإيصال، وسنقوم بمسحها ضوئيًا لاستخراج معلومات النفقات إذا أمكننا ذلك.",
-            "selectImage": "حدد الصورة…",
-            "titleLabel": "عنوان:",
-            "categoryLabel": "فئة:",
-            "amountLabel": "كمية:",
-            "dateLabel": "تاريخ:",
-            "editNext": "ستتمكن من تعديل معلومات النفقات بعد ذلك.",
-            "continue": "يكمل"
-        },
-        "unknown": "مجهول",
-        "TooBigToast": {
-            "title": "الملف كبير جدًا",
-            "description": "الحد الأقصى لحجم الملف الذي يمكنك تحميله هو {maxSize}. لك {size}."
-        },
-        "ErrorToast": {
-            "title": "حدث خطأ أثناء تحميل المستند",
-            "description": "حدث خطأ ما أثناء تحميل المستند. يرجى إعادة المحاولة لاحقًا أو تحديد ملف مختلف.",
-            "retry": "أعد المحاولة"
-        }
+    "AddByURL": {
+      "button": "أضف بواسطة URL",
+      "title": "أضف مجموعة حسب عنوان URL",
+      "description": "إذا تمت مشاركة مجموعة معك، فيمكنك لصق عنوان URL الخاص بها هنا لإضافتها إلى قائمتك.",
+      "error": "عفوًا، لم نتمكن من العثور على المجموعة من خلال عنوان URL الذي قدمته...",
+      "hostMismatchTitle": "فتح محلي أم بعيد؟",
+      "hostMismatchPrompt": "هذا الرابط يشير إلى {host}. توجد مجموعة محلية بالمعرف نفسه. اختر مكان فتحها.",
+      "hostMismatchNotFound": "لم يتم العثور على مجموعة محلية مطابقة. يمكنك استيراد هذه المجموعة من النسخة الأخرى.",
+      "hostMismatchLocalAction": "فتح المجموعة المحلية",
+      "hostMismatchRemoteAction": "اذهب إلى البعيد",
+      "hostMismatchCancel": "إلغاء",
+      "importFromUrlAction": "فتح استيراد JSON",
+      "urlMode": "أدخل عنوان URL",
+      "qrMode": "مسح QR",
+      "scanner": {
+        "startCamera": "ابدأ تشغيل الكاميرا",
+        "stopScanning": "توقف عن المسح",
+        "permissionDenied": "تم رفض إذن الكاميرا. يرجى السماح بالوصول إلى الكاميرا لمسح رموز QR.",
+        "noCamera": "لم يتم العثور على كاميرا على هذا الجهاز.",
+        "cameraError": "فشل في تشغيل الكاميرا. يرجى المحاولة مرة أخرى.",
+        "permissionError": "غير قادر على الوصول إلى الكاميرا. يرجى التحقق من الأذونات."
+      }
     },
-    "Balances": {
-        "title": "أرصدة",
-        "description": "هذا هو المبلغ الذي دفعه كل مشارك أو تم دفعه مقابله.",
-        "Reimbursements": {
-            "title": "التعويضات المقترحة",
-            "description": "فيما يلي اقتراحات لتحسين عمليات السداد بين المشاركين.",
-            "noImbursements": "يبدو أن مجموعتك لا تحتاج إلى أي تعويض 😁",
-            "owes": "<strong>{from}</strong> مدين لـ <strong>{to}</strong>",
-            "markAsPaid": "وضع علامة على أنه مدفوع"
-        }
+    "NotFound": {
+      "text": "هذه المجموعة غير موجودة.",
+      "importing": "جارٍ استيراد المجموعة. قد يستغرق ذلك بعض الوقت...",
+      "link": "انتقل إلى المجموعات التي تمت زيارتها مؤخرًا"
+    }
+  },
+  "NewFeaturesDialog": {
+    "title": "ما الجديد في Spliit",
+    "description": "اكتشف أحدث الميزات لجعل مشاركة النفقات أسهل وأكثر أماناً",
+    "footer": "اضغط على ميزات محددة في التطبيق لمعرفة المزيد",
+    "button": "تفاصيل إضافية",
+    "badge": "جديد",
+    "features": {
+      "groupSync": {
+        "title": "مزامنة المجموعات",
+        "description": "زامن النفقات بين المجموعات المرتبطة بنقرة واحدة للحفاظ على تطابق النسخ المحلية والبعيدة."
+      },
+      "linkedUrlSafety": {
+        "title": "أمان عنوان URL المرتبط",
+        "description": "اربط عنوان URL لمجموعة بعيدة مع فحوصات التشابه لمنع عدم تطابق البيانات."
+      },
+      "remotePurge": {
+        "title": "تنظيف بعيد عند الحذف",
+        "description": "يمكنك اختيارياً تنظيف مجموعة بعيدة مرتبطة عند الحذف محلياً مع خطوة تأكيد إضافية."
+      },
+      "arabicSupport": {
+        "title": "دعم اللغة العربية",
+        "description": "أصبحت الترجمة العربية الكاملة متاحة في جميع أنحاء التطبيق."
+      },
+      "advancedSettings": {
+        "title": "الإعدادات المتقدمة",
+        "description": "خيارات المزامنة والربط والتراجع عن الاستيراد الكامل والحذف أصبحت الآن ضمن الإعدادات المتقدمة للمستخدمين المسجلين."
+      }
+    }
+  },
+  "AnonymousAuthMenu": {
+    "menu": {
+      "ariaLabel": "الحساب",
+      "account": "الحساب",
+      "restoreBackup": "استعادة من النسخة الاحتياطية",
+      "importJson": "استيراد من JSON",
+      "whatsNew": "✨ ما الجديد",
+      "signOut": "تسجيل الخروج"
     },
-    "Stats": {
-        "title": "احصائيات",
-        "Totals": {
-            "title": "المجاميع",
-            "description": "ملخص الإنفاق للمجموعة بأكملها.",
-            "groupSpendings": "إجمالي إنفاق المجموعة",
-            "groupEarnings": "إجمالي أرباح المجموعة",
-            "yourSpendings": "إجمالي إنفاقك",
-            "yourEarnings": "إجمالي أرباحك",
-            "yourShare": "حصتك الإجمالية"
-        }
+    "profile": {
+      "title": "ملف الحساب",
+      "description": "اربط المجموعات بهذا الجهاز أو استعدها على جهاز آخر.",
+      "associatedGroups": {
+        "title": "المجموعات المرتبطة",
+        "empty": "قم بزيارة مجموعة أو إضافتها أولاً لربطها.",
+        "save": "حفظ الروابط",
+        "saving": "جارٍ الحفظ..."
+      },
+      "accountAccess": {
+        "title": "الوصول إلى الحساب",
+        "description": "استخدم نفس اسم المستخدم وعبارة المرور لإنشاء حسابك المجهول أو استعادته.",
+        "usernamePlaceholder": "اسم مستخدم مجهول",
+        "generate": "إنشاء",
+        "passphrasePlaceholder": "أدخل عبارة مرور",
+        "saving": "جارٍ الحفظ...",
+        "recovering": "جارٍ الاستعادة...",
+        "newAccount": "حساب جديد",
+        "existingAccount": "حساب موجود",
+        "changePrompt": "أدخل عبارة مرورك الحالية واختر عبارة جديدة.",
+        "passkeyPrompt": "تم التحقق بمفتاح مرور. اختر عبارة مرور جديدة.",
+        "managePrompt": "إدارة أمان حسابك.",
+        "usernameLabel": "اسم المستخدم",
+        "currentPassphrasePlaceholder": "عبارة المرور الحالية",
+        "newPassphrasePlaceholder": "عبارة مرور جديدة",
+        "updating": "جارٍ التحديث...",
+        "changePassphrase": "تغيير عبارة المرور",
+        "setting": "جارٍ الضبط...",
+        "setPassphrase": "تعيين عبارة المرور",
+        "authenticating": "جارٍ التحقق...",
+        "setWithPasskey": "تعيين عبارة المرور باستخدام مفتاح المرور",
+        "resetWithPasskey": "إعادة ضبط بمفتاح المرور",
+        "passkeyFirst": "أضف مفتاح مرور أولاً لتعيين عبارة مرور، أو أنشئ حساباً جديداً بعبارة مرور."
+      },
+      "passkeyLogin": {
+        "title": "تسجيل الدخول بمفتاح المرور",
+        "notLinkedDescription": "استخدم مفتاح المرور لتسجيل الدخول على هذا الجهاز.",
+        "authenticating": "جارٍ التحقق...",
+        "usePasskey": "استخدم مفتاح المرور",
+        "manageDescription": "إدارة مفاتيح المرور لهذا الحساب.",
+        "addDescription": "أضف مفتاح مرور لتسجيل دخول سريع بدون كلمة مرور.",
+        "created": "تم الإنشاء {date}",
+        "remove": "إزالة",
+        "addPasskey": "إضافة مفتاح مرور"
+      },
+      "profileActions": {
+        "title": "إجراءات الحساب",
+        "deleteAccount": "حذف الحساب"
+      },
+      "preferences": {
+        "title": "التفضيلات",
+        "startupRedirect": "فتح المجموعة الأخيرة عند التشغيل",
+        "startupRedirectDescription": "عند فتح التطبيق، انتقل تلقائيًا إلى آخر مجموعة زرتها."
+      }
     },
-    "Activity": {
-        "title": "نشاط",
-        "description": "نظرة عامة على كافة الأنشطة في هذه المجموعة.",
-        "noActivity": "لا يوجد حتى الآن أي نشاط في مجموعتك.",
-        "someone": "شخص ما",
-        "settingsModified": "تم تعديل إعدادات المجموعة بواسطة <strong>{participant}</strong>.",
-        "expenseCreated": "النفقات <em>{expense}</em> التي تم إنشاؤها بواسطة <strong>{participant}</strong>.",
-        "expenseUpdated": "تم تحديث النفقات <em>{expense}</em> بواسطة <strong>{participant}</strong>.",
-        "expenseDeleted": "تم حذف النفقات <em>{expense}</em> بواسطة <strong>{participant}</strong>.",
-        "Groups": {
-            "today": "اليوم",
-            "yesterday": "أمس",
-            "earlierThisWeek": "في وقت سابق من هذا الأسبوع",
-            "lastWeek": "الأسبوع الماضي",
-            "earlierThisMonth": "في وقت سابق من هذا الشهر",
-            "lastMonth": "الشهر الماضي",
-            "earlierThisYear": "في وقت سابق من هذا العام",
-            "lastYear": "العام الماضي",
-            "older": "أقدم"
-        }
+    "unlinkDialog": {
+      "signOutTitle": "تسجيل الخروج من الجهاز",
+      "deleteTitle": "حذف الحساب",
+      "signOutDescription": "هل أنت متأكد أنك تريد تسجيل الخروج من هذا الجهاز؟",
+      "deleteDescription": "هل أنت متأكد أنك تريد حذف حسابك؟ لا يمكن التراجع عن هذا الإجراء.",
+      "associatedGroupsTitle": "المجموعات المرتبطة",
+      "keepRecent": "الاحتفاظ في القائمة الأخيرة",
+      "removeRecent": "إزالة من القائمة الأخيرة",
+      "signOutAction": "تسجيل الخروج",
+      "deleteAction": "حذف الحساب"
     },
-    "Information": {
-        "title": "معلومة",
-        "description": "استخدم هذا المكان لإضافة أي معلومات يمكن أن تكون ذات صلة بالمشاركين في المجموعة.",
-        "empty": "لا توجد معلومات المجموعة حتى الآن."
+    "addPasskey": {
+      "title": "إضافة مفتاح مرور",
+      "description": "أدخل اسمًا لمفتاح المرور ليسهل التعرف عليه لاحقًا.",
+      "placeholder": "مثال: MacBook Pro، iPhone",
+      "registering": "جارٍ التسجيل...",
+      "confirm": "إضافة مفتاح مرور"
+    },
+    "removePasskey": {
+      "title": "إزالة مفتاح المرور",
+      "description": "هل أنت متأكد أنك تريد إزالة مفتاح المرور هذا؟ ستحتاج إلى وسيلة تحقق أخرى للوصول إلى حسابك.",
+      "removing": "جارٍ الإزالة...",
+      "confirm": "إزالة مفتاح المرور"
+    },
+    "common": {
+      "cancel": "إلغاء"
+    },
+    "passphrase": {
+      "requirements": {
+        "minLength": "ثمانية أحرف على الأقل",
+        "uppercase": "حرف كبير واحد",
+        "lowercase": "حرف صغير واحد",
+        "number": "رقم واحد",
+        "special": "حرف خاص واحد"
+      }
+    },
+    "errors": {
+      "authOptionsFailed": "فشل الحصول على خيارات المصادقة",
+      "authenticationFailed": "فشلت المصادقة",
+      "deletePasskeyFailed": "فشل حذف مفتاح المرور",
+      "registrationOptionsFailed": "فشل الحصول على خيارات التسجيل",
+      "registrationVerifyFailed": "فشل التحقق من التسجيل"
+    },
+    "toasts": {
+      "initFailed": {
+        "title": "تعذر تهيئة الجلسة المجهولة",
+        "description": "يرجى تحديث الصفحة. إذا استمرت المشكلة، حاول لاحقاً."
+      },
+      "initNetwork": {
+        "title": "خطأ في الشبكة أثناء التهيئة",
+        "description": "تحقق من الاتصال وحدّث الصفحة للمحاولة مرة أخرى."
+      },
+      "syncGroupsFailed": {
+        "title": "فشل مزامنة المجموعات",
+        "description": "تعذر تحميل مجموعاتك. قد تكون قائمتك المحلية غير محدثة."
+      },
+      "sessionExpired": {
+        "title": "انتهت الجلسة",
+        "saveAssociations": "يرجى استعادة حسابك لحفظ ارتباطات المجموعات. استخدم اسم المستخدم وعبارة المرور لتسجيل الدخول مرة أخرى.",
+        "deleteAccount": "يرجى استعادة حسابك لحذفه. استخدم اسم المستخدم وعبارة المرور لتسجيل الدخول مرة أخرى."
+      },
+      "saveGroupsFailed": {
+        "title": "فشل حفظ المجموعات",
+        "description": "يرجى المحاولة مرة أخرى."
+      },
+      "groupsSaved": {
+        "title": "تم حفظ المجموعات",
+        "description": "أصبحت هذه المجموعات مرتبطة بحسابك المجهول."
+      },
+      "networkError": {
+        "title": "خطأ في الشبكة",
+        "saveGroups": "تعذر حفظ المجموعات. يرجى التحقق من الاتصال والمحاولة مرة أخرى.",
+        "savePassphrase": "تعذر حفظ عبارة المرور. يرجى التحقق من الاتصال والمحاولة مرة أخرى.",
+        "recoverAccount": "تعذر استعادة الحساب. يرجى التحقق من الاتصال والمحاولة مرة أخرى."
+      },
+      "passphraseInUse": {
+        "title": "عبارة المرور مستخدمة بالفعل",
+        "description": "اختر عبارة مرور مختلفة وحاول مرة أخرى."
+      },
+      "accountSaved": {
+        "title": "تم حفظ الحساب",
+        "description": "استخدم اسم المستخدم وعبارة المرور لاستعادته لاحقاً."
+      },
+      "recoveryFailed": {
+        "title": "فشلت الاستعادة",
+        "description": "لم يتم العثور على حساب بهذه العبارة."
+      },
+      "accountRecovered": {
+        "title": "تمت استعادة الحساب",
+        "description": "تمت استعادة المجموعات المرتبطة على هذا الجهاز."
+      },
+      "currentPassphraseRequired": {
+        "title": "عبارة المرور الحالية مطلوبة",
+        "description": "يرجى إدخال عبارة المرور الحالية."
+      },
+      "updatePassphraseFailed": {
+        "title": "فشل تحديث عبارة المرور",
+        "description": "يرجى التحقق من عبارة المرور الحالية والمحاولة مرة أخرى."
+      },
+      "passphraseUpdated": {
+        "title": "تم تحديث عبارة المرور",
+        "description": "أصبحت عبارة المرور الجديدة فعالة الآن."
+      },
+      "setPassphraseFailed": {
+        "title": "فشل تعيين عبارة المرور",
+        "description": "يرجى المحاولة مرة أخرى."
+      },
+      "passphraseSet": {
+        "title": "تم تعيين عبارة المرور",
+        "description": "أصبحت عبارة المرور الجديدة فعالة الآن."
+      },
+      "accountRequired": {
+        "title": "الحساب مطلوب",
+        "description": "يرجى التأكد من أنك سجلت الدخول."
+      },
+      "authSuccess": {
+        "title": "تمت المصادقة بنجاح",
+        "description": "يمكنك الآن تعيين عبارة مرور جديدة."
+      },
+      "authFailed": {
+        "title": "فشلت المصادقة",
+        "description": "يرجى المحاولة مرة أخرى.",
+        "generic": "فشلت المصادقة. يرجى المحاولة مرة أخرى."
+      },
+      "passkeyRemoved": {
+        "title": "تمت إزالة مفتاح المرور",
+        "description": "تمت إزالة مفتاح المرور من حسابك."
+      },
+      "removePasskeyFailed": {
+        "title": "فشل إزالة مفتاح المرور",
+        "description": "يرجى المحاولة مرة أخرى."
+      },
+      "usernameRequired": {
+        "title": "اسم المستخدم مطلوب",
+        "description": "يرجى تعيين اسم مستخدم قبل تسجيل مفتاح المرور."
+      },
+      "passkeyNameRequired": {
+        "title": "الاسم مطلوب",
+        "description": "يرجى إدخال اسم لمفتاح المرور."
+      },
+      "passkeyRegistered": {
+        "title": "تم تسجيل مفتاح المرور",
+        "description": "يمكنك الآن استخدام مفتاح المرور لتسجيل الدخول."
+      },
+      "passkeyRegistrationFailed": {
+        "title": "فشل التسجيل",
+        "description": "يرجى المحاولة مرة أخرى."
+      },
+      "rateLimit": {
+        "title": "تم تجاوز حد الطلبات",
+        "description": "عدد كبير من الطلبات. يرجى المحاولة لاحقًا."
+      },
+      "passkeyNotFound": {
+        "title": "لم يتم العثور على مفتاح المرور",
+        "description": "جرّب إدخال اسم المستخدم وإعادة محاولة تسجيل الدخول بمفتاح المرور."
+      },
+      "passkeyLoginSuccess": {
+        "title": "تم تسجيل الدخول بمفتاح المرور",
+        "description": "تمت استعادة المجموعات المرتبطة على هذا الجهاز."
+      },
+      "authCancelled": {
+        "title": "تم إلغاء المصادقة",
+        "description": "تم إلغاء المصادقة بمفتاح المرور."
+      },
+      "unlinked": {
+        "title": "تم فصل الحساب عن الجهاز",
+        "descriptionRemoved": "تمت إزالة المجموعات المرتبطة من جهازك.",
+        "descriptionNew": "أنت تستخدم الآن حساباً مجهولاً جديداً على هذا الجهاز."
+      },
+      "deleteAccountFailed": {
+        "title": "فشل حذف الحساب",
+        "description": "يرجى المحاولة مرة أخرى."
+      },
+      "accountDeleted": {
+        "title": "تم حذف الحساب",
+        "descriptionRemoved": "تم حذف الحساب وإزالة المجموعات من هذا الجهاز.",
+        "descriptionNew": "تم حذف الحساب. أنت تستخدم الآن حساباً مجهولاً جديداً على هذا الجهاز."
+      }
+    }
+  },
+  "GroupForm": {
+    "title": "معلومات المجموعة",
+    "NameField": {
+      "label": "اسم المجموعة",
+      "placeholder": "الإجازات الصيفية",
+      "description": "أدخل اسمًا لمجموعتك."
+    },
+    "InformationField": {
+      "label": "معلومات المجموعة",
+      "placeholder": "ما هي المعلومات ذات الصلة بالمشاركين في المجموعة؟"
+    },
+    "CurrencyField": {
+      "label": "رمز العملة",
+      "placeholder": "$، €، جنيه استرليني...",
+      "description": "سنستخدمه لعرض المبالغ."
+    },
+    "CurrencyCodeField": {
+      "label": "العملة الرئيسية",
+      "createDescription": "جميع المبالغ والأرصدة ستكون بهذه العملة.",
+      "editDescription": "جميع المبالغ والأرصدة ستكون بهذه العملة. لن يؤدي تغيير هذا إلى تحويل النفقات التي تم إدخالها بالفعل، إلا عندما تحتوي العملة على \"وحدات ثانوية\" مختلفة عن العملة الحالية (على سبيل المثال التغيير من الدولار الأمريكي إلى الين الياباني)",
+      "customOption": "مخصص"
+    },
+    "Participants": {
+      "title": "مشاركون",
+      "description": "أدخل الاسم لكل مشارك.",
+      "protectedParticipant": "هذا المشارك جزء من النفقات، ولا يمكن إزالته.",
+      "new": "جديد",
+      "add": "إضافة مشارك",
+      "John": "جون",
+      "Jane": "جين",
+      "Jack": "جاك"
     },
     "Settings": {
-        "title": "إعدادات"
-    },
-    "Share": {
-        "title": "يشارك",
-        "description": "لكي يتمكن المشاركون الآخرون من رؤية المجموعة وإضافة النفقات، قم بمشاركة عنوان URL الخاص بها معهم.",
-        "warning": "تحذير!",
-        "warningHelp": "سيتمكن كل شخص لديه عنوان URL للمجموعة من رؤية النفقات وتعديلها. شارك بحذر!",
-        "qrCode": {
-            "title": "المشاركة عبر رمز الاستجابة السريعة",
-            "description": "قم بمسح رمز الاستجابة السريعة هذا لفتح المجموعة على أي جهاز.",
-            "download": "تحميل رمز الاستجابة السريعة"
-        }
-    },
-    "SchemaErrors": {
-        "min1": "أدخل حرفًا واحدًا على الأقل.",
-        "min2": "أدخل حرفين على الأقل.",
-        "max5": "أدخل خمسة أحرف على الأكثر.",
-        "max50": "أدخل 50 حرفًا على الأكثر.",
-        "duplicateParticipantName": "مشارك آخر لديه هذا الاسم بالفعل.",
-        "titleRequired": "الرجاء إدخال عنوان.",
-        "invalidNumber": "رقم غير صالح.",
-        "amountRequired": "يجب عليك إدخال المبلغ.",
-        "amountNotZero": "يجب ألا يكون المبلغ صفراً.",
-        "amountTenMillion": "يجب أن يكون المبلغ أقل من 10,000,000.",
-        "ratePositive": "يجب أن يكون المعدل أكبر من الصفر تمامًا.",
-        "paidByRequired": "يجب عليك اختيار مشارك.",
-        "paidForMin1": "ويجب دفع المصاريف لمشارك واحد على الأقل.",
-        "noZeroShares": "يجب أن تكون جميع الأسهم أعلى من 0.",
-        "amountSum": "يجب أن يساوي مجموع المبالغ مبلغ المصروفات.",
-        "percentageSum": "مجموع النسب يجب أن يساوي 100."
-    },
-    "Categories": {
-        "search": "فئة البحث...",
-        "noCategory": "لم يتم العثور على فئة.",
-        "Uncategorized": {
-            "heading": "غير مصنف",
-            "General": "عام",
-            "Payment": "قسط"
-        },
-        "Entertainment": {
-            "heading": "ترفيه",
-            "Entertainment": "ترفيه",
-            "Games": "ألعاب",
-            "Movies": "أفلام",
-            "Music": "موسيقى",
-            "Sports": "الرياضة"
-        },
-        "Food and Drink": {
-            "heading": "الطعام والشراب",
-            "Food and Drink": "الطعام والشراب",
-            "Dining Out": "تناول الطعام بالخارج",
-            "Groceries": "بقالة",
-            "Liquor": "الخمور"
-        },
-        "Home": {
-            "heading": "بيت",
-            "Home": "بيت",
-            "Electronics": "إلكترونيات",
-            "Furniture": "أثاث",
-            "Household Supplies": "اللوازم المنزلية",
-            "Maintenance": "صيانة",
-            "Mortgage": "القرض العقاري",
-            "Pets": "حيوانات أليفة",
-            "Rent": "إيجار",
-            "Services": "خدمات"
-        },
-        "Life": {
-            "heading": "حياة",
-            "Childcare": "رعاية الأطفال",
-            "Clothing": "ملابس",
-            "Donation": "هبة",
-            "Education": "تعليم",
-            "Gifts": "الهدايا",
-            "Insurance": "تأمين",
-            "Medical Expenses": "النفقات الطبية",
-            "Taxes": "الضرائب"
-        },
-        "Transportation": {
-            "heading": "مواصلات",
-            "Transportation": "مواصلات",
-            "Bicycle": "دراجة",
-            "Bus/Train": "حافلة / قطار",
-            "Car": "سيارة",
-            "Gas/Fuel": "الغاز / الوقود",
-            "Hotel": "الفندق",
-            "Parking": "وقوف السيارات",
-            "Plane": "طائرة",
-            "Taxi": "تاكسي"
-        },
-        "Utilities": {
-            "heading": "المرافق",
-            "Utilities": "المرافق",
-            "Cleaning": "تنظيف",
-            "Electricity": "كهرباء",
-            "Heat/Gas": "الحرارة / الغاز",
-            "Trash": "نفاية",
-            "TV/Phone/Internet": "تلفزيون/هاتف/إنترنت",
-            "Water": "ماء"
-        }
-    },
-    "Currencies": {
-        "search": "بحث عن العملة...",
-        "noCurrency": "لم يتم العثور على عملات.",
-        "custom": {
-            "heading": "مخصص"
-        },
-        "common": {
-            "heading": "الأكثر شيوعًا"
-        },
-        "other": {
-            "heading": "عملات أخرى"
-        }
-    },
-    "Backup": {
-        "restoreBackup": "استعادة النسخة الاحتياطية",
-        "restoreBackupTitle": "استعادة النسخة الاحتياطية للمجموعة",
-        "restoreBackupDescription": "قم بتحميل ملف نسخة احتياطية لاستعادة مجموعة أو إنشائها. سيتحقق النظام من وجود المجموعة ويرشدك خلال عملية الاستعادة.",
-        "analyzing": "جارٍ التحليل...",
-        "analyzeBackup": "تحليل النسخ الاحتياطي",
-        "groupName": "اسم المجموعة",
-        "backupDate": "تاريخ النسخ الاحتياطي",
-        "groupNotFound": "هذه المجموعة غير موجودة بعد. انقر أدناه لإنشائه من النسخة الاحتياطية.",
-        "creating": "جارٍ الإنشاء...",
-        "createGroup": "إنشاء مجموعة من النسخة الاحتياطية",
-        "backupIsNewer": "تحتوي هذه النسخة الاحتياطية على بيانات أحدث من مجموعتك الحالية.",
-        "currentVersion": "آخر تحديث للمجموعة الحالية",
-        "changes": "التغييرات في النسخ الاحتياطي",
-        "addedExpenses": "{count} النفقات الجديدة",
-        "addedParticipants": "{count} المشاركين الجدد",
-        "restoring": "جارٍ الاستعادة...",
-        "restoreDifferences": "استعادة البيانات الجديدة",
-        "backupIsOlder": "تحذير: هذه النسخة الاحتياطية أقدم من بيانات مجموعتك الحالية.",
-        "rollingBack": "التراجع...",
-        "rollbackToBackup": "العودة إلى النسخة الاحتياطية",
-        "rollbackWarning": "سيؤدي هذا إلى حذف جميع البيانات الحالية واستبدالها بالنسخة الاحتياطية. لا يمكن التراجع عن هذا الإجراء!",
-        "backupIsSame": "هذه النسخة الاحتياطية مطابقة لبيانات مجموعتك الحالية.",
-        "cancel": "يلغي"
-    },
-    "JSONImport": {
-        "importJSON": "استيراد من JSON",
-        "importJSONTitle": "استيراد المجموعة من تصدير JSON",
-        "importJSONDescription": "قم بتحميل ملف تصدير JSON لترحيل مجموعة من مثيل Spliit آخر. سيقوم النظام بتحليل الملف وإرشادك خلال عملية الاستيراد.",
-        "importSuccessTitle": "اكتمل الاستيراد",
-        "importSuccessDescription": "{name}",
-        "importAssociationWarningTitle": "الرابطة معلقة",
-        "importAssociationWarningDescription": "لقد قمنا باستيراد المجموعة، ولكن لم نتمكن من حفظ أذونات الحساب. افتح ملف التعريف الخاص بك وانقر فوق \"حفظ\" للانتهاء.",
-        "analyzing": "جارٍ التحليل...",
-        "analyzeJSON": "تحليل ملف JSON",
-        "groupName": "اسم المجموعة",
-        "exportDate": "تاريخ التصدير",
-        "limitations": "قيود مهمة",
-        "groupNotFound": "هذه المجموعة غير موجودة بعد. انقر أدناه لإنشائه من تصدير JSON.",
-        "creating": "جارٍ الإنشاء...",
-        "createGroup": "إنشاء مجموعة من JSON",
-        "jsonIsNewer": "يحتوي تصدير JSON هذا على بيانات أحدث من مجموعتك الحالية.",
-        "currentVersion": "آخر تحديث للمجموعة الحالية",
-        "changes": "التغييرات في تصدير JSON",
-        "addedExpenses": "~{count} النفقات الجديدة (تقريبية)",
-        "addedParticipants": "{count} المشاركين الجدد",
-        "restoring": "جارٍ الاستيراد...",
-        "importDifferences": "استيراد بيانات جديدة",
-        "jsonIsOlder": "تحذير: تصدير JSON هذا أقدم من بيانات مجموعتك الحالية.",
-        "rollingBack": "التراجع...",
-        "rollbackToJSON": "العودة إلى إصدار JSON",
-        "rollbackWarning": "سيؤدي هذا إلى حذف جميع البيانات الحالية واستبدالها بتصدير JSON. لا يمكن التراجع عن هذا الإجراء!",
-        "jsonIsSame": "يبدو أن تصدير JSON هذا يطابق بيانات مجموعتك الحالية.",
-        "cancel": "يلغي",
-        "importFromFile": "استيراد من ملف",
-        "importFromURL": "استيراد من URL",
-        "urlPlaceholder": "https://example.com/groups/...",
-        "fetchJSON": "جلب JSON",
-        "errorInvalidURL": "أدخل عنوان URL صالحًا من موقع Spliit آخر.",
-        "errorSameOrigin": "استخدم عنوان URL لموقع مختلف عن هذا.",
-        "errorNoGroupID": "تعذر العثور على معرف المجموعة في عنوان URL هذا.",
-        "errorGroupExists": "هذه المجموعة موجودة بالفعل على هذا الموقع.",
-        "errorGroupExistsDeleted": "هذه المجموعة لا تزال موجودة على الخادم. احذفها من الإعدادات المتقدمة قبل الاستيراد مرة أخرى.",
-        "errorRemoteFetch": "فشل جلب JSON من الموقع البعيد.",
-        "remoteReadyWithName": "جاهز للاستيراد: {name}",
-        "remoteReady": "جهاز JSON البعيد جاهز للاستيراد.",
-        "errorAnalysisFailed": "فشل في تحليل ملف JSON",
-        "errorInvalidResponse": "استجابة غير صالحة من الخادم",
-        "errorImportFailed": "فشل استيراد JSON",
-        "jsonIsMergeable": "يعد تصدير JSON هذا أقدم، ولكنه يحتوي على نفقات مفقودة في مجموعتك.",
-        "conflictsTitle": "تم العثور على نفقات متضاربة",
-        "conflictsDescription": "اختر النفقات التي يجب تحديثها لتتناسب مع تصدير JSON.",
-        "conflictApplyAllUpdate": "تحديث الكل",
-        "conflictApplyAllKeep": "احتفظ بالكل",
-        "conflictDifferenceLabel": "يختلف في",
-        "conflictFieldCategory": "فئة",
-        "conflictFieldSplitMode": "وضع الانقسام",
-        "conflictFieldPaidFor": "دفعت ثمن",
-        "conflictUpdateLabel": "تحقق من تحديث هذه النفقات لتتوافق مع تصدير JSON.",
-        "paidBy": "تدفع بواسطة",
-        "conflictDefaultAll": "الافتراضي لتحديث كافة الصراعات",
-        "conflictCurrentLabel": "حاضِر",
-        "conflictJsonLabel": "JSON",
-        "conflictNone": "لا أحد",
-        "conflictEmpty": "لا أحد"
-    },
-    "DeleteData": {
-        "undoImport": "التراجع عن الاستيراد الكامل",
-        "undoImportDescription": "قم بإزالة كافة البيانات المضافة أثناء عملية استيراد JSON الأخيرة",
-        "undoWarning": "سيؤدي هذا إلى إزالة جميع النفقات والمشاركين والأنشطة التي تمت إضافتها أثناء عملية الاستيراد الأخيرة. لا يمكن التراجع عن هذا الإجراء!",
-        "cancel": "يلغي",
-        "confirm": "التراجع عن الاستيراد",
-        "deleting": "جارٍ التراجع...",
-        "success": "تم التراجع عن الاستيراد بنجاح",
-        "error": "فشل التراجع عن الاستيراد"
+      "title": "الإعدادات المحلية",
+      "description": "يتم تعيين هذه الإعدادات لكل جهاز، ويتم استخدامها لتخصيص تجربتك.",
+      "ActiveUserField": {
+        "label": "مستخدم نشط",
+        "placeholder": "اختر مشاركا",
+        "none": "لا أحد",
+        "description": "يستخدم المستخدم كافتراضي لدفع النفقات."
+      },
+      "save": "يحفظ",
+      "saving": "توفير…",
+      "create": "يخلق",
+      "creating": "جارٍ الإنشاء…",
+      "cancel": "يلغي"
     }
+  },
+  "ExpenseForm": {
+    "Income": {
+      "create": "خلق الدخل",
+      "edit": "تحرير الدخل",
+      "TitleField": {
+        "label": "عنوان الدخل",
+        "placeholder": "مطعم مساء الاثنين",
+        "description": "أدخل وصفًا للدخل."
+      },
+      "DateField": {
+        "label": "تاريخ الدخل",
+        "description": "أدخل تاريخ استلام الدخل."
+      },
+      "currencyField": {
+        "label": "عملة الدخل",
+        "description": "العملة التي تم استلام الدخل بها."
+      },
+      "categoryFieldDescription": "اختر فئة الدخل.",
+      "paidByField": {
+        "label": "تم الاستلام بواسطة",
+        "description": "حدد المشارك الذي حصل على الدخل."
+      },
+      "paidFor": {
+        "title": "تلقى ل",
+        "description": "حدد لمن تم استلام الدخل له."
+      },
+      "splitModeDescription": "حدد كيفية تقسيم الدخل.",
+      "attachDescription": "رؤية وإرفاق الإيصالات بالدخل."
+    },
+    "Expense": {
+      "create": "إنشاء حساب",
+      "edit": "تحرير النفقات",
+      "TitleField": {
+        "label": "عنوان النفقات",
+        "placeholder": "مطعم مساء الاثنين",
+        "description": "أدخل وصفًا للنفقات."
+      },
+      "DateField": {
+        "label": "تاريخ النفقة",
+        "description": "أدخل تاريخ دفع المصاريف."
+      },
+      "currencyField": {
+        "label": "عملة النفقات",
+        "description": "العملة التي تم بها دفع النفقات."
+      },
+      "categoryFieldDescription": "حدد فئة النفقات.",
+      "paidByField": {
+        "label": "تدفع بواسطة",
+        "placeholder": "اختر مشاركا",
+        "description": "اختيار المشارك الذي قام بدفع النفقات."
+      },
+      "recurrenceRule": {
+        "label": "تكرار النفقات",
+        "description": "حدد عدد المرات التي يجب أن تتكرر فيها النفقات.",
+        "none": "لا أحد",
+        "daily": "يوميًا",
+        "weekly": "أسبوعي",
+        "monthly": "شهريا"
+      },
+      "paidFor": {
+        "title": "دفعت ثمنها",
+        "description": "حدد لمن تم دفع النفقات."
+      },
+      "splitModeDescription": "حدد كيفية تقسيم النفقات.",
+      "attachDescription": "الاطلاع على الإيصالات وإرفاقها بالنفقة."
+    },
+    "amountField": {
+      "label": "كمية"
+    },
+    "conversionUnavailable": "لتعيين عملة مختلفة لكل حساب وتحويل المبالغ، حدد عملة غير مخصصة للمجموعة.",
+    "originalAmountField": {
+      "label": "المبلغ المطلوب تحويله"
+    },
+    "conversionRateField": {
+      "useApi": "استخدم الأسعار من Frankfurter",
+      "useCustom": "استخدام معدل مخصص",
+      "label": "سعر الصرف"
+    },
+    "conversionRateState": {
+      "loading": "الحصول على أسعار الصرف...",
+      "success": "المعدلات التي تم الحصول عليها:",
+      "error": "عفوًا، لم نتمكن من الحصول على أحدث الأسعار.",
+      "staleRate": "معدل الاستخدام:",
+      "noRate": "أدخل سعرًا مخصصًا أدناه.",
+      "currencyNotFound": "عفوًا، Frankfurter لا يوجد سعر لهذه العملة في هذا اليوم.",
+      "noDate": "أدخل تاريخ النفقات للحصول على معدل التحويل.",
+      "dateMismatch": "الأسعار من التاريخ: {date}",
+      "refresh": "ينعش",
+      "customRate": "باستخدام معدل مخصص"
+    },
+    "isReimbursementField": {
+      "label": "هذا هو السداد"
+    },
+    "categoryField": {
+      "label": "فئة"
+    },
+    "notesField": {
+      "label": "ملحوظات"
+    },
+    "selectNone": "حدد لا شيء",
+    "selectAll": "حدد الكل",
+    "shares": "حصة (حصص)",
+    "advancedOptions": "خيارات التقسيم المتقدمة...",
+    "SplitModeField": {
+      "label": "وضع الانقسام",
+      "evenly": "بالتساوي",
+      "byShares": "بشكل غير متساو – بالأسهم",
+      "byPercentage": "بشكل غير متساو – بالنسبة المئوية",
+      "byAmount": "بشكل غير متساو – حسب المبلغ",
+      "saveAsDefault": "حفظ كخيارات التقسيم الافتراضية"
+    },
+    "DeletePopup": {
+      "label": "يمسح",
+      "title": "هل تريد حذف هذه النفقات؟",
+      "description": "هل تريد حقًا حذف هذه النفقات؟ هذا الإجراء لا رجعة فيه.",
+      "yes": "نعم",
+      "cancel": "يلغي"
+    },
+    "attachDocuments": "إرفاق المستندات",
+    "create": "يخلق",
+    "creating": "جارٍ الإنشاء…",
+    "save": "يحفظ",
+    "saving": "توفير…",
+    "cancel": "يلغي",
+    "reimbursement": "السداد",
+    "Calculator": {
+      "applyButton": "يتقدم",
+      "keyboardHintCalculate": "استخدام لوحة المفاتيح • أدخل لحساب",
+      "keyboardHintApply": "استخدام لوحة المفاتيح • أدخل لتطبيق",
+      "openCalculator": "فتح حاسبة المبلغ"
+    }
+  },
+  "ExpenseDocumentsInput": {
+    "TooBigToast": {
+      "title": "الملف كبير جدًا",
+      "description": "الحد الأقصى لحجم الملف الذي يمكنك تحميله هو {maxSize}. لك {size}."
+    },
+    "ErrorToast": {
+      "title": "حدث خطأ أثناء تحميل المستند",
+      "description": "حدث خطأ ما أثناء تحميل المستند. يرجى إعادة المحاولة لاحقًا أو تحديد ملف مختلف.",
+      "retry": "أعد المحاولة"
+    }
+  },
+  "CreateFromReceipt": {
+    "Dialog": {
+      "triggerTitle": "إنشاء حساب من الاستلام",
+      "title": "إنشاء من الاستلام",
+      "description": "استخراج معلومات النفقات من صورة الإيصال.",
+      "body": "قم بتحميل صورة الإيصال، وسنقوم بمسحها ضوئيًا لاستخراج معلومات النفقات إذا أمكننا ذلك.",
+      "selectImage": "حدد الصورة…",
+      "titleLabel": "عنوان:",
+      "categoryLabel": "فئة:",
+      "amountLabel": "كمية:",
+      "dateLabel": "تاريخ:",
+      "editNext": "ستتمكن من تعديل معلومات النفقات بعد ذلك.",
+      "continue": "يكمل"
+    },
+    "unknown": "مجهول",
+    "TooBigToast": {
+      "title": "الملف كبير جدًا",
+      "description": "الحد الأقصى لحجم الملف الذي يمكنك تحميله هو {maxSize}. لك {size}."
+    },
+    "ErrorToast": {
+      "title": "حدث خطأ أثناء تحميل المستند",
+      "description": "حدث خطأ ما أثناء تحميل المستند. يرجى إعادة المحاولة لاحقًا أو تحديد ملف مختلف.",
+      "retry": "أعد المحاولة"
+    }
+  },
+  "Balances": {
+    "title": "أرصدة",
+    "description": "هذا هو المبلغ الذي دفعه كل مشارك أو تم دفعه مقابله.",
+    "Reimbursements": {
+      "title": "التعويضات المقترحة",
+      "description": "فيما يلي اقتراحات لتحسين عمليات السداد بين المشاركين.",
+      "noImbursements": "يبدو أن مجموعتك لا تحتاج إلى أي تعويض 😁",
+      "owes": "<strong>{from}</strong> مدين لـ <strong>{to}</strong>",
+      "markAsPaid": "وضع علامة على أنه مدفوع"
+    }
+  },
+  "Stats": {
+    "title": "احصائيات",
+    "Totals": {
+      "title": "المجاميع",
+      "description": "ملخص الإنفاق للمجموعة بأكملها.",
+      "groupSpendings": "إجمالي إنفاق المجموعة",
+      "groupEarnings": "إجمالي أرباح المجموعة",
+      "yourSpendings": "إجمالي إنفاقك",
+      "yourEarnings": "إجمالي أرباحك",
+      "yourShare": "حصتك الإجمالية"
+    },
+    "SpendingCharts": {
+      "title": "تفصيل الإنفاق",
+      "description": "عرض مرئي لمن دفع ومن يدين بماذا.",
+      "byPayer": "الإنفاق حسب الدافع",
+      "byShare": "الحصص حسب العضو"
+    }
+  },
+  "Activity": {
+    "title": "نشاط",
+    "description": "نظرة عامة على كافة الأنشطة في هذه المجموعة.",
+    "noActivity": "لا يوجد حتى الآن أي نشاط في مجموعتك.",
+    "someone": "شخص ما",
+    "settingsModified": "تم تعديل إعدادات المجموعة بواسطة <strong>{participant}</strong>.",
+    "expenseCreated": "النفقات <em>{expense}</em> التي تم إنشاؤها بواسطة <strong>{participant}</strong>.",
+    "expenseUpdated": "تم تحديث النفقات <em>{expense}</em> بواسطة <strong>{participant}</strong>.",
+    "expenseDeleted": "تم حذف النفقات <em>{expense}</em> بواسطة <strong>{participant}</strong>.",
+    "Groups": {
+      "today": "اليوم",
+      "yesterday": "أمس",
+      "earlierThisWeek": "في وقت سابق من هذا الأسبوع",
+      "lastWeek": "الأسبوع الماضي",
+      "earlierThisMonth": "في وقت سابق من هذا الشهر",
+      "lastMonth": "الشهر الماضي",
+      "earlierThisYear": "في وقت سابق من هذا العام",
+      "lastYear": "العام الماضي",
+      "older": "أقدم"
+    }
+  },
+  "Information": {
+    "title": "معلومة",
+    "description": "استخدم هذا المكان لإضافة أي معلومات يمكن أن تكون ذات صلة بالمشاركين في المجموعة.",
+    "empty": "لا توجد معلومات المجموعة حتى الآن."
+  },
+  "Settings": {
+    "title": "إعدادات"
+  },
+  "Share": {
+    "title": "يشارك",
+    "description": "لكي يتمكن المشاركون الآخرون من رؤية المجموعة وإضافة النفقات، قم بمشاركة عنوان URL الخاص بها معهم.",
+    "warning": "تحذير!",
+    "warningHelp": "سيتمكن كل شخص لديه عنوان URL للمجموعة من رؤية النفقات وتعديلها. شارك بحذر!",
+    "qrCode": {
+      "title": "المشاركة عبر رمز الاستجابة السريعة",
+      "description": "قم بمسح رمز الاستجابة السريعة هذا لفتح المجموعة على أي جهاز.",
+      "download": "تحميل رمز الاستجابة السريعة"
+    }
+  },
+  "SchemaErrors": {
+    "min1": "أدخل حرفًا واحدًا على الأقل.",
+    "min2": "أدخل حرفين على الأقل.",
+    "max5": "أدخل خمسة أحرف على الأكثر.",
+    "max50": "أدخل 50 حرفًا على الأكثر.",
+    "duplicateParticipantName": "مشارك آخر لديه هذا الاسم بالفعل.",
+    "titleRequired": "الرجاء إدخال عنوان.",
+    "invalidNumber": "رقم غير صالح.",
+    "amountRequired": "يجب عليك إدخال المبلغ.",
+    "amountNotZero": "يجب ألا يكون المبلغ صفراً.",
+    "amountTenMillion": "يجب أن يكون المبلغ أقل من 10,000,000.",
+    "ratePositive": "يجب أن يكون المعدل أكبر من الصفر تمامًا.",
+    "paidByRequired": "يجب عليك اختيار مشارك.",
+    "paidForMin1": "ويجب دفع المصاريف لمشارك واحد على الأقل.",
+    "noZeroShares": "يجب أن تكون جميع الأسهم أعلى من 0.",
+    "amountSum": "يجب أن يساوي مجموع المبالغ مبلغ المصروفات.",
+    "percentageSum": "مجموع النسب يجب أن يساوي 100."
+  },
+  "Categories": {
+    "search": "فئة البحث...",
+    "noCategory": "لم يتم العثور على فئة.",
+    "Uncategorized": {
+      "heading": "غير مصنف",
+      "General": "عام",
+      "Payment": "قسط"
+    },
+    "Entertainment": {
+      "heading": "ترفيه",
+      "Entertainment": "ترفيه",
+      "Games": "ألعاب",
+      "Movies": "أفلام",
+      "Music": "موسيقى",
+      "Sports": "الرياضة"
+    },
+    "Food and Drink": {
+      "heading": "الطعام والشراب",
+      "Food and Drink": "الطعام والشراب",
+      "Dining Out": "تناول الطعام بالخارج",
+      "Groceries": "بقالة",
+      "Liquor": "الخمور"
+    },
+    "Home": {
+      "heading": "بيت",
+      "Home": "بيت",
+      "Electronics": "إلكترونيات",
+      "Furniture": "أثاث",
+      "Household Supplies": "اللوازم المنزلية",
+      "Maintenance": "صيانة",
+      "Mortgage": "القرض العقاري",
+      "Pets": "حيوانات أليفة",
+      "Rent": "إيجار",
+      "Services": "خدمات"
+    },
+    "Life": {
+      "heading": "حياة",
+      "Childcare": "رعاية الأطفال",
+      "Clothing": "ملابس",
+      "Donation": "هبة",
+      "Education": "تعليم",
+      "Gifts": "الهدايا",
+      "Insurance": "تأمين",
+      "Medical Expenses": "النفقات الطبية",
+      "Taxes": "الضرائب"
+    },
+    "Transportation": {
+      "heading": "مواصلات",
+      "Transportation": "مواصلات",
+      "Bicycle": "دراجة",
+      "Bus/Train": "حافلة / قطار",
+      "Car": "سيارة",
+      "Gas/Fuel": "الغاز / الوقود",
+      "Hotel": "الفندق",
+      "Parking": "وقوف السيارات",
+      "Plane": "طائرة",
+      "Taxi": "تاكسي"
+    },
+    "Utilities": {
+      "heading": "المرافق",
+      "Utilities": "المرافق",
+      "Cleaning": "تنظيف",
+      "Electricity": "كهرباء",
+      "Heat/Gas": "الحرارة / الغاز",
+      "Trash": "نفاية",
+      "TV/Phone/Internet": "تلفزيون/هاتف/إنترنت",
+      "Water": "ماء"
+    }
+  },
+  "Currencies": {
+    "search": "بحث عن العملة...",
+    "noCurrency": "لم يتم العثور على عملات.",
+    "custom": {
+      "heading": "مخصص"
+    },
+    "common": {
+      "heading": "الأكثر شيوعًا"
+    },
+    "other": {
+      "heading": "عملات أخرى"
+    }
+  },
+  "Backup": {
+    "restoreBackup": "استعادة النسخة الاحتياطية",
+    "restoreBackupTitle": "استعادة النسخة الاحتياطية للمجموعة",
+    "restoreBackupDescription": "قم بتحميل ملف نسخة احتياطية لاستعادة مجموعة أو إنشائها. سيتحقق النظام من وجود المجموعة ويرشدك خلال عملية الاستعادة.",
+    "analyzing": "جارٍ التحليل...",
+    "analyzeBackup": "تحليل النسخ الاحتياطي",
+    "groupName": "اسم المجموعة",
+    "backupDate": "تاريخ النسخ الاحتياطي",
+    "groupNotFound": "هذه المجموعة غير موجودة بعد. انقر أدناه لإنشائه من النسخة الاحتياطية.",
+    "creating": "جارٍ الإنشاء...",
+    "createGroup": "إنشاء مجموعة من النسخة الاحتياطية",
+    "backupIsNewer": "تحتوي هذه النسخة الاحتياطية على بيانات أحدث من مجموعتك الحالية.",
+    "currentVersion": "آخر تحديث للمجموعة الحالية",
+    "changes": "التغييرات في النسخ الاحتياطي",
+    "addedExpenses": "{count} النفقات الجديدة",
+    "addedParticipants": "{count} المشاركين الجدد",
+    "restoring": "جارٍ الاستعادة...",
+    "restoreDifferences": "استعادة البيانات الجديدة",
+    "backupIsOlder": "تحذير: هذه النسخة الاحتياطية أقدم من بيانات مجموعتك الحالية.",
+    "rollingBack": "التراجع...",
+    "rollbackToBackup": "العودة إلى النسخة الاحتياطية",
+    "rollbackWarning": "سيؤدي هذا إلى حذف جميع البيانات الحالية واستبدالها بالنسخة الاحتياطية. لا يمكن التراجع عن هذا الإجراء!",
+    "backupIsSame": "هذه النسخة الاحتياطية مطابقة لبيانات مجموعتك الحالية.",
+    "cancel": "يلغي"
+  },
+  "JSONImport": {
+    "importJSON": "استيراد من JSON",
+    "importJSONTitle": "استيراد المجموعة من تصدير JSON",
+    "importJSONDescription": "قم بتحميل ملف تصدير JSON لترحيل مجموعة من مثيل Spliit آخر. سيقوم النظام بتحليل الملف وإرشادك خلال عملية الاستيراد.",
+    "importSuccessTitle": "اكتمل الاستيراد",
+    "importSuccessDescription": "{name}",
+    "importAssociationWarningTitle": "الرابطة معلقة",
+    "importAssociationWarningDescription": "لقد قمنا باستيراد المجموعة، ولكن لم نتمكن من حفظ أذونات الحساب. افتح ملف التعريف الخاص بك وانقر فوق \"حفظ\" للانتهاء.",
+    "analyzing": "جارٍ التحليل...",
+    "analyzeJSON": "تحليل ملف JSON",
+    "groupName": "اسم المجموعة",
+    "exportDate": "تاريخ التصدير",
+    "limitations": "قيود مهمة",
+    "groupNotFound": "هذه المجموعة غير موجودة بعد. انقر أدناه لإنشائه من تصدير JSON.",
+    "creating": "جارٍ الإنشاء...",
+    "createGroup": "إنشاء مجموعة من JSON",
+    "jsonIsNewer": "يحتوي تصدير JSON هذا على بيانات أحدث من مجموعتك الحالية.",
+    "currentVersion": "آخر تحديث للمجموعة الحالية",
+    "changes": "التغييرات في تصدير JSON",
+    "addedExpenses": "~{count} النفقات الجديدة (تقريبية)",
+    "addedParticipants": "{count} المشاركين الجدد",
+    "restoring": "جارٍ الاستيراد...",
+    "importDifferences": "استيراد بيانات جديدة",
+    "jsonIsOlder": "تحذير: تصدير JSON هذا أقدم من بيانات مجموعتك الحالية.",
+    "rollingBack": "التراجع...",
+    "rollbackToJSON": "العودة إلى إصدار JSON",
+    "rollbackWarning": "سيؤدي هذا إلى حذف جميع البيانات الحالية واستبدالها بتصدير JSON. لا يمكن التراجع عن هذا الإجراء!",
+    "jsonIsSame": "يبدو أن تصدير JSON هذا يطابق بيانات مجموعتك الحالية.",
+    "cancel": "يلغي",
+    "importFromFile": "استيراد من ملف",
+    "importFromURL": "استيراد من URL",
+    "urlPlaceholder": "https://example.com/groups/...",
+    "fetchJSON": "جلب JSON",
+    "errorInvalidURL": "أدخل عنوان URL صالحًا من موقع Spliit آخر.",
+    "errorSameOrigin": "استخدم عنوان URL لموقع مختلف عن هذا.",
+    "errorNoGroupID": "تعذر العثور على معرف المجموعة في عنوان URL هذا.",
+    "errorGroupExists": "هذه المجموعة موجودة بالفعل على هذا الموقع.",
+    "errorGroupExistsDeleted": "هذه المجموعة لا تزال موجودة على الخادم. احذفها من الإعدادات المتقدمة قبل الاستيراد مرة أخرى.",
+    "errorRemoteFetch": "فشل جلب JSON من الموقع البعيد.",
+    "remoteReadyWithName": "جاهز للاستيراد: {name}",
+    "remoteReady": "جهاز JSON البعيد جاهز للاستيراد.",
+    "errorAnalysisFailed": "فشل في تحليل ملف JSON",
+    "errorInvalidResponse": "استجابة غير صالحة من الخادم",
+    "errorImportFailed": "فشل استيراد JSON",
+    "jsonIsMergeable": "يعد تصدير JSON هذا أقدم، ولكنه يحتوي على نفقات مفقودة في مجموعتك.",
+    "conflictsTitle": "تم العثور على نفقات متضاربة",
+    "conflictsDescription": "اختر النفقات التي يجب تحديثها لتتناسب مع تصدير JSON.",
+    "conflictApplyAllUpdate": "تحديث الكل",
+    "conflictApplyAllKeep": "احتفظ بالكل",
+    "conflictDifferenceLabel": "يختلف في",
+    "conflictFieldCategory": "فئة",
+    "conflictFieldSplitMode": "وضع الانقسام",
+    "conflictFieldPaidFor": "دفعت ثمن",
+    "conflictUpdateLabel": "تحقق من تحديث هذه النفقات لتتوافق مع تصدير JSON.",
+    "paidBy": "تدفع بواسطة",
+    "conflictDefaultAll": "الافتراضي لتحديث كافة الصراعات",
+    "conflictCurrentLabel": "حاضِر",
+    "conflictJsonLabel": "JSON",
+    "conflictNone": "لا أحد",
+    "conflictEmpty": "لا أحد"
+  },
+  "DeleteData": {
+    "undoImport": "التراجع عن الاستيراد الكامل",
+    "undoImportDescription": "قم بإزالة كافة البيانات المضافة أثناء عملية استيراد JSON الأخيرة",
+    "undoWarning": "سيؤدي هذا إلى إزالة جميع النفقات والمشاركين والأنشطة التي تمت إضافتها أثناء عملية الاستيراد الأخيرة. لا يمكن التراجع عن هذا الإجراء!",
+    "cancel": "يلغي",
+    "confirm": "التراجع عن الاستيراد",
+    "deleting": "جارٍ التراجع...",
+    "success": "تم التراجع عن الاستيراد بنجاح",
+    "error": "فشل التراجع عن الاستيراد"
+  }
 }

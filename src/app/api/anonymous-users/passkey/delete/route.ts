@@ -1,17 +1,17 @@
 import { prisma } from '@/lib/prisma'
-import { NextResponse } from 'next/server'
-import { rateLimit, getRateLimitIdentifier } from '@/lib/rate-limit'
+import { getRateLimitIdentifier, rateLimit } from '@/lib/rate-limit'
 import { requireSession } from '@/lib/session'
+import { NextResponse } from 'next/server'
 
 export async function POST(request: Request) {
   // Apply rate limiting
   const identifier = getRateLimitIdentifier(request)
   const rateLimitResult = rateLimit(identifier)
-  
+
   if (!rateLimitResult.success) {
     return NextResponse.json(
       { error: 'Too many requests. Please try again later.' },
-      { status: 429 }
+      { status: 429 },
     )
   }
   const body = (await request.json().catch(() => null)) as {
@@ -20,7 +20,10 @@ export async function POST(request: Request) {
   } | null
 
   if (!body?.passkeyId || !body?.userId) {
-    return NextResponse.json({ error: 'Missing passkeyId or userId' }, { status: 400 })
+    return NextResponse.json(
+      { error: 'Missing passkeyId or userId' },
+      { status: 400 },
+    )
   }
 
   // Require valid session and verify user owns the account
@@ -32,7 +35,7 @@ export async function POST(request: Request) {
   if (authResult.session.userId !== body.userId) {
     return NextResponse.json(
       { error: 'Not authorized to delete passkey for this account' },
-      { status: 403 }
+      { status: 403 },
     )
   }
 
@@ -46,7 +49,7 @@ export async function POST(request: Request) {
     if (!passkey || passkey.anonymousUserId !== body.userId) {
       return NextResponse.json(
         { error: 'Passkey not found or does not belong to this user' },
-        { status: 404 }
+        { status: 404 },
       )
     }
 

@@ -211,10 +211,10 @@ export function compareJSONVersions(
   const latestExpenseDate =
     jsonData.expenses.length > 0
       ? new Date(
-        Math.max(
-          ...jsonData.expenses.map((e) => new Date(e.expenseDate).getTime()),
-        ),
-      )
+          Math.max(
+            ...jsonData.expenses.map((e) => new Date(e.expenseDate).getTime()),
+          ),
+        )
       : new Date(0)
 
   if (!existingGroup) {
@@ -228,17 +228,17 @@ export function compareJSONVersions(
   const latestExpense =
     existingGroup.expenses.length > 0
       ? new Date(
-        Math.max(
-          ...existingGroup.expenses.map((e) => e.expenseDate.getTime()),
-        ),
-      )
+          Math.max(
+            ...existingGroup.expenses.map((e) => e.expenseDate.getTime()),
+          ),
+        )
       : null
 
   const latestActivity =
     existingGroup.activities.length > 0
       ? new Date(
-        Math.max(...existingGroup.activities.map((a) => a.time.getTime())),
-      )
+          Math.max(...existingGroup.activities.map((a) => a.time.getTime())),
+        )
       : null
 
   const existingGroupUpdatedAt =
@@ -651,11 +651,12 @@ export async function restoreGroupFromJSON(
     const conflictUpdateSet = new Set(options.conflictUpdates ?? [])
 
     const existingExpenseKeys = new Set(
-      existingGroup.expenses.map((expense) =>
-        createExpenseMergeKey(expense),
-      ),
+      existingGroup.expenses.map((expense) => createExpenseMergeKey(expense)),
     )
-    const existingExpensesByBaseKey = new Map<string, ExistingGroup['expenses']>()
+    const existingExpensesByBaseKey = new Map<
+      string,
+      ExistingGroup['expenses']
+    >()
     for (const expense of existingGroup.expenses) {
       const baseKey = createExpenseBaseKey(expense)
       const list = existingExpensesByBaseKey.get(baseKey) ?? []

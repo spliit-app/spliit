@@ -4,10 +4,11 @@ import {
   RecentGroup,
   getRecentGroups,
   getStartupRedirectEnabled,
-  setStartupRedirectEnabled,
   setRecentGroups as saveRecentGroupsToStorage,
+  setStartupRedirectEnabled,
 } from '@/app/groups/recent-groups-helpers'
 import { ImportJSONButton } from '@/components/import-json-button'
+import { NewFeaturesDialog } from '@/components/new-features-dialog'
 import { RestoreBackupButton } from '@/components/restore-backup-button'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -30,10 +31,9 @@ import { ASSOCIATED_GROUPS_KEY } from '@/lib/anonymous-constants'
 import { trpc } from '@/trpc/client'
 import { startAuthentication, startRegistration } from '@simplewebauthn/browser'
 import { Check, MoreVertical } from 'lucide-react'
-import { usePathname, useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
-import { NewFeaturesDialog } from '@/components/new-features-dialog'
 
 const AUTH_STORAGE_KEY = 'anonymousAuthId'
 const USERNAME_STORAGE_KEY = 'anonymousUsername'
@@ -120,14 +120,14 @@ function PassphraseComplexityIndicator({
 }: {
   requirements: PassphraseRequirement[]
 }) {
-
   return (
     <div className="space-y-1">
       {requirements.map((req) => (
         <div key={req.label} className="flex items-center gap-2 text-xs">
           <div
-            className={`w-4 h-4 rounded-full flex items-center justify-center ${req.met ? 'bg-green-500' : 'bg-gray-200 dark:bg-gray-700'
-              }`}
+            className={`w-4 h-4 rounded-full flex items-center justify-center ${
+              req.met ? 'bg-green-500' : 'bg-gray-200 dark:bg-gray-700'
+            }`}
           >
             {req.met && <Check className="w-3 h-3 text-white" />}
           </div>
@@ -196,27 +196,27 @@ export function AnonymousAuthMenu() {
   const buildPassphraseRequirements = (
     complexity: PassphraseComplexity,
   ): PassphraseRequirement[] => [
-      {
-        label: t('passphrase.requirements.minLength'),
-        met: complexity.minLength,
-      },
-      {
-        label: t('passphrase.requirements.uppercase'),
-        met: complexity.hasUppercase,
-      },
-      {
-        label: t('passphrase.requirements.lowercase'),
-        met: complexity.hasLowercase,
-      },
-      {
-        label: t('passphrase.requirements.number'),
-        met: complexity.hasNumber,
-      },
-      {
-        label: t('passphrase.requirements.special'),
-        met: complexity.hasSpecial,
-      },
-    ]
+    {
+      label: t('passphrase.requirements.minLength'),
+      met: complexity.minLength,
+    },
+    {
+      label: t('passphrase.requirements.uppercase'),
+      met: complexity.hasUppercase,
+    },
+    {
+      label: t('passphrase.requirements.lowercase'),
+      met: complexity.hasLowercase,
+    },
+    {
+      label: t('passphrase.requirements.number'),
+      met: complexity.hasNumber,
+    },
+    {
+      label: t('passphrase.requirements.special'),
+      met: complexity.hasSpecial,
+    },
+  ]
 
   const passphraseComplexity = useMemo(
     () => checkPassphraseComplexity(passphrase),
@@ -954,9 +954,7 @@ export function AnonymousAuthMenu() {
         }
 
         // For other errors, use the error message from server or a generic message
-        throw new Error(
-          errorData.error || t('toasts.authFailed.generic'),
-        )
+        throw new Error(errorData.error || t('toasts.authFailed.generic'))
       }
 
       const options = (await optionsResponse.json()) as any
@@ -1209,35 +1207,45 @@ export function AnonymousAuthMenu() {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
-          <DropdownMenuItem onSelect={() => {
-            setOpen(true)
-          }}>
+          <DropdownMenuItem
+            onSelect={() => {
+              setOpen(true)
+            }}
+          >
             {t('menu.account')}
           </DropdownMenuItem>
           {isLinked && (
             <>
-              <DropdownMenuItem onSelect={() => {
-                setShowRestoreDialog(true)
-              }}>
+              <DropdownMenuItem
+                onSelect={() => {
+                  setShowRestoreDialog(true)
+                }}
+              >
                 {t('menu.restoreBackup')}
               </DropdownMenuItem>
-              <DropdownMenuItem onSelect={() => {
-                setShowImportJSONDialog(true)
-              }}>
+              <DropdownMenuItem
+                onSelect={() => {
+                  setShowImportJSONDialog(true)
+                }}
+              >
                 {t('menu.importJson')}
               </DropdownMenuItem>
             </>
           )}
-          <DropdownMenuItem onSelect={() => {
-            setShowNewFeaturesDialog(true)
-          }}>
+          <DropdownMenuItem
+            onSelect={() => {
+              setShowNewFeaturesDialog(true)
+            }}
+          >
             {t('menu.whatsNew')}
           </DropdownMenuItem>
           {isLinked && (
-            <DropdownMenuItem onSelect={() => {
-              setUnlinkMode('signout')
-              setShowUnlinkDialog(true)
-            }}>
+            <DropdownMenuItem
+              onSelect={() => {
+                setUnlinkMode('signout')
+                setShowUnlinkDialog(true)
+              }}
+            >
               {t('menu.signOut')}
             </DropdownMenuItem>
           )}
@@ -1248,9 +1256,7 @@ export function AnonymousAuthMenu() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{t('profile.title')}</DialogTitle>
-            <DialogDescription>
-              {t('profile.description')}
-            </DialogDescription>
+            <DialogDescription>{t('profile.description')}</DialogDescription>
           </DialogHeader>
 
           <div className="space-y-6">
@@ -1325,7 +1331,9 @@ export function AnonymousAuthMenu() {
                         setUsername(event.target.value)
                         setUsernameJustGenerated(false)
                       }}
-                      placeholder={t('profile.accountAccess.usernamePlaceholder')}
+                      placeholder={t(
+                        'profile.accountAccess.usernamePlaceholder',
+                      )}
                       name="anonymous-username"
                       autoComplete="username"
                     />
@@ -1345,7 +1353,9 @@ export function AnonymousAuthMenu() {
                   <Input
                     value={passphrase}
                     onChange={(event) => setPassphrase(event.target.value)}
-                    placeholder={t('profile.accountAccess.passphrasePlaceholder')}
+                    placeholder={t(
+                      'profile.accountAccess.passphrasePlaceholder',
+                    )}
                     type="password"
                     name="anonymous-passphrase"
                     autoComplete={
@@ -1366,8 +1376,8 @@ export function AnonymousAuthMenu() {
                       onClick={
                         preferRecover
                           ? () => {
-                            handleSavePassphrase()
-                          }
+                              handleSavePassphrase()
+                            }
                           : undefined
                       }
                       disabled={
@@ -1390,8 +1400,8 @@ export function AnonymousAuthMenu() {
                         preferRecover
                           ? undefined
                           : () => {
-                            handleRecover()
-                          }
+                              handleRecover()
+                            }
                       }
                       disabled={
                         isSaving ||
@@ -1672,7 +1682,9 @@ export function AnonymousAuthMenu() {
                 />
                 <div>
                   <p>{t('profile.preferences.startupRedirect')}</p>
-                  <p className="text-muted-foreground text-xs">{t('profile.preferences.startupRedirectDescription')}</p>
+                  <p className="text-muted-foreground text-xs">
+                    {t('profile.preferences.startupRedirectDescription')}
+                  </p>
                 </div>
               </label>
             </div>
@@ -1801,9 +1813,7 @@ export function AnonymousAuthMenu() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{t('addPasskey.title')}</DialogTitle>
-            <DialogDescription>
-              {t('addPasskey.description')}
-            </DialogDescription>
+            <DialogDescription>{t('addPasskey.description')}</DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             <div>

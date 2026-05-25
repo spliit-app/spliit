@@ -5,6 +5,20 @@
     "button": {
       "groups": "前往群组",
       "github": "GitHub"
+    },
+    "features": {
+      "noAccount": {
+        "title": "无需账户",
+        "description": "只需创建一个群组并分享链接。"
+      },
+      "trackExpense": {
+        "title": "记录任意费用",
+        "description": "均分账单或按自定义金额分摊。"
+      },
+      "settleUp": {
+        "title": "轻松结清",
+        "description": "一眼看清谁欠谁多少。"
+      }
     }
   },
   "Header": {
@@ -21,7 +35,7 @@
     "createFirst": "创建首个消费",
     "noExpenses": "你的群组内目前没有任何消费。",
     "export": "导出",
-    "exportBackup": "Create Backup",
+    "exportBackup": "创建备份",
     "exportJson": "导出到JSON",
     "exportCsv": "导出到CSV",
     "searchPlaceholder": "查找消费……",
@@ -52,8 +66,8 @@
   "Groups": {
     "myGroups": "我的群组",
     "create": "创建",
-    "restoreBackup": "Restore Backup",
-    "importJSON": "Import from JSON",
+    "restoreBackup": "恢复备份",
+    "importJSON": "从 JSON 导入",
     "loadingRecent": "加载最近的群组……",
     "NoRecent": {
       "description": "你最近没有访问任何群组。",
@@ -66,24 +80,24 @@
     "archive": "归档群组",
     "unarchive": "取消归档群组",
     "removeRecent": "从最近的群组中删除",
-    "deleteGroup": "Delete group permanently",
+    "deleteGroup": "永久删除群组",
     "DeleteGroupDialog": {
-      "title": "Delete group permanently?",
-      "description": "This action cannot be undone. All expenses, participants, and activity history will be permanently deleted. Please create a backup first if you want to preserve this data.",
-      "backup": "Create Backup",
-      "cancel": "Cancel",
-      "delete": "Delete Permanently",
+      "title": "永久删除群组？",
+      "description": "此操作无法撤消。所有支出、参与者和活动记录将被永久删除。如果您希望保留这些数据，请先创建备份。",
+      "backup": "创建备份",
+      "cancel": "取消",
+      "delete": "永久删除",
       "remotePurge": {
-        "title": "Remote group cleanup",
-        "description": "This group is linked to a remote copy. You can also remove all expenses and participants from the remote group (a single placeholder participant will remain).",
-        "checkbox": "Also purge the remote group",
-        "errorTitle": "Remote purge failed",
-        "errorDescription": "Failed to purge the remote group."
+        "title": "清理远程群组",
+        "description": "此群组已链接到远程副本。您也可以删除远程群组中的所有支出和参与者（将保留一个占位参与者）。",
+        "checkbox": "同时清理远程群组",
+        "errorTitle": "远程清理失败",
+        "errorDescription": "无法清理远程群组。"
       },
       "documentWarning": {
-        "title": "This group contains {count, plural, one {# image} other {# images}}",
-        "description": "These images are stored in the cloud and do not form part of the backup. If you delete them, they cannot be recovered.",
-        "checkbox": "Also delete all images when deleting the group"
+        "title": "此群组包含 {count, plural, one {# 张图片} other {# 张图片}}",
+        "description": "这些图片存储在云端，不包含在备份中。如果删除，将无法恢复。",
+        "checkbox": "删除群组时同时删除所有图片"
       }
     },
     "RecentRemovedToast": {
@@ -135,7 +149,7 @@
     },
     "LinkedUrl": {
       "title": "已关联 URL",
-      "linkOption": "Link to remote group",
+      "linkOption": "链接到远程群组",
       "description": "此链接用于同步。清空后可取消此群组的关联。",
       "placeholder": "https://spliit.app/groups/...",
       "save": "保存",
@@ -145,36 +159,37 @@
       "errorUpdate": "更新链接失败。"
     },
     "AdvancedSettings": {
-      "button": "Advanced settings",
-      "title": "Advanced settings",
-      "description": "Linking and sync tools for this group."
+      "button": "高级设置",
+      "title": "高级设置",
+      "description": "此群组的链接和同步工具。"
     },
     "AddByURL": {
       "button": "使用URL添加",
       "title": "使用URL添加一个群组",
       "description": "如果你被分享了一个群组，你可以将群组的URL粘贴到这里以添加这个群组。",
       "error": "哎呀，我们没办法根据你的URL找到相应的群组……",
-      "hostMismatchTitle": "Open local or remote?",
-      "hostMismatchPrompt": "This link points to {host}. A local group with the same ID exists. Press OK to open the local group, or Cancel to go to {host}.",
-      "hostMismatchNotFound": "No matching local group found. You can import this group from the other instance.",
-      "hostMismatchLocalAction": "Open local group",
-      "hostMismatchRemoteAction": "Go to remote",
-      "hostMismatchCancel": "Cancel",
-      "importFromUrlAction": "Open JSON import",
-      "urlMode": "Enter URL",
-      "qrMode": "Scan QR",
+      "hostMismatchTitle": "打开本地还是远程？",
+      "hostMismatchPrompt": "此链接指向 {host}。存在具有相同 ID 的本地群组。按确定打开本地群组，或按取消前往 {host}。",
+      "hostMismatchNotFound": "未找到匹配的本地群组。您可以从其他实例导入此群组。",
+      "hostMismatchLocalAction": "打开本地群组",
+      "hostMismatchRemoteAction": "前往远程",
+      "hostMismatchCancel": "取消",
+      "importFromUrlAction": "打开 JSON 导入",
+      "urlMode": "输入 URL",
+      "qrMode": "扫描二维码",
       "scanner": {
-        "startCamera": "Start Camera",
-        "stopScanning": "Stop Scanning",
-        "permissionDenied": "Camera permission denied. Please allow camera access to scan QR codes.",
-        "noCamera": "No camera found on this device.",
-        "cameraError": "Failed to start camera. Please try again.",
-        "permissionError": "Unable to access camera. Please check permissions."
+        "startCamera": "启动相机",
+        "stopScanning": "停止扫描",
+        "permissionDenied": "相机权限被拒绝。请允许访问相机以扫描二维码。",
+        "noCamera": "此设备上未找到相机。",
+        "cameraError": "无法启动相机。请重试。",
+        "permissionError": "无法访问相机。请检查权限。"
       }
     },
     "NotFound": {
       "text": "该群组不存在。",
-      "link": "跳转到最近访问过的群组"
+      "link": "跳转到最近访问过的群组",
+      "importing": "正在导入群组，请稍候……"
     }
   },
   "NewFeaturesDialog": {
@@ -225,7 +240,7 @@
     "CurrencyCodeField": {
       "label": "首选货币",
       "createDescription": "所有的交易将使用此币种。",
-      "editDescription": "All amounts and balances will be in this currency. Changing this will NOT convert expenses already entered, except when the currency has different \"minor units\" than the current one (e.g. changing from US Dollar to Japanese Yen)",
+      "editDescription": "所有金额和余额将以此货币计算。更改此项不会转换已输入的支出，除非货币的「次级单位」与当前货币不同（例如从美元更改为日元）",
       "customOption": "自定义"
     },
     "Participants": {
@@ -269,7 +284,7 @@
       },
       "currencyField": {
         "label": "收入币种",
-        "description": "The currency in which the income was received."
+        "description": "收入所使用的货币。"
       },
       "categoryFieldDescription": "选择收入类别。",
       "paidByField": {
@@ -297,7 +312,7 @@
       },
       "currencyField": {
         "label": "支出币种",
-        "description": "The currency in which the expense was paid."
+        "description": "支出所使用的货币。"
       },
       "categoryFieldDescription": "选择消费类别。",
       "paidByField": {
@@ -323,7 +338,7 @@
     "amountField": {
       "label": "金额"
     },
-    "conversionUnavailable": "To set a different currency per expense and convert amounts, select a non-custom currency for the group.",
+    "conversionUnavailable": "要为每笔支出设置不同的货币并转换金额，请为群组选择非自定义货币。",
     "originalAmountField": {
       "label": "需要转换的金额"
     },
@@ -333,14 +348,14 @@
       "label": "汇率"
     },
     "conversionRateState": {
-      "loading": "Getting exchange rates…",
-      "success": "Obtained rates:",
+      "loading": "正在获取汇率…",
+      "success": "已获取汇率：",
       "error": "抱歉，我们无法获取最新的汇率信息。",
-      "staleRate": "Using rate:",
+      "staleRate": "使用汇率：",
       "noRate": "请在下方输入自定义汇率。",
       "currencyNotFound": "抱歉，Frankfurter无法为此货币提供此日期的汇率。",
       "noDate": "请输入交易发生日期来获取当天的汇率。",
-      "dateMismatch": "Rates from date: {date}",
+      "dateMismatch": "来自日期的汇率：{date}",
       "refresh": "刷新",
       "customRate": "使用自定义汇率"
     },
@@ -443,6 +458,12 @@
       "yourSpendings": "你的总计开销",
       "yourEarnings": "你的总计收入",
       "yourShare": "你的总计份额"
+    },
+    "SpendingCharts": {
+      "title": "费用明细",
+      "description": "直观展示谁付款、谁欠款。",
+      "byPayer": "按付款人统计",
+      "byShare": "按成员分摊"
     }
   },
   "Activity": {
@@ -480,9 +501,9 @@
     "warning": "警告！",
     "warningHelp": "任何持有群组URL的个体都有能够查看并编辑消费。请谨慎分享！",
     "qrCode": {
-      "title": "Share via QR Code",
-      "description": "Scan this QR code to open the group on any device.",
-      "download": "Download QR Code"
+      "title": "通过二维码分享",
+      "description": "扫描此二维码在任何设备上打开群组。",
+      "download": "下载二维码"
     }
   },
   "SchemaErrors": {
@@ -586,337 +607,342 @@
     }
   },
   "Backup": {
-    "restoreBackup": "Restore Backup",
-    "restoreBackupTitle": "Restore Group Backup",
-    "restoreBackupDescription": "Upload a backup file to restore or create a group. The system will check if the group exists and guide you through the restoration process.",
-    "analyzing": "Analyzing...",
-    "analyzeBackup": "Analyze Backup",
-    "groupName": "Group Name",
-    "backupDate": "Backup Date",
-    "groupNotFound": "This group doesn't exist yet. Click below to create it from the backup.",
-    "creating": "Creating...",
-    "createGroup": "Create Group from Backup",
-    "backupIsNewer": "This backup contains newer data than your current group.",
-    "currentVersion": "Current group last updated",
-    "changes": "Changes in backup",
-    "addedExpenses": "{count} new expense(s)",
-    "addedParticipants": "{count} new participant(s)",
-    "restoring": "Restoring...",
-    "restoreDifferences": "Restore New Data",
-    "backupIsOlder": "Warning: This backup is older than your current group data.",
-    "rollingBack": "Rolling back...",
-    "rollbackToBackup": "Rollback to Backup Version",
-    "rollbackWarning": "This will delete all current data and replace it with the backup. This action cannot be undone!",
-    "backupIsSame": "This backup is identical to your current group data.",
-    "cancel": "Cancel"
+    "restoreBackup": "恢复备份",
+    "restoreBackupTitle": "恢复群组备份",
+    "restoreBackupDescription": "上传备份文件以恢复或创建群组。系统将检查群组是否存在并指导您完成恢复过程。",
+    "analyzing": "分析中...",
+    "analyzeBackup": "分析备份",
+    "groupName": "群组名称",
+    "backupDate": "备份日期",
+    "groupNotFound": "此群组尚不存在。点击下方从备份创建它。",
+    "creating": "创建中...",
+    "createGroup": "从备份创建群组",
+    "backupIsNewer": "此备份包含比当前群组更新的数据。",
+    "currentVersion": "当前群组最后更新",
+    "changes": "备份中的变更",
+    "addedExpenses": "{count} 条新支出",
+    "addedParticipants": "{count} 个新参与者",
+    "restoring": "恢复中...",
+    "restoreDifferences": "恢复新数据",
+    "backupIsOlder": "警告：此备份比当前群组数据旧。",
+    "rollingBack": "正在回滚...",
+    "rollbackToBackup": "回滚到备份版本",
+    "rollbackWarning": "这将删除所有当前数据并用备份替换。此操作无法撤消！",
+    "backupIsSame": "此备份与当前群组数据相同。",
+    "cancel": "取消"
   },
   "JSONImport": {
-    "importJSON": "Import from JSON",
-    "importJSONTitle": "Import Group from JSON Export",
-    "importJSONDescription": "Upload a JSON export file to migrate a group from another Spliit instance. The system will analyze the file and guide you through the import process.",
+    "importJSON": "从 JSON 导入",
+    "importJSONTitle": "从 JSON 导出文件导入群组",
+    "importJSONDescription": "上传 JSON 导出文件以从其他 Spliit 实例迁移群组。系统将分析文件并指导您完成导入过程。",
     "importSuccessTitle": "导入完成",
     "importSuccessDescription": "{name}",
     "importAssociationWarningTitle": "关联待处理",
     "importAssociationWarningDescription": "我们已导入该群组，但无法保存账户权限。请打开你的个人资料并点击\"保存\"以完成操作。",
-    "analyzing": "Analyzing...",
-    "analyzeJSON": "Analyze JSON File",
-    "groupName": "Group Name",
-    "exportDate": "Export Date",
-    "limitations": "Important Limitations",
-    "groupNotFound": "This group doesn't exist yet. Click below to create it from the JSON export.",
-    "creating": "Creating...",
-    "createGroup": "Create Group from JSON",
-    "jsonIsNewer": "This JSON export contains newer data than your current group.",
-    "currentVersion": "Current group last updated",
-    "changes": "Changes in JSON export",
-    "addedExpenses": "~{count} new expense(s) (approximate)",
-    "addedParticipants": "{count} new participant(s)",
-    "restoring": "Importing...",
-    "importDifferences": "Import New Data",
-    "jsonIsOlder": "Warning: This JSON export is older than your current group data.",
-    "rollingBack": "Rolling back...",
-    "rollbackToJSON": "Rollback to JSON Version",
-    "rollbackWarning": "This will delete all current data and replace it with the JSON export. This action cannot be undone!",
-    "jsonIsSame": "This JSON export appears to match your current group data.",
-    "cancel": "Cancel",
-    "importFromFile": "Import from file",
-    "importFromURL": "Import from URL",
+    "analyzing": "分析中...",
+    "analyzeJSON": "分析 JSON 文件",
+    "groupName": "群组名称",
+    "exportDate": "导出日期",
+    "limitations": "重要限制",
+    "groupNotFound": "此群组尚不存在。点击下方从 JSON 导出文件创建它。",
+    "creating": "创建中...",
+    "createGroup": "从 JSON 创建群组",
+    "jsonIsNewer": "此 JSON 导出包含比当前群组更新的数据。",
+    "currentVersion": "当前群组最后更新",
+    "changes": "JSON 导出中的变更",
+    "addedExpenses": "~{count} 条新支出（近似值）",
+    "addedParticipants": "{count} 个新参与者",
+    "restoring": "导入中...",
+    "importDifferences": "导入新数据",
+    "jsonIsOlder": "警告：此 JSON 导出比当前群组数据旧。",
+    "rollingBack": "正在回滚...",
+    "rollbackToJSON": "回滚到 JSON 版本",
+    "rollbackWarning": "这将删除所有当前数据并用 JSON 导出替换。此操作无法撤消！",
+    "jsonIsSame": "此 JSON 导出似乎与当前群组数据匹配。",
+    "cancel": "取消",
+    "importFromFile": "从文件导入",
+    "importFromURL": "从 URL 导入",
     "urlPlaceholder": "https://example.com/groups/...",
-    "fetchJSON": "Fetch JSON",
-    "errorInvalidURL": "Enter a valid URL from another Spliit site.",
-    "errorSameOrigin": "Use a different site URL than this one.",
-    "errorNoGroupID": "Could not find a group ID in that URL.",
-    "errorGroupExists": "That group already exists on this site.",
-    "errorGroupExistsDeleted": "This group still exists on the server. Delete it from Advanced settings before importing again.",
-    "errorRemoteFetch": "Failed to fetch JSON from the remote site.",
-    "remoteReadyWithName": "Ready to import: {name}",
-    "remoteReady": "Remote JSON is ready to import.",
-    "errorAnalysisFailed": "Failed to analyze JSON file",
-    "errorInvalidResponse": "Invalid response from server",
-    "errorImportFailed": "Failed to import JSON",
-    "jsonIsMergeable": "This JSON export is older, but it contains expenses that are missing in your group.",
-    "conflictsTitle": "Conflicting expenses found",
-    "conflictsDescription": "Choose which expenses should be updated to match the JSON export.",
-    "conflictApplyAllUpdate": "Update all",
-    "conflictApplyAllKeep": "Keep all",
-    "conflictDifferenceLabel": "Differs in",
-    "conflictFieldCategory": "category",
-    "conflictFieldSplitMode": "split mode",
-    "conflictFieldPaidFor": "paid for",
-    "conflictUpdateLabel": "Check to update this expense to match the JSON export.",
-    "paidBy": "Paid by",
-    "conflictDefaultAll": "Default to update all conflicts",
-    "conflictCurrentLabel": "Current",
+    "fetchJSON": "获取 JSON",
+    "errorInvalidURL": "请输入来自其他 Spliit 站点的有效 URL。",
+    "errorSameOrigin": "请使用与此不同的站点 URL。",
+    "errorNoGroupID": "无法在该 URL 中找到群组 ID。",
+    "errorGroupExists": "该群组已存在于此站点。",
+    "errorGroupExistsDeleted": "此群组仍然存在于服务器上。请在再次导入前从高级设置中删除它。",
+    "errorRemoteFetch": "无法从远程站点获取 JSON。",
+    "remoteReadyWithName": "准备导入：{name}",
+    "remoteReady": "远程 JSON 已准备好导入。",
+    "errorAnalysisFailed": "无法分析 JSON 文件",
+    "errorInvalidResponse": "服务器响应无效",
+    "errorImportFailed": "JSON 导入失败",
+    "jsonIsMergeable": "此 JSON 导出较旧，但包含群组中缺少的支出。",
+    "conflictsTitle": "发现冲突支出",
+    "conflictsDescription": "选择哪些支出应更新以匹配 JSON 导出。",
+    "conflictApplyAllUpdate": "全部更新",
+    "conflictApplyAllKeep": "全部保留",
+    "conflictDifferenceLabel": "差异在",
+    "conflictFieldCategory": "类别",
+    "conflictFieldSplitMode": "分割模式",
+    "conflictFieldPaidFor": "付款对象",
+    "conflictUpdateLabel": "选中以更新此支出以匹配 JSON 导出。",
+    "paidBy": "付款人",
+    "conflictDefaultAll": "默认更新所有冲突",
+    "conflictCurrentLabel": "当前",
     "conflictJsonLabel": "JSON",
-    "conflictNone": "None",
-    "conflictEmpty": "None"
+    "conflictNone": "无",
+    "conflictEmpty": "无"
   },
   "DeleteData": {
     "undoImport": "撤销完整导入",
-    "undoImportDescription": "Remove all data added during the most recent JSON import",
-    "undoWarning": "This will remove all expenses, participants, and activities added during the last import. This action cannot be undone!",
-    "cancel": "Cancel",
-    "confirm": "Undo Import",
-    "deleting": "Undoing...",
-    "success": "Import undone successfully",
-    "error": "Failed to undo import"
+    "undoImportDescription": "删除最近一次 JSON 导入期间添加的所有数据",
+    "undoWarning": "这将删除上次导入期间添加的所有支出、参与者和活动。此操作无法撤消！",
+    "cancel": "取消",
+    "confirm": "撤销导入",
+    "deleting": "撤销中...",
+    "success": "导入已成功撤销",
+    "error": "撤销导入失败"
   },
   "AnonymousAuthMenu": {
     "menu": {
       "ariaLabel": "Account",
       "account": "Account",
-      "restoreBackup": "Restore from backup",
-      "importJson": "Import from JSON",
-      "whatsNew": "✨ What's New",
-      "signOut": "Sign out"
+      "restoreBackup": "从备份恢复",
+      "importJson": "从 JSON 导入",
+      "whatsNew": "✨ 新功能",
+      "signOut": "退出登录"
     },
     "profile": {
-      "title": "Account Profile",
-      "description": "Link groups to this device or recover them on another device.",
+      "title": "账户资料",
+      "description": "将群组关联到此设备，或在其他设备上恢复。",
       "associatedGroups": {
-        "title": "Associated groups",
-        "empty": "Visit or add a group first to associate it.",
-        "save": "Save associations",
-        "saving": "Saving..."
+        "title": "关联的群组",
+        "empty": "请先访问或添加群组以进行关联。",
+        "save": "保存关联",
+        "saving": "保存中..."
       },
       "accountAccess": {
-        "title": "Account access",
-        "description": "Use the same username and passphrase to create or recover your anonymous account.",
-        "usernamePlaceholder": "Anonymous username",
-        "generate": "Generate",
-        "passphrasePlaceholder": "Enter a passphrase",
-        "saving": "Saving...",
-        "recovering": "Recovering...",
-        "newAccount": "New account",
-        "existingAccount": "Existing account",
-        "changePrompt": "Enter your current passphrase and choose a new one.",
-        "passkeyPrompt": "Authenticated with passkey. Choose a new passphrase.",
-        "managePrompt": "Manage your account security.",
-        "usernameLabel": "Username",
-        "currentPassphrasePlaceholder": "Current passphrase",
-        "newPassphrasePlaceholder": "New passphrase",
-        "updating": "Updating...",
-        "changePassphrase": "Change passphrase",
-        "setting": "Setting...",
-        "setPassphrase": "Set passphrase",
-        "authenticating": "Authenticating...",
-        "setWithPasskey": "Set passphrase with passkey",
-        "resetWithPasskey": "Reset with passkey",
-        "passkeyFirst": "Add a passkey first to set a passphrase, or create a new account with a passphrase."
+        "title": "账户访问",
+        "description": "使用相同的用户名和密码短语来创建或恢复匿名账户。",
+        "usernamePlaceholder": "匿名用户名",
+        "generate": "生成",
+        "passphrasePlaceholder": "输入密码短语",
+        "saving": "保存中...",
+        "recovering": "恢复中...",
+        "newAccount": "新账户",
+        "existingAccount": "已有账户",
+        "changePrompt": "输入当前密码短语并选择新的密码短语。",
+        "passkeyPrompt": "已通过通行密钥验证。选择新的密码短语。",
+        "managePrompt": "管理账户安全。",
+        "usernameLabel": "用户名",
+        "currentPassphrasePlaceholder": "当前密码短语",
+        "newPassphrasePlaceholder": "新密码短语",
+        "updating": "更新中...",
+        "changePassphrase": "更改密码短语",
+        "setting": "设置中...",
+        "setPassphrase": "设置密码短语",
+        "authenticating": "验证中...",
+        "setWithPasskey": "使用通行密钥设置密码短语",
+        "resetWithPasskey": "使用通行密钥重置",
+        "passkeyFirst": "请先添加通行密钥来设置密码短语，或使用密码短语创建新账户。"
       },
       "passkeyLogin": {
-        "title": "Passkey login",
-        "notLinkedDescription": "Use your passkey to log in on this device.",
-        "authenticating": "Authenticating...",
-        "usePasskey": "Use passkey",
-        "manageDescription": "Manage your passkeys for this account.",
-        "addDescription": "Add a passkey for quick, passwordless login.",
-        "created": "Created {date}",
-        "remove": "Remove",
-        "addPasskey": "Add passkey"
+        "title": "通行密钥登录",
+        "notLinkedDescription": "使用您的通行密钥在此设备上登录。",
+        "authenticating": "验证中...",
+        "usePasskey": "使用通行密钥",
+        "manageDescription": "管理此账户的通行密钥。",
+        "addDescription": "添加通行密钥以便快速、无密码登录。",
+        "created": "创建于 {date}",
+        "remove": "删除",
+        "addPasskey": "添加通行密钥"
       },
       "profileActions": {
-        "title": "Profile actions",
-        "deleteAccount": "Delete account"
+        "title": "账户操作",
+        "deleteAccount": "删除账户"
+      },
+      "preferences": {
+        "title": "偏好设置",
+        "startupRedirect": "启动时打开最近的群组",
+        "startupRedirectDescription": "打开应用时，自动跳转到上次访问的群组。"
       }
     },
     "unlinkDialog": {
-      "signOutTitle": "Sign out from device",
-      "deleteTitle": "Delete account",
-      "signOutDescription": "Are you sure you want to sign out from this device?",
-      "deleteDescription": "Are you sure you want to delete your account? This action cannot be undone.",
-      "associatedGroupsTitle": "Associated groups",
-      "keepRecent": "Keep in recent list",
-      "removeRecent": "Remove from recent list",
-      "signOutAction": "Sign out",
-      "deleteAction": "Delete account"
+      "signOutTitle": "从设备退出",
+      "deleteTitle": "删除账户",
+      "signOutDescription": "确定要从此设备退出吗？",
+      "deleteDescription": "确定要删除账户吗？此操作无法撤销。",
+      "associatedGroupsTitle": "关联的群组",
+      "keepRecent": "保留在最近列表中",
+      "removeRecent": "从最近列表中移除",
+      "signOutAction": "退出",
+      "deleteAction": "删除账户"
     },
     "addPasskey": {
-      "title": "Add Passkey",
-      "description": "Enter a name for this passkey to help you identify it later.",
-      "placeholder": "e.g., MacBook Pro, iPhone",
-      "registering": "Registering...",
-      "confirm": "Add passkey"
+      "title": "添加通行密钥",
+      "description": "输入此通行密钥的名称，以便之后识别。",
+      "placeholder": "例如：MacBook Pro、iPhone",
+      "registering": "注册中...",
+      "confirm": "添加通行密钥"
     },
     "removePasskey": {
-      "title": "Remove Passkey",
-      "description": "Are you sure you want to remove this passkey? You will need to use another authentication method to access your account.",
-      "removing": "Removing...",
-      "confirm": "Remove passkey"
+      "title": "删除通行密钥",
+      "description": "确定要删除此通行密钥吗？您将需要使用其他验证方式来访问账户。",
+      "removing": "删除中...",
+      "confirm": "删除通行密钥"
     },
     "common": {
-      "cancel": "Cancel"
+      "cancel": "取消"
     },
     "passphrase": {
       "requirements": {
-        "minLength": "At least 8 characters",
-        "uppercase": "One uppercase letter",
-        "lowercase": "One lowercase letter",
-        "number": "One number",
-        "special": "One special character"
+        "minLength": "至少 8 个字符",
+        "uppercase": "一个大写字母",
+        "lowercase": "一个小写字母",
+        "number": "一个数字",
+        "special": "一个特殊字符"
       }
     },
     "errors": {
-      "authOptionsFailed": "Failed to get authentication options",
-      "authenticationFailed": "Authentication failed",
-      "deletePasskeyFailed": "Failed to delete passkey",
-      "registrationOptionsFailed": "Failed to get registration options",
-      "registrationVerifyFailed": "Failed to verify registration"
+      "authOptionsFailed": "获取认证选项失败",
+      "authenticationFailed": "身份验证失败",
+      "deletePasskeyFailed": "删除通行密钥失败",
+      "registrationOptionsFailed": "获取注册选项失败",
+      "registrationVerifyFailed": "验证注册失败"
     },
     "toasts": {
       "initFailed": {
-        "title": "Unable to initialize anonymous session",
-        "description": "Please try refreshing the page. If the problem persists, try again later."
+        "title": "无法初始化匿名会话",
+        "description": "请尝试刷新页面。如果问题持续存在，请稍后再试。"
       },
       "initNetwork": {
-        "title": "Network error while initializing",
-        "description": "Check your connection and refresh the page to try again."
+        "title": "初始化时网络错误",
+        "description": "检查您的连接并刷新页面重试。"
       },
       "syncGroupsFailed": {
-        "title": "Failed to sync groups",
-        "description": "We could not load your groups. Your local groups list may be out of date."
+        "title": "同步群组失败",
+        "description": "无法加载您的群组。本地群组列表可能已过时。"
       },
       "sessionExpired": {
-        "title": "Session expired",
-        "saveAssociations": "Please recover your account to save group associations. Use your username and passphrase to log back in.",
-        "deleteAccount": "Please recover your account to delete it. Use your username and passphrase to log back in."
+        "title": "会话已过期",
+        "saveAssociations": "请恢复您的账户以保存群组关联。使用用户名和密码短语重新登录。",
+        "deleteAccount": "请恢复您的账户以删除它。使用用户名和密码短语重新登录。"
       },
       "saveGroupsFailed": {
-        "title": "Failed to save groups",
-        "description": "Please try again."
+        "title": "保存群组失败",
+        "description": "请重试。"
       },
       "groupsSaved": {
-        "title": "Groups saved",
-        "description": "These groups are now linked to your anonymous account."
+        "title": "群组已保存",
+        "description": "这些群组现在已与您的匿名账户关联。"
       },
       "networkError": {
-        "title": "Network error",
-        "saveGroups": "Unable to save groups. Please check your connection and try again.",
-        "savePassphrase": "Unable to save passphrase. Please check your connection and try again.",
-        "recoverAccount": "Unable to recover account. Please check your connection and try again."
+        "title": "网络错误",
+        "saveGroups": "无法保存群组。请检查连接并重试。",
+        "savePassphrase": "无法保存密码短语。请检查连接并重试。",
+        "recoverAccount": "无法恢复账户。请检查连接并重试。"
       },
       "passphraseInUse": {
-        "title": "Passphrase already in use",
-        "description": "Choose a different passphrase and try again."
+        "title": "密码短语已被使用",
+        "description": "选择不同的密码短语后重试。"
       },
       "accountSaved": {
-        "title": "Account saved",
-        "description": "Use this username and passphrase to recover later."
+        "title": "账户已保存",
+        "description": "使用此用户名和密码短语稍后恢复账户。"
       },
       "recoveryFailed": {
-        "title": "Recovery failed",
-        "description": "No account was found for that passphrase."
+        "title": "恢复失败",
+        "description": "未找到该密码短语对应的账户。"
       },
       "accountRecovered": {
-        "title": "Account recovered",
-        "description": "Your associated groups were restored on this device."
+        "title": "账户已恢复",
+        "description": "您关联的群组已在此设备上恢复。"
       },
       "currentPassphraseRequired": {
-        "title": "Current passphrase required",
-        "description": "Please enter your current passphrase."
+        "title": "需要当前密码短语",
+        "description": "请输入当前密码短语。"
       },
       "updatePassphraseFailed": {
-        "title": "Failed to update passphrase",
-        "description": "Please verify your current passphrase and try again."
+        "title": "更新密码短语失败",
+        "description": "请验证当前密码短语后重试。"
       },
       "passphraseUpdated": {
-        "title": "Passphrase updated",
-        "description": "Your new passphrase is now active."
+        "title": "密码短语已更新",
+        "description": "您的新密码短语现已生效。"
       },
       "setPassphraseFailed": {
-        "title": "Failed to set passphrase",
-        "description": "Please try again."
+        "title": "设置密码短语失败",
+        "description": "请重试。"
       },
       "passphraseSet": {
-        "title": "Passphrase set",
-        "description": "Your new passphrase is now active."
+        "title": "密码短语已设置",
+        "description": "您的新密码短语现已生效。"
       },
       "accountRequired": {
-        "title": "Account required",
-        "description": "Please ensure you are logged in."
+        "title": "需要账户",
+        "description": "请确保您已登录。"
       },
       "authSuccess": {
-        "title": "Authentication successful",
-        "description": "You can now set a new passphrase."
+        "title": "身份验证成功",
+        "description": "您现在可以设置新的密码短语。"
       },
       "authFailed": {
-        "title": "Authentication failed",
-        "description": "Please try again.",
-        "generic": "Authentication failed. Please try again."
+        "title": "身份验证失败",
+        "description": "请重试。",
+        "generic": "身份验证失败。请重试。"
       },
       "passkeyRemoved": {
-        "title": "Passkey removed",
-        "description": "The passkey has been removed from your account."
+        "title": "通行密钥已删除",
+        "description": "通行密钥已从您的账户中删除。"
       },
       "removePasskeyFailed": {
-        "title": "Failed to remove passkey",
-        "description": "Please try again."
+        "title": "删除通行密钥失败",
+        "description": "请重试。"
       },
       "usernameRequired": {
-        "title": "Username required",
-        "description": "Please set a username before registering a passkey."
+        "title": "需要用户名",
+        "description": "请在注册通行密钥前设置用户名。"
       },
       "passkeyNameRequired": {
-        "title": "Name required",
-        "description": "Please enter a name for your passkey."
+        "title": "需要名称",
+        "description": "请为您的通行密钥输入名称。"
       },
       "passkeyRegistered": {
-        "title": "Passkey registered",
-        "description": "You can now use your passkey to log in."
+        "title": "通行密钥已注册",
+        "description": "您现在可以使用通行密钥登录。"
       },
       "passkeyRegistrationFailed": {
-        "title": "Registration failed",
-        "description": "Please try again."
+        "title": "注册失败",
+        "description": "请重试。"
       },
       "rateLimit": {
-        "title": "Rate limit exceeded",
-        "description": "Too many requests. Please try again later."
+        "title": "超出请求限制",
+        "description": "请求过多。请稍后重试。"
       },
       "passkeyNotFound": {
-        "title": "Passkey not found",
-        "description": "Try entering your username and retrying passkey login."
+        "title": "未找到通行密钥",
+        "description": "尝试输入用户名后重试通行密钥登录。"
       },
       "passkeyLoginSuccess": {
-        "title": "Logged in with passkey",
-        "description": "Your associated groups were restored on this device."
+        "title": "已通过通行密钥登录",
+        "description": "您关联的群组已在此设备上恢复。"
       },
       "authCancelled": {
-        "title": "Authentication cancelled",
-        "description": "Passkey authentication was cancelled."
+        "title": "身份验证已取消",
+        "description": "通行密钥验证已取消。"
       },
       "unlinked": {
-        "title": "Unlinked from device",
-        "descriptionRemoved": "Associated groups have been removed from your device.",
-        "descriptionNew": "You are now using a new anonymous account on this device."
+        "title": "已从设备解除关联",
+        "descriptionRemoved": "关联的群组已从您的设备中移除。",
+        "descriptionNew": "您现在正在此设备上使用新的匿名账户。"
       },
       "deleteAccountFailed": {
-        "title": "Failed to delete account",
-        "description": "Please try again."
+        "title": "删除账户失败",
+        "description": "请重试。"
       },
       "accountDeleted": {
-        "title": "Account deleted",
-        "descriptionRemoved": "Account deleted and groups removed from this device.",
-        "descriptionNew": "Account deleted. You are now using a new anonymous account on this device."
+        "title": "账户已删除",
+        "descriptionRemoved": "账户已删除，群组已从此设备中移除。",
+        "descriptionNew": "账户已删除。您现在正在此设备上使用新的匿名账户。"
       }
     }
   }

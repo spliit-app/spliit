@@ -94,10 +94,9 @@ export function DeleteGroupDialog({
     setIsDeleting(true)
     if (purgeRemote && linkedUrl) {
       try {
-        const response = await fetch(
-          `/api/groups/${groupId}/remote-purge`,
-          { method: 'POST' },
-        )
+        const response = await fetch(`/api/groups/${groupId}/remote-purge`, {
+          method: 'POST',
+        })
         const result = (await response.json()) as {
           error?: string
         }

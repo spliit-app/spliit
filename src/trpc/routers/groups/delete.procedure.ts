@@ -16,7 +16,7 @@ export const deleteGroupProcedure = baseProcedure
   .mutation(async ({ input: { groupId, deleteDocuments } }) => {
     // Get session from request headers
     const session = await getSessionFromHeaders()
-    
+
     if (!session) {
       throw new TRPCError({
         code: 'UNAUTHORIZED',

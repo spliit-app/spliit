@@ -7,114 +7,110 @@ import { useTranslations } from 'next-intl'
 import { useEffect, useId, useRef, useState } from 'react'
 
 interface Props {
-    onScan: (url: string) => void
-    onError?: (error: string) => void
-    onClose?: () => void
+  onScan: (url: string) => void
+  onError?: (error: string) => void
+  onClose?: () => void
 }
 
 export function QrCodeScanner({ onScan, onError, onClose }: Props) {
-    const t = useTranslations('Groups.AddByURL.scanner')
-    const [isScanning, setIsScanning] = useState(false)
-    const [hasPermission, setHasPermission] = useState<boolean | null>(null)
-    const scannerRef = useRef<Html5Qrcode | null>(null)
-    const uniqueId = useId()
-    const elementId = `qr-reader-${uniqueId}`
+  const t = useTranslations('Groups.AddByURL.scanner')
+  const [isScanning, setIsScanning] = useState(false)
+  const [hasPermission, setHasPermission] = useState<boolean | null>(null)
+  const scannerRef = useRef<Html5Qrcode | null>(null)
+  const uniqueId = useId()
+  const elementId = `qr-reader-${uniqueId}`
 
-    useEffect(() => {
-        return () => {
-            // Cleanup on unmount
-            if (scannerRef.current?.isScanning) {
-                scannerRef.current.stop().catch(console.error)
-            }
-        }
-    }, [])
-
-    const startScanning = async () => {
-        try {
-            const html5QrCode = new Html5Qrcode(elementId)
-            scannerRef.current = html5QrCode
-
-            await html5QrCode.start(
-                { facingMode: 'environment' },
-                {
-                    fps: 10,
-                    qrbox: { width: 250, height: 250 },
-                },
-                (decodedText) => {
-                    // Successfully scanned
-                    onScan(decodedText)
-                    stopScanning()
-                },
-                (errorMessage) => {
-                    // Scanning error - these happen frequently, so we don't report them
-                    // unless we want to show detailed debugging
-                }
-            )
-
-            setIsScanning(true)
-            setHasPermission(true)
-        } catch (err: any) {
-            console.error('Error starting QR scanner:', err)
-            setHasPermission(false)
-            setIsScanning(false)
-            if (onError) {
-                if (err.name === 'NotAllowedError') {
-                    onError(t('permissionDenied'))
-                } else if (err.name === 'NotFoundError') {
-                    onError(t('noCamera'))
-                } else {
-                    onError(t('cameraError'))
-                }
-            }
-        }
+  useEffect(() => {
+    return () => {
+      // Cleanup on unmount
+      if (scannerRef.current?.isScanning) {
+        scannerRef.current.stop().catch(console.error)
+      }
     }
+  }, [])
 
-    const stopScanning = async () => {
-        if (scannerRef.current?.isScanning) {
-            try {
-                await scannerRef.current.stop()
-            } catch (err) {
-                console.error('Error stopping scanner:', err)
-            }
+  const startScanning = async () => {
+    try {
+      const html5QrCode = new Html5Qrcode(elementId)
+      scannerRef.current = html5QrCode
+
+      await html5QrCode.start(
+        { facingMode: 'environment' },
+        {
+          fps: 10,
+          qrbox: { width: 250, height: 250 },
+        },
+        (decodedText) => {
+          // Successfully scanned
+          onScan(decodedText)
+          stopScanning()
+        },
+        (errorMessage) => {
+          // Scanning error - these happen frequently, so we don't report them
+          // unless we want to show detailed debugging
+        },
+      )
+
+      setIsScanning(true)
+      setHasPermission(true)
+    } catch (err: any) {
+      console.error('Error starting QR scanner:', err)
+      setHasPermission(false)
+      setIsScanning(false)
+      if (onError) {
+        if (err.name === 'NotAllowedError') {
+          onError(t('permissionDenied'))
+        } else if (err.name === 'NotFoundError') {
+          onError(t('noCamera'))
+        } else {
+          onError(t('cameraError'))
         }
-        setIsScanning(false)
-        if (onClose) {
-            onClose()
-        }
+      }
     }
+  }
 
-    return (
-        <div className="flex flex-col gap-3">
-            <div id={elementId} className="w-full" />
+  const stopScanning = async () => {
+    if (scannerRef.current?.isScanning) {
+      try {
+        await scannerRef.current.stop()
+      } catch (err) {
+        console.error('Error stopping scanner:', err)
+      }
+    }
+    setIsScanning(false)
+    if (onClose) {
+      onClose()
+    }
+  }
 
-            {!isScanning && hasPermission === null && (
-                <Button
-                    type="button"
-                    onClick={startScanning}
-                    className="w-full"
-                >
-                    <Camera className="w-4 h-4 mr-2" />
-                    {t('startCamera')}
-                </Button>
-            )}
+  return (
+    <div className="flex flex-col gap-3">
+      <div id={elementId} className="w-full" />
 
-            {isScanning && (
-                <Button
-                    type="button"
-                    variant="destructive"
-                    onClick={stopScanning}
-                    className="w-full"
-                >
-                    <X className="w-4 h-4 mr-2" />
-                    {t('stopScanning')}
-                </Button>
-            )}
+      {!isScanning && hasPermission === null && (
+        <Button type="button" onClick={startScanning} className="w-full">
+          <Camera className="w-4 h-4 mr-2" />
+          {t('startCamera')}
+        </Button>
+      )}
 
-            {hasPermission === false && (
-                <div className="text-sm text-destructive text-center">
-                    {t('permissionError')}
-                </div>
-            )}
+      {isScanning && (
+        <Button
+          type="button"
+          variant="destructive"
+          onClick={stopScanning}
+          className="w-full"
+        >
+          <X className="w-4 h-4 mr-2" />
+          {t('stopScanning')}
+        </Button>
+      )}
+
+      {hasPermission === false && (
+        <div className="text-sm text-destructive text-center">
+          {t('permissionError')}
         </div>
-    )
+      )}
+    </div>
+  )
 }

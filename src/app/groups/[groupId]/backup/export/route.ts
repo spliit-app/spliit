@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import contentDisposition from 'content-disposition'
+import { create as contentDisposition } from 'content-disposition'
 import JSZip from 'jszip'
 import { NextResponse } from 'next/server'
 

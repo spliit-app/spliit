@@ -1,21 +1,17 @@
 import { prisma } from '@/lib/prisma'
+import { getRateLimitIdentifier, rateLimit } from '@/lib/rate-limit'
+import { createSessionCookie, getSession, sessionStore } from '@/lib/session'
 import { NextResponse } from 'next/server'
-import { rateLimit, getRateLimitIdentifier } from '@/lib/rate-limit'
-import {
-  sessionStore,
-  createSessionCookie,
-  getSession,
-} from '@/lib/session'
 
 export async function POST(request: Request) {
   // Apply rate limiting
   const identifier = getRateLimitIdentifier(request)
   const rateLimitResult = rateLimit(identifier)
-  
+
   if (!rateLimitResult.success) {
     return NextResponse.json(
       { error: 'Too many requests. Please try again later.' },
-      { status: 429 }
+      { status: 429 },
     )
   }
 
@@ -48,7 +44,10 @@ export async function POST(request: Request) {
 
     if (passkeyCount === 0) {
       return NextResponse.json(
-        { error: 'No passkeys found. Cannot reset passphrase without current passphrase.' },
+        {
+          error:
+            'No passkeys found. Cannot reset passphrase without current passphrase.',
+        },
         { status: 403 },
       )
     }
@@ -58,7 +57,10 @@ export async function POST(request: Request) {
     // For regular updates, current passphrase is required
     if (!body.currentPassphraseHash) {
       return NextResponse.json(
-        { error: 'Current passphrase is required. Use passkey reset if you forgot your passphrase.' },
+        {
+          error:
+            'Current passphrase is required. Use passkey reset if you forgot your passphrase.',
+        },
         { status: 400 },
       )
     }
@@ -70,15 +72,15 @@ export async function POST(request: Request) {
     })
 
     if (!user) {
-      return NextResponse.json(
-        { error: 'User not found' },
-        { status: 404 },
-      )
+      return NextResponse.json({ error: 'User not found' }, { status: 404 })
     }
 
     if (!user.passphraseHash) {
       return NextResponse.json(
-        { error: 'No passphrase set. Use passkey reset to set initial passphrase.' },
+        {
+          error:
+            'No passphrase set. Use passkey reset to set initial passphrase.',
+        },
         { status: 400 },
       )
     }
@@ -107,10 +109,10 @@ export async function POST(request: Request) {
 
     // Create session for authenticated user
     const sessionToken = await sessionStore.create(body.id)
-    
+
     const response = NextResponse.json({ ok: true })
     response.headers.set('Set-Cookie', createSessionCookie(sessionToken))
-    
+
     return response
   } catch (error: unknown) {
     if (

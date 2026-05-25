@@ -5,6 +5,20 @@
     "button": {
       "groups": "Ir a grupos",
       "github": "GitHub"
+    },
+    "features": {
+      "noAccount": {
+        "title": "Sin necesidad de cuenta",
+        "description": "Solo crea un grupo y comparte el enlace."
+      },
+      "trackExpense": {
+        "title": "Registra cualquier gasto",
+        "description": "Divide las facturas en partes iguales o por importes personalizados."
+      },
+      "settleUp": {
+        "title": "Ajusta cuentas fácilmente",
+        "description": "Ve de un vistazo quién debe qué."
+      }
     }
   },
   "Header": {
@@ -174,7 +188,8 @@
     },
     "NotFound": {
       "text": "Este grupo no existe.",
-      "link": "Ir a los grupos visitados recientemente"
+      "link": "Ir a los grupos visitados recientemente",
+      "importing": "Importando grupo. Puede tardar un momento…"
     }
   },
   "NewFeaturesDialog": {
@@ -443,6 +458,12 @@
       "yourSpendings": "Tus gastos totales",
       "yourEarnings": "Tus ingresos totales",
       "yourShare": "Tu parte final"
+    },
+    "SpendingCharts": {
+      "title": "Desglose de gastos",
+      "description": "Desglose visual de quién pagó y quién debe qué.",
+      "byPayer": "Gastos por pagador",
+      "byShare": "Cuotas por miembro"
     }
   },
   "Activity": {
@@ -738,6 +759,11 @@
       "profileActions": {
         "title": "Acciones de perfil",
         "deleteAccount": "Eliminar cuenta"
+      },
+      "preferences": {
+        "title": "Preferencias",
+        "startupRedirect": "Abrir el grupo más reciente al iniciar",
+        "startupRedirectDescription": "Al abrir la app, navegar automáticamente al último grupo visitado."
       }
     },
     "unlinkDialog": {

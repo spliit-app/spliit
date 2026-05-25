@@ -298,8 +298,8 @@ export function ImportJSONButton({
       setConflictUpdates({})
       const summaryName = data.groupName
         ? t('remoteReadyWithName', {
-          name: getImportedGroupName(data.groupName),
-        })
+            name: getImportedGroupName(data.groupName),
+          })
         : t('remoteReady')
       setRemoteSummary(summaryName)
       await analyzeJSON(nextFile)
@@ -429,7 +429,9 @@ export function ImportJSONButton({
   const setAllConflictUpdates = (value: boolean) => {
     if (!analysis?.conflicts.length) return
     setConflictUpdates(
-      Object.fromEntries(analysis.conflicts.map((conflict) => [conflict.index, value])),
+      Object.fromEntries(
+        analysis.conflicts.map((conflict) => [conflict.index, value]),
+      ),
     )
   }
 
@@ -780,7 +782,8 @@ export function ImportJSONButton({
                               {conflict.title}
                             </div>
                             <div>
-                              {formatDate(conflict.expenseDate)} - {conflict.amount}
+                              {formatDate(conflict.expenseDate)} -{' '}
+                              {conflict.amount}
                             </div>
                             <div>
                               {t('paidBy')}: {formatConflictPaidBy(conflict)}
@@ -797,10 +800,12 @@ export function ImportJSONButton({
                                   {t('conflictFieldCategory')}
                                 </div>
                                 <div>
-                                  {t('conflictCurrentLabel')}: {formatCategory(conflict.existingCategory)}
+                                  {t('conflictCurrentLabel')}:{' '}
+                                  {formatCategory(conflict.existingCategory)}
                                 </div>
                                 <div>
-                                  {t('conflictJsonLabel')}: {formatCategory(conflict.jsonCategory)}
+                                  {t('conflictJsonLabel')}:{' '}
+                                  {formatCategory(conflict.jsonCategory)}
                                 </div>
                               </div>
                             )}
@@ -810,10 +815,12 @@ export function ImportJSONButton({
                                   {t('conflictFieldSplitMode')}
                                 </div>
                                 <div>
-                                  {t('conflictCurrentLabel')}: {formatSplitMode(conflict.existingSplitMode)}
+                                  {t('conflictCurrentLabel')}:{' '}
+                                  {formatSplitMode(conflict.existingSplitMode)}
                                 </div>
                                 <div>
-                                  {t('conflictJsonLabel')}: {formatSplitMode(conflict.jsonSplitMode)}
+                                  {t('conflictJsonLabel')}:{' '}
+                                  {formatSplitMode(conflict.jsonSplitMode)}
                                 </div>
                               </div>
                             )}
@@ -823,10 +830,12 @@ export function ImportJSONButton({
                                   {t('conflictFieldPaidFor')}
                                 </div>
                                 <div>
-                                  {t('conflictCurrentLabel')}: {formatPaidForList(conflict.existingPaidFor)}
+                                  {t('conflictCurrentLabel')}:{' '}
+                                  {formatPaidForList(conflict.existingPaidFor)}
                                 </div>
                                 <div>
-                                  {t('conflictJsonLabel')}: {formatPaidForList(conflict.jsonPaidFor)}
+                                  {t('conflictJsonLabel')}:{' '}
+                                  {formatPaidForList(conflict.jsonPaidFor)}
                                 </div>
                               </div>
                             )}

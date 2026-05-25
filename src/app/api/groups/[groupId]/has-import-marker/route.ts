@@ -1,11 +1,11 @@
-import { prisma } from '@/lib/prisma'
-import { AppRouter } from '@/trpc/routers/_app'
-import { createTRPCProxyClient, httpBatchLink } from '@trpc/client'
 import {
   extractSourceUrlFromImportMarker,
   normalizeGroupSourceUrl,
   setSourceUrlInImportMarkerData,
 } from '@/lib/import-marker'
+import { prisma } from '@/lib/prisma'
+import { AppRouter } from '@/trpc/routers/_app'
+import { createTRPCProxyClient, httpBatchLink } from '@trpc/client'
 import { NextResponse } from 'next/server'
 import superjson from 'superjson'
 
@@ -39,10 +39,7 @@ function normalizeName(name: string) {
   return name.trim().toLowerCase()
 }
 
-function countIntersection(
-  source: Map<string, number>,
-  candidate: string[],
-) {
+function countIntersection(source: Map<string, number>, candidate: string[]) {
   let matches = 0
   for (const key of candidate) {
     const remaining = source.get(key) ?? 0
@@ -262,7 +259,10 @@ export async function POST(
       }
     }
 
-    const nextData = setSourceUrlInImportMarkerData(importMarker.data ?? '', nextSourceUrl)
+    const nextData = setSourceUrlInImportMarkerData(
+      importMarker.data ?? '',
+      nextSourceUrl,
+    )
     await prisma.activity.update({
       where: { id: importMarker.id },
       data: { data: nextData },
@@ -274,10 +274,7 @@ export async function POST(
     })
   } catch (error) {
     if (error instanceof Error) {
-      return NextResponse.json(
-        { error: error.message },
-        { status: 500 },
-      )
+      return NextResponse.json({ error: error.message }, { status: 500 })
     }
     return NextResponse.json(
       { error: 'Failed to update import link.' },

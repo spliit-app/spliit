@@ -5,6 +5,20 @@
     "button": {
       "groups": "עבור לקבוצות",
       "github": "GitHub"
+    },
+    "features": {
+      "noAccount": {
+        "title": "אין צורך בחשבון",
+        "description": "פשוט צור קבוצה ושתף את הקישור."
+      },
+      "trackExpense": {
+        "title": "עקוב אחר כל הוצאה",
+        "description": "פצל חשבונות בשווה או לפי סכומים מותאמים אישית."
+      },
+      "settleUp": {
+        "title": "הסדרה קלה",
+        "description": "ראה במבט אחד מי חייב מה."
+      }
     }
   },
   "Header": {
@@ -174,7 +188,8 @@
     },
     "NotFound": {
       "text": "קבוצה זו אינה קיימת.",
-      "link": "עבור לקבוצות שביקרת בהן לאחרונה"
+      "link": "עבור לקבוצות שביקרת בהן לאחרונה",
+      "importing": "מייבא קבוצה. זה עשוי לקחת רגע…"
     }
   },
   "NewFeaturesDialog": {
@@ -443,6 +458,12 @@
       "yourSpendings": "סך ההוצאות שלך",
       "yourEarnings": "סך ההכנסות שלך",
       "yourShare": "סך החלק שלך"
+    },
+    "SpendingCharts": {
+      "title": "פירוט הוצאות",
+      "description": "תצוגה ויזואלית של מי שילם ומי חייב מה.",
+      "byPayer": "הוצאות לפי משלם",
+      "byShare": "חלקים לפי חבר"
     }
   },
   "Activity": {
@@ -738,6 +759,11 @@
       "profileActions": {
         "title": "Profile actions",
         "deleteAccount": "Delete account"
+      },
+      "preferences": {
+        "title": "העדפות",
+        "startupRedirect": "פתח את הקבוצה האחרונה בהפעלה",
+        "startupRedirectDescription": "בעת פתיחת האפליקציה, נווט אוטומטית לקבוצה שביקרת בה לאחרונה."
       }
     },
     "unlinkDialog": {

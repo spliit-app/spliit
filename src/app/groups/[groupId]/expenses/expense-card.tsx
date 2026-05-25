@@ -78,7 +78,12 @@ export function ExpenseCard({
         />
       </div>
       <div className="flex-1 min-w-0">
-        <div className={cn('mb-1 font-medium truncate', expense.isReimbursement && 'italic')}>
+        <div
+          className={cn(
+            'mb-1 font-medium truncate',
+            expense.isReimbursement && 'italic',
+          )}
+        >
           {expense.title}
         </div>
         <div className="text-xs text-muted-foreground leading-relaxed">

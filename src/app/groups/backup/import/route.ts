@@ -133,8 +133,8 @@ export async function POST(req: Request) {
           mode === 'create'
             ? 'created'
             : mode === 'rollback'
-            ? 'rolled back'
-            : 'updated'
+              ? 'rolled back'
+              : 'updated'
         } successfully`,
         groupId: backupData.group.id,
         mode,

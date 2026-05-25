@@ -5,6 +5,20 @@
     "button": {
       "groups": "Accéder aux groupes",
       "github": "GitHub"
+    },
+    "features": {
+      "noAccount": {
+        "title": "Aucun compte nécessaire",
+        "description": "Créez simplement un groupe et partagez le lien."
+      },
+      "trackExpense": {
+        "title": "Suivez toutes les dépenses",
+        "description": "Répartissez les factures équitablement ou par montants personnalisés."
+      },
+      "settleUp": {
+        "title": "Remboursez facilement",
+        "description": "Voyez en un coup d'œil qui doit quoi à qui."
+      }
     }
   },
   "Header": {
@@ -21,7 +35,7 @@
     "createFirst": "Créer la première :)",
     "noExpenses": "Votre groupe n'a effectué aucune dépense pour le moment.",
     "export": "Exporter",
-    "exportBackup": "Create Backup",
+    "exportBackup": "Créer une sauvegarde",
     "exportJson": "Exporter en JSON",
     "exportCsv": "Exporter en CSV",
     "searchPlaceholder": "Rechercher une dépense…",
@@ -52,8 +66,8 @@
   "Groups": {
     "myGroups": "Mes groupes",
     "create": "Créer",
-    "restoreBackup": "Restore Backup",
-    "importJSON": "Import from JSON",
+    "restoreBackup": "Restaurer la sauvegarde",
+    "importJSON": "Importer depuis JSON",
     "loadingRecent": "Chargement des groupes récents…",
     "NoRecent": {
       "description": "Vous n'avez visité aucun groupe récemment.",
@@ -66,24 +80,24 @@
     "archive": "Archiver le groupe",
     "unarchive": "Désarchiver le groupe",
     "removeRecent": "Supprimer des groupes récents",
-    "deleteGroup": "Delete group permanently",
+    "deleteGroup": "Supprimer définitivement le groupe",
     "DeleteGroupDialog": {
-      "title": "Delete group permanently?",
-      "description": "This action cannot be undone. All expenses, participants, and activity history will be permanently deleted. Please create a backup first if you want to preserve this data.",
-      "backup": "Create Backup",
-      "cancel": "Cancel",
-      "delete": "Delete Permanently",
+      "title": "Supprimer définitivement le groupe ?",
+      "description": "Cette action est irréversible. Toutes les dépenses, les participants et l'historique des activités seront supprimés définitivement. Veuillez créer une sauvegarde d'abord si vous souhaitez conserver ces données.",
+      "backup": "Créer une sauvegarde",
+      "cancel": "Annuler",
+      "delete": "Supprimer définitivement",
       "remotePurge": {
-        "title": "Remote group cleanup",
-        "description": "This group is linked to a remote copy. You can also remove all expenses and participants from the remote group (a single placeholder participant will remain).",
-        "checkbox": "Also purge the remote group",
-        "errorTitle": "Remote purge failed",
-        "errorDescription": "Failed to purge the remote group."
+        "title": "Nettoyage du groupe distant",
+        "description": "Ce groupe est lié à une copie distante. Vous pouvez également supprimer toutes les dépenses et les participants du groupe distant (un seul participant fictif restera).",
+        "checkbox": "Purger aussi le groupe distant",
+        "errorTitle": "Échec de la purge distante",
+        "errorDescription": "Impossible de purger le groupe distant."
       },
       "documentWarning": {
-        "title": "This group contains {count, plural, one {# image} other {# images}}",
-        "description": "These images are stored in the cloud and do not form part of the backup. If you delete them, they cannot be recovered.",
-        "checkbox": "Also delete all images when deleting the group"
+        "title": "Ce groupe contient {count, plural, one {# image} other {# images}}",
+        "description": "Ces images sont stockées dans le cloud et ne font pas partie de la sauvegarde. Si vous les supprimez, elles ne pourront pas être récupérées.",
+        "checkbox": "Supprimer aussi toutes les images lors de la suppression du groupe"
       }
     },
     "RecentRemovedToast": {
@@ -135,7 +149,7 @@
     },
     "LinkedUrl": {
       "title": "URL liée",
-      "linkOption": "Link to remote group",
+      "linkOption": "Lier au groupe distant",
       "description": "Ce lien est utilisé pour la synchronisation. Effacez-le pour dissocier ce groupe.",
       "placeholder": "https://spliit.app/groups/...",
       "save": "Enregistrer",
@@ -145,36 +159,37 @@
       "errorUpdate": "Échec de la mise à jour du lien."
     },
     "AdvancedSettings": {
-      "button": "Advanced settings",
-      "title": "Advanced settings",
-      "description": "Linking and sync tools for this group."
+      "button": "Paramètres avancés",
+      "title": "Paramètres avancés",
+      "description": "Outils de liaison et de synchronisation pour ce groupe."
     },
     "AddByURL": {
       "button": "Ajouter par URL",
       "title": "Ajouter un groupe par URL",
       "description": "Si un groupe a été partagé avec vous, vous pouvez coller son URL ici pour l'ajouter à votre liste.",
       "error": "Oups, nous ne pouvons pas trouver le groupe à partir de l'URL que vous avez fournie…",
-      "hostMismatchTitle": "Open local or remote?",
-      "hostMismatchPrompt": "This link points to {host}. A local group with the same ID exists. Press OK to open the local group, or Cancel to go to {host}.",
-      "hostMismatchNotFound": "No matching local group found. You can import this group from the other instance.",
-      "hostMismatchLocalAction": "Open local group",
-      "hostMismatchRemoteAction": "Go to remote",
-      "hostMismatchCancel": "Cancel",
-      "importFromUrlAction": "Open JSON import",
-      "urlMode": "Enter URL",
-      "qrMode": "Scan QR",
+      "hostMismatchTitle": "Ouvrir en local ou à distance ?",
+      "hostMismatchPrompt": "Ce lien pointe vers {host}. Un groupe local avec le même ID existe. Appuyez sur OK pour ouvrir le groupe local ou sur Annuler pour aller sur {host}.",
+      "hostMismatchNotFound": "Aucun groupe local correspondant trouvé. Vous pouvez importer ce groupe depuis l'autre instance.",
+      "hostMismatchLocalAction": "Ouvrir le groupe local",
+      "hostMismatchRemoteAction": "Aller au distant",
+      "hostMismatchCancel": "Annuler",
+      "importFromUrlAction": "Ouvrir l'import JSON",
+      "urlMode": "Entrer l'URL",
+      "qrMode": "Scanner QR",
       "scanner": {
-        "startCamera": "Start Camera",
-        "stopScanning": "Stop Scanning",
-        "permissionDenied": "Camera permission denied. Please allow camera access to scan QR codes.",
-        "noCamera": "No camera found on this device.",
-        "cameraError": "Failed to start camera. Please try again.",
-        "permissionError": "Unable to access camera. Please check permissions."
+        "startCamera": "Démarrer la caméra",
+        "stopScanning": "Arrêter la numérisation",
+        "permissionDenied": "Permission caméra refusée. Veuillez autoriser l'accès à la caméra pour scanner les codes QR.",
+        "noCamera": "Aucune caméra trouvée sur cet appareil.",
+        "cameraError": "Impossible de démarrer la caméra. Veuillez réessayer.",
+        "permissionError": "Impossible d'accéder à la caméra. Veuillez vérifier les autorisations."
       }
     },
     "NotFound": {
       "text": "Ce groupe n'existe pas.",
-      "link": "Aller aux groupes récemment visités"
+      "link": "Aller aux groupes récemment visités",
+      "importing": "Importation du groupe en cours. Cela peut prendre un moment…"
     }
   },
   "NewFeaturesDialog": {
@@ -443,6 +458,12 @@
       "yourSpendings": "Vos dépenses totales",
       "yourEarnings": "Vos revenus totaux",
       "yourShare": "Votre part totale"
+    },
+    "SpendingCharts": {
+      "title": "Répartition des dépenses",
+      "description": "Aperçu visuel de qui a payé et qui doit quoi.",
+      "byPayer": "Dépenses par payeur",
+      "byShare": "Parts par membre"
     }
   },
   "Activity": {
@@ -480,9 +501,9 @@
     "warning": "Avertissement !",
     "warningHelp": "Toute personne ayant l'URL du groupe pourra voir et modifier les dépenses. Partagez avec prudence !",
     "qrCode": {
-      "title": "Share via QR Code",
-      "description": "Scan this QR code to open the group on any device.",
-      "download": "Download QR Code"
+      "title": "Partager via QR Code",
+      "description": "Scannez ce QR Code pour ouvrir le groupe sur n'importe quel appareil.",
+      "download": "Télécharger le QR Code"
     }
   },
   "SchemaErrors": {
@@ -586,100 +607,100 @@
     }
   },
   "Backup": {
-    "restoreBackup": "Restore Backup",
-    "restoreBackupTitle": "Restore Group Backup",
-    "restoreBackupDescription": "Upload a backup file to restore or create a group. The system will check if the group exists and guide you through the restoration process.",
-    "analyzing": "Analyzing...",
-    "analyzeBackup": "Analyze Backup",
-    "groupName": "Group Name",
-    "backupDate": "Backup Date",
-    "groupNotFound": "This group doesn't exist yet. Click below to create it from the backup.",
-    "creating": "Creating...",
-    "createGroup": "Create Group from Backup",
-    "backupIsNewer": "This backup contains newer data than your current group.",
-    "currentVersion": "Current group last updated",
-    "changes": "Changes in backup",
-    "addedExpenses": "{count} new expense(s)",
-    "addedParticipants": "{count} new participant(s)",
-    "restoring": "Restoring...",
-    "restoreDifferences": "Restore New Data",
-    "backupIsOlder": "Warning: This backup is older than your current group data.",
-    "rollingBack": "Rolling back...",
-    "rollbackToBackup": "Rollback to Backup Version",
-    "rollbackWarning": "This will delete all current data and replace it with the backup. This action cannot be undone!",
-    "backupIsSame": "This backup is identical to your current group data.",
-    "cancel": "Cancel"
+    "restoreBackup": "Restaurer la sauvegarde",
+    "restoreBackupTitle": "Restaurer la sauvegarde du groupe",
+    "restoreBackupDescription": "Téléchargez un fichier de sauvegarde pour restaurer ou créer un groupe. Le système vérifiera si le groupe existe et vous guidera à travers le processus de restauration.",
+    "analyzing": "Analyse en cours...",
+    "analyzeBackup": "Analyser la sauvegarde",
+    "groupName": "Nom du groupe",
+    "backupDate": "Date de sauvegarde",
+    "groupNotFound": "Ce groupe n'existe pas encore. Cliquez ci-dessous pour le créer à partir de la sauvegarde.",
+    "creating": "Création en cours...",
+    "createGroup": "Créer le groupe à partir de la sauvegarde",
+    "backupIsNewer": "Cette sauvegarde contient des données plus récentes que votre groupe actuel.",
+    "currentVersion": "Dernière mise à jour du groupe actuel",
+    "changes": "Modifications dans la sauvegarde",
+    "addedExpenses": "{count} nouvelle(s) dépense(s)",
+    "addedParticipants": "{count} nouveau(x) participant(s)",
+    "restoring": "Restauration en cours...",
+    "restoreDifferences": "Restaurer les nouvelles données",
+    "backupIsOlder": "Avertissement : cette sauvegarde est plus ancienne que les données actuelles de votre groupe.",
+    "rollingBack": "Retour arrière en cours...",
+    "rollbackToBackup": "Revenir à la version de sauvegarde",
+    "rollbackWarning": "Cela supprimera toutes les données actuelles et les remplacera par la sauvegarde. Cette action est irréversible !",
+    "backupIsSame": "Cette sauvegarde est identique aux données actuelles de votre groupe.",
+    "cancel": "Annuler"
   },
   "JSONImport": {
-    "importJSON": "Import from JSON",
-    "importJSONTitle": "Import Group from JSON Export",
-    "importJSONDescription": "Upload a JSON export file to migrate a group from another Spliit instance. The system will analyze the file and guide you through the import process.",
+    "importJSON": "Importer depuis JSON",
+    "importJSONTitle": "Importer le groupe depuis l'export JSON",
+    "importJSONDescription": "Téléchargez un fichier d'export JSON pour migrer un groupe depuis une autre instance Spliit. Le système analysera le fichier et vous guidera à travers le processus d'importation.",
     "importSuccessTitle": "Importation terminée",
     "importSuccessDescription": "{name}",
     "importAssociationWarningTitle": "Association en attente",
     "importAssociationWarningDescription": "Nous avons importé le groupe, mais n'avons pas pu enregistrer les autorisations du compte. Ouvrez votre profil et cliquez sur « Enregistrer » pour finaliser.",
-    "analyzing": "Analyzing...",
-    "analyzeJSON": "Analyze JSON File",
-    "groupName": "Group Name",
-    "exportDate": "Export Date",
-    "limitations": "Important Limitations",
-    "groupNotFound": "This group doesn't exist yet. Click below to create it from the JSON export.",
-    "creating": "Creating...",
-    "createGroup": "Create Group from JSON",
-    "jsonIsNewer": "This JSON export contains newer data than your current group.",
-    "currentVersion": "Current group last updated",
-    "changes": "Changes in JSON export",
-    "addedExpenses": "~{count} new expense(s) (approximate)",
-    "addedParticipants": "{count} new participant(s)",
-    "restoring": "Importing...",
-    "importDifferences": "Import New Data",
-    "jsonIsOlder": "Warning: This JSON export is older than your current group data.",
-    "rollingBack": "Rolling back...",
-    "rollbackToJSON": "Rollback to JSON Version",
-    "rollbackWarning": "This will delete all current data and replace it with the JSON export. This action cannot be undone!",
-    "jsonIsSame": "This JSON export appears to match your current group data.",
-    "cancel": "Cancel",
-    "importFromFile": "Import from file",
-    "importFromURL": "Import from URL",
+    "analyzing": "Analyse en cours...",
+    "analyzeJSON": "Analyser le fichier JSON",
+    "groupName": "Nom du groupe",
+    "exportDate": "Date d'export",
+    "limitations": "Limitations importantes",
+    "groupNotFound": "Ce groupe n'existe pas encore. Cliquez ci-dessous pour le créer à partir de l'export JSON.",
+    "creating": "Création en cours...",
+    "createGroup": "Créer le groupe à partir du JSON",
+    "jsonIsNewer": "Cet export JSON contient des données plus récentes que votre groupe actuel.",
+    "currentVersion": "Dernière mise à jour du groupe actuel",
+    "changes": "Modifications dans l'export JSON",
+    "addedExpenses": "~{count} nouvelle(s) dépense(s) (approximatif)",
+    "addedParticipants": "{count} nouveau(x) participant(s)",
+    "restoring": "Importation en cours...",
+    "importDifferences": "Importer les nouvelles données",
+    "jsonIsOlder": "Avertissement : cet export JSON est plus ancien que les données actuelles de votre groupe.",
+    "rollingBack": "Retour arrière en cours...",
+    "rollbackToJSON": "Revenir à la version JSON",
+    "rollbackWarning": "Cela supprimera toutes les données actuelles et les remplacera par l'export JSON. Cette action est irréversible !",
+    "jsonIsSame": "Cet export JSON semble correspondre aux données actuelles de votre groupe.",
+    "cancel": "Annuler",
+    "importFromFile": "Importer depuis un fichier",
+    "importFromURL": "Importer depuis URL",
     "urlPlaceholder": "https://example.com/groups/...",
-    "fetchJSON": "Fetch JSON",
-    "errorInvalidURL": "Enter a valid URL from another Spliit site.",
-    "errorSameOrigin": "Use a different site URL than this one.",
-    "errorNoGroupID": "Could not find a group ID in that URL.",
-    "errorGroupExists": "That group already exists on this site.",
-    "errorGroupExistsDeleted": "This group still exists on the server. Delete it from Advanced settings before importing again.",
-    "errorRemoteFetch": "Failed to fetch JSON from the remote site.",
-    "remoteReadyWithName": "Ready to import: {name}",
-    "remoteReady": "Remote JSON is ready to import.",
-    "errorAnalysisFailed": "Failed to analyze JSON file",
-    "errorInvalidResponse": "Invalid response from server",
-    "errorImportFailed": "Failed to import JSON",
-    "jsonIsMergeable": "This JSON export is older, but it contains expenses that are missing in your group.",
-    "conflictsTitle": "Conflicting expenses found",
-    "conflictsDescription": "Choose which expenses should be updated to match the JSON export.",
-    "conflictApplyAllUpdate": "Update all",
-    "conflictApplyAllKeep": "Keep all",
-    "conflictDifferenceLabel": "Differs in",
-    "conflictFieldCategory": "category",
-    "conflictFieldSplitMode": "split mode",
-    "conflictFieldPaidFor": "paid for",
-    "conflictUpdateLabel": "Check to update this expense to match the JSON export.",
-    "paidBy": "Paid by",
-    "conflictDefaultAll": "Default to update all conflicts",
-    "conflictCurrentLabel": "Current",
+    "fetchJSON": "Récupérer le JSON",
+    "errorInvalidURL": "Entrez une URL valide d'un autre site Spliit.",
+    "errorSameOrigin": "Utilisez une URL de site différente de celle-ci.",
+    "errorNoGroupID": "Impossible de trouver un ID de groupe dans cette URL.",
+    "errorGroupExists": "Ce groupe existe déjà sur ce site.",
+    "errorGroupExistsDeleted": "Ce groupe existe toujours sur le serveur. Supprimez-le depuis les paramètres avancés avant d'importer à nouveau.",
+    "errorRemoteFetch": "Impossible de récupérer le JSON depuis le site distant.",
+    "remoteReadyWithName": "Prêt à importer : {name}",
+    "remoteReady": "Le JSON distant est prêt à être importé.",
+    "errorAnalysisFailed": "Impossible d'analyser le fichier JSON",
+    "errorInvalidResponse": "Réponse invalide du serveur",
+    "errorImportFailed": "Importation JSON échouée",
+    "jsonIsMergeable": "Cet export JSON est plus ancien, mais il contient des dépenses manquantes dans votre groupe.",
+    "conflictsTitle": "Dépenses conflictuelles trouvées",
+    "conflictsDescription": "Choisissez quelles dépenses doivent être mises à jour pour correspondre à l'export JSON.",
+    "conflictApplyAllUpdate": "Tout mettre à jour",
+    "conflictApplyAllKeep": "Tout conserver",
+    "conflictDifferenceLabel": "Diffère en",
+    "conflictFieldCategory": "catégorie",
+    "conflictFieldSplitMode": "mode de répartition",
+    "conflictFieldPaidFor": "payé pour",
+    "conflictUpdateLabel": "Cochez pour mettre à jour cette dépense afin de correspondre à l'export JSON.",
+    "paidBy": "Payé par",
+    "conflictDefaultAll": "Mettre à jour tous les conflits par défaut",
+    "conflictCurrentLabel": "Actuel",
     "conflictJsonLabel": "JSON",
-    "conflictNone": "None",
-    "conflictEmpty": "None"
+    "conflictNone": "Aucun",
+    "conflictEmpty": "Aucun"
   },
   "DeleteData": {
     "undoImport": "Annuler l'import complet",
-    "undoImportDescription": "Remove all data added during the most recent JSON import",
-    "undoWarning": "This will remove all expenses, participants, and activities added during the last import. This action cannot be undone!",
-    "cancel": "Cancel",
-    "confirm": "Undo Import",
-    "deleting": "Undoing...",
-    "success": "Import undone successfully",
-    "error": "Failed to undo import"
+    "undoImportDescription": "Supprimer toutes les données ajoutées lors du dernier import JSON",
+    "undoWarning": "Cela supprimera toutes les dépenses, participants et activités ajoutés lors du dernier import. Cette action est irréversible !",
+    "cancel": "Annuler",
+    "confirm": "Annuler l'import",
+    "deleting": "Annulation...",
+    "success": "Import annulé avec succès",
+    "error": "Échec de l'annulation de l'import"
   },
   "AnonymousAuthMenu": {
     "menu": {
@@ -738,6 +759,11 @@
       "profileActions": {
         "title": "Actions du profil",
         "deleteAccount": "Supprimer le compte"
+      },
+      "preferences": {
+        "title": "Préférences",
+        "startupRedirect": "Ouvrir le groupe récent au démarrage",
+        "startupRedirectDescription": "Au démarrage de l'application, accéder automatiquement à votre dernier groupe visité."
       }
     },
     "unlinkDialog": {

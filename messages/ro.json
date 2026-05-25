@@ -5,6 +5,20 @@
     "button": {
       "groups": "Mergi la grupuri",
       "github": "GitHub"
+    },
+    "features": {
+      "noAccount": {
+        "title": "Fără cont",
+        "description": "Creează un grup și distribuie linkul."
+      },
+      "trackExpense": {
+        "title": "Urmărește orice cheltuială",
+        "description": "Împarte facturile în mod egal sau cu sume personalizate."
+      },
+      "settleUp": {
+        "title": "Achitați cu ușurință",
+        "description": "Vedeți dintr-o privire cine datorează ce."
+      }
     }
   },
   "Header": {
@@ -174,7 +188,8 @@
     },
     "NotFound": {
       "text": "Acest grup nu există.",
-      "link": "Mergi la ultimele grupuri vizitate"
+      "link": "Mergi la ultimele grupuri vizitate",
+      "importing": "Se importă grupul. Poate dura un moment…"
     }
   },
   "NewFeaturesDialog": {
@@ -443,6 +458,12 @@
       "yourSpendings": "Totalul cheltuielilor tale",
       "yourEarnings": "Totalul veniturilor tale",
       "yourShare": "Partea ta"
+    },
+    "SpendingCharts": {
+      "title": "Defalcarea cheltuielilor",
+      "description": "Prezentare vizuală a cine a plătit și cine datorează ce.",
+      "byPayer": "Cheltuieli pe plătitor",
+      "byShare": "Cote pe membru"
     }
   },
   "Activity": {
@@ -738,6 +759,11 @@
       "profileActions": {
         "title": "Profile actions",
         "deleteAccount": "Delete account"
+      },
+      "preferences": {
+        "title": "Preferințe",
+        "startupRedirect": "Deschide cel mai recent grup la pornire",
+        "startupRedirectDescription": "La deschiderea aplicației, navigați automat la ultimul grup vizitat."
       }
     },
     "unlinkDialog": {
