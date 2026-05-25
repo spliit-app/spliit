@@ -5,6 +5,20 @@
     "button": {
       "groups": "Go to groups",
       "github": "GitHub"
+    },
+    "features": {
+      "noAccount": {
+        "title": "No account needed",
+        "description": "Just create a group and share the link."
+      },
+      "trackExpense": {
+        "title": "Track any expense",
+        "description": "Split bills evenly or by custom amounts."
+      },
+      "settleUp": {
+        "title": "Settle up easily",
+        "description": "See who owes what at a glance."
+      }
     }
   },
   "Header": {
