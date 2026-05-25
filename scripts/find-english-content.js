@@ -29,6 +29,11 @@ const files = fs.readdirSync(dir).filter(function (f) {
     return f.endsWith('.json') && f !== 'en-US.json'
 })
 
+// Some values are expected to be identical across locales (brand names, etc.).
+// Add patterns here to avoid noisy false positives.
+const ignoredKeyPatterns = [/\.github$/]
+const ignoredValues = new Set(['GitHub'])
+
 for (const file of files) {
     const other = JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8'))
     const otherEntries = flattenEntries(other)
@@ -37,7 +42,9 @@ for (const file of files) {
 
     const englishContent = []
     for (const [k, enVal] of Object.entries(enMap)) {
-        if (otherMap[k] !== undefined && otherMap[k] === enVal) {
+        if (ignoredKeyPatterns.some((re) => re.test(k))) continue
+        if (ignoredValues.has(enVal)) continue
+        if (Object.prototype.hasOwnProperty.call(otherMap, k) && otherMap[k] === enVal) {
             englishContent.push(k + ' = ' + JSON.stringify(enVal))
         }
     }

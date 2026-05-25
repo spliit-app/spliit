@@ -318,7 +318,7 @@
       "paidByField": {
         "label": "支付人",
         "placeholder": "選擇參與者",
-        "description": "选择支付这笔消费的群组成员。"
+        "description": "選擇支付這筆消費的群組成員。"
       },
       "recurrenceRule": {
         "label": "支出重複設定",
