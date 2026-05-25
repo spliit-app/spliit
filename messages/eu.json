@@ -5,6 +5,20 @@
     "button": {
       "groups": "Joan taldeetara",
       "github": "GitHub"
+    },
+    "features": {
+      "noAccount": {
+        "title": "Ez da konturik behar",
+        "description": "Sortu talde bat eta partekatu esteka."
+      },
+      "trackExpense": {
+        "title": "Jarraitu edozein gastu",
+        "description": "Zatitu fakturak modu berdinean edo zenbateko pertsonalizatuekin."
+      },
+      "settleUp": {
+        "title": "Erraz kitatu",
+        "description": "Ikusi begirada batez nork zer zor duen."
+      }
     }
   },
   "Header": {
@@ -174,7 +188,8 @@
     },
     "NotFound": {
       "text": "Talde hori ez da existitzen.",
-      "link": "Joan bisitatutako azken taldeetara"
+      "link": "Joan bisitatutako azken taldeetara",
+      "importing": "Taldea inportatzen. Une bat behar izatea liteke…"
     }
   },
   "NewFeaturesDialog": {
@@ -443,6 +458,12 @@
       "yourSpendings": "Zure gastuak denetara",
       "yourEarnings": "Zure diru-sarrerak denetara",
       "yourShare": "Zure parte osoa"
+    },
+    "SpendingCharts": {
+      "title": "Gastuen xehetasuna",
+      "description": "Nork ordaindu eta nork zer zor duen ikusteko irudi grafikoa.",
+      "byPayer": "Gastuak ordaintzailearen arabera",
+      "byShare": "Parteak kidearen arabera"
     }
   },
   "Activity": {
@@ -738,6 +759,11 @@
       "profileActions": {
         "title": "Profile actions",
         "deleteAccount": "Delete account"
+      },
+      "preferences": {
+        "title": "Hobespenak",
+        "startupRedirect": "Ireki azken taldea abiatzean",
+        "startupRedirectDescription": "Aplikazioa irekitzean, automatikoki nabigatu azkenekoz bisitatutako taldea."
       }
     },
     "unlinkDialog": {

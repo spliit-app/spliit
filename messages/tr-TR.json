@@ -5,6 +5,20 @@
     "button": {
       "groups": "Gruplara git",
       "github": "GitHub"
+    },
+    "features": {
+      "noAccount": {
+        "title": "Hesap gerekmez",
+        "description": "Sadece bir grup oluşturun ve bağlantıyı paylaşın."
+      },
+      "trackExpense": {
+        "title": "Her harcamayı takip edin",
+        "description": "Faturaları eşit veya özel tutarlarla bölüştürün."
+      },
+      "settleUp": {
+        "title": "Kolayca ödeşin",
+        "description": "Kimin kime ne kadar borçlu olduğunu bir bakışta görün."
+      }
     }
   },
   "Header": {
@@ -174,7 +188,8 @@
     },
     "NotFound": {
       "text": "Bu grup mevcut değil.",
-      "link": "Son ziyaret ettiğiniz gruplara dön"
+      "link": "Son ziyaret ettiğiniz gruplara dön",
+      "importing": "Grup içe aktarılıyor. Bu biraz zaman alabilir…"
     }
   },
   "NewFeaturesDialog": {
@@ -443,6 +458,12 @@
       "yourSpendings": "Sizin toplam harcamalarınız",
       "yourEarnings": "Sizin toplam gelirleriniz",
       "yourShare": "Sizin toplam payınız"
+    },
+    "SpendingCharts": {
+      "title": "Harcama dökümü",
+      "description": "Kimin ödediğini ve kimin ne borçlu olduğunu görsel olarak gösterir.",
+      "byPayer": "Ödeyene göre harcama",
+      "byShare": "Üyeye göre pay"
     }
   },
   "Activity": {
@@ -738,6 +759,11 @@
       "profileActions": {
         "title": "Profile actions",
         "deleteAccount": "Delete account"
+      },
+      "preferences": {
+        "title": "Tercihler",
+        "startupRedirect": "Başlangıçta en son grubu aç",
+        "startupRedirectDescription": "Uygulama açıldığında son ziyaret ettiğiniz gruba otomatik olarak gidin."
       }
     },
     "unlinkDialog": {

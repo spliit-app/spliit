@@ -5,6 +5,20 @@
     "button": {
       "groups": "Przejdź do grup",
       "github": "GitHub"
+    },
+    "features": {
+      "noAccount": {
+        "title": "Bez konta",
+        "description": "Utwórz grupę i udostępnij link."
+      },
+      "trackExpense": {
+        "title": "Śledź każdy wydatek",
+        "description": "Dziel rachunki równo lub w niestandardowych kwotach."
+      },
+      "settleUp": {
+        "title": "Łatwe rozliczanie",
+        "description": "Sprawdź jednym spojrzeniem, kto komu ile jest winien."
+      }
     }
   },
   "Header": {
@@ -174,7 +188,8 @@
     },
     "NotFound": {
       "text": "Ta grupa nie istnieje.",
-      "link": "Idź do ostatnio odwiedzanych grup"
+      "link": "Idź do ostatnio odwiedzanych grup",
+      "importing": "Importowanie grupy. To może chwilę potrwać…"
     }
   },
   "NewFeaturesDialog": {
@@ -443,6 +458,12 @@
       "yourSpendings": "Twoje wydatki",
       "yourEarnings": "Twoje wpływy",
       "yourShare": "Twoje udziały"
+    },
+    "SpendingCharts": {
+      "title": "Podział wydatków",
+      "description": "Wizualny podział tego, kto płacił i kto co jest winien.",
+      "byPayer": "Wydatki według płatnika",
+      "byShare": "Udziały według uczestnika"
     }
   },
   "Activity": {
@@ -738,6 +759,11 @@
       "profileActions": {
         "title": "Profile actions",
         "deleteAccount": "Delete account"
+      },
+      "preferences": {
+        "title": "Ustawienia",
+        "startupRedirect": "Otwieraj ostatnią grupę przy uruchomieniu",
+        "startupRedirectDescription": "Przy otwieraniu aplikacji automatycznie przejdź do ostatnio odwiedzanej grupy."
       }
     },
     "unlinkDialog": {

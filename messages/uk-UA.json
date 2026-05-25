@@ -5,6 +5,20 @@
     "button": {
       "groups": "Перейти до груп",
       "github": "GitHub"
+    },
+    "features": {
+      "noAccount": {
+        "title": "Без реєстрації",
+        "description": "Просто створіть групу і поділіться посиланням."
+      },
+      "trackExpense": {
+        "title": "Відстежуйте будь-які витрати",
+        "description": "Діліть рахунки порівну або у довільних частках."
+      },
+      "settleUp": {
+        "title": "Легко розрахуйтесь",
+        "description": "Одразу бачте, хто кому і скільки заборгував."
+      }
     }
   },
   "Header": {
@@ -174,7 +188,8 @@
     },
     "NotFound": {
       "text": "Цієї групи не існує",
-      "link": "Перейти до нещодавно відвіданих груп"
+      "link": "Перейти до нещодавно відвіданих груп",
+      "importing": "Імпорт групи. Це може зайняти мить…"
     }
   },
   "NewFeaturesDialog": {
@@ -443,6 +458,12 @@
       "yourSpendings": "Ваші загальні витрати",
       "yourEarnings": "Ваші загальні доходи",
       "yourShare": "Ваша частка"
+    },
+    "SpendingCharts": {
+      "title": "Розбивка витрат",
+      "description": "Візуальна розбивка: хто платив і хто що заборгував.",
+      "byPayer": "Витрати за платником",
+      "byShare": "Частки за учасником"
     }
   },
   "Activity": {
@@ -738,6 +759,11 @@
       "profileActions": {
         "title": "Profile actions",
         "deleteAccount": "Delete account"
+      },
+      "preferences": {
+        "title": "Налаштування",
+        "startupRedirect": "Відкривати останню групу при запуску",
+        "startupRedirectDescription": "При відкритті застосунку автоматично переходити до останньої відвіданої групи."
       }
     },
     "unlinkDialog": {

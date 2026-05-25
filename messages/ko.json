@@ -5,6 +5,20 @@
     "button": {
       "groups": "그룹 보기",
       "github": "깃허브"
+    },
+    "features": {
+      "noAccount": {
+        "title": "계정 불필요",
+        "description": "그룹을 만들고 링크를 공유하기만 하면 됩니다."
+      },
+      "trackExpense": {
+        "title": "모든 지출 기록",
+        "description": "청구서를 균등하게 또는 맞춤 금액으로 분할합니다."
+      },
+      "settleUp": {
+        "title": "간편하게 정산",
+        "description": "누가 얼마를 내야 하는지 한눈에 확인하세요."
+      }
     }
   },
   "Header": {
@@ -174,7 +188,8 @@
     },
     "NotFound": {
       "text": "그룹이 존재하지 않습니다.",
-      "link": "최근에 방문한 그룹 보기"
+      "link": "최근에 방문한 그룹 보기",
+      "importing": "그룹을 가져오는 중입니다. 잠시 기다려 주세요…"
     }
   },
   "NewFeaturesDialog": {
@@ -443,6 +458,12 @@
       "yourSpendings": "나의 총 지출",
       "yourEarnings": "Your total earnings",
       "yourShare": "나의 총 부담금"
+    },
+    "SpendingCharts": {
+      "title": "지출 분류",
+      "description": "누가 지불하고 누가 무엇을 빚지고 있는지 시각적으로 표시합니다.",
+      "byPayer": "결제자별 지출",
+      "byShare": "구성원별 분담금"
     }
   },
   "Activity": {
@@ -738,6 +759,11 @@
       "profileActions": {
         "title": "Profile actions",
         "deleteAccount": "Delete account"
+      },
+      "preferences": {
+        "title": "환경설정",
+        "startupRedirect": "시작 시 최근 그룹 열기",
+        "startupRedirectDescription": "앱을 열 때 마지막으로 방문한 그룹으로 자동 이동합니다."
       }
     },
     "unlinkDialog": {

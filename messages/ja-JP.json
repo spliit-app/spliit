@@ -5,6 +5,20 @@
     "button": {
       "groups": "グループへ移動",
       "github": "GitHub"
+    },
+    "features": {
+      "noAccount": {
+        "title": "アカウント不要",
+        "description": "グループを作成してリンクを共有するだけです。"
+      },
+      "trackExpense": {
+        "title": "すべての費用を記録",
+        "description": "均等または任意の金額で費用を分担できます。"
+      },
+      "settleUp": {
+        "title": "簡単に清算",
+        "description": "誰が何を支払うべきか一目で確認できます。"
+      }
     }
   },
   "Header": {
@@ -174,7 +188,8 @@
     },
     "NotFound": {
       "text": "このグループは存在しません。",
-      "link": "最近訪れたグループへ移動"
+      "link": "最近訪れたグループへ移動",
+      "importing": "グループをインポート中です。少々お待ちください…"
     }
   },
   "NewFeaturesDialog": {
@@ -443,6 +458,12 @@
       "yourSpendings": "あなたの総支出",
       "yourEarnings": "あなたの総収入",
       "yourShare": "あなたの総シェア"
+    },
+    "SpendingCharts": {
+      "title": "費用の内訳",
+      "description": "誰が支払い、誰が何を負担するかを視覚的に表示します。",
+      "byPayer": "支払者別の費用",
+      "byShare": "メンバー別の負担額"
     }
   },
   "Activity": {
@@ -738,6 +759,11 @@
       "profileActions": {
         "title": "Profile actions",
         "deleteAccount": "Delete account"
+      },
+      "preferences": {
+        "title": "設定",
+        "startupRedirect": "起動時に最近のグループを開く",
+        "startupRedirectDescription": "アプリを開いたとき、最後に訪れたグループに自動的に移動します。"
       }
     },
     "unlinkDialog": {

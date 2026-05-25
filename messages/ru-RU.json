@@ -5,6 +5,20 @@
     "button": {
       "groups": "Перейти к группам",
       "github": "GitHub"
+    },
+    "features": {
+      "noAccount": {
+        "title": "Без регистрации",
+        "description": "Просто создайте группу и поделитесь ссылкой."
+      },
+      "trackExpense": {
+        "title": "Записывайте любые расходы",
+        "description": "Делите счета поровну или в произвольных долях."
+      },
+      "settleUp": {
+        "title": "Легко рассчитаться",
+        "description": "Смотрите с первого взгляда, кто и что должен."
+      }
     }
   },
   "Header": {
@@ -174,7 +188,8 @@
     },
     "NotFound": {
       "text": "Этой группы не существует",
-      "link": "Перейти к списку недавних групп"
+      "link": "Перейти к списку недавних групп",
+      "importing": "Импорт группы. Это может занять момент…"
     }
   },
   "NewFeaturesDialog": {
@@ -443,6 +458,12 @@
       "yourSpendings": "Всего потрачено вами",
       "yourEarnings": "Всего заработано вами",
       "yourShare": "Ваша суммарная доля"
+    },
+    "SpendingCharts": {
+      "title": "Разбивка расходов",
+      "description": "Визуальная разбивка: кто платил и кто что должен.",
+      "byPayer": "Расходы по плательщику",
+      "byShare": "Доли по участнику"
     }
   },
   "Activity": {
@@ -738,6 +759,11 @@
       "profileActions": {
         "title": "Profile actions",
         "deleteAccount": "Delete account"
+      },
+      "preferences": {
+        "title": "Настройки",
+        "startupRedirect": "Открывать последнюю группу при запуске",
+        "startupRedirectDescription": "При открытии приложения автоматически переходить к последней посещённой группе."
       }
     },
     "unlinkDialog": {

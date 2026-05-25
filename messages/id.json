@@ -5,6 +5,20 @@
     "button": {
       "groups": "Ke grup",
       "github": "GitHub"
+    },
+    "features": {
+      "noAccount": {
+        "title": "Tidak perlu akun",
+        "description": "Cukup buat grup dan bagikan tautannya."
+      },
+      "trackExpense": {
+        "title": "Catat semua pengeluaran",
+        "description": "Bagi tagihan secara merata atau dengan jumlah yang disesuaikan."
+      },
+      "settleUp": {
+        "title": "Selesaikan dengan mudah",
+        "description": "Lihat sekilas siapa yang berutang apa."
+      }
     }
   },
   "Header": {
@@ -174,7 +188,8 @@
     },
     "NotFound": {
       "text": "Grup ini tidak dapat ditemukan.",
-      "link": "Buka grup yang baru saja dikunjungi"
+      "link": "Buka grup yang baru saja dikunjungi",
+      "importing": "Mengimpor grup. Ini bisa memakan waktu sebentar…"
     }
   },
   "NewFeaturesDialog": {
@@ -443,6 +458,12 @@
       "yourSpendings": "Total pengeluaran Anda",
       "yourEarnings": "Total pemasukan Anda",
       "yourShare": "Total bagian Anda"
+    },
+    "SpendingCharts": {
+      "title": "Rincian pengeluaran",
+      "description": "Ringkasan visual tentang siapa yang membayar dan siapa yang berutang apa.",
+      "byPayer": "Pengeluaran per pembayar",
+      "byShare": "Bagian per anggota"
     }
   },
   "Activity": {
@@ -738,6 +759,11 @@
       "profileActions": {
         "title": "Profile actions",
         "deleteAccount": "Delete account"
+      },
+      "preferences": {
+        "title": "Preferensi",
+        "startupRedirect": "Buka grup terbaru saat mulai",
+        "startupRedirectDescription": "Saat membuka aplikasi, otomatis navigasi ke grup yang terakhir dikunjungi."
       }
     },
     "unlinkDialog": {
