@@ -5,6 +5,20 @@
     "button": {
       "groups": "Go to groups",
       "github": "GitHub"
+    },
+    "features": {
+      "noAccount": {
+        "title": "No account needed",
+        "description": "Just create a group and share the link."
+      },
+      "trackExpense": {
+        "title": "Track any expense",
+        "description": "Split bills evenly or by custom amounts."
+      },
+      "settleUp": {
+        "title": "Settle up easily",
+        "description": "See who owes what at a glance."
+      }
     }
   },
   "Header": {
@@ -264,6 +278,11 @@
       "profileActions": {
         "title": "Profile actions",
         "deleteAccount": "Delete account"
+      },
+      "preferences": {
+        "title": "Preferences",
+        "startupRedirect": "Open most recent group on startup",
+        "startupRedirectDescription": "When you open the app, automatically navigate to your last visited group."
       }
     },
     "unlinkDialog": {
@@ -641,7 +660,7 @@
     "Dialog": {
       "triggerTitle": "Create expense from receipt",
       "title": "Create from receipt",
-      "description": "Extract the expense information from a receipt photo.",
+      "description": "Extract expense information from a photo.",
       "body": "Upload the photo of a receipt, and we’ll scan it to extract the expense information if we can.",
       "selectImage": "Select image…",
       "titleLabel": "Title:",
@@ -683,6 +702,12 @@
       "yourSpendings": "Your total spendings",
       "yourEarnings": "Your total earnings",
       "yourShare": "Your total share"
+    },
+    "SpendingCharts": {
+      "title": "Spending breakdown",
+      "description": "Visual breakdown of who paid and who owes what.",
+      "byPayer": "Spending by payer",
+      "byShare": "Shares by member"
     }
   },
   "Activity": {

@@ -52,7 +52,7 @@ export function GroupLayoutClient({
     return (
       <CurrentGroupProvider {...props}>
         <GroupHeader />
-        {children}
+        <div className="pb-24 sm:pb-0">{children}</div>
       </CurrentGroupProvider>
     )
   }
@@ -60,7 +60,7 @@ export function GroupLayoutClient({
   return (
     <CurrentGroupProvider {...props}>
       <GroupHeader />
-      {children}
+      <div className="pb-24 sm:pb-0">{children}</div>
       <SaveGroupLocally />
     </CurrentGroupProvider>
   )

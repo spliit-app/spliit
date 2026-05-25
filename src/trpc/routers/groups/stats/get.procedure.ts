@@ -1,5 +1,6 @@
 import { getGroupExpenses } from '@/lib/api'
 import {
+  calculateShare,
   getTotalActiveUserPaidFor,
   getTotalActiveUserShare,
   getTotalGroupSpending,
@@ -27,9 +28,63 @@ export const getGroupStatsProcedure = baseProcedure
         ? getTotalActiveUserShare(participantId, expenses)
         : undefined
 
+    // Per-participant breakdown for pie charts
+    const participantMap = new Map<
+      string,
+      { id: string; name: string; spending: number; share: number }
+    >()
+
+    for (const expense of expenses) {
+      if (expense.isReimbursement) continue
+
+      const payer = expense.paidBy
+      if (!participantMap.has(payer.id)) {
+        participantMap.set(payer.id, {
+          id: payer.id,
+          name: payer.name,
+          spending: 0,
+          share: 0,
+        })
+      }
+      participantMap.get(payer.id)!.spending += expense.amount
+
+      for (const pf of expense.paidFor) {
+        const pid = pf.participant.id
+        if (!participantMap.has(pid)) {
+          participantMap.set(pid, {
+            id: pid,
+            name: pf.participant.name,
+            spending: 0,
+            share: 0,
+          })
+        }
+        participantMap.get(pid)!.share += calculateShare(pid, expense)
+      }
+    }
+
+    const spendingsByParticipant = Array.from(participantMap.values())
+      .filter((p) => p.spending > 0)
+      .map((p) => ({
+        id: p.id,
+        name: p.name,
+        amount: parseFloat(p.spending.toFixed(2)),
+      }))
+      .sort((a, b) => b.amount - a.amount)
+
+    const sharesByParticipant = Array.from(participantMap.values())
+      .filter((p) => p.share > 0)
+      .map((p) => ({
+        id: p.id,
+        name: p.name,
+        amount: parseFloat(p.share.toFixed(2)),
+      }))
+      .sort((a, b) => b.amount - a.amount)
+
     return {
       totalGroupSpendings,
       totalParticipantSpendings,
       totalParticipantShare,
+      spendingsByParticipant,
+      sharesByParticipant,
     }
   })

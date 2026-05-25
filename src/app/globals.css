@@ -23,7 +23,7 @@
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
     --ring: 142.1 76.2% 36.3%;
-    --radius: 0.5rem;
+    --radius: 0.75rem;
   }
 
   .dark {
@@ -54,8 +54,16 @@
   * {
     @apply border-border;
   }
+
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
   body {
     @apply bg-background text-foreground;
+    /* Prevent iOS double-tap zoom on interactive elements */
+    -webkit-tap-highlight-color: transparent;
   }
 }
 
