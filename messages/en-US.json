@@ -688,6 +688,12 @@
       "yourSpendings": "Your total spendings",
       "yourEarnings": "Your total earnings",
       "yourShare": "Your total share"
+    },
+    "SpendingCharts": {
+      "title": "Spending breakdown",
+      "description": "Visual breakdown of who paid and who owes what.",
+      "byPayer": "Spending by payer",
+      "byShare": "Shares by member"
     }
   },
   "Activity": {

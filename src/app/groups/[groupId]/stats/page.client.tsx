@@ -1,3 +1,4 @@
+import { SpendingCharts } from '@/app/groups/[groupId]/stats/spending-charts'
 import { Totals } from '@/app/groups/[groupId]/stats/totals'
 import {
   Card,
@@ -20,6 +21,15 @@ export function TotalsPageClient() {
         </CardHeader>
         <CardContent className="flex flex-col space-y-4">
           <Totals />
+        </CardContent>
+      </Card>
+      <Card className="mb-4">
+        <CardHeader>
+          <CardTitle>{t('SpendingCharts.title')}</CardTitle>
+          <CardDescription>{t('SpendingCharts.description')}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <SpendingCharts />
         </CardContent>
       </Card>
     </>
