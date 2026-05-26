@@ -66,6 +66,16 @@ export function deleteRecentGroup(group: RecentGroup) {
   )
 }
 
+export function deleteGroupFromLocalLists(groupId: string) {
+  const recentGroups = getRecentGroups()
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(recentGroups.filter((rg) => rg.id !== groupId)),
+  )
+  unstarGroup(groupId)
+  unarchiveGroup(groupId)
+}
+
 export function getStarredGroups() {
   const starredGroupsJson = localStorage.getItem(STARRED_GROUPS_STORAGE_KEY)
   const starredGroupsRaw = starredGroupsJson
