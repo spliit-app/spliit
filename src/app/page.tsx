@@ -65,7 +65,7 @@ export default function HomePage() {
             ].map(({ id, Icon, title, description }) => (
               <div
                 key={id}
-                className="flex gap-3 p-4 rounded-xl border bg-card shadow-sm"
+                className="flex gap-3 p-4 rounded-lg border bg-card"
               >
                 <div className="shrink-0 mt-0.5">
                   <Icon className="w-5 h-5 text-primary" />
@@ -84,7 +84,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <footer className="bg-slate-50 dark:bg-card border-t px-6 py-4 text-xs text-muted-foreground [&_a]:underline">
+      <footer className="bg-muted/30 dark:bg-card border-t px-6 py-4 text-xs text-muted-foreground [&_a]:underline">
         <div className="flex flex-col gap-1">
           <span>{t('Footer.madeIn')}</span>
           <span>

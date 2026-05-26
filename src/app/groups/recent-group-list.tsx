@@ -299,7 +299,7 @@ function GroupListLoading() {
       {Array(4)
         .fill(undefined)
         .map((_, index) => (
-          <li key={index} className="rounded-lg border bg-card p-4 shadow-sm">
+          <li key={index} className="rounded-lg border bg-card p-4">
             <div className="flex items-start gap-3 pr-16">
               <Skeleton className="h-10 w-10 rounded-md" />
               <div className="min-w-0 flex-1 space-y-2">

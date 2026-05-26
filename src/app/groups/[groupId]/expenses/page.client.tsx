@@ -49,7 +49,7 @@ export default function GroupExpensesPageClient({
           </div>
         </div>
 
-        <div className="overflow-hidden rounded-lg border bg-card pb-4 shadow-sm">
+        <div className="overflow-hidden rounded-lg border bg-card pb-4">
           <ExpenseList />
         </div>
       </section>

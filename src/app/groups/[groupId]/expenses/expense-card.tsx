@@ -68,7 +68,7 @@ export function ExpenseCard({
         expense.isReimbursement && 'italic',
       )}
     >
-      <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-md border bg-background text-muted-foreground shadow-sm group-hover:border-primary/30 group-hover:text-primary">
+      <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-md border bg-background text-muted-foreground group-hover:border-primary/30 group-hover:text-primary">
         <CategoryIcon category={expense.category} className="w-4 h-4" />
       </div>
 

@@ -16,7 +16,7 @@ export function TotalsPageClient() {
             {t('Totals.description')}
           </p>
         </div>
-        <div className="rounded-lg border bg-card p-4 shadow-sm">
+        <div className="rounded-lg border bg-card p-4">
           <div className="flex flex-col space-y-4">
             <Totals />
           </div>
@@ -32,7 +32,7 @@ export function TotalsPageClient() {
             {t('SpendingCharts.description')}
           </p>
         </div>
-        <div className="rounded-lg border bg-card p-4 shadow-sm">
+        <div className="rounded-lg border bg-card p-4">
           <SpendingCharts />
         </div>
       </section>

@@ -60,11 +60,11 @@ export function RecentGroupListCard({
   return (
     <li
       key={group.id}
-      className="group relative rounded-lg border bg-card p-4 shadow-sm transition-colors hover:bg-accent/40"
+      className="group relative rounded-lg border bg-card p-4 transition-colors hover:bg-accent/40"
     >
       <Link
         href={`/groups/${group.id}`}
-        className="absolute inset-0 rounded-lg"
+        className="absolute inset-0 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         aria-label={group.name}
       />
       <div className="relative z-10 flex items-start gap-3 pr-16 pointer-events-none">

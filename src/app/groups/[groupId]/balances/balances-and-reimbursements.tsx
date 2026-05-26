@@ -36,7 +36,7 @@ export default function BalancesAndReimbursements() {
             {t('description')}
           </p>
         </div>
-        <div className="rounded-lg border bg-card p-4 shadow-sm">
+        <div className="rounded-lg border bg-card p-4">
           {isLoading ? (
             <BalancesLoading participantCount={group?.participants.length} />
           ) : (
@@ -58,7 +58,7 @@ export default function BalancesAndReimbursements() {
             {t('Reimbursements.description')}
           </p>
         </div>
-        <div className="rounded-lg border bg-card p-4 shadow-sm">
+        <div className="rounded-lg border bg-card p-4">
           {isLoading ? (
             <ReimbursementsLoading
               participantCount={group?.participants.length}
