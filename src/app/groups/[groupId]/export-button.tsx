@@ -25,7 +25,6 @@ export default function ExportButton({ groupId }: { groupId: string }) {
           <Link
             prefetch={false}
             href={`/groups/${groupId}/expenses/export/json`}
-            target="_blank"
             title={t('exportJson')}
           >
             <div className="flex items-center gap-2">
@@ -38,7 +37,6 @@ export default function ExportButton({ groupId }: { groupId: string }) {
           <Link
             prefetch={false}
             href={`/groups/${groupId}/expenses/export/csv`}
-            target="_blank"
             title={t('exportCsv')}
           >
             <div className="flex items-center gap-2">

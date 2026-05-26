@@ -143,7 +143,6 @@ export function RecentGroupListCard({
                 <Link
                   prefetch={false}
                   href={`/groups/${group.id}/backup/export`}
-                  target="_blank"
                   title={tExpenses('exportBackup')}
                 >
                   <Archive className="w-4 h-4 mr-2" />

@@ -18,6 +18,7 @@ import {
   Trash2,
 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import { useRouter } from 'next/navigation'
 
 interface Props {
   open: boolean
@@ -26,6 +27,7 @@ interface Props {
 
 export function NewFeaturesDialog({ open, onOpenChange }: Props) {
   const t = useTranslations('NewFeaturesDialog')
+  const router = useRouter()
   const features = [
     {
       icon: RefreshCw,
@@ -106,7 +108,7 @@ export function NewFeaturesDialog({ open, onOpenChange }: Props) {
           <div className="flex justify-center">
             <Button
               onClick={() => {
-                window.open('/help', '_blank')
+                router.push('/help')
                 onOpenChange(false)
               }}
             >
