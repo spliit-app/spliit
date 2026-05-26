@@ -46,9 +46,13 @@ export const EditGroup = () => {
     setIsLoggedIn(linkedStatus === 'true')
 
     const storedAssociations = localStorage.getItem(ASSOCIATED_GROUPS_KEY)
-    setAssociatedGroupIds(
-      storedAssociations ? (JSON.parse(storedAssociations) as string[]) : [],
-    )
+    try {
+      setAssociatedGroupIds(
+        storedAssociations ? (JSON.parse(storedAssociations) as string[]) : [],
+      )
+    } catch {
+      setAssociatedGroupIds([])
+    }
   }, [])
 
   useEffect(() => {

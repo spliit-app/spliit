@@ -6,7 +6,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 import { trpc } from '@/trpc/client'
 import dayjs, { type Dayjs } from 'dayjs'
-import { ActivityIcon } from 'lucide-react'
+import { Activity as ActivityIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { forwardRef, useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
