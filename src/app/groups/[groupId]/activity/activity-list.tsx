@@ -6,6 +6,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 import { trpc } from '@/trpc/client'
 import dayjs, { type Dayjs } from 'dayjs'
+import { ActivityIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { forwardRef, useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
@@ -69,12 +70,11 @@ const ActivitiesLoading = forwardRef<HTMLDivElement>((_, ref) => {
       {Array(5)
         .fill(undefined)
         .map((_, index) => (
-          <div key={index} className="flex gap-2 p-2">
-            <div className="flex-0">
-              <Skeleton className="h-3 w-12" />
-            </div>
-            <div className="flex-1">
-              <Skeleton className="h-3 w-48" />
+          <div key={index} className="flex gap-3 rounded-md px-2 py-3">
+            <Skeleton className="h-4 w-12 shrink-0 rounded-full" />
+            <div className="flex min-w-0 flex-1 flex-col gap-2">
+              <Skeleton className="h-4 w-4/5 rounded-full" />
+              <Skeleton className="h-3 w-2/5 rounded-full" />
             </div>
           </div>
         ))}
@@ -122,7 +122,7 @@ export function ActivityList() {
           <div key={dateGroup}>
             <div
               className={
-                'text-muted-foreground text-xs py-1 font-semibold sticky top-16 bg-white dark:bg-[#1b1917]'
+                'text-muted-foreground text-xs py-1 font-semibold sticky top-16 bg-card/95 backdrop-blur-sm'
               }
             >
               {t(`Groups.${dateGroup}`)}
@@ -150,6 +150,13 @@ export function ActivityList() {
       {hasMore && <ActivitiesLoading ref={loadingRef} />}
     </>
   ) : (
-    <p className="text-sm py-6">{t('noActivity')}</p>
+    <div className="py-10 text-center">
+      <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-md bg-primary/10 text-primary">
+        <ActivityIcon className="h-5 w-5" />
+      </div>
+      <p className="mx-auto max-w-sm text-sm text-muted-foreground">
+        {t('noActivity')}
+      </p>
+    </div>
   )
 }

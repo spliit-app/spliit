@@ -2,13 +2,6 @@
 
 import { BalancesList } from '@/app/groups/[groupId]/balances-list'
 import { ReimbursementList } from '@/app/groups/[groupId]/reimbursement-list'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getCurrencyFromGroup } from '@/lib/utils'
 import { trpc } from '@/trpc/client'
@@ -35,13 +28,15 @@ export default function BalancesAndReimbursements() {
   const isLoading = balancesAreLoading || !balancesData || !group
 
   return (
-    <>
-      <Card className="mb-4">
-        <CardHeader>
-          <CardTitle>{t('title')}</CardTitle>
-          <CardDescription>{t('description')}</CardDescription>
-        </CardHeader>
-        <CardContent>
+    <div className="space-y-6">
+      <section className="space-y-3">
+        <div>
+          <h2 className="text-lg font-semibold leading-7">{t('title')}</h2>
+          <p className="mt-0.5 text-sm text-muted-foreground">
+            {t('description')}
+          </p>
+        </div>
+        <div className="rounded-lg border bg-card p-4 shadow-sm">
           {isLoading ? (
             <BalancesLoading participantCount={group?.participants.length} />
           ) : (
@@ -51,14 +46,19 @@ export default function BalancesAndReimbursements() {
               currency={getCurrencyFromGroup(group)}
             />
           )}
-        </CardContent>
-      </Card>
-      <Card className="mb-4">
-        <CardHeader>
-          <CardTitle>{t('Reimbursements.title')}</CardTitle>
-          <CardDescription>{t('Reimbursements.description')}</CardDescription>
-        </CardHeader>
-        <CardContent>
+        </div>
+      </section>
+
+      <section className="space-y-3">
+        <div>
+          <h2 className="text-lg font-semibold leading-7">
+            {t('Reimbursements.title')}
+          </h2>
+          <p className="mt-0.5 text-sm text-muted-foreground">
+            {t('Reimbursements.description')}
+          </p>
+        </div>
+        <div className="rounded-lg border bg-card p-4 shadow-sm">
           {isLoading ? (
             <ReimbursementsLoading
               participantCount={group?.participants.length}
@@ -71,9 +71,9 @@ export default function BalancesAndReimbursements() {
               groupId={groupId}
             />
           )}
-        </CardContent>
-      </Card>
-    </>
+        </div>
+      </section>
+    </div>
   )
 }
 

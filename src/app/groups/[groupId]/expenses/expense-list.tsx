@@ -7,6 +7,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { getCurrencyFromGroup } from '@/lib/utils'
 import { trpc } from '@/trpc/client'
 import dayjs, { type Dayjs } from 'dayjs'
+import { Receipt } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { forwardRef, useEffect, useMemo, useState } from 'react'
@@ -88,7 +89,9 @@ export function ExpenseList() {
 
   return (
     <>
-      <SearchBar onValueChange={(value) => setSearchText(value)} />
+      <div className="border-b p-3">
+        <SearchBar onValueChange={(value) => setSearchText(value)} />
+      </div>
       <ExpenseListForSearch
         groupId={groupId}
         searchText={debouncedSearchText}
@@ -142,14 +145,21 @@ const ExpenseListForSearch = ({
 
   if (expenses.length === 0)
     return (
-      <p className="px-6 text-sm py-6">
-        {t('noExpenses')}{' '}
-        <Button variant="link" asChild className="-m-4">
-          <Link href={`/groups/${groupId}/expenses/create`}>
-            {t('createFirst')}
-          </Link>
-        </Button>
-      </p>
+      <div className="px-4 py-10 text-center">
+        <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-md bg-primary/10 text-primary">
+          <Receipt className="h-5 w-5" />
+        </div>
+        <p className="mx-auto max-w-sm text-sm text-muted-foreground">
+          {t('noExpenses')}
+        </p>
+        {!searchText && (
+          <Button asChild className="mt-5">
+            <Link href={`/groups/${groupId}/expenses/create`}>
+              {t('createFirst')}
+            </Link>
+          </Button>
+        )}
+      </div>
     )
 
   return (
@@ -162,7 +172,7 @@ const ExpenseListForSearch = ({
           <div key={expenseGroup}>
             <div
               className={
-                'text-muted-foreground text-xs pl-4 sm:pl-6 py-1.5 font-semibold uppercase tracking-wide sticky top-14 bg-background/95 backdrop-blur-sm border-b border-border/50'
+                'text-muted-foreground text-xs pl-4 sm:pl-6 py-1.5 font-semibold uppercase tracking-wide sticky top-14 bg-card/95 backdrop-blur-sm border-b border-border/50'
               }
             >
               {t(`Groups.${expenseGroup}`)}
@@ -186,23 +196,23 @@ const ExpenseListForSearch = ({
 
 const ExpensesLoading = forwardRef<HTMLDivElement>((_, ref) => {
   return (
-    <div ref={ref}>
-      <Skeleton className="mx-4 sm:mx-6 mt-1 mb-2 h-3 w-32 rounded-full" />
+    <div ref={ref} className="py-2">
+      <Skeleton className="mx-4 sm:mx-6 my-2 h-3 w-32 rounded-full" />
       {[0, 1, 2].map((i) => (
         <div
           key={i}
-          className="flex justify-between items-start px-2 sm:px-6 py-4 text-sm gap-2"
+          className="flex items-start gap-3 px-4 py-4 text-sm sm:mx-4 sm:rounded-lg"
         >
-          <div className="flex-0 pl-2 pr-1">
-            <Skeleton className="h-4 w-4 rounded-full" />
+          <Skeleton className="h-9 w-9 shrink-0 rounded-md" />
+          <div className="flex min-w-0 flex-1 flex-col gap-2">
+            <Skeleton className="h-4 w-2/5 rounded-full" />
+            <Skeleton className="h-3 w-4/5 rounded-full" />
+            <Skeleton className="h-3 w-1/2 rounded-full" />
           </div>
-          <div className="flex-1 flex flex-col gap-2">
+          <div className="flex min-w-[6.5rem] shrink-0 flex-col items-end gap-2">
             <Skeleton className="h-4 w-16 rounded-full" />
-            <Skeleton className="h-4 w-32 rounded-full" />
-          </div>
-          <div className="flex-0 flex flex-col gap-2 items-end mr-2 sm:mr-12">
-            <Skeleton className="h-4 w-16 rounded-full" />
-            <Skeleton className="h-4 w-20 rounded-full" />
+            <Skeleton className="h-3 w-20 rounded-full" />
+            <Skeleton className="h-3 w-8 rounded-full" />
           </div>
         </div>
       ))}

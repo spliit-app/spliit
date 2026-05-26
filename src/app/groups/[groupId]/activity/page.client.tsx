@@ -1,11 +1,4 @@
 import { ActivityList } from '@/app/groups/[groupId]/activity/activity-list'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
 import { Metadata } from 'next'
 import { useTranslations } from 'next-intl'
 
@@ -17,16 +10,18 @@ export function ActivityPageClient() {
   const t = useTranslations('Activity')
 
   return (
-    <>
-      <Card className="mb-4">
-        <CardHeader>
-          <CardTitle>{t('title')}</CardTitle>
-          <CardDescription>{t('description')}</CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col space-y-4">
+    <section className="mb-4 space-y-3">
+      <div>
+        <h2 className="text-lg font-semibold leading-7">{t('title')}</h2>
+        <p className="mt-0.5 text-sm text-muted-foreground">
+          {t('description')}
+        </p>
+      </div>
+      <div className="rounded-lg border bg-card p-4 shadow-sm">
+        <div className="flex flex-col space-y-4">
           <ActivityList />
-        </CardContent>
-      </Card>
-    </>
+        </div>
+      </div>
+    </section>
   )
 }

@@ -3,6 +3,7 @@ import { Reimbursement } from '@/lib/balances'
 import { Currency } from '@/lib/currency'
 import { formatCurrency } from '@/lib/utils'
 import { Participant } from '@prisma/client'
+import { CheckCircle2 } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
 
@@ -22,7 +23,16 @@ export function ReimbursementList({
   const locale = useLocale()
   const t = useTranslations('Balances.Reimbursements')
   if (reimbursements.length === 0) {
-    return <p className="text-sm pb-6">{t('noImbursements')}</p>
+    return (
+      <div className="py-8 text-center">
+        <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-md bg-primary/10 text-primary">
+          <CheckCircle2 className="h-5 w-5" />
+        </div>
+        <p className="mx-auto max-w-sm text-sm text-muted-foreground">
+          {t('noImbursements')}
+        </p>
+      </div>
+    )
   }
 
   const getParticipant = (id: string) => participants.find((p) => p.id === id)
