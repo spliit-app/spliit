@@ -98,7 +98,8 @@
         "title": "Deze groep bevat {count, plural, one {# afbeelding} other {# afbeeldingen}}",
         "description": "Deze afbeeldingen zijn opgeslagen in de cloud en maken geen deel uit van de back-up. Als u ze verwijdert, kunnen ze niet worden hersteld.",
         "checkbox": "Verwijder ook alle afbeeldingen bij het verwijderen van de groep"
-      }
+      },
+      "associationRequired": "Deze groep moet aan je profiel zijn gekoppeld voordat je deze permanent kunt verwijderen. Open je profielmenu, selecteer deze groep onder gekoppelde groepen en sla je wijzigingen op."
     },
     "RecentRemovedToast": {
       "title": "Groep verwijderd",
@@ -190,7 +191,8 @@
       "text": "Deze groep bestaat niet.",
       "link": "Ga naar je recente groepen",
       "importing": "Groep importeren. Dit kan even duren…"
-    }
+    },
+    "mobileMore": "Meer"
   },
   "NewFeaturesDialog": {
     "title": "Nieuw in Spliit",

@@ -7,11 +7,12 @@ import {
   getStarredGroups,
 } from '@/app/groups/recent-groups-helpers'
 import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
 import { ASSOCIATED_GROUPS_KEY } from '@/lib/anonymous-constants'
 import { getGroups } from '@/lib/api'
 import { trpc } from '@/trpc/client'
 import { AppRouterOutput } from '@/trpc/routers/_app'
-import { Loader2, Plus } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { PropsWithChildren, useEffect, useState } from 'react'
@@ -156,10 +157,7 @@ function RecentGroupList_({
   if (isLoading || !data) {
     return (
       <GroupsPage reload={refreshGroupsFromStorage}>
-        <p>
-          <Loader2 className="w-4 m-4 mr-2 inline animate-spin" />{' '}
-          {t('loadingRecent')}
-        </p>
+        <GroupListLoading />
       </GroupsPage>
     )
   }
@@ -167,14 +165,22 @@ function RecentGroupList_({
   if (data.groups.length === 0) {
     return (
       <GroupsPage reload={refreshGroupsFromStorage}>
-        <div className="text-sm space-y-2">
-          <p>{t('NoRecent.description')}</p>
-          <p>
-            <Button variant="link" asChild className="-m-4">
-              <Link href={`/groups/create`}>{t('NoRecent.create')}</Link>
-            </Button>{' '}
-            {t('NoRecent.orAsk')}
+        <div className="rounded-lg border border-dashed bg-card px-4 py-8 text-center">
+          <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-md bg-primary/10 text-primary">
+            <Plus className="h-5 w-5" />
+          </div>
+          <p className="mx-auto max-w-sm text-sm text-muted-foreground">
+            {t('NoRecent.description')}
           </p>
+          <div className="mt-5 flex flex-col items-center justify-center gap-2 sm:flex-row">
+            <Button asChild>
+              <Link href={`/groups/create`}>
+                <Plus className="w-4 h-4 mr-1.5" />
+                {t('NoRecent.create')}
+              </Link>
+            </Button>
+            <AddGroupByUrlButton reload={refreshGroupsFromStorage} />
+          </div>
         </div>
       </GroupsPage>
     )
@@ -190,7 +196,9 @@ function RecentGroupList_({
     <GroupsPage reload={refreshGroupsFromStorage}>
       {starredGroupInfo.length > 0 && (
         <>
-          <h2 className="mb-2">{t('starred')}</h2>
+          <h2 className="mb-2 text-sm font-semibold text-muted-foreground">
+            {t('starred')}
+          </h2>
           <GroupList
             groups={starredGroupInfo}
             groupDetails={data.groups}
@@ -206,7 +214,9 @@ function RecentGroupList_({
 
       {groupInfo.length > 0 && (
         <>
-          <h2 className="mt-6 mb-2">{t('recent')}</h2>
+          <h2 className="mt-6 mb-2 text-sm font-semibold text-muted-foreground">
+            {t('recent')}
+          </h2>
           <GroupList
             groups={groupInfo}
             groupDetails={data.groups}
@@ -222,7 +232,9 @@ function RecentGroupList_({
 
       {archivedGroupInfo.length > 0 && (
         <>
-          <h2 className="mt-6 mb-2 opacity-50">{t('archived')}</h2>
+          <h2 className="mt-6 mb-2 text-sm font-semibold text-muted-foreground opacity-70">
+            {t('archived')}
+          </h2>
           <div className="opacity-50">
             <GroupList
               groups={archivedGroupInfo}
@@ -277,6 +289,29 @@ function GroupList({
           activeGroupIds={activeGroupIds}
         />
       ))}
+    </ul>
+  )
+}
+
+function GroupListLoading() {
+  return (
+    <ul className="grid gap-2 sm:grid-cols-2">
+      {Array(4)
+        .fill(undefined)
+        .map((_, index) => (
+          <li key={index} className="rounded-lg border bg-card p-4">
+            <div className="flex items-start gap-3 pr-16">
+              <Skeleton className="h-10 w-10 rounded-md" />
+              <div className="min-w-0 flex-1 space-y-2">
+                <Skeleton className="h-5 w-3/4" />
+                <div className="flex gap-3">
+                  <Skeleton className="h-4 w-10 rounded-full" />
+                  <Skeleton className="h-4 w-24 rounded-full" />
+                </div>
+              </div>
+            </div>
+          </li>
+        ))}
     </ul>
   )
 }

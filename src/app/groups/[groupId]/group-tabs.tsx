@@ -1,9 +1,16 @@
 'use client'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
   Activity,
   BarChart2,
   Info,
+  MoreHorizontal,
   Receipt,
   Scale,
   Settings,
@@ -24,6 +31,9 @@ const NAV_ITEMS = [
   { value: 'edit', Icon: Settings },
 ] as const
 
+const MOBILE_PRIMARY_ITEMS = ['expenses', 'balances', 'stats'] as const
+const MOBILE_MORE_ITEMS = ['information', 'activity', 'edit'] as const
+
 export function GroupTabs({ groupId }: Props) {
   const t = useTranslations()
   const pathname = usePathname()
@@ -40,15 +50,29 @@ export function GroupTabs({ groupId }: Props) {
     edit: t('Settings.title'),
   }
 
+  const navigate = (value: string) => {
+    router.push(`/groups/${groupId}/${value}`)
+  }
+
+  const mobilePrimaryItems = NAV_ITEMS.filter(({ value }) =>
+    MOBILE_PRIMARY_ITEMS.includes(
+      value as (typeof MOBILE_PRIMARY_ITEMS)[number],
+    ),
+  )
+  const mobileMoreItems = NAV_ITEMS.filter(({ value }) =>
+    MOBILE_MORE_ITEMS.includes(value as (typeof MOBILE_MORE_ITEMS)[number]),
+  )
+  const isMoreActive = MOBILE_MORE_ITEMS.includes(
+    value as (typeof MOBILE_MORE_ITEMS)[number],
+  )
+
   return (
     <>
       {/* Desktop tab bar — hidden on mobile */}
       <Tabs
         value={value}
         className="[&>*]:border overflow-x-auto hidden sm:block"
-        onValueChange={(value) => {
-          router.push(`/groups/${groupId}/${value}`)
-        }}
+        onValueChange={navigate}
       >
         <TabsList>
           {NAV_ITEMS.map(({ value: v }) => (
@@ -65,12 +89,12 @@ export function GroupTabs({ groupId }: Props) {
           className="flex h-20"
           style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
         >
-          {NAV_ITEMS.map(({ value: v, Icon }) => {
+          {mobilePrimaryItems.map(({ value: v, Icon }) => {
             const isActive = value === v
             return (
               <button
                 key={v}
-                onClick={() => router.push(`/groups/${groupId}/${v}`)}
+                onClick={() => navigate(v)}
                 className={`flex-1 flex flex-col items-center justify-center gap-1 transition-colors touch-manipulation ${
                   isActive
                     ? 'text-primary'
@@ -86,6 +110,46 @@ export function GroupTabs({ groupId }: Props) {
               </button>
             )
           })}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                className={`flex-1 flex flex-col items-center justify-center gap-1 transition-colors touch-manipulation ${
+                  isMoreActive
+                    ? 'text-primary'
+                    : 'text-muted-foreground active:text-foreground'
+                }`}
+              >
+                <MoreHorizontal
+                  className={`w-6 h-6 transition-transform ${isMoreActive ? 'scale-110' : ''}`}
+                />
+                <span className="text-xs leading-none font-medium">
+                  {t('Groups.mobileMore')}
+                </span>
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="end"
+              side="top"
+              sideOffset={12}
+              className="w-48"
+            >
+              {mobileMoreItems.map(({ value: v, Icon }) => {
+                const isActive = value === v
+                return (
+                  <DropdownMenuItem
+                    key={v}
+                    onClick={() => navigate(v)}
+                    className={
+                      isActive ? 'bg-accent text-accent-foreground' : ''
+                    }
+                  >
+                    <Icon className="w-4 h-4 mr-2" />
+                    {tabLabels[v]}
+                  </DropdownMenuItem>
+                )
+              })}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </nav>
     </>

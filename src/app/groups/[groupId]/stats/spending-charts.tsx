@@ -5,9 +5,10 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible'
+import { Skeleton } from '@/components/ui/skeleton'
 import { formatCurrency, getCurrencyFromGroup } from '@/lib/utils'
 import { trpc } from '@/trpc/client'
-import { ChevronDown, ChevronUp } from 'lucide-react'
+import { ChartPie, ChevronDown, ChevronUp } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { useCurrentGroup } from '../current-group-context'
@@ -142,19 +143,50 @@ function ChartSection({
 export function SpendingCharts() {
   const { groupId, group } = useCurrentGroup()
   const t = useTranslations('Stats.SpendingCharts')
+  const tExpenses = useTranslations('Expenses')
 
   const { data } = trpc.groups.stats.get.useQuery({
     groupId,
     participantId: undefined,
   })
 
-  if (!data || !group) return null
+  if (!data || !group) {
+    return (
+      <div className="space-y-4">
+        {[0, 1].map((index) => (
+          <div key={index} className="space-y-3">
+            <div className="flex items-center justify-between">
+              <Skeleton className="h-4 w-36 rounded-full" />
+              <Skeleton className="h-4 w-4 rounded-full" />
+            </div>
+            <div className="flex flex-col gap-4 sm:flex-row">
+              <Skeleton className="mx-auto h-36 w-36 rounded-full sm:mx-0" />
+              <div className="flex-1 space-y-2">
+                <Skeleton className="h-4 w-full rounded-full" />
+                <Skeleton className="h-4 w-4/5 rounded-full" />
+                <Skeleton className="h-4 w-3/5 rounded-full" />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    )
+  }
 
   const currency = getCurrencyFromGroup(group)
   const { spendingsByParticipant, sharesByParticipant } = data
 
   if (spendingsByParticipant.length === 0 && sharesByParticipant.length === 0) {
-    return null
+    return (
+      <div className="py-8 text-center">
+        <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-md bg-primary/10 text-primary">
+          <ChartPie className="h-5 w-5" />
+        </div>
+        <p className="mx-auto max-w-sm text-sm text-muted-foreground">
+          {tExpenses('noExpenses')}
+        </p>
+      </div>
+    )
   }
 
   return (

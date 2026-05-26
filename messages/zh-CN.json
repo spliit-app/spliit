@@ -98,7 +98,8 @@
         "title": "此群组包含 {count, plural, one {# 张图片} other {# 张图片}}",
         "description": "这些图片存储在云端，不包含在备份中。如果删除，将无法恢复。",
         "checkbox": "删除群组时同时删除所有图片"
-      }
+      },
+      "associationRequired": "必须先将此群组关联到你的个人资料，才能将其永久删除。打开个人资料菜单，在关联群组中选择此群组，然后保存更改。"
     },
     "RecentRemovedToast": {
       "title": "群组已删除",
@@ -190,7 +191,8 @@
       "text": "该群组不存在。",
       "link": "跳转到最近访问过的群组",
       "importing": "正在导入群组，请稍候……"
-    }
+    },
+    "mobileMore": "更多"
   },
   "NewFeaturesDialog": {
     "title": "Spliit 新功能",

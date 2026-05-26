@@ -98,7 +98,8 @@
         "title": "Questo gruppo contiene {count, plural, one {# immagine} other {# immagini}}",
         "description": "Queste immagini sono archiviate nel cloud e non fanno parte del backup. Se vengono eliminate, non possono essere recuperate.",
         "checkbox": "Elimina anche tutte le immagini durante l'eliminazione del gruppo"
-      }
+      },
+      "associationRequired": "Questo gruppo deve essere associato al tuo profilo prima di poterlo eliminare definitivamente. Apri il menu del profilo, seleziona questo gruppo tra i gruppi associati e salva le modifiche."
     },
     "RecentRemovedToast": {
       "title": "Il gruppo è stato rimosso",
@@ -190,7 +191,8 @@
       "text": "Questo gruppo non esiste.",
       "link": "Vai ai gruppi visitati di recente",
       "importing": "Importazione del gruppo in corso. Potrebbe richiedere un momento…"
-    }
+    },
+    "mobileMore": "Altro"
   },
   "NewFeaturesDialog": {
     "title": "Novità in Spliit",

@@ -1,5 +1,6 @@
 'use client'
 
+import { deleteGroupFromLocalLists } from '@/app/groups/recent-groups-helpers'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -67,6 +68,7 @@ export function DeleteGroupDialog({
   const deleteGroupMutation = trpc.groups.delete.useMutation({
     onSuccess: () => {
       setIsDeleting(false)
+      deleteGroupFromLocalLists(groupId)
       onOpenChange(false)
 
       toast.toast({

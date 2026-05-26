@@ -17,9 +17,10 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useToast } from '@/components/ui/use-toast'
+import { ASSOCIATED_GROUPS_KEY } from '@/lib/anonymous-constants'
 import { trpc } from '@/trpc/client'
 import { useTranslations } from 'next-intl'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useCurrentGroup } from '../current-group-context'
 
 export const EditGroup = () => {
@@ -30,6 +31,7 @@ export const EditGroup = () => {
   const t = useTranslations('Groups')
   const { toast } = useToast()
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [associatedGroupIds, setAssociatedGroupIds] = useState<string[]>([])
   const [hasImportedData, setHasImportedData] = useState(false)
   const [importSourceUrl, setImportSourceUrl] = useState<string | null>(null)
   const [savedLinkedUrl, setSavedLinkedUrl] = useState('')
@@ -39,10 +41,27 @@ export const EditGroup = () => {
   const [advancedOpen, setAdvancedOpen] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
 
-  useEffect(() => {
+  const refreshAccountState = useCallback(() => {
     const linkedStatus = localStorage.getItem('anonymousLinked')
     setIsLoggedIn(linkedStatus === 'true')
+
+    const storedAssociations = localStorage.getItem(ASSOCIATED_GROUPS_KEY)
+    try {
+      setAssociatedGroupIds(
+        storedAssociations ? (JSON.parse(storedAssociations) as string[]) : [],
+      )
+    } catch {
+      setAssociatedGroupIds([])
+    }
   }, [])
+
+  useEffect(() => {
+    refreshAccountState()
+  }, [refreshAccountState])
+
+  useEffect(() => {
+    if (advancedOpen) refreshAccountState()
+  }, [advancedOpen, refreshAccountState])
 
   useEffect(() => {
     const checkForImportedData = async () => {
@@ -116,6 +135,7 @@ export const EditGroup = () => {
     !isSavingLink &&
     (linkEnabled ? linkedUrl.trim().length > 0 : savedLinkedUrl.length > 0)
   const showAdvancedSettings = isLoggedIn
+  const canDeleteGroup = isLoggedIn && associatedGroupIds.includes(groupId)
 
   return (
     <>
@@ -204,15 +224,23 @@ export const EditGroup = () => {
                   <p className="text-sm font-medium text-destructive">
                     {t('deleteGroup')}
                   </p>
-                  <p className="text-xs text-muted-foreground">
-                    {t('DeleteGroupDialog.description')}
-                  </p>
-                  <Button
-                    variant="destructive"
-                    onClick={() => setDeleteOpen(true)}
-                  >
-                    {t('DeleteGroupDialog.delete')}
-                  </Button>
+                  {canDeleteGroup ? (
+                    <>
+                      <p className="text-xs text-muted-foreground">
+                        {t('DeleteGroupDialog.description')}
+                      </p>
+                      <Button
+                        variant="destructive"
+                        onClick={() => setDeleteOpen(true)}
+                      >
+                        {t('DeleteGroupDialog.delete')}
+                      </Button>
+                    </>
+                  ) : (
+                    <p className="text-xs text-muted-foreground">
+                      {t('DeleteGroupDialog.associationRequired')}
+                    </p>
+                  )}
                 </div>
               </div>
             </DialogContent>

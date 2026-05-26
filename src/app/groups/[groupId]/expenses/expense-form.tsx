@@ -282,6 +282,8 @@ export function ExpenseForm({
   })
   const [isCategoryLoading, setCategoryLoading] = useState(false)
   const [isCalculatorOpen, setIsCalculatorOpen] = useState(false)
+  const [shareCalculatorParticipantId, setShareCalculatorParticipantId] =
+    useState<string | null>(null)
   const activeUserId = useActiveUser(group.id)
 
   const prepareValuesForSubmit = async (values: ExpenseFormValues) => {
@@ -1211,61 +1213,195 @@ export function ExpenseForm({
                                           {form.getValues().splitMode ===
                                             'BY_AMOUNT' && sharesLabel}
                                           <FormControl>
-                                            <Input
-                                              key={String(
-                                                !field.value?.some(
-                                                  ({ participant }) =>
-                                                    participant === id,
-                                                ),
-                                              )}
-                                              className="text-base w-[80px] -my-2"
-                                              type="text"
-                                              disabled={
-                                                !field.value?.some(
-                                                  ({ participant }) =>
-                                                    participant === id,
-                                                )
-                                              }
-                                              value={
-                                                field.value?.find(
-                                                  ({ participant }) =>
-                                                    participant === id,
-                                                )?.shares
-                                              }
-                                              onChange={(event) => {
-                                                field.onChange(
-                                                  field.value.map((p) =>
-                                                    p.participant === id
-                                                      ? {
-                                                          participant: id,
-                                                          shares:
-                                                            enforceCurrencyPattern(
-                                                              event.target
-                                                                .value,
-                                                            ),
-                                                        }
-                                                      : p,
-                                                  ),
-                                                )
-                                                setManuallyEditedParticipants(
-                                                  (prev) =>
-                                                    new Set(prev).add(id),
-                                                )
-                                              }}
-                                              inputMode={
-                                                form.getValues().splitMode ===
-                                                'BY_AMOUNT'
-                                                  ? 'decimal'
-                                                  : 'numeric'
-                                              }
-                                              step={
-                                                form.getValues().splitMode ===
-                                                'BY_AMOUNT'
-                                                  ? 10 **
+                                            {form.getValues().splitMode ===
+                                            'BY_AMOUNT' ? (
+                                              <InputGroup className="text-base w-[120px] -my-2">
+                                                <InputGroupInput
+                                                  key={String(
+                                                    !field.value?.some(
+                                                      ({ participant }) =>
+                                                        participant === id,
+                                                    ),
+                                                  )}
+                                                  type="text"
+                                                  disabled={
+                                                    !field.value?.some(
+                                                      ({ participant }) =>
+                                                        participant === id,
+                                                    )
+                                                  }
+                                                  value={
+                                                    field.value?.find(
+                                                      ({ participant }) =>
+                                                        participant === id,
+                                                    )?.shares
+                                                  }
+                                                  onChange={(event) => {
+                                                    field.onChange(
+                                                      field.value.map((p) =>
+                                                        p.participant === id
+                                                          ? {
+                                                              participant: id,
+                                                              shares:
+                                                                enforceCurrencyPattern(
+                                                                  event.target
+                                                                    .value,
+                                                                ),
+                                                            }
+                                                          : p,
+                                                      ),
+                                                    )
+                                                    setManuallyEditedParticipants(
+                                                      (prev) =>
+                                                        new Set(prev).add(id),
+                                                    )
+                                                  }}
+                                                  inputMode="decimal"
+                                                  step={
+                                                    10 **
                                                     -groupCurrency.decimal_digits
-                                                  : 1
-                                              }
-                                            />
+                                                  }
+                                                />
+                                                <InputGroupAddon
+                                                  className="pr-0"
+                                                  align="inline-end"
+                                                >
+                                                  <Popover
+                                                    open={
+                                                      shareCalculatorParticipantId ===
+                                                      id
+                                                    }
+                                                    onOpenChange={(open) => {
+                                                      setShareCalculatorParticipantId(
+                                                        open ? id : null,
+                                                      )
+                                                    }}
+                                                  >
+                                                    <PopoverTrigger asChild>
+                                                      <Button
+                                                        type="button"
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        disabled={
+                                                          !field.value?.some(
+                                                            ({ participant }) =>
+                                                              participant ===
+                                                              id,
+                                                          )
+                                                        }
+                                                        aria-label={t(
+                                                          'Calculator.openCalculator',
+                                                        )}
+                                                        title={t(
+                                                          'Calculator.openCalculator',
+                                                        )}
+                                                      >
+                                                        <Calculator />
+                                                      </Button>
+                                                    </PopoverTrigger>
+                                                    <PopoverContent
+                                                      side="bottom"
+                                                      align="end"
+                                                      className="w-auto p-3"
+                                                    >
+                                                      <AmountCalculator
+                                                        initialValue={String(
+                                                          field.value?.find(
+                                                            ({ participant }) =>
+                                                              participant ===
+                                                              id,
+                                                          )?.shares || '',
+                                                        )}
+                                                        translations={{
+                                                          applyButton: t(
+                                                            'Calculator.applyButton',
+                                                          ),
+                                                          keyboardHintCalculate:
+                                                            t(
+                                                              'Calculator.keyboardHintCalculate',
+                                                            ),
+                                                          keyboardHintApply: t(
+                                                            'Calculator.keyboardHintApply',
+                                                          ),
+                                                        }}
+                                                        onApply={(value) => {
+                                                          field.onChange(
+                                                            field.value.map(
+                                                              (p) =>
+                                                                p.participant ===
+                                                                id
+                                                                  ? {
+                                                                      participant:
+                                                                        id,
+                                                                      shares:
+                                                                        enforceCurrencyPattern(
+                                                                          value,
+                                                                        ),
+                                                                    }
+                                                                  : p,
+                                                            ),
+                                                          )
+                                                          setManuallyEditedParticipants(
+                                                            (prev) =>
+                                                              new Set(prev).add(
+                                                                id,
+                                                              ),
+                                                          )
+                                                          setShareCalculatorParticipantId(
+                                                            null,
+                                                          )
+                                                        }}
+                                                      />
+                                                    </PopoverContent>
+                                                  </Popover>
+                                                </InputGroupAddon>
+                                              </InputGroup>
+                                            ) : (
+                                              <Input
+                                                key={String(
+                                                  !field.value?.some(
+                                                    ({ participant }) =>
+                                                      participant === id,
+                                                  ),
+                                                )}
+                                                className="text-base w-[80px] -my-2"
+                                                type="text"
+                                                disabled={
+                                                  !field.value?.some(
+                                                    ({ participant }) =>
+                                                      participant === id,
+                                                  )
+                                                }
+                                                value={
+                                                  field.value?.find(
+                                                    ({ participant }) =>
+                                                      participant === id,
+                                                  )?.shares
+                                                }
+                                                onChange={(event) => {
+                                                  field.onChange(
+                                                    field.value.map((p) =>
+                                                      p.participant === id
+                                                        ? {
+                                                            participant: id,
+                                                            shares:
+                                                              enforceCurrencyPattern(
+                                                                event.target
+                                                                  .value,
+                                                              ),
+                                                          }
+                                                        : p,
+                                                    ),
+                                                  )
+                                                  setManuallyEditedParticipants(
+                                                    (prev) =>
+                                                      new Set(prev).add(id),
+                                                  )
+                                                }}
+                                                inputMode="numeric"
+                                                step={1}
+                                              />
+                                            )}
                                           </FormControl>
                                           {[
                                             'BY_SHARES',

@@ -1,37 +1,41 @@
 import { SpendingCharts } from '@/app/groups/[groupId]/stats/spending-charts'
 import { Totals } from '@/app/groups/[groupId]/stats/totals'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
 import { useTranslations } from 'next-intl'
 
 export function TotalsPageClient() {
   const t = useTranslations('Stats')
 
   return (
-    <>
-      <Card className="mb-4">
-        <CardHeader>
-          <CardTitle>{t('Totals.title')}</CardTitle>
-          <CardDescription>{t('Totals.description')}</CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col space-y-4">
-          <Totals />
-        </CardContent>
-      </Card>
-      <Card className="mb-4">
-        <CardHeader>
-          <CardTitle>{t('SpendingCharts.title')}</CardTitle>
-          <CardDescription>{t('SpendingCharts.description')}</CardDescription>
-        </CardHeader>
-        <CardContent>
+    <div className="space-y-6">
+      <section className="space-y-3">
+        <div>
+          <h2 className="text-lg font-semibold leading-7">
+            {t('Totals.title')}
+          </h2>
+          <p className="mt-0.5 text-sm text-muted-foreground">
+            {t('Totals.description')}
+          </p>
+        </div>
+        <div className="rounded-lg border bg-card p-4">
+          <div className="flex flex-col space-y-4">
+            <Totals />
+          </div>
+        </div>
+      </section>
+
+      <section className="space-y-3">
+        <div>
+          <h2 className="text-lg font-semibold leading-7">
+            {t('SpendingCharts.title')}
+          </h2>
+          <p className="mt-0.5 text-sm text-muted-foreground">
+            {t('SpendingCharts.description')}
+          </p>
+        </div>
+        <div className="rounded-lg border bg-card p-4">
           <SpendingCharts />
-        </CardContent>
-      </Card>
-    </>
+        </div>
+      </section>
+    </div>
   )
 }

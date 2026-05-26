@@ -98,7 +98,8 @@
         "title": "This group contains {count, plural, one {# image} other {# images}}",
         "description": "These images are stored in the cloud and do not form part of the backup. If you delete them, they cannot be recovered.",
         "checkbox": "Also delete all images when deleting the group"
-      }
+      },
+      "associationRequired": "This group must be associated with your profile before you can delete it permanently. Open your profile menu, select this group under associated groups, and save your changes."
     },
     "RecentRemovedToast": {
       "title": "Группа убрана",
@@ -190,7 +191,8 @@
       "text": "Этой группы не существует",
       "link": "Перейти к списку недавних групп",
       "importing": "Импорт группы. Это может занять момент…"
-    }
+    },
+    "mobileMore": "More"
   },
   "NewFeaturesDialog": {
     "title": "Что нового в Spliit",
