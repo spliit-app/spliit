@@ -98,7 +98,8 @@
         "title": "This group contains {count, plural, one {# image} other {# images}}",
         "description": "These images are stored in the cloud and do not form part of the backup. If you delete them, they cannot be recovered.",
         "checkbox": "Also delete all images when deleting the group"
-      }
+      },
+      "associationRequired": "This group must be associated with your profile before you can delete it permanently. Open your profile menu, select this group under associated groups, and save your changes."
     },
     "RecentRemovedToast": {
       "title": "그룹이 삭제되었습니다",
@@ -190,7 +191,8 @@
       "text": "그룹이 존재하지 않습니다.",
       "link": "최근에 방문한 그룹 보기",
       "importing": "그룹을 가져오는 중입니다. 잠시 기다려 주세요…"
-    }
+    },
+    "mobileMore": "More"
   },
   "NewFeaturesDialog": {
     "title": "Spliit의 새로운 소식",

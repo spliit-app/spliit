@@ -122,7 +122,9 @@ export function GroupTabs({ groupId }: Props) {
                 <MoreHorizontal
                   className={`w-6 h-6 transition-transform ${isMoreActive ? 'scale-110' : ''}`}
                 />
-                <span className="text-xs leading-none font-medium">More</span>
+                <span className="text-xs leading-none font-medium">
+                  {t('Groups.mobileMore')}
+                </span>
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent

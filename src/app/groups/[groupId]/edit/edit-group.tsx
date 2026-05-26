@@ -238,9 +238,7 @@ export const EditGroup = () => {
                     </>
                   ) : (
                     <p className="text-xs text-muted-foreground">
-                      This group must be associated with your profile before you
-                      can delete it permanently. Open your profile menu, select
-                      this group under associated groups, and save your changes.
+                      {t('DeleteGroupDialog.associationRequired')}
                     </p>
                   )}
                 </div>
