@@ -2,14 +2,12 @@
 import { ActiveUserBalance } from '@/app/groups/[groupId]/expenses/active-user-balance'
 import { CategoryIcon } from '@/app/groups/[groupId]/expenses/category-icon'
 import { DocumentsCount } from '@/app/groups/[groupId]/expenses/documents-count'
-import { Button } from '@/components/ui/button'
 import { getGroupExpenses } from '@/lib/api'
 import { Currency } from '@/lib/currency'
 import { cn, formatCurrency, formatDateOnly } from '@/lib/utils'
 import { ChevronRight } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { Fragment } from 'react'
 
 type Expense = Awaited<ReturnType<typeof getGroupExpenses>>[number]
@@ -57,68 +55,59 @@ export function ExpenseCard({
   groupId,
   participantCount,
 }: Props) {
-  const router = useRouter()
   const locale = useLocale()
+  const href = `/groups/${groupId}/expenses/${expense.id}/edit`
+  const isIncome = expense.amount < 0
 
   return (
-    <div
+    <Link
+      href={href}
       key={expense.id}
       className={cn(
-        'flex justify-between sm:mx-6 px-4 sm:rounded-lg sm:pr-2 sm:pl-4 py-4 text-sm cursor-pointer hover:bg-accent active:bg-accent gap-2 items-stretch touch-manipulation transition-colors',
+        'group flex items-stretch gap-3 px-4 py-4 text-sm transition-colors touch-manipulation hover:bg-accent/70 active:bg-accent sm:mx-4 sm:rounded-lg sm:px-4',
         expense.isReimbursement && 'italic',
       )}
-      onClick={() => {
-        router.push(`/groups/${groupId}/expenses/${expense.id}/edit`)
-      }}
     >
-      <div className="flex items-start pt-0.5">
-        <CategoryIcon
-          category={expense.category}
-          className="w-4 h-4 text-muted-foreground"
-        />
+      <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-md border bg-background text-muted-foreground shadow-sm group-hover:border-primary/30 group-hover:text-primary">
+        <CategoryIcon category={expense.category} className="w-4 h-4" />
       </div>
-      <div className="flex-1 min-w-0">
+
+      <div className="min-w-0 flex-1">
         <div
           className={cn(
-            'mb-1 font-medium truncate',
+            'mb-1 truncate font-medium leading-5 text-foreground',
             expense.isReimbursement && 'italic',
           )}
         >
           {expense.title}
         </div>
-        <div className="text-xs text-muted-foreground leading-relaxed">
+        <div className="line-clamp-2 text-xs leading-relaxed text-muted-foreground">
           <Participants expense={expense} participantCount={participantCount} />
         </div>
-        <div className="text-xs text-muted-foreground mt-0.5">
+        <div className="mt-1 text-xs text-muted-foreground">
           <ActiveUserBalance {...{ groupId, currency, expense }} />
         </div>
       </div>
-      <div className="flex flex-col justify-between items-end shrink-0">
+
+      <div className="flex min-w-[6.5rem] shrink-0 flex-col items-end justify-between gap-1 text-right">
         <div
           className={cn(
-            'tabular-nums whitespace-nowrap font-semibold',
-            expense.isReimbursement && 'italic font-normal',
+            'tabular-nums whitespace-nowrap text-sm font-semibold leading-5',
+            isIncome && 'text-emerald-700 dark:text-emerald-300',
+            expense.isReimbursement &&
+              'italic font-medium text-muted-foreground',
           )}
         >
           {formatCurrency(currency, expense.amount, locale)}
         </div>
-        <div className="text-xs text-muted-foreground">
-          <DocumentsCount count={expense._count.documents} />
-        </div>
-        <div className="text-xs text-muted-foreground">
+        <div className="text-xs text-muted-foreground whitespace-nowrap">
           {formatDateOnly(expense.expenseDate, locale, { dateStyle: 'medium' })}
         </div>
-      </div>
-      <Button
-        size="icon"
-        variant="link"
-        className="self-center hidden sm:flex"
-        asChild
-      >
-        <Link href={`/groups/${groupId}/expenses/${expense.id}/edit`}>
+        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+          <DocumentsCount count={expense._count.documents} />
           <ChevronRight className="w-4 h-4" />
-        </Link>
-      </Button>
-    </div>
+        </div>
+      </div>
+    </Link>
   )
 }
