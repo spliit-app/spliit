@@ -765,7 +765,9 @@
       "preferences": {
         "title": "Настройки",
         "startupRedirect": "Открывать последнюю группу при запуске",
-        "startupRedirectDescription": "При открытии приложения автоматически переходить к последней посещённой группе."
+        "startupRedirectDescription": "При открытии приложения автоматически переходить к последней посещённой группе.",
+        "hideArchivedGroups": "Hide archived groups",
+        "hideArchivedGroupsDescription": "Do not show archived groups on the groups screen."
       }
     },
     "unlinkDialog": {

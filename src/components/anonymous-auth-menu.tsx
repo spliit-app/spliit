@@ -2,9 +2,11 @@
 
 import {
   RecentGroup,
+  getHideArchivedGroupsEnabled,
   getRecentGroups,
   getStartupRedirectEnabled,
   setRecentGroups as saveRecentGroupsToStorage,
+  setHideArchivedGroupsEnabled,
   setStartupRedirectEnabled,
 } from '@/app/groups/recent-groups-helpers'
 import { ImportJSONButton } from '@/components/import-json-button'
@@ -153,6 +155,7 @@ export function AnonymousAuthMenu() {
   const { toast } = useToast()
   const [open, setOpen] = useState(false)
   const [startupRedirect, setStartupRedirect] = useState(true)
+  const [hideArchivedGroups, setHideArchivedGroups] = useState(false)
   const [showUnlinkDialog, setShowUnlinkDialog] = useState(false)
   const [unlinkMode, setUnlinkMode] = useState<'signout' | 'delete' | null>(
     null,
@@ -294,6 +297,7 @@ export function AnonymousAuthMenu() {
 
     setRecentGroupsState(getRecentGroups())
     setStartupRedirect(getStartupRedirectEnabled())
+    setHideArchivedGroups(getHideArchivedGroupsEnabled())
 
     void (async () => {
       try {
@@ -1684,6 +1688,23 @@ export function AnonymousAuthMenu() {
                   <p>{t('profile.preferences.startupRedirect')}</p>
                   <p className="text-muted-foreground text-xs">
                     {t('profile.preferences.startupRedirectDescription')}
+                  </p>
+                </div>
+              </label>
+              <label className="flex items-start gap-3 text-sm cursor-pointer">
+                <Checkbox
+                  checked={hideArchivedGroups}
+                  onCheckedChange={(checked) => {
+                    const next = checked === true
+                    setHideArchivedGroups(next)
+                    setHideArchivedGroupsEnabled(next)
+                  }}
+                  className="mt-0.5"
+                />
+                <div>
+                  <p>{t('profile.preferences.hideArchivedGroups')}</p>
+                  <p className="text-muted-foreground text-xs">
+                    {t('profile.preferences.hideArchivedGroupsDescription')}
                   </p>
                 </div>
               </label>

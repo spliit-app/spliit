@@ -1,8 +1,10 @@
 'use client'
 import { AddGroupByUrlButton } from '@/app/groups/add-group-by-url-button'
 import {
+  GROUP_LIST_PREFERENCES_CHANGED_EVENT,
   RecentGroups,
   getArchivedGroups,
+  getHideArchivedGroupsEnabled,
   getRecentGroups,
   getStarredGroups,
 } from '@/app/groups/recent-groups-helpers'
@@ -25,6 +27,7 @@ export type RecentGroupsState =
       groups: RecentGroups
       starredGroups: string[]
       archivedGroups: string[]
+      hideArchivedGroups: boolean
     }
   | {
       status: 'complete'
@@ -32,6 +35,7 @@ export type RecentGroupsState =
       groupsDetails: Awaited<ReturnType<typeof getGroups>>
       starredGroups: string[]
       archivedGroups: string[]
+      hideArchivedGroups: boolean
     }
 
 function sortGroups({
@@ -69,16 +73,25 @@ export function RecentGroupList() {
     const groupsInStorage = getRecentGroups()
     const starredGroups = getStarredGroups()
     const archivedGroups = getArchivedGroups()
+    const hideArchivedGroups = getHideArchivedGroupsEnabled()
     setState({
       status: 'partial',
       groups: groupsInStorage,
       starredGroups,
       archivedGroups,
+      hideArchivedGroups,
     })
   }
 
   useEffect(() => {
     loadGroups()
+    window.addEventListener(GROUP_LIST_PREFERENCES_CHANGED_EVENT, loadGroups)
+    return () => {
+      window.removeEventListener(
+        GROUP_LIST_PREFERENCES_CHANGED_EVENT,
+        loadGroups,
+      )
+    }
   }, [])
 
   if (state.status === 'pending') return null
@@ -88,6 +101,7 @@ export function RecentGroupList() {
       groups={state.groups}
       starredGroups={state.starredGroups}
       archivedGroups={state.archivedGroups}
+      hideArchivedGroups={state.hideArchivedGroups}
       refreshGroupsFromStorage={() => loadGroups()}
     />
   )
@@ -97,11 +111,13 @@ function RecentGroupList_({
   groups,
   starredGroups,
   archivedGroups,
+  hideArchivedGroups,
   refreshGroupsFromStorage,
 }: {
   groups: RecentGroups
   starredGroups: string[]
   archivedGroups: string[]
+  hideArchivedGroups: boolean
   refreshGroupsFromStorage: () => void
 }) {
   const t = useTranslations('Groups')
@@ -230,7 +246,7 @@ function RecentGroupList_({
         </>
       )}
 
-      {archivedGroupInfo.length > 0 && (
+      {!hideArchivedGroups && archivedGroupInfo.length > 0 && (
         <>
           <h2 className="mt-6 mb-2 text-sm font-semibold text-muted-foreground opacity-70">
             {t('archived')}

@@ -17,6 +17,9 @@ const STORAGE_KEY = 'recentGroups'
 const STARRED_GROUPS_STORAGE_KEY = 'starredGroups'
 const ARCHIVED_GROUPS_STORAGE_KEY = 'archivedGroups'
 export const STARTUP_REDIRECT_KEY = 'startupRedirectToRecentGroup'
+export const HIDE_ARCHIVED_GROUPS_KEY = 'hideArchivedGroups'
+export const GROUP_LIST_PREFERENCES_CHANGED_EVENT =
+  'group-list-preferences-changed'
 
 export function getStartupRedirectEnabled(): boolean {
   const value = localStorage.getItem(STARTUP_REDIRECT_KEY)
@@ -26,6 +29,15 @@ export function getStartupRedirectEnabled(): boolean {
 
 export function setStartupRedirectEnabled(enabled: boolean): void {
   localStorage.setItem(STARTUP_REDIRECT_KEY, String(enabled))
+}
+
+export function getHideArchivedGroupsEnabled(): boolean {
+  return localStorage.getItem(HIDE_ARCHIVED_GROUPS_KEY) === 'true'
+}
+
+export function setHideArchivedGroupsEnabled(enabled: boolean): void {
+  localStorage.setItem(HIDE_ARCHIVED_GROUPS_KEY, String(enabled))
+  window.dispatchEvent(new Event(GROUP_LIST_PREFERENCES_CHANGED_EVENT))
 }
 
 export function getRecentGroups() {

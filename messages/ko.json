@@ -765,7 +765,9 @@
       "preferences": {
         "title": "환경설정",
         "startupRedirect": "시작 시 최근 그룹 열기",
-        "startupRedirectDescription": "앱을 열 때 마지막으로 방문한 그룹으로 자동 이동합니다."
+        "startupRedirectDescription": "앱을 열 때 마지막으로 방문한 그룹으로 자동 이동합니다.",
+        "hideArchivedGroups": "Hide archived groups",
+        "hideArchivedGroupsDescription": "Do not show archived groups on the groups screen."
       }
     },
     "unlinkDialog": {

@@ -765,7 +765,9 @@
       "preferences": {
         "title": "Preferințe",
         "startupRedirect": "Deschide cel mai recent grup la pornire",
-        "startupRedirectDescription": "La deschiderea aplicației, navigați automat la ultimul grup vizitat."
+        "startupRedirectDescription": "La deschiderea aplicației, navigați automat la ultimul grup vizitat.",
+        "hideArchivedGroups": "Hide archived groups",
+        "hideArchivedGroupsDescription": "Do not show archived groups on the groups screen."
       }
     },
     "unlinkDialog": {

@@ -765,7 +765,9 @@
       "preferences": {
         "title": "Préférences",
         "startupRedirect": "Ouvrir le groupe récent au démarrage",
-        "startupRedirectDescription": "Au démarrage de l'application, accéder automatiquement à votre dernier groupe visité."
+        "startupRedirectDescription": "Au démarrage de l'application, accéder automatiquement à votre dernier groupe visité.",
+        "hideArchivedGroups": "Masquer les groupes archivés",
+        "hideArchivedGroupsDescription": "Ne pas afficher les groupes archivés sur l'écran des groupes."
       }
     },
     "unlinkDialog": {

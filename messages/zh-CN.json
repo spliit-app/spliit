@@ -765,7 +765,9 @@
       "preferences": {
         "title": "偏好设置",
         "startupRedirect": "启动时打开最近的群组",
-        "startupRedirectDescription": "打开应用时，自动跳转到上次访问的群组。"
+        "startupRedirectDescription": "打开应用时，自动跳转到上次访问的群组。",
+        "hideArchivedGroups": "隐藏已归档的群组",
+        "hideArchivedGroupsDescription": "不要在群组页面显示已归档的群组。"
       }
     },
     "unlinkDialog": {

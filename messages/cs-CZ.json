@@ -765,7 +765,9 @@
       "preferences": {
         "title": "Předvolby",
         "startupRedirect": "Otevřít poslední skupinu při spuštění",
-        "startupRedirectDescription": "Při otevření aplikace automaticky přejít na naposledy navštívenou skupinu."
+        "startupRedirectDescription": "Při otevření aplikace automaticky přejít na naposledy navštívenou skupinu.",
+        "hideArchivedGroups": "Hide archived groups",
+        "hideArchivedGroupsDescription": "Do not show archived groups on the groups screen."
       }
     },
     "unlinkDialog": {

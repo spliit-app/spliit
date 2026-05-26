@@ -765,7 +765,9 @@
       "preferences": {
         "title": "העדפות",
         "startupRedirect": "פתח את הקבוצה האחרונה בהפעלה",
-        "startupRedirectDescription": "בעת פתיחת האפליקציה, נווט אוטומטית לקבוצה שביקרת בה לאחרונה."
+        "startupRedirectDescription": "בעת פתיחת האפליקציה, נווט אוטומטית לקבוצה שביקרת בה לאחרונה.",
+        "hideArchivedGroups": "Hide archived groups",
+        "hideArchivedGroupsDescription": "Do not show archived groups on the groups screen."
       }
     },
     "unlinkDialog": {

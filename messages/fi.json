@@ -765,7 +765,9 @@
       "preferences": {
         "title": "Asetukset",
         "startupRedirect": "Avaa viimeisin ryhmä käynnistyksessä",
-        "startupRedirectDescription": "Kun avaat sovelluksen, siirry automaattisesti viimeksi käymääsi ryhmään."
+        "startupRedirectDescription": "Kun avaat sovelluksen, siirry automaattisesti viimeksi käymääsi ryhmään.",
+        "hideArchivedGroups": "Hide archived groups",
+        "hideArchivedGroupsDescription": "Do not show archived groups on the groups screen."
       }
     },
     "unlinkDialog": {

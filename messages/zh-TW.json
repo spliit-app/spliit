@@ -765,7 +765,9 @@
       "preferences": {
         "title": "偏好設定",
         "startupRedirect": "啟動時開啟最近的群組",
-        "startupRedirectDescription": "開啟應用程式時，自動跳轉至上次造訪的群組。"
+        "startupRedirectDescription": "開啟應用程式時，自動跳轉至上次造訪的群組。",
+        "hideArchivedGroups": "隱藏已封存的群組",
+        "hideArchivedGroupsDescription": "不要在群組畫面顯示已封存的群組。"
       }
     },
     "unlinkDialog": {

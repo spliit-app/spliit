@@ -765,7 +765,9 @@
       "preferences": {
         "title": "Voorkeuren",
         "startupRedirect": "Meest recente groep openen bij opstarten",
-        "startupRedirectDescription": "Navigeer bij het openen van de app automatisch naar de laatst bezochte groep."
+        "startupRedirectDescription": "Navigeer bij het openen van de app automatisch naar de laatst bezochte groep.",
+        "hideArchivedGroups": "Gearchiveerde groepen verbergen",
+        "hideArchivedGroupsDescription": "Toon gearchiveerde groepen niet op het groepenscherm."
       }
     },
     "unlinkDialog": {

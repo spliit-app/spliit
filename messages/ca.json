@@ -765,7 +765,9 @@
       "preferences": {
         "title": "Preferències",
         "startupRedirect": "Obre el grup més recent en iniciar",
-        "startupRedirectDescription": "En obrir l'aplicació, navega automàticament a l'últim grup visitat."
+        "startupRedirectDescription": "En obrir l'aplicació, navega automàticament a l'últim grup visitat.",
+        "hideArchivedGroups": "Hide archived groups",
+        "hideArchivedGroupsDescription": "Do not show archived groups on the groups screen."
       }
     },
     "unlinkDialog": {

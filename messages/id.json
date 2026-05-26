@@ -765,7 +765,9 @@
       "preferences": {
         "title": "Preferensi",
         "startupRedirect": "Buka grup terbaru saat mulai",
-        "startupRedirectDescription": "Saat membuka aplikasi, otomatis navigasi ke grup yang terakhir dikunjungi."
+        "startupRedirectDescription": "Saat membuka aplikasi, otomatis navigasi ke grup yang terakhir dikunjungi.",
+        "hideArchivedGroups": "Hide archived groups",
+        "hideArchivedGroupsDescription": "Do not show archived groups on the groups screen."
       }
     },
     "unlinkDialog": {

@@ -765,7 +765,9 @@
       "preferences": {
         "title": "Tercihler",
         "startupRedirect": "Başlangıçta en son grubu aç",
-        "startupRedirectDescription": "Uygulama açıldığında son ziyaret ettiğiniz gruba otomatik olarak gidin."
+        "startupRedirectDescription": "Uygulama açıldığında son ziyaret ettiğiniz gruba otomatik olarak gidin.",
+        "hideArchivedGroups": "Hide archived groups",
+        "hideArchivedGroupsDescription": "Do not show archived groups on the groups screen."
       }
     },
     "unlinkDialog": {

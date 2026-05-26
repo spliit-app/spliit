@@ -765,7 +765,9 @@
       "preferences": {
         "title": "Hobespenak",
         "startupRedirect": "Ireki azken taldea abiatzean",
-        "startupRedirectDescription": "Aplikazioa irekitzean, automatikoki nabigatu azkenekoz bisitatutako taldea."
+        "startupRedirectDescription": "Aplikazioa irekitzean, automatikoki nabigatu azkenekoz bisitatutako taldea.",
+        "hideArchivedGroups": "Hide archived groups",
+        "hideArchivedGroupsDescription": "Do not show archived groups on the groups screen."
       }
     },
     "unlinkDialog": {

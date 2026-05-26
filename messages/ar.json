@@ -284,7 +284,9 @@
       "preferences": {
         "title": "التفضيلات",
         "startupRedirect": "فتح المجموعة الأخيرة عند التشغيل",
-        "startupRedirectDescription": "عند فتح التطبيق، انتقل تلقائيًا إلى آخر مجموعة زرتها."
+        "startupRedirectDescription": "عند فتح التطبيق، انتقل تلقائيًا إلى آخر مجموعة زرتها.",
+        "hideArchivedGroups": "إخفاء المجموعات المؤرشفة",
+        "hideArchivedGroupsDescription": "عدم عرض المجموعات المؤرشفة في شاشة المجموعات."
       }
     },
     "unlinkDialog": {
