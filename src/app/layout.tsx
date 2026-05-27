@@ -81,26 +81,19 @@ function Content({ children }: { children: React.ReactNode }) {
       <header className="fixed top-0 left-0 right-0 h-14 flex items-center justify-between bg-background/90 backdrop-blur-sm border-b z-50 px-3">
         <div className="flex items-center gap-2">
           <Link
-            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+            className="flex items-center gap-2 text-primary transition-opacity hover:opacity-80"
             href="/"
           >
-            <h1>
+            <h1 className="flex items-center gap-2 text-2xl font-bold leading-none">
               <Image
-                src="/logo-with-text.png"
-                className="m-1 h-auto w-auto dark:hidden"
-                width={(32 * 522) / 180}
+                src="/logo-mark-transparent.png"
+                className="h-8 w-8"
+                width={32}
                 height={32}
-                alt="Spliit"
+                alt=""
                 loading="eager"
               />
-              <Image
-                src="/logo-with-text-dark.png"
-                className="m-1 hidden h-auto w-auto dark:block"
-                width={(32 * 522) / 180}
-                height={32}
-                alt="Spliit"
-                loading="eager"
-              />
+              <span>Spliit</span>
             </h1>
           </Link>
         </div>

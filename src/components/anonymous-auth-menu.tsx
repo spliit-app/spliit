@@ -1257,7 +1257,7 @@ export function AnonymousAuthMenu() {
       </DropdownMenu>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
+        <DialogContent className="max-h-[calc(100dvh-2rem)] w-[calc(100vw-2rem)] overflow-y-auto overscroll-contain sm:max-h-[calc(100vh-2rem)] sm:w-full">
           <DialogHeader>
             <DialogTitle>{t('profile.title')}</DialogTitle>
             <DialogDescription>{t('profile.description')}</DialogDescription>
