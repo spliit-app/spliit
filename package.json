@@ -52,6 +52,7 @@
     "cmdk": "^1.1.1",
     "content-disposition": "^2.0.0",
     "dayjs": "^1.11.20",
+    "decimal.js": "^10.6.0",
     "embla-carousel-react": "^8.6.0",
     "html5-qrcode": "^2.3.8",
     "jszip": "^3.10.1",
