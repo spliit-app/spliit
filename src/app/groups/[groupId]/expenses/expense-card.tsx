@@ -4,7 +4,8 @@ import { CategoryIcon } from '@/app/groups/[groupId]/expenses/category-icon'
 import { DocumentsCount } from '@/app/groups/[groupId]/expenses/documents-count'
 import { Button } from '@/components/ui/button'
 import { getGroupExpenses } from '@/lib/api'
-import { cn, formatCurrency, formatDate } from '@/lib/utils'
+import { Currency } from '@/lib/currency'
+import { cn, formatCurrency, formatDateOnly } from '@/lib/utils'
 import { ChevronRight } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
@@ -13,15 +14,27 @@ import { Fragment } from 'react'
 
 type Expense = Awaited<ReturnType<typeof getGroupExpenses>>[number]
 
-function Participants({ expense }: { expense: Expense }) {
+function Participants({
+  expense,
+  participantCount,
+}: {
+  expense: Expense
+  participantCount: number
+}) {
   const t = useTranslations('ExpenseCard')
   const key = expense.amount > 0 ? 'paidBy' : 'receivedBy'
-  const paidFor = expense.paidFor.map((paidFor, index) => (
-    <Fragment key={index}>
-      {index !== 0 && <>, </>}
-      <strong>{paidFor.participant.name}</strong>
-    </Fragment>
-  ))
+  const paidFor =
+    expense.paidFor.length == participantCount && participantCount >= 4 ? (
+      <strong>{t('everyone')}</strong>
+    ) : (
+      expense.paidFor.map((paidFor, index) => (
+        <Fragment key={index}>
+          {index !== 0 && <>, </>}
+          <strong>{paidFor.participant.name}</strong>
+        </Fragment>
+      ))
+    )
+
   const participants = t.rich(key, {
     strong: (chunks) => <strong>{chunks}</strong>,
     paidBy: expense.paidBy.name,
@@ -33,11 +46,17 @@ function Participants({ expense }: { expense: Expense }) {
 
 type Props = {
   expense: Expense
-  currency: string
+  currency: Currency
   groupId: string
+  participantCount: number
 }
 
-export function ExpenseCard({ expense, currency, groupId }: Props) {
+export function ExpenseCard({
+  expense,
+  currency,
+  groupId,
+  participantCount,
+}: Props) {
   const router = useRouter()
   const locale = useLocale()
 
@@ -61,7 +80,7 @@ export function ExpenseCard({ expense, currency, groupId }: Props) {
           {expense.title}
         </div>
         <div className="text-xs text-muted-foreground">
-          <Participants expense={expense} />
+          <Participants expense={expense} participantCount={participantCount} />
         </div>
         <div className="text-xs text-muted-foreground">
           <ActiveUserBalance {...{ groupId, currency, expense }} />
@@ -80,7 +99,7 @@ export function ExpenseCard({ expense, currency, groupId }: Props) {
           <DocumentsCount count={expense._count.documents} />
         </div>
         <div className="text-xs text-muted-foreground">
-          {formatDate(expense.expenseDate, locale, { dateStyle: 'medium' })}
+          {formatDateOnly(expense.expenseDate, locale, { dateStyle: 'medium' })}
         </div>
       </div>
       <Button

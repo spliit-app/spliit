@@ -4,6 +4,7 @@ import { TotalsYourShare } from '@/app/groups/[groupId]/stats/totals-your-share'
 import { TotalsYourSpendings } from '@/app/groups/[groupId]/stats/totals-your-spending'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useActiveUser } from '@/lib/hooks'
+import { getCurrencyFromGroup } from '@/lib/utils'
 import { trpc } from '@/trpc/client'
 import { useCurrentGroup } from '../current-group-context'
 
@@ -33,21 +34,23 @@ export function Totals() {
     totalParticipantSpendings,
   } = data
 
+  const currency = getCurrencyFromGroup(group)
+
   return (
     <>
       <TotalsGroupSpending
         totalGroupSpendings={totalGroupSpendings}
-        currency={group.currency}
+        currency={currency}
       />
       {participantId && (
         <>
           <TotalsYourSpendings
             totalParticipantSpendings={totalParticipantSpendings}
-            currency={group.currency}
+            currency={currency}
           />
           <TotalsYourShare
             totalParticipantShare={totalParticipantShare}
-            currency={group.currency}
+            currency={currency}
           />
         </>
       )}

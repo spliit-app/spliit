@@ -1,6 +1,7 @@
-import { Category } from '@prisma/client'
+import { Category, Group } from '@prisma/client'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import { Currency, getCurrency } from './currency'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -23,6 +24,34 @@ export function formatDate(
   })
 }
 
+/**
+ * Formats a date-only field (without time) for display.
+ * Extracts UTC date components to avoid timezone shifts that can cause off-by-one day errors.
+ * Use this for dates stored as DATE type in the database (e.g., expenseDate).
+ *
+ * @param date - The date to format (typically from a database DATE field, e.g., 2025-10-17T00:00:00.000Z)
+ * @param locale - The locale string (e.g., 'en-US', 'fr-FR')
+ * @param options - Formatting options (dateStyle, timeStyle)
+ * @returns Formatted date string in the specified locale
+ */
+export function formatDateOnly(
+  date: Date,
+  locale: string,
+  options: { dateStyle?: DateTimeStyle; timeStyle?: DateTimeStyle } = {},
+) {
+  // Extract UTC date components to avoid timezone shifts
+  const year = date.getUTCFullYear()
+  const month = date.getUTCMonth()
+  const day = date.getUTCDate()
+
+  // Create a new date in the user's local timezone with these components
+  const localDate = new Date(year, month, day)
+
+  return localDate.toLocaleString(locale, {
+    ...options,
+  })
+}
+
 export function formatCategoryForAIPrompt(category: Category) {
   return `"${category.grouping}/${category.name}" (ID: ${category.id})`
 }
@@ -33,20 +62,85 @@ export function formatCategoryForAIPrompt(category: Category) {
  * Set this to `true` if you need to pass a value with decimal fractions instead (e.g. 1.00 for USD 1.00).
  */
 export function formatCurrency(
-  currency: string,
+  currency: Currency,
   amount: number,
   locale: string,
   fractions?: boolean,
 ) {
   const format = new Intl.NumberFormat(locale, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+    minimumFractionDigits: currency.decimal_digits,
+    maximumFractionDigits: currency.decimal_digits,
     style: 'currency',
     // '€' will be placed in correct position
-    currency: 'EUR',
+    currency: currency.code.length ? currency.code : 'EUR',
   })
-  const formattedAmount = format.format(fractions ? amount : amount / 100)
-  return formattedAmount.replace('€', currency)
+  const formatted = format.format(
+    fractions ? amount : amountAsDecimal(amount, currency),
+  )
+  if (currency.code.length) {
+    return formatted
+  }
+  return formatted.replace('€', currency.symbol)
+}
+
+export function getCurrencyFromGroup(
+  group: Pick<Group, 'currency' | 'currencyCode'>,
+): Currency {
+  if (!group.currencyCode) {
+    return {
+      name: 'Custom',
+      symbol_native: group.currency,
+      symbol: group.currency,
+      code: '',
+      name_plural: '',
+      rounding: 0,
+      decimal_digits: 2,
+    }
+  }
+  return getCurrency(group.currencyCode)
+}
+
+/**
+ * Converts monetary amounts in minor units to the corresponding amount in major units in the given currency.
+ * e.g.
+ *  - 150 "minor units" of euros = 1.5
+ *  - 1000 "minor units" of yen = 1000 (the yen does not have minor units in practice)
+ *
+ * @param amount The amount, as the number of minor units of currency (cents for most currencies)
+ * @param round Whether to round the amount to the nearest minor unit (e.g.: 1.5612 € => 1.56 €)
+ */
+export function amountAsDecimal(
+  amount: number,
+  currency: Currency,
+  round = false,
+) {
+  const decimal = amount / 10 ** currency.decimal_digits
+  if (round) {
+    return Number(decimal.toFixed(currency.decimal_digits))
+  }
+  return decimal
+}
+
+/**
+ * Converts decimal monetary amounts in major units to the amount in minor units in the given currency.
+ * e.g.
+ *  - €1.5 = 150 "minor units" of euros (cents)
+ *  - JPY 1000 = 1000 "minor units" of yen (the yen does not have minor units in practice)
+ *
+ * @param amount The amount in decimal major units (always an integer)
+ */
+export function amountAsMinorUnits(amount: number, currency: Currency) {
+  return Math.round(amount * 10 ** currency.decimal_digits)
+}
+
+/**
+ * Formats monetary amounts in minor units to the corresponding amount in major units in the given currency,
+ * as a string, with correct rounding.
+ *
+ * @param amount The amount, as the number of minor units of currency (cents for most currencies)
+ */
+export function formatAmountAsDecimal(amount: number, currency: Currency) {
+  return amountAsDecimal(amount, currency).toFixed(currency.decimal_digits)
 }
 
 export function formatFileSize(size: number, locale: string) {

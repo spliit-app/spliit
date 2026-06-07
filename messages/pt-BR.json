@@ -1,6 +1,6 @@
 {
   "Homepage": {
-    "title": "Compartilhe  <strong>Despesas</strong> com <strong>Amigos e Família</strong>",
+    "title": "Compartilhe <strong>Despesas</strong> com <strong>Amigos e Família</strong>",
     "description": "Bem-vindo à sua nova instalação do <strong>Spliit</strong>!",
     "button": {
       "groups": "Ir para grupos",
@@ -38,12 +38,15 @@
       "earlierThisYear": "Anteriores neste ano",
       "lastYear": "Ano passado",
       "older": "Mais antigas"
-    }
+    },
+    "export": "Exportar"
   },
   "ExpenseCard": {
     "paidBy": "Pago por <strong>{paidBy}</strong> para <paidFor></paidFor>",
     "receivedBy": "Recebido por <strong>{paidBy}</strong> para <paidFor></paidFor>",
-    "yourBalance": "Seu saldo:"
+    "yourBalance": "Seu saldo:",
+    "everyone": "Todos",
+    "notInvolved": "Você não está envolvido"
   },
   "Groups": {
     "myGroups": "Meus grupos",
@@ -117,6 +120,12 @@
       "create": "Criar",
       "creating": "Criando…",
       "cancel": "Cancelar"
+    },
+    "CurrencyCodeField": {
+      "label": "Moeda principal",
+      "createDescription": "Todos os valores e saldos estarão nesta moeda.",
+      "editDescription": "Todos os valores e saldos estarão nesta moeda. A sua alteração NÃO irá converter despesas já registradas, exceto quando a moeda possuir \"unidades menores\" que a atual (ex. Alterar de Dólar Americano para Yen Japonês)",
+      "customOption": "Customizado"
     }
   },
   "ExpenseForm": {
@@ -159,14 +168,23 @@
       "categoryFieldDescription": "Selecione a categoria da despesa.",
       "paidByField": {
         "label": "Pago por",
-        "description": "Selecione o participante que pagou a despesa."
+        "description": "Selecione o participante que pagou a despesa.",
+        "placeholder": "Selecione um participante"
       },
       "paidFor": {
         "title": "Pago para",
         "description": "Selecione para quem a despesa foi paga."
       },
       "splitModeDescription": "Selecione como dividir a despesa.",
-      "attachDescription": "Veja e anexe recibos à despesa."
+      "attachDescription": "Veja e anexe recibos à despesa.",
+      "recurrenceRule": {
+        "label": "Recorrência da Despesa",
+        "description": "Selecione a frequência de recorrência da despesa.",
+        "none": "Nenhuma",
+        "daily": "Diariamente",
+        "weekly": "Semanalmente",
+        "monthly": "Mensalmente"
+      }
     },
     "amountField": {
       "label": "Valor"
@@ -205,7 +223,15 @@
     "save": "Salvar",
     "saving": "Salvando…",
     "cancel": "Cancelar",
-    "reimbursement": "Reembolso"
+    "reimbursement": "Reembolso",
+    "conversionRateField": {
+      "label": "Taxa de câmbio"
+    },
+    "conversionRateState": {
+      "success": "Taxas obtidas:",
+      "error": "Opa, não conseguimos obter as taxas mais recentes.",
+      "refresh": "Atualizar"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
@@ -361,7 +387,8 @@
       "Gifts": "Presentes",
       "Insurance": "Seguro",
       "Medical Expenses": "Despesas médicas",
-      "Taxes": "Impostos"
+      "Taxes": "Impostos",
+      "Donation": "Doação"
     },
     "Transportation": {
       "heading": "Transporte",
@@ -384,6 +411,19 @@
       "Trash": "Lixo",
       "TV/Phone/Internet": "TV/Telefone/Internet",
       "Water": "Água"
+    }
+  },
+  "Currencies": {
+    "search": "Pesquisar moeda...",
+    "noCurrency": "Nenhuma moeda encontrada.",
+    "custom": {
+      "heading": "Customizado"
+    },
+    "common": {
+      "heading": "Mais comum"
+    },
+    "other": {
+      "heading": "Outras moedas"
     }
   }
 }

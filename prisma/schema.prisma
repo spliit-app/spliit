@@ -16,6 +16,7 @@ model Group {
   name         String
   information  String?       @db.Text
   currency     String        @default("$")
+  currencyCode String?
   participants Participant[]
   expenses     Expense[]
   activities   Activity[]
@@ -39,25 +40,28 @@ model Category {
 }
 
 model Expense {
-  id              String            @id
-  group           Group             @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  expenseDate     DateTime          @default(dbgenerated("CURRENT_DATE")) @db.Date
-  title           String
-  category        Category?         @relation(fields: [categoryId], references: [id])
-  categoryId      Int               @default(0)
-  amount          Int
-  paidBy          Participant       @relation(fields: [paidById], references: [id], onDelete: Cascade)
-  paidById        String
-  paidFor         ExpensePaidFor[]
-  groupId         String
-  isReimbursement Boolean           @default(false)
-  splitMode       SplitMode         @default(EVENLY)
-  createdAt       DateTime          @default(now())
-  documents       ExpenseDocument[]
-  notes           String?
+  id               String            @id
+  group            Group             @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  expenseDate      DateTime          @default(dbgenerated("CURRENT_DATE")) @db.Date
+  title            String
+  category         Category?         @relation(fields: [categoryId], references: [id])
+  categoryId       Int               @default(0)
+  amount           Int
+  originalAmount   Int?
+  originalCurrency String?
+  conversionRate   Decimal?
+  paidBy           Participant       @relation(fields: [paidById], references: [id], onDelete: Cascade)
+  paidById         String
+  paidFor          ExpensePaidFor[]
+  groupId          String
+  isReimbursement  Boolean           @default(false)
+  splitMode        SplitMode         @default(EVENLY)
+  createdAt        DateTime          @default(now())
+  documents        ExpenseDocument[]
+  notes            String?
 
-  recurrenceRule  RecurrenceRule?    @default(NONE)
-  recurringExpenseLink RecurringExpenseLink?
+  recurrenceRule         RecurrenceRule?       @default(NONE)
+  recurringExpenseLink   RecurringExpenseLink?
   recurringExpenseLinkId String?
 }
 
@@ -78,16 +82,16 @@ enum SplitMode {
 }
 
 model RecurringExpenseLink {
-  id String @id
-  groupId   String
-  currentFrameExpense Expense @relation(fields: [currentFrameExpenseId], references: [id], onDelete: Cascade)
-  currentFrameExpenseId String @unique
+  id                    String  @id
+  groupId               String
+  currentFrameExpense   Expense @relation(fields: [currentFrameExpenseId], references: [id], onDelete: Cascade)
+  currentFrameExpenseId String  @unique
 
   // Note: We do not want to link to the next expense because once it is created, it should be 
   // treated as it's own independent entity. This means that if a user wants to delete an Expense
   // and any prior related recurring expenses, they'll need to delete them one by one.
   nextExpenseCreatedAt DateTime?
-  nextExpenseDate DateTime
+  nextExpenseDate      DateTime
 
   @@index([groupId])
   @@index([groupId, nextExpenseCreatedAt, nextExpenseDate(sort: Desc)])
@@ -112,7 +116,7 @@ model ExpensePaidFor {
 
 model Activity {
   id            String       @id
-  group         Group        @relation(fields: [groupId], references: [id])
+  group         Group        @relation(fields: [groupId], references: [id], onDelete: Cascade)
   groupId       String
   time          DateTime     @default(now())
   activityType  ActivityType

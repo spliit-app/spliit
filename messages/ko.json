@@ -1,0 +1,388 @@
+{
+  "Expenses": {
+    "exportJson": "JSON으로 내보내기",
+    "exportCsv": "CSV로 내보내기",
+    "export": "내보내기",
+    "ActiveUserModal": {
+      "save": "변경내용 저장하기",
+      "title": "당신은 누구인가요?",
+      "description": "당신이 누구인지 알려 주시면, 정보를 더 잘 보여드릴게요.",
+      "nobody": "아무도 선택하지 않을래요",
+      "footer": "이건 나중에 그룹 설정에서 바꿀 수 있어요."
+    },
+    "Groups": {
+      "thisWeek": "이번주",
+      "earlierThisMonth": "이번달 초",
+      "lastMonth": "지난달",
+      "lastYear": "작년",
+      "earlierThisYear": "올해 초",
+      "older": "이전"
+    },
+    "title": "지출",
+    "description": "그룹에서 만든 지출 항목들을 보여드려요.",
+    "create": "지출 추가하기",
+    "noExpenses": "그룹에 아직 지출 항목이 없네요.",
+    "searchPlaceholder": "지출 검색하기…",
+    "createFirst": "첫 지출 추가하기"
+  },
+  "Groups": {
+    "myGroups": "내 그룹",
+    "create": "만들기",
+    "loadingRecent": "최신 그룹 불러오는 중…",
+    "NoRecent": {
+      "description": "최근에 참여한 그룹이 없습니다.",
+      "orAsk": "또는 친구에게 기존 그룹 링크를 보내 달라고 요청하세요.",
+      "create": "그룹 만들기"
+    },
+    "recent": "최근 그룹",
+    "starred": "즐겨찾기 그룹",
+    "archived": "아카이브된 그룹",
+    "archive": "그룹 아카이브하기",
+    "RecentRemovedToast": {
+      "title": "그룹이 삭제되었습니다",
+      "description": "그룹이 최신 그룹 목록에서 삭제되었습니다.",
+      "undoAlt": "그룹 삭제 취소"
+    },
+    "AddByURL": {
+      "button": "URL로 불러오기",
+      "title": "URL로 그룹 불러오기",
+      "description": "이미 공유받은 그룹이 있다면, 여기에 URL을 붙여넣어 추가하세요.",
+      "error": "헉, 입력하신 URL에서 그룹을 찾을 수 없네요…"
+    },
+    "NotFound": {
+      "text": "그룹이 존재하지 않습니다.",
+      "link": "최근에 방문한 그룹 보기"
+    },
+    "unarchive": "그룹 다시 불러오기",
+    "removeRecent": "최근 그룹 목록에서 삭제하기"
+  },
+  "GroupForm": {
+    "title": "그룹 정보",
+    "NameField": {
+      "label": "그룹 이름",
+      "placeholder": "여름 휴가",
+      "description": "그룹 이름을 입력하세요."
+    },
+    "InformationField": {
+      "label": "그룹 정보",
+      "placeholder": "그룹 참가자들이 알아야 할 정보는 무엇인가요?"
+    },
+    "CurrencyField": {
+      "label": "통화 기호",
+      "placeholder": "$, €, £…",
+      "description": "금액 표시할 때 이걸 사용할 거예요."
+    },
+    "CurrencyCodeField": {
+      "label": "기본 통화",
+      "createDescription": "금액, 잔액 전부 이 통화로 표시돼요.",
+      "editDescription": "모든 금액이랑 잔액은 이 통화로 보여요. 통화를 바꿔도 이미 입력한 지출은 바뀌지 않아요. 단, (예: 미국 달러에서 일본 엔으로 바꿀 때처럼) 통화의 소수점 단위가 다를 경우에는 예외가 있을 수 있어요."
+    },
+    "Participants": {
+      "title": "참여자",
+      "description": "참가자 이름을 하나씩 입력해 주세요.",
+      "protectedParticipant": "이 참가자는 지출에 참여 중이라서 지울 수 없어요.",
+      "add": "참가자 추가하기",
+      "John": "민수",
+      "Jane": "수영",
+      "Jack": "길동"
+    },
+    "Settings": {
+      "ActiveUserField": {
+        "description": "사용자가 기본 지출 결제자로 사용돼요.",
+        "placeholder": "참가자를 선택해 주세요",
+        "label": "활성 사용자",
+        "none": "없음"
+      },
+      "save": "저장",
+      "saving": "저장중…",
+      "description": "이 설정들은 기기별로 저장되며, 사용자 경험을 맞춤화하는 데 사용돼요.",
+      "cancel": "취소",
+      "creating": "만드는 중…"
+    }
+  },
+  "ExpenseForm": {
+    "Expense": {
+      "create": "지출 추가하기",
+      "edit": "지출 수정하기",
+      "TitleField": {
+        "label": "지출 이름",
+        "placeholder": "월요일 저녁 식사",
+        "description": "지출 내용을 입력해 주세요."
+      },
+      "DateField": {
+        "label": "지출 날짜",
+        "description": "지출한 날짜를 입력해 주세요."
+      },
+      "currencyField": {
+        "label": "지출 통화",
+        "description": "지출이 결제된 통화예요."
+      },
+      "categoryFieldDescription": "지출 카테고리를 선택해 주세요.",
+      "paidByField": {
+        "label": "결제한 사람",
+        "placeholder": "참가자를 선택해 주세요",
+        "description": "지출을 결제한 사람을 선택해 주세요."
+      },
+      "recurrenceRule": {
+        "label": "지출 반복 설정",
+        "description": "지출 반복 주기를 선택해 주세요.",
+        "daily": "매일",
+        "weekly": "매주",
+        "monthly": "매달"
+      },
+      "paidFor": {
+        "title": "비용 부담자들",
+        "description": "비용 부담자들을 선택해 주세요."
+      },
+      "splitModeDescription": "지출을 어떻게 나눌지 선택해 주세요."
+    },
+    "amountField": {
+      "label": "금액"
+    },
+    "conversionRateField": {
+      "useApi": "Frankfurter의 환율을 사용해요",
+      "useCustom": "직접 설정한 환율 사용하기",
+      "label": "환율"
+    },
+    "conversionRateState": {
+      "loading": "환율 가져오는 중…",
+      "success": "가져온 환율:",
+      "error": "헉, 가장 최근 환율을 가져오지 못했어요.",
+      "staleRate": "적용 중인 환율:",
+      "noRate": "아래에 직접 환율을 입력해 주세요.",
+      "currencyNotFound": "헉, Frankfurter에서 이 날짜 환율을 찾을 수 없어요.",
+      "noDate": "환율을 가져오려면 지출한 날짜를 입력해 주세요.",
+      "dateMismatch": "기준 환율: {date}",
+      "refresh": "다시 불러오기",
+      "customRate": "직접 설정한 환율 사용 중"
+    },
+    "isReimbursementField": {
+      "label": "이건 비용 정산이에요"
+    },
+    "categoryField": {
+      "label": "카테고리"
+    },
+    "notesField": {
+      "label": "메모"
+    },
+    "SplitModeField": {
+      "label": "분할 방식",
+      "evenly": "똑같이 나누기",
+      "byShares": "균등하지 않게 – 지분별로 나누기",
+      "byPercentage": "균등하지 않게 – 비율로 나누기",
+      "byAmount": "균등하지 않게 – 금액별로 나누기",
+      "saveAsDefault": "기본 분할 방식으로 저장하기"
+    },
+    "DeletePopup": {
+      "description": "정말 이 지출을 삭제할까요? 한 번 삭제하면 되돌릴 수 없어요.",
+      "yes": "네",
+      "cancel": "취소"
+    },
+    "Income": {
+      "TitleField": {
+        "placeholder": "월요일 저녁 식사"
+      }
+    },
+    "reimbursement": "정산",
+    "cancel": "취소"
+  },
+  "Balances": {
+    "title": "잔액",
+    "Reimbursements": {
+      "title": "추천 정산 방법",
+      "description": "참가자 간에 가장 좋은 정산 방안을 알려드려요.",
+      "noImbursements": "그룹에선 따로 정산할 게 없네요 😁",
+      "markAsPaid": "지불 완료로 표시하기",
+      "owes": "<strong>{from}</strong>가 <strong>{to}</strong>에게 돈을 내야 해요"
+    }
+  },
+  "Stats": {
+    "title": "현황",
+    "Totals": {
+      "title": "전체 합계",
+      "description": "그룹 전체 지출 요약 입니다.",
+      "groupSpendings": "그룹 총 지출액",
+      "yourSpendings": "나의 총 지출",
+      "yourShare": "나의 총 부담금"
+    }
+  },
+  "Activity": {
+    "title": "활동 내역",
+    "description": "이 그룹의 모든 활동 개요예요.",
+    "noActivity": "아직 그룹에 활동 내역이 없어요.",
+    "Groups": {
+      "today": "오늘",
+      "yesterday": "어제",
+      "earlierThisWeek": "이번주 초",
+      "lastWeek": "지난주",
+      "earlierThisMonth": "이번달 초",
+      "lastMonth": "지난달",
+      "earlierThisYear": "올해 초",
+      "lastYear": "작년",
+      "older": "이전"
+    },
+    "settingsModified": "<strong>{participant}</strong>가 그룹 설정을 수정했어요.",
+    "expenseCreated": "<strong>{participant}</strong>가 <em>{expense}</em> 지출 내역을 추가했어요.",
+    "expenseUpdated": "<strong>{participant}</strong>가 <em>{expense}</em> 지출을 수정했어요.",
+    "expenseDeleted": "<strong>{participant}</strong>가 <em>{expense}</em> 지출을 삭제했어요."
+  },
+  "SchemaErrors": {
+    "duplicateParticipantName": "이미 같은 이름을 가진 참가자가 있어요.",
+    "invalidNumber": "잘못된 숫자입니다.",
+    "amountRequired": "금액을 입력해 주세요.",
+    "amountNotZero": "금액은 0이 될 수 없어요.",
+    "amountTenMillion": "금액은 10,000,000보다 작아야 해요.",
+    "ratePositive": "환율은 0보다 커야 해요.",
+    "paidByRequired": "참가자를 선택해 주세요.",
+    "paidForMin1": "",
+    "noZeroShares": "각 몫은 0보다 커야 합니다.",
+    "amountSum": "금액 합계가 지출 금액과 같아야 해요.",
+    "percentageSum": "퍼센트 합이 100이 되어야 합니다.",
+    "min1": "최소 한 글자 이상 입력해 주세요.",
+    "min2": "최소 두 글자 이상 입력해 주세요.",
+    "titleRequired": "제목을 입력해 주세요."
+  },
+  "Categories": {
+    "search": "카테고리 선택...",
+    "noCategory": "카테고리를 찾을 수 없어요.",
+    "Uncategorized": {
+      "heading": "카테고리 없음",
+      "General": "일반"
+    },
+    "Entertainment": {
+      "heading": "엔터테인먼트",
+      "Entertainment": "엔터테인먼트",
+      "Games": "게임",
+      "Movies": "영화",
+      "Music": "음악",
+      "Sports": "스포츠"
+    },
+    "Food and Drink": {
+      "heading": "음식 및 음료",
+      "Food and Drink": "음식 및 음료",
+      "Dining Out": "외식",
+      "Groceries": "생필품",
+      "Liquor": "주류"
+    },
+    "Home": {
+      "heading": "집 / 가정",
+      "Home": "집 / 가정",
+      "Electronics": "전자제품",
+      "Furniture": "가구",
+      "Household Supplies": "생활용품",
+      "Maintenance": "수리 / 관리",
+      "Mortgage": "주택 담보 대출",
+      "Pets": "반려동물",
+      "Rent": "임대료 / 월세"
+    },
+    "Life": {
+      "Childcare": "육아 / 보육",
+      "Clothing": "의류",
+      "Donation": "기부",
+      "Education": "교육비",
+      "Gifts": "선물",
+      "Insurance": "보험",
+      "Medical Expenses": "의료비",
+      "Taxes": "세금",
+      "heading": "생활"
+    },
+    "Transportation": {
+      "heading": "교통비",
+      "Transportation": "교통비",
+      "Bicycle": "자전거",
+      "Bus/Train": "버스/기차",
+      "Car": "자동차",
+      "Gas/Fuel": "주유비",
+      "Hotel": "호텔/숙박",
+      "Parking": "주차비",
+      "Plane": "비행기/항공",
+      "Taxi": "택시"
+    },
+    "Utilities": {
+      "heading": "공과금",
+      "Utilities": "공과금",
+      "Cleaning": "청소",
+      "Electricity": "전기료",
+      "Heat/Gas": "난방/가스",
+      "Trash": "쓰레기 처리비",
+      "TV/Phone/Internet": "TV/전화/인터넷 요금",
+      "Water": "수도 요금"
+    }
+  },
+  "Homepage": {
+    "button": {
+      "github": "깃허브",
+      "groups": "그룹 보기"
+    },
+    "title": "<strong>친구 & 가족</strong>과 <strong>지출</strong>을 함께 관리해요",
+    "description": "<strong>Spliit</strong>와 함께하는 새 시작을 환영해요!"
+  },
+  "Header": {
+    "groups": "그룹"
+  },
+  "Footer": {
+    "madeIn": "몬트리올, 퀘벡에서 제작 🇨🇦",
+    "builtBy": "<author>Sebastien Castiel</author>와 <source>공동 작업자들</source>이 함께 만들었어요"
+  },
+  "Settings": {
+    "title": "설정"
+  },
+  "Share": {
+    "warningHelp": "그룹 URL을 가진 사람은 누구나 지출 내역을 보고 수정할 수 있어요. 조심해서 공유하세요!",
+    "warning": "경고!",
+    "title": "공유하기",
+    "description": "다른 참가자들이 그룹을 보고 지출을 추가할 수 있도록 URL을 공유해 주세요."
+  },
+  "ExpenseCard": {
+    "paidBy": "<strong>{paidBy}</strong>가 <paidFor></paidFor>를 위해 결제함",
+    "everyone": "모두",
+    "yourBalance": "내 잔액:",
+    "notInvolved": "당신은 관련이 없어요"
+  },
+  "ExpenseDocumentsInput": {
+    "TooBigToast": {
+      "title": "파일이 너무 커요",
+      "description": "업로드 가능한 최대 파일 크기: {maxSize}, 현재 파일 크기: {size}입니다."
+    },
+    "ErrorToast": {
+      "title": "문서 업로드 중 오류가 발생했어요",
+      "description": "문서 업로드 중 오류가 발생했습니다. 나중에 다시 시도하거나 다른 파일을 선택해 주세요."
+    }
+  },
+  "CreateFromReceipt": {
+    "Dialog": {
+      "triggerTitle": "영수증으로 지출 추가하기",
+      "description": "영수증 사진으로 지출 내역을 자동으로 불러와요.",
+      "body": "영수증 사진을 업로드하면, 가능하면 지출 정보를 스캔해서 추출해 드려요.",
+      "selectImage": "사진 선택하기…",
+      "titleLabel": "제목:",
+      "categoryLabel": "카테고리:",
+      "amountLabel": "금액:",
+      "dateLabel": "날짜:",
+      "editNext": "다음 단계에서 지출 정보를 수정할 수 있습니다.",
+      "continue": "계속하기"
+    },
+    "TooBigToast": {
+      "title": "파일이 너무 커요",
+      "description": "업로드 가능한 최대 파일 크기: {maxSize}, 현재 파일 크기: {size}입니다."
+    },
+    "ErrorToast": {
+      "title": "문서 업로드 중 오류가 발생했어요",
+      "description": "문서 업로드 중 오류가 발생했습니다. 나중에 다시 시도하거나 다른 파일을 선택해 주세요."
+    }
+  },
+  "Information": {
+    "title": "정보",
+    "empty": "아직 그룹 정보가 없어요."
+  },
+  "Currencies": {
+    "search": "통화 선택하기...",
+    "noCurrency": "통화를 찾을 수 없어요.",
+    "common": {
+      "heading": "가장 많이 쓰이는"
+    },
+    "other": {
+      "heading": "그 외 통화"
+    }
+  }
+}

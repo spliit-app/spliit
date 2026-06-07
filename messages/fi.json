@@ -137,15 +137,6 @@
         "label": "Vastaanottaja",
         "description": "Valitse kuka vastaanotti tulon."
       },
-      "recurrenceRule": {
-        "label": "Expense Recurrence",
-        "description": "Select how often the expense should repeat.",
-
-        "none": "None",
-        "daily": "Daily",
-        "weekly": "Weekly",
-        "monthly": "Monthly"
-      },
       "paidFor": {
         "title": "Tulon jakaminen",
         "description": "Valitse kenelle tulo jaetaan."
@@ -240,16 +231,6 @@
       "dateLabel": "Päivä:",
       "editNext": "Voit muokata kulun tietoja seuraavaksi.",
       "continue": "Jatka"
-    },
-    "unknown": "Unknown",
-    "TooBigToast": {
-      "title": "The file is too big",
-      "description": "The maximum file size you can upload is {maxSize}. Yours is {size}."
-    },
-    "ErrorToast": {
-      "title": "Error while uploading document",
-      "description": "Something wrong happened when uploading the document. Please retry later or select a different file.",
-      "retry": "Retry"
     }
   },
   "Balances": {

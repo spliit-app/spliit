@@ -1,3 +1,5 @@
+import { getCurrency } from '@/lib/currency'
+import { formatAmountAsDecimal, getCurrencyFromGroup } from '@/lib/utils'
 import { Parser } from '@json2csv/plainjs'
 import { PrismaClient } from '@prisma/client'
 import contentDisposition from 'content-disposition'
@@ -22,20 +24,25 @@ const prisma = new PrismaClient()
 
 export async function GET(
   req: Request,
-  { params: { groupId } }: { params: { groupId: string } },
+  { params }: { params: Promise<{ groupId: string }> },
 ) {
+  const { groupId } = await params
   const group = await prisma.group.findUnique({
     where: { id: groupId },
     select: {
       id: true,
       name: true,
       currency: true,
+      currencyCode: true,
       expenses: {
         select: {
           expenseDate: true,
           title: true,
           category: { select: { name: true } },
           amount: true,
+          originalAmount: true,
+          originalCurrency: true,
+          conversionRate: true,
           paidById: true,
           paidFor: { select: { participantId: true, shares: true } },
           isReimbursement: true,
@@ -52,30 +59,29 @@ export async function GET(
 
   /*
 
-  CSV Structure:
-
-  --------------------------------------------------------------
-  |   Date   |   Description   |  Category  |  Currency  | Cost  
-  --------------------------------------------------------------
-  |  Is Reimbursement   |   Split mode   |   UserA   |   UserB   
-  --------------------------------------------------------------
-
-  Columns:
+  CSV Columns:
   - Date: The date of the expense.
   - Description: A brief description of the expense.
   - Category: The category of the expense (e.g., Food, Travel, etc.).
   - Currency: The currency in which the expense is recorded.
   - Cost: The amount spent.
+  - Original cost: The amount spent in the original currency.
+  - Original currency: The currency the amount was originally spent in.
+  - Conversion rate: The rate used to convert the amount.
   - Is Reimbursement: Whether the expense is a reimbursement or not.
   - Split mode: The method used to split the expense (e.g., Evenly, By shares, By percentage, By amount).
   - UserA, UserB: User-specific data or balances (e.g., amount owed or contributed by each user).
 
-  Example Row:
-  ------------------------------------------------------------------------------------------
-  | 2025-01-06 |  Dinner with team  |  Food  |  ₹  |  5000  |  No  |  Evenly  | John |  Jane 
-  ------------------------------------------------------------------------------------------
+  Example Table:
+  +------------+------------------+----------+----------+----------+---------------+-------------------+-----------------+------------------+----------------------+--------+-----------+
+  | Date       | Description      | Category | Currency | Cost     | Original cost | Original currency | Conversion rate | Is reinbursement | Split mode           | User A | User B    |
+  +------------+------------------+----------+----------+----------+---------------+-------------------+-----------------+------------------+----------------------+--------+-----------+
+  | 2025-01-06 | Dinner with team | Food     | INR      | 5000     |               |                   |                 | No               | Evenly               | 2500   | -2500     |
+  +------------+------------------+----------+----------+----------+---------------+-------------------+-----------------+------------------+----------------------+--------+-----------+
+  | 2025-02-07 | Plane tickets    | Travel   | INR      | 97264.09 | 1000          | EUR               | 97.2641         | No               | Unevenly - By amount | -80000 | -17264.09 |
+  +------------+------------------+----------+----------+----------+---------------+-------------------+-----------------+------------------+----------------------+--------+-----------+
 
-*/
+  */
 
   const fields = [
     { label: 'Date', value: 'date' },
@@ -83,6 +89,9 @@ export async function GET(
     { label: 'Category', value: 'categoryName' },
     { label: 'Currency', value: 'currency' },
     { label: 'Cost', value: 'amount' },
+    { label: 'Original cost', value: 'originalAmount' },
+    { label: 'Original currency', value: 'originalCurrency' },
+    { label: 'Conversion rate', value: 'conversionRate' },
     { label: 'Is Reimbursement', value: 'isReimbursement' },
     { label: 'Split mode', value: 'splitMode' },
     ...group.participants.map((participant) => ({
@@ -91,12 +100,24 @@ export async function GET(
     })),
   ]
 
+  const currency = getCurrencyFromGroup(group)
+
   const expenses = group.expenses.map((expense) => ({
     date: formatDate(expense.expenseDate),
     title: expense.title,
     categoryName: expense.category?.name || '',
-    currency: group.currency,
-    amount: (expense.amount / 100).toFixed(2),
+    currency: group.currencyCode ?? group.currency,
+    amount: formatAmountAsDecimal(expense.amount, currency),
+    originalAmount: expense.originalAmount
+      ? formatAmountAsDecimal(
+          expense.originalAmount,
+          getCurrency(expense.originalCurrency),
+        )
+      : null,
+    originalCurrency: expense.originalCurrency,
+    conversionRate: expense.conversionRate
+      ? expense.conversionRate.toString()
+      : null,
     isReimbursement: expense.isReimbursement ? 'Yes' : 'No',
     splitMode: splitModeLabel[expense.splitMode],
     ...Object.fromEntries(
@@ -113,10 +134,10 @@ export async function GET(
         )
 
         const isPaidByParticipant = expense.paidById === participant.id
-        const participantAmountShare = +(
-          ((expense.amount / totalShares) * participantShare) /
-          100
-        ).toFixed(2)
+        const participantAmountShare = +formatAmountAsDecimal(
+          (expense.amount / totalShares) * participantShare,
+          currency,
+        )
 
         return [
           participant.name,

@@ -1,0 +1,451 @@
+{
+  "Homepage": {
+    "title": "שתף <strong>הוצאות</strong> עם <strong>חברים ומשפחה</strong>",
+    "description": "ברוך הבא למופע החדש שלך של <strong>Spliit</strong>!",
+    "button": {
+      "groups": "עבור לקבוצות",
+      "github": "GitHub"
+    }
+  },
+  "Header": {
+    "groups": "קבוצות"
+  },
+  "Footer": {
+    "madeIn": "נבנה במונטריאול, קוויבק 🇨🇦",
+    "builtBy": "נבנה על ידי <author>סבסטיאן קסטיאל</author> ו<source>תורמים</source>"
+  },
+  "Expenses": {
+    "title": "הוצאות",
+    "description": "הנה ההוצאות שיצרת עבור הקבוצה שלך.",
+    "createFirst": "צור את הראשונה",
+    "create": "צור הוצאה",
+    "noExpenses": "הקבוצה שלך עדיין לא מכילה הוצאות.",
+    "export": "ייצא",
+    "exportJson": "ייצא ל-JSON",
+    "exportCsv": "ייצא ל-CSV",
+    "searchPlaceholder": "חפש הוצאה…",
+    "ActiveUserModal": {
+      "title": "מי אתה?",
+      "description": "ספר לנו איזה משתתף אתה כדי לאפשר לנו להתאים אישית את אופן הצגת המידע.",
+      "nobody": "אני לא רוצה לבחור אף אחד",
+      "save": "שמור שינויים",
+      "footer": "הגדרה זו ניתנת לשינוי מאוחר יותר בהגדרות הקבוצה."
+    },
+    "Groups": {
+      "upcoming": "מתקרבות",
+      "thisWeek": "השבוע",
+      "earlierThisMonth": "מוקדם יותר החודש",
+      "lastMonth": "חודש שעבר",
+      "earlierThisYear": "מוקדם יותר השנה",
+      "lastYear": "שנה שעברה",
+      "older": "ישנות יותר"
+    }
+  },
+  "ExpenseCard": {
+    "paidBy": "שולם על ידי <strong>{paidBy}</strong> עבור <paidFor></paidFor>",
+    "everyone": "כולם",
+    "receivedBy": "התקבל על ידי <strong>{paidBy}</strong> עבור <paidFor></paidFor>",
+    "yourBalance": "היתרה שלך:",
+    "notInvolved": "אתה לא מעורב"
+  },
+  "Groups": {
+    "myGroups": "הקבוצות שלי",
+    "create": "צור",
+    "loadingRecent": "טוען קבוצות אחרונות…",
+    "NoRecent": {
+      "description": "לא ביקרת באף קבוצה לאחרונה.",
+      "create": "צור אחת",
+      "orAsk": "או בקש מחבר לשלוח לך את הקישור לקבוצה קיימת."
+    },
+    "recent": "קבוצות אחרונות",
+    "starred": "קבוצות מסומנות בכוכב",
+    "archived": "קבוצות בארכיון",
+    "archive": "העברת קבוצה לארכיון",
+    "unarchive": "הוצאת קבוצה מארכיון",
+    "removeRecent": "הסר מקבוצות אחרונות",
+    "RecentRemovedToast": {
+      "title": "הקבוצה הוסרה",
+      "description": "הקבוצה הוסרה מרשימת הקבוצות האחרונות שלך.",
+      "undoAlt": "בטל הסרת קבוצה",
+      "undo": "בטל"
+    },
+    "AddByURL": {
+      "button": "הוסף באמצעות קישור",
+      "title": "הוסף קבוצה באמצעות קישור",
+      "description": "אם שיתפו איתך קבוצה, תוכל להדביק את הקישור שלה כאן כדי להוסיף אותה לרשימה שלך.",
+      "error": "אופס, אנחנו לא מצליחים למצוא את הקבוצה מכתובת ה-URL שסיפקת…"
+    },
+    "NotFound": {
+      "text": "קבוצה זו אינה קיימת.",
+      "link": "עבור לקבוצות שביקרת בהן לאחרונה"
+    }
+  },
+  "GroupForm": {
+    "title": "מידע על הקבוצה",
+    "NameField": {
+      "label": "שם הקבוצה",
+      "placeholder": "חופשות קיץ",
+      "description": "הזן שם לקבוצה שלך."
+    },
+    "InformationField": {
+      "label": "מידע על הקבוצה",
+      "placeholder": "איזה מידע רלוונטי למשתתפי הקבוצה?"
+    },
+    "CurrencyField": {
+      "label": "סמל מטבע",
+      "placeholder": "$, €, ₪…",
+      "description": "נשתמש בו כדי להציג סכומים."
+    },
+    "CurrencyCodeField": {
+      "label": "מטבע ראשי",
+      "createDescription": "כל הסכומים והיתרות יהיו במטבע זה.",
+      "editDescription": "כל הסכומים והיתרות יהיו במטבע זה. שינוי של זה לא ימיר הוצאות שכבר הוזנו, אלא אם כן למטבע יש \"יחידות משנה\" שונות מהנוכחיות (למשל, שינוי מדולר אמריקאי לין יפני)",
+      "customOption": "מותאם אישית"
+    },
+    "Participants": {
+      "title": "משתתפים",
+      "description": "הזן את השם עבור כל משתתף.",
+      "protectedParticipant": "משתתף זה לקח חלק בהוצאות, ולא ניתן להסירו.",
+      "new": "חדש",
+      "add": "הוסף משתתף",
+      "John": "אבי",
+      "Jane": "ריקי",
+      "Jack": "ג'קי"
+    },
+    "Settings": {
+      "title": "הגדרות מקומיות",
+      "description": "הגדרות אלה מוגדרות לכל מכשיר בנפרד, ומשמשות להתאמה אישית של החוויה שלך.",
+      "ActiveUserField": {
+        "label": "משתמש פעיל",
+        "placeholder": "בחר משתתף",
+        "none": "אף אחד",
+        "description": "משתמש המשמש כברירת מחדל לתשלום הוצאות."
+      },
+      "save": "שמור",
+      "saving": "שומר…",
+      "create": "צור",
+      "creating": "יוצר…",
+      "cancel": "ביטול"
+    }
+  },
+  "ExpenseForm": {
+    "Income": {
+      "create": "צור הכנסה",
+      "edit": "ערוך הכנסה",
+      "TitleField": {
+        "label": "כותרת הכנסה",
+        "placeholder": "מסעדה בערב יום שני",
+        "description": "הזן תיאור עבור ההכנסה."
+      },
+      "DateField": {
+        "label": "תאריך ההכנסה",
+        "description": "הזן את התאריך שבו התקבלה ההכנסה."
+      },
+      "currencyField": {
+        "label": "מטבע ההכנסה",
+        "description": "המטבע שבו התקבלה ההכנסה."
+      },
+      "categoryFieldDescription": "בחר את קטגוריית ההכנסה.",
+      "paidByField": {
+        "label": "ניתן על ידי",
+        "description": "בחר את המשתתף שהעביר את ההכנסה."
+      },
+      "paidFor": {
+        "title": "התקבל עבור",
+        "description": "בחר עבור מי התקבלה ההכנסה."
+      },
+      "splitModeDescription": "בחר כיצד לפצל את ההכנסה.",
+      "attachDescription": "ראה וצרף קבלות להכנסה."
+    },
+    "Expense": {
+      "create": "צור הוצאה",
+      "edit": "ערוך הוצאה",
+      "TitleField": {
+        "label": "כותרת הוצאה",
+        "placeholder": "מסעדה בערב יום שני",
+        "description": "הזן תיאור עבור ההוצאה."
+      },
+      "DateField": {
+        "label": "תאריך הוצאה",
+        "description": "הזן את התאריך בו שולמה ההוצאה."
+      },
+      "currencyField": {
+        "label": "מטבע ההוצאה",
+        "description": "המטבע שבו שולמה ההוצאה."
+      },
+      "categoryFieldDescription": "בחר את קטגוריית ההוצאה.",
+      "paidByField": {
+        "label": "שולם על ידי",
+        "placeholder": "בחר משתתף",
+        "description": "בחר את המשתתף ששילם את ההוצאה."
+      },
+      "recurrenceRule": {
+        "label": "חזרתיות הוצאה",
+        "description": "בחר כמה פעמים ההוצאה צריכה לחזור.",
+        "none": "ללא",
+        "daily": "יומית",
+        "weekly": "שבועית",
+        "monthly": "חודשית"
+      },
+      "paidFor": {
+        "title": "שולם עבור",
+        "description": "בחר עבור מי שולמה ההוצאה."
+      },
+      "splitModeDescription": "בחר כיצד לפצל את ההוצאה.",
+      "attachDescription": "ראה וצרף קבלות להוצאה."
+    },
+    "amountField": {
+      "label": "סכום"
+    },
+    "conversionUnavailable": "כדי להגדיר מטבע שונה לכל הוצאה ולהמיר סכומים, בחר מטבע לא מותאם אישית לקבוצה.",
+    "originalAmountField": {
+      "label": "סכום להמרה"
+    },
+    "conversionRateField": {
+      "useApi": "השתמש בשערים מ-Frankfurter",
+      "useCustom": "השתמש בשער מותאם אישית",
+      "label": "שער חליפין"
+    },
+    "conversionRateState": {
+      "loading": "משיג שערי חליפין…",
+      "refresh": "רענן",
+      "customRate": "משתמש בשער מותאם אישית",
+      "success": "הושגו שערים:",
+      "error": "אופס, לא הצלחנו לקבל את השערים העדכניים ביותר.",
+      "staleRate": "משתמש בשער:",
+      "noRate": "הזן שער מותאם אישית למטה.",
+      "currencyNotFound": "אופס, ל-Frankfurter אין את השער עבור מטבע זה ביום הזה.",
+      "noDate": "הזן את תאריך ההוצאה כדי לקבל את שער החליפין.",
+      "dateMismatch": "שערים מתאריך: {date}"
+    },
+    "isReimbursementField": {
+      "label": "זהו החזר"
+    },
+    "categoryField": {
+      "label": "קטגוריה"
+    },
+    "notesField": {
+      "label": "הערות"
+    },
+    "selectNone": "הסר בחירה",
+    "selectAll": "בחר הכל",
+    "shares": "חלק(י) השתתפות",
+    "advancedOptions": "אפשרויות פיצול מתקדמות…",
+    "SplitModeField": {
+      "label": "מצב פיצול",
+      "evenly": "באופן שווה",
+      "byShares": "לא שווה – לפי חלקי השתתפות",
+      "byPercentage": "לא שווה – לפי אחוזים",
+      "byAmount": "לא שווה – לפי סכום",
+      "saveAsDefault": "שמור כברירת מחדל עבור אפשרויות פיצול"
+    },
+    "DeletePopup": {
+      "label": "מחק",
+      "title": "למחוק הוצאה זו?",
+      "description": "האם אתה באמת רוצה למחוק הוצאה זו? פעולה זו בלתי הפיכה.",
+      "yes": "כן",
+      "cancel": "ביטול"
+    },
+    "attachDocuments": "צרף מסמכים",
+    "create": "צור",
+    "creating": "יוצר…",
+    "save": "שמור",
+    "saving": "שומר…",
+    "cancel": "ביטול",
+    "reimbursement": "החזר"
+  },
+  "ExpenseDocumentsInput": {
+    "TooBigToast": {
+      "title": "הקובץ גדול מדי",
+      "description": "גודל הקובץ המקסימלי שאתה יכול להעלות הוא {maxSize}. הקובץ שלך הוא {size}."
+    },
+    "ErrorToast": {
+      "title": "שגיאה בעת העלאת מסמך",
+      "description": "משהו השתבש בעת העלאת המסמך. נסה שוב מאוחר יותר או בחר קובץ אחר.",
+      "retry": "נסה שוב"
+    }
+  },
+  "CreateFromReceipt": {
+    "Dialog": {
+      "triggerTitle": "צור הוצאה מקבלה",
+      "title": "צור מקבלה",
+      "description": "חלץ את מידע ההוצאה מתמונת קבלה.",
+      "body": "העלה תמונה של קבלה, ואנחנו נסרוק אותה כדי לחלץ את מידע ההוצאה אם נוכל.",
+      "selectImage": "בחר תמונה…",
+      "titleLabel": "כותרת:",
+      "categoryLabel": "קטגוריה:",
+      "amountLabel": "סכום:",
+      "dateLabel": "תאריך:",
+      "editNext": "תוכל לערוך את מידע ההוצאה מאוחר יותר.",
+      "continue": "המשך"
+    },
+    "unknown": "לא ידוע",
+    "TooBigToast": {
+      "title": "הקובץ גדול מדי",
+      "description": "גודל הקובץ המקסימלי שאתה יכול להעלות הוא {maxSize}. הקובץ שלך הוא {size}."
+    },
+    "ErrorToast": {
+      "title": "שגיאה בעת העלאת מסמך",
+      "description": "משהו השתבש בעת העלאת המסמך. נסה שוב מאוחר יותר או בחר קובץ אחר.",
+      "retry": "נסה שוב"
+    }
+  },
+  "Balances": {
+    "title": "יתרות",
+    "description": "זה הסכום שכל משתתף שילם או קיבל.",
+    "Reimbursements": {
+      "title": "החזרים מוצעים",
+      "description": "הנה הצעות להחזרים אופטימליים בין משתתפים.",
+      "noImbursements": "נראה שהקבוצה שלך לא צריכה החזרים 😁",
+      "owes": "<strong>{from}</strong> חייב ל<strong>{to}</strong>",
+      "markAsPaid": "סמן כשולם"
+    }
+  },
+  "Stats": {
+    "title": "סטטיסטיקות",
+    "Totals": {
+      "title": "סיכומים",
+      "description": "סיכום הוצאות של כל הקבוצה.",
+      "groupSpendings": "סך הוצאות הקבוצה",
+      "groupEarnings": "סך הכנסות הקבוצה",
+      "yourSpendings": "סך ההוצאות שלך",
+      "yourEarnings": "סך ההכנסות שלך",
+      "yourShare": "סך החלק שלך"
+    }
+  },
+  "Activity": {
+    "title": "פעילות",
+    "description": "סקירה של כל הפעילות בקבוצה זו.",
+    "noActivity": "עדיין אין פעילות בקבוצה שלך.",
+    "someone": "מישהו",
+    "settingsModified": "הגדרות הקבוצה שונו על ידי <strong>{participant}</strong>.",
+    "expenseCreated": "הוצאה <em>{expense}</em> נוצרה על ידי <strong>{participant}</strong>.",
+    "expenseUpdated": "הוצאה <em>{expense}</em> עודכנה על ידי <strong>{participant}</strong>.",
+    "expenseDeleted": "הוצאה <em>{expense}</em> נמחקה על ידי <strong>{participant}</strong>.",
+    "Groups": {
+      "today": "היום",
+      "yesterday": "אתמול",
+      "earlierThisWeek": "מוקדם יותר השבוע",
+      "lastWeek": "שבוע שעבר",
+      "earlierThisMonth": "מוקדם יותר החודש",
+      "lastMonth": "חודש שעבר",
+      "earlierThisYear": "מוקדם יותר השנה",
+      "lastYear": "שנה שעברה",
+      "older": "ישנות יותר"
+    }
+  },
+  "Information": {
+    "title": "מידע",
+    "description": "השתמש במקום זה כדי להוסיף כל מידע שיכול להיות רלוונטי למשתתפי הקבוצה.",
+    "empty": "עדיין אין מידע על הקבוצה."
+  },
+  "Settings": {
+    "title": "הגדרות"
+  },
+  "Share": {
+    "title": "שתף",
+    "description": "כדי שמשתתפים אחרים יראו את הקבוצה ויוסיפו הוצאות, שתף איתם את הקישור שלה.",
+    "warning": "אזהרה!",
+    "warningHelp": "כל אדם עם קישור לקבוצה יוכל לראות ולערוך הוצאות. שתף בזהירות!"
+  },
+  "SchemaErrors": {
+    "min1": "הזן לפחות תו אחד.",
+    "min2": "הזן לפחות שני תווים.",
+    "max5": "הזן חמישה תווים לכל היותר.",
+    "max50": "הזן 50 תווים לכל היותר.",
+    "duplicateParticipantName": "קיים משתתף אחר בעל שם זהה.",
+    "titleRequired": "נא להזין כותרת.",
+    "invalidNumber": "מספר לא תקין.",
+    "amountRequired": "עליך להזין סכום.",
+    "amountNotZero": "הסכום לא יכול להיות אפס.",
+    "amountTenMillion": "הסכום חייב להיות נמוך מ-10,000,000.",
+    "ratePositive": "השער חייב להיות גדול מאפס באופן קפדני.",
+    "paidByRequired": "עליך לבחור משתתף.",
+    "paidForMin1": "ההוצאה חייבת להיות משולמת עבור לפחות משתתף אחד.",
+    "noZeroShares": "כל חלקי ההשתתפות חייבים להיות גבוהים מ-0.",
+    "amountSum": "סיכום הסכומים חייב להיות שווה לסכום ההוצאה.",
+    "percentageSum": "סיכום האחוזים חייב להיות שווה ל-100."
+  },
+  "Categories": {
+    "search": "חפש קטגוריה...",
+    "noCategory": "לא נמצאה קטגוריה.",
+    "Uncategorized": {
+      "heading": "לא מסווג",
+      "General": "כללי",
+      "Payment": "תשלום"
+    },
+    "Entertainment": {
+      "heading": "בידור",
+      "Entertainment": "בידור",
+      "Games": "משחקים",
+      "Movies": "סרטים",
+      "Music": "מוזיקה",
+      "Sports": "ספורט"
+    },
+    "Food and Drink": {
+      "heading": "אוכל ומשקאות",
+      "Food and Drink": "אוכל ומשקאות",
+      "Dining Out": "אכילה בחוץ",
+      "Groceries": "מצרכים",
+      "Liquor": "משקאות חריפים"
+    },
+    "Home": {
+      "heading": "בית",
+      "Home": "בית",
+      "Electronics": "אלקטרוניקה",
+      "Furniture": "ריהוט",
+      "Household Supplies": "ציוד ביתי",
+      "Maintenance": "תחזוקה",
+      "Mortgage": "משכנתא",
+      "Pets": "חיות מחמד",
+      "Rent": "שכירות",
+      "Services": "שירות(ים)"
+    },
+    "Life": {
+      "heading": "חיים",
+      "Childcare": "טיפול בילדים",
+      "Clothing": "ביגוד",
+      "Donation": "תרומה",
+      "Education": "חינוך",
+      "Gifts": "מתנות",
+      "Insurance": "ביטוח",
+      "Medical Expenses": "הוצאות רפואיות",
+      "Taxes": "מסים"
+    },
+    "Transportation": {
+      "heading": "תחבורה",
+      "Transportation": "תחבורה",
+      "Bicycle": "אופניים",
+      "Bus/Train": "אוטובוס/רכבת",
+      "Car": "רכב",
+      "Gas/Fuel": "דלק/בנזין",
+      "Hotel": "מלון",
+      "Parking": "חניה",
+      "Plane": "מטוס",
+      "Taxi": "מונית"
+    },
+    "Utilities": {
+      "heading": "שירותים",
+      "Utilities": "שירותים",
+      "Cleaning": "ניקיון",
+      "Electricity": "חשמל",
+      "Heat/Gas": "חימום/גז",
+      "Trash": "פסולת",
+      "TV/Phone/Internet": "תקשורת",
+      "Water": "מים"
+    }
+  },
+  "Currencies": {
+    "search": "חפש מטבע...",
+    "noCurrency": "לא נמצאו מטבעות.",
+    "custom": {
+      "heading": "מותאם אישית"
+    },
+    "common": {
+      "heading": "הנפוצים ביותר"
+    },
+    "other": {
+      "heading": "מטבעות אחרים"
+    }
+  }
+}

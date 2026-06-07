@@ -1,0 +1,127 @@
+{
+  "Homepage": {
+    "title": "Partilha <strong>Despesas</strong> com <strong>Amigos e Família</strong>",
+    "description": "Bem-vindo/a à tua nova instância <strong>Spliit</strong> !",
+    "button": {
+      "groups": "Ir para grupos",
+      "github": "GitHub"
+    }
+  },
+  "Header": {
+    "groups": "Grupos"
+  },
+  "Footer": {
+    "madeIn": "Feito em Montréal, Québec 🇨🇦",
+    "builtBy": "Construído por <author>Sebastien Castiel</author> e <source>contribuidores</source>"
+  },
+  "Expenses": {
+    "title": "Despesas",
+    "description": "Aqui estão as despesas que criaste para o teu grupo.",
+    "create": "Criar despesa",
+    "createFirst": "Criar a primeira",
+    "noExpenses": "O teu grupo ainda não tem nenhuma despesa.",
+    "export": "Exportar",
+    "exportJson": "Exportar para JSON",
+    "exportCsv": "Exportar para CSV",
+    "searchPlaceholder": "Pesquisar uma despesa…",
+    "ActiveUserModal": {
+      "title": "Quem és?",
+      "description": "Diz-nos que participante és para nos permitir customizar como a informação é apresentada.",
+      "nobody": "Não quero selecionar ninguém",
+      "save": "Guardar alterações",
+      "footer": "Esta definição pode ser alterada posteriormente nas definições do grupo."
+    },
+    "Groups": {
+      "upcoming": "Em breve",
+      "thisWeek": "Esta semana",
+      "earlierThisMonth": "No início deste mês",
+      "lastMonth": "Mês passado",
+      "earlierThisYear": "No início deste ano",
+      "lastYear": "Ano passado",
+      "older": "Mais antigos"
+    }
+  },
+  "ExpenseCard": {
+    "paidBy": "Pago por <strong>{paidBy}</strong> para <paidFor></paidFor>",
+    "everyone": "todos",
+    "receivedBy": "Recebido por <strong>{paidBy}</strong> para <paidFor></paidFor>",
+    "yourBalance": "O teu saldo:",
+    "notInvolved": "Não participaste"
+  },
+  "Groups": {
+    "myGroups": "Os meus grupos",
+    "create": "Criar",
+    "loadingRecent": "A carregar grupos recentes…",
+    "NoRecent": {
+      "description": "Não visitaste nenhum grupo recentemente.",
+      "create": "Criar um",
+      "orAsk": "ou pergunta a um amigo para te mandar o link de um já existente."
+    },
+    "recent": "Grupos recentes",
+    "starred": "Grupos favoritos",
+    "archived": "Grupos arquivados",
+    "archive": "Arquivar grupo",
+    "unarchive": "Desarquivar grupo",
+    "removeRecent": "Remover dos grupos recentes",
+    "RecentRemovedToast": {
+      "title": "O grupo foi removido",
+      "description": "O grupo foi removido da tua lista de grupos recentes.",
+      "undoAlt": "Desfazer remoção do grupo",
+      "undo": "Desfazer"
+    },
+    "AddByURL": {
+      "button": "Adicionar por URL",
+      "title": "Adicionar um grupo por URL",
+      "description": "Se um grupo foi partilhado contigo, podes colar o URL aqui para o adicionar à tua lista.",
+      "error": "Oops, não conseguimos encontrar o grupo pelo URL que indicaste…"
+    },
+    "NotFound": {
+      "text": "Este grupo não existe.",
+      "link": "Ir para os grupos visitados recentemente"
+    }
+  },
+  "GroupForm": {
+    "title": "Informações do grupo",
+    "NameField": {
+      "label": "Nome do grupo",
+      "placeholder": "Férias de verão",
+      "description": "Introduz um nome para o teu grupo."
+    },
+    "InformationField": {
+      "label": "Informações do grupo",
+      "placeholder": "Que informações são relevantes para os participantes do grupo?"
+    },
+    "CurrencyField": {
+      "label": "Símbolo da moeda",
+      "placeholder": "$, €, £…",
+      "description": "Utilizá-lo-emos para mostrar montantes."
+    },
+    "CurrencyCodeField": {
+      "label": "Moeda principal",
+      "createDescription": "Todos os montantes e saldos vão estar nesta moeda.",
+      "editDescription": "Todos os montantes e saldos vão estar nesta moeda. Ao alterares isto NÃO vão ser convertidas despesas já inseridas, excepto quando a moeda tem \"unidades monetárias menores\" diferentes da atual (ex. alterar de Dólar Americano para Yen Japonês)",
+      "customOption": "Customizado"
+    },
+    "Participants": {
+      "title": "Participantes",
+      "description": "Introduz o nome de cada participante.",
+      "protectedParticipant": "Este participante faz parte de despesas e não pode ser removido.",
+      "new": "Novo",
+      "add": "Adicionar participante",
+      "John": "João",
+      "Jane": "Joana",
+      "Jack": "Joaquim"
+    },
+    "Settings": {
+      "title": "Definições locais",
+      "description": "Estas definições são definidas por dispositivo, e são utilizadas para customizar a tua experiência.",
+      "ActiveUserField": {
+        "label": "Utilizador ativo",
+        "placeholder": "Selecionar um participante",
+        "none": "Nenhum",
+        "description": "Utilizador usado por defeito para pagar despesas."
+      },
+      "save": "Gravar"
+    }
+  }
+}

@@ -11,6 +11,8 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
+  DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { ToastAction } from '@/components/ui/toast'
@@ -157,6 +159,8 @@ export function DocumentThumbnail({
         </Button>
       </DialogTrigger>
       <DialogContent className="p-4 w-[100vw] max-w-[100vw] h-[100dvh] max-h-[100dvh] sm:max-w-[calc(100vw-32px)] sm:max-h-[calc(100dvh-32px)] [&>:last-child]:hidden">
+        <DialogTitle className="sr-only">Document</DialogTitle>
+        <DialogDescription className="sr-only"></DialogDescription>
         <div className="flex flex-col gap-4">
           <div className="flex justify-end">
             <Button

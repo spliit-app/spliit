@@ -30,14 +30,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Locale } from '@/i18n/request'
 import { getGroup } from '@/lib/api'
+import { defaultCurrencyList, getCurrency } from '@/lib/currency'
 import { GroupFormValues, groupFormSchema } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Save, Trash2 } from 'lucide-react'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
+import { CurrencySelector } from './currency-selector'
 import { Textarea } from './ui/textarea'
 
 export type Props = {
@@ -54,6 +57,7 @@ export function GroupForm({
   onSubmit,
   protectedParticipantIds = [],
 }: Props) {
+  const locale = useLocale()
   const t = useTranslations('GroupForm')
   const form = useForm<GroupFormValues>({
     resolver: zodResolver(groupFormSchema),
@@ -61,13 +65,15 @@ export function GroupForm({
       ? {
           name: group.name,
           information: group.information ?? '',
-          currency: group.currency,
+          currency: group.currency ?? '',
+          currencyCode: group.currencyCode ?? '',
           participants: group.participants,
         }
       : {
           name: '',
           information: '',
-          currency: process.env.NEXT_PUBLIC_DEFAULT_CURRENCY_SYMBOL || '',
+          currency: '',
+          currencyCode: process.env.NEXT_PUBLIC_DEFAULT_CURRENCY_CODE || 'USD', // TODO: If NEXT_PUBLIC_DEFAULT_CURRENCY_CODE, is not set, determine the default currency code based on locale
           participants: [
             { name: t('Participants.John') },
             { name: t('Participants.Jane') },
@@ -145,9 +151,48 @@ export function GroupForm({
 
             <FormField
               control={form.control}
-              name="currency"
+              name="currencyCode"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>{t('CurrencyCodeField.label')}</FormLabel>
+                  <CurrencySelector
+                    currencies={defaultCurrencyList(
+                      locale as Locale,
+                      t('CurrencyCodeField.customOption'),
+                    )}
+                    defaultValue={form.watch(field.name) ?? ''}
+                    onValueChange={(newCurrency) => {
+                      field.onChange(newCurrency)
+                      const currency = getCurrency(newCurrency)
+                      if (
+                        currency.code.length ||
+                        form.getFieldState('currency').isTouched
+                      )
+                        form.setValue('currency', currency.symbol, {
+                          shouldValidate: true,
+                          shouldTouch: true,
+                          shouldDirty: true,
+                        })
+                    }}
+                    isLoading={false}
+                  />
+                  <FormDescription>
+                    {t(
+                      group
+                        ? 'CurrencyCodeField.editDescription'
+                        : 'CurrencyCodeField.createDescription',
+                    )}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="currency"
+              render={({ field }) => (
+                <FormItem hidden={!!form.watch('currencyCode')?.length}>
                   <FormLabel>{t('CurrencyField.label')}</FormLabel>
                   <FormControl>
                     <Input
