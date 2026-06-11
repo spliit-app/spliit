@@ -19,6 +19,7 @@ Spliit is a free and open source alternative to Splitwise. You can either use th
 - [x] Search for expenses in a group [(#51)](https://github.com/spliit-app/spliit/issues/51)
 - [x] Upload and attach images to expenses [(#63)](https://github.com/spliit-app/spliit/issues/63)
 - [x] Create expense by scanning a receipt [(#23)](https://github.com/spliit-app/spliit/issues/23)
+- [x] Import group and expenses from Tricount CSV export
 
 ### Possible incoming features
 
