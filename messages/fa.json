@@ -161,7 +161,8 @@
       "recurrenceRule": {
         "daily": "روزانه",
         "weekly": "هفتگی",
-        "monthly": "ماهانه"
+        "monthly": "ماهانه",
+        "label": "تناوب هزینه"
       },
       "paidFor": {
         "title": "پرداخت شده برای"
@@ -177,7 +178,157 @@
     },
     "DeletePopup": {
       "label": "حذف",
-      "title": "این هزینه را حذف کنیم؟"
+      "title": "این هزینه را حذف کنیم؟",
+      "yes": "آره",
+      "cancel": "لغو"
     }
+  },
+  "Currencies": {
+    "noCurrency": "هیچ واحد پولی ای پیدا نشد.",
+    "custom": {
+      "heading": "ادامه"
+    },
+    "common": {
+      "heading": "رایج‌ترین"
+    },
+    "other": {
+      "heading": "واحد های پولی دیگر"
+    },
+    "search": "جستجو برای واحد پولی…"
+  },
+  "CreateFromReceipt": {
+    "TooBigToast": {
+      "title": "حجم فایل زیادی بزرگ است",
+      "description": "حداکثر حجم فایل قابل آپلود {maxSize} است. حجم فایل شما {size} است."
+    },
+    "ErrorToast": {
+      "title": "خطا در آپلود فایل",
+      "description": "هنگام آپلود رسید خطایی پیش آمد. لطفاً بعداً دوباره امتحان کنید یا فایل دیگری را انتخاب کنید.",
+      "retry": "تلاش مجدد"
+    }
+  },
+  "Balances": {
+    "title": "تراز ها",
+    "description": "این مقدار پولی است که هر عضو پرداخت کرده یا به او پرداخت شده.",
+    "Reimbursements": {
+      "title": "بازپرداخت‌های پیشنهادی",
+      "description": "اینجا پیشنهاداتی برای بازپرداخت‌های با کمترین تعداد تراکنش بین اعضا داده شده است.",
+      "noImbursements": "به نظر می‌آید گروه شما نیازی به بازپرداخت ندارد 😁",
+      "owes": "<strong>{from}</strong> به <strong>{to}</strong> بدهکار است",
+      "markAsPaid": "تایید تسویه حساب"
+    }
+  },
+  "Stats": {
+    "title": "‍آمار‌ها",
+    "Totals": {
+      "title": "مجموع",
+      "description": "خلاصه هزینه‌های کل گروه.",
+      "groupSpendings": "مجموع هزینه های کل گروه",
+      "groupEarnings": "مجموع درآمد های کل گروه",
+      "yourSpendings": "هزینه های شما",
+      "yourEarnings": "درآمد های شما",
+      "yourShare": "مجموع سهم شما"
+    }
+  },
+  "Activity": {
+    "title": "فعالیت‌ها",
+    "Groups": {
+      "earlierThisMonth": "اوایل این ماه",
+      "lastMonth": "ماه گذشته",
+      "earlierThisYear": "اوایل امسال",
+      "lastYear": "سال گذشته",
+      "older": "قدیمی تر",
+      "today": "امروز",
+      "yesterday": "دیروز",
+      "earlierThisWeek": "اوایل این هفته",
+      "lastWeek": "هفته گذشته"
+    }
+  },
+  "Categories": {
+    "Transportation": {
+      "Bus/Train": "اتوبوس / قطار",
+      "Car": "ماشین",
+      "Gas/Fuel": "بنرین/سوخت",
+      "Hotel": "هتل",
+      "Parking": "پارکینگ",
+      "Plane": "هواپیما",
+      "Taxi": "تاکسی",
+      "heading": "حمل و نقل",
+      "Transportation": "حمل و نقل",
+      "Bicycle": "دوچرخه"
+    },
+    "Utilities": {
+      "heading": "قبوض",
+      "Utilities": "قبوض",
+      "Cleaning": "نظافت",
+      "Electricity": "برق",
+      "Heat/Gas": "گرمایش/گاز",
+      "Trash": "دفع زباله",
+      "TV/Phone/Internet": "تلویزیون/تلفن/اینترنت",
+      "Water": "آب"
+    },
+    "Life": {
+      "Taxes": "مالیات",
+      "heading": "زندگی",
+      "Childcare": "مراقبت از کودک",
+      "Clothing": "پوشاک",
+      "Donation": "صدقه/کمک مالی",
+      "Education": "تحصیلات",
+      "Gifts": "هدایا",
+      "Insurance": "بیمه",
+      "Medical Expenses": "هزینه های درمانی"
+    },
+    "Home": {
+      "Rent": "اجاره",
+      "Services": "خدمات",
+      "heading": "خانه",
+      "Home": "خانه",
+      "Electronics": "لوازم الکترونیکی",
+      "Furniture": "مبلمان",
+      "Household Supplies": "لوازم خانگی",
+      "Maintenance": "تعمیر و نگهداری",
+      "Mortgage": "قسط خانه",
+      "Pets": "حیوانات خانگی"
+    },
+    "Food and Drink": {
+      "Groceries": "خواربار (کالاهای مصرفی)",
+      "Liquor": "نوشیدنی های الکلی",
+      "heading": "غذا و نوشیدنی",
+      "Food and Drink": "غذا و نوشیدنی",
+      "Dining Out": "رستوران و کافه"
+    },
+    "Uncategorized": {
+      "Payment": "پرداخت",
+      "heading": "بدون دسته‌بندی",
+      "General": "عمومی"
+    },
+    "Entertainment": {
+      "heading": "سرگرمی",
+      "Entertainment": "سرگرمی",
+      "Games": "بازی‌ها",
+      "Movies": "فیلم‌ها",
+      "Music": "موسیقی",
+      "Sports": "ورزش‌ها"
+    },
+    "search": "جستجوی دسته‌بندی…",
+    "noCategory": "دسته‌بندی ای پیدا نشد."
+  },
+  "SchemaErrors": {
+    "ratePositive": "نرخ باید حتماً بیشتر از صفر باشد.",
+    "paidByRequired": "حداقل یک عضو انتخاب کنید.",
+    "paidForMin1": "هزینه باید برای حداقل یک عضو پرداخت شود.",
+    "noZeroShares": "تمام سهم‌ها باید بیشتر از ۰ باشند.",
+    "amountSum": "مجموع سهم‌ها باید برابر کل هزینه باشد.",
+    "percentageSum": "مجموع درصدها باید برابر ۱۰۰ باشد.",
+    "min1": "حداقل یک حرف وارد کنید.",
+    "min2": "حداقل ۲ حرف وارد کنید.",
+    "max5": "حداکثر ۵ حرف وارد کنید.(من‌جمله فاصله)",
+    "max50": "حداکثر ۵۰ حرف وارد کنید.(من‌جمله فاصله)",
+    "duplicateParticipantName": "یکی دیگر از اعضا این نام را دارد.",
+    "titleRequired": "لطفا یک عنوان وارد کنید.",
+    "invalidNumber": "شماره نامعتبر.",
+    "amountRequired": "باید یک مقدار وارد کنید.",
+    "amountNotZero": "مقدار نباید صفر باشد.",
+    "amountTenMillion": "این رقم باید کمتر از ۱۰ میلیون باشد."
   }
 }
