@@ -246,8 +246,13 @@
       "currencyNotFound": "抱歉，Frankfurter无法为此货币提供此日期的汇率。",
       "noDate": "请输入交易发生日期来获取当天的汇率。",
       "refresh": "刷新",
-      "customRate": "使用自定义汇率"
-    }
+      "customRate": "使用自定义汇率",
+      "loading": "正在获取兑换汇率…",
+      "success": "获取到的汇率：",
+      "staleRate": "使用中的汇率：",
+      "dateMismatch": "汇率日期：{date}"
+    },
+    "conversionUnavailable": "如需按支出单独设置货币并换算金额，请先将群组货币设为非自定义货币。"
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
