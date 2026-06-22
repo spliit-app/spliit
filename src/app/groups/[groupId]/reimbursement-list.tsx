@@ -22,33 +22,45 @@ export function ReimbursementList({
   const locale = useLocale()
   const t = useTranslations('Balances.Reimbursements')
   if (reimbursements.length === 0) {
-    return <p className="text-sm pb-6">{t('noImbursements')}</p>
+    return (
+      <p className="text-sm pb-6" data-testid="no-reimbursements">
+        {t('noImbursements')}
+      </p>
+    )
   }
 
   const getParticipant = (id: string) => participants.find((p) => p.id === id)
   return (
-    <div className="text-sm">
-      {reimbursements.map((reimbursement, index) => (
-        <div className="py-4 flex justify-between" key={index}>
-          <div className="flex flex-col gap-1 items-start sm:flex-row sm:items-baseline sm:gap-4">
-            <div>
-              {t.rich('owes', {
-                from: getParticipant(reimbursement.from)?.name ?? '',
-                to: getParticipant(reimbursement.to)?.name ?? '',
-                strong: (chunks) => <strong>{chunks}</strong>,
-              })}
+    <div className="text-sm" data-testid="reimbursements-list">
+      {reimbursements.map((reimbursement) => {
+        const fromName = getParticipant(reimbursement.from)?.name ?? ''
+        const toName = getParticipant(reimbursement.to)?.name ?? ''
+        return (
+          <div
+            className="py-4 flex justify-between"
+            key={`${reimbursement.from}-${reimbursement.to}`}
+            data-testid={`reimbursement-row-${fromName}-${toName}`}
+          >
+            <div className="flex flex-col gap-1 items-start sm:flex-row sm:items-baseline sm:gap-4">
+              <div>
+                {t.rich('owes', {
+                  from: fromName,
+                  to: toName,
+                  strong: (chunks) => <strong>{chunks}</strong>,
+                })}
+              </div>
+              <Button variant="link" asChild className="-mx-4 -my-3">
+                <Link
+                  href={`/groups/${groupId}/expenses/create?reimbursement=yes&from=${reimbursement.from}&to=${reimbursement.to}&amount=${reimbursement.amount}`}
+                >
+                  {t('markAsPaid')}
+                </Link>
+              </Button>
             </div>
-            <Button variant="link" asChild className="-mx-4 -my-3">
-              <Link
-                href={`/groups/${groupId}/expenses/create?reimbursement=yes&from=${reimbursement.from}&to=${reimbursement.to}&amount=${reimbursement.amount}`}
-              >
-                {t('markAsPaid')}
-              </Link>
-            </Button>
+            <div>{formatCurrency(currency, reimbursement.amount, locale)}</div>
           </div>
-          <div>{formatCurrency(currency, reimbursement.amount, locale)}</div>
-        </div>
-      ))}
+        )
+      })}
     </div>
   )
 }

@@ -6,10 +6,11 @@ import {
   RecurrenceRule,
   RecurringExpenseLink,
 } from '@prisma/client'
-import { nanoid } from 'nanoid'
+import { calculateNextDate } from './recurring-expenses'
 
-export function randomId() {
-  return nanoid()
+export function randomId(size?: number) {
+  const id = crypto.randomUUID().replaceAll('-', '')
+  return size ? id.slice(0, size) : id
 }
 
 export async function createGroup(groupFormValues: GroupFormValues) {
@@ -380,8 +381,8 @@ export async function getGroupExpenseCount(groupId: string) {
 }
 
 export async function getExpense(groupId: string, expenseId: string) {
-  return prisma.expense.findUnique({
-    where: { id: expenseId },
+  return prisma.expense.findFirst({
+    where: { id: expenseId, groupId },
     include: {
       paidBy: true,
       paidFor: true,
@@ -437,7 +438,7 @@ export async function logActivity(
   })
 }
 
-async function createRecurringExpenses() {
+export async function createRecurringExpenses() {
   const localDate = new Date() // Current local date
   const utcDateFromLocal = new Date(
     Date.UTC(
@@ -569,10 +570,10 @@ async function createRecurringExpenses() {
   }
 }
 
-function createPayloadForNewRecurringExpenseLink(
+export function createPayloadForNewRecurringExpenseLink(
   recurrenceRule: RecurrenceRule,
   priorDateToNextRecurrence: Date,
-  groupId: String,
+  groupId: string,
 ): RecurringExpenseLink {
   const nextExpenseDate = calculateNextDate(
     recurrenceRule,
@@ -587,53 +588,4 @@ function createPayloadForNewRecurringExpenseLink(
   }
 
   return recurringExpenseLinkPayload as RecurringExpenseLink
-}
-
-// TODO: Modify this function to use a more comprehensive recurrence Rule library like rrule (https://github.com/jkbrzt/rrule)
-//
-// Current limitations:
-// - If a date is intended to be repeated monthly on the 29th, 30th or 31st, it will change to repeating on the smallest
-// date that the reccurence has encountered. Ex. If a recurrence is created for Jan 31st on 2025, the recurring expense
-// will be created for Feb 28th, March 28, etc. until it is cancelled or fixed
-function calculateNextDate(
-  recurrenceRule: RecurrenceRule,
-  priorDateToNextRecurrence: Date,
-): Date {
-  const nextDate = new Date(priorDateToNextRecurrence)
-  switch (recurrenceRule) {
-    case RecurrenceRule.DAILY:
-      nextDate.setUTCDate(nextDate.getUTCDate() + 1)
-      break
-    case RecurrenceRule.WEEKLY:
-      nextDate.setUTCDate(nextDate.getUTCDate() + 7)
-      break
-    case RecurrenceRule.MONTHLY:
-      const nextYear = nextDate.getUTCFullYear()
-      const nextMonth = nextDate.getUTCMonth() + 1
-      let nextDay = nextDate.getUTCDate()
-
-      // Reduce the next day until it is within the direct next month
-      while (!isDateInNextMonth(nextYear, nextMonth, nextDay)) {
-        nextDay -= 1
-      }
-      nextDate.setUTCMonth(nextMonth, nextDay)
-      break
-  }
-
-  return nextDate
-}
-
-function isDateInNextMonth(
-  utcYear: number,
-  utcMonth: number,
-  utcDate: number,
-): Boolean {
-  const testDate = new Date(Date.UTC(utcYear, utcMonth, utcDate))
-
-  // We're not concerned if the year or month changes. We only want to make sure that the date is our target date
-  if (testDate.getUTCDate() !== utcDate) {
-    return false
-  }
-
-  return true
 }

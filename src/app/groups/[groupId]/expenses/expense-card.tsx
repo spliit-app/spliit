@@ -63,6 +63,7 @@ export function ExpenseCard({
   return (
     <div
       key={expense.id}
+      data-testid={`expense-item-${expense.id}`}
       className={cn(
         'flex justify-between sm:mx-6 px-4 sm:rounded-lg sm:pr-2 sm:pl-4 py-4 text-sm cursor-pointer hover:bg-accent gap-1 items-stretch',
         expense.isReimbursement && 'italic',
@@ -76,7 +77,10 @@ export function ExpenseCard({
         className="w-4 h-4 mr-2 mt-0.5 text-muted-foreground"
       />
       <div className="flex-1">
-        <div className={cn('mb-1', expense.isReimbursement && 'italic')}>
+        <div
+          className={cn('mb-1', expense.isReimbursement && 'italic')}
+          data-testid="expense-title"
+        >
           {expense.title}
         </div>
         <div className="text-xs text-muted-foreground">
@@ -92,13 +96,17 @@ export function ExpenseCard({
             'tabular-nums whitespace-nowrap',
             expense.isReimbursement ? 'italic' : 'font-bold',
           )}
+          data-testid="expense-amount"
         >
           {formatCurrency(currency, expense.amount, locale)}
         </div>
         <div className="text-xs text-muted-foreground">
           <DocumentsCount count={expense._count.documents} />
         </div>
-        <div className="text-xs text-muted-foreground">
+        <div
+          className="text-xs text-muted-foreground"
+          data-testid="expense-date"
+        >
           {formatDateOnly(expense.expenseDate, locale, { dateStyle: 'medium' })}
         </div>
       </div>

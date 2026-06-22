@@ -8,23 +8,43 @@ on:
 
 jobs:
   checks:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
+    env:
+      POSTGRES_PRISMA_URL: postgresql://postgres:1234@localhost
+      POSTGRES_URL_NON_POOLING: postgresql://postgres:1234@localhost
+      NEXT_PUBLIC_DEFAULT_CURRENCY_CODE: USD
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: 1234
+          POSTGRES_DB: test_db
+        ports:
+          - 5432:5432
+        # Wait for postgres to be ready
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         with:
-          node-version: 18
+          node-version: 24
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci --ignore-scripts
+        run: npm ci
 
       - name: Generate Prisma client
-        run: npx prisma generate
+        run: npm run prisma-generate
 
       - name: Check TypeScript types
         run: npm run check-types
@@ -34,3 +54,12 @@ jobs:
 
       - name: Check Prettier formatting
         run: npm run check-formatting
+
+      - name: Run Prisma migrations
+        run: npm run prisma-migrate
+
+      - name: Run tests
+        run: npm run test
+
+      - name: Build
+        run: npm run build

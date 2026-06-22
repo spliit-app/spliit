@@ -5,10 +5,13 @@ import { formatCategoryForAIPrompt } from '@/lib/utils'
 import OpenAI from 'openai'
 import { ChatCompletionCreateParamsNonStreaming } from 'openai/resources/index.mjs'
 
-const openai = new OpenAI({ apiKey: env.OPENAI_API_KEY })
+let openai: OpenAI
 
 export async function extractExpenseInformationFromImage(imageUrl: string) {
   'use server'
+  if (!openai) {
+    openai = new OpenAI({ apiKey: env.OPENAI_API_KEY })
+  }
   const categories = await getCategories()
 
   const body: ChatCompletionCreateParamsNonStreaming = {

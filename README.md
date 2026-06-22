@@ -56,10 +56,11 @@ Here is the current state of translation:
 ## Run locally
 
 1. Clone the repository (or fork it if you intend to contribute)
-2. Start a PostgreSQL server. You can run `./scripts/start-local-db.sh` if you don’t have a server already.
-3. Copy the file `.env.example` as `.env`
-4. Run `npm install` to install dependencies. This will also apply database migrations and update Prisma Client.
-5. Run `npm run dev` to start the development server
+2. Run `npm install` to install dependencies.
+3. Start a PostgreSQL server with `./scripts/start-local-db.sh`.
+4. Copy the file `.env.example` as `.env`
+5. Run prisma migrations and generate the client with `npm run prisma-migrate` and `npm run prisma-generate`
+6. Run `npm run dev` to start the development server
 
 ## Run in a container
 

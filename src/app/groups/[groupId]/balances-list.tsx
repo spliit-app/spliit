@@ -17,7 +17,7 @@ export function BalancesList({ balances, participants, currency }: Props) {
   )
 
   return (
-    <div className="text-sm">
+    <div className="text-sm" data-testid="balances-list">
       {participants.map((participant) => {
         const balance = balances[participant.id]?.total ?? 0
         const isLeft = balance >= 0
@@ -25,6 +25,7 @@ export function BalancesList({ balances, participants, currency }: Props) {
           <div
             key={participant.id}
             className={cn('flex', isLeft || 'flex-row-reverse')}
+            data-testid={`balance-row-${participant.name}`}
           >
             <div className={cn('w-1/2 p-2', isLeft && 'text-right')}>
               {participant.name}

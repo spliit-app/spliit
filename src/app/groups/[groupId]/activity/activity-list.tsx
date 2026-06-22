@@ -109,7 +109,7 @@ export function ActivityList() {
   const groupedActivitiesByDate = getGroupedActivitiesByDate(activities)
 
   return activities.length > 0 ? (
-    <>
+    <div data-testid="activity-list">
       {Object.values(DATE_GROUPS).map((dateGroup: string) => {
         let groupActivities = groupedActivitiesByDate[dateGroup]
         if (!groupActivities || groupActivities.length === 0) return null
@@ -119,7 +119,7 @@ export function ActivityList() {
             : 'medium'
 
         return (
-          <div key={dateGroup}>
+          <div key={dateGroup} data-testid={`activity-date-group-${dateGroup}`}>
             <div
               className={
                 'text-muted-foreground text-xs py-1 font-semibold sticky top-16 bg-white dark:bg-[#1b1917]'
@@ -148,8 +148,10 @@ export function ActivityList() {
         )
       })}
       {hasMore && <ActivitiesLoading ref={loadingRef} />}
-    </>
+    </div>
   ) : (
-    <p className="text-sm py-6">{t('noActivity')}</p>
+    <p className="text-sm py-6" data-testid="activity-list-empty">
+      {t('noActivity')}
+    </p>
   )
 }

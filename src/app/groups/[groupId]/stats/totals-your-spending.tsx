@@ -17,7 +17,7 @@ export function TotalsYourSpendings({
     totalParticipantSpendings < 0 ? 'yourEarnings' : 'yourSpendings'
 
   return (
-    <div>
+    <div data-testid="your-total-spendings">
       <div className="text-muted-foreground">{t(balance)}</div>
 
       <div

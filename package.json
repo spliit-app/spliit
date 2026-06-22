@@ -10,10 +10,12 @@
     "check-types": "tsc --noEmit",
     "check-formatting": "prettier -c src",
     "prettier": "prettier -w src",
-    "postinstall": "prisma migrate deploy && prisma generate",
+    "prisma-migrate": "prisma migrate deploy",
+    "prisma-generate": "prisma generate",
     "build-image": "./scripts/build-image.sh",
     "start-container": "docker compose --env-file container.env up",
-    "test": "jest",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --testEnvironment=node ./src",
+    "test-e2e": "playwright test",
     "generate-currency-data": "ts-node -T ./src/scripts/generateCurrencyData.ts"
   },
   "dependencies": {
@@ -74,6 +76,8 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "jest-mock-extended": "^4.0.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.4.8",
     "@testing-library/react": "^16.3.0",

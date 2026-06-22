@@ -14,7 +14,7 @@ export function TotalsYourShare({
   const t = useTranslations('Stats.Totals')
 
   return (
-    <div>
+    <div data-testid="your-total-share">
       <div className="text-muted-foreground">{t('yourShare')}</div>
       <div
         className={cn(

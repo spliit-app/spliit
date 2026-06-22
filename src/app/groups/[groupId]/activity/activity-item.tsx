@@ -65,6 +65,7 @@ export function ActivityItem({
           router.push(`/groups/${groupId}/expenses/${activity.expenseId}/edit`)
         }
       }}
+      data-testid={`activity-item-${activity.id}`}
     >
       <div className="flex flex-col justify-between items-start">
         {dateStyle !== undefined && (
