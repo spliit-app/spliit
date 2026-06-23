@@ -4,10 +4,13 @@ import { getGroupExpensesAction } from '@/app/groups/[groupId]/expenses/expense-
 import { Button } from '@/components/ui/button'
 import { SearchBar } from '@/components/ui/search-bar'
 import { Skeleton } from '@/components/ui/skeleton'
+import {
+  getFixedMonthlyGroupedExpenses,
+  getRelativeGroupedExpenses,
+} from '@/lib/expense-date-groups'
 import { getCurrencyFromGroup } from '@/lib/utils'
 import { trpc } from '@/trpc/client'
-import dayjs, { type Dayjs } from 'dayjs'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { forwardRef, useEffect, useMemo, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
@@ -19,44 +22,6 @@ const PAGE_SIZE = 20
 type ExpensesType = NonNullable<
   Awaited<ReturnType<typeof getGroupExpensesAction>>
 >
-
-const EXPENSE_GROUPS = {
-  UPCOMING: 'upcoming',
-  THIS_WEEK: 'thisWeek',
-  EARLIER_THIS_MONTH: 'earlierThisMonth',
-  LAST_MONTH: 'lastMonth',
-  EARLIER_THIS_YEAR: 'earlierThisYear',
-  LAST_YEAR: 'lastYear',
-  OLDER: 'older',
-}
-
-function getExpenseGroup(date: Dayjs, today: Dayjs) {
-  if (today.isBefore(date)) {
-    return EXPENSE_GROUPS.UPCOMING
-  } else if (today.isSame(date, 'week')) {
-    return EXPENSE_GROUPS.THIS_WEEK
-  } else if (today.isSame(date, 'month')) {
-    return EXPENSE_GROUPS.EARLIER_THIS_MONTH
-  } else if (today.subtract(1, 'month').isSame(date, 'month')) {
-    return EXPENSE_GROUPS.LAST_MONTH
-  } else if (today.isSame(date, 'year')) {
-    return EXPENSE_GROUPS.EARLIER_THIS_YEAR
-  } else if (today.subtract(1, 'year').isSame(date, 'year')) {
-    return EXPENSE_GROUPS.LAST_YEAR
-  } else {
-    return EXPENSE_GROUPS.OLDER
-  }
-}
-
-function getGroupedExpensesByDate(expenses: ExpensesType) {
-  const today = dayjs()
-  return expenses.reduce((result: { [key: string]: ExpensesType }, expense) => {
-    const expenseGroup = getExpenseGroup(dayjs(expense.expenseDate), today)
-    result[expenseGroup] = result[expenseGroup] ?? []
-    result[expenseGroup].push(expense)
-    return result
-  }, {})
-}
 
 export function ExpenseList() {
   const { groupId, group } = useCurrentGroup()
@@ -114,6 +79,7 @@ const ExpenseListForSearch = ({
   }, [utils])
 
   const t = useTranslations('Expenses')
+  const locale = useLocale()
   const { ref: loadingRef, inView } = useInView()
 
   const {
@@ -133,9 +99,19 @@ const ExpenseListForSearch = ({
     if (inView && hasMore && !isLoading) fetchNextPage()
   }, [fetchNextPage, hasMore, inView, isLoading])
 
-  const groupedExpensesByDate = useMemo(
-    () => (expenses ? getGroupedExpensesByDate(expenses) : {}),
-    [expenses],
+  const expenseGroups = useMemo(
+    () =>
+      expenses
+        ? group?.fixedExpenseDateGroups
+          ? getFixedMonthlyGroupedExpenses(
+              expenses,
+              locale,
+              new Date(),
+              t('Groups.currentMonth'),
+            )
+          : getRelativeGroupedExpenses(expenses)
+        : [],
+    [expenses, group?.fixedExpenseDateGroups, locale, t],
   )
 
   if (isLoading) return <ExpensesLoading />
@@ -154,20 +130,17 @@ const ExpenseListForSearch = ({
 
   return (
     <>
-      {Object.values(EXPENSE_GROUPS).map((expenseGroup: string) => {
-        let groupExpenses = groupedExpensesByDate[expenseGroup]
-        if (!groupExpenses || groupExpenses.length === 0) return null
-
+      {expenseGroups.map((expenseGroup) => {
         return (
-          <div key={expenseGroup}>
+          <div key={expenseGroup.key}>
             <div
               className={
                 'text-muted-foreground text-xs pl-4 sm:pl-6 py-1 font-semibold sticky top-16 bg-white dark:bg-[#1b1917]'
               }
             >
-              {t(`Groups.${expenseGroup}`)}
+              {expenseGroup.label ?? t(`Groups.${expenseGroup.key}`)}
             </div>
-            {groupExpenses.map((expense) => (
+            {expenseGroup.expenses.map((expense) => (
               <ExpenseCard
                 key={expense.id}
                 expense={expense}

@@ -38,7 +38,8 @@
       "lastMonth": "Last month",
       "earlierThisYear": "Earlier this year",
       "lastYear": "Last year",
-      "older": "Older"
+      "older": "Older",
+      "currentMonth": "Current Month"
     }
   },
   "ExpenseCard": {
@@ -113,8 +114,12 @@
       "Jack": "Jack"
     },
     "Settings": {
-      "title": "Local settings",
-      "description": "These settings are set per-device, and are used to customize your experience.",
+      "title": "Settings",
+      "description": "Customize group-wide and per-device settings for this group.",
+      "FixedExpenseDateGroupsField": {
+        "label": "Group expenses by calendar month",
+        "description": "Useful for recurring monthly expenses for roommates and shared bills."
+      },
       "ActiveUserField": {
         "label": "Active user",
         "placeholder": "Select a participant",

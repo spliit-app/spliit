@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   Form,
   FormControl,
@@ -67,6 +68,7 @@ export function GroupForm({
           information: group.information ?? '',
           currency: group.currency ?? '',
           currencyCode: group.currencyCode ?? '',
+          fixedExpenseDateGroups: group.fixedExpenseDateGroups,
           participants: group.participants,
         }
       : {
@@ -74,6 +76,7 @@ export function GroupForm({
           information: '',
           currency: '',
           currencyCode: process.env.NEXT_PUBLIC_DEFAULT_CURRENCY_CODE || 'USD', // TODO: If NEXT_PUBLIC_DEFAULT_CURRENCY_CODE, is not set, determine the default currency code based on locale
+          fixedExpenseDateGroups: false,
           participants: [
             { name: t('Participants.John') },
             { name: t('Participants.Jane') },
@@ -319,6 +322,28 @@ export function GroupForm({
           </CardHeader>
           <CardContent>
             <div className="grid sm:grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="fixedExpenseDateGroups"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>
+                        {t('Settings.FixedExpenseDateGroupsField.label')}
+                      </FormLabel>
+                      <FormDescription>
+                        {t('Settings.FixedExpenseDateGroupsField.description')}
+                      </FormDescription>
+                    </div>
+                  </FormItem>
+                )}
+              />
               {activeUser !== null && (
                 <FormItem>
                   <FormLabel>{t('Settings.ActiveUserField.label')}</FormLabel>
