@@ -9,6 +9,7 @@ export const groupFormSchema = z
     information: z.string().optional(),
     currency: z.string().min(1, 'min1').max(5, 'max5'),
     currencyCode: z.union([z.string().length(3).nullish(), z.literal('')]), // ISO-4217 currency code
+    fixedExpenseDateGroups: z.boolean().default(false),
     participants: z
       .array(
         z.object({
