@@ -312,6 +312,27 @@
       "yourSpendings": "Your total spendings",
       "yourEarnings": "Your total earnings",
       "yourShare": "Your total share"
+    },
+    "MonthlySpending": {
+      "title": "Monthly spending",
+      "description": "Spending by month and category.",
+      "rangeLabel": "Range",
+      "groupingLabel": "Category grouping",
+      "stackedTitle": "Monthly categories",
+      "breakdownTitle": "{month} category breakdown",
+      "trendTitle": "Monthly total",
+      "income": "Income",
+      "noData": "No spending data yet.",
+      "RangeOptions": {
+        "three": "3 months",
+        "six": "6 months",
+        "twelve": "12 months",
+        "all": "All"
+      },
+      "GroupingOptions": {
+        "categoryGroup": "Category groups",
+        "category": "Detailed categories"
+      }
     }
   },
   "Activity": {
