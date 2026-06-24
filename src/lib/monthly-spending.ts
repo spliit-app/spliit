@@ -45,7 +45,6 @@ export type MonthlyCategorySpending = {
   months: MonthlySpendingMonth[]
   categories: MonthlySpendingCategory[]
   maxExpenseAmount: number
-  highlightedMonthKey?: string
 }
 
 type MutableMonthlySpendingCategory = MonthlySpendingCategory
@@ -123,16 +122,10 @@ export function getMonthlyCategorySpending(
     0,
     ...sortedMonths.map((month) => month.expenseAmount),
   )
-  const currentMonthKey = getMonthKeyFromDate(new Date())
-  const highlightedMonthKey = months.has(currentMonthKey)
-    ? currentMonthKey
-    : sortedMonths.at(-1)?.key
-
   return {
     months: sortedMonths,
     categories: sortedCategories,
     maxExpenseAmount,
-    highlightedMonthKey,
   }
 }
 

@@ -318,11 +318,26 @@
       "description": "Spending by month and category.",
       "rangeLabel": "Range",
       "groupingLabel": "Category grouping",
+      "chartTypeLabel": "Chart type",
       "stackedTitle": "Monthly categories",
-      "breakdownTitle": "{month} category breakdown",
-      "trendTitle": "Monthly total",
+      "breakdownTitle": "{range} category breakdown",
+      "balanceTimelineTitle": "Balance timeline",
+      "categoryMarkers": "Category markers",
+      "isOwedMoney": "Is owed money",
+      "owesMoney": "Owes money",
+      "payment": "Reimbursement",
+      "roundAmountsLabel": "Round amounts",
+      "stackOrderLabel": "Stack order",
       "income": "Income",
       "noData": "No spending data yet.",
+      "ChartTypes": {
+        "bars": "Stacked bars",
+        "columns": "Stacked columns"
+      },
+      "StackOrders": {
+        "smallInside": "Smaller debt inside",
+        "smallOutside": "Smaller debt outside"
+      },
       "RangeOptions": {
         "three": "3 months",
         "six": "6 months",
@@ -330,8 +345,8 @@
         "all": "All"
       },
       "GroupingOptions": {
-        "categoryGroup": "Category groups",
-        "category": "Detailed categories"
+        "categoryGroup": "Categories",
+        "category": "Detailed"
       }
     }
   },

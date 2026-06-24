@@ -1,4 +1,5 @@
 import { getGroupExpenses } from '@/lib/api'
+import { getBalanceTimeline } from '@/lib/balance-timeline'
 import {
   getMonthlyCategorySpending,
   monthlySpendingGroupingOptions,
@@ -38,6 +39,9 @@ export const getGroupStatsProcedure = baseProcedure
         grouping: monthlySpendingGrouping,
         range: monthlySpendingRange,
       })
+      const balanceTimeline = getBalanceTimeline(expenses, {
+        range: monthlySpendingRange,
+      })
 
       const totalParticipantSpendings =
         participantId !== undefined
@@ -53,6 +57,7 @@ export const getGroupStatsProcedure = baseProcedure
         totalParticipantSpendings,
         totalParticipantShare,
         monthlyCategorySpending,
+        balanceTimeline,
       }
     },
   )
