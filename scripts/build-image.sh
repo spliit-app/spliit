@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SPLIIT_APP_NAME=$(node -p -e "require('./package.json').name")
 SPLIIT_VERSION=$(node -p -e "require('./package.json').version")
