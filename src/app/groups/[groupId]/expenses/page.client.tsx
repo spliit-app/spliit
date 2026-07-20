@@ -13,16 +13,9 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Plus } from 'lucide-react'
-import { Metadata } from 'next'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useCurrentGroup } from '../current-group-context'
-
-export const revalidate = 3600
-
-export const metadata: Metadata = {
-  title: 'Expenses',
-}
 
 export default function GroupExpensesPageClient({
   enableReceiptExtract,
