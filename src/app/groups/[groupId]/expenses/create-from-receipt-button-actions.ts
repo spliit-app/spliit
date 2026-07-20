@@ -13,6 +13,8 @@ export async function extractExpenseInformationFromImage(imageUrl: string) {
 
   const body: ChatCompletionCreateParamsNonStreaming = {
     model: 'gpt-5-nano',
+    // Short CSV reply: amount,categoryId,date,title
+    max_tokens: 64,
     messages: [
       {
         role: 'user',
@@ -33,7 +35,13 @@ export async function extractExpenseInformationFromImage(imageUrl: string) {
       },
       {
         role: 'user',
-        content: [{ type: 'image_url', image_url: { url: imageUrl } }],
+        content: [
+          {
+            type: 'image_url',
+            // low detail ≈ fixed cheap token cost; enough for receipt OCR
+            image_url: { url: imageUrl, detail: 'low' },
+          },
+        ],
       },
     ],
   }

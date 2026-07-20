@@ -26,6 +26,7 @@ import {
 import { ToastAction } from '@/components/ui/toast'
 import { useToast } from '@/components/ui/use-toast'
 import { useMediaQuery } from '@/lib/hooks'
+import { compressReceiptImage } from '@/lib/compress-receipt-image'
 import {
   formatCurrency,
   formatDate,
@@ -109,12 +110,14 @@ function ReceiptDialogContent() {
     const upload = async () => {
       try {
         setPending(true)
+        console.log('Compressing image…')
+        const compressed = await compressReceiptImage(file)
         console.log('Uploading image…')
-        let { url } = await uploadToS3(file)
+        let { url } = await uploadToS3(compressed)
         console.log('Extracting information from receipt…')
         const { amount, categoryId, date, title } =
           await extractExpenseInformationFromImage(url)
-        const { width, height } = await getImageData(file)
+        const { width, height } = await getImageData(compressed)
         setReceiptInfo({ amount, categoryId, date, title, url, width, height })
       } catch (err) {
         console.error(err)

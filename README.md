@@ -100,12 +100,14 @@ S3_UPLOAD_ENDPOINT=http://localhost:9000
 
 ### Create expense from receipt
 
-You can offer users to create expense by uploading a receipt. This feature relies on [OpenAI GPT-4 with Vision](https://platform.openai.com/docs/guides/vision) and a public S3 storage endpoint.
+You can offer users to create expense by uploading a receipt. This feature relies on an OpenAI vision-capable model ([GPT-5 nano](https://platform.openai.com/docs/models) by default) and a public S3 storage endpoint.
+
+To keep API costs low, receipt images are downscaled/compressed in the browser before upload, and the vision request uses `detail: "low"`.
 
 To enable the feature:
 
 - You must enable expense documents feature as well (see section above). That might change in the future, but for now we need to store images to make receipt scanning work.
-- Subscribe to OpenAI API and get access to GPT 4 with Vision (you might need to buy credits in advance).
+- Subscribe to the OpenAI API (you might need to buy credits in advance).
 - Update your environment variables with appropriate values:
 
 ```.env
@@ -115,7 +117,7 @@ OPENAI_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 ### Deduce category from title
 
-You can offer users to automatically deduce the expense category from the title. Since this feature relies on a OpenAI subscription, follow the signup instructions above and configure the following environment variables:
+You can offer users to automatically deduce the expense category from the title. This also uses OpenAI (GPT-5 nano by default). Configure:
 
 ```.env
 NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT=true
