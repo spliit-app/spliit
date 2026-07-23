@@ -125,7 +125,7 @@
       "label": "Ana para birimi",
       "createDescription": "Tüm tutarlar ve bakiyeler bu para biriminde olacaktır.",
       "customOption": "Özel",
-      "editDescription": "Tüm tutarlar ve bakiyeler bu para birimi üzerinden gösterilir. Bu ayarın değiştirilmesi, para biriminin mevcut olandan farklı \"alt birimlere\" sahip olduğu durumlar (örneğin ABD Doları'ndan Japon Yeni'ne geçiş gibi) haricinde, önceden girilmiş olan giderleri dönüştürmez."
+      "editDescription": "Tüm tutarlar ve bakiyeler bu para birimi üzerinden gösterilir. Bu ayarın değiştirilmesi, para biriminin mevcut olandan farklı \"alt birimlere\" sahip olduğu durumlar (örneğin ABD Doları'ndan Japon Yeni'ne geçiş gibi) haricinde, önceden girilmiş olan giderleri dönüştürmez"
     }
   },
   "ExpenseForm": {
