@@ -651,7 +651,7 @@ export function ExpenseForm({
               control={form.control}
               name="category"
               render={({ field }) => (
-                <FormItem className="order-3 sm:order-2">
+                <FormItem className="sm:order-2">
                   <FormLabel>{t('categoryField.label')}</FormLabel>
                   <CategorySelector
                     categories={categories}
@@ -948,7 +948,7 @@ export function ExpenseForm({
                                   )}
                               </FormLabel>
                             </FormItem>
-                            <div className="flex">
+                            <div className="flex flex-wrap justify-end gap-y-2">
                               {form.getValues().splitMode === 'BY_AMOUNT' &&
                                 !!conversionRequired && (
                                   <FormField
@@ -1264,17 +1264,21 @@ export function ExpenseForm({
           </Card>
         )}
 
-        <div className="flex mt-4 gap-2">
-          <SubmitButton loadingContent={t(isCreate ? 'creating' : 'saving')}>
+        <div className="flex flex-col sm:flex-row mt-4 gap-2">
+          <SubmitButton
+            className="w-full sm:w-auto"
+            loadingContent={t(isCreate ? 'creating' : 'saving')}
+          >
             <Save className="w-4 h-4 mr-2" />
             {t(isCreate ? 'create' : 'save')}
           </SubmitButton>
           {!isCreate && onDelete && (
             <DeletePopup
+              className="w-full sm:w-auto"
               onDelete={() => onDelete(activeUserId ?? undefined)}
             ></DeletePopup>
           )}
-          <Button variant="ghost" asChild>
+          <Button variant="ghost" className="w-full sm:w-auto" asChild>
             <Link href={`/groups/${group.id}`}>{t('cancel')}</Link>
           </Button>
         </div>
