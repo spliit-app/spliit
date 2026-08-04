@@ -1,0 +1,89 @@
+name: Deploy
+
+on:
+  push:
+    branches: ['main']
+  workflow_dispatch:
+
+# Never let two production deploys (or two migration runs) overlap.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Generate Prisma client
+        run: npx prisma generate
+
+      - name: Check TypeScript types
+        run: npm run check-types
+
+      - name: Check ESLint
+        run: npm run lint
+
+      - name: Check Prettier formatting
+        run: npm run check-formatting
+
+      - name: Run tests
+        run: npm test
+
+  deploy:
+    needs: checks
+    runs-on: ubuntu-latest
+    environment: production
+
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel@latest
+
+      # Downloads project settings and production env vars into
+      # .vercel/.env.production.local, so Vercel stays the single source of
+      # truth for configuration and we don't duplicate secrets in GitHub.
+      - name: Pull Vercel environment
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Runs before the build so the schema is in place by the time the new
+      # code is live. A failure here aborts the deploy.
+      - name: Apply database migrations
+        run: |
+          set -a
+          . .vercel/.env.production.local
+          set +a
+          npx prisma migrate deploy
+
+      - name: Build
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
