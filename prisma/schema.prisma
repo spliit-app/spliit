@@ -17,6 +17,7 @@ model Group {
   information  String?       @db.Text
   currency     String        @default("$")
   currencyCode String?
+  defaultSplittingOptions Json?
   participants Participant[]
   expenses     Expense[]
   activities   Activity[]
