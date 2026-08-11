@@ -35,6 +35,7 @@ export const supportedCurrencyCodes = [
   'IDR',
   'ILS',
   'INR',
+  'JOD',
   'KRW',
   'MXN',
   'NZD',
