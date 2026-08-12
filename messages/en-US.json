@@ -75,6 +75,21 @@
       "description": "If a group was shared with you, you can paste its URL here to add it to your list.",
       "error": "Oops, we are not able to find the group from the URL you provided…"
     },
+    "ImportTricount": {
+      "title": "Import from Tricount",
+      "description": "Upload a CSV export from Tricount to import the group with its expenses and participants.",
+      "button": "Import CSV File",
+      "error": "Failed to import Tricount group. Please check the CSV file format.",
+      "stepsTitle": "How to get your Tricount data:",
+      "step1": "Go to the profile tab in the Tricount app.",
+      "step2": "Access support through the green chat button.",
+      "step3": "Request a data export under GDPR terms from the assistant.",
+      "step4": "Accept the offer to forward your request to a human support agent.",
+      "step5": "Once processed, you will receive a full dump of your groups in CSV format by email.",
+      "step6": "Upload the CSV file below.",
+      "currencyLabel": "Group Main Currency",
+      "currencyDescription": "All imported expenses will be automatically converted to this main currency."
+    },
     "NotFound": {
       "text": "This group does not exist.",
       "link": "Go to recently visited groups"

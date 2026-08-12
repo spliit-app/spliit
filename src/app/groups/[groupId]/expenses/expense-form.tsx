@@ -191,7 +191,12 @@ export function ExpenseForm({
           expenseDate: expense.expenseDate ?? new Date(),
           amount: amountAsDecimal(expense.amount, groupCurrency),
           originalCurrency: expense.originalCurrency ?? group.currencyCode,
-          originalAmount: expense.originalAmount ?? undefined,
+          originalAmount: expense.originalAmount
+            ? amountAsDecimal(
+                expense.originalAmount,
+                getCurrency(expense.originalCurrency),
+              )
+            : undefined,
           conversionRate: expense.conversionRate?.toNumber(),
           category: expense.categoryId,
           paidBy: expense.paidById,
@@ -283,6 +288,14 @@ export function ExpenseForm({
           ? amountAsMinorUnits(shares, groupCurrency)
           : shares,
     }))
+
+    if (values.originalAmount) {
+      const origCurrency = getCurrency(values.originalCurrency)
+      values.originalAmount = amountAsMinorUnits(
+        values.originalAmount,
+        origCurrency,
+      )
+    }
 
     // Currency should be blank if same as group currency
     if (!conversionRequired) {
@@ -523,6 +536,7 @@ export function ExpenseForm({
                         className="text-base"
                         disabled={true}
                         {...field}
+                        value={field.value ?? ''}
                         placeholder={group.currency}
                       />
                     )}
@@ -560,6 +574,7 @@ export function ExpenseForm({
                             onChange(v)
                           }}
                           {...field}
+                          value={field.value ?? ''}
                           onFocus={(e) => {
                             const target = e.currentTarget
                             setTimeout(() => target.select(), 1)
@@ -633,6 +648,7 @@ export function ExpenseForm({
                                 onChange(v)
                               }}
                               {...field}
+                              value={field.value ?? ''}
                               onFocus={(e) => {
                                 const target = e.currentTarget
                                 setTimeout(() => target.select(), 1)
@@ -1100,7 +1116,7 @@ export function ExpenseForm({
                                                 field.value?.find(
                                                   ({ participant }) =>
                                                     participant === id,
-                                                )?.shares
+                                                )?.shares ?? ''
                                               }
                                               onChange={(event) => {
                                                 field.onChange(
