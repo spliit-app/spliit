@@ -68,6 +68,50 @@ Here is the current state of translation:
 3. Run `npm run start-container` to start the postgres and the spliit2 containers
 4. You can access the app by browsing to http://localhost:3000
 
+## Run with Docker compose
+
+This is a sample `docker-compose.yml` file that you can use to deploy this web app.
+
+```yaml
+name: spliit
+
+services:
+  app:
+    image: ghcr.io/spliit-app/spliit:latest
+    user: "1000:1000" # change to your user id or remove if you want root
+    ports:
+      - "8080:3000/tcp"
+    environment:
+      POSTGRES_PRISMA_URL: postgresql://spliit:spliit@database:5432/spliit
+      POSTGRES_URL_NON_POOLING: postgresql://spliit:spliit@database:5432/spliit
+    volumes:
+      - ./app/cache:/usr/app/.next/cache
+    depends_on:
+      - database
+    networks:
+      - spliit
+
+  database:
+    image: postgres:17.3
+    user: "1000:1000" # same as above
+    environment:
+      POSTGRES_USER: spliit
+      POSTGRES_PASSWORD: spliit
+      POSTGRES_DB: spliit
+    volumes:
+      - ./database/data:/var/lib/postgresql/data
+    networks:
+      - spliit
+
+networks:
+  spliit:
+```
+
+The web app will then be available on your host at http://localhost:8080/.
+
+You can use named volumes in place of bind mounts if you prefer not having
+data stored inside local directories.
+
 ## Health check
 
 The application has a health check endpoint that can be used to check if the application is running and if the database is accessible.
