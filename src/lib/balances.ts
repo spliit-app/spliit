@@ -45,7 +45,7 @@ export function getBalances(
 
       const dividedAmount = isLast
         ? remaining
-        : (expense.amount * shares) / totalShares
+        : Math.round((expense.amount * shares) / totalShares)
       remaining -= dividedAmount
       balances[paidFor.participant.id].paidFor += dividedAmount
     })
