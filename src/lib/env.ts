@@ -1,9 +1,18 @@
 import { ZodIssueCode, z } from 'zod'
+import { ANALYTICS_PROVIDER_IDS } from './analytics/provider-ids'
 
 const interpretEnvVarAsBool = (val: unknown): boolean => {
   if (typeof val !== 'string') return false
   return ['true', 'yes', '1', 'on'].includes(val.toLowerCase())
 }
+
+/**
+ * Treats a blank environment variable as unset, so that listing a variable
+ * without a value (as `scripts/build.env` does) is not the same as giving it an
+ * empty value — which would fail validations like `z.string().url()`.
+ */
+const interpretBlankEnvVarAsUndefined = (val: unknown): unknown =>
+  typeof val === 'string' && val.trim() === '' ? undefined : val
 
 const envSchema = z
   .object({
@@ -36,6 +45,31 @@ const envSchema = z
       z.boolean().default(false),
     ),
     OPENAI_API_KEY: z.string().optional(),
+    // Analytics is disabled unless a provider is selected. These are read on
+    // the server and passed to the client as props, so they are deliberately
+    // not `NEXT_PUBLIC_`: a single image stays configurable at container start.
+    ANALYTICS_PROVIDER: z.preprocess(
+      interpretBlankEnvVarAsUndefined,
+      z.enum(ANALYTICS_PROVIDER_IDS).optional(),
+    ),
+    PLAUSIBLE_DOMAIN: z.preprocess(
+      interpretBlankEnvVarAsUndefined,
+      z.string().optional(),
+    ),
+    PLAUSIBLE_HOST: z.preprocess(
+      interpretBlankEnvVarAsUndefined,
+      z.string().url().optional(),
+    ),
+    // Not a `z.string().url()`: both are usually relative paths, pointing at
+    // rewrites that serve Plausible first-party.
+    PLAUSIBLE_SCRIPT_URL: z.preprocess(
+      interpretBlankEnvVarAsUndefined,
+      z.string().optional(),
+    ),
+    PLAUSIBLE_API_URL: z.preprocess(
+      interpretBlankEnvVarAsUndefined,
+      z.string().optional(),
+    ),
   })
   .superRefine((env, ctx) => {
     if (
@@ -61,6 +95,13 @@ const envSchema = z
         code: ZodIssueCode.custom,
         message:
           'If NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT or NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT is specified, then OPENAI_API_KEY must be specified too',
+      })
+    }
+    if (env.ANALYTICS_PROVIDER === 'plausible' && !env.PLAUSIBLE_DOMAIN) {
+      ctx.addIssue({
+        code: ZodIssueCode.custom,
+        message:
+          'If ANALYTICS_PROVIDER is set to "plausible", then PLAUSIBLE_DOMAIN must be specified too',
       })
     }
   })
