@@ -47,6 +47,31 @@ If you want to contribute financially and help us keep the application free and 
 
 The project's translations are managed using [our Weblate project](https://hosted.weblate.org/projects/spliit/spliit/). 
 You can easily add missing translations to the project or even add a new language!
+
+Spliit is available in multiple languages including:
+- **العربية (Arabic)**
+- Bahasa Indonesia
+- Català
+- Česky
+- Deutsch
+- English
+- Español
+- Euskera
+- Français
+- Italiano
+- Nederlands
+- Polski
+- Português
+- Română
+- Suomi
+- Türkçe
+- Русский
+- Українська
+- עברית
+- 한국어
+- 日本語
+- 简体中文 / 正體中文
+
 Here is the current state of translation:
 
 <a href="https://hosted.weblate.org/engage/spliit/">
