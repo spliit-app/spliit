@@ -25,6 +25,7 @@ import {
 } from '@/components/ui/drawer'
 import { ToastAction } from '@/components/ui/toast'
 import { useToast } from '@/components/ui/use-toast'
+import { useAnalytics } from '@/lib/analytics/context'
 import { useMediaQuery } from '@/lib/hooks'
 import {
   formatCurrency,
@@ -78,7 +79,8 @@ export function CreateFromReceiptButton() {
 }
 
 function ReceiptDialogContent() {
-  const { group } = useCurrentGroup()
+  const { groupId, group } = useCurrentGroup()
+  const sendEvent = useAnalytics()
   const { data: categoriesData } = trpc.categories.list.useQuery()
   const categories = categoriesData?.categories
 
@@ -107,6 +109,10 @@ function ReceiptDialogContent() {
     }
 
     const upload = async () => {
+      sendEvent(
+        { event: 'expense: scan receipt', props: {} },
+        `/groups/${groupId}/expenses`,
+      )
       try {
         setPending(true)
         console.log('Uploading image…')
@@ -247,6 +253,10 @@ function ReceiptDialogContent() {
           disabled={pending || !receiptInfo}
           onClick={() => {
             if (!receiptInfo || !group) return
+            sendEvent(
+              { event: 'expense: create from receipt', props: {} },
+              `/groups/${groupId}/expenses`,
+            )
             router.push(
               `/groups/${group.id}/expenses/create?amount=${
                 receiptInfo.amount

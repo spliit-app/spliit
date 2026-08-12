@@ -1,7 +1,7 @@
 {
   "Homepage": {
     "title": "Partekatu <strong>gastuak lagunekin eta familiarekin</strong>",
-    "description": "Ongi etorri zure <strong>Spliit</strong> intantzia berrira!",
+    "description": "Ongi etorri zure <strong>Spliit</strong> instantzia berrira!",
     "button": {
       "groups": "Joan taldeetara",
       "github": "GitHub"
@@ -98,7 +98,7 @@
     },
     "CurrencyCodeField": {
       "label": "Moneta nagusia",
-      "createDescription": "Zenbatekoak eta saldoak monetan honetan adieraziko dira.",
+      "createDescription": "Zenbatekoak eta saldoak moneta honetan adieraziko dira.",
       "editDescription": "Zenbateko eta saldo guztiak moneta honetan adieraziko dira. Hori aldatuz gero, EZ dira bihurtuko lehendik sartutako gastuak, dibisak egungoaren \"unitate txiki\" desberdinak dituenean izan ezik (adib. AEBko dolarretik Japoniako yenera aldatuz)",
       "customOption": "Pertsonalizatua"
     },
