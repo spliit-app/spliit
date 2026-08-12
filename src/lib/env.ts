@@ -36,6 +36,8 @@ const envSchema = z
       z.boolean().default(false),
     ),
     OPENAI_API_KEY: z.string().optional(),
+    LOCAL_AI_URL: z.string().optional(),
+    LOCAL_AI_MODEL: z.string().optional(),
   })
   .superRefine((env, ctx) => {
     if (
@@ -55,7 +57,8 @@ const envSchema = z
     if (
       (env.NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT ||
         env.NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT) &&
-      !env.OPENAI_API_KEY
+      !env.OPENAI_API_KEY &&
+      !(env.LOCAL_AI_MODEL && env.LOCAL_AI_URL)
     ) {
       ctx.addIssue({
         code: ZodIssueCode.custom,
