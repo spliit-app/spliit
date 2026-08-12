@@ -1,4 +1,5 @@
 import { getCurrency } from '@/lib/currency'
+import { calculateShares } from '@/lib/totals'
 import { formatAmountAsDecimal, getCurrencyFromGroup } from '@/lib/utils'
 import { Parser } from '@json2csv/plainjs'
 import { PrismaClient } from '@prisma/client'
@@ -43,8 +44,13 @@ export async function GET(
           originalAmount: true,
           originalCurrency: true,
           conversionRate: true,
-          paidById: true,
-          paidFor: { select: { participantId: true, shares: true } },
+          paidBy: { select: { id: true, name: true } },
+          paidFor: {
+            select: {
+              participant: { select: { id: true, name: true } },
+              shares: true,
+            },
+          },
           isReimbursement: true,
           splitMode: true,
         },
@@ -102,50 +108,54 @@ export async function GET(
 
   const currency = getCurrencyFromGroup(group)
 
-  const expenses = group.expenses.map((expense) => ({
-    date: formatDate(expense.expenseDate),
-    title: expense.title,
-    categoryName: expense.category?.name || '',
-    currency: group.currencyCode ?? group.currency,
-    amount: formatAmountAsDecimal(expense.amount, currency),
-    originalAmount: expense.originalAmount
-      ? formatAmountAsDecimal(
-          expense.originalAmount,
-          getCurrency(expense.originalCurrency),
-        )
-      : null,
-    originalCurrency: expense.originalCurrency,
-    conversionRate: expense.conversionRate
-      ? expense.conversionRate.toString()
-      : null,
-    isReimbursement: expense.isReimbursement ? 'Yes' : 'No',
-    splitMode: splitModeLabel[expense.splitMode],
-    ...Object.fromEntries(
-      group.participants.map((participant) => {
-        const { totalShares, participantShare } = expense.paidFor.reduce(
-          (acc, { participantId, shares }) => {
-            acc.totalShares += shares
-            if (participantId === participant.id) {
-              acc.participantShare = shares
-            }
-            return acc
-          },
-          { totalShares: 0, participantShare: 0 },
-        )
+  const expenses = group.expenses.map((expense) => {
+    const shares = calculateShares({
+      amount: expense.amount,
+      paidFor: expense.paidFor,
+      splitMode: expense.splitMode,
+      isReimbursement: expense.isReimbursement,
+      paidBy: expense.paidBy,
+      expenseDate: expense.expenseDate,
+    })
 
-        const isPaidByParticipant = expense.paidById === participant.id
-        const participantAmountShare = +formatAmountAsDecimal(
-          (expense.amount / totalShares) * participantShare,
-          currency,
-        )
+    const payerId =
+      expense.paidBy?.id ?? expense.paidFor[0]?.participant.id ?? null
 
-        return [
-          participant.name,
-          participantAmountShare * (isPaidByParticipant ? 1 : -1),
-        ]
-      }),
-    ),
-  }))
+    return {
+      date: formatDate(expense.expenseDate),
+      title: expense.title,
+      categoryName: expense.category?.name || '',
+      currency: group.currencyCode ?? group.currency,
+      amount: formatAmountAsDecimal(expense.amount, currency),
+      originalAmount: expense.originalAmount
+        ? formatAmountAsDecimal(
+            expense.originalAmount,
+            getCurrency(expense.originalCurrency),
+          )
+        : null,
+      originalCurrency: expense.originalCurrency,
+      conversionRate: expense.conversionRate
+        ? expense.conversionRate.toString()
+        : null,
+      isReimbursement: expense.isReimbursement ? 'Yes' : 'No',
+      splitMode: splitModeLabel[expense.splitMode],
+      ...Object.fromEntries(
+        group.participants.map((participant) => {
+          const participantShare = shares[participant.id] ?? 0
+          const isPaidByParticipant = payerId === participant.id
+          const netAmount = isPaidByParticipant
+            ? expense.amount - participantShare
+            : -participantShare
+
+          return [
+            participant.name,
+            // keep as formatted string to preserve trailing zeros
+            formatAmountAsDecimal(netAmount, currency),
+          ]
+        }),
+      ),
+    }
+  })
 
   const json2csvParser = new Parser({ fields })
   const csv = json2csvParser.parse(expenses)
