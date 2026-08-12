@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
+import { TrackPage } from '@/lib/analytics/track-page'
 import { getCurrencyFromGroup } from '@/lib/utils'
 import { trpc } from '@/trpc/client'
 import { useTranslations } from 'next-intl'
@@ -36,6 +37,7 @@ export default function BalancesAndReimbursements() {
 
   return (
     <>
+      <TrackPage path={`/groups/${groupId}/balances`} />
       <Card className="mb-4">
         <CardHeader>
           <CardTitle>{t('title')}</CardTitle>

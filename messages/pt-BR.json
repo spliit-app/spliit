@@ -1,6 +1,6 @@
 {
   "Homepage": {
-    "title": "Compartilhe <strong>Despesas</strong> com <strong>Amigos e Família</strong>",
+    "title": "Compartilhe <strong>Despesas</strong> com <strong>Amigos & Família</strong>",
     "description": "Bem-vindo à sua nova instalação do <strong>Spliit</strong>!",
     "button": {
       "groups": "Ir para grupos",
@@ -151,7 +151,11 @@
         "description": "Selecione para quem a receita foi recebida."
       },
       "splitModeDescription": "Selecione como dividir a receita.",
-      "attachDescription": "Veja e anexe recibos à receita."
+      "attachDescription": "Veja e anexe recibos à receita.",
+      "currencyField": {
+        "label": "Moeda da receita",
+        "description": "Em qual moeda a receita foi recebida"
+      }
     },
     "Expense": {
       "create": "Criar despesa",
@@ -179,11 +183,15 @@
       "attachDescription": "Veja e anexe recibos à despesa.",
       "recurrenceRule": {
         "label": "Recorrência da Despesa",
-        "description": "Selecione a frequência de recorrência da despesa.",
+        "description": "Selecione a frequência com que a despesa deve se repetir.",
         "none": "Nenhuma",
         "daily": "Diariamente",
         "weekly": "Semanalmente",
         "monthly": "Mensalmente"
+      },
+      "currencyField": {
+        "label": "Moeda da despesa",
+        "description": "A moeda em que a despesa foi paga."
       }
     },
     "amountField": {
@@ -225,12 +233,25 @@
     "cancel": "Cancelar",
     "reimbursement": "Reembolso",
     "conversionRateField": {
-      "label": "Taxa de câmbio"
+      "label": "Taxa de câmbio",
+      "useApi": "Use as taxas da Frankfurter",
+      "useCustom": "Use taxa personalizada"
     },
     "conversionRateState": {
       "success": "Taxas obtidas:",
       "error": "Opa, não conseguimos obter as taxas mais recentes.",
-      "refresh": "Atualizar"
+      "refresh": "Atualizar",
+      "loading": "Obtendo taxas de câmbio…",
+      "staleRate": "Usando taxa:",
+      "noRate": "Insira uma taxa personalizada abaixo.",
+      "currencyNotFound": "Opa, a Frankfurter não tem a taxa para esta moeda neste dia.",
+      "noDate": "Insira a data da despesa para obter uma taxa de conversão.",
+      "dateMismatch": "Taxas a partir da data: {date}",
+      "customRate": "Usando taxa personalizada"
+    },
+    "conversionUnavailable": "Para definir uma moeda diferente por despesa e converter valores, selecione uma moeda não personalizada para o grupo.",
+    "originalAmountField": {
+      "label": "Valor a converter"
     }
   },
   "ExpenseDocumentsInput": {
@@ -342,7 +363,8 @@
     "paidForMin1": "A despesa deve ser paga para pelo menos um participante.",
     "noZeroShares": "Todas as partes devem ser maiores que 0.",
     "amountSum": "A soma dos valores deve ser igual ao valor da despesa.",
-    "percentageSum": "A soma das porcentagens deve ser igual a 100."
+    "percentageSum": "A soma das porcentagens deve ser igual a 100.",
+    "ratePositive": "A taxa deve ser maior que zero."
   },
   "Categories": {
     "search": "Pesquisar categoria...",

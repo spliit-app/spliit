@@ -38,12 +38,15 @@
       "earlierThisYear": "Bu yılın başlarında",
       "lastYear": "Geçen yıl",
       "older": "Daha eski"
-    }
+    },
+    "export": "Dışarı Aktar"
   },
   "ExpenseCard": {
     "paidBy": "<strong>{paidBy}</strong> tarafından ödendi, <paidFor></paidFor> için",
     "receivedBy": "<strong>{paidBy}</strong> tarafından alındı, <paidFor></paidFor> için",
-    "yourBalance": "Bakiyeniz:"
+    "yourBalance": "Bakiyeniz:",
+    "everyone": "herkes",
+    "notInvolved": "Dahil değilsiniz"
   },
   "Groups": {
     "myGroups": "Gruplarım",
@@ -100,8 +103,8 @@
       "new": "Yeni",
       "add": "Katılımcı ekle",
       "John": "John",
-      "Jane": "Jane",
-      "Jack": "Jack"
+      "Jane": "Ayşe",
+      "Jack": "Cem"
     },
     "Settings": {
       "title": "Yerel ayarlar",
@@ -117,6 +120,12 @@
       "create": "Oluştur",
       "creating": "Oluşturuluyor…",
       "cancel": "İptal"
+    },
+    "CurrencyCodeField": {
+      "label": "Ana para birimi",
+      "createDescription": "Tüm tutarlar ve bakiyeler bu para biriminde olacaktır.",
+      "customOption": "Özel",
+      "editDescription": "Tüm tutarlar ve bakiyeler bu para birimi üzerinden gösterilir. Bu ayarın değiştirilmesi, para biriminin mevcut olandan farklı \"alt birimlere\" sahip olduğu durumlar (örneğin ABD Doları'ndan Japon Yeni'ne geçiş gibi) haricinde, önceden girilmiş olan giderleri dönüştürmez"
     }
   },
   "ExpenseForm": {
@@ -142,7 +151,11 @@
         "description": "Gelirin kim(ler) için alındığını seçin."
       },
       "splitModeDescription": "Gelirin nasıl paylaştırılacağını seçin.",
-      "attachDescription": "Gelire makbuz ekleyin ve görüntüleyin."
+      "attachDescription": "Gelire makbuz ekleyin ve görüntüleyin.",
+      "currencyField": {
+        "label": "Gelir para birimi",
+        "description": "Gelirin alındığı para birimi."
+      }
     },
     "Expense": {
       "create": "Masraf oluştur",
@@ -159,14 +172,27 @@
       "categoryFieldDescription": "Masraf kategorisini seçin.",
       "paidByField": {
         "label": "Ödeyen",
-        "description": "Masrafı ödeyen katılımcıyı seçin."
+        "description": "Masrafı ödeyen katılımcıyı seçin.",
+        "placeholder": "Bir katılımcı seçin"
       },
       "paidFor": {
         "title": "Masraf kimin için ödendi",
         "description": "Masrafın kim(ler) için ödendiğini seçin."
       },
       "splitModeDescription": "Masrafın nasıl paylaştırılacağını seçin.",
-      "attachDescription": "Masrafa makbuz ekleyin ve görüntüleyin."
+      "attachDescription": "Masrafa makbuz ekleyin ve görüntüleyin.",
+      "currencyField": {
+        "label": "Masrafın para birimi",
+        "description": "Masrafın ödendiği para birimi."
+      },
+      "recurrenceRule": {
+        "label": "Masrafın Tekrarı",
+        "description": "Masrafın ne sıklıkla tekrarlanacağını seçin.",
+        "none": "Hiçbiri",
+        "daily": "Günlük",
+        "weekly": "Haftalık",
+        "monthly": "Aylık"
+      }
     },
     "amountField": {
       "label": "Tutar"
@@ -205,7 +231,28 @@
     "save": "Kaydet",
     "saving": "Kaydediliyor…",
     "cancel": "İptal",
-    "reimbursement": "Geri ödeme"
+    "reimbursement": "Geri ödeme",
+    "conversionUnavailable": "Her bir masraf için farklı bir para birimi belirlemek ve tutarları dönüştürmek için, grup için özel olmayan bir para birimi seçin.",
+    "originalAmountField": {
+      "label": "Dönüştürülecek miktar"
+    },
+    "conversionRateField": {
+      "useCustom": "Özel bir oran kullanın",
+      "label": "Döviz kuru",
+      "useApi": "Frankfurter'den alınan kurları kullan"
+    },
+    "conversionRateState": {
+      "loading": "Döviz kurları alınıyor…",
+      "success": "Elde edilen kurlar:",
+      "error": "Maalesef en güncel kurlara ulaşamadık.",
+      "staleRate": "Kullanılan kur:",
+      "noRate": "Aşağıya özel bir kur girin.",
+      "currencyNotFound": "Maalesef, Frankfurter'de bu para birimi için güncel kur bilgisi bulunmuyor.",
+      "noDate": "Döviz kurunu öğrenmek için masraf tarihini girin.",
+      "dateMismatch": "Şu tarihteki kurlar: {date}",
+      "refresh": "Yenile",
+      "customRate": "Özel kur kullanılıyor"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
@@ -316,7 +363,8 @@
     "paidForMin1": "Masraf en az bir katılımcı için ödenmiş olmalıdır.",
     "noZeroShares": "Tüm paylar 0'dan büyük olmalıdır.",
     "amountSum": "Tutarların toplamı masraf tutarına eşit olmalıdır.",
-    "percentageSum": "Yüzdelerin toplamı 100 olmalıdır."
+    "percentageSum": "Yüzdelerin toplamı 100 olmalıdır.",
+    "ratePositive": "Kur sıfırdan büyük olmalı."
   },
   "Categories": {
     "search": "Kategori ara...",
@@ -361,7 +409,8 @@
       "Gifts": "Hediyeler",
       "Insurance": "Sigorta",
       "Medical Expenses": "Sağlık Giderleri",
-      "Taxes": "Vergiler"
+      "Taxes": "Vergiler",
+      "Donation": "Bağış"
     },
     "Transportation": {
       "heading": "Ulaşım",
@@ -384,6 +433,19 @@
       "Trash": "Çöp",
       "TV/Phone/Internet": "TV/Telefon/İnternet",
       "Water": "Su"
+    }
+  },
+  "Currencies": {
+    "search": "Para birimi ara...",
+    "noCurrency": "Hiçbir para birimi bulunamadı.",
+    "custom": {
+      "heading": "Özel"
+    },
+    "common": {
+      "heading": "En yaygın"
+    },
+    "other": {
+      "heading": "Diğer para birimleri"
     }
   }
 }

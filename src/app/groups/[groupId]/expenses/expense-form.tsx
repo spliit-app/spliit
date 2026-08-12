@@ -34,6 +34,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Locale } from '@/i18n/request'
+import { useAnalytics } from '@/lib/analytics/context'
 import { randomId } from '@/lib/api'
 import { defaultCurrencyList, getCurrency } from '@/lib/currency'
 import { RuntimeFeatureFlags } from '@/lib/featureFlags'
@@ -191,7 +192,9 @@ export function ExpenseForm({
           expenseDate: expense.expenseDate ?? new Date(),
           amount: amountAsDecimal(expense.amount, groupCurrency),
           originalCurrency: expense.originalCurrency ?? group.currencyCode,
-          originalAmount: expense.originalAmount ?? undefined,
+          originalAmount: expense.originalAmount
+            ? amountAsDecimal(expense.originalAmount, getCurrency(expense.originalCurrency ?? group.currencyCode, locale, 'Custom'))
+            : undefined,
           conversionRate: expense.conversionRate?.toNumber(),
           category: expense.categoryId,
           paidBy: expense.paidById,
@@ -270,8 +273,14 @@ export function ExpenseForm({
   })
   const [isCategoryLoading, setCategoryLoading] = useState(false)
   const activeUserId = useActiveUser(group.id)
+  const sendEvent = useAnalytics()
 
   const submit = async (values: ExpenseFormValues) => {
+    sendEvent(
+      { event: expense ? 'expense: update' : 'expense: create', props: {} },
+      `/groups/${group.id}/expenses`,
+    )
+
     await persistDefaultSplittingOptions(group.id, values)
 
     // Store monetary amounts in minor units (cents)
@@ -288,6 +297,8 @@ export function ExpenseForm({
     if (!conversionRequired) {
       delete values.originalAmount
       delete values.originalCurrency
+    } else if (values.originalAmount !== undefined) {
+      values.originalAmount = amountAsMinorUnits(values.originalAmount, originalCurrency)
     }
     return onSubmit(values, activeUserId ?? undefined)
   }
@@ -1257,6 +1268,12 @@ export function ExpenseForm({
                   <ExpenseDocumentsInput
                     documents={field.value}
                     updateDocuments={field.onChange}
+                    onDocumentAttached={() =>
+                      sendEvent(
+                        { event: 'expense: attach document', props: {} },
+                        `/groups/${group.id}/expenses`,
+                      )
+                    }
                   />
                 )}
               />
@@ -1271,7 +1288,13 @@ export function ExpenseForm({
           </SubmitButton>
           {!isCreate && onDelete && (
             <DeletePopup
-              onDelete={() => onDelete(activeUserId ?? undefined)}
+              onDelete={async () => {
+                sendEvent(
+                  { event: 'expense: delete', props: {} },
+                  `/groups/${group.id}/expenses`,
+                )
+                await onDelete(activeUserId ?? undefined)
+              }}
             ></DeletePopup>
           )}
           <Button variant="ghost" asChild>

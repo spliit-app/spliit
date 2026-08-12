@@ -38,12 +38,15 @@
       "earlierThisYear": "今年稍早",
       "lastYear": "去年",
       "older": "更早"
-    }
+    },
+    "export": "匯出"
   },
   "ExpenseCard": {
     "paidBy": "由 <strong>{paidBy}</strong> 支付 <paidFor></paidFor>。",
     "receivedBy": "由 <strong>{paidBy}</strong> 收取 <paidFor></paidFor>。",
-    "yourBalance": "你的餘額："
+    "yourBalance": "你的餘額：",
+    "everyone": "大家",
+    "notInvolved": "不包含你"
   },
   "Groups": {
     "myGroups": "我的群組",
@@ -117,6 +120,11 @@
       "create": "建立",
       "creating": "建立中……",
       "cancel": "取消"
+    },
+    "CurrencyCodeField": {
+      "label": "主要幣別",
+      "createDescription": "全部的帳戶及金額都會使用此幣別。",
+      "editDescription": "全部的帳戶及金額都會使用此幣別。更改此項目不會影響已建立的消費紀錄，除非轉換幣別有小數點（例如由美金轉換為日幣時）"
     }
   },
   "ExpenseForm": {
@@ -166,7 +174,14 @@
         "description": "選擇需參與此筆消費的成員。"
       },
       "splitModeDescription": "選擇如何分配此筆消費。",
-      "attachDescription": "查看／附上此筆消費的收據。"
+      "attachDescription": "查看／附上此筆消費的收據。",
+      "recurrenceRule": {
+        "description": "請選擇消費的重複週期。",
+        "none": "無",
+        "daily": "每天",
+        "weekly": "每週",
+        "monthly": "每月"
+      }
     },
     "amountField": {
       "label": "金額"
