@@ -93,7 +93,7 @@ export function useCurrencyRate(
     !!baseCurrency.length &&
     !!targetCurrency.length &&
     baseCurrency !== targetCurrency &&
-    `https://api.frankfurter.app/${dateString}?base=${baseCurrency}`
+    `https://api.frankfurter.dev/v1/${dateString}?base=${baseCurrency}`
   const { data, error, isLoading, mutate } = useSWR<FrankfurterAPIResponse>(
     url,
     fetcher,
