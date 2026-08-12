@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   Form,
   FormControl,
@@ -68,6 +69,7 @@ export function GroupForm({
           information: group.information ?? '',
           currency: group.currency ?? '',
           currencyCode: group.currencyCode ?? '',
+          fixedExpenseDateGroups: group.fixedExpenseDateGroups,
           participants: group.participants,
         }
       : {
@@ -75,6 +77,7 @@ export function GroupForm({
           information: '',
           currency: '',
           currencyCode: process.env.NEXT_PUBLIC_DEFAULT_CURRENCY_CODE || 'USD', // TODO: If NEXT_PUBLIC_DEFAULT_CURRENCY_CODE, is not set, determine the default currency code based on locale
+          fixedExpenseDateGroups: false,
           participants: [
             { name: t('Participants.John') },
             { name: t('Participants.Jane') },
@@ -320,6 +323,41 @@ export function GroupForm({
               {t('Participants.add')}
             </Button>
           </CardFooter>
+        </Card>
+
+        <Card className="mb-4">
+          <CardHeader>
+            <CardTitle>{t('GroupSettings.title')}</CardTitle>
+            <CardDescription>{t('GroupSettings.description')}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <FormField
+              control={form.control}
+              name="fixedExpenseDateGroups"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={(checked) =>
+                        field.onChange(checked === true)
+                      }
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>
+                      {t('GroupSettings.FixedExpenseDateGroupsField.label')}
+                    </FormLabel>
+                    <FormDescription>
+                      {t(
+                        'GroupSettings.FixedExpenseDateGroupsField.description',
+                      )}
+                    </FormDescription>
+                  </div>
+                </FormItem>
+              )}
+            />
+          </CardContent>
         </Card>
 
         <Card className="mb-4">

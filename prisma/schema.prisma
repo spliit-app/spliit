@@ -12,15 +12,16 @@ datasource db {
 }
 
 model Group {
-  id           String        @id
-  name         String
-  information  String?       @db.Text
-  currency     String        @default("$")
-  currencyCode String?
-  participants Participant[]
-  expenses     Expense[]
-  activities   Activity[]
-  createdAt    DateTime      @default(now())
+  id                     String        @id
+  name                   String
+  information            String?       @db.Text
+  currency               String        @default("$")
+  currencyCode           String?
+  fixedExpenseDateGroups Boolean       @default(false)
+  participants           Participant[]
+  expenses               Expense[]
+  activities             Activity[]
+  createdAt              DateTime      @default(now())
 }
 
 model Participant {
