@@ -158,7 +158,11 @@ export default async function RootLayout({
   const messages = await getMessages()
   const analyticsConfig = await getAnalyticsConfig()
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html
+      lang={locale}
+      dir={['ar', 'he'].includes(locale) ? 'rtl' : 'ltr'}
+      suppressHydrationWarning
+    >
       <ApplePwaSplash icon="/logo-with-text.png" color="#027756" />
       <body className="min-h-[100dvh] flex flex-col items-stretch bg-slate-50 bg-opacity-30 dark:bg-background">
         <NextIntlClientProvider messages={messages}>
