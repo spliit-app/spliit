@@ -39,6 +39,7 @@ import { randomId } from '@/lib/api'
 import { defaultCurrencyList, getCurrency } from '@/lib/currency'
 import { RuntimeFeatureFlags } from '@/lib/featureFlags'
 import { useActiveUser, useCurrencyRate } from '@/lib/hooks'
+import { normalizeNumberInput } from '@/lib/number-input'
 import {
   ExpenseFormValues,
   SplittingOptions,
@@ -65,15 +66,6 @@ import { match } from 'ts-pattern'
 import { DeletePopup } from '../../../../components/delete-popup'
 import { extractCategoryFromTitle } from '../../../../components/expense-form-actions'
 import { Textarea } from '../../../../components/ui/textarea'
-
-const enforceCurrencyPattern = (value: string) =>
-  value
-    .replace(/^\s*-/, '_') // replace leading minus with _
-    .replace(/[.,]/, '#') // replace first comma with #
-    .replace(/[-.,]/g, '') // remove other minus and commas characters
-    .replace(/_/, '-') // change back _ to minus
-    .replace(/#/, '.') // change back # to dot
-    .replace(/[^-\d.]/g, '') // remove all non-numeric characters
 
 const getDefaultSplittingOptions = (
   group: NonNullable<AppRouterOutput['groups']['get']['group']>,
@@ -400,8 +392,9 @@ export function ExpenseForm({
       const rate = Number(conversionRate)
       const convertedAmount = originalAmount * rate
       if (!Number.isNaN(convertedAmount)) {
-        const v = enforceCurrencyPattern(
+        const v = normalizeNumberInput(
           convertedAmount.toFixed(groupCurrency.decimal_digits),
+          { decimalDigits: groupCurrency.decimal_digits },
         )
         const income = Number(v) < 0
         setIsIncome(income)
@@ -563,7 +556,9 @@ export function ExpenseForm({
                           inputMode="decimal"
                           placeholder="0.00"
                           onChange={(event) => {
-                            const v = enforceCurrencyPattern(event.target.value)
+                            const v = normalizeNumberInput(event.target.value, {
+                              decimalDigits: originalCurrency.decimal_digits,
+                            })
                             onChange(v)
                           }}
                           {...field}
@@ -634,7 +629,7 @@ export function ExpenseForm({
                               inputMode="decimal"
                               placeholder="0.00"
                               onChange={(event) => {
-                                const v = enforceCurrencyPattern(
+                                const v = normalizeNumberInput(
                                   event.target.value,
                                 )
                                 onChange(v)
@@ -691,7 +686,9 @@ export function ExpenseForm({
                         inputMode="decimal"
                         placeholder="0.00"
                         onChange={(event) => {
-                          const v = enforceCurrencyPattern(event.target.value)
+                          const v = normalizeNumberInput(event.target.value, {
+                            decimalDigits: groupCurrency.decimal_digits,
+                          })
                           const income = Number(v) < 0
                           setIsIncome(income)
                           if (income) form.setValue('isReimbursement', false)
@@ -1003,9 +1000,16 @@ export function ExpenseForm({
                                                   )?.originalAmount ?? ''
                                                 }
                                                 onChange={(event) => {
-                                                  const originalAmount = Number(
-                                                    event.target.value,
-                                                  )
+                                                  const originalAmountValue =
+                                                    normalizeNumberInput(
+                                                      event.target.value,
+                                                      {
+                                                        decimalDigits:
+                                                          originalCurrency.decimal_digits,
+                                                      },
+                                                    )
+                                                  const originalAmount =
+                                                    Number(originalAmountValue)
                                                   let convertedAmount = ''
                                                   if (
                                                     !Number.isNaN(
@@ -1026,11 +1030,14 @@ export function ExpenseForm({
                                                         ? {
                                                             participant: id,
                                                             originalAmount:
-                                                              event.target
-                                                                .value,
+                                                              originalAmountValue,
                                                             shares:
-                                                              enforceCurrencyPattern(
+                                                              normalizeNumberInput(
                                                                 convertedAmount,
+                                                                {
+                                                                  decimalDigits:
+                                                                    groupCurrency.decimal_digits,
+                                                                },
                                                               ),
                                                           }
                                                         : p,
@@ -1110,15 +1117,24 @@ export function ExpenseForm({
                                                 )?.shares
                                               }
                                               onChange={(event) => {
+                                                const isSplitByAmount =
+                                                  form.getValues().splitMode ===
+                                                  'BY_AMOUNT'
                                                 field.onChange(
                                                   field.value.map((p) =>
                                                     p.participant === id
                                                       ? {
                                                           participant: id,
                                                           shares:
-                                                            enforceCurrencyPattern(
+                                                            normalizeNumberInput(
                                                               event.target
                                                                 .value,
+                                                              isSplitByAmount
+                                                                ? {
+                                                                    decimalDigits:
+                                                                      groupCurrency.decimal_digits,
+                                                                  }
+                                                                : undefined,
                                                             ),
                                                         }
                                                       : p,
