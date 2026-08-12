@@ -233,6 +233,13 @@
       "yes": "Oui",
       "cancel": "Annuler"
     },
+    "ClonePopup": {
+      "label": "Clone",
+      "title": "Clone this expense?",
+      "description": "Do you really want to clone this expense?",
+      "yes": "Yes",
+      "cancel": "Cancel"
+    },
     "attachDocuments": "Joindre des documents",
     "create": "Créer",
     "creating": "Création…",

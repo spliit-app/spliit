@@ -29,6 +29,8 @@ export function EditExpenseForm({
     trpc.groups.expenses.update.useMutation()
   const { mutateAsync: deleteExpenseMutateAsync } =
     trpc.groups.expenses.delete.useMutation()
+  const { mutateAsync: cloneExpenseMutateAsync } =
+    trpc.groups.expenses.clone.useMutation()
 
   const utils = trpc.useUtils()
   const router = useRouter()
@@ -54,6 +56,15 @@ export function EditExpenseForm({
         await deleteExpenseMutateAsync({
           expenseId,
           groupId,
+          participantId,
+        })
+        utils.groups.expenses.invalidate()
+        router.push(`/groups/${group.id}`)
+      }}
+      onClone={async (participantId) => {
+        await cloneExpenseMutateAsync({
+          groupId,
+          expenseId,
           participantId,
         })
         utils.groups.expenses.invalidate()
