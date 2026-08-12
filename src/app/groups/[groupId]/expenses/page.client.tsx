@@ -12,6 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { TrackPage } from '@/lib/analytics/track-page'
 import { Plus } from 'lucide-react'
 import { Metadata } from 'next'
 import { useTranslations } from 'next-intl'
@@ -34,6 +35,7 @@ export default function GroupExpensesPageClient({
 
   return (
     <>
+      <TrackPage path={`/groups/${groupId}/expenses`} />
       <Card className="mb-4 rounded-none -mx-4 border-x-0 sm:border-x sm:rounded-lg sm:mx-0">
         <div className="flex flex-1">
           <CardHeader className="flex-1 p-4 sm:p-6">

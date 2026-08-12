@@ -122,6 +122,58 @@ NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT=true
 OPENAI_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
+### Analytics
+
+Spliit can report anonymous usage events to an analytics service. **It is disabled by default**: nothing is loaded and nothing is sent unless you select a provider.
+
+Select one with `ANALYTICS_PROVIDER`. The variables are read on the server, so a single Docker image can be configured when the container starts.
+
+#### `console` — see what would be reported
+
+Logs every event to the browser console and sends nothing anywhere. Useful while developing, and the shortest example of what a provider looks like.
+
+```.env
+ANALYTICS_PROVIDER=console
+```
+
+#### `plausible`
+
+Reports to [Plausible](https://plausible.io), a privacy-friendly, cookie-free analytics service. No extra dependency is installed: the provider is a script tag and a function call.
+
+```.env
+ANALYTICS_PROVIDER=plausible
+PLAUSIBLE_DOMAIN=your-domain.com
+```
+
+For a self-hosted Plausible instance, point at it with `PLAUSIBLE_HOST`:
+
+```.env
+PLAUSIBLE_HOST=https://plausible.your-domain.com
+```
+
+Ad blockers drop requests to known analytics hosts. To avoid that, serve the script and the event endpoint from your own origin by adding [rewrites](https://nextjs.org/docs/app/api-reference/config/next-config-js/rewrites) in `next.config.mjs` and pointing the provider at them:
+
+```.env
+PLAUSIBLE_SCRIPT_URL=/js/script.manual.js
+PLAUSIBLE_API_URL=/proxy/api/event
+```
+
+#### What is reported
+
+Pageviews for a handful of pages, and one event per significant action: creating and updating a group, creating, updating and deleting an expense, attaching a document, scanning a receipt, and exporting expenses.
+
+**Group and expense IDs are never sent.** They are the capability to read someone's group, so `/groups/<id>/expenses` is reported as `/groups/[groupId]/expenses`. Anonymization happens in one place, `anonymizePath` in `src/lib/analytics/`, between the call sites and every provider, and the event types forbid properties that are not explicitly declared — so leaking an ID is a compile error rather than a review question.
+
+Pages are tracked explicitly, with `<TrackPage path="…" />`. A new route reports nothing until someone adds it, which keeps that a deliberate decision.
+
+This is unrelated to the group activity log (the _Activity_ tab), which is stored in your own database and is a product feature rather than analytics.
+
+#### Adding a provider
+
+Providers live in `src/lib/analytics/providers/`. Copy `console.tsx`, then register the new one in three places: `provider-ids.ts`, `registry.ts`, and `config.ts` (to map its environment variables to options). The last two are type-checked against the first, so `npm run check-types` tells you exactly what is missing.
+
+A provider supplies a transport — where events go — and optionally a `Script` component if it needs to load an SDK.
+
 ## License
 
 MIT, see [LICENSE](./LICENSE).
