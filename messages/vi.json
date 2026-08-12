@@ -1,0 +1,219 @@
+{
+  "Homepage": {
+    "description": "Chào mừng bạn đến với phiên bản <strong>Spliit</strong> mới của bạn!",
+    "title": "Chia sẻ <strong>Chi tiêu</strong> với <strong>Bạn bè & Gia đình</strong>",
+    "button": {
+      "groups": "Xem các nhóm",
+      "github": "GitHub"
+    }
+  },
+  "Header": {
+    "groups": "Nhóm"
+  },
+  "Footer": {
+    "madeIn": "Made in Montréal, Québec 🇨🇦",
+    "builtBy": "Xây dựng bởi <author>Sebastien Castiel</author> và <source>các cộng sự</source>"
+  },
+  "Expenses": {
+    "title": "Chi tiêu",
+    "description": "Đây là các khoản chi tiêu bạn đã tạo cho nhóm của mình.",
+    "create": "Tạo chi tiêu",
+    "createFirst": "Tạo chi tiêu đầu tiên",
+    "noExpenses": "Nhóm của bạn chưa có chi tiêu nào.",
+    "export": "Xuất",
+    "exportJson": "Xuất JSON",
+    "exportCsv": "Xuất CSV",
+    "searchPlaceholder": "Tìm kiếm chi tiêu…",
+    "ActiveUserModal": {
+      "title": "Bạn là ai?",
+      "description": "Hãy cho chúng tôi biết bạn là thành viên nào để chúng tôi có thể tùy chỉnh cách hiển thị thông tin.",
+      "nobody": "Tôi không muốn chọn ai",
+      "save": "Lưu thay đổi",
+      "footer": "Cài đặt này có thể thay đổi sau trong cài đặt nhóm."
+    },
+    "Groups": {
+      "upcoming": "Tiếp theo",
+      "thisWeek": "Tuần này",
+      "earlierThisMonth": "Trong tháng này",
+      "lastMonth": "Tháng trước",
+      "earlierThisYear": "Trong năm nay",
+      "lastYear": "Năm trước",
+      "older": "Cũ hơn"
+    }
+  },
+  "ExpenseCard": {
+    "paidBy": "<strong>{paidBy}</strong> chi cho <paidFor></paidFor>",
+    "everyone": "mọi người",
+    "receivedBy": "Nhận bởi <strong>{paidBy}</strong> cho <paidFor></paidFor>",
+    "yourBalance": "Số dư của bạn:",
+    "notInvolved": "Bạn chưa tham gia"
+  },
+  "Groups": {
+    "myGroups": "Nhóm của tôi",
+    "create": "Tạo",
+    "loadingRecent": "Đang tải các nhóm gần đây…",
+    "NoRecent": {
+      "description": "Bạn chưa xem nhóm nào gần đây.",
+      "create": "Tạo nhóm",
+      "orAsk": "hoặc nhờ một người bạn gửi đường dẫn đến nhóm có sẵn."
+    },
+    "recent": "Nhóm gần đây",
+    "starred": "Nhóm đánh dấu",
+    "archived": "Nhóm đã lưu trữ",
+    "archive": "Lưu trữ nhóm",
+    "unarchive": "Bỏ lưu trữ nhóm",
+    "removeRecent": "Bỏ khỏi nhóm gần đây",
+    "RecentRemovedToast": {
+      "title": "Nhóm đã loại bỏ",
+      "description": "Nhóm đã loại bỏ khoải danh sách nhóm gần đây của bạn.",
+      "undoAlt": "Hoàn tác việc loại bỏ nhóm",
+      "undo": "Hoàn tác"
+    },
+    "AddByURL": {
+      "button": "Thêm bằng URL",
+      "title": "Thêm nhóm bằng URL",
+      "description": "Nếu nhóm được chia sẻ với bạn, bạn có thể dán URL vào đây để thêm vào danh sách của bạn.",
+      "error": "Rất tiếc, chúng tôi không thể tìm thấy nhóm từ URL bạn cung cấp…"
+    },
+    "NotFound": {
+      "text": "Nhóm này không tồn tại.",
+      "link": "Xem các nhóm bạn đã truy cập gần đây"
+    }
+  },
+  "GroupForm": {
+    "title": "Thông tin nhóm",
+    "NameField": {
+      "label": "Tên nhóm",
+      "placeholder": "Kì nghỉ hè",
+      "description": "Đặt tên nhóm của bạn."
+    },
+    "InformationField": {
+      "label": "Thông tin nhóm",
+      "placeholder": "Những thông tin nào cần thiết cho các thành viên tham gia nhóm?"
+    },
+    "CurrencyField": {
+      "label": "Biểu tượng tiền tệ",
+      "placeholder": "$, €, £…",
+      "description": "Dùng để hiển thị các khoản tiền."
+    },
+    "CurrencyCodeField": {
+      "label": "Đơn vị tiền tệ chính",
+      "createDescription": "Tất cả các khoản tiền và số dư sẽ được thể hiện bằng loại tiền này.",
+      "editDescription": "Tất cả các khoản tiền và số dư sẽ được hiển thị bằng loại tiền tệ này. Việc thay đổi loại tiền tệ sẽ KHÔNG chuyển đổi các khoản chi phí đã nhập, trừ trường hợp loại tiền tệ đó có \"đơn vị nhỏ\" khác với loại tiền tệ hiện tại (ví dụ: chuyển đổi từ Đô la Mỹ sang Yên Nhật)",
+      "customOption": "Tùy chỉnh"
+    },
+    "Participants": {
+      "title": "Thành viên",
+      "description": "Điền tên các thành viên.",
+      "protectedParticipant": "Thành viên này đã tham gia chi tiêu, không thể xóa.",
+      "new": "Thêm",
+      "add": "Thêm thành viên",
+      "John": "An",
+      "Jane": "Bình",
+      "Jack": "Cường"
+    },
+    "Settings": {
+      "title": "Cài đặt cục bộ",
+      "description": "Các thiết lập này được áp dụng cho từng thiết bị và được sử dụng để tùy chỉnh trải nghiệm của bạn.",
+      "ActiveUserField": {
+        "label": "Người dùng hiện tại",
+        "placeholder": "Chọn thành viên",
+        "none": "Không có",
+        "description": "Người dùng này được sử dụng làm mặc định để thanh toán chi phí."
+      },
+      "save": "Lưu",
+      "saving": "Đang lưu…",
+      "create": "Tạo",
+      "creating": "Đang tạo…",
+      "cancel": "Hủy bỏ"
+    }
+  },
+  "ExpenseForm": {
+    "Income": {
+      "create": "Tạo khoản thu",
+      "edit": "Sửa khoản thu",
+      "TitleField": {
+        "label": "Tên khoản thu",
+        "placeholder": "Nhà hàng tối thứ Hai",
+        "description": "Nhập mô tả cho khoản thu."
+      },
+      "DateField": {
+        "label": "Ngày",
+        "description": "Nhập ngày nhận được khoản thu."
+      },
+      "currencyField": {
+        "label": "Đơn vị tiền tệ",
+        "description": "Đơn vị tiền tệ mà khoản thu được nhận."
+      },
+      "categoryFieldDescription": "Chọn hạng mục cho khoản thu.",
+      "paidByField": {
+        "label": "Nhận bởi",
+        "description": "Chọn thành viên đã nhận khoản thu."
+      },
+      "paidFor": {
+        "title": "Nhận cho",
+        "description": "Chọn thành viên được nhận khoản thu."
+      },
+      "splitModeDescription": "Chọn cách chia khoản thu.",
+      "attachDescription": "Xem và đính kèm biên lai vào khoản thu."
+    },
+    "Expense": {
+      "create": "Tạo khoản chi",
+      "edit": "Sửa khoản chi",
+      "TitleField": {
+        "label": "Tên khoản chi",
+        "placeholder": "Nhà hàng tối thứ Hai",
+        "description": "Điền mô tả cho khoản chi."
+      },
+      "DateField": {
+        "label": "Ngày chi",
+        "description": "Điền ngày chi tiêu."
+      },
+      "currencyField": {
+        "label": "Đơn vị tiền tệ",
+        "description": "Đơn vị tiền tệ khoản chi đã thanh toán."
+      },
+      "categoryFieldDescription": "Chọn hạng mục cho khoản chi.",
+      "paidByField": {
+        "label": "Thanh toán bởi",
+        "placeholder": "Chọn thành viên",
+        "description": "Chọn thành viên đã thanh toán khoản chi."
+      },
+      "recurrenceRule": {
+        "label": "Chi tiêu định kỳ",
+        "description": "Chọn tần suất lặp lại của khoản chi.",
+        "none": "Không có",
+        "daily": "Hàng ngày",
+        "weekly": "Hàng tuần",
+        "monthly": "Hàng tháng"
+      },
+      "paidFor": {
+        "title": "Chi cho",
+        "description": "Chọn thành viên nhận khoản chi."
+      },
+      "splitModeDescription": "Chọn cách chia khoản chi.",
+      "attachDescription": "Xem và đính kèm biên lai vào khoản chi."
+    },
+    "amountField": {
+      "label": "Số tiền"
+    },
+    "conversionUnavailable": "Để thiết lập đơn vị tiền tệ khác nhau cho từng khoản chi và quy đổi đơn vị tiền tệ, hãy chọn một đơn vị tiền tệ không tùy chỉnh cho nhóm.",
+    "originalAmountField": {
+      "label": "Số tiền quy đổi"
+    },
+    "conversionRateField": {
+      "useApi": "Sử dụng tỷ giá từ Frankfurter",
+      "useCustom": "Sử dụng tỷ giá tùy chỉnh",
+      "label": "Tỷ giá"
+    },
+    "conversionRateState": {
+      "loading": "Đang tìm tỷ giá hối đoái…",
+      "success": "Tỷ giá đã tìm được:",
+      "error": "Rất tiếc, chúng tôi không thể lấy được tỷ giá mới nhất.",
+      "staleRate": "Sử dụng tỷ giá:",
+      "noRate": "Nhập tỷ giá tùy chỉnh bên dưới.",
+      "currencyNotFound": "Rất tiếc, Frankfurter hiện không có tỷ giá hối đoái cho loại tiền tệ này.",
+      "noDate": "Nhập ngày phát sinh chi tiêu để lấy tỷ giá quy đổi."
+    }
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "Homepage": {
+    "title": "Zdieľajte <strong>výdavky</strong> s <strong>priateľmi a rodinou</strong>",
+    "description": "Vitajte vo vašej novej inštancii <strong>Spliit</strong>!",
+    "button": {
+      "groups": "Prejsť na skupiny",
+      "github": "GitHub"
+    }
+  },
+  "Header": {
+    "groups": "Skupiny"
+  },
+  "Footer": {
+    "madeIn": "Vyrobené v Montréale, Québec 🇨🇦",
+    "builtBy": "Vytvoril <author>Sebastien Castiel</author> a <source>spolupracovníci</source>"
+  },
+  "Expenses": {
+    "title": "Výdavky/Náklady",
+    "description": "Tu sú náklady, ktoré ste vytvorili pre svoju skupinu.",
+    "create": "Vytvoriť výdavok",
+    "createFirst": "Vytvorte prvý",
+    "noExpenses": "V skupine sa aktuálne nenachádzajú žiadne výdavky.",
+    "export": "Export",
+    "exportJson": "Exportovať do JSON",
+    "exportCsv": "Exportovať do CSV",
+    "searchPlaceholder": "Vyhľadaj výdavok…",
+    "ActiveUserModal": {
+      "title": "Kto si?",
+      "description": "Uveďte, aký typ účastníka ste, a my prispôsobíme obsah vašim potrebám.",
+      "nobody": "Nechcem nikoho vyberať",
+      "save": "Uložiť zmeny",
+      "footer": "Toto nastavenie je možné neskôr zmeniť v nastaveniach skupiny."
+    },
+    "Groups": {
+      "upcoming": "Čoskoro",
+      "thisWeek": "Tento týždeň",
+      "earlierThisMonth": "Začiatkom tohto mesiaca",
+      "lastMonth": "Minulý mesiac",
+      "earlierThisYear": "Začiatkom tohto roka",
+      "lastYear": "Minulý rok",
+      "older": "Staršie"
+    }
+  },
+  "ExpenseCard": {
+    "paidBy": "Zaplatil <strong>{paidBy}</strong> za <paidFor></paidFor>",
+    "everyone": "všetci",
+    "receivedBy": "Prijaté od <strong>{paidBy}</strong> pre <paidFor></paidFor>",
+    "yourBalance": "Tvoj zostatok:",
+    "notInvolved": "Nie si účastníkom tejto platby."
+  },
+  "Groups": {
+    "myGroups": "Moje skupiny",
+    "create": "Vytvor",
+    "loadingRecent": "Načítavanie posledných skupín…",
+    "NoRecent": {
+      "description": "V poslednej dobe ste nenavštívili žiadnu skupinu.",
+      "create": "Vytvor jednu",
+      "orAsk": "môžete tiež požiadať priateľa, aby vám poslal existujúci odkaz."
+    },
+    "recent": "Posledne vytvorené skupiny",
+    "starred": "Skupiny označené hviezdičkou",
+    "archived": "Zarchívované skupiny",
+    "archive": "Zarchívovaná skupina",
+    "unarchive": "Obnoviť skupinu",
+    "removeRecent": "Odstrániť z nedávnych skupín",
+    "RecentRemovedToast": {
+      "title": "Skupina bola odstránená",
+      "description": "Skupina bola odstránená zo zoznamu vašich nedávnych skupín.",
+      "undoAlt": "Zrušiť odstránenie skupiny",
+      "undo": "Vrátiť späť"
+    },
+    "AddByURL": {
+      "button": "Pridať podľa URL",
+      "title": "Pridať skupinu podľa URL",
+      "description": "Ak vám bola zdieľaná nejaká skupina, môžete sem vložiť jej URL adresu a pridať ju do svojho zoznamu.",
+      "error": "Ups, na základe zadaného URL sme skupinu nenašli…"
+    },
+    "NotFound": {
+      "text": "Táto skupina neexistuje.",
+      "link": "Prejsť na nedávno navštívené skupiny"
+    }
+  },
+  "GroupForm": {
+    "title": "Informácie o skupine",
+    "NameField": {
+      "label": "Názov skupiny"
+    }
+  }
+}
