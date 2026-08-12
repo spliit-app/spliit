@@ -1,0 +1,451 @@
+{
+  "Homepage": {
+    "title": "Dalinkitės <strong>išlaidomis</strong> su <strong>draugais ir šeima</strong>",
+    "description": "Sveiki atvykę į jūsų naująją <strong>Spliit</strong> !",
+    "button": {
+      "groups": "Eiti į grupes",
+      "github": "GitHub"
+    }
+  },
+  "Header": {
+    "groups": "Grupės"
+  },
+  "Footer": {
+    "madeIn": "Pagaminta Montréal, Québec 🇨🇦",
+    "builtBy": "Sukūrta <author>Sebastien Castiel</author> bei <source>bendraautorių</source>"
+  },
+  "Expenses": {
+    "title": "Išlaidos",
+    "description": "Čia yra jūsų grupės išlaidos.",
+    "create": "Naujos išlaidos",
+    "createFirst": "Sukurkite pirmąją",
+    "noExpenses": "Jūsų grupėje dar nėra išlaidų.",
+    "export": "Eksportuoti",
+    "exportJson": "Eksportuoti į JSON",
+    "exportCsv": "Eksportuoti į CSV",
+    "searchPlaceholder": "Išlaidų paieška…",
+    "ActiveUserModal": {
+      "title": "Kas jūs toks?",
+      "description": "Informuokite mus, kuris iš dalyvių esate, kad galėtume pritaikyti jums rodomą informaciją.",
+      "nobody": "Nenoriu nieko pasirinkti",
+      "save": "Išsaugoti pakeitimus",
+      "footer": "Šį nustatymą galėsite vėliau pakeisti grupės nuostatose."
+    },
+    "Groups": {
+      "upcoming": "Būsimos",
+      "thisWeek": "Šią savaitę",
+      "earlierThisMonth": "Anksčiau šį mėnesį",
+      "lastMonth": "Praėjusį mėnesį",
+      "earlierThisYear": "Anksčiau šiais metais",
+      "lastYear": "Praeitais metais",
+      "older": "Senesnės"
+    }
+  },
+  "ExpenseCard": {
+    "paidBy": "Sumokėjo <strong>{paidBy}</strong> už <paidFor></paidFor>",
+    "everyone": "visus",
+    "receivedBy": "Gauta nuo <strong>{paidBy}</strong> už <paidFor></paidFor>",
+    "yourBalance": "Jūsų balansas:",
+    "notInvolved": "Jūs nedalyvaujate"
+  },
+  "Groups": {
+    "myGroups": "Mano grupės",
+    "create": "Sukurti",
+    "loadingRecent": "Įkeliamos paskiausios grupės…",
+    "NoRecent": {
+      "description": "Pastaruoju metu neaplankėte jokios grupės.",
+      "create": "Sukurkite",
+      "orAsk": "arba paprašykite draugo atsiųsti jums nuorodą į esamą."
+    },
+    "recent": "Paskiausios grupės",
+    "starred": "Žvaigždute pažymėtos grupės",
+    "archived": "Suarchyvuotos grupės",
+    "archive": "Archyvuoti grupę",
+    "unarchive": "Išarchyvuoti grupę",
+    "removeRecent": "Pašalinti iš paskiausių grupių",
+    "RecentRemovedToast": {
+      "title": "Grupė buvo pašalinta",
+      "description": "Grupė buvo pašalinta iš jūsų paskiausių grupių sąrašo.",
+      "undoAlt": "Atšaukti grupės pašalinimą",
+      "undo": "Anuliuoti"
+    },
+    "AddByURL": {
+      "button": "Pridėti pagal nuorodą",
+      "title": "Pridėti grupę pagal nuorodą",
+      "description": "jei turite grupės nuorodą, galite įkelti ją čia, kad būtų pridėta prie jūsų sąrašo.",
+      "error": "Ups, pagal jūsų pateiktą nuorodą neradome jokios grupės…"
+    },
+    "NotFound": {
+      "text": "Šios grupės nėra.",
+      "link": "Eikite į paskiausiai aplankytas grupes"
+    }
+  },
+  "GroupForm": {
+    "title": "Grupės informacija",
+    "NameField": {
+      "label": "Grupės pavadinimas",
+      "placeholder": "Vasaros atostogos",
+      "description": "Įveskite jūsų grupės pavadinimą."
+    },
+    "InformationField": {
+      "label": "Grupės informacija",
+      "placeholder": "Kokia informacija yra aktuali grupės dalyviams?"
+    },
+    "CurrencyField": {
+      "label": "Valiutos simbolis",
+      "placeholder": "$, €, £…",
+      "description": "Mes tai naudosime sumoms rodyti."
+    },
+    "CurrencyCodeField": {
+      "label": "Pagrindinė valiuta",
+      "createDescription": "Visos sumos ir likučiai bus šia valiuta.",
+      "editDescription": "Visos sumos ir likučiai bus šia valiuta. Pakeitus ją, jau įvestos išlaidos nebus konvertuojamos, išskyrus atvejus, kai valiuta turi skirtingus „nežymius vienetus“ nei dabartinė (pvz., keičiant iš JAV dolerio į Japonijos jeną)",
+      "customOption": "Pasirinktinė"
+    },
+    "Participants": {
+      "title": "Dalyviai",
+      "description": "Įveskite kiekvieno dalyvio vardą.",
+      "protectedParticipant": "Šis dalyvis yra įtrauktas į išlaidas ir negali būti pašalintas.",
+      "new": "Naujas",
+      "add": "Pridėti dalyvį",
+      "John": "Džonas",
+      "Jane": "Džeinė",
+      "Jack": "Džekas"
+    },
+    "Settings": {
+      "title": "Vietiniai nustatymai",
+      "description": "Šie nustatymai yra kiekvienam įrenginiui ir naudojami jūsų patirčiai suasmeninti.",
+      "ActiveUserField": {
+        "label": "Aktyvus naudotojas",
+        "placeholder": "Pasirinkite dalyvį",
+        "none": "Nė vienas",
+        "description": "Naudotojas yra kaip numatytasis išlaidoms apmokėti."
+      },
+      "save": "Išsaugoti",
+      "saving": "Išsaugoma…",
+      "create": "Sukurti",
+      "creating": "Kuriamia…",
+      "cancel": "Atšaukti"
+    }
+  },
+  "ExpenseForm": {
+    "Income": {
+      "create": "Kurti pajamas",
+      "edit": "Redaguoti pajamas",
+      "TitleField": {
+        "label": "Pajamų pavadinimas",
+        "placeholder": "Pirmadienio vakaro restoranas",
+        "description": "Įveskite pajamų aprašymą."
+      },
+      "DateField": {
+        "label": "Pajamų data",
+        "description": "Įveskite datą, kada gavote pajamų."
+      },
+      "currencyField": {
+        "label": "Pajamų valiuta",
+        "description": "Valiuta, kuria buvo gautos pajamos."
+      },
+      "categoryFieldDescription": "Pasirinkite pajamų kategoriją.",
+      "paidByField": {
+        "label": "Gavėjas",
+        "description": "Pasirinkite dalyvį, kuris gavo pajamų."
+      },
+      "paidFor": {
+        "title": "Gauta už",
+        "description": "Pasirinkite, kam buvo gauta pajamų."
+      },
+      "splitModeDescription": "Pasirinkite, kaip paskirstyti pajamas.",
+      "attachDescription": "Peržiūrėkite ir pridėkite prie pajamų kvitus."
+    },
+    "Expense": {
+      "create": "Sukurti išlaidas",
+      "edit": "Redaguoti išlaidas",
+      "TitleField": {
+        "label": "Išlaidų pavadinimas",
+        "placeholder": "Pirmadienio vakaro restoranas",
+        "description": "Įveskite išlaidų aprašymą."
+      },
+      "DateField": {
+        "label": "Išlaidų data",
+        "description": "Įveskite datą, kada išlaidos buvo apmokėtos."
+      },
+      "currencyField": {
+        "label": "Išlaidų valiuta",
+        "description": "Valiuta, kuria buvo apmokėtos išlaidos."
+      },
+      "categoryFieldDescription": "Pasirinkite išlaidų kategoriją.",
+      "paidByField": {
+        "label": "Apmokėjo",
+        "placeholder": "Pasirinkite dalyvį",
+        "description": "Pasirinkite dalyvį, kuris apmokėjo išlaidas."
+      },
+      "recurrenceRule": {
+        "label": "Išlaidų pasikartojimas",
+        "description": "Pasirinkite, kaip dažnai išlaidos turėtų kartotis.",
+        "none": "Nėra",
+        "daily": "Kasdien",
+        "weekly": "Kas savaitę",
+        "monthly": "Kas mėnesį"
+      },
+      "paidFor": {
+        "title": "Sumokėta už",
+        "description": "Pasirinkite, kam buvo apmokėtos išlaidos."
+      },
+      "splitModeDescription": "Pasirinkite, kaip paskirstyti išlaidas.",
+      "attachDescription": "Peržiūrėkite ir pridėkite kvitus prie išlaidų."
+    },
+    "amountField": {
+      "label": "Suma"
+    },
+    "conversionUnavailable": "Norėdami kiekvienai išlaidai nustatyti skirtingą valiutą ir konvertuoti sumas, grupei pasirinkite ne individualią valiutą.",
+    "originalAmountField": {
+      "label": "Konvertuotina suma"
+    },
+    "conversionRateField": {
+      "useApi": "Naudoti „Frankfurter“ kursus",
+      "useCustom": "Naudoti pasirinktinį kursą",
+      "label": "Valiutos kursas"
+    },
+    "conversionRateState": {
+      "loading": "Gaunami valiutų kursai…",
+      "success": "Gauti kursai:",
+      "error": "Oi, nepavyko gauti naujausių kursų.",
+      "staleRate": "Naudojamas kursas:",
+      "noRate": "Žemiau įveskite pasirinktinį kursą.",
+      "currencyNotFound": "Oi, „Frankfurter“ šiuo metu neturi šios valiutos kurso.",
+      "noDate": "Įveskite išlaidų datą, kad gautumėte konvertavimo kursą.",
+      "dateMismatch": "Kursas datai: {date}",
+      "refresh": "Atnaujinti",
+      "customRate": "Naudojamas pasirinktinis kursas"
+    },
+    "isReimbursementField": {
+      "label": "Tai yra kompensacija"
+    },
+    "categoryField": {
+      "label": "Kategorija"
+    },
+    "notesField": {
+      "label": "Pastabos"
+    },
+    "selectNone": "Nesirinkti nieko",
+    "selectAll": "Pasirinkti viską",
+    "shares": "dalis",
+    "advancedOptions": "Išplėstiniai skaidymo nustatymai…",
+    "SplitModeField": {
+      "label": "Skaidymo režimas",
+      "evenly": "Po lygiai",
+      "byShares": "Nevienodai – pagal dalis",
+      "byPercentage": "Nevienodai – pagal procentus",
+      "byAmount": "Nevienodai – pagal sumą",
+      "saveAsDefault": "Išsaugoti kaip numatytąsias skaidymo parinktis"
+    },
+    "DeletePopup": {
+      "label": "Ištrinti",
+      "title": "Ištrinti šias išlaidas?",
+      "description": "Ar tikrai norite ištrinti šias išlaidas? Šis veiksmas yra negrįžtamas.",
+      "yes": "Taip",
+      "cancel": "Atšaukti"
+    },
+    "attachDocuments": "Pridėti dokumentų",
+    "create": "Sukurti",
+    "creating": "Kuriama…",
+    "save": "Išsaugoti",
+    "saving": "Išsaugoma…",
+    "cancel": "Atšaukti",
+    "reimbursement": "Kompensacija"
+  },
+  "ExpenseDocumentsInput": {
+    "TooBigToast": {
+      "title": "Failas per didelis",
+      "description": "Didžiausias įkeliamo failo dydis yra {maxSize}. Jūsų failo dydis yra {size}."
+    },
+    "ErrorToast": {
+      "title": "Įkeliant dokumentą įvyko klaida",
+      "description": "Įkeliant dokumentą įvyko klaida. Bandykite dar kartą vėliau arba pasirinkite kitą failą.",
+      "retry": "Pakartoti"
+    }
+  },
+  "CreateFromReceipt": {
+    "Dialog": {
+      "triggerTitle": "Sukurti išlaidas iš kvito",
+      "title": "Sukurti iš kvito",
+      "description": "Atpažinti išlaidų duomenis iš kvito nuotraukos.",
+      "body": "Įkelkite kvito nuotrauką – jei įmanoma, nuskaitysime ir išgausime išlaidų informaciją.",
+      "selectImage": "Pasirinkti nuotrauką…",
+      "titleLabel": "Pavadinimas:",
+      "categoryLabel": "Kategorija:",
+      "amountLabel": "Suma:",
+      "dateLabel": "Data:",
+      "editNext": "Kitame žingsnyje galėsite redaguoti išlaidų informaciją.",
+      "continue": "Tęsti"
+    },
+    "unknown": "Nežinoma",
+    "TooBigToast": {
+      "title": "Failas per didelis",
+      "description": "Didžiausias įkeliamo failo dydis yra {maxSize}. Jūsų failo dydis yra {size}."
+    },
+    "ErrorToast": {
+      "title": "Įkeliant dokumentą įvyko klaida",
+      "description": "Įkeliant dokumentą įvyko klaida. Bandykite dar kartą vėliau arba pasirinkite kitą failą.",
+      "retry": "Pakartoti"
+    }
+  },
+  "Balances": {
+    "title": "Atsiskaitymų likučiai",
+    "description": "Tai suma, kurią kiekvienas dalyvis sumokėjo arba gavo.",
+    "Reimbursements": {
+      "title": "Siūlomos kompensacijos",
+      "description": "Čia pateikti siūlymai, kaip optimaliai atsiskaityti tarp dalyvių.",
+      "noImbursements": "Panašu, kad jūsų grupei nereikia jokios kompensacijos 😁",
+      "owes": "<strong>{from}</strong> yra skolingas <strong>{to}</strong>",
+      "markAsPaid": "Pažymėti kaip apmokėtą"
+    }
+  },
+  "Stats": {
+    "title": "Statistika",
+    "Totals": {
+      "title": "Sumos",
+      "description": "Bendra grupės išlaidų suvestinė.",
+      "groupSpendings": "Visos grupės išlaidos",
+      "groupEarnings": "Visos grupės pajamos",
+      "yourSpendings": "Bendra jūsų išlaidų suma",
+      "yourEarnings": "Bendra jūsų pajamų suma",
+      "yourShare": "Jūsų mokėtina dalis"
+    }
+  },
+  "Activity": {
+    "title": "Veikla",
+    "description": "Bendra grupės veiklos apžvalga.",
+    "noActivity": "Kol kas šioje grupėje nėra jokios veiklos.",
+    "someone": "Kažkas",
+    "settingsModified": "<strong>{participant}</strong> pakeitė grupės nustatymus.",
+    "expenseCreated": "Išlaidą <em>{expense}</em> sukūrė <strong>{participant}</strong>.",
+    "expenseUpdated": "<strong>{participant}</strong> atnaujino išlaidą <em>{expense}</em>.",
+    "expenseDeleted": "<strong>{participant}</strong> ištrynė išlaidą <em>{expense}</em>.",
+    "Groups": {
+      "today": "Šiandien",
+      "yesterday": "Vakar",
+      "earlierThisWeek": "Anksčiau šią savaitę",
+      "lastWeek": "Praėjusią savaitę",
+      "earlierThisMonth": "Anksčiau šį mėnesį",
+      "lastMonth": "Praėjusį mėnesį",
+      "earlierThisYear": "Anksčiau šiais metais",
+      "lastYear": "Praėjusiais metais",
+      "older": "Senesnės"
+    }
+  },
+  "Information": {
+    "title": "Informacija",
+    "description": "Čia galite pateikti grupės dalyviams svarbią informaciją.",
+    "empty": "Kol kas nėra jokios grupės informacijos."
+  },
+  "Settings": {
+    "title": "Nustatymai"
+  },
+  "Share": {
+    "title": "Bendrinti",
+    "description": "Norėdami, kad kiti galėtų matyti grupę ir pridėti išlaidų, pasidalykite jos nuoroda.",
+    "warning": "Dėmesio!",
+    "warningHelp": "Visi, turintys grupės nuorodą, galės peržiūrėti ir keisti išlaidas. Dalinkitės atsargiai!"
+  },
+  "SchemaErrors": {
+    "min1": "Įveskite bent vieną simbolį.",
+    "min2": "Įveskite bent du simbolius.",
+    "max5": "Įveskite ne daugiau kaip penkis simbolius.",
+    "max50": "Įveskite ne daugiau kaip 50 simbolių.",
+    "duplicateParticipantName": "Toks vardas jau naudojamas kito dalyvio.",
+    "titleRequired": "Įveskite pavadinimą.",
+    "invalidNumber": "Neteisingas skaičius.",
+    "amountRequired": "Būtina įvesti sumą.",
+    "amountNotZero": "Suma negali būti lygi nuliui.",
+    "amountTenMillion": "Suma negali viršyti 10 000 000.",
+    "ratePositive": "Kursas turi būti didesnis už nulį.",
+    "paidByRequired": "Būtina pasirinkti dalyvį.",
+    "paidForMin1": "Turite pasirinkti bent vieną dalyvį, kuriam priskiriamos išlaidos.",
+    "noZeroShares": "Visos dalys turi būti didesnės nei 0.",
+    "amountSum": "Viso suma turi būti lygi išlaidų sumai.",
+    "percentageSum": "Visų procentų suma turi būti 100."
+  },
+  "Categories": {
+    "search": "Ieškoti kategorijos…",
+    "noCategory": "Kategorija nerasta.",
+    "Uncategorized": {
+      "heading": "Be kategorijos",
+      "General": "Bendra",
+      "Payment": "Mokėjimas"
+    },
+    "Entertainment": {
+      "heading": "Pramogos",
+      "Entertainment": "Pramogos",
+      "Games": "Žaidimai",
+      "Movies": "Filmai",
+      "Music": "Muzika",
+      "Sports": "Sportas"
+    },
+    "Food and Drink": {
+      "heading": "Maistas ir gėrimai",
+      "Food and Drink": "Maistas ir gėrimai",
+      "Dining Out": "Restoranai ir kavinės",
+      "Groceries": "Maisto produktai",
+      "Liquor": "Alkoholiniai gėrimai"
+    },
+    "Home": {
+      "heading": "Būstas",
+      "Home": "Būstas",
+      "Electronics": "Elektronikos prekės",
+      "Furniture": "Baldai",
+      "Household Supplies": "Namų apyvokos prekės",
+      "Maintenance": "Priežiūra ir remontas",
+      "Mortgage": "Būsto paskola",
+      "Pets": "Augintiniai",
+      "Rent": "Nuoma",
+      "Services": "Paslaugos"
+    },
+    "Life": {
+      "heading": "Kasdienis gyvenimas",
+      "Childcare": "Vaikų priežiūra",
+      "Clothing": "Drabužiai",
+      "Donation": "Auka",
+      "Education": "Švietimas",
+      "Gifts": "Dovanos",
+      "Insurance": "Draudimas",
+      "Medical Expenses": "Medicininės išlaidos",
+      "Taxes": "Mokesčiai"
+    },
+    "Transportation": {
+      "heading": "Transportas",
+      "Transportation": "Transportas",
+      "Bicycle": "Dviratis",
+      "Bus/Train": "Viešasis transportas",
+      "Car": "Automobilis",
+      "Gas/Fuel": "Degalai",
+      "Hotel": "Viešbutis",
+      "Parking": "Parkavimas",
+      "Plane": "Lėktuvas",
+      "Taxi": "Taksi"
+    },
+    "Utilities": {
+      "heading": "Komunalinės paslaugos",
+      "Utilities": "Komunalinės paslaugos",
+      "Cleaning": "Valymas",
+      "Electricity": "Elektra",
+      "Heat/Gas": "Šildymas",
+      "Trash": "Šiukšlių išvežimas",
+      "TV/Phone/Internet": "TV / komunikacijos",
+      "Water": "Vanduo"
+    }
+  },
+  "Currencies": {
+    "search": "Valiutos paieška…",
+    "noCurrency": "Valiutų nerasta.",
+    "custom": {
+      "heading": "Pasirinktinė"
+    },
+    "common": {
+      "heading": "Dažniausios"
+    },
+    "other": {
+      "heading": "Kitos valiutos"
+    }
+  }
+}
