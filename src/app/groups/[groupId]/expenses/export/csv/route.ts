@@ -1,7 +1,7 @@
 import { getCurrency } from '@/lib/currency'
+import { prisma } from '@/lib/prisma'
 import { formatAmountAsDecimal, getCurrencyFromGroup } from '@/lib/utils'
 import { Parser } from '@json2csv/plainjs'
-import { PrismaClient } from '@prisma/client'
 import contentDisposition from 'content-disposition'
 import { NextResponse } from 'next/server'
 
@@ -12,6 +12,17 @@ const splitModeLabel = {
   BY_AMOUNT: 'Unevenly – By amount',
 }
 
+/**
+ * Prevents CSV formula/command injection (CWE-1236): a cell beginning with
+ * =, +, -, @, tab or carriage return can be executed as a formula by spreadsheet
+ * applications (Excel, LibreOffice, Sheets). Expense titles, category and
+ * participant names are user-controlled, so prefix such text cells with a single
+ * quote to neutralize them.
+ */
+function escapeCsvFormula(value: string): string {
+  return /^[=+\-@\t\r]/.test(value) ? `'${value}` : value
+}
+
 function formatDate(isoDateString: Date): string {
   const date = new Date(isoDateString)
   const year = date.getFullYear()
@@ -19,8 +30,6 @@ function formatDate(isoDateString: Date): string {
   const day = String(date.getDate()).padStart(2, '0')
   return `${year}-${month}-${day}` // YYYY-MM-DD format
 }
-
-const prisma = new PrismaClient()
 
 export async function GET(
   req: Request,
@@ -95,7 +104,7 @@ export async function GET(
     { label: 'Is Reimbursement', value: 'isReimbursement' },
     { label: 'Split mode', value: 'splitMode' },
     ...group.participants.map((participant) => ({
-      label: participant.name,
+      label: escapeCsvFormula(participant.name),
       value: participant.name,
     })),
   ]
@@ -104,8 +113,8 @@ export async function GET(
 
   const expenses = group.expenses.map((expense) => ({
     date: formatDate(expense.expenseDate),
-    title: expense.title,
-    categoryName: expense.category?.name || '',
+    title: escapeCsvFormula(expense.title),
+    categoryName: escapeCsvFormula(expense.category?.name || ''),
     currency: group.currencyCode ?? group.currency,
     amount: formatAmountAsDecimal(expense.amount, currency),
     originalAmount: expense.originalAmount
