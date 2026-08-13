@@ -45,6 +45,7 @@ export const supportedCurrencyCodes = [
   'THB',
   'VND',
   'ZAR',
+  'COP',
 ] as const
 export type supportedCurrencyCodeType = (typeof supportedCurrencyCodes)[number]
 
@@ -54,16 +55,16 @@ export function defaultCurrencyList(
 ) {
   const currencies = customChoice
     ? [
-        {
-          name: customChoice,
-          symbol_native: '',
-          symbol: '',
-          code: '',
-          name_plural: customChoice,
-          rounding: 0,
-          decimal_digits: 2,
-        },
-      ]
+      {
+        name: customChoice,
+        symbol_native: '',
+        symbol: '',
+        code: '',
+        name_plural: customChoice,
+        rounding: 0,
+        decimal_digits: 2,
+      },
+    ]
     : []
   const allCurrencies = currencyList[locale]
   return currencies.concat(Object.values(allCurrencies))
