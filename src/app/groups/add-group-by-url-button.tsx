@@ -29,12 +29,20 @@ export function AddGroupByUrlButton({ reload }: Props) {
   const utils = trpc.useUtils()
 
   const processUrl = async (urlToProcess: string) => {
-    const [, groupId] =
-      urlToProcess.match(
-        new RegExp(`${window.location.origin}/groups/([^/]+)`),
-      ) ??
-      urlToProcess.match(/\/groups\/([^/?]+)/) ?? // Also match relative URLs from QR
-      []
+    // Parse with the URL API rather than building a RegExp from
+    // window.location.origin, which is a regex-injection sink. Resolving
+    // against the current origin also lets a scanned QR carry a relative
+    // /groups/<id> link, while an absolute link keeps its own origin and so
+    // still fails the same-origin check below.
+    let groupId: string | undefined
+    try {
+      const parsed = new URL(urlToProcess, window.location.origin)
+      if (parsed.origin === window.location.origin) {
+        groupId = parsed.pathname.match(/^\/groups\/([^/]+)/)?.[1]
+      }
+    } catch {
+      // Unparseable input is treated as "not found" below.
+    }
 
     if (!groupId) {
       setError(true)

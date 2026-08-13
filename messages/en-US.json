@@ -192,7 +192,6 @@
       "recurrenceRule": {
         "label": "Expense Recurrence",
         "description": "Select how often the expense should repeat.",
-
         "none": "None",
         "daily": "Daily",
         "weekly": "Weekly",
@@ -356,6 +355,8 @@
   "Share": {
     "title": "Share",
     "description": "For other participants to see the group and add expenses, share its URL with them.",
+    "copyLink": "Copy link",
+    "shareLink": "Share link",
     "warning": "Warning!",
     "warningHelp": "Every person with the group URL will be able to see and edit expenses. Share with caution!",
     "qrCode": {

@@ -90,7 +90,12 @@ export function ShareQrCodeDialog({ url, groupName }: Props) {
               value={url}
               size={256}
               level="H"
-              includeMargin={true}
+              // `includeMargin` is deprecated in qrcode.react 4; marginSize is
+              // its replacement and takes the margin in modules.
+              marginSize={4}
+              bgColor="#ffffff"
+              fgColor="#000000"
+              title={t('qrCode.title')}
               imageSettings={
                 logoDataUrl
                   ? {

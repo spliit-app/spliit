@@ -30,6 +30,9 @@ export function QrCodeScanner({ onScan, onError, onClose }: Props) {
   }, [])
 
   const startScanning = async () => {
+    // Clear any previous failure so a retry does not keep showing the old
+    // error while the browser is re-prompting for camera access.
+    setHasPermission(null)
     try {
       const html5QrCode = new Html5Qrcode(elementId)
       scannerRef.current = html5QrCode
@@ -87,7 +90,7 @@ export function QrCodeScanner({ onScan, onError, onClose }: Props) {
     <div className="flex flex-col gap-3">
       <div id={elementId} className="w-full" />
 
-      {!isScanning && hasPermission === null && (
+      {!isScanning && (
         <Button type="button" onClick={startScanning} className="w-full">
           <Camera className="w-4 h-4 mr-2" />
           {t('startCamera')}
