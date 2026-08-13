@@ -261,6 +261,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "VND": {
+      "name": "Dong Vietnam",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
     "ZAR": {
       "name": "Rand Afrika Selatan",
       "symbol_native": "R",
@@ -532,6 +541,15 @@
       "name_plural": "Thai baht",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "VND": {
+      "name": "dong vietnamita",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
     },
     "ZAR": {
       "name": "rand sud-africà",
@@ -805,6 +823,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "VND": {
+      "name": "vietnamský dong",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
     "ZAR": {
       "name": "jihoafrický rand",
       "symbol_native": "R",
@@ -1076,6 +1103,15 @@
       "name_plural": "Thai baht",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "VND": {
+      "name": "Vietnamesischer Dong",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
     },
     "ZAR": {
       "name": "Südafrikanischer Rand",
@@ -1349,6 +1385,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "VND": {
+      "name": "Vietnamese Dong",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
     "ZAR": {
       "name": "South African Rand",
       "symbol_native": "R",
@@ -1620,6 +1665,15 @@
       "name_plural": "Thai baht",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "VND": {
+      "name": "dong",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
     },
     "ZAR": {
       "name": "rand",
@@ -1893,6 +1947,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "VND": {
+      "name": "Vietnameko donga",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
     "ZAR": {
       "name": "Hegoafrikako randa",
       "symbol_native": "R",
@@ -2164,6 +2227,15 @@
       "name_plural": "Thai baht",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "VND": {
+      "name": "dông vietnamien",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
     },
     "ZAR": {
       "name": "rand sud-africain",
@@ -2437,6 +2509,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "VND": {
+      "name": "dong vietnamita",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
     "ZAR": {
       "name": "rand sudafricano",
       "symbol_native": "R",
@@ -2708,6 +2789,15 @@
       "name_plural": "Thai baht",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "VND": {
+      "name": "Vietnamese dong",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
     },
     "ZAR": {
       "name": "Zuid-Afrikaanse rand",
@@ -2981,6 +3071,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "VND": {
+      "name": "dong wietnamski",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
     "ZAR": {
       "name": "rand południowoafrykański",
       "symbol_native": "R",
@@ -3252,6 +3351,15 @@
       "name_plural": "Thai baht",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "VND": {
+      "name": "Dong vietnamita",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
     },
     "ZAR": {
       "name": "Rand sul-africano",
@@ -3525,6 +3633,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "VND": {
+      "name": "Dong vietnamita",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
     "ZAR": {
       "name": "Rand sul-africano",
       "symbol_native": "R",
@@ -3796,6 +3913,15 @@
       "name_plural": "Thai baht",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "VND": {
+      "name": "dong vietnamez",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
     },
     "ZAR": {
       "name": "rand sud-african",
@@ -4069,6 +4195,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "VND": {
+      "name": "Vietnamin dong",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
     "ZAR": {
       "name": "Etelä-Afrikan randi",
       "symbol_native": "R",
@@ -4340,6 +4475,15 @@
       "name_plural": "Thai baht",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "VND": {
+      "name": "Vietnam Dongu",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
     },
     "ZAR": {
       "name": "Güney Afrika Randı",
@@ -4613,6 +4757,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "VND": {
+      "name": "Вьетнамский донг",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
     "ZAR": {
       "name": "Южноафриканский рэнд",
       "symbol_native": "R",
@@ -4884,6 +5037,15 @@
       "name_plural": "Thai baht",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "VND": {
+      "name": "вʼєтнамський донг",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
     },
     "ZAR": {
       "name": "південноафриканський ранд",
@@ -5157,8 +5319,298 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "VND": {
+      "name": "דונג וייטנאמי",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
     "ZAR": {
       "name": "ראנד דרום אפריקאי",
+      "symbol_native": "R",
+      "symbol": "R",
+      "code": "ZAR",
+      "name_plural": "South African rand",
+      "rounding": 0,
+      "decimal_digits": 2
+    }
+  },
+  "ar": {
+    "USD": {
+      "name": "دولار أمريكي",
+      "symbol_native": "$",
+      "symbol": "$",
+      "code": "USD",
+      "name_plural": "US dollars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "EUR": {
+      "name": "يورو",
+      "symbol_native": "€",
+      "symbol": "€",
+      "code": "EUR",
+      "name_plural": "euros",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "JPY": {
+      "name": "ين ياباني",
+      "symbol_native": "￥",
+      "symbol": "¥",
+      "code": "JPY",
+      "name_plural": "Japanese yen",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "BGN": {
+      "name": "ليف بلغاري",
+      "symbol_native": "лв.",
+      "symbol": "BGN",
+      "code": "BGN",
+      "name_plural": "Bulgarian leva",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "CZK": {
+      "name": "كرونة تشيكية",
+      "symbol_native": "Kč",
+      "symbol": "Kč",
+      "code": "CZK",
+      "name_plural": "Czech Republic korunas",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "DKK": {
+      "name": "كرونة دانماركي",
+      "symbol_native": "kr",
+      "symbol": "Dkr",
+      "code": "DKK",
+      "name_plural": "Danish kroner",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "GBP": {
+      "name": "جنيه إسترليني",
+      "symbol_native": "£",
+      "symbol": "£",
+      "code": "GBP",
+      "name_plural": "British pounds sterling",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "HUF": {
+      "name": "فورينت مجري",
+      "symbol_native": "Ft",
+      "symbol": "Ft",
+      "code": "HUF",
+      "name_plural": "Hungarian forints",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "PLN": {
+      "name": "زلوتي بولندي",
+      "symbol_native": "zł",
+      "symbol": "zł",
+      "code": "PLN",
+      "name_plural": "Polish zlotys",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "RON": {
+      "name": "ليو روماني",
+      "symbol_native": "RON",
+      "symbol": "RON",
+      "code": "RON",
+      "name_plural": "Romanian lei",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "SEK": {
+      "name": "كرونة سويدية",
+      "symbol_native": "kr",
+      "symbol": "Skr",
+      "code": "SEK",
+      "name_plural": "Swedish kronor",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "CHF": {
+      "name": "فرنك سويسري",
+      "symbol_native": "CHF",
+      "symbol": "CHF",
+      "code": "CHF",
+      "name_plural": "Swiss francs",
+      "rounding": 0.05,
+      "decimal_digits": 2
+    },
+    "ISK": {
+      "name": "كرونه أيسلندي",
+      "symbol_native": "kr",
+      "symbol": "Ikr",
+      "code": "ISK",
+      "name_plural": "Icelandic krónur",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "NOK": {
+      "name": "كرونة نرويجية",
+      "symbol_native": "kr",
+      "symbol": "Nkr",
+      "code": "NOK",
+      "name_plural": "Norwegian kroner",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "TRY": {
+      "name": "ليرة تركية",
+      "symbol_native": "₺",
+      "symbol": "TL",
+      "code": "TRY",
+      "name_plural": "Turkish Lira",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "AUD": {
+      "name": "دولار أسترالي",
+      "symbol_native": "$",
+      "symbol": "AU$",
+      "code": "AUD",
+      "name_plural": "Australian dollars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "BRL": {
+      "name": "ريال برازيلي",
+      "symbol_native": "R$",
+      "symbol": "R$",
+      "code": "BRL",
+      "name_plural": "Brazilian reals",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "CAD": {
+      "name": "دولار كندي",
+      "symbol_native": "$",
+      "symbol": "CA$",
+      "code": "CAD",
+      "name_plural": "Canadian dollars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "CNY": {
+      "name": "يوان صيني",
+      "symbol_native": "CN¥",
+      "symbol": "CN¥",
+      "code": "CNY",
+      "name_plural": "Chinese yuan",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "HKD": {
+      "name": "دولار هونغ كونغ",
+      "symbol_native": "$",
+      "symbol": "HK$",
+      "code": "HKD",
+      "name_plural": "Hong Kong dollars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "IDR": {
+      "name": "روبية إندونيسية",
+      "symbol_native": "Rp",
+      "symbol": "Rp",
+      "code": "IDR",
+      "name_plural": "Indonesian rupiahs",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "ILS": {
+      "name": "شيكل إسرائيلي جديد",
+      "symbol_native": "₪",
+      "symbol": "₪",
+      "code": "ILS",
+      "name_plural": "Israeli new sheqels",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "INR": {
+      "name": "روبية هندي",
+      "symbol_native": "টকা",
+      "symbol": "Rs",
+      "code": "INR",
+      "name_plural": "Indian rupees",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "KRW": {
+      "name": "وون كوريا الجنوبية",
+      "symbol_native": "₩",
+      "symbol": "₩",
+      "code": "KRW",
+      "name_plural": "South Korean won",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "MXN": {
+      "name": "بيزو مكسيكي",
+      "symbol_native": "$",
+      "symbol": "MX$",
+      "code": "MXN",
+      "name_plural": "Mexican pesos",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "NZD": {
+      "name": "دولار نيوزيلندي",
+      "symbol_native": "$",
+      "symbol": "NZ$",
+      "code": "NZD",
+      "name_plural": "New Zealand dollars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "PHP": {
+      "name": "بيزو فلبيني",
+      "symbol_native": "₱",
+      "symbol": "₱",
+      "code": "PHP",
+      "name_plural": "Philippine pesos",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "SGD": {
+      "name": "دولار سنغافوري",
+      "symbol_native": "$",
+      "symbol": "S$",
+      "code": "SGD",
+      "name_plural": "Singapore dollars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "THB": {
+      "name": "باخت تايلاندي",
+      "symbol_native": "฿",
+      "symbol": "฿",
+      "code": "THB",
+      "name_plural": "Thai baht",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "VND": {
+      "name": "دونج فيتنامي",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "ZAR": {
+      "name": "راند جنوب أفريقيا",
       "symbol_native": "R",
       "symbol": "R",
       "code": "ZAR",
@@ -5428,6 +5880,15 @@
       "name_plural": "Thai baht",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "VND": {
+      "name": "베트남 동",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
     },
     "ZAR": {
       "name": "남아프리카 랜드",
@@ -5701,6 +6162,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "VND": {
+      "name": "ベトナム ドン",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
     "ZAR": {
       "name": "南アフリカ ランド",
       "symbol_native": "R",
@@ -5973,6 +6443,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "VND": {
+      "name": "越南盾",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
     "ZAR": {
       "name": "南非兰特",
       "symbol_native": "R",
@@ -6244,6 +6723,15 @@
       "name_plural": "Thai baht",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "VND": {
+      "name": "越南盾",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
     },
     "ZAR": {
       "name": "南非兰特",

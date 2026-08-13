@@ -34,6 +34,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Locale } from '@/i18n/request'
+import { useAnalytics } from '@/lib/analytics/context'
 import { randomId } from '@/lib/api'
 import { defaultCurrencyList, getCurrency } from '@/lib/currency'
 import { RuntimeFeatureFlags } from '@/lib/featureFlags'
@@ -191,7 +192,16 @@ export function ExpenseForm({
           expenseDate: expense.expenseDate ?? new Date(),
           amount: amountAsDecimal(expense.amount, groupCurrency),
           originalCurrency: expense.originalCurrency ?? group.currencyCode,
-          originalAmount: expense.originalAmount ?? undefined,
+          originalAmount: expense.originalAmount
+            ? amountAsDecimal(
+                expense.originalAmount,
+                getCurrency(
+                  expense.originalCurrency ?? group.currencyCode,
+                  locale,
+                  'Custom',
+                ),
+              )
+            : undefined,
           conversionRate: expense.conversionRate?.toNumber(),
           category: expense.categoryId,
           paidBy: expense.paidById,
@@ -209,69 +219,75 @@ export function ExpenseForm({
           recurrenceRule: expense.recurrenceRule ?? undefined,
         }
       : searchParams.get('reimbursement')
-      ? {
-          title: t('reimbursement'),
-          expenseDate: new Date(),
-          amount: amountAsDecimal(
-            Number(searchParams.get('amount')) || 0,
-            groupCurrency,
-          ),
-          originalCurrency: group.currencyCode,
-          originalAmount: undefined,
-          conversionRate: undefined,
-          category: 1, // category with Id 1 is Payment
-          paidBy: searchParams.get('from') ?? undefined,
-          paidFor: [
-            searchParams.get('to')
-              ? {
-                  participant: searchParams.get('to')!,
-                  shares: '1' as any, // String for consistent form handling
-                }
-              : undefined,
-          ],
-          isReimbursement: true,
-          splitMode: defaultSplittingOptions.splitMode,
-          saveDefaultSplittingOptions: false,
-          documents: [],
-          notes: '',
-          recurrenceRule: RecurrenceRule.NONE,
-        }
-      : {
-          title: searchParams.get('title') ?? '',
-          expenseDate: searchParams.get('date')
-            ? new Date(searchParams.get('date') as string)
-            : new Date(),
-          amount: Number(searchParams.get('amount')) || 0,
-          originalCurrency: group.currencyCode ?? undefined,
-          originalAmount: undefined,
-          conversionRate: undefined,
-          category: searchParams.get('categoryId')
-            ? Number(searchParams.get('categoryId'))
-            : 0, // category with Id 0 is General
-          // paid for all, split evenly
-          paidFor: defaultSplittingOptions.paidFor,
-          paidBy: getSelectedPayer(),
-          isReimbursement: false,
-          splitMode: defaultSplittingOptions.splitMode,
-          saveDefaultSplittingOptions: false,
-          documents: searchParams.get('imageUrl')
-            ? [
-                {
-                  id: randomId(),
-                  url: searchParams.get('imageUrl') as string,
-                  width: Number(searchParams.get('imageWidth')),
-                  height: Number(searchParams.get('imageHeight')),
-                },
-              ]
-            : [],
-          notes: '',
-          recurrenceRule: RecurrenceRule.NONE,
-        },
+        ? {
+            title: t('reimbursement'),
+            expenseDate: new Date(),
+            amount: amountAsDecimal(
+              Number(searchParams.get('amount')) || 0,
+              groupCurrency,
+            ),
+            originalCurrency: group.currencyCode,
+            originalAmount: undefined,
+            conversionRate: undefined,
+            category: 1, // category with Id 1 is Payment
+            paidBy: searchParams.get('from') ?? undefined,
+            paidFor: [
+              searchParams.get('to')
+                ? {
+                    participant: searchParams.get('to')!,
+                    shares: '1' as any, // String for consistent form handling
+                  }
+                : undefined,
+            ],
+            isReimbursement: true,
+            splitMode: defaultSplittingOptions.splitMode,
+            saveDefaultSplittingOptions: false,
+            documents: [],
+            notes: '',
+            recurrenceRule: RecurrenceRule.NONE,
+          }
+        : {
+            title: searchParams.get('title') ?? '',
+            expenseDate: searchParams.get('date')
+              ? new Date(searchParams.get('date') as string)
+              : new Date(),
+            amount: Number(searchParams.get('amount')) || 0,
+            originalCurrency: group.currencyCode ?? undefined,
+            originalAmount: undefined,
+            conversionRate: undefined,
+            category: searchParams.get('categoryId')
+              ? Number(searchParams.get('categoryId'))
+              : 0, // category with Id 0 is General
+            // paid for all, split evenly
+            paidFor: defaultSplittingOptions.paidFor,
+            paidBy: getSelectedPayer(),
+            isReimbursement: false,
+            splitMode: defaultSplittingOptions.splitMode,
+            saveDefaultSplittingOptions: false,
+            documents: searchParams.get('imageUrl')
+              ? [
+                  {
+                    id: randomId(),
+                    url: searchParams.get('imageUrl') as string,
+                    width: Number(searchParams.get('imageWidth')),
+                    height: Number(searchParams.get('imageHeight')),
+                  },
+                ]
+              : [],
+            notes: '',
+            recurrenceRule: RecurrenceRule.NONE,
+          },
   })
   const [isCategoryLoading, setCategoryLoading] = useState(false)
   const activeUserId = useActiveUser(group.id)
+  const sendEvent = useAnalytics()
 
   const submit = async (values: ExpenseFormValues) => {
+    sendEvent(
+      { event: expense ? 'expense: update' : 'expense: create', props: {} },
+      `/groups/${group.id}/expenses`,
+    )
+
     await persistDefaultSplittingOptions(group.id, values)
 
     // Store monetary amounts in minor units (cents)
@@ -288,6 +304,11 @@ export function ExpenseForm({
     if (!conversionRequired) {
       delete values.originalAmount
       delete values.originalCurrency
+    } else if (values.originalAmount !== undefined) {
+      values.originalAmount = amountAsMinorUnits(
+        values.originalAmount,
+        originalCurrency,
+      )
     }
     return onSubmit(values, activeUserId ?? undefined)
   }
@@ -927,12 +948,12 @@ export function ExpenseForm({
                                                 'BY_PERCENTAGE'
                                                   ? Number(shares) * 100 // Convert percentage to basis points (e.g., 50% -> 5000)
                                                   : form.watch('splitMode') ===
-                                                    'BY_AMOUNT'
-                                                  ? amountAsMinorUnits(
-                                                      shares,
-                                                      groupCurrency,
-                                                    )
-                                                  : shares,
+                                                      'BY_AMOUNT'
+                                                    ? amountAsMinorUnits(
+                                                        shares,
+                                                        groupCurrency,
+                                                      )
+                                                    : shares,
                                               expenseId: '',
                                               participantId: '',
                                             }),
@@ -1257,6 +1278,12 @@ export function ExpenseForm({
                   <ExpenseDocumentsInput
                     documents={field.value}
                     updateDocuments={field.onChange}
+                    onDocumentAttached={() =>
+                      sendEvent(
+                        { event: 'expense: attach document', props: {} },
+                        `/groups/${group.id}/expenses`,
+                      )
+                    }
                   />
                 )}
               />
@@ -1271,7 +1298,13 @@ export function ExpenseForm({
           </SubmitButton>
           {!isCreate && onDelete && (
             <DeletePopup
-              onDelete={() => onDelete(activeUserId ?? undefined)}
+              onDelete={async () => {
+                sendEvent(
+                  { event: 'expense: delete', props: {} },
+                  `/groups/${group.id}/expenses`,
+                )
+                await onDelete(activeUserId ?? undefined)
+              }}
             ></DeletePopup>
           )}
           <Button variant="ghost" asChild>
