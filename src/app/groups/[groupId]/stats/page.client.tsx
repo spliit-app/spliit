@@ -1,6 +1,7 @@
 'use client'
 import { useCurrentGroup } from '@/app/groups/[groupId]/current-group-context'
 import { CategoryBreakdown } from '@/app/groups/[groupId]/stats/category-breakdown'
+import { MonthlySpending } from '@/app/groups/[groupId]/stats/monthly-spending'
 import { ParticipantSpendingStats } from '@/app/groups/[groupId]/stats/participant-spending'
 import { RecurringSpendingStats } from '@/app/groups/[groupId]/stats/recurring-spending'
 import { SpendingOverTime } from '@/app/groups/[groupId]/stats/spending-over-time'
@@ -74,6 +75,10 @@ export function TotalsPageClient() {
         currency={currency}
         from={range.from}
         to={range.to}
+      />
+      <MonthlySpending
+        monthlyCategorySpending={data?.monthlyCategorySpending}
+        currency={currency}
       />
       <ParticipantSpendingStats
         participants={data?.participants}
