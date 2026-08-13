@@ -1,6 +1,8 @@
 'use server'
 import { getCategories } from '@/lib/api'
 import { env } from '@/lib/env'
+import { getRuntimeFeatureFlags } from '@/lib/featureFlags'
+import { isAllowedUploadUrl } from '@/lib/uploaded-image-url'
 import { formatCategoryForAIPrompt } from '@/lib/utils'
 import OpenAI from 'openai'
 import { ChatCompletionCreateParamsNonStreaming } from 'openai/resources/index.mjs'
@@ -9,6 +11,21 @@ const openai = new OpenAI({ apiKey: env.OPENAI_API_KEY })
 
 export async function extractExpenseInformationFromImage(imageUrl: string) {
   'use server'
+
+  // Enforce the feature flag server-side: the UI gate only hides the button, it
+  // does not prevent the action endpoint from being invoked directly.
+  const { enableReceiptExtract } = await getRuntimeFeatureFlags()
+  if (!enableReceiptExtract) {
+    throw new Error('Receipt extraction is not enabled.')
+  }
+
+  // Only extract from images the app itself uploaded. Without this, an arbitrary
+  // caller-supplied URL is forwarded to the model, enabling SSRF-via-OpenAI and
+  // unbounded API spend.
+  if (!isAllowedUploadUrl(imageUrl)) {
+    throw new Error('Invalid image URL.')
+  }
+
   const categories = await getCategories()
 
   const body: ChatCompletionCreateParamsNonStreaming = {
@@ -42,7 +59,15 @@ export async function extractExpenseInformationFromImage(imageUrl: string) {
   const [amountString, categoryId, date, title] = completion.choices
     .at(0)
     ?.message.content?.split(',') ?? [null, null, null, null]
-  return { amount: Number(amountString), categoryId, date, title }
+  // The model is asked for a plain number, but nothing guarantees it obliges.
+  // Report "not extracted" rather than passing NaN on to the expense form.
+  const amount = Number(amountString)
+  return {
+    amount: Number.isFinite(amount) ? amount : null,
+    categoryId,
+    date,
+    title,
+  }
 }
 
 export type ReceiptExtractedInfo = Awaited<
