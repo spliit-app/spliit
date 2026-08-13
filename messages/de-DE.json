@@ -33,9 +33,9 @@
     "Groups": {
       "upcoming": "Bevorstehend",
       "thisWeek": "Diese Woche",
-      "earlierThisMonth": "Diesen Monat",
+      "earlierThisMonth": "Anfang des Monats",
       "lastMonth": "Letzten Monat",
-      "earlierThisYear": "Dieses Jahr",
+      "earlierThisYear": "Anfang des Jahres",
       "lastYear": "Letztes Jahr",
       "older": "Älter"
     },
@@ -44,34 +44,34 @@
   "ExpenseCard": {
     "paidBy": "Gezahlt von <strong>{paidBy}</strong> für <paidFor></paidFor>",
     "receivedBy": "Empfangen von <strong>{paidBy}</strong> für <paidFor></paidFor>",
-    "yourBalance": "Deine Bilanz:",
+    "yourBalance": "Dein Saldo:",
     "everyone": "jeder",
     "notInvolved": "Du bist nicht involviert"
   },
   "Groups": {
     "myGroups": "Meine Gruppen",
     "create": "Erstellen",
-    "loadingRecent": "Lade letzte Gruppen…",
+    "loadingRecent": "Lade kürzliche Gruppen…",
     "NoRecent": {
-      "description": "Du hast in der letzten Zeit keine Gruppe besucht.",
+      "description": "Du hast in letzter Zeit keine Gruppe besucht.",
       "create": "Erstelle eine",
-      "orAsk": "oder bitte einen Freund, dir einen Link zu einer Existierenden zu schicken."
+      "orAsk": "oder bitte einen Freund, dir einen Link zu einer existierenden zu schicken."
     },
-    "recent": "Letzte Gruppen",
+    "recent": "Kürzliche Gruppen",
     "starred": "Favorisierte Gruppen",
     "archived": "Archivierte Gruppen",
     "archive": "Gruppe archivieren",
     "unarchive": "Gruppe wiederherstellen",
-    "removeRecent": "Aus letzten Gruppen entfernen",
+    "removeRecent": "Aus kürzlichen Gruppen entfernen",
     "RecentRemovedToast": {
       "title": "Gruppe wurde entfernt",
-      "description": "Die Gruppe wurde von deiner Liste der letzten Gruppen entfernt.",
-      "undoAlt": "Gruppe entfernen rückgängig machen",
+      "description": "Die Gruppe wurde aus deiner Liste kürzlicher Gruppen entfernt.",
+      "undoAlt": "Gruppenlöschung rückgängig machen",
       "undo": "Rückgängig machen"
     },
     "AddByURL": {
-      "button": "Mit URL hinzufügen",
-      "title": "Gruppe mit URL hinzufügen",
+      "button": "Von URL hinzufügen",
+      "title": "Gruppe von URL hinzufügen",
       "description": "Wenn eine Gruppe mit dir geteilt wurde, kannst du ihre URL hier einfügen, um sie zu deiner Liste hinzuzufügen.",
       "error": "Ups, wir können die Gruppe mit der angegebenen URL nicht finden…"
     },
@@ -97,23 +97,23 @@
       "description": "Wir benutzen es, um Beträge anzuzeigen."
     },
     "Participants": {
-      "title": "Mitglieder",
-      "description": "Füge einen Namen für jedes Gruppenmitglied hinzu.",
-      "protectedParticipant": "Dieses Mitglied ist Teil der Ausgaben und kann nicht entfernt werden.",
+      "title": "Teilnehmer",
+      "description": "Gib einen Namen für jeden Teilnehmer an.",
+      "protectedParticipant": "Dieser Teilnehmer ist Teil von Ausgaben und kann nicht entfernt werden.",
       "new": "Neu",
-      "add": "Mitglied hinzufügen",
-      "John": "Johannes",
-      "Jane": "Janina",
-      "Jack": "Jakob"
+      "add": "Teilnehmer hinzufügen",
+      "John": "John",
+      "Jane": "Jane",
+      "Jack": "Jack"
     },
     "Settings": {
       "title": "Lokale Einstellungen",
-      "description": "Dies sind Einstellungen pro Gerät, die verwendet werden, um deine Benutzererfahrung zu verbessern.",
+      "description": "Diese Einstellungen gelten nur auf dem jeweiligen Gerät und werden verwendet, um deine Benutzererfahrung zu verbessern.",
       "ActiveUserField": {
         "label": "Aktiver Nutzer",
-        "placeholder": "Wähle ein Mitglied",
+        "placeholder": "Wähle einen Teilnehmer",
         "none": "Keiner",
-        "description": "Standardnutzer, der die Ausgaben übernimmt."
+        "description": "Standardnutzer, um Ausgaben zu bezahlen."
       },
       "save": "Speichern",
       "saving": "Speichert…",
@@ -139,12 +139,12 @@
       },
       "DateField": {
         "label": "Datum der Einnahme",
-        "description": "Füge ein Datum hinzu für wann die Einnahme erhalten wurde."
+        "description": "Gib an, wann die Einnahme erhalten wurde."
       },
       "categoryFieldDescription": "Wähle die Kategorie der Einnahme.",
       "paidByField": {
-        "label": "Empfangen von",
-        "description": "Wähle das Mitglied, das die Einnahme erhalten hat."
+        "label": "Erhalten von",
+        "description": "Wähle den Teilnehmer, der die Einnahme erhalten hat."
       },
       "recurrenceRule": {
         "label": "Wiederholung der Einnahme",
@@ -155,14 +155,14 @@
         "monthly": "Monatlich"
       },
       "paidFor": {
-        "title": "Empfangen für",
-        "description": "Wähle für wen die Einnahme empfangen wurde."
+        "title": "Erhalten für",
+        "description": "Wähle, für wen die Einnahme erhalten wurde."
       },
       "splitModeDescription": "Wähle, wie die Einnahme aufgeteilt werden soll.",
       "attachDescription": "Füge der Einnahme einen Beleg hinzu.",
       "currencyField": {
         "label": "Währung der Einnahme",
-        "description": "Die Währung, in der die Einnahmen erhalten wurden."
+        "description": "Die Währung, in der die Einnahme erhalten wurden."
       }
     },
     "Expense": {
@@ -175,25 +175,25 @@
       },
       "DateField": {
         "label": "Datum der Ausgabe",
-        "description": "Füge das Datum ein, zu dem die Ausgabe getätigt wurde."
+        "description": "Gib das Datum der Ausgabe an."
       },
       "categoryFieldDescription": "Wähle eine Kategorie für die Ausgabe.",
       "paidByField": {
         "label": "Gezahlt von",
-        "placeholder": "Wähle ein Mitglied",
-        "description": "Wähle das Mitglied, das die Ausgabe bezahlt hat."
+        "placeholder": "Wähle einen Teilnehmer",
+        "description": "Wähle den Teilnehmer, der die Ausgabe bezahlt hat."
       },
       "recurrenceRule": {
         "label": "Wiederholung der Ausgabe",
         "description": "Wähle aus, wie oft die Ausgabe wiederholt werden soll.",
-        "none": "Keine Wiederholung",
+        "none": "Niemals",
         "daily": "Täglich",
         "weekly": "Wöchentlich",
         "monthly": "Monatlich"
       },
       "paidFor": {
         "title": "Gezahlt für",
-        "description": "Wähle für wen die Ausgabe gezahlt wurde."
+        "description": "Wähle, für wen die Ausgabe gezahlt wurde."
       },
       "splitModeDescription": "Wähle, wie die Ausgabe aufgeteilt werden soll.",
       "attachDescription": "Füge der Ausgabe einen Beleg hinzu.",
@@ -220,11 +220,11 @@
     "advancedOptions": "Fortgeschrittene Aufteilungsoptionen…",
     "SplitModeField": {
       "label": "Aufteilungsart",
-      "evenly": "Gleich verteilt",
-      "byShares": "Ungleich – Nach Anteilen",
-      "byPercentage": "Ungleich – Prozentual",
-      "byAmount": "Ungleich – Nach Betrag",
-      "saveAsDefault": "Als Standardoptionen zur Aufteilung speichern"
+      "evenly": "Gleichmäßig",
+      "byShares": "Ungleichmäßig – Nach Anteilen",
+      "byPercentage": "Ungleichmäßig – Prozentual",
+      "byAmount": "Ungleichmäßig – Nach Betrag",
+      "saveAsDefault": "Als Standard für Aufteilungsoptionen speichern"
     },
     "DeletePopup": {
       "label": "Löschen",
@@ -233,33 +233,33 @@
       "yes": "Ja",
       "cancel": "Abbrechen"
     },
-    "attachDocuments": "Dokument hinzufügen",
+    "attachDocuments": "Dokumente hinzufügen",
     "create": "Erstellen",
     "creating": "Erstellt…",
     "save": "Speichern",
     "saving": "Speichert…",
     "cancel": "Abbrechen",
     "reimbursement": "Rückzahlung",
-    "conversionUnavailable": "Um für jede Ausgabe eine andere Währung festzulegen und Beträge umzurechnen, wählen Sie eine nicht benutzerdefinierte Währung für die Gruppe aus.",
+    "conversionUnavailable": "Um für jede Ausgabe eine andere Währung festzulegen und Beträge umzurechnen, wähle eine nicht-benutzerdefinierte Währung für die Gruppe aus.",
     "originalAmountField": {
       "label": "Umzurechnender Betrag"
     },
     "conversionRateState": {
-      "customRate": "Benutzerdefinierte Rate verwenden",
-      "loading": "Wechselkurse abrufen…",
-      "success": "Erhaltene Zinssätze:",
-      "error": "Oops, wir konnten die aktuellsten Zinssätze nicht abrufen.",
-      "staleRate": "Verwendeter Zinssatz:",
-      "noRate": "Geben Sie unten einen benutzerdefinierten Zinssatz ein.",
-      "noDate": "Geben Sie das Ausgabedatum ein, um einen Umrechnungskurs zu erhalten.",
-      "dateMismatch": "Zinssätze von Datum: {date}",
-      "refresh": "Aktualisiere",
-      "currencyNotFound": "Oops, Frankfurter hat für diese Währung an diesem Tag keinen Zinssatz."
+      "customRate": "Eigenen Wechselkurs verwenden",
+      "loading": "Rufe Wechselkurse ab…",
+      "success": "Erhaltene Wechselkurse:",
+      "error": "Ups, wir konnten die aktuellsten Wechselkurse nicht abrufen.",
+      "staleRate": "Verwendeter Wechselkurs:",
+      "noRate": "Gib unten einen eigenen Wechselkurs an.",
+      "noDate": "Gib das Ausgabedatum an, um einen Wechselkurs zu erhalten.",
+      "dateMismatch": "Wechselkurse vom Datum: {date}",
+      "refresh": "Aktualisieren",
+      "currencyNotFound": "Ups, Frankfurter hat für diese Währung an diesem Tag keinen Wechselkurs."
     },
     "conversionRateField": {
-      "useCustom": "Benutze individuelle Rate",
+      "useCustom": "Benutze eigenen Wechselkurs",
       "label": "Wechselkurs",
-      "useApi": "Benutze Zinssätze von Frankfurter"
+      "useApi": "Benutze Wechselkurse von Frankfurter"
     }
   },
   "ExpenseDocumentsInput": {
@@ -275,16 +275,16 @@
   },
   "CreateFromReceipt": {
     "Dialog": {
-      "triggerTitle": "Ausgabe von Rechnungsbeleg erstellen",
-      "title": "Von Rechnungsbeleg erstellen",
-      "description": "Ausgabeninformationen von einem Foto einer Rechnung lesen.",
-      "body": "Lade ein Foto der Rechnung hoch und wir versuchen die Ausgabeinformationen zu extrahieren.",
+      "triggerTitle": "Ausgabe aus Rechnungsbeleg erstellen",
+      "title": "Aus Rechnungsbeleg erstellen",
+      "description": "Ausgabeninformationen aus einem Foto einer Rechnung auslesen.",
+      "body": "Lade ein Foto der Rechnung hoch und wir versuchen, die Ausgabeinformationen zu extrahieren.",
       "selectImage": "Bild wählen…",
       "titleLabel": "Titel:",
       "categoryLabel": "Kategorie:",
       "amountLabel": "Betrag:",
       "dateLabel": "Datum:",
-      "editNext": "Als nächstes kannst du die Informationen zur Ausgabe editieren.",
+      "editNext": "Als Nächstes kannst du die Ausgabeninformationen bearbeiten.",
       "continue": "Weiter"
     },
     "unknown": "Unbekannt",
@@ -299,45 +299,45 @@
     }
   },
   "Balances": {
-    "title": "Bilanz",
-    "description": "Das sind die Beträge, die jedes Mitglied bezahlt oder empfangen hat.",
+    "title": "Salden",
+    "description": "Das sind die Beträge, die jeder Teilnehmer bezahlt oder erhalten hat.",
     "Reimbursements": {
       "title": "Vorgeschlagene Rückzahlungen",
-      "description": "Hier sind Vorschläge für optimierte Rückzahlungen zwischen Mitgliedern.",
-      "noImbursements": "Es sieht aus, als seien in der Gruppe keine Rückzahlungen nötig 😁",
+      "description": "Hier sind Vorschläge für optimierte Rückzahlungen zwischen Teilnehmern.",
+      "noImbursements": "Es scheint, als seien in der Gruppe keine Rückzahlungen nötig 😁",
       "owes": "<strong>{from}</strong> schuldet <strong>{to}</strong>",
-      "markAsPaid": "Als gezahlt markieren"
+      "markAsPaid": "Als bezahlt markieren"
     }
   },
   "Stats": {
     "title": "Statistiken",
     "Totals": {
       "title": "Gesamtausgaben",
-      "description": "Zusammenfassung der Ausgaben der gesamten Gruppe.",
-      "groupSpendings": "Gesamte Ausgaben der Gruppe",
-      "groupEarnings": "Gesamte Einnahmen der Gruppe",
-      "yourSpendings": "Deine gesamten Ausgaben",
-      "yourEarnings": "Deine gesamten Einnahmen",
-      "yourShare": "Dein gesamter Anteil"
+      "description": "Ausgabenzusammenfassung der gesamten Gruppe.",
+      "groupSpendings": "Gesamtausgaben der Gruppe",
+      "groupEarnings": "Gesamteinnahmen der Gruppe",
+      "yourSpendings": "Deine Gesamtausgaben",
+      "yourEarnings": "Deine Gesamteinnahmen",
+      "yourShare": "Dein Gesamtanteil"
     }
   },
   "Activity": {
     "title": "Aktivitäten",
     "description": "Zusammenfassung aller Aktivitäten in dieser Gruppe.",
-    "noActivity": "Es gab noch keine Aktivität in dieser Gruppe.",
+    "noActivity": "Es gibt noch keine Aktivität in deiner Gruppe.",
     "someone": "Jemand",
-    "settingsModified": "Die Gruppeneinstellungen wurden von <strong>{participant}</strong> verändert.",
-    "expenseCreated": "Ausgabe <em>{expense}</em> wurde von <strong>{participant}</strong> erstellt.",
-    "expenseUpdated": "Ausgabe <em>{expense}</em> wurde von <strong>{participant}</strong> aktualisiert.",
-    "expenseDeleted": "Ausgabe <em>{expense}</em> wurde von <strong>{participant}</strong> gelöscht.",
+    "settingsModified": "Gruppeneinstellungen wurden geändert von <strong>{participant}</strong>.",
+    "expenseCreated": "Ausgabe <em>{expense}</em> erstellt von <strong>{participant}</strong>.",
+    "expenseUpdated": "Ausgabe <em>{expense}</em> geändert von <strong>{participant}</strong>.",
+    "expenseDeleted": "Ausgabe <em>{expense}</em> gelöscht von <strong>{participant}</strong>.",
     "Groups": {
       "today": "Heute",
       "yesterday": "Gestern",
-      "earlierThisWeek": "Anfang dieser Woche",
+      "earlierThisWeek": "Anfang der Woche",
       "lastWeek": "Letze Woche",
-      "earlierThisMonth": "Diesen Monat",
+      "earlierThisMonth": "Anfang des Monats",
       "lastMonth": "Letzen Monat",
-      "earlierThisYear": "Dieses Jahr",
+      "earlierThisYear": "Anfang des Jahres",
       "lastYear": "Letztes Jahr",
       "older": "Älter"
     }
@@ -352,30 +352,30 @@
   },
   "Share": {
     "title": "Teilen",
-    "description": "Teile die URL, damit andere Mitglieder die Gruppe sehen und Ausgaben hinzufügen können.",
+    "description": "Teile die URL, damit andere Teilnehmer die Gruppe sehen und Ausgaben hinzufügen können.",
     "warning": "Achtung!",
-    "warningHelp": "Jede Person mit der Gruppen-URL kann Ausgaben sehen und editieren. Teile den Link mit Bedacht!"
+    "warningHelp": "Jede Person mit der Gruppen-URL kann Ausgaben sehen und bearbeiten. Teile den Link mit Bedacht!"
   },
   "SchemaErrors": {
     "min1": "Gib mindestens ein Zeichen ein.",
     "min2": "Gib mindestens zwei Zeichen ein.",
     "max5": "Gib maximal fünf Zeichen ein.",
     "max50": "Gib maximal 50 Zeichen ein.",
-    "duplicateParticipantName": "Der Name ist bereits an ein anderes Gruppenmitglied vergeben.",
+    "duplicateParticipantName": "Ein anderer Teilnehmer hat bereits diesen Namen.",
     "titleRequired": "Bitte gib einen Titel an.",
-    "invalidNumber": "Zahl nicht valide.",
+    "invalidNumber": "Ungültige Zahl.",
     "amountRequired": "Du musst einen Betrag angeben.",
     "amountNotZero": "Der Betrag darf nicht 0 sein.",
     "amountTenMillion": "Der Betrag muss kleiner als 10.000.000 sein.",
-    "paidByRequired": "Du musst ein Mitglied auswählen.",
-    "paidForMin1": "Die Ausgabe muss mindestens für ein Mitglied bezahlt werden.",
+    "paidByRequired": "Du musst einen Teilnehmer auswählen.",
+    "paidForMin1": "Die Ausgabe muss für mindestens einen Teilnehmer bezahlt werden.",
     "noZeroShares": "Alle Anteile müssen größer als 0 sein.",
     "amountSum": "Die Summe der Beträge muss dem Betrag der Ausgabe entsprechen.",
     "percentageSum": "Die Summe der prozentualen Anteile muss 100 ergeben.",
-    "ratePositive": "Der Zinssatz muss unbedingt größer als Null sein."
+    "ratePositive": "Der Wechselkurs muss unbedingt größer als Null sein."
   },
   "Categories": {
-    "search": "Nach Kategorie suchen...",
+    "search": "Kategorie suchen...",
     "noCategory": "Keine Kategorie gefunden.",
     "Uncategorized": {
       "heading": "Nicht kategorisiert",
@@ -383,8 +383,8 @@
       "Payment": "Zahlung"
     },
     "Entertainment": {
-      "heading": "Vergnügen",
-      "Entertainment": "Vergnügen",
+      "heading": "Unterhaltung",
+      "Entertainment": "Unterhaltung",
       "Games": "Spiele",
       "Movies": "Filme",
       "Music": "Musik",
@@ -393,8 +393,8 @@
     "Food and Drink": {
       "heading": "Essen und Trinken",
       "Food and Drink": "Essen und Trinken",
-      "Dining Out": "Essen gehen",
-      "Groceries": "Lebensmittel",
+      "Dining Out": "Restaurant",
+      "Groceries": "Einkaufen",
       "Liquor": "Alkohol"
     },
     "Home": {
@@ -435,11 +435,11 @@
     "Utilities": {
       "heading": "Versorgung",
       "Utilities": "Versorgung",
-      "Cleaning": "Reinigung/Putzen",
+      "Cleaning": "Reinigung",
       "Electricity": "Strom",
-      "Heat/Gas": "Heizung",
+      "Heat/Gas": "Heizung/Gas",
       "Trash": "Müll",
-      "TV/Phone/Internet": "TV/Internet/Telefonie",
+      "TV/Phone/Internet": "TV/Handy/Internet",
       "Water": "Wasser"
     }
   },
@@ -453,7 +453,7 @@
       "heading": "Benutzerdefinierte"
     },
     "common": {
-      "heading": "Geläufigste"
+      "heading": "Häufigste"
     }
   }
 }
