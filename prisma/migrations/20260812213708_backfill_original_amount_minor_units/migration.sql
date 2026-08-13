@@ -80,7 +80,11 @@ candidate AS (
         -- 10^od: the correction factor, and also the ratio between the two candidates
         power(10::numeric, COALESCE(original_currency."decimals", 2)) AS "originalFactor",
         expense."originalAmount"::numeric
-            * power(10::numeric, COALESCE(original_currency."decimals", 2)) AS "correctedOriginalAmount"
+            * power(10::numeric, COALESCE(original_currency."decimals", 2)) AS "correctedOriginalAmount",
+        -- The form only stores a conversion when the two currencies differ, so a row
+        -- where they match has been through a change the stored values do not reflect.
+        (expense."originalCurrency" IS NOT DISTINCT FROM "group"."currencyCode")
+            AS "sameCurrency"
     FROM "Expense" expense
     JOIN "Group" "group"
         ON "group"."id" = expense."groupId"
@@ -100,6 +104,14 @@ to_fix AS (
     FROM candidate
     -- 0-decimal original currencies: major units *are* minor units, nothing to do.
     WHERE "originalFactor" > 1
+      -- A row whose original currency equals its group's currency needs no
+      -- conversion, so the form never writes one: its group's currency was changed
+      -- afterwards (updateGroup in src/lib/api.ts lets that happen and does not
+      -- rescale existing amounts), leaving "amount", "conversionRate" and the two
+      -- currency codes describing different states of the world. On spliit.app such
+      -- rows are 2% of the conversion data but 86% of the rows whose "amount" cannot
+      -- be explained at all, so they are not classifiable and are left alone.
+      AND NOT "sameCurrency"
       -- nearest fit: closer to the pre-fix candidate than to the post-fix one
       AND abs("amount" - "preFixAmount")
           < abs("amount" - "preFixAmount" / "originalFactor")
