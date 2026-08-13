@@ -32,6 +32,9 @@ export async function GET(
           splitMode: true,
           recurrenceRule: true,
           notes: true,
+          documents: {
+            select: { id: true, url: true, width: true, height: true },
+          },
         },
         orderBy: [{ expenseDate: 'asc' }, { createdAt: 'asc' }],
       },
@@ -54,10 +57,13 @@ export async function GET(
 
   const date = new Date().toISOString().split('T')[0]
   const filename = `Spliit Export - ${date}`
-  return NextResponse.json(group, {
-    headers: {
-      'content-type': 'application/json',
-      'content-disposition': contentDisposition(`${filename}.json`),
+  return NextResponse.json(
+    { exportVersion: 3 as const, ...group },
+    {
+      headers: {
+        'content-type': 'application/json',
+        'content-disposition': contentDisposition(`${filename}.json`),
+      },
     },
-  })
+  )
 }
