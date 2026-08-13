@@ -4,9 +4,10 @@ import {
   ActivityItem,
 } from '@/app/groups/[groupId]/activity/activity-item'
 import { Skeleton } from '@/components/ui/skeleton'
+import { getWeekStartsOn, isSameWeek } from '@/lib/date-groups'
 import { trpc } from '@/trpc/client'
 import dayjs, { type Dayjs } from 'dayjs'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { forwardRef, useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useCurrentGroup } from '../current-group-context'
@@ -25,14 +26,14 @@ const DATE_GROUPS = {
   OLDER: 'older',
 }
 
-function getDateGroup(date: Dayjs, today: Dayjs) {
+function getDateGroup(date: Dayjs, today: Dayjs, weekStartsOn: number) {
   if (today.isSame(date, 'day')) {
     return DATE_GROUPS.TODAY
   } else if (today.subtract(1, 'day').isSame(date, 'day')) {
     return DATE_GROUPS.YESTERDAY
-  } else if (today.isSame(date, 'week')) {
+  } else if (isSameWeek(today, date, weekStartsOn)) {
     return DATE_GROUPS.EARLIER_THIS_WEEK
-  } else if (today.subtract(1, 'week').isSame(date, 'week')) {
+  } else if (isSameWeek(today.subtract(1, 'week'), date, weekStartsOn)) {
     return DATE_GROUPS.LAST_WEEK
   } else if (today.isSame(date, 'month')) {
     return DATE_GROUPS.EARLIER_THIS_MONTH
@@ -47,11 +48,18 @@ function getDateGroup(date: Dayjs, today: Dayjs) {
   }
 }
 
-function getGroupedActivitiesByDate(activities: Activity[]) {
+function getGroupedActivitiesByDate(
+  activities: Activity[],
+  weekStartsOn: number,
+) {
   const today = dayjs()
   return activities.reduce(
     (result, activity) => {
-      const activityGroup = getDateGroup(dayjs(activity.time), today)
+      const activityGroup = getDateGroup(
+        dayjs(activity.time),
+        today,
+        weekStartsOn,
+      )
       result[activityGroup] = result[activityGroup] ?? []
       result[activityGroup].push(activity)
       return result
@@ -85,6 +93,8 @@ ActivitiesLoading.displayName = 'ActivitiesLoading'
 
 export function ActivityList() {
   const t = useTranslations('Activity')
+  const locale = useLocale()
+  const weekStartsOn = getWeekStartsOn(locale)
   const { group, groupId } = useCurrentGroup()
 
   const {
@@ -106,7 +116,10 @@ export function ActivityList() {
 
   if (isLoading || !activities || !group) return <ActivitiesLoading />
 
-  const groupedActivitiesByDate = getGroupedActivitiesByDate(activities)
+  const groupedActivitiesByDate = getGroupedActivitiesByDate(
+    activities,
+    weekStartsOn,
+  )
 
   return activities.length > 0 ? (
     <>

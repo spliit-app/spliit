@@ -4,10 +4,11 @@ import { getGroupExpensesAction } from '@/app/groups/[groupId]/expenses/expense-
 import { Button } from '@/components/ui/button'
 import { SearchBar } from '@/components/ui/search-bar'
 import { Skeleton } from '@/components/ui/skeleton'
+import { getWeekStartsOn, isSameWeek } from '@/lib/date-groups'
 import { getCurrencyFromGroup } from '@/lib/utils'
 import { trpc } from '@/trpc/client'
 import dayjs, { type Dayjs } from 'dayjs'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { forwardRef, useEffect, useMemo, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
@@ -30,10 +31,10 @@ const EXPENSE_GROUPS = {
   OLDER: 'older',
 }
 
-function getExpenseGroup(date: Dayjs, today: Dayjs) {
+function getExpenseGroup(date: Dayjs, today: Dayjs, weekStartsOn: number) {
   if (today.isBefore(date)) {
     return EXPENSE_GROUPS.UPCOMING
-  } else if (today.isSame(date, 'week')) {
+  } else if (isSameWeek(today, date, weekStartsOn)) {
     return EXPENSE_GROUPS.THIS_WEEK
   } else if (today.isSame(date, 'month')) {
     return EXPENSE_GROUPS.EARLIER_THIS_MONTH
@@ -48,10 +49,17 @@ function getExpenseGroup(date: Dayjs, today: Dayjs) {
   }
 }
 
-function getGroupedExpensesByDate(expenses: ExpensesType) {
+function getGroupedExpensesByDate(
+  expenses: ExpensesType,
+  weekStartsOn: number,
+) {
   const today = dayjs()
   return expenses.reduce((result: { [key: string]: ExpensesType }, expense) => {
-    const expenseGroup = getExpenseGroup(dayjs(expense.expenseDate), today)
+    const expenseGroup = getExpenseGroup(
+      dayjs(expense.expenseDate),
+      today,
+      weekStartsOn,
+    )
     result[expenseGroup] = result[expenseGroup] ?? []
     result[expenseGroup].push(expense)
     return result
@@ -114,6 +122,8 @@ const ExpenseListForSearch = ({
   }, [utils])
 
   const t = useTranslations('Expenses')
+  const locale = useLocale()
+  const weekStartsOn = getWeekStartsOn(locale)
   const { ref: loadingRef, inView } = useInView()
 
   const {
@@ -134,8 +144,8 @@ const ExpenseListForSearch = ({
   }, [fetchNextPage, hasMore, inView, isLoading])
 
   const groupedExpensesByDate = useMemo(
-    () => (expenses ? getGroupedExpensesByDate(expenses) : {}),
-    [expenses],
+    () => (expenses ? getGroupedExpensesByDate(expenses, weekStartsOn) : {}),
+    [expenses, weekStartsOn],
   )
 
   if (isLoading) return <ExpensesLoading />
