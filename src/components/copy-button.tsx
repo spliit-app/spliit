@@ -3,9 +3,9 @@ import { Button } from '@/components/ui/button'
 import { Check, Copy } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
-type Props = { text: string }
+type Props = { text: string; title?: string }
 
-export function CopyButton({ text }: Props) {
+export function CopyButton({ text, title }: Props) {
   const [copied, setCopied] = useState(false)
 
   useEffect(() => {
@@ -23,6 +23,7 @@ export function CopyButton({ text }: Props) {
       size="icon"
       variant="secondary"
       type="button"
+      title={title}
       onClick={() => {
         navigator.clipboard.writeText(text)
         setCopied(true)
