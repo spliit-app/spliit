@@ -261,6 +261,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "VND": {
+      "name": "Dong Vietnam",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
     "ZAR": {
       "name": "Rand Afrika Selatan",
       "symbol_native": "R",
@@ -532,6 +541,15 @@
       "name_plural": "Thai baht",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "VND": {
+      "name": "dong vietnamita",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
     },
     "ZAR": {
       "name": "rand sud-africà",
@@ -805,6 +823,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "VND": {
+      "name": "vietnamský dong",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
     "ZAR": {
       "name": "jihoafrický rand",
       "symbol_native": "R",
@@ -1076,6 +1103,15 @@
       "name_plural": "Thai baht",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "VND": {
+      "name": "Vietnamesischer Dong",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
     },
     "ZAR": {
       "name": "Südafrikanischer Rand",
@@ -1349,6 +1385,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "VND": {
+      "name": "Vietnamese Dong",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
     "ZAR": {
       "name": "South African Rand",
       "symbol_native": "R",
@@ -1620,6 +1665,15 @@
       "name_plural": "Thai baht",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "VND": {
+      "name": "dong",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
     },
     "ZAR": {
       "name": "rand",
@@ -1893,6 +1947,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "VND": {
+      "name": "Vietnameko donga",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
     "ZAR": {
       "name": "Hegoafrikako randa",
       "symbol_native": "R",
@@ -2164,6 +2227,15 @@
       "name_plural": "Thai baht",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "VND": {
+      "name": "dông vietnamien",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
     },
     "ZAR": {
       "name": "rand sud-africain",
@@ -2437,6 +2509,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "VND": {
+      "name": "dong vietnamita",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
     "ZAR": {
       "name": "rand sudafricano",
       "symbol_native": "R",
@@ -2708,6 +2789,15 @@
       "name_plural": "Thai baht",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "VND": {
+      "name": "Vietnamese dong",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
     },
     "ZAR": {
       "name": "Zuid-Afrikaanse rand",
@@ -2981,6 +3071,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "VND": {
+      "name": "dong wietnamski",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
     "ZAR": {
       "name": "rand południowoafrykański",
       "symbol_native": "R",
@@ -3252,6 +3351,15 @@
       "name_plural": "Thai baht",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "VND": {
+      "name": "Dong vietnamita",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
     },
     "ZAR": {
       "name": "Rand sul-africano",
@@ -3525,6 +3633,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "VND": {
+      "name": "Dong vietnamita",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
     "ZAR": {
       "name": "Rand sul-africano",
       "symbol_native": "R",
@@ -3796,6 +3913,15 @@
       "name_plural": "Thai baht",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "VND": {
+      "name": "dong vietnamez",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
     },
     "ZAR": {
       "name": "rand sud-african",
@@ -4069,6 +4195,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "VND": {
+      "name": "Vietnamin dong",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
     "ZAR": {
       "name": "Etelä-Afrikan randi",
       "symbol_native": "R",
@@ -4340,6 +4475,15 @@
       "name_plural": "Thai baht",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "VND": {
+      "name": "Vietnam Dongu",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
     },
     "ZAR": {
       "name": "Güney Afrika Randı",
@@ -4613,6 +4757,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "VND": {
+      "name": "Вьетнамский донг",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
     "ZAR": {
       "name": "Южноафриканский рэнд",
       "symbol_native": "R",
@@ -4884,6 +5037,15 @@
       "name_plural": "Thai baht",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "VND": {
+      "name": "вʼєтнамський донг",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
     },
     "ZAR": {
       "name": "південноафриканський ранд",
@@ -5157,6 +5319,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "VND": {
+      "name": "דונג וייטנאמי",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
     "ZAR": {
       "name": "ראנד דרום אפריקאי",
       "symbol_native": "R",
@@ -5428,6 +5599,15 @@
       "name_plural": "Thai baht",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "VND": {
+      "name": "دونج فيتنامي",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
     },
     "ZAR": {
       "name": "راند جنوب أفريقيا",
@@ -5701,6 +5881,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "VND": {
+      "name": "베트남 동",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
     "ZAR": {
       "name": "남아프리카 랜드",
       "symbol_native": "R",
@@ -5972,6 +6161,15 @@
       "name_plural": "Thai baht",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "VND": {
+      "name": "ベトナム ドン",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
     },
     "ZAR": {
       "name": "南アフリカ ランド",
@@ -6245,6 +6443,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "VND": {
+      "name": "越南盾",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
     "ZAR": {
       "name": "南非兰特",
       "symbol_native": "R",
@@ -6516,6 +6723,15 @@
       "name_plural": "Thai baht",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "VND": {
+      "name": "越南盾",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
     },
     "ZAR": {
       "name": "南非兰特",
