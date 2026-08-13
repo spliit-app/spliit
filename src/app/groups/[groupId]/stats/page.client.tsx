@@ -1,3 +1,4 @@
+import { MonthlySpending } from '@/app/groups/[groupId]/stats/monthly-spending'
 import { Totals } from '@/app/groups/[groupId]/stats/totals'
 import {
   Card,
@@ -22,6 +23,7 @@ export function TotalsPageClient() {
           <Totals />
         </CardContent>
       </Card>
+      <MonthlySpending />
     </>
   )
 }

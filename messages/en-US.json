@@ -312,6 +312,42 @@
       "yourSpendings": "Your total spendings",
       "yourEarnings": "Your total earnings",
       "yourShare": "Your total share"
+    },
+    "MonthlySpending": {
+      "title": "Monthly spending",
+      "description": "Spending by month and category.",
+      "rangeLabel": "Range",
+      "groupingLabel": "Category grouping",
+      "chartTypeLabel": "Chart type",
+      "stackedTitle": "Monthly categories",
+      "breakdownTitle": "{range} category breakdown",
+      "balanceTimelineTitle": "Balance timeline",
+      "categoryMarkers": "Category markers",
+      "isOwedMoney": "Is owed money",
+      "owesMoney": "Owes money",
+      "payment": "Reimbursement",
+      "roundAmountsLabel": "Round amounts",
+      "stackOrderLabel": "Stack order",
+      "income": "Income",
+      "noData": "No spending data yet.",
+      "ChartTypes": {
+        "bars": "Stacked bars",
+        "columns": "Stacked columns"
+      },
+      "StackOrders": {
+        "smallInside": "Smaller debt inside",
+        "smallOutside": "Smaller debt outside"
+      },
+      "RangeOptions": {
+        "three": "3 months",
+        "six": "6 months",
+        "twelve": "12 months",
+        "all": "All"
+      },
+      "GroupingOptions": {
+        "categoryGroup": "Categories",
+        "category": "Detailed"
+      }
     }
   },
   "Activity": {
