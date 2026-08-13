@@ -6,6 +6,12 @@ on:
   pull_request:
     branches: ['main']
 
+# Least privilege: the checks only read the repository. Without an explicit
+# block, the workflow runs with the repository's default token scopes, which
+# for many repositories includes write access.
+permissions:
+  contents: read
+
 jobs:
   checks:
     runs-on: ubuntu-latest
