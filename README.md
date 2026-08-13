@@ -38,10 +38,17 @@ Spliit is a free and open source alternative to Splitwise. You can either use th
 The project is open to contributions. Feel free to open an issue or even a pull-request! 
 Join the discussion in [the Spliit Discord server](https://discord.gg/YSyVXbwvSY).
 
-If you want to contribute financially and help us keep the application free and without ads, you can also:
+### Contribute financially
 
-- 💜 [Sponsor me (Sebastien)](https://github.com/sponsors/scastiel), or
-- 💙 [Make a small one-time donation](https://donate.stripe.com/28o3eh96G7hH8k89Ba).
+Spliit is free, open source, and has no ads. Hosting, database and API costs are
+paid for by donations. If you want to help keep it that way, you can:
+
+- 🧡 [Support us on Open Collective](https://opencollective.com/spliit) — recurring or one-time,
+  with a public and transparent ledger of what comes in and what it is spent on, or
+- 💜 [Sponsor me (Sebastien)](https://github.com/sponsors/scastiel).
+
+Contributions of any size are appreciated, and so is simply telling people about
+the project.
 
 ### Translation
 
