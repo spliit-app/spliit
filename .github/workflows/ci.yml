@@ -18,11 +18,13 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         with:
+          # Matches the Dockerfile runtime and ships npm >= 11. npm 10 rejects
+          # lockfiles written by npm >= 11, which is what Dependabot uses.
           node-version: 24
           cache: 'npm'
 
@@ -40,3 +42,6 @@ jobs:
 
       - name: Check Prettier formatting
         run: npm run check-formatting
+
+      - name: Run tests
+        run: npm test
