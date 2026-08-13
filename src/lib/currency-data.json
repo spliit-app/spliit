@@ -217,11 +217,11 @@
       "decimal_digits": 0
     },
     "MKD": {
-      "name": "Macedonian Denar",
-      "symbol_native": "ден",
-      "symbol": "den",
+      "name": "Denar Makedonia",
+      "symbol_native": "MKD",
+      "symbol": "MKD",
       "code": "MKD",
-      "name_plural": "Macedonian denars",
+      "name_plural": "Macedonian denari",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -525,11 +525,11 @@
       "decimal_digits": 0
     },
     "MKD": {
-      "name": "Macedonian Denar",
-      "symbol_native": "ден",
-      "symbol": "den",
+      "name": "denar macedoni",
+      "symbol_native": "MKD",
+      "symbol": "MKD",
       "code": "MKD",
-      "name_plural": "Macedonian denars",
+      "name_plural": "Macedonian denari",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -833,11 +833,11 @@
       "decimal_digits": 0
     },
     "MKD": {
-      "name": "Makedonský denár",
-      "symbol_native": "ден",
-      "symbol": "den",
+      "name": "makedonský denár",
+      "symbol_native": "MKD",
+      "symbol": "MKD",
       "code": "MKD",
-      "name_plural": "Macedonian denars",
+      "name_plural": "Macedonian denari",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -1141,11 +1141,11 @@
       "decimal_digits": 0
     },
     "MKD": {
-      "name": "Nordmazedonischer Denar",
-      "symbol_native": "ден",
-      "symbol": "den",
+      "name": "Mazedonischer Denar",
+      "symbol_native": "MKD",
+      "symbol": "MKD",
       "code": "MKD",
-      "name_plural": "Macedonian denars",
+      "name_plural": "Macedonian denari",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -1449,11 +1449,11 @@
       "decimal_digits": 0
     },
     "MKD": {
-      "name": "Macedonian denar",
-      "symbol_native": "ден",
-      "symbol": "den",
+      "name": "Macedonian Denar",
+      "symbol_native": "MKD",
+      "symbol": "MKD",
       "code": "MKD",
-      "name_plural": "Macedonian denars",
+      "name_plural": "Macedonian denari",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -1757,11 +1757,11 @@
       "decimal_digits": 0
     },
     "MKD": {
-      "name": "Denar macedonio",
-      "symbol_native": "ден",
-      "symbol": "den",
+      "name": "dinar macedonio",
+      "symbol_native": "MKD",
+      "symbol": "MKD",
       "code": "MKD",
-      "name_plural": "Macedonian denars",
+      "name_plural": "Macedonian denari",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -2065,11 +2065,11 @@
       "decimal_digits": 0
     },
     "MKD": {
-      "name": "Mazedoniako denarra",
-      "symbol_native": "ден",
-      "symbol": "den",
+      "name": "Mazedoniako dinarra",
+      "symbol_native": "MKD",
+      "symbol": "MKD",
       "code": "MKD",
-      "name_plural": "Macedonian denars",
+      "name_plural": "Macedonian denari",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -2373,11 +2373,11 @@
       "decimal_digits": 0
     },
     "MKD": {
-      "name": "Denar macédonien",
-      "symbol_native": "ден",
-      "symbol": "den",
+      "name": "denar macédonien",
+      "symbol_native": "MKD",
+      "symbol": "MKD",
       "code": "MKD",
-      "name_plural": "Macedonian denars",
+      "name_plural": "Macedonian denari",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -2681,11 +2681,11 @@
       "decimal_digits": 0
     },
     "MKD": {
-      "name": "Dinaro macedone",
-      "symbol_native": "ден",
-      "symbol": "den",
+      "name": "denar macedone",
+      "symbol_native": "MKD",
+      "symbol": "MKD",
       "code": "MKD",
-      "name_plural": "Macedonian denars",
+      "name_plural": "Macedonian denari",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -2990,10 +2990,10 @@
     },
     "MKD": {
       "name": "Macedonische denar",
-      "symbol_native": "ден",
-      "symbol": "den",
+      "symbol_native": "MKD",
+      "symbol": "MKD",
       "code": "MKD",
-      "name_plural": "Macedonian denars",
+      "name_plural": "Macedonian denari",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -3297,11 +3297,11 @@
       "decimal_digits": 0
     },
     "MKD": {
-      "name": "Macedonia Północna",
-      "symbol_native": "ден",
-      "symbol": "den",
+      "name": "denar macedoński",
+      "symbol_native": "MKD",
+      "symbol": "MKD",
       "code": "MKD",
-      "name_plural": "Macedonian denars",
+      "name_plural": "Macedonian denari",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -3605,11 +3605,11 @@
       "decimal_digits": 0
     },
     "MKD": {
-      "name": "Dinar macedónio",
-      "symbol_native": "ден",
-      "symbol": "den",
+      "name": "Dinar macedônio",
+      "symbol_native": "MKD",
+      "symbol": "MKD",
       "code": "MKD",
-      "name_plural": "Macedonian denars",
+      "name_plural": "Macedonian denari",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -3913,11 +3913,11 @@
       "decimal_digits": 0
     },
     "MKD": {
-      "name": "Dinar macedónio",
-      "symbol_native": "ден",
-      "symbol": "den",
+      "name": "Dinar macedônio",
+      "symbol_native": "MKD",
+      "symbol": "MKD",
       "code": "MKD",
-      "name_plural": "Macedonian denars",
+      "name_plural": "Macedonian denari",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -4221,11 +4221,11 @@
       "decimal_digits": 0
     },
     "MKD": {
-      "name": "Denar macedonean",
-      "symbol_native": "ден",
-      "symbol": "den",
+      "name": "dinar macedonean",
+      "symbol_native": "MKD",
+      "symbol": "MKD",
       "code": "MKD",
-      "name_plural": "Macedonian denars",
+      "name_plural": "Macedonian denari",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -4530,10 +4530,10 @@
     },
     "MKD": {
       "name": "Makedonian denaari",
-      "symbol_native": "ден",
-      "symbol": "den",
+      "symbol_native": "MKD",
+      "symbol": "MKD",
       "code": "MKD",
-      "name_plural": "Macedonian denars",
+      "name_plural": "Macedonian denari",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -4837,11 +4837,11 @@
       "decimal_digits": 0
     },
     "MKD": {
-      "name": "Makedon dinarı",
-      "symbol_native": "ден",
-      "symbol": "den",
+      "name": "Makedonya Dinarı",
+      "symbol_native": "MKD",
+      "symbol": "MKD",
       "code": "MKD",
-      "name_plural": "Macedonian denars",
+      "name_plural": "Macedonian denari",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -5146,10 +5146,10 @@
     },
     "MKD": {
       "name": "Македонский денар",
-      "symbol_native": "ден",
-      "symbol": "den",
+      "symbol_native": "MKD",
+      "symbol": "MKD",
       "code": "MKD",
-      "name_plural": "Macedonian denars",
+      "name_plural": "Macedonian denari",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -5453,11 +5453,11 @@
       "decimal_digits": 0
     },
     "MKD": {
-      "name": "Македонський денар",
-      "symbol_native": "ден",
-      "symbol": "den",
+      "name": "македонський денар",
+      "symbol_native": "MKD",
+      "symbol": "MKD",
       "code": "MKD",
-      "name_plural": "Macedonian denars",
+      "name_plural": "Macedonian denari",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -5762,10 +5762,10 @@
     },
     "MKD": {
       "name": "דינר מקדוני",
-      "symbol_native": "ден",
-      "symbol": "den",
+      "symbol_native": "MKD",
+      "symbol": "MKD",
       "code": "MKD",
-      "name_plural": "Macedonian denars",
+      "name_plural": "Macedonian denari",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -6068,12 +6068,30 @@
       "rounding": 0,
       "decimal_digits": 0
     },
+    "MKD": {
+      "name": "دينار مقدوني",
+      "symbol_native": "MKD",
+      "symbol": "MKD",
+      "code": "MKD",
+      "name_plural": "Macedonian denari",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "MXN": {
       "name": "بيزو مكسيكي",
       "symbol_native": "$",
       "symbol": "MX$",
       "code": "MXN",
       "name_plural": "Mexican pesos",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "MYR": {
+      "name": "رينغيت ماليزي",
+      "symbol_native": "RM",
+      "symbol": "RM",
+      "code": "MYR",
+      "name_plural": "Malaysian ringgits",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -6130,6 +6148,15 @@
       "name_plural": "South African rand",
       "rounding": 0,
       "decimal_digits": 2
+    },
+    "COP": {
+      "name": "بيزو كولومبي",
+      "symbol_native": "$",
+      "symbol": "CO$",
+      "code": "COP",
+      "name_plural": "Colombian pesos",
+      "rounding": 0,
+      "decimal_digits": 0
     }
   },
   "ko": {
@@ -6351,10 +6378,10 @@
     },
     "MKD": {
       "name": "마케도니아 디나르",
-      "symbol_native": "ден",
-      "symbol": "den",
+      "symbol_native": "MKD",
+      "symbol": "MKD",
       "code": "MKD",
-      "name_plural": "Macedonian denars",
+      "name_plural": "Macedonian denari",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -6658,11 +6685,11 @@
       "decimal_digits": 0
     },
     "MKD": {
-      "name": "マケドニア・デナール",
-      "symbol_native": "ден",
-      "symbol": "den",
+      "name": "マケドニア デナル",
+      "symbol_native": "MKD",
+      "symbol": "MKD",
       "code": "MKD",
-      "name_plural": "Macedonian denars",
+      "name_plural": "Macedonian denari",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -6967,10 +6994,10 @@
     },
     "MKD": {
       "name": "马其顿第纳尔",
-      "symbol_native": "ден",
-      "symbol": "den",
+      "symbol_native": "MKD",
+      "symbol": "MKD",
       "code": "MKD",
-      "name_plural": "Macedonian denars",
+      "name_plural": "Macedonian denari",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -7274,11 +7301,11 @@
       "decimal_digits": 0
     },
     "MKD": {
-      "name": "馬其頓第納爾",
-      "symbol_native": "ден",
-      "symbol": "den",
+      "name": "马其顿第纳尔",
+      "symbol_native": "MKD",
+      "symbol": "MKD",
       "code": "MKD",
-      "name_plural": "Macedonian denars",
+      "name_plural": "Macedonian denari",
       "rounding": 0,
       "decimal_digits": 2
     },
