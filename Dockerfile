@@ -31,7 +31,7 @@ WORKDIR /usr/app
 COPY --from=base /usr/app/package.json /usr/app/package-lock.json /usr/app/next.config.mjs ./
 COPY --from=base /usr/app/prisma ./prisma
 
-RUN npm ci --omit=dev --omit=optional --ignore-scripts && \
+RUN npm ci --omit=dev --ignore-scripts && \
     npx prisma generate
 
 FROM node:24-alpine AS runner
