@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/popover'
 import { useMediaQuery } from '@/lib/hooks'
 import { trpc } from '@/trpc/client'
-import { Loader2, Plus, QrCode, Link as LinkIcon } from 'lucide-react'
+import { Link as LinkIcon, Loader2, Plus, QrCode } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 
@@ -134,7 +134,12 @@ export function AddGroupByUrlButton({ reload }: Props) {
                 setScanError('')
               }}
             />
-            <Button size="icon" type="submit" disabled={pending} className="flex-shrink-0">
+            <Button
+              size="icon"
+              type="submit"
+              disabled={pending}
+              className="flex-shrink-0"
+            >
               {pending ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
               ) : (
