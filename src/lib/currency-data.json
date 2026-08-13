@@ -216,6 +216,15 @@
       "rounding": 0,
       "decimal_digits": 0
     },
+    "MKD": {
+      "name": "Macedonian Denar",
+      "symbol_native": "ден",
+      "symbol": "den",
+      "code": "MKD",
+      "name_plural": "Macedonian denars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "MXN": {
       "name": "Peso Meksiko",
       "symbol_native": "$",
@@ -505,6 +514,15 @@
       "name_plural": "South Korean won",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MKD": {
+      "name": "Macedonian Denar",
+      "symbol_native": "ден",
+      "symbol": "den",
+      "code": "MKD",
+      "name_plural": "Macedonian denars",
+      "rounding": 0,
+      "decimal_digits": 2
     },
     "MXN": {
       "name": "peso mexicà",
@@ -796,6 +814,15 @@
       "rounding": 0,
       "decimal_digits": 0
     },
+    "MKD": {
+      "name": "Makedonský denár",
+      "symbol_native": "ден",
+      "symbol": "den",
+      "code": "MKD",
+      "name_plural": "Macedonian denars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "MXN": {
       "name": "mexické peso",
       "symbol_native": "$",
@@ -1085,6 +1112,15 @@
       "name_plural": "South Korean won",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MKD": {
+      "name": "Nordmazedonischer Denar",
+      "symbol_native": "ден",
+      "symbol": "den",
+      "code": "MKD",
+      "name_plural": "Macedonian denars",
+      "rounding": 0,
+      "decimal_digits": 2
     },
     "MXN": {
       "name": "Mexikanischer Peso",
@@ -1376,6 +1412,15 @@
       "rounding": 0,
       "decimal_digits": 0
     },
+    "MKD": {
+      "name": "Macedonian denar",
+      "symbol_native": "ден",
+      "symbol": "den",
+      "code": "MKD",
+      "name_plural": "Macedonian denars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "MXN": {
       "name": "Mexican Peso",
       "symbol_native": "$",
@@ -1665,6 +1710,15 @@
       "name_plural": "South Korean won",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MKD": {
+      "name": "Denar macedonio",
+      "symbol_native": "ден",
+      "symbol": "den",
+      "code": "MKD",
+      "name_plural": "Macedonian denars",
+      "rounding": 0,
+      "decimal_digits": 2
     },
     "MXN": {
       "name": "peso mexicano",
@@ -1956,6 +2010,15 @@
       "rounding": 0,
       "decimal_digits": 0
     },
+    "MKD": {
+      "name": "Mazedoniako denarra",
+      "symbol_native": "ден",
+      "symbol": "den",
+      "code": "MKD",
+      "name_plural": "Macedonian denars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "MXN": {
       "name": "Mexikoko pesoa",
       "symbol_native": "$",
@@ -2245,6 +2308,15 @@
       "name_plural": "South Korean won",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MKD": {
+      "name": "Denar macédonien",
+      "symbol_native": "ден",
+      "symbol": "den",
+      "code": "MKD",
+      "name_plural": "Macedonian denars",
+      "rounding": 0,
+      "decimal_digits": 2
     },
     "MXN": {
       "name": "peso mexicain",
@@ -2536,6 +2608,15 @@
       "rounding": 0,
       "decimal_digits": 0
     },
+    "MKD": {
+      "name": "Dinaro macedone",
+      "symbol_native": "ден",
+      "symbol": "den",
+      "code": "MKD",
+      "name_plural": "Macedonian denars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "MXN": {
       "name": "peso messicano",
       "symbol_native": "$",
@@ -2825,6 +2906,15 @@
       "name_plural": "South Korean won",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MKD": {
+      "name": "Macedonische denar",
+      "symbol_native": "ден",
+      "symbol": "den",
+      "code": "MKD",
+      "name_plural": "Macedonian denars",
+      "rounding": 0,
+      "decimal_digits": 2
     },
     "MXN": {
       "name": "Mexicaanse peso",
@@ -3116,6 +3206,15 @@
       "rounding": 0,
       "decimal_digits": 0
     },
+    "MKD": {
+      "name": "Macedonia Północna",
+      "symbol_native": "ден",
+      "symbol": "den",
+      "code": "MKD",
+      "name_plural": "Macedonian denars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "MXN": {
       "name": "peso meksykańskie",
       "symbol_native": "$",
@@ -3405,6 +3504,15 @@
       "name_plural": "South Korean won",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MKD": {
+      "name": "Dinar macedónio",
+      "symbol_native": "ден",
+      "symbol": "den",
+      "code": "MKD",
+      "name_plural": "Macedonian denars",
+      "rounding": 0,
+      "decimal_digits": 2
     },
     "MXN": {
       "name": "Peso mexicano",
@@ -3696,6 +3804,15 @@
       "rounding": 0,
       "decimal_digits": 0
     },
+    "MKD": {
+      "name": "Dinar macedónio",
+      "symbol_native": "ден",
+      "symbol": "den",
+      "code": "MKD",
+      "name_plural": "Macedonian denars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "MXN": {
       "name": "Peso mexicano",
       "symbol_native": "$",
@@ -3985,6 +4102,15 @@
       "name_plural": "South Korean won",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MKD": {
+      "name": "Denar macedonean",
+      "symbol_native": "ден",
+      "symbol": "den",
+      "code": "MKD",
+      "name_plural": "Macedonian denars",
+      "rounding": 0,
+      "decimal_digits": 2
     },
     "MXN": {
       "name": "peso mexican",
@@ -4276,6 +4402,15 @@
       "rounding": 0,
       "decimal_digits": 0
     },
+    "MKD": {
+      "name": "Makedonian denaari",
+      "symbol_native": "ден",
+      "symbol": "den",
+      "code": "MKD",
+      "name_plural": "Macedonian denars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "MXN": {
       "name": "Meksikon peso",
       "symbol_native": "$",
@@ -4565,6 +4700,15 @@
       "name_plural": "South Korean won",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MKD": {
+      "name": "Makedon dinarı",
+      "symbol_native": "ден",
+      "symbol": "den",
+      "code": "MKD",
+      "name_plural": "Macedonian denars",
+      "rounding": 0,
+      "decimal_digits": 2
     },
     "MXN": {
       "name": "Meksika Pesosu",
@@ -4856,6 +5000,15 @@
       "rounding": 0,
       "decimal_digits": 0
     },
+    "MKD": {
+      "name": "Македонский денар",
+      "symbol_native": "ден",
+      "symbol": "den",
+      "code": "MKD",
+      "name_plural": "Macedonian denars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "MXN": {
       "name": "Мексиканское песо",
       "symbol_native": "$",
@@ -5146,6 +5299,15 @@
       "rounding": 0,
       "decimal_digits": 0
     },
+    "MKD": {
+      "name": "Македонський денар",
+      "symbol_native": "ден",
+      "symbol": "den",
+      "code": "MKD",
+      "name_plural": "Macedonian denars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "MXN": {
       "name": "мексиканський песо",
       "symbol_native": "$",
@@ -5435,6 +5597,15 @@
       "name_plural": "South Korean won",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MKD": {
+      "name": "דינר מקדוני",
+      "symbol_native": "ден",
+      "symbol": "den",
+      "code": "MKD",
+      "name_plural": "Macedonian denars",
+      "rounding": 0,
+      "decimal_digits": 2
     },
     "MXN": {
       "name": "פזו מקסיקני",
@@ -6007,6 +6178,15 @@
       "rounding": 0,
       "decimal_digits": 0
     },
+    "MKD": {
+      "name": "마케도니아 디나르",
+      "symbol_native": "ден",
+      "symbol": "den",
+      "code": "MKD",
+      "name_plural": "Macedonian denars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "MXN": {
       "name": "멕시코 페소",
       "symbol_native": "$",
@@ -6296,6 +6476,15 @@
       "name_plural": "South Korean won",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MKD": {
+      "name": "マケドニア・デナール",
+      "symbol_native": "ден",
+      "symbol": "den",
+      "code": "MKD",
+      "name_plural": "Macedonian denars",
+      "rounding": 0,
+      "decimal_digits": 2
     },
     "MXN": {
       "name": "メキシコ ペソ",
@@ -6587,6 +6776,15 @@
       "rounding": 0,
       "decimal_digits": 0
     },
+    "MKD": {
+      "name": "马其顿第纳尔",
+      "symbol_native": "ден",
+      "symbol": "den",
+      "code": "MKD",
+      "name_plural": "Macedonian denars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "MXN": {
       "name": "墨西哥比索",
       "symbol_native": "$",
@@ -6876,6 +7074,15 @@
       "name_plural": "South Korean won",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MKD": {
+      "name": "馬其頓第納爾",
+      "symbol_native": "ден",
+      "symbol": "den",
+      "code": "MKD",
+      "name_plural": "Macedonian denars",
+      "rounding": 0,
+      "decimal_digits": 2
     },
     "MXN": {
       "name": "墨西哥比索",
