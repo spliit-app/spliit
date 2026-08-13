@@ -1,5 +1,6 @@
 import { getCurrency } from '@/lib/currency'
 import { prisma } from '@/lib/prisma'
+import { getExpenseShares } from '@/lib/shares'
 import { formatAmountAsDecimal, getCurrencyFromGroup } from '@/lib/utils'
 import { Parser } from '@json2csv/plainjs'
 import contentDisposition from 'content-disposition'
@@ -45,6 +46,9 @@ export async function GET(
       currencyCode: true,
       expenses: {
         select: {
+          // Seeds which participant is offered the leftover minor unit of an
+          // uneven split, so the export agrees with the balances tab.
+          id: true,
           expenseDate: true,
           title: true,
           category: { select: { name: true } },
@@ -111,50 +115,46 @@ export async function GET(
 
   const currency = getCurrencyFromGroup(group)
 
-  const expenses = group.expenses.map((expense) => ({
-    date: formatDate(expense.expenseDate),
-    title: escapeCsvFormula(expense.title),
-    categoryName: escapeCsvFormula(expense.category?.name || ''),
-    currency: group.currencyCode ?? group.currency,
-    amount: formatAmountAsDecimal(expense.amount, currency),
-    originalAmount: expense.originalAmount
-      ? formatAmountAsDecimal(
-          expense.originalAmount,
-          getCurrency(expense.originalCurrency),
-        )
-      : null,
-    originalCurrency: expense.originalCurrency,
-    conversionRate: expense.conversionRate
-      ? expense.conversionRate.toString()
-      : null,
-    isReimbursement: expense.isReimbursement ? 'Yes' : 'No',
-    splitMode: splitModeLabel[expense.splitMode],
-    ...Object.fromEntries(
-      group.participants.map((participant) => {
-        const { totalShares, participantShare } = expense.paidFor.reduce(
-          (acc, { participantId, shares }) => {
-            acc.totalShares += shares
-            if (participantId === participant.id) {
-              acc.participantShare = shares
-            }
-            return acc
-          },
-          { totalShares: 0, participantShare: 0 },
-        )
+  const expenses = group.expenses.map((expense) => {
+    const shares = getExpenseShares(expense)
 
-        const isPaidByParticipant = expense.paidById === participant.id
-        const participantAmountShare = +formatAmountAsDecimal(
-          (expense.amount / totalShares) * participantShare,
-          currency,
-        )
+    return {
+      date: formatDate(expense.expenseDate),
+      title: escapeCsvFormula(expense.title),
+      categoryName: escapeCsvFormula(expense.category?.name || ''),
+      currency: group.currencyCode ?? group.currency,
+      amount: formatAmountAsDecimal(expense.amount, currency),
+      originalAmount: expense.originalAmount
+        ? formatAmountAsDecimal(
+            expense.originalAmount,
+            getCurrency(expense.originalCurrency),
+          )
+        : null,
+      originalCurrency: expense.originalCurrency,
+      conversionRate: expense.conversionRate
+        ? expense.conversionRate.toString()
+        : null,
+      isReimbursement: expense.isReimbursement ? 'Yes' : 'No',
+      splitMode: splitModeLabel[expense.splitMode],
+      ...Object.fromEntries(
+        group.participants.map((participant) => {
+          const isPaidByParticipant = expense.paidById === participant.id
+          // The same apportionment the balances tab uses, so a participant's
+          // column here matches what they are actually charged: whole minor
+          // units, honouring the split mode, adding up to the expense amount.
+          const participantAmountShare = +formatAmountAsDecimal(
+            shares.get(participant.id) ?? 0,
+            currency,
+          )
 
-        return [
-          participant.name,
-          participantAmountShare * (isPaidByParticipant ? 1 : -1),
-        ]
-      }),
-    ),
-  }))
+          return [
+            participant.name,
+            participantAmountShare * (isPaidByParticipant ? 1 : -1),
+          ]
+        }),
+      ),
+    }
+  })
 
   const json2csvParser = new Parser({ fields })
   const csv = json2csvParser.parse(expenses)

@@ -44,11 +44,13 @@ import {
   SplittingOptions,
   expenseFormSchema,
 } from '@/lib/schemas'
+import { distributeAmount } from '@/lib/shares'
 import { calculateShare } from '@/lib/totals'
 import {
   amountAsDecimal,
   amountAsMinorUnits,
   cn,
+  formatAmountAsDecimal,
   formatCurrency,
   getCurrencyFromGroup,
 } from '@/lib/utils'
@@ -370,17 +372,23 @@ export function ExpenseForm({
       })
 
       if (remainingParticipants > 0) {
-        let amountPerRemaining = 0
-        if (splitMode === 'BY_AMOUNT') {
-          amountPerRemaining = remainingAmount / remainingParticipants
-        }
+        // Apportion in minor units so the auto-filled amounts add up to the
+        // total exactly. Dividing and rounding each one independently makes
+        // 95 across three participants come out as 31.67 three times, which
+        // the "amounts must add up" validation then rejects.
+        const amountsPerRemaining = distributeAmount(
+          amountAsMinorUnits(remainingAmount, groupCurrency),
+          remainingParticipants,
+        )
 
+        let remainingIndex = 0
         newPaidFor = newPaidFor.map((participant) => {
           if (!editedParticipants.includes(participant.participant)) {
             return {
               ...participant,
-              shares: amountPerRemaining.toFixed(
-                groupCurrency.decimal_digits,
+              shares: formatAmountAsDecimal(
+                amountsPerRemaining[remainingIndex++],
+                groupCurrency,
               ) as any, // Keep as string for consistent schema handling
             }
           }
@@ -932,6 +940,14 @@ export function ExpenseForm({
                                       {formatCurrency(
                                         groupCurrency,
                                         calculateShare(id, {
+                                          // A new expense has no id yet — ids
+                                          // are minted server-side — so the
+                                          // leftover minor unit of an uneven
+                                          // split may land on a different
+                                          // participant once it is saved. When
+                                          // editing, this makes the amounts
+                                          // here match the balances tab.
+                                          id: expense?.id,
                                           amount: amountAsMinorUnits(
                                             Number(form.watch('amount')),
                                             groupCurrency,
