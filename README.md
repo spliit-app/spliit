@@ -44,9 +44,8 @@ Spliit is free, open source, and has no ads. Hosting, database and API costs are
 paid for by donations. If you want to help keep it that way, you can:
 
 - 🧡 [Support us on Open Collective](https://opencollective.com/spliit) — recurring or one-time,
-  with a public and transparent ledger of what comes in and what it is spent on,
-- 💜 [Sponsor me (Sebastien)](https://github.com/sponsors/scastiel), or
-- 💙 [Make a small one-time donation](https://donate.stripe.com/28o3eh96G7hH8k89Ba).
+  with a public and transparent ledger of what comes in and what it is spent on, or
+- 💜 [Sponsor me (Sebastien)](https://github.com/sponsors/scastiel).
 
 Contributions of any size are appreciated, and so is simply telling people about
 the project.
