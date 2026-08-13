@@ -22,6 +22,7 @@ export const localeLabels = {
   'ru-RU': 'Русский',
   'uk-UA': 'Українська',
   he: 'עברית',
+  ar: 'العربية',
   ko: '한국어',
   'ja-JP': '日本語',
   'zh-CN': '简体中文',

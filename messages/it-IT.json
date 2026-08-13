@@ -120,6 +120,12 @@
       "create": "Crea",
       "creating": "Sto creando…",
       "cancel": "Annulla"
+    },
+    "CurrencyCodeField": {
+      "label": "Moneta principale",
+      "createDescription": "Tutti gli importi e i saldi saranno in questa moneta.",
+      "customOption": "Personalizzato",
+      "editDescription": "Tutti gli importi e i saldi saranno in questa valuta. Se cambi questa opzione NON verranno convertite le spese già inserite, ad eccezione di quando la valuta ha una struttura sub-unitaria differente (es. se si cambia da Dollari Americani a Yen Giapponesi)"
     }
   },
   "ExpenseForm": {
@@ -153,7 +159,11 @@
         "description": "Seleziona per chi è stato ricevuto il reddito."
       },
       "splitModeDescription": "Seleziona come dividere l'entrata.",
-      "attachDescription": "Vedi ed allega la ricevuta per l'entrata."
+      "attachDescription": "Vedi ed allega la ricevuta per l'entrata.",
+      "currencyField": {
+        "label": "Valuta di ingresso",
+        "description": "La valuta in cui il pagamento è stato ricevuto."
+      }
     },
     "Expense": {
       "create": "Crea spesa",
@@ -186,7 +196,11 @@
         "description": "Seleleziona per chi è stato pagato."
       },
       "splitModeDescription": "Seleziona come dividere la spesa.",
-      "attachDescription": "Vedi ed allega la ricevuta per la spesa."
+      "attachDescription": "Vedi ed allega la ricevuta per la spesa.",
+      "currencyField": {
+        "label": "Valuta di spesa",
+        "description": "La valuta in cui la spesa è stata pagata."
+      }
     },
     "amountField": {
       "label": "Importo"
@@ -227,7 +241,25 @@
     "cancel": "Annulla",
     "reimbursement": "Rimborso",
     "conversionRateState": {
-      "refresh": "Aggiornare"
+      "refresh": "Aggiornare",
+      "loading": "Recuperando i tassi di cambio…",
+      "success": "Tassi ottenuti:",
+      "error": "Ops, non siamo riusciti a ottenere i tassi più recenti.",
+      "staleRate": "Tasso di utilizzo:",
+      "noRate": "Inserisci qui sotto un tasso personalizzato.",
+      "currencyNotFound": "Ops, Frankfurter non dispone del tasso di cambio per questa valuta in questo giorno.",
+      "noDate": "Inserisci la data della spesa per ottenere il tasso di cambio.",
+      "dateMismatch": "Tassi a partire dalla data: {date}",
+      "customRate": "Utilizzando il tasso personalizzato"
+    },
+    "conversionUnavailable": "Per impostare una valuta diversa per ogni spesa e convertire gli importi, seleziona una valuta non personalizzata per il gruppo.",
+    "originalAmountField": {
+      "label": "Importo da convertire"
+    },
+    "conversionRateField": {
+      "label": "Tasso di cambio",
+      "useApi": "Usa i tassi di Frankfurter",
+      "useCustom": "Usa tasso personalizzato"
     }
   },
   "ExpenseDocumentsInput": {
@@ -339,7 +371,8 @@
     "paidForMin1": "La spesa deve essere pagata per almeno un partecipante.",
     "noZeroShares": "Tutti gli importi devono essere superiori a 0.",
     "amountSum": "La somma degli importi deve essere uguale all'importo della spesa.",
-    "percentageSum": "La somma delle percentuali deve essere uguale a 100."
+    "percentageSum": "La somma delle percentuali deve essere uguale a 100.",
+    "ratePositive": "Il tasso deve essere strettamente maggiore di zero."
   },
   "Categories": {
     "search": "Cerca categoria...",
@@ -408,6 +441,19 @@
       "Trash": "Rifiuti",
       "TV/Phone/Internet": "TV/Telefono/Internet",
       "Water": "Acqua"
+    }
+  },
+  "Currencies": {
+    "search": "Cerca valuta...",
+    "noCurrency": "Nessuna valuta trovata.",
+    "custom": {
+      "heading": "Personalizzato"
+    },
+    "common": {
+      "heading": "Più comune"
+    },
+    "other": {
+      "heading": "Altre valute"
     }
   }
 }
