@@ -1,0 +1,25 @@
+# Without this the build context is ~1.7 GB (node_modules + .next + postgres-data).
+# Nothing here is COPYed by the Dockerfile, which only takes package*.json,
+# next.config.mjs, tsconfig.json, reset.d.ts, tailwind.config.js,
+# postcss.config.js, scripts/, prisma/, src/, messages/ and public/.
+node_modules
+.next
+out
+build
+postgres-data
+.git
+.github
+.devcontainer
+.claude
+coverage
+
+# e2e tooling is never needed inside the image
+e2e
+playwright.config.ts
+playwright-report
+test-results
+blob-report
+
+*.tsbuildinfo
+.DS_Store
+npm-debug.log*

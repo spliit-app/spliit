@@ -29,7 +29,13 @@ export function ReimbursementList({
   return (
     <div className="text-sm">
       {reimbursements.map((reimbursement, index) => (
-        <div className="py-4 flex justify-between" key={index}>
+        <div
+          className="py-4 flex justify-between"
+          key={index}
+          data-testid="reimbursement-row"
+          data-from={getParticipant(reimbursement.from)?.name ?? ''}
+          data-to={getParticipant(reimbursement.to)?.name ?? ''}
+        >
           <div className="flex flex-col gap-1 items-start sm:flex-row sm:items-baseline sm:gap-4">
             <div>
               {t.rich('owes', {
