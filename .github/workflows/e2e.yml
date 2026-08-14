@@ -1,0 +1,66 @@
+name: E2E
+
+# Manually, or on release tags -- the same trigger as the Docker image build in
+# cd.yml. The app under test is built from this checkout, so this workflow is
+# independent of cd.yml and does not wait for the image to be published.
+on:
+  workflow_dispatch:
+  push:
+    tags: ['*']
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'npm'
+
+      # --ignore-scripts, as in ci.yml: postinstall runs `prisma migrate deploy`,
+      # which needs a database that does not exist yet at this point.
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Start the app stack
+        run: ./scripts/e2e.sh up
+
+      - name: Run Playwright tests
+        run: npx playwright test
+
+      - name: Collect container logs
+        if: failure()
+        run: ./scripts/e2e.sh logs > compose-logs.txt
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
+
+      - name: Upload container logs
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: e2e-container-logs
+          path: compose-logs.txt
+          retention-days: 14
+
+      - name: Stop the app stack
+        if: always()
+        run: ./scripts/e2e.sh down

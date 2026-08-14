@@ -765,7 +765,7 @@ export function ExpenseForm({
                     onValueChange={field.onChange}
                     defaultValue={getSelectedPayer(field)}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger data-testid="paid-by">
                       <SelectValue
                         placeholder={t(`${sExpense}.paidByField.placeholder`)}
                       />
@@ -1226,7 +1226,7 @@ export function ExpenseForm({
                             }}
                             defaultValue={field.value}
                           >
-                            <SelectTrigger>
+                            <SelectTrigger data-testid="split-mode">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>

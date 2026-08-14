@@ -68,6 +68,47 @@ Here is the current state of translation:
 4. Run `npm install` to install dependencies. This will also apply database migrations and update Prisma Client.
 5. Run `npm run dev` to start the development server
 
+## End-to-end tests
+
+The Playwright suite in `e2e/` drives a real browser against the app running in
+Docker, so it exercises the same image users deploy. It needs Docker and a free
+port 3000, and nothing else — the stack builds itself from your checkout and
+throws its database away afterwards.
+
+```sh
+npm run e2e
+```
+
+That builds the image, starts app + PostgreSQL from `compose.e2e.yaml`, waits
+for `/api/health/readiness`, runs the suite and tears everything down. It never
+touches your development stack or `./postgres-data`.
+
+While writing tests it is quicker to keep the stack up:
+
+```sh
+npm run e2e:up                  # build and start, then leave it running
+npm run e2e:test -- --ui        # iterate (also --headed, --grep, --debug)
+npm run e2e:report              # open the HTML report of the last run
+npm run e2e:down                # stop and delete the test database
+```
+
+`--ui` opens Playwright's UI mode, where you can pick tests, watch them run and
+step through a trace. It does not start the stack itself, so run `npm run e2e:up`
+first.
+
+If port 3000 is already taken — by `npm run dev`, for instance — set
+`E2E_HOST_PORT` on every command of the session, including the test run:
+
+```sh
+E2E_HOST_PORT=3100 npm run e2e             # one-shot
+E2E_HOST_PORT=3100 npm run e2e:up          # or, for the iteration loop
+E2E_HOST_PORT=3100 npm run e2e:test -- --ui
+E2E_HOST_PORT=3100 npm run e2e:down
+```
+
+The same suite runs in GitHub Actions from the **E2E** workflow, which can be
+triggered manually and runs automatically on release tags.
+
 ## Run in a container
 
 1. Run `npm run build-image` to build the docker image from the Dockerfile
