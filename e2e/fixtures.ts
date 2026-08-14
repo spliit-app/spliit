@@ -17,25 +17,38 @@ import { test as base, expect } from '@playwright/test'
  *    Intl, so both the app locale (NEXT_LOCALE cookie, which outranks
  *    Accept-Language in src/lib/locale.ts) and the browser locale are pinned.
  */
-export const test = base.extend({
+type Options = {
+  /**
+   * Seed `newGroup-activeUser` so the "Who are you?" dialog stays shut.
+   * Defaults to true. Set `test.use({ seedActiveUser: false })` in the spec
+   * that exercises the dialog itself.
+   */
+  seedActiveUser: boolean
+}
+
+export const test = base.extend<Options>({
+  seedActiveUser: [true, { option: true }],
+
   // The second argument is Playwright's `use` callback, renamed because
   // eslint-plugin-react-hooks would otherwise read `use(...)` as React's hook.
-  page: async ({ page, baseURL }, runTest) => {
+  page: async ({ page, baseURL, seedActiveUser }, runTest) => {
     if (baseURL) {
       await page
         .context()
         .addCookies([{ name: 'NEXT_LOCALE', value: 'en-US', url: baseURL }])
     }
 
-    await page.addInitScript(() => {
-      try {
-        if (!window.localStorage.getItem('newGroup-activeUser')) {
-          window.localStorage.setItem('newGroup-activeUser', 'None')
+    if (seedActiveUser) {
+      await page.addInitScript(() => {
+        try {
+          if (!window.localStorage.getItem('newGroup-activeUser')) {
+            window.localStorage.setItem('newGroup-activeUser', 'None')
+          }
+        } catch (err) {
+          // localStorage is unavailable on about:blank; nothing to seed there.
         }
-      } catch (err) {
-        // localStorage is unavailable on about:blank; nothing to seed there.
-      }
-    })
+      })
+    }
 
     // The suite must never depend on a third-party API. useCurrencyRate only
     // calls this when the expense currency differs from the group currency,

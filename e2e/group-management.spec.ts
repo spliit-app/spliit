@@ -102,6 +102,27 @@ test('records group and expense changes in the activity log', async ({
   await expect(activity).toContainText('Someone')
 })
 
+test('exports the expenses as JSON', async ({ page }) => {
+  const groupId = await createGroup(page, {
+    name: `E2E ExportJson ${uniqueSuffix()}`,
+    participants: ['Alice', 'Bob'],
+  })
+
+  await addExpense(page, groupId, {
+    title: 'Ferry',
+    amount: '18',
+    paidBy: 'Bob',
+  })
+
+  const response = await page.request.get(
+    `/groups/${groupId}/expenses/export/json`,
+  )
+  expect(response.status()).toBe(200)
+
+  const body = await response.json()
+  expect(JSON.stringify(body)).toContain('Ferry')
+})
+
 test('exports the expenses as CSV', async ({ page }) => {
   const groupId = await createGroup(page, {
     name: `E2E Export ${uniqueSuffix()}`,
