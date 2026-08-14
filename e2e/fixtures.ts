@@ -24,14 +24,22 @@ type Options = {
    * that exercises the dialog itself.
    */
   seedActiveUser: boolean
+
+  /**
+   * Rate returned for every api.frankfurter.dev request, so currency
+   * conversion is deterministic and offline. Null (the default) aborts the
+   * request instead, which is what every non-currency spec wants.
+   */
+  exchangeRate: number | null
 }
 
 export const test = base.extend<Options>({
   seedActiveUser: [true, { option: true }],
+  exchangeRate: [null, { option: true }],
 
   // The second argument is Playwright's `use` callback, renamed because
   // eslint-plugin-react-hooks would otherwise read `use(...)` as React's hook.
-  page: async ({ page, baseURL, seedActiveUser }, runTest) => {
+  page: async ({ page, baseURL, seedActiveUser, exchangeRate }, runTest) => {
     if (baseURL) {
       await page
         .context()
@@ -50,10 +58,32 @@ export const test = base.extend<Options>({
       })
     }
 
-    // The suite must never depend on a third-party API. useCurrencyRate only
-    // calls this when the expense currency differs from the group currency,
-    // which no test does -- this makes that a guarantee rather than a habit.
-    await page.route('https://api.frankfurter.dev/**', (route) => route.abort())
+    // The suite must never depend on a third-party API. useCurrencyRate calls
+    // this only when the expense currency differs from the group currency.
+    await page.route('https://api.frankfurter.dev/**', (route) => {
+      if (exchangeRate === null) return route.abort()
+
+      // Request shape: /v1/<YYYY-MM-DD>?base=<CODE>. The hook turns the
+      // response into a RangeError unless `date` echoes the requested date
+      // exactly, so mirror it back rather than inventing one.
+      const url = new URL(route.request().url())
+      const date = url.pathname.split('/').pop() ?? ''
+      const base = url.searchParams.get('base') ?? ''
+
+      return route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          base,
+          date,
+          rates: { USD: exchangeRate, EUR: exchangeRate, GBP: exchangeRate },
+        }),
+      })
+    })
+
+    // Currency and category pickers render flag images from a CDN. Nothing is
+    // asserted on them and they only add latency, so keep the run hermetic.
+    await page.route('https://flagcdn.com/**', (route) => route.abort())
 
     await runTest(page)
   },
