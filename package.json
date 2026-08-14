@@ -18,7 +18,7 @@
     "e2e:up": "./scripts/e2e.sh up",
     "e2e:down": "./scripts/e2e.sh down",
     "e2e:logs": "./scripts/e2e.sh logs",
-    "e2e:test": "playwright test",
+    "e2e:test": "./scripts/e2e.sh test",
     "e2e:report": "playwright show-report",
     "generate-currency-data": "ts-node -T ./src/scripts/generateCurrencyData.ts"
   },

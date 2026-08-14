@@ -92,11 +92,18 @@ npm run e2e:report              # open the HTML report of the last run
 npm run e2e:down                # stop and delete the test database
 ```
 
+`--ui` opens Playwright's UI mode, where you can pick tests, watch them run and
+step through a trace. It does not start the stack itself, so run `npm run e2e:up`
+first.
+
 If port 3000 is already taken — by `npm run dev`, for instance — set
-`E2E_HOST_PORT` to something else:
+`E2E_HOST_PORT` on every command of the session, including the test run:
 
 ```sh
-E2E_HOST_PORT=3100 npm run e2e
+E2E_HOST_PORT=3100 npm run e2e             # one-shot
+E2E_HOST_PORT=3100 npm run e2e:up          # or, for the iteration loop
+E2E_HOST_PORT=3100 npm run e2e:test -- --ui
+E2E_HOST_PORT=3100 npm run e2e:down
 ```
 
 The same suite runs in GitHub Actions from the **E2E** workflow, which can be
