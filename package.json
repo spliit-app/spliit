@@ -8,12 +8,18 @@
     "start": "next start",
     "lint": "eslint .",
     "check-types": "tsc --noEmit",
-    "check-formatting": "prettier -c src",
-    "prettier": "prettier -w src",
+    "check-formatting": "prettier -c src e2e playwright.config.ts",
+    "prettier": "prettier -w src e2e playwright.config.ts",
     "postinstall": "prisma migrate deploy && prisma generate",
     "build-image": "./scripts/build-image.sh",
     "start-container": "docker compose --env-file container.env up",
     "test": "jest",
+    "e2e": "./scripts/e2e.sh",
+    "e2e:up": "./scripts/e2e.sh up",
+    "e2e:down": "./scripts/e2e.sh down",
+    "e2e:logs": "./scripts/e2e.sh logs",
+    "e2e:test": "playwright test",
+    "e2e:report": "playwright show-report",
     "generate-currency-data": "ts-node -T ./src/scripts/generateCurrencyData.ts"
   },
   "dependencies": {
@@ -75,6 +81,7 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",

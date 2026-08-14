@@ -1,0 +1,73 @@
+# Ephemeral stack for the Playwright end-to-end suite.
+#
+# This is deliberately NOT compose.yaml: that one bind-mounts ./postgres-data
+# (state would leak between runs) and reads the gitignored container.env. Here
+# the database is thrown away on every run and all env is inline, because
+# .gitignore ignores `*.env` and a new env file would be silently untracked.
+#
+# Always invoke through scripts/e2e.sh, which adds the flags that actually
+# guarantee a clean database (see the `db` service).
+name: spliit-e2e
+
+services:
+  app:
+    build:
+      context: .
+    image: spliit-e2e:latest
+    ports:
+      # Keep the container port at 3000: next.config.mjs pins
+      # experimental.serverActions.allowedOrigins to 'localhost:3000'.
+      # E2E_HOST_PORT is only an escape hatch when 3000 is taken on the host.
+      - '${E2E_HOST_PORT:-3000}:3000'
+    environment:
+      POSTGRES_PRISMA_URL: postgresql://postgres:e2e@db:5432/spliit_e2e
+      POSTGRES_URL_NON_POOLING: postgresql://postgres:e2e@db:5432/spliit_e2e
+      NEXT_TELEMETRY_DISABLED: '1'
+    restart: 'no'
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      # 127.0.0.1 rather than localhost: busybox may resolve localhost to ::1.
+      # /api/health/readiness runs `SELECT 1`, and scripts/container-entrypoint.sh
+      # runs `prisma migrate deploy` *before* `npm run start` -- so any 200 here
+      # proves the schema is migrated and the app is serving.
+      test:
+        [
+          'CMD-SHELL',
+          'wget -q -O /dev/null http://127.0.0.1:3000/api/health/readiness || exit 1',
+        ]
+      interval: 3s
+      timeout: 5s
+      retries: 40
+      start_period: 20s
+
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: e2e
+      POSTGRES_DB: spliit_e2e
+    # No published port, so this never collides with a local postgres.
+    #
+    # No named volume either -- but note the postgres image itself declares
+    # `VOLUME /var/lib/postgresql/data`, so Compose still creates an *anonymous*
+    # volume. Freshness therefore comes from `up --renew-anon-volumes` and
+    # `down --volumes` in scripts/e2e.sh, not from the absence of a volume here.
+    #
+    # A tmpfs on that path is deliberately avoided: it mounts root-owned and
+    # initdb (uid 999) fails.
+    command:
+      - postgres
+      - -c
+      - fsync=off
+      - -c
+      - synchronous_commit=off
+      - -c
+      - full_page_writes=off
+    restart: 'no'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d spliit_e2e']
+      interval: 2s
+      timeout: 5s
+      retries: 30
