@@ -2,6 +2,7 @@ import { expect, Locator, Page } from '@playwright/test'
 import {
   clickUntil,
   escapeRegExp,
+  fieldByLabel,
   fillStable,
   money,
   selectRadixOption,
@@ -9,6 +10,8 @@ import {
 } from './ui'
 
 export type SplitMode = 'EVENLY' | 'BY_SHARES' | 'BY_PERCENTAGE' | 'BY_AMOUNT'
+
+export type Recurrence = 'None' | 'Daily' | 'Weekly' | 'Monthly'
 
 export type GroupTab =
   'Expenses' | 'Balances' | 'Information' | 'Stats' | 'Activity' | 'Settings'
@@ -104,6 +107,12 @@ export async function addExpense(
     splitMode?: SplitMode
     /** Participant name -> share value. Set one for every checked participant. */
     shares?: Record<string, string>
+    /** YYYY-MM-DD. Defaults to today. */
+    date?: string
+    /** Visible category name, e.g. 'Groceries'. Defaults to General. */
+    category?: string
+    /** Visible label: 'None' | 'Daily' | 'Weekly' | 'Monthly'. Defaults to None. */
+    recurrence?: Recurrence
   },
 ): Promise<void> {
   await page.goto(`/groups/${groupId}/expenses/create`)
@@ -118,6 +127,29 @@ export async function addExpense(
   // amount changes, which would wipe values set beforehand.
   await fillStable(page.locator('input[name="amount"]'), expense.amount)
   await selectRadixOption(page, page.getByTestId('paid-by'), expense.paidBy)
+
+  if (expense.date) {
+    // The date input spreads no RHF field, so it has no name attribute.
+    await fillStable(page.locator('input[type="date"]'), expense.date)
+  }
+
+  if (expense.category) {
+    // A cmdk Command in a Popover, not a Radix Select, but the trigger is still
+    // role=combobox and the items are still role=option.
+    await selectRadixOption(
+      page,
+      fieldByLabel(page, 'Category').getByRole('combobox'),
+      expense.category,
+    )
+  }
+
+  if (expense.recurrence) {
+    await selectRadixOption(
+      page,
+      fieldByLabel(page, 'Expense Recurrence').getByRole('combobox'),
+      expense.recurrence,
+    )
+  }
 
   if (expense.paidFor) {
     const wanted = expense.paidFor
@@ -192,6 +224,50 @@ export function paidForRow(page: Page, participant: string): Locator {
       name: new RegExp(`^${escapeRegExp(participant)}\\b`),
     }),
   })
+}
+
+/**
+ * Makes `name` the active user for this group.
+ *
+ * Goes through the app's own migration path rather than writing the id
+ * directly: ExpenseList resolves `newGroup-activeUser` from a participant name
+ * to an id on mount. Writing `<groupId>-activeUser` by hand would not survive,
+ * because the shared fixture re-seeds `newGroup-activeUser` on every
+ * navigation and that migration always wins.
+ */
+export async function setActiveUser(
+  page: Page,
+  groupId: string,
+  name: string,
+): Promise<void> {
+  await page.addInitScript((participantName) => {
+    window.localStorage.setItem('newGroup-activeUser', participantName)
+  }, name)
+
+  await page.goto(`/groups/${groupId}/expenses`)
+
+  await expect
+    .poll(
+      () =>
+        page.evaluate(
+          (id) => window.localStorage.getItem(`${id}-activeUser`) ?? '',
+          groupId,
+        ),
+      { timeout: 20_000 },
+    )
+    .not.toMatch(/^(|None)$/)
+}
+
+/** An expense row in the list. */
+export function expenseCard(page: Page, title: string): Locator {
+  return page.getByTestId('expense-card').filter({ hasText: title })
+}
+
+/** YYYY-MM-DD, n days before today. The suite pins the timezone to UTC. */
+export function daysAgo(n: number): string {
+  const date = new Date()
+  date.setUTCDate(date.getUTCDate() - n)
+  return date.toISOString().slice(0, 10)
 }
 
 export function balanceRow(page: Page, participant: string): Locator {
