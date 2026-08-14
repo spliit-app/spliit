@@ -8,6 +8,22 @@ on:
   push:
     tags: ['*']
 
+  # ---------------------------------------------------------------------------
+  # TEMPORARY - DO NOT MERGE THIS TRIGGER.
+  #
+  # workflow_dispatch only works once the workflow file is on the default
+  # branch, and this stack is not merged yet, so there is otherwise no way to
+  # see this workflow run on a pull request. For same-repo PRs GitHub uses the
+  # workflow file from the PR's head branch, so adding this here makes it run.
+  #
+  # Deliberately unfiltered: the stack targets non-main base branches, so
+  # `branches: ['main']` would never fire.
+  #
+  # Remove this trigger (and the branch carrying it) once the stack is merged
+  # and dispatch works. The agreed policy is dispatch + release tags only.
+  # ---------------------------------------------------------------------------
+  pull_request:
+
 concurrency:
   group: e2e-${{ github.ref }}
   cancel-in-progress: true
