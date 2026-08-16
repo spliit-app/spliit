@@ -167,6 +167,12 @@ The application has a health check endpoint that can be used to check if the app
 - `GET /api/health/readiness` or `GET /api/health` - Check if the application is ready to serve requests, including database connectivity.
 - `GET /api/health/liveness` - Check if the application is running, but not necessarily ready to serve requests.
 
+## iOS app links
+
+Every instance serves `GET /.well-known/apple-app-site-association`, the file iOS reads to decide whether the site is allowed to hand `/groups/<id>` links to the [Spliit iOS app](https://github.com/spliit-app/spliit-ios) instead of opening them in Safari.
+
+Nothing to configure: it names the official app, so a group link from your own instance opens in the app for anyone who has it installed. Two requirements come from iOS rather than from Spliit — the file has to be reachable over https with no redirect, and served as `application/json`. Both are worth checking if you put a proxy in front of the app, because iOS ignores the file without reporting why. An instance served over plain http can't use these links at all; the app's `app.spliit.spliitmobile://groups/<id>` scheme still opens groups there.
+
 ## Opt-in features
 
 ### Expense documents
