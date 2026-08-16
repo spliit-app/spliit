@@ -325,7 +325,10 @@
       "all": "All time",
       "thisMonth": "This month",
       "last30": "Last 30 days",
-      "thisYear": "This year"
+      "thisYear": "This year",
+      "custom": "Custom range",
+      "from": "From",
+      "to": "To"
     },
     "Totals": {
       "title": "Totals",
@@ -347,8 +350,11 @@
     },
     "OverTime": {
       "title": "Spending over time",
-      "description": "Total group spending per month.",
-      "empty": "There are no expenses yet."
+      "description": "Total group spending per month. Select a month to see its expenses.",
+      "empty": "There are no expenses yet.",
+      "showExpenses": "Show expenses for {month}",
+      "detailsDescription": "Expenses in this month for the selected period.",
+      "detailsEmpty": "There are no expenses in this month."
     },
     "ByParticipant": {
       "title": "Spending by participant",
@@ -361,8 +367,11 @@
     },
     "ByCategory": {
       "title": "Spending by category",
-      "description": "Total amount spent in each category.",
-      "empty": "There are no expenses yet."
+      "description": "Total amount spent in each category. Select a category to see its expenses.",
+      "empty": "There are no expenses yet.",
+      "showExpenses": "Show expenses for {category}",
+      "detailsDescription": "Expenses in this category for the selected period.",
+      "detailsEmpty": "There are no expenses in this category."
     },
     "Recurring": {
       "title": "Recurring expenses",
