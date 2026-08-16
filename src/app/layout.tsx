@@ -1,6 +1,7 @@
 import { ApplePwaSplash } from '@/app/apple-pwa-splash'
 import { LocaleSwitcher } from '@/components/locale-switcher'
 import { ProgressBar } from '@/components/progress-bar'
+import { ServiceWorkerRegistration } from '@/components/service-worker-registration'
 import { ThemeProvider } from '@/components/theme-provider'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { Button } from '@/components/ui/button'
@@ -163,9 +164,13 @@ export default async function RootLayout({
       dir={['ar', 'he'].includes(locale) ? 'rtl' : 'ltr'}
       suppressHydrationWarning
     >
-      <ApplePwaSplash icon="/logo-with-text.png" color="#027756" />
+      <ApplePwaSplash icon="/logo-with-text.png" color="#047857" />
       <body className="min-h-[100dvh] flex flex-col items-stretch bg-slate-50 bg-opacity-30 dark:bg-background">
         <NextIntlClientProvider messages={messages}>
+          {/* Rendered inside the provider because it reads translations via
+              `useTranslations`, which needs NextIntlClientProvider in its
+              ancestor tree. */}
+          <ServiceWorkerRegistration />
           <Analytics config={analyticsConfig}>
             <ThemeProvider
               attribute="class"
