@@ -77,7 +77,7 @@
     "sharp": "^0.35.3",
     "superjson": "^2.2.6",
     "swr": "^2.5.1",
-    "tailwind-merge": "^1.14.0",
+    "tailwind-merge": "^3",
     "tailwindcss-animate": "^1.0.7",
     "ts-pattern": "^5.9.0",
     "use-debounce": "^10.1.1",
@@ -86,6 +86,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.62.1",
+    "@tailwindcss/postcss": "^4.3.2",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -96,7 +97,6 @@
     "@types/pg": "^8.21.0",
     "@types/react": "^18.3.31",
     "@types/react-dom": "^18.3.7",
-    "autoprefixer": "^10.5.4",
     "babel-plugin-react-compiler": "^1.0.0",
     "currency-list": "^1.0.8",
     "dotenv": "^17.4.2",
@@ -107,7 +107,7 @@
     "postcss": "^8.5.26",
     "prettier": "^3.9.6",
     "prettier-plugin-organize-imports": "^3.2.4",
-    "tailwindcss": "^3.4.19",
+    "tailwindcss": "^4.3.2",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.9.3"
