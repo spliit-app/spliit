@@ -44,6 +44,7 @@ import {
 import { RuntimeFeatureFlags } from '@/lib/featureFlags'
 import { useActiveUser, useCurrencyRate } from '@/lib/hooks'
 import {
+  ExpenseFormInput,
   ExpenseFormValues,
   SplittingOptions,
   expenseFormSchema,
@@ -60,7 +61,7 @@ import {
 } from '@/lib/utils'
 import { AppRouterOutput } from '@/trpc/routers/_app'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { RecurrenceRule } from '@prisma/client'
+import { RecurrenceRule, SplitMode } from '@prisma/client'
 import { ChevronRight, Save } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
@@ -188,12 +189,12 @@ export function ExpenseForm({
     return field?.value
   }
 
-  const getSelectedRecurrenceRule = (field?: { value: string }) => {
+  const getSelectedRecurrenceRule = (field?: { value?: string }) => {
     return field?.value as RecurrenceRule
   }
   const defaultSplittingOptions = getDefaultSplittingOptions(group)
   const groupCurrency = getCurrencyFromGroup(group)
-  const form = useForm<ExpenseFormValues>({
+  const form = useForm<ExpenseFormInput, any, ExpenseFormValues>({
     resolver: zodResolver(expenseFormSchema),
     defaultValues: expense
       ? {
@@ -201,16 +202,17 @@ export function ExpenseForm({
           expenseDate: expense.expenseDate ?? new Date(),
           amount: amountAsDecimal(expense.amount, groupCurrency),
           originalCurrency: expense.originalCurrency ?? group.currencyCode,
-          originalAmount: expense.originalAmount
-            ? amountAsDecimal(
-                expense.originalAmount,
-                getCurrency(
-                  expense.originalCurrency ?? group.currencyCode,
-                  locale,
-                  'Custom',
-                ),
-              )
-            : undefined,
+          originalAmount:
+            expense.originalAmount != null
+              ? formatAmountAsDecimal(
+                  expense.originalAmount,
+                  getCurrency(
+                    expense.originalCurrency ?? group.currencyCode,
+                    locale,
+                    'Custom',
+                  ),
+                )
+              : undefined,
           conversionRate: expense.conversionRate?.toNumber(),
           category: expense.categoryId,
           paidBy: expense.paidById,
@@ -340,7 +342,7 @@ export function ExpenseForm({
     'Custom',
   )
   const exchangeRate = useCurrencyRate(
-    form.watch('expenseDate'),
+    form.watch('expenseDate') as Date,
     form.watch('originalCurrency') ?? '',
     groupCurrency.code,
   )
@@ -587,7 +589,7 @@ export function ExpenseForm({
                     <Input
                       className="date-base"
                       type="date"
-                      defaultValue={formatDate(field.value)}
+                      defaultValue={formatDate(field.value as Date)}
                       onChange={(event) => {
                         return field.onChange(new Date(event.target.value))
                       }}
@@ -684,7 +686,9 @@ export function ExpenseForm({
                       </FormDescription>
                     )}
                     <FormDescription>
-                      {isNaN(form.getValues('expenseDate').getTime()) ? (
+                      {isNaN(
+                        (form.getValues('expenseDate') as Date).getTime(),
+                      ) ? (
                         t('conversionRateState.noDate')
                       ) : form.getValues('expenseDate') &&
                         !usingCustomConversionRate ? (
@@ -775,7 +779,7 @@ export function ExpenseForm({
                   <CategorySelector
                     categories={categories}
                     defaultValue={
-                      form.watch(field.name) // may be overwritten externally
+                      form.watch(field.name) as number // may be overwritten externally
                     }
                     onValueChange={field.onChange}
                     isLoading={isCategoryLoading}
@@ -1060,15 +1064,17 @@ export function ExpenseForm({
                                                   : form.watch('splitMode') ===
                                                       'BY_AMOUNT'
                                                     ? amountAsMinorUnits(
-                                                        shares,
+                                                        Number(shares),
                                                         groupCurrency,
                                                       )
-                                                    : shares,
+                                                    : Number(shares),
                                               expenseId: '',
                                               participantId: '',
                                             }),
                                           ),
-                                          splitMode: form.watch('splitMode'),
+                                          splitMode: form.watch(
+                                            'splitMode',
+                                          ) as SplitMode,
                                           isReimbursement:
                                             form.watch('isReimbursement'),
                                         }),
@@ -1272,7 +1278,7 @@ export function ExpenseForm({
                                             'BY_SHARES',
                                             'BY_PERCENTAGE',
                                           ].includes(
-                                            form.getValues().splitMode,
+                                            form.getValues().splitMode!,
                                           ) && sharesLabel}
                                         </div>
                                         <FormMessage className="float-right" />
@@ -1386,7 +1392,7 @@ export function ExpenseForm({
                 name="documents"
                 render={({ field }) => (
                   <ExpenseDocumentsInput
-                    documents={field.value}
+                    documents={field.value ?? []}
                     updateDocuments={field.onChange}
                     onDocumentAttached={() =>
                       sendEvent(
