@@ -2,6 +2,8 @@ import { getBalances } from './balances'
 import {
   calculateShare,
   filterExpensesByDateRange,
+  getExpensesByCategory,
+  getExpensesByMonth,
   getRecurringSpending,
   getSpendingByCategory,
   getSpendingByParticipant,
@@ -230,6 +232,85 @@ describe('getSpendingByCategory', () => {
         total: 200,
       },
     ])
+  })
+})
+
+describe('getExpensesByCategory', () => {
+  it('returns only the matching category, excludes reimbursements and sorts newest first', () => {
+    const older = makeExpense({
+      id: 'a',
+      amount: 1000,
+      category: groceries,
+      expenseDate: new Date('2024-01-10T00:00:00Z'),
+    })
+    const newer = makeExpense({
+      id: 'b',
+      amount: 500,
+      category: groceries,
+      expenseDate: new Date('2024-02-20T00:00:00Z'),
+    })
+    const otherCategory = makeExpense({
+      id: 'c',
+      amount: 3000,
+      category: transport,
+      expenseDate: new Date('2024-03-01T00:00:00Z'),
+    })
+    const reimbursement = makeExpense({
+      id: 'd',
+      amount: 9999,
+      category: groceries,
+      isReimbursement: true,
+      expenseDate: new Date('2024-04-01T00:00:00Z'),
+    })
+
+    const result = getExpensesByCategory(
+      [older, newer, otherCategory, reimbursement],
+      groceries.id,
+    )
+
+    expect(result.map((expense) => expense.id)).toEqual(['b', 'a'])
+  })
+
+  it('matches expenses without a category against the Uncategorized id (0)', () => {
+    const uncategorized = makeExpense({ id: 'a', amount: 200, category: null })
+    const categorized = makeExpense({
+      id: 'b',
+      amount: 300,
+      category: groceries,
+    })
+
+    const result = getExpensesByCategory([uncategorized, categorized], 0)
+
+    expect(result.map((expense) => expense.id)).toEqual(['a'])
+  })
+})
+
+describe('getExpensesByMonth', () => {
+  it('returns only the matching month, excludes reimbursements and sorts newest first', () => {
+    const early = makeExpense({
+      id: 'a',
+      expenseDate: new Date('2024-03-05T00:00:00Z'),
+    })
+    const late = makeExpense({
+      id: 'b',
+      expenseDate: new Date('2024-03-25T00:00:00Z'),
+    })
+    const otherMonth = makeExpense({
+      id: 'c',
+      expenseDate: new Date('2024-04-01T00:00:00Z'),
+    })
+    const reimbursement = makeExpense({
+      id: 'd',
+      isReimbursement: true,
+      expenseDate: new Date('2024-03-15T00:00:00Z'),
+    })
+
+    const result = getExpensesByMonth(
+      [early, late, otherMonth, reimbursement],
+      '2024-03',
+    )
+
+    expect(result.map((expense) => expense.id)).toEqual(['b', 'a'])
   })
 })
 
