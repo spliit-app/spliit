@@ -526,5 +526,10 @@
     "other": {
       "heading": "Other currencies"
     }
+  },
+  "Pwa": {
+    "updateTitle": "Update available",
+    "updateDescription": "A new version of Spliit is available.",
+    "reload": "Reload"
   }
 }
