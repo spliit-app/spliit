@@ -37,6 +37,10 @@ import { Locale } from '@/i18n/request'
 import { useAnalytics } from '@/lib/analytics/context'
 import { randomId } from '@/lib/api'
 import { defaultCurrencyList, getCurrency } from '@/lib/currency'
+import {
+  convertToGroupCurrency,
+  convertToOriginalCurrency,
+} from '@/lib/currency-conversion'
 import { RuntimeFeatureFlags } from '@/lib/featureFlags'
 import { useActiveUser, useCurrencyRate } from '@/lib/hooks'
 import {
@@ -171,6 +175,9 @@ export function ExpenseForm({
   const isCreate = expense === undefined
   const searchParams = useSearchParams()
 
+  /** Whether the form was opened from a suggested reimbursement ("Mark as paid"). */
+  const isRepayment = isCreate && !!searchParams.get('reimbursement')
+
   const getSelectedPayer = (field?: { value: string }) => {
     if (isCreate && typeof window !== 'undefined') {
       const activeUser = localStorage.getItem(`${group.id}-activeUser`)
@@ -220,7 +227,7 @@ export function ExpenseForm({
           notes: expense.notes ?? '',
           recurrenceRule: expense.recurrenceRule ?? undefined,
         }
-      : searchParams.get('reimbursement')
+      : isRepayment
         ? {
             title: t('reimbursement'),
             expenseDate: new Date(),
@@ -229,7 +236,9 @@ export function ExpenseForm({
               groupCurrency,
             ),
             originalCurrency: group.currencyCode,
-            originalAmount: undefined,
+            // Empty rather than undefined: the field is filled in by the conversion, and
+            // switching an input from uncontrolled to controlled warns in React.
+            originalAmount: '' as any,
             conversionRate: undefined,
             category: 1, // category with Id 1 is Payment
             paidBy: searchParams.get('from') ?? undefined,
@@ -302,15 +311,18 @@ export function ExpenseForm({
           : shares,
     }))
 
-    // Currency should be blank if same as group currency
-    if (!conversionRequired) {
-      delete values.originalAmount
-      delete values.originalCurrency
-    } else if (values.originalAmount !== undefined) {
+    // Currency should be blank if same as group currency, or if no conversion took place
+    if (conversionRequired && values.originalAmount !== undefined) {
       values.originalAmount = amountAsMinorUnits(
         values.originalAmount,
         originalCurrency,
       )
+    } else {
+      delete values.originalAmount
+      delete values.originalCurrency
+      // Without this a repayment whose converted amount rounded to zero would
+      // still be saved with a rate but no amount to apply it to.
+      delete values.conversionRate
     }
     return onSubmit(values, activeUserId ?? undefined)
   }
@@ -338,6 +350,16 @@ export function ExpenseForm({
     group.currencyCode.length &&
     originalCurrency.code.length &&
     originalCurrency.code !== group.currencyCode
+
+  /**
+   * Which of the two amount fields drives the other.
+   *
+   * For a regular expense the user enters what they spent in the original currency and the
+   * group-currency amount follows. For a repayment it is the other way around: the
+   * group-currency amount is the balance being settled, and the original amount is the
+   * amount to actually transfer, derived from it.
+   */
+  const convertFromGroupCurrency = !!form.watch('isReimbursement')
 
   useEffect(() => {
     setManuallyEditedParticipants(new Set())
@@ -413,18 +435,21 @@ export function ExpenseForm({
     }
   }, [exchangeRate.data, usingCustomConversionRate])
 
+  // Original currency -> group currency, for regular expenses.
   useEffect(() => {
+    if (convertFromGroupCurrency || !conversionRequired) return
     if (!form.getFieldState('originalAmount').isTouched) return
     const originalAmount = form.getValues('originalAmount') ?? 0
     const conversionRate = form.getValues('conversionRate')
 
     if (conversionRate && originalAmount) {
-      const rate = Number(conversionRate)
-      const convertedAmount = originalAmount * rate
-      if (!Number.isNaN(convertedAmount)) {
-        const v = enforceCurrencyPattern(
-          convertedAmount.toFixed(groupCurrency.decimal_digits),
-        )
+      const converted = convertToGroupCurrency(
+        Number(originalAmount),
+        Number(conversionRate),
+        groupCurrency,
+      )
+      if (converted !== null) {
+        const v = enforceCurrencyPattern(converted)
         const income = Number(v) < 0
         setIsIncome(income)
         if (income) form.setValue('isReimbursement', false)
@@ -435,6 +460,48 @@ export function ExpenseForm({
     form.watch('originalAmount'),
     form.watch('conversionRate'),
     form.getFieldState('originalAmount').isTouched,
+    convertFromGroupCurrency,
+    conversionRequired,
+  ])
+
+  // Group currency -> original currency, for repayments: the group-currency amount settles
+  // the balance, and the original amount is what the user actually transfers.
+  useEffect(() => {
+    if (!convertFromGroupCurrency || !conversionRequired) return
+    // When editing an existing expense, leave the stored amount alone until the user
+    // changes something that the conversion depends on.
+    if (
+      !isCreate &&
+      !form.getFieldState('amount').isDirty &&
+      !form.getFieldState('originalCurrency').isDirty &&
+      !form.getFieldState('conversionRate').isDirty
+    )
+      return
+
+    const converted = convertToOriginalCurrency(
+      Number(form.getValues('amount')),
+      Number(form.getValues('conversionRate')),
+      originalCurrency,
+    )
+    if (converted !== null) {
+      // A tiny balance can round down to zero in the original currency, which the schema
+      // rejects. Leave the field empty rather than block a form the user cannot correct.
+      form.setValue(
+        'originalAmount',
+        // String for consistent form handling, so trailing zeros survive; the schema
+        // coerces it, and it maps '' back to undefined.
+        (Number(converted) === 0
+          ? ''
+          : enforceCurrencyPattern(converted)) as any,
+      )
+    }
+  }, [
+    form.watch('amount'),
+    form.watch('conversionRate'),
+    convertFromGroupCurrency,
+    conversionRequired,
+    originalCurrency.code,
+    isCreate,
   ])
 
   let conversionRateMessage = ''
@@ -566,24 +633,39 @@ export function ExpenseForm({
             />
 
             <div
-              className={`sm:order-4 ${
-                !conversionRequired ? 'max-sm:hidden sm:invisible' : ''
-              } col-span-2 md:col-span-1 space-y-2`}
+              className={cn(
+                convertFromGroupCurrency ? 'sm:order-5' : 'sm:order-4',
+                !conversionRequired && 'max-sm:hidden sm:invisible',
+                'col-span-2 md:col-span-1 space-y-2',
+              )}
             >
               <FormField
                 control={form.control}
                 name="originalAmount"
                 render={({ field: { onChange, ...field } }) => (
                   <FormItem>
-                    <FormLabel>{t('originalAmountField.label')}</FormLabel>
+                    <FormLabel>
+                      {t(
+                        convertFromGroupCurrency
+                          ? 'originalAmountField.repaymentLabel'
+                          : 'originalAmountField.label',
+                      )}
+                    </FormLabel>
                     <div className="flex items-baseline gap-2">
                       <span>{originalCurrency.symbol}</span>
                       <FormControl>
                         <Input
-                          className="text-base max-w-[120px]"
+                          className={cn(
+                            'text-base max-w-[120px]',
+                            // Derived from the amount being settled: still selectable so it
+                            // can be copied, but not meant to be edited directly.
+                            convertFromGroupCurrency &&
+                              'bg-muted text-muted-foreground',
+                          )}
                           type="text"
                           inputMode="decimal"
                           placeholder="0.00"
+                          readOnly={convertFromGroupCurrency}
                           onChange={(event) => {
                             const v = enforceCurrencyPattern(event.target.value)
                             onChange(v)
@@ -596,6 +678,11 @@ export function ExpenseForm({
                         />
                       </FormControl>
                     </div>
+                    {convertFromGroupCurrency && (
+                      <FormDescription>
+                        {t('originalAmountField.repaymentDescription')}
+                      </FormDescription>
+                    )}
                     <FormDescription>
                       {isNaN(form.getValues('expenseDate').getTime()) ? (
                         t('conversionRateState.noDate')
@@ -606,6 +693,9 @@ export function ExpenseForm({
                           {!exchangeRate.isLoading && (
                             <Button
                               className="h-auto py-0"
+                              // Without this the button inherits type="submit"
+                              // and refreshing the rate submits the form.
+                              type="button"
                               variant="link"
                               onClick={() => exchangeRate.refresh()}
                             >
@@ -702,7 +792,11 @@ export function ExpenseForm({
               control={form.control}
               name="amount"
               render={({ field: { onChange, ...field } }) => (
-                <FormItem className="sm:order-5">
+                <FormItem
+                  className={
+                    convertFromGroupCurrency ? 'sm:order-4' : 'sm:order-5'
+                  }
+                >
                   <FormLabel>{t('amountField.label')}</FormLabel>
                   <div className="flex items-baseline gap-2">
                     <span>{group.currency}</span>
