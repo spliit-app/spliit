@@ -1,4 +1,4 @@
-export type StatsPeriod = 'all' | 'thisMonth' | 'last30' | 'thisYear'
+export type StatsPeriod = 'all' | 'thisMonth' | 'last30' | 'thisYear' | 'custom'
 
 export type StatsRange = { from?: string; to?: string }
 
@@ -7,6 +7,7 @@ export const STATS_PERIODS: StatsPeriod[] = [
   'thisMonth',
   'last30',
   'thisYear',
+  'custom',
 ]
 
 function toDateString(date: Date): string {
@@ -41,8 +42,28 @@ export function getRangeForPeriod(
         from: toDateString(new Date(now.getFullYear(), 0, 1)),
         to: toDateString(now),
       }
+    case 'custom':
     case 'all':
     default:
       return {}
   }
+}
+
+/**
+ * Resolves the range that should actually be queried. Named periods delegate
+ * to {@link getRangeForPeriod}; the `custom` period uses the user-provided
+ * `customRange` verbatim, tolerating a reversed order (from > to) by swapping
+ * the bounds and dropping empty strings so partial input doesn't over-filter.
+ */
+export function resolveStatsRange(
+  period: StatsPeriod,
+  customRange: StatsRange,
+  now = new Date(),
+): StatsRange {
+  if (period !== 'custom') return getRangeForPeriod(period, now)
+
+  const from = customRange.from || undefined
+  const to = customRange.to || undefined
+  if (from && to && from > to) return { from: to, to: from }
+  return { from, to }
 }

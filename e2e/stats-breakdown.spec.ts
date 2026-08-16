@@ -99,3 +99,107 @@ test('restricts the stats to the selected period', async ({ page }) => {
   await expect(totals).toContainText(money(20))
   await expect(totals).not.toContainText(money(70))
 })
+
+test('drills down from a category into its expenses', async ({ page }) => {
+  const groupId = await createGroup(page, {
+    name: `E2E Drilldown ${uniqueSuffix()}`,
+    participants: PARTICIPANTS,
+  })
+
+  await addExpense(page, groupId, {
+    title: 'Weekly shop',
+    amount: '40',
+    paidBy: 'Alice',
+    category: 'Groceries',
+  })
+  await addExpense(page, groupId, {
+    title: 'Cab home',
+    amount: '25',
+    paidBy: 'Bob',
+    category: 'Taxi',
+  })
+
+  await openTab(page, 'Stats')
+
+  await page
+    .getByRole('button', { name: 'Show expenses for Groceries' })
+    .click()
+
+  // The dialog lists the category's own expenses and nothing else.
+  const dialog = page.getByRole('dialog')
+  await expect(dialog).toContainText('Weekly shop')
+  await expect(dialog).toContainText(money(40))
+  await expect(dialog).not.toContainText('Cab home')
+})
+
+test('drills down from a month into its expenses', async ({ page }) => {
+  const groupId = await createGroup(page, {
+    name: `E2E Month Drilldown ${uniqueSuffix()}`,
+    participants: PARTICIPANTS,
+  })
+
+  await addExpense(page, groupId, {
+    title: 'This month',
+    amount: '35',
+    paidBy: 'Alice',
+  })
+  await addExpense(page, groupId, {
+    title: 'Long ago',
+    amount: '15',
+    paidBy: 'Bob',
+    date: '2020-03-10',
+  })
+
+  await openTab(page, 'Stats')
+
+  await page.getByRole('button', { name: 'Show expenses for Mar 2020' }).click()
+
+  const dialog = page.getByRole('dialog')
+  await expect(dialog).toContainText('Long ago')
+  await expect(dialog).toContainText(money(15))
+  await expect(dialog).not.toContainText('This month')
+})
+
+test('scopes the stats to a custom date range', async ({ page }) => {
+  const groupId = await createGroup(page, {
+    name: `E2E Custom Range ${uniqueSuffix()}`,
+    participants: PARTICIPANTS,
+  })
+
+  await addExpense(page, groupId, {
+    title: 'In range',
+    amount: '80',
+    paidBy: 'Alice',
+    date: '2021-06-15',
+  })
+  await addExpense(page, groupId, {
+    title: 'Out of range',
+    amount: '45',
+    paidBy: 'Bob',
+    date: '2022-06-15',
+  })
+
+  await openTab(page, 'Stats')
+
+  const totals = cardByTitle(page, 'Totals')
+  await expect(totals).toContainText(money(125))
+
+  await selectRadixOption(
+    page,
+    page.getByRole('combobox').first(),
+    'Custom range',
+  )
+  // Each date field is an <input> inside a <label> that also carries an
+  // aria-label, so getByLabel matches both nodes. Scope to the input.
+  const dateField = (label: string) =>
+    page
+      .locator('label')
+      .filter({ hasText: new RegExp(`^${label}$`) })
+      .locator('input[type="date"]')
+
+  await dateField('From').fill('2021-01-01')
+  await dateField('To').fill('2021-12-31')
+
+  await expect(totals).toContainText(money(80))
+  await expect(totals).not.toContainText(money(125))
+})
