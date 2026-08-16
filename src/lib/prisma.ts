@@ -1,6 +1,9 @@
 import { PrismaClient } from '@prisma/client'
 
-declare const global: Global & { prisma?: PrismaClient }
+// `types: ["node", "jest"]` narrows the ambient globals, so the old
+// `declare const global: Global` is no longer available. `globalThis` is the
+// portable spelling and needs no ambient declaration.
+const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient }
 
 export let p: PrismaClient = undefined as any as PrismaClient
 
@@ -9,12 +12,12 @@ if (typeof window === 'undefined') {
   if (process.env['NODE_ENV'] === 'production') {
     p = new PrismaClient()
   } else {
-    if (!global.prisma) {
-      global.prisma = new PrismaClient({
+    if (!globalForPrisma.prisma) {
+      globalForPrisma.prisma = new PrismaClient({
         // log: [{ emit: 'stdout', level: 'query' }],
       })
     }
-    p = global.prisma
+    p = globalForPrisma.prisma
   }
 }
 
