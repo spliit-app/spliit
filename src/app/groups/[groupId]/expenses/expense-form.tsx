@@ -606,6 +606,9 @@ export function ExpenseForm({
                           {!exchangeRate.isLoading && (
                             <Button
                               className="h-auto py-0"
+                              // Without this the button inherits type="submit"
+                              // and refreshing the rate submits the form.
+                              type="button"
                               variant="link"
                               onClick={() => exchangeRate.refresh()}
                             >
