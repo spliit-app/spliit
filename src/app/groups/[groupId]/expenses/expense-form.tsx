@@ -121,7 +121,7 @@ const getDefaultSplittingOptions = (
     splitMode: parsedDefaultSplitMode.splitMode,
     paidFor: parsedDefaultSplitMode.paidFor.map((paidFor) => ({
       participant: paidFor.participant,
-      shares: (paidFor.shares / 100).toString() as any, // Convert to string for consistent schema handling
+      shares: (paidFor.shares / 100).toString(), // Convert to string for consistent schema handling
     })),
   }
 }
@@ -218,9 +218,10 @@ export function ExpenseForm({
           paidBy: expense.paidById,
           paidFor: expense.paidFor.map(({ participantId, shares }) => ({
             participant: participantId,
-            shares: (expense.splitMode === 'BY_AMOUNT'
-              ? amountAsDecimal(shares, groupCurrency)
-              : (shares / 100).toString()) as any, // Convert to string to ensure consistent handling
+            shares:
+              expense.splitMode === 'BY_AMOUNT'
+                ? amountAsDecimal(shares, groupCurrency)
+                : (shares / 100).toString(), // Convert to string to ensure consistent handling
           })),
           splitMode: expense.splitMode,
           saveDefaultSplittingOptions: false,
@@ -240,7 +241,7 @@ export function ExpenseForm({
             originalCurrency: group.currencyCode,
             // Empty rather than undefined: the field is filled in by the conversion, and
             // switching an input from uncontrolled to controlled warns in React.
-            originalAmount: '' as any,
+            originalAmount: '',
             conversionRate: undefined,
             category: 1, // category with Id 1 is Payment
             paidBy: searchParams.get('from') ?? undefined,
@@ -248,7 +249,7 @@ export function ExpenseForm({
               searchParams.get('to')
                 ? {
                     participant: searchParams.get('to')!,
-                    shares: '1' as any, // String for consistent form handling
+                    shares: '1', // String for consistent form handling
                   }
                 : undefined,
             ],
@@ -413,7 +414,7 @@ export function ExpenseForm({
               shares: formatAmountAsDecimal(
                 amountsPerRemaining[remainingIndex++],
                 groupCurrency,
-              ) as any, // Keep as string for consistent schema handling
+              ), // Keep as string for consistent schema handling
             }
           }
           return participant
@@ -492,9 +493,7 @@ export function ExpenseForm({
         'originalAmount',
         // String for consistent form handling, so trailing zeros survive; the schema
         // coerces it, and it maps '' back to undefined.
-        (Number(converted) === 0
-          ? ''
-          : enforceCurrencyPattern(converted)) as any,
+        Number(converted) === 0 ? '' : enforceCurrencyPattern(converted),
       )
     }
   }, [
@@ -951,11 +950,11 @@ export function ExpenseForm({
                     ? []
                     : group.participants.map((p) => ({
                         participant: p.id,
-                        shares: (paidFor.find(
-                          (pfor) => pfor.participant === p.id,
-                        )?.shares ?? '1') as any, // Use string to ensure consistent schema handling
+                        shares:
+                          paidFor.find((pfor) => pfor.participant === p.id)
+                            ?.shares ?? '1', // Use string to ensure consistent schema handling
                       }))
-                  form.setValue('paidFor', newPaidFor as any, {
+                  form.setValue('paidFor', newPaidFor, {
                     shouldDirty: true,
                     shouldTouch: true,
                     shouldValidate: true,
@@ -1014,7 +1013,7 @@ export function ExpenseForm({
                                               participant: id,
                                               shares: '1', // Use string to ensure consistent schema handling
                                             },
-                                          ] as any,
+                                          ],
                                           options,
                                         )
                                       : form.setValue(
