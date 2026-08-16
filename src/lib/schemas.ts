@@ -1,4 +1,4 @@
-import { RecurrenceRule, SplitMode } from '@prisma/client'
+import { RecurrenceRule, SplitMode } from '@/generated/prisma/browser'
 import Decimal from 'decimal.js'
 
 import * as z from 'zod'

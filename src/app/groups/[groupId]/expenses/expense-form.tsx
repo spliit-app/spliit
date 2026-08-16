@@ -33,9 +33,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { RecurrenceRule, SplitMode } from '@/generated/prisma/browser'
 import { Locale } from '@/i18n/request'
 import { useAnalytics } from '@/lib/analytics/context'
-import { randomId } from '@/lib/api'
 import { defaultCurrencyList, getCurrency } from '@/lib/currency'
 import {
   convertToGroupCurrency,
@@ -43,6 +43,7 @@ import {
 } from '@/lib/currency-conversion'
 import { RuntimeFeatureFlags } from '@/lib/featureFlags'
 import { useActiveUser, useCurrencyRate } from '@/lib/hooks'
+import { randomId } from '@/lib/random'
 import {
   ExpenseFormInput,
   ExpenseFormValues,
@@ -61,7 +62,6 @@ import {
 } from '@/lib/utils'
 import { AppRouterOutput } from '@/trpc/routers/_app'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { RecurrenceRule, SplitMode } from '@prisma/client'
 import { ChevronRight, Save } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'

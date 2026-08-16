@@ -1,6 +1,6 @@
+import type { RecurrenceRule } from '@/generated/prisma/client'
 import { getGroupExpenses } from '@/lib/api'
 import { ShareInput, getExpenseShares, getParticipantShare } from '@/lib/shares'
-import type { RecurrenceRule } from '@prisma/client'
 
 /**
  * Filters expenses to those whose `expenseDate` falls within an inclusive
