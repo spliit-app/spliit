@@ -216,7 +216,9 @@
     },
     "conversionUnavailable": "To set a different currency per expense and convert amounts, select a non-custom currency for the group.",
     "originalAmountField": {
-      "label": "Amount to convert"
+      "label": "Amount to convert",
+      "repaymentLabel": "Amount to transfer",
+      "repaymentDescription": "Converted from the amount above, which is what settles the balance."
     },
     "conversionRateField": {
       "useApi": "Use rates from Frankfurter",
