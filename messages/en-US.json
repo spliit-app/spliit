@@ -57,6 +57,13 @@
       "create": "Create one",
       "orAsk": "or ask a friend to send you the link to an existing one."
     },
+    "GlobalBalance": {
+      "title": "Your total balance",
+      "description": "Your combined balance across all your groups.",
+      "owedToYou": "You are owed",
+      "youOwe": "You owe",
+      "settledUp": "You are all settled up across your groups."
+    },
     "recent": "Recent groups",
     "starred": "Starred groups",
     "archived": "Archived groups",
