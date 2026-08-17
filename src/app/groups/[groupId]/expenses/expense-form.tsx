@@ -559,7 +559,12 @@ export function ExpenseForm({
                       {...field}
                       onBlur={async () => {
                         field.onBlur() // avoid skipping other blur event listeners since we overwrite `field`
-                        if (runtimeFeatureFlags.enableCategoryExtract) {
+                        // Skip empty titles: tabbing through the field would
+                        // otherwise spend an API call to categorise "".
+                        if (
+                          runtimeFeatureFlags.enableCategoryExtract &&
+                          field.value.trim()
+                        ) {
                           setCategoryLoading(true)
                           const { categoryId } = await extractCategoryFromTitle(
                             field.value,
