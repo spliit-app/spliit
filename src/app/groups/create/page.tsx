@@ -1,4 +1,5 @@
 import { CreateGroup } from '@/app/groups/create/create-group'
+import { env } from '@/lib/env'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -6,5 +7,7 @@ export const metadata: Metadata = {
 }
 
 export default function CreateGroupPage() {
-  return <CreateGroup />
+  const defaultCurrencyCode =
+    env.DEFAULT_CURRENCY_CODE ?? env.NEXT_PUBLIC_DEFAULT_CURRENCY_CODE ?? 'USD'
+  return <CreateGroup defaultCurrencyCode={defaultCurrencyCode} />
 }

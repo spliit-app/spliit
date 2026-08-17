@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Toaster } from '@/components/ui/toaster'
 import { Analytics } from '@/lib/analytics/analytics'
 import { getAnalyticsConfig } from '@/lib/analytics/config'
-import { env } from '@/lib/env'
+import { effectiveBaseUrl } from '@/lib/env'
 import { TRPCProvider } from '@/trpc/client'
 import type { Metadata, Viewport } from 'next'
 import { NextIntlClientProvider, useTranslations } from 'next-intl'
@@ -19,7 +19,7 @@ import { Suspense } from 'react'
 import './globals.css'
 
 export const metadata: Metadata = {
-  metadataBase: new URL(env.NEXT_PUBLIC_BASE_URL),
+  metadataBase: new URL(effectiveBaseUrl),
   title: {
     default: 'Spliit · Share Expenses with Friends & Family',
     template: '%s · Spliit',

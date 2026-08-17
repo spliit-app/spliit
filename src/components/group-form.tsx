@@ -51,12 +51,15 @@ export type Props = {
     participantId?: string,
   ) => Promise<void>
   protectedParticipantIds?: string[]
+  /** Resolved on the server, since the runtime variable is not public. */
+  defaultCurrencyCode?: string
 }
 
 export function GroupForm({
   group,
   onSubmit,
   protectedParticipantIds = [],
+  defaultCurrencyCode = 'USD',
 }: Props) {
   const locale = useLocale()
   const t = useTranslations('GroupForm')
@@ -74,7 +77,7 @@ export function GroupForm({
           name: '',
           information: '',
           currency: '',
-          currencyCode: process.env.NEXT_PUBLIC_DEFAULT_CURRENCY_CODE || 'USD', // TODO: If NEXT_PUBLIC_DEFAULT_CURRENCY_CODE, is not set, determine the default currency code based on locale
+          currencyCode: defaultCurrencyCode, // TODO: derive from the locale when not configured
           participants: [
             { name: t('Participants.John') },
             { name: t('Participants.Jane') },
