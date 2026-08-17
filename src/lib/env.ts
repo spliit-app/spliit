@@ -20,6 +20,13 @@ const envSchema = z
   .object({
     POSTGRES_URL_NON_POOLING: z.string().url(),
     POSTGRES_PRISMA_URL: z.string().url(),
+    // Runtime override for the public base URL, so a prebuilt image can be
+    // told where it is reachable without a rebuild. Takes precedence over
+    // NEXT_PUBLIC_BASE_URL, which is baked in at build time.
+    BASE_URL: z.preprocess(
+      interpretBlankEnvVarAsUndefined,
+      z.string().trim().url().optional(),
+    ),
     NEXT_PUBLIC_BASE_URL: z
       .string()
       .optional()
@@ -154,3 +161,7 @@ const envSchema = z
   })
 
 export const env = envSchema.parse(process.env)
+
+// The base URL to use everywhere: the runtime override when set, otherwise the
+// value baked in at build time.
+export const effectiveBaseUrl = env.BASE_URL ?? env.NEXT_PUBLIC_BASE_URL
