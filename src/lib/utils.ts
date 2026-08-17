@@ -1,4 +1,4 @@
-import { Category, Group } from '@prisma/client'
+import { Category, Group } from '@/generated/prisma/browser'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 import { Currency, getCurrency } from './currency'

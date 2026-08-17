@@ -1,7 +1,7 @@
 // @ts-nocheck
+import { Prisma } from '@/generated/prisma/client'
 import { randomId } from '@/lib/api'
 import { prisma } from '@/lib/prisma'
-import { Prisma } from '@prisma/client'
 import { Client } from 'pg'
 
 async function main() {
