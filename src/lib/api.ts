@@ -1,16 +1,15 @@
-import { prisma } from '@/lib/prisma'
-import { ExpenseFormValues, GroupFormValues } from '@/lib/schemas'
 import {
   ActivityType,
   Expense,
   RecurrenceRule,
   RecurringExpenseLink,
-} from '@prisma/client'
-import { nanoid } from 'nanoid'
+} from '@/generated/prisma/client'
+import { prisma } from '@/lib/prisma'
+import { randomId } from '@/lib/random'
+import { ExpenseFormValues, GroupFormValues } from '@/lib/schemas'
 
-export function randomId() {
-  return nanoid()
-}
+// Re-exported for backwards compatibility with existing server-side importers.
+export { randomId }
 
 export async function createGroup(groupFormValues: GroupFormValues) {
   return prisma.group.create({

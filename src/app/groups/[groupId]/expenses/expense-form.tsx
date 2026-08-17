@@ -33,9 +33,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { RecurrenceRule, SplitMode } from '@/generated/prisma/browser'
 import { Locale } from '@/i18n/request'
 import { useAnalytics } from '@/lib/analytics/context'
-import { randomId } from '@/lib/api'
 import { defaultCurrencyList, getCurrency } from '@/lib/currency'
 import {
   convertToGroupCurrency,
@@ -43,7 +43,9 @@ import {
 } from '@/lib/currency-conversion'
 import { RuntimeFeatureFlags } from '@/lib/featureFlags'
 import { useActiveUser, useCurrencyRate } from '@/lib/hooks'
+import { randomId } from '@/lib/random'
 import {
+  ExpenseFormInput,
   ExpenseFormValues,
   SplittingOptions,
   expenseFormSchema,
@@ -60,7 +62,6 @@ import {
 } from '@/lib/utils'
 import { AppRouterOutput } from '@/trpc/routers/_app'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { RecurrenceRule } from '@prisma/client'
 import { ChevronRight, Save } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
@@ -120,7 +121,7 @@ const getDefaultSplittingOptions = (
     splitMode: parsedDefaultSplitMode.splitMode,
     paidFor: parsedDefaultSplitMode.paidFor.map((paidFor) => ({
       participant: paidFor.participant,
-      shares: (paidFor.shares / 100).toString() as any, // Convert to string for consistent schema handling
+      shares: (paidFor.shares / 100).toString(), // Convert to string for consistent schema handling
     })),
   }
 }
@@ -188,12 +189,12 @@ export function ExpenseForm({
     return field?.value
   }
 
-  const getSelectedRecurrenceRule = (field?: { value: string }) => {
+  const getSelectedRecurrenceRule = (field?: { value?: string }) => {
     return field?.value as RecurrenceRule
   }
   const defaultSplittingOptions = getDefaultSplittingOptions(group)
   const groupCurrency = getCurrencyFromGroup(group)
-  const form = useForm<ExpenseFormValues>({
+  const form = useForm<ExpenseFormInput, any, ExpenseFormValues>({
     resolver: zodResolver(expenseFormSchema),
     defaultValues: expense
       ? {
@@ -201,24 +202,26 @@ export function ExpenseForm({
           expenseDate: expense.expenseDate ?? new Date(),
           amount: amountAsDecimal(expense.amount, groupCurrency),
           originalCurrency: expense.originalCurrency ?? group.currencyCode,
-          originalAmount: expense.originalAmount
-            ? amountAsDecimal(
-                expense.originalAmount,
-                getCurrency(
-                  expense.originalCurrency ?? group.currencyCode,
-                  locale,
-                  'Custom',
-                ),
-              )
-            : undefined,
+          originalAmount:
+            expense.originalAmount != null
+              ? formatAmountAsDecimal(
+                  expense.originalAmount,
+                  getCurrency(
+                    expense.originalCurrency ?? group.currencyCode,
+                    locale,
+                    'Custom',
+                  ),
+                )
+              : undefined,
           conversionRate: expense.conversionRate?.toNumber(),
           category: expense.categoryId,
           paidBy: expense.paidById,
           paidFor: expense.paidFor.map(({ participantId, shares }) => ({
             participant: participantId,
-            shares: (expense.splitMode === 'BY_AMOUNT'
-              ? amountAsDecimal(shares, groupCurrency)
-              : (shares / 100).toString()) as any, // Convert to string to ensure consistent handling
+            shares:
+              expense.splitMode === 'BY_AMOUNT'
+                ? amountAsDecimal(shares, groupCurrency)
+                : (shares / 100).toString(), // Convert to string to ensure consistent handling
           })),
           splitMode: expense.splitMode,
           saveDefaultSplittingOptions: false,
@@ -238,7 +241,7 @@ export function ExpenseForm({
             originalCurrency: group.currencyCode,
             // Empty rather than undefined: the field is filled in by the conversion, and
             // switching an input from uncontrolled to controlled warns in React.
-            originalAmount: '' as any,
+            originalAmount: '',
             conversionRate: undefined,
             category: 1, // category with Id 1 is Payment
             paidBy: searchParams.get('from') ?? undefined,
@@ -246,7 +249,7 @@ export function ExpenseForm({
               searchParams.get('to')
                 ? {
                     participant: searchParams.get('to')!,
-                    shares: '1' as any, // String for consistent form handling
+                    shares: '1', // String for consistent form handling
                   }
                 : undefined,
             ],
@@ -340,7 +343,7 @@ export function ExpenseForm({
     'Custom',
   )
   const exchangeRate = useCurrencyRate(
-    form.watch('expenseDate'),
+    form.watch('expenseDate') as Date,
     form.watch('originalCurrency') ?? '',
     groupCurrency.code,
   )
@@ -411,7 +414,7 @@ export function ExpenseForm({
               shares: formatAmountAsDecimal(
                 amountsPerRemaining[remainingIndex++],
                 groupCurrency,
-              ) as any, // Keep as string for consistent schema handling
+              ), // Keep as string for consistent schema handling
             }
           }
           return participant
@@ -490,9 +493,7 @@ export function ExpenseForm({
         'originalAmount',
         // String for consistent form handling, so trailing zeros survive; the schema
         // coerces it, and it maps '' back to undefined.
-        (Number(converted) === 0
-          ? ''
-          : enforceCurrencyPattern(converted)) as any,
+        Number(converted) === 0 ? '' : enforceCurrencyPattern(converted),
       )
     }
   }, [
@@ -587,7 +588,7 @@ export function ExpenseForm({
                     <Input
                       className="date-base"
                       type="date"
-                      defaultValue={formatDate(field.value)}
+                      defaultValue={formatDate(field.value as Date)}
                       onChange={(event) => {
                         return field.onChange(new Date(event.target.value))
                       }}
@@ -684,7 +685,9 @@ export function ExpenseForm({
                       </FormDescription>
                     )}
                     <FormDescription>
-                      {isNaN(form.getValues('expenseDate').getTime()) ? (
+                      {isNaN(
+                        (form.getValues('expenseDate') as Date).getTime(),
+                      ) ? (
                         t('conversionRateState.noDate')
                       ) : form.getValues('expenseDate') &&
                         !usingCustomConversionRate ? (
@@ -775,7 +778,7 @@ export function ExpenseForm({
                   <CategorySelector
                     categories={categories}
                     defaultValue={
-                      form.watch(field.name) // may be overwritten externally
+                      form.watch(field.name) as number // may be overwritten externally
                     }
                     onValueChange={field.onChange}
                     isLoading={isCategoryLoading}
@@ -947,11 +950,11 @@ export function ExpenseForm({
                     ? []
                     : group.participants.map((p) => ({
                         participant: p.id,
-                        shares: (paidFor.find(
-                          (pfor) => pfor.participant === p.id,
-                        )?.shares ?? '1') as any, // Use string to ensure consistent schema handling
+                        shares:
+                          paidFor.find((pfor) => pfor.participant === p.id)
+                            ?.shares ?? '1', // Use string to ensure consistent schema handling
                       }))
-                  form.setValue('paidFor', newPaidFor as any, {
+                  form.setValue('paidFor', newPaidFor, {
                     shouldDirty: true,
                     shouldTouch: true,
                     shouldValidate: true,
@@ -1010,7 +1013,7 @@ export function ExpenseForm({
                                               participant: id,
                                               shares: '1', // Use string to ensure consistent schema handling
                                             },
-                                          ] as any,
+                                          ],
                                           options,
                                         )
                                       : form.setValue(
@@ -1060,15 +1063,17 @@ export function ExpenseForm({
                                                   : form.watch('splitMode') ===
                                                       'BY_AMOUNT'
                                                     ? amountAsMinorUnits(
-                                                        shares,
+                                                        Number(shares),
                                                         groupCurrency,
                                                       )
-                                                    : shares,
+                                                    : Number(shares),
                                               expenseId: '',
                                               participantId: '',
                                             }),
                                           ),
-                                          splitMode: form.watch('splitMode'),
+                                          splitMode: form.watch(
+                                            'splitMode',
+                                          ) as SplitMode,
                                           isReimbursement:
                                             form.watch('isReimbursement'),
                                         }),
@@ -1272,7 +1277,7 @@ export function ExpenseForm({
                                             'BY_SHARES',
                                             'BY_PERCENTAGE',
                                           ].includes(
-                                            form.getValues().splitMode,
+                                            form.getValues().splitMode!,
                                           ) && sharesLabel}
                                         </div>
                                         <FormMessage className="float-right" />
@@ -1386,7 +1391,7 @@ export function ExpenseForm({
                 name="documents"
                 render={({ field }) => (
                   <ExpenseDocumentsInput
-                    documents={field.value}
+                    documents={field.value ?? []}
                     updateDocuments={field.onChange}
                     onDocumentAttached={() =>
                       sendEvent(

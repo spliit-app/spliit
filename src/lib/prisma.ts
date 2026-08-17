@@ -1,20 +1,30 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@/generated/prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
 
-declare const global: Global & { prisma?: PrismaClient }
+const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient }
+
+// Prisma 7 ships a Rust-free client and requires an explicit driver adapter.
+// We use the `pg` adapter with the pooled connection string.
+function createPrismaClient() {
+  const adapter = new PrismaPg({
+    connectionString: process.env['POSTGRES_PRISMA_URL'],
+  })
+  return new PrismaClient({
+    adapter,
+    // log: [{ emit: 'stdout', level: 'query' }],
+  })
+}
 
 export let p: PrismaClient = undefined as any as PrismaClient
 
 if (typeof window === 'undefined') {
-  // await delay(1000)
   if (process.env['NODE_ENV'] === 'production') {
-    p = new PrismaClient()
+    p = createPrismaClient()
   } else {
-    if (!global.prisma) {
-      global.prisma = new PrismaClient({
-        // log: [{ emit: 'stdout', level: 'query' }],
-      })
+    if (!globalForPrisma.prisma) {
+      globalForPrisma.prisma = createPrismaClient()
     }
-    p = global.prisma
+    p = globalForPrisma.prisma
   }
 }
 

@@ -40,6 +40,9 @@ next-env.d.ts
 # db
 postgres-data
 
+# prisma generated client (regenerated via `prisma generate`)
+/src/generated
+
 # playwright
 /test-results/
 /playwright-report/

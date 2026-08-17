@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button'
+// lucide-react v1 dropped its brand icons, so the GitHub mark comes from Radix.
 import { TrackPage } from '@/lib/analytics/track-page'
-import { Github } from 'lucide-react'
+import { GitHubLogoIcon } from '@radix-ui/react-icons'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 
@@ -30,7 +31,7 @@ export default function HomePage() {
             </Button>
             <Button asChild variant="secondary">
               <Link href="https://github.com/spliit-app/spliit">
-                <Github className="w-4 h-4 mr-2" />
+                <GitHubLogoIcon className="w-4 h-4 mr-2" />
                 {t('Homepage.button.github')}
               </Link>
             </Button>

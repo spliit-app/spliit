@@ -1,5 +1,5 @@
 'use client' // <-- to make sure we can mount the Provider from a server component
-import { Prisma } from '@prisma/client'
+import { Prisma } from '@/generated/prisma/browser'
 import type { QueryClient } from '@tanstack/react-query'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { httpBatchLink } from '@trpc/client'
@@ -9,9 +9,13 @@ import superjson from 'superjson'
 import { makeQueryClient } from './query-client'
 import type { AppRouter } from './routers/_app'
 
-superjson.registerCustom<Prisma.Decimal, string>(
+// The browser-safe namespace exports `Decimal` as a value only, so derive the
+// instance type from it.
+type Decimal = InstanceType<typeof Prisma.Decimal>
+
+superjson.registerCustom<Decimal, string>(
   {
-    isApplicable: (v): v is Prisma.Decimal => Prisma.Decimal.isDecimal(v),
+    isApplicable: (v): v is Decimal => Prisma.Decimal.isDecimal(v),
     serialize: (v) => v.toJSON(),
     deserialize: (v) => new Prisma.Decimal(v),
   },
