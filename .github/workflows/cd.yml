@@ -5,42 +5,119 @@ on:
     tags:
       - '*'
 
+env:
+  REGISTRY: ghcr.io
+
 jobs:
-  build-and-push-image:
-    runs-on: ubuntu-latest
+  # Each platform is built on a runner of that architecture, then pushed
+  # untagged (by digest only). Emulating linux/arm64 with QEMU crashes Node
+  # during `npm ci` with an illegal instruction, so we never emulate.
+  build:
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: linux/amd64
+            runner: ubuntu-latest
+          - platform: linux/arm64
+            runner: ubuntu-24.04-arm
     permissions:
       contents: read
       packages: write
 
     steps:
+      - name: Prepare environment
+        run: |
+          platform=${{ matrix.platform }}
+          echo "PLATFORM_PAIR=${platform//\//-}" >> "${GITHUB_ENV}"
+          echo "REPO=${GITHUB_REPOSITORY@L}" >> "${GITHUB_ENV}"
+
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Login to Github Container Registry
         uses: docker/login-action@v3
         with:
-          registry: ghcr.io
+          registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Build and push by digest
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: ${{ matrix.platform }}
+          provenance: false # Disable provenance to avoid unknown/unknown
+          sbom: false       # Disable sbom to avoid unknown/unknown
+          # Reuse layers from previous runs, scoped per architecture so the two
+          # matrix jobs do not overwrite each other's cache. The dependency
+          # install is the slow layer and only changes when the lockfile does.
+          cache-from: type=gha,scope=${{ env.PLATFORM_PAIR }}
+          cache-to: type=gha,mode=max,scope=${{ env.PLATFORM_PAIR }}
+          outputs: type=image,name=${{ env.REGISTRY }}/${{ env.REPO }},push-by-digest=true,name-canonical=true,push=true
+
+      - name: Export digest
+        run: |
+          mkdir -p "${{ runner.temp }}/digests"
+          digest="${{ steps.build.outputs.digest }}"
+          touch "${{ runner.temp }}/digests/${digest#sha256:}"
+
+      - name: Upload digest
+        uses: actions/upload-artifact@v4
+        with:
+          name: digests-${{ env.PLATFORM_PAIR }}
+          path: ${{ runner.temp }}/digests/*
+          if-no-files-found: error
+          retention-days: 1
+
+  # Combine the per-architecture digests into a single multi-arch manifest
+  # published under the version tag and `latest`.
+  merge:
+    runs-on: ubuntu-latest
+    needs: [build]
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
       - name: Downcase repo
         run: |
           echo "REPO=${GITHUB_REPOSITORY@L}" >> "${GITHUB_ENV}"
 
-      - name: Build and push
-        uses: docker/build-push-action@v6
+      - name: Download digests
+        uses: actions/download-artifact@v4
         with:
-          context: .
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: |
-            ghcr.io/${{ env.REPO }}:${{ github.ref_name }}
-            ghcr.io/${{ env.REPO }}:latest
-          provenance: false # Disable provenance to avoid unknown/unknown
-          sbom: false       # Disable sbom to avoid unknown/unknown
+          path: ${{ runner.temp }}/digests
+          pattern: digests-*
+          merge-multiple: true
+
+      - name: Login to Github Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Create manifest list and push
+        working-directory: ${{ runner.temp }}/digests
+        run: |
+          sources=()
+          for digest in *; do
+            sources+=("${REGISTRY}/${REPO}@sha256:${digest}")
+          done
+          docker buildx imagetools create \
+            --tag "${REGISTRY}/${REPO}:${{ github.ref_name }}" \
+            --tag "${REGISTRY}/${REPO}:latest" \
+            "${sources[@]}"
+
+      - name: Inspect image
+        run: |
+          docker buildx imagetools inspect "${REGISTRY}/${REPO}:${{ github.ref_name }}"

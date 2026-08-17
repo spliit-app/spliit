@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/dialog'
 import { ToastAction } from '@/components/ui/toast'
 import { useToast } from '@/components/ui/use-toast'
-import { randomId } from '@/lib/api'
+import { randomId } from '@/lib/random'
 import { ExpenseFormValues } from '@/lib/schemas'
 import { formatFileSize } from '@/lib/utils'
 import { Loader2, Plus, Trash, X } from 'lucide-react'
@@ -29,11 +29,17 @@ import { useEffect, useState } from 'react'
 type Props = {
   documents: ExpenseFormValues['documents']
   updateDocuments: (documents: ExpenseFormValues['documents']) => void
+  /** Called once per document successfully uploaded. */
+  onDocumentAttached?: () => void
 }
 
 const MAX_FILE_SIZE = 5 * 1024 ** 2
 
-export function ExpenseDocumentsInput({ documents, updateDocuments }: Props) {
+export function ExpenseDocumentsInput({
+  documents,
+  updateDocuments,
+  onDocumentAttached,
+}: Props) {
   const locale = useLocale()
   const t = useTranslations('ExpenseDocumentsInput')
   const [pending, setPending] = useState(false)
@@ -60,6 +66,7 @@ export function ExpenseDocumentsInput({ documents, updateDocuments }: Props) {
         if (!width || !height) throw new Error('Cannot get image dimensions')
         const { url } = await uploadToS3(file)
         updateDocuments([...documents, { id: randomId(), url, width, height }])
+        onDocumentAttached?.()
       } catch (err) {
         console.error(err)
         toast({

@@ -1,0 +1,451 @@
+{
+  "Homepage": {
+    "title": "Jaga <strong>kulusid</strong> <strong>sõprade ja perega</strong>",
+    "description": "Tere tulemast oma uude <strong>Spliit</strong> i keskkonda!",
+    "button": {
+      "groups": "Mine gruppidesse",
+      "github": "GitHub"
+    }
+  },
+  "Header": {
+    "groups": "Grupid"
+  },
+  "Footer": {
+    "madeIn": "Valmistatud Montréalis, Québecis 🇨🇦",
+    "builtBy": "Loonud <author>Sebastien Castiel</author> ja <source>kaasabilised</source>"
+  },
+  "Expenses": {
+    "title": "Kulud",
+    "description": "Siin on kulud, mille oled oma grupile lisanud.",
+    "create": "Lisa kulu",
+    "createFirst": "Lisa esimene",
+    "noExpenses": "Sinu grupil ei ole veel ühtegi kulu.",
+    "export": "Ekspordi",
+    "exportJson": "Ekspordi JSON-ina",
+    "exportCsv": "Ekspordi CSV-na",
+    "searchPlaceholder": "Otsi kulu…",
+    "ActiveUserModal": {
+      "title": "Kes sa oled?",
+      "description": "Ütle meile, milline osaleja sa oled, et saaksime kohandada, kuidas infot kuvatakse.",
+      "nobody": "Ma ei soovi kedagi valida",
+      "save": "Salvesta muudatused",
+      "footer": "Seda seadet saab hiljem muuta grupi seadetes."
+    },
+    "Groups": {
+      "upcoming": "Tulevased",
+      "thisWeek": "Sel nädalal",
+      "earlierThisMonth": "Varem sel kuul",
+      "lastMonth": "Eelmisel kuul",
+      "earlierThisYear": "Varem sel aastal",
+      "lastYear": "Eelmisel aastal",
+      "older": "Vanemad"
+    }
+  },
+  "ExpenseCard": {
+    "paidBy": "Maksis <strong>{paidBy}</strong> kasutaja(te) <paidFor></paidFor> eest",
+    "everyone": "kõikide",
+    "receivedBy": "Sai <strong>{paidBy}</strong> kasutaja(te) <paidFor></paidFor> eest",
+    "yourBalance": "Sinu saldo:",
+    "notInvolved": "Sa ei ole seotud"
+  },
+  "Groups": {
+    "myGroups": "Minu grupid",
+    "create": "Loo",
+    "loadingRecent": "Hiljutiste gruppide laadimine…",
+    "NoRecent": {
+      "description": "Sa ei ole hiljuti ühtegi gruppi külastanud.",
+      "create": "Loo üks",
+      "orAsk": "või palu sõbral saata sulle link olemasolevale grupile."
+    },
+    "recent": "Hiljutised grupid",
+    "starred": "Tähistatud grupid",
+    "archived": "Arhiveeritud grupid",
+    "archive": "Arhiveeri grupp",
+    "unarchive": "Taasta arhiivist",
+    "removeRecent": "Eemalda hiljutiste gruppide seast",
+    "RecentRemovedToast": {
+      "title": "Grupp on eemaldatud",
+      "description": "Grupp eemaldati sinu hiljutiste gruppide loendist.",
+      "undoAlt": "Tühista grupi eemaldamine",
+      "undo": "Tühista"
+    },
+    "AddByURL": {
+      "button": "Lisa URL-i kaudu",
+      "title": "Lisa grupp URL-i kaudu",
+      "description": "Kui sinuga jagati gruppi, saad selle URL-i siia kleepida, et lisada see oma loendisse.",
+      "error": "Oih, me ei leidnud gruppi sinu esitatud URL-i põhjal…"
+    },
+    "NotFound": {
+      "text": "Seda gruppi ei ole olemas.",
+      "link": "Mine hiljuti külastatud gruppidesse"
+    }
+  },
+  "GroupForm": {
+    "title": "Grupi info",
+    "NameField": {
+      "label": "Grupi nimi",
+      "placeholder": "Suvepuhkus",
+      "description": "Sisesta oma grupile nimi."
+    },
+    "InformationField": {
+      "label": "Grupi info",
+      "placeholder": "Milline info on grupi osalejate jaoks oluline?"
+    },
+    "CurrencyField": {
+      "label": "Valuutasümbol",
+      "placeholder": "$, €, £…",
+      "description": "Kasutame seda summade kuvamiseks."
+    },
+    "CurrencyCodeField": {
+      "label": "Põhivaluuta",
+      "createDescription": "Kõik summad ja saldod on selles valuutas.",
+      "editDescription": "Kõik summad ja saldod on selles valuutas. Selle muutmine EI teisenda juba sisestatud kulusid, välja arvatud juhul, kui valuutal on erinev \"väiksem ühik\" kui praegusel (nt vahetades USA dollari Jaapani jeeni vastu)",
+      "customOption": "Kohandatud"
+    },
+    "Participants": {
+      "title": "Osalejad",
+      "description": "Sisesta iga osaleja nimi.",
+      "protectedParticipant": "See osaleja on seotud kuludega ja ei saa eemaldada.",
+      "new": "Uus",
+      "add": "Lisa osaleja",
+      "John": "Jaan",
+      "Jane": "Jaana",
+      "Jack": "Jüri"
+    },
+    "Settings": {
+      "title": "Lokaalsed seaded",
+      "description": "Need seaded on seadmepõhised ja neid kasutatakse sinu kogemuse kohandamiseks.",
+      "ActiveUserField": {
+        "label": "Aktiivne kasutaja",
+        "placeholder": "Vali osaleja",
+        "none": "Puudub",
+        "description": "Kasutaja, keda kasutatakse vaikimisi kulude maksmisel."
+      },
+      "save": "Salvesta",
+      "saving": "Salvestamine…",
+      "create": "Loo",
+      "creating": "Loomine…",
+      "cancel": "Loobu"
+    }
+  },
+  "ExpenseForm": {
+    "Income": {
+      "create": "Loo tulu",
+      "edit": "Muuda tulu",
+      "TitleField": {
+        "label": "Tulu pealkiri",
+        "placeholder": "Esmaspäevaõhtune restoran",
+        "description": "Sisesta tulu kirjeldus."
+      },
+      "DateField": {
+        "label": "Tulu kuupäev",
+        "description": "Sisesta kuupäev, millal tulu laekus."
+      },
+      "currencyField": {
+        "label": "Tulu valuuta",
+        "description": "Valuuta, milles tulu laekus."
+      },
+      "categoryFieldDescription": "Vali tulu kategooria.",
+      "paidByField": {
+        "label": "Sai",
+        "description": "Vali osaleja, kes tulu sai."
+      },
+      "paidFor": {
+        "title": "Saadud kelle jaoks",
+        "description": "Vali, kelle jaoks tulu saadi."
+      },
+      "splitModeDescription": "Vali, kuidas tulu jagada.",
+      "attachDescription": "Vaata ja lisa tulule kviitungeid."
+    },
+    "Expense": {
+      "create": "Loo kulu",
+      "edit": "Muuda kulu",
+      "TitleField": {
+        "label": "Kulu pealkiri",
+        "placeholder": "Esmaspäevaõhtune restoran",
+        "description": "Sisesta kulu kirjeldus."
+      },
+      "DateField": {
+        "label": "Kulu kuupäev",
+        "description": "Sisesta kuupäev, millal kulu tasuti."
+      },
+      "currencyField": {
+        "label": "Kulu valuuta",
+        "description": "Valuuta, milles kulu tasuti."
+      },
+      "categoryFieldDescription": "Vali kulu kategooria.",
+      "paidByField": {
+        "label": "Maksis",
+        "placeholder": "Vali osaleja",
+        "description": "Vali osaleja, kes kulu tasus."
+      },
+      "recurrenceRule": {
+        "label": "Kulu kordumine",
+        "description": "Vali, kui tihti kulu peaks korduma.",
+        "none": "Puudub",
+        "daily": "Iga päev",
+        "weekly": "Iga nädal",
+        "monthly": "Iga kuu"
+      },
+      "paidFor": {
+        "title": "Makstud kelle eest",
+        "description": "Vali, kelle eest kulu tasuti."
+      },
+      "splitModeDescription": "Vali, kuidas kulu jagada.",
+      "attachDescription": "Vaata ja lisa kulule kviitungeid."
+    },
+    "amountField": {
+      "label": "Summa"
+    },
+    "conversionUnavailable": "Erineva valuuta seadmiseks kulu kohta ja summade teisendamiseks vali grupile mitte-kohandatud valuuta.",
+    "originalAmountField": {
+      "label": "Teisendatav summa"
+    },
+    "conversionRateField": {
+      "useApi": "Kasuta Frankfurteri kursse",
+      "useCustom": "Kasuta kohandatud kurssi",
+      "label": "Vahetuskurss"
+    },
+    "conversionRateState": {
+      "loading": "Vahetuskursside hankimine…",
+      "success": "Saadud kursid:",
+      "error": "Oih, me ei suutnud kõige uuemaid kursse hankida.",
+      "staleRate": "Kasutatav kurss:",
+      "noRate": "Sisesta allpool kohandatud kurss.",
+      "currencyNotFound": "Oih, Frankfurteril ei ole selle valuuta kurssi sellel päeval.",
+      "noDate": "Sisesta kulu kuupäev, et saada vahetuskurss.",
+      "dateMismatch": "Kursid kuupäevast: {date}",
+      "refresh": "Värskenda",
+      "customRate": "Kasutatakse kohandatud kurssi"
+    },
+    "isReimbursementField": {
+      "label": "See on hüvitis"
+    },
+    "categoryField": {
+      "label": "Kategooria"
+    },
+    "notesField": {
+      "label": "Märkmed"
+    },
+    "selectNone": "Tühista valik",
+    "selectAll": "Vali kõik",
+    "shares": "osak(ud)",
+    "advancedOptions": "Täpsemad jagamisvalikud…",
+    "SplitModeField": {
+      "label": "Jagamisviis",
+      "evenly": "Võrdselt",
+      "byShares": "Ebavõrdselt – osade kaupa",
+      "byPercentage": "Ebavõrdselt – protsentide kaupa",
+      "byAmount": "Ebavõrdselt – summade kaupa",
+      "saveAsDefault": "Salvesta vaikimisi jagamisvalikuna"
+    },
+    "DeletePopup": {
+      "label": "Kustuta",
+      "title": "Kustutada see kulu?",
+      "description": "Kas soovid selle kulu tõesti kustutada? Seda tegevust ei saa tagasi võtta.",
+      "yes": "Jah",
+      "cancel": "Loobu"
+    },
+    "attachDocuments": "Lisa dokumendid",
+    "create": "Loo",
+    "creating": "Loomine…",
+    "save": "Salvesta",
+    "saving": "Salvestamine…",
+    "cancel": "Loobu",
+    "reimbursement": "Hüvitis"
+  },
+  "ExpenseDocumentsInput": {
+    "TooBigToast": {
+      "title": "Fail on liiga suur",
+      "description": "Maksimaalne failisuurus, mida saad üles laadida, on {maxSize}. Sinu oma on {size}."
+    },
+    "ErrorToast": {
+      "title": "Viga dokumendi üleslaadimisel",
+      "description": "Dokumendi üleslaadimisel tekkis viga. Palun proovi hiljem uuesti või vali teine fail.",
+      "retry": "Proovi uuesti"
+    }
+  },
+  "CreateFromReceipt": {
+    "Dialog": {
+      "triggerTitle": "Loo kulu kviitungilt",
+      "title": "Loo kviitungilt",
+      "description": "Eralda kulu info kviitungi fotolt.",
+      "body": "Laadi üles kviitungi foto ja me skaneerime selle, et eraldada kulu info, kui see on võimalik.",
+      "selectImage": "Vali pilt…",
+      "titleLabel": "Pealkiri:",
+      "categoryLabel": "Kategooria:",
+      "amountLabel": "Summa:",
+      "dateLabel": "Kuupäev:",
+      "editNext": "Järgmisena saad kulu infot muuta.",
+      "continue": "Jätka"
+    },
+    "unknown": "Teadmata",
+    "TooBigToast": {
+      "title": "Fail on liiga suur",
+      "description": "Maksimaalne failisuurus, mida saad üles laadida, on {maxSize}. Sinu oma on {size}."
+    },
+    "ErrorToast": {
+      "title": "Viga dokumendi üleslaadimisel",
+      "description": "Dokumendi üleslaadimisel tekkis viga. Palun proovi hiljem uuesti või vali teine fail.",
+      "retry": "Proovi uuesti"
+    }
+  },
+  "Balances": {
+    "title": "Saldod",
+    "description": "See on summa, mille iga osaleja maksis või mis talle maksti.",
+    "Reimbursements": {
+      "title": "Soovitatud hüvitised",
+      "description": "Siin on soovitused optimeeritud hüvitisteks osalejate vahel.",
+      "noImbursements": "Tundub, et sinu grupp ei vaja ühtegi hüvitist 😁",
+      "owes": "<strong>{from}</strong> võlgneb <strong>{to}</strong>",
+      "markAsPaid": "Märgi makstuks"
+    }
+  },
+  "Stats": {
+    "title": "Statistika",
+    "Totals": {
+      "title": "Kokkuvõte",
+      "description": "Kogu grupi kulutuste ülevaade.",
+      "groupSpendings": "Grupi kogukulud",
+      "groupEarnings": "Grupi kogutulud",
+      "yourSpendings": "Sinu kogukulud",
+      "yourEarnings": "Sinu kogutulud",
+      "yourShare": "Sinu kogu osa"
+    }
+  },
+  "Activity": {
+    "title": "Tegevus",
+    "description": "Ülevaade kogu selle grupi tegevusest.",
+    "noActivity": "Sinu grupis ei ole veel ühtegi tegevust.",
+    "someone": "Keegi",
+    "settingsModified": "Grupi seadeid muutis <strong>{participant}</strong>.",
+    "expenseCreated": "Kulu <em>{expense}</em> lõi <strong>{participant}</strong>.",
+    "expenseUpdated": "Kulu <em>{expense}</em> muutis <strong>{participant}</strong>.",
+    "expenseDeleted": "Kulu <em>{expense}</em> kustutas <strong>{participant}</strong>.",
+    "Groups": {
+      "today": "Täna",
+      "yesterday": "Eile",
+      "earlierThisWeek": "Varem sel nädalal",
+      "lastWeek": "Eelmisel nädalal",
+      "earlierThisMonth": "Varem sel kuul",
+      "lastMonth": "Eelmisel kuul",
+      "earlierThisYear": "Varem sel aastal",
+      "lastYear": "Eelmisel aastal",
+      "older": "Vanemad"
+    }
+  },
+  "Information": {
+    "title": "Info",
+    "description": "Kasuta seda kohta, et lisada teavet, mis võib grupi osalejatele oluline olla.",
+    "empty": "Grupi kohta info puudub."
+  },
+  "Settings": {
+    "title": "Seaded"
+  },
+  "Share": {
+    "title": "Jaga",
+    "description": "Selleks, et teised osalejad saaksid gruppi näha ja kulusid lisada, jaga nendega grupi URL-i.",
+    "warning": "Hoiatus!",
+    "warningHelp": "Igaüks, kellel on grupi URL, saab kulusid näha ja muuta. Jaga ettevaatlikult!"
+  },
+  "SchemaErrors": {
+    "min1": "Sisesta vähemalt üks tähemärk.",
+    "min2": "Sisesta vähemalt kaks tähemärki.",
+    "max5": "Sisesta kõige rohkem viis tähemärki.",
+    "max50": "Sisesta kõige rohkem 50 tähemärki.",
+    "duplicateParticipantName": "Sellise nimega osaleja on juba olemas.",
+    "titleRequired": "Palun sisesta pealkiri.",
+    "invalidNumber": "Vigane number.",
+    "amountRequired": "Pead sisestama summa.",
+    "amountNotZero": "Summa ei tohi olla null.",
+    "amountTenMillion": "Summa peab olema väiksem kui 10 000 000.",
+    "ratePositive": "Kurss peab olema rangelt suurem kui null.",
+    "paidByRequired": "Pead valima osaleja.",
+    "paidForMin1": "Kulu peab olema makstud vähemalt ühe osaleja eest.",
+    "noZeroShares": "Kõik osad peavad olema suuremad kui 0.",
+    "amountSum": "Summade kogusumma peab võrduma kulu summaga.",
+    "percentageSum": "Protsentide summa peab võrduma 100-ga."
+  },
+  "Categories": {
+    "search": "Otsi kategooriat...",
+    "noCategory": "Kategooriat ei leitud.",
+    "Uncategorized": {
+      "heading": "Kategoriseerimata",
+      "General": "Üldine",
+      "Payment": "Makse"
+    },
+    "Entertainment": {
+      "heading": "Meelelahutus",
+      "Entertainment": "Meelelahutus",
+      "Games": "Mängud",
+      "Movies": "Filmid",
+      "Music": "Muusika",
+      "Sports": "Sport"
+    },
+    "Food and Drink": {
+      "heading": "Söök ja jook",
+      "Food and Drink": "Söök ja jook",
+      "Dining Out": "Väljas söömine",
+      "Groceries": "Toidukaubad",
+      "Liquor": "Alkohol"
+    },
+    "Home": {
+      "heading": "Kodu",
+      "Home": "Kodu",
+      "Electronics": "Elektroonika",
+      "Furniture": "Mööbel",
+      "Household Supplies": "Majapidamistarbed",
+      "Maintenance": "Hooldus",
+      "Mortgage": "Kodulaen",
+      "Pets": "Lemmikloomad",
+      "Rent": "Üür",
+      "Services": "Teenused"
+    },
+    "Life": {
+      "heading": "Elu",
+      "Childcare": "Lastehoid",
+      "Clothing": "Riided",
+      "Donation": "Annetused",
+      "Education": "Haridus",
+      "Gifts": "Kingitused",
+      "Insurance": "Kindlustus",
+      "Medical Expenses": "Ravikulud",
+      "Taxes": "Maksud"
+    },
+    "Transportation": {
+      "heading": "Transport",
+      "Transportation": "Transport",
+      "Bicycle": "Jalgratas",
+      "Bus/Train": "Buss/Rong",
+      "Car": "Auto",
+      "Gas/Fuel": "Kütus",
+      "Hotel": "Hotell",
+      "Parking": "Parkimine",
+      "Plane": "Lennuk",
+      "Taxi": "Takso"
+    },
+    "Utilities": {
+      "heading": "Kommunaalid",
+      "Utilities": "Kommunaalid",
+      "Cleaning": "Koristamine",
+      "Electricity": "Elekter",
+      "Heat/Gas": "Soojus/Gaas",
+      "Trash": "Prügi",
+      "TV/Phone/Internet": "Tv/Telefon/Internet",
+      "Water": "Vesi"
+    }
+  },
+  "Currencies": {
+    "search": "Otsi valuutat...",
+    "noCurrency": "Ühtegi valuutat ei leitud.",
+    "custom": {
+      "heading": "Kohandatud"
+    },
+    "common": {
+      "heading": "Kõige levinumad"
+    },
+    "other": {
+      "heading": "Muud valuutad"
+    }
+  }
+}

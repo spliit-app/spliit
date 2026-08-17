@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import contentDisposition from 'content-disposition'
+import { create as contentDisposition } from 'content-disposition'
 import { NextResponse } from 'next/server'
 
 export async function GET(
@@ -12,10 +12,12 @@ export async function GET(
     select: {
       id: true,
       name: true,
+      information: true,
       currency: true,
       currencyCode: true,
       expenses: {
         select: {
+          id: true,
           createdAt: true,
           expenseDate: true,
           title: true,
@@ -29,10 +31,22 @@ export async function GET(
           isReimbursement: true,
           splitMode: true,
           recurrenceRule: true,
+          notes: true,
         },
         orderBy: [{ expenseDate: 'asc' }, { createdAt: 'asc' }],
       },
       participants: { select: { id: true, name: true } },
+      activities: {
+        select: {
+          id: true,
+          time: true,
+          activityType: true,
+          participantId: true,
+          expenseId: true,
+          data: true,
+        },
+        orderBy: { time: 'asc' },
+      },
     },
   })
   if (!group)

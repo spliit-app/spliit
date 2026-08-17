@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Offline · Spliit</title>
+    <link rel="icon" href="/favicon.ico" />
+    <style>
+      :root {
+        color-scheme: light dark;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.25rem;
+        padding: 2rem;
+        text-align: center;
+        font-family:
+          ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+          Helvetica, Arial, sans-serif;
+        background: #f8fafc;
+        color: #0f172a;
+      }
+      @media (prefers-color-scheme: dark) {
+        body {
+          background: #020817;
+          color: #f8fafc;
+        }
+      }
+      img {
+        width: 160px;
+        height: auto;
+      }
+      h1 {
+        font-size: 1.5rem;
+        margin: 0;
+      }
+      p {
+        margin: 0;
+        max-width: 28rem;
+        opacity: 0.8;
+        line-height: 1.5;
+      }
+      button {
+        margin-top: 0.5rem;
+        padding: 0.625rem 1.25rem;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #fff;
+        background: #047857;
+        border: none;
+        border-radius: 0.5rem;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #036249;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="/logo-with-text.png" alt="Spliit" />
+    <h1>You're offline</h1>
+    <p>
+      This page isn't available without a connection. Pages and data you've
+      already visited may still work. Reconnect and try again.
+    </p>
+    <button onclick="location.reload()">Try again</button>
+  </body>
+</html>
