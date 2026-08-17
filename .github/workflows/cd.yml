@@ -54,6 +54,11 @@ jobs:
           platforms: ${{ matrix.platform }}
           provenance: false # Disable provenance to avoid unknown/unknown
           sbom: false       # Disable sbom to avoid unknown/unknown
+          # Reuse layers from previous runs, scoped per architecture so the two
+          # matrix jobs do not overwrite each other's cache. The dependency
+          # install is the slow layer and only changes when the lockfile does.
+          cache-from: type=gha,scope=${{ env.PLATFORM_PAIR }}
+          cache-to: type=gha,mode=max,scope=${{ env.PLATFORM_PAIR }}
           outputs: type=image,name=${{ env.REGISTRY }}/${{ env.REPO }},push-by-digest=true,name-canonical=true,push=true
 
       - name: Export digest
