@@ -177,7 +177,7 @@ Spliit offers users to upload images (to an AWS S3 bucket) and attach them to ex
 - Update your environments variables with appropriate values:
 
 ```.env
-NEXT_PUBLIC_ENABLE_EXPENSE_DOCUMENTS=true
+ENABLE_EXPENSE_DOCUMENTS=true
 S3_UPLOAD_KEY=AAAAAAAAAAAAAAAAAAAA
 S3_UPLOAD_SECRET=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 S3_UPLOAD_BUCKET=name-of-s3-bucket
@@ -201,7 +201,7 @@ To enable the feature:
 - Update your environment variables with appropriate values:
 
 ```.env
-NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT=true
+ENABLE_RECEIPT_EXTRACT=true
 OPENAI_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
@@ -212,7 +212,7 @@ The model defaults to `gpt-5-nano` and can be changed with the optional `OPENAI_
 You can offer users to automatically deduce the expense category from the title. Since this feature relies on a OpenAI subscription, follow the signup instructions above and configure the following environment variables:
 
 ```.env
-NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT=true
+ENABLE_CATEGORY_EXTRACT=true
 OPENAI_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
