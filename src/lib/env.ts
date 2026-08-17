@@ -48,6 +48,12 @@ const envSchema = z
       interpretEnvVarAsBool,
       z.boolean().default(false),
     ),
+    // Runtime override for the currency pre-selected on the new-group form.
+    // Takes precedence over NEXT_PUBLIC_DEFAULT_CURRENCY_CODE.
+    DEFAULT_CURRENCY_CODE: z.preprocess(
+      interpretBlankEnvVarAsUndefined,
+      z.string().trim().optional(),
+    ),
     NEXT_PUBLIC_DEFAULT_CURRENCY_CODE: z.string().optional(),
     S3_UPLOAD_KEY: z.string().optional(),
     S3_UPLOAD_SECRET: z.string().optional(),
