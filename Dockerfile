@@ -12,8 +12,16 @@ COPY ./package.json \
 COPY ./scripts ./scripts
 COPY ./prisma ./prisma
 
+# The registry occasionally resets a connection mid-install, which fails the
+# whole image build for a reason that has nothing to do with the code. Retry a
+# few times before giving up.
 RUN apk add --no-cache openssl && \
-    npm ci --ignore-scripts
+    for i in 1 2 3 4 5; do \
+      npm ci --ignore-scripts --fetch-retries=5 --fetch-timeout=600000 && exit 0; \
+      echo "npm ci failed (attempt $i of 5), retrying in 10s..."; \
+      sleep 10; \
+    done; \
+    exit 1
 
 COPY ./src ./src
 COPY ./messages ./messages
