@@ -20,6 +20,13 @@ const envSchema = z
   .object({
     POSTGRES_URL_NON_POOLING: z.string().url(),
     POSTGRES_PRISMA_URL: z.string().url(),
+    // Runtime override for the public base URL, so a prebuilt image can be
+    // told where it is reachable without a rebuild. Takes precedence over
+    // NEXT_PUBLIC_BASE_URL, which is baked in at build time.
+    BASE_URL: z.preprocess(
+      interpretBlankEnvVarAsUndefined,
+      z.string().trim().url().optional(),
+    ),
     NEXT_PUBLIC_BASE_URL: z
       .string()
       .optional()
@@ -32,6 +39,21 @@ const envSchema = z
       interpretEnvVarAsBool,
       z.boolean().default(false),
     ),
+    // Runtime (non-public) counterpart. Next.js inlines NEXT_PUBLIC_* vars into
+    // the bundle at build time, so they can never be changed in a prebuilt
+    // image; this one is read from the environment at runtime and can be
+    // toggled with `docker run -e ...`. Enabling either variable enables the
+    // feature, so existing NEXT_PUBLIC_* configuration keeps working.
+    ENABLE_EXPENSE_DOCUMENTS: z.preprocess(
+      interpretEnvVarAsBool,
+      z.boolean().default(false),
+    ),
+    // Runtime override for the currency pre-selected on the new-group form.
+    // Takes precedence over NEXT_PUBLIC_DEFAULT_CURRENCY_CODE.
+    DEFAULT_CURRENCY_CODE: z.preprocess(
+      interpretBlankEnvVarAsUndefined,
+      z.string().trim().optional(),
+    ),
     NEXT_PUBLIC_DEFAULT_CURRENCY_CODE: z.string().optional(),
     S3_UPLOAD_KEY: z.string().optional(),
     S3_UPLOAD_SECRET: z.string().optional(),
@@ -42,7 +64,17 @@ const envSchema = z
       interpretEnvVarAsBool,
       z.boolean().default(false),
     ),
+    // Runtime (non-public) counterpart, see ENABLE_EXPENSE_DOCUMENTS above.
+    ENABLE_RECEIPT_EXTRACT: z.preprocess(
+      interpretEnvVarAsBool,
+      z.boolean().default(false),
+    ),
     NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT: z.preprocess(
+      interpretEnvVarAsBool,
+      z.boolean().default(false),
+    ),
+    // Runtime (non-public) counterpart, see ENABLE_EXPENSE_DOCUMENTS above.
+    ENABLE_CATEGORY_EXTRACT: z.preprocess(
       interpretEnvVarAsBool,
       z.boolean().default(false),
     ),
@@ -93,8 +125,16 @@ const envSchema = z
     ),
   })
   .superRefine((env, ctx) => {
+    // Either spelling enables the feature, so either has to satisfy the
+    // dependency checks below.
+    const enableExpenseDocuments =
+      env.ENABLE_EXPENSE_DOCUMENTS || env.NEXT_PUBLIC_ENABLE_EXPENSE_DOCUMENTS
+    const enableReceiptExtract =
+      env.ENABLE_RECEIPT_EXTRACT || env.NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT
+    const enableCategoryExtract =
+      env.ENABLE_CATEGORY_EXTRACT || env.NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT
     if (
-      env.NEXT_PUBLIC_ENABLE_EXPENSE_DOCUMENTS &&
+      enableExpenseDocuments &&
       // S3_UPLOAD_ENDPOINT is fully optional as it will only be used for providers other than AWS
       (!env.S3_UPLOAD_BUCKET ||
         !env.S3_UPLOAD_KEY ||
@@ -104,18 +144,17 @@ const envSchema = z
       ctx.addIssue({
         code: ZodIssueCode.custom,
         message:
-          'If NEXT_PUBLIC_ENABLE_EXPENSE_DOCUMENTS is specified, then S3_* must be specified too',
+          'If ENABLE_EXPENSE_DOCUMENTS is set, then S3_* must be set too',
       })
     }
     if (
-      (env.NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT ||
-        env.NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT) &&
+      (enableReceiptExtract || enableCategoryExtract) &&
       !env.OPENAI_API_KEY
     ) {
       ctx.addIssue({
         code: ZodIssueCode.custom,
         message:
-          'If NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT or NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT is specified, then OPENAI_API_KEY must be specified too',
+          'If ENABLE_RECEIPT_EXTRACT or ENABLE_CATEGORY_EXTRACT is set, then OPENAI_API_KEY must be set too',
       })
     }
     if (env.ANALYTICS_PROVIDER === 'plausible' && !env.PLAUSIBLE_DOMAIN) {
@@ -128,3 +167,7 @@ const envSchema = z
   })
 
 export const env = envSchema.parse(process.env)
+
+// The base URL to use everywhere: the runtime override when set, otherwise the
+// value baked in at build time.
+export const effectiveBaseUrl = env.BASE_URL ?? env.NEXT_PUBLIC_BASE_URL
