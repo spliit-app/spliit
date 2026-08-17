@@ -7,7 +7,10 @@ import { formatCategoryForAIPrompt } from '@/lib/utils'
 import OpenAI from 'openai'
 import { z } from 'zod'
 
-const openai = new OpenAI({ apiKey: env.OPENAI_API_KEY })
+const openai = new OpenAI({
+  apiKey: env.OPENAI_API_KEY,
+  baseURL: env.OPENAI_BASE_URL,
+})
 
 // The model is contractually bound to this shape by `strict: true` below, but
 // the response is still parsed rather than trusted: a self-hosted or older
@@ -39,7 +42,7 @@ export async function extractExpenseInformationFromImage(imageUrl: string) {
   const categories = await getCategories()
 
   const completion = await openai.chat.completions.create({
-    model: 'gpt-5-nano',
+    model: env.OPENAI_MODEL_RECEIPT_EXTRACT,
     response_format: {
       type: 'json_schema',
       json_schema: {

@@ -192,18 +192,20 @@ S3_UPLOAD_ENDPOINT=http://localhost:9000
 
 ### Create expense from receipt
 
-You can offer users to create expense by uploading a receipt. This feature relies on [OpenAI GPT-4 with Vision](https://platform.openai.com/docs/guides/vision) and a public S3 storage endpoint.
+You can offer users to create expense by uploading a receipt. This feature relies on a [vision-capable OpenAI model](https://platform.openai.com/docs/guides/vision) and a public S3 storage endpoint.
 
 To enable the feature:
 
 - You must enable expense documents feature as well (see section above). That might change in the future, but for now we need to store images to make receipt scanning work.
-- Subscribe to OpenAI API and get access to GPT 4 with Vision (you might need to buy credits in advance).
+- Subscribe to OpenAI API and get access to a vision-capable model (you might need to buy credits in advance).
 - Update your environment variables with appropriate values:
 
 ```.env
 NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT=true
 OPENAI_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
+
+The model defaults to `gpt-5-nano` and can be changed with the optional `OPENAI_MODEL_RECEIPT_EXTRACT` variable — a larger model reads poor-quality photos more reliably, at a higher price per scan.
 
 ### Deduce category from title
 
@@ -213,6 +215,22 @@ You can offer users to automatically deduce the expense category from the title.
 NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT=true
 OPENAI_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
+
+The model defaults to `gpt-5-nano` and can be changed with the optional `OPENAI_MODEL_CATEGORY_EXTRACT` variable.
+
+### Using another OpenAI-compatible provider
+
+Both AI features above talk to the official OpenAI API by default. Set the optional `OPENAI_BASE_URL` variable to point them at a self-hosted or alternative provider instead:
+
+```.env
+OPENAI_BASE_URL=http://localhost:11434/v1
+OPENAI_MODEL_RECEIPT_EXTRACT=name-of-a-vision-model
+OPENAI_MODEL_CATEGORY_EXTRACT=name-of-a-text-model
+```
+
+Whichever provider you choose has to support the `json_schema` response format ([structured outputs](https://platform.openai.com/docs/guides/structured-outputs)), and the receipt feature additionally needs image input. If a response does not match the expected schema, the app reports that nothing could be extracted rather than filling the form with guesses.
+
+If your environment file was created on Windows, make sure it uses **LF line endings**. A trailing carriage return makes `OPENAI_API_KEY` fail authentication and silently switches feature flags off.
 
 ### Analytics
 
