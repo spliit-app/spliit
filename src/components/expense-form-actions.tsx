@@ -28,9 +28,9 @@ export async function extractCategoryFromTitle(description: string) {
   const categories = await getCategories()
 
   const body: ChatCompletionCreateParamsNonStreaming = {
-    model: 'gpt-3.5-turbo',
+    model: 'gpt-5-nano',
     temperature: 0.1, // try to be highly deterministic so that each distinct title may lead to the same category every time
-    max_tokens: 1, // category ids are unlikely to go beyond ~4 digits so limit possible abuse
+    max_tokens: 4, // category ids are small integers; keep output cheap
     messages: [
       {
         role: 'system',
