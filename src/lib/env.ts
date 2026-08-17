@@ -3,7 +3,9 @@ import { ANALYTICS_PROVIDER_IDS } from './analytics/provider-ids'
 
 const interpretEnvVarAsBool = (val: unknown): boolean => {
   if (typeof val !== 'string') return false
-  return ['true', 'yes', '1', 'on'].includes(val.toLowerCase())
+  // .trim() guards against trailing whitespace such as the CR from a CRLF
+  // (Windows) .env file, which would otherwise make "true\r" !== "true".
+  return ['true', 'yes', '1', 'on'].includes(val.trim().toLowerCase())
 }
 
 /**
@@ -44,7 +46,9 @@ const envSchema = z
       interpretEnvVarAsBool,
       z.boolean().default(false),
     ),
-    OPENAI_API_KEY: z.string().optional(),
+    // .trim() guards against a trailing CR from a CRLF (Windows) .env file: a
+    // key ending in "\r" would otherwise fail authentication with a 401.
+    OPENAI_API_KEY: z.string().trim().optional(),
     // Analytics is disabled unless a provider is selected. These are read on
     // the server and passed to the client as props, so they are deliberately
     // not `NEXT_PUBLIC_`: a single image stays configurable at container start.
