@@ -1,7 +1,6 @@
 import { RecentGroupList } from '@/app/groups/recent-group-list'
-import { getTranslations } from 'next-intl/server'
 import { TrackPage } from '@/lib/analytics/track-page'
-import { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 
 export async function generateMetadata() {
   const t = await getTranslations('Groups')

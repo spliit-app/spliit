@@ -1,7 +1,6 @@
 import { CreateGroup } from '@/app/groups/create/create-group'
-import { getTranslations } from 'next-intl/server'
 import { env } from '@/lib/env'
-import { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 
 export async function generateMetadata() {
   const t = await getTranslations('Groups')
