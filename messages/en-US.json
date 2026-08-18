@@ -59,6 +59,13 @@
       "create": "Create one",
       "orAsk": "or ask a friend to send you the link to an existing one."
     },
+    "GlobalBalance": {
+      "title": "Your total balance",
+      "description": "Your combined balance across all your groups.",
+      "owedToYou": "You are owed",
+      "youOwe": "You owe",
+      "settledUp": "You are all settled up across your groups."
+    },
     "recent": "Recent groups",
     "starred": "Starred groups",
     "archived": "Archived groups",
@@ -75,7 +82,17 @@
       "button": "Add by URL",
       "title": "Add a group by URL",
       "description": "If a group was shared with you, you can paste its URL here to add it to your list.",
-      "error": "Oops, we are not able to find the group from the URL you provided…"
+      "error": "Oops, we are not able to find the group from the URL you provided…",
+      "urlMode": "Enter URL",
+      "qrMode": "Scan QR",
+      "scanner": {
+        "startCamera": "Start Camera",
+        "stopScanning": "Stop Scanning",
+        "permissionDenied": "Camera permission denied. Please allow camera access to scan QR codes.",
+        "noCamera": "No camera found on this device.",
+        "cameraError": "Failed to start camera. Please try again.",
+        "permissionError": "Unable to access camera. Please check permissions."
+      }
     },
     "NotFound": {
       "text": "This group does not exist.",
@@ -184,7 +201,6 @@
       "recurrenceRule": {
         "label": "Expense Recurrence",
         "description": "Select how often the expense should repeat.",
-
         "none": "None",
         "daily": "Daily",
         "weekly": "Weekly",
@@ -202,7 +218,9 @@
     },
     "conversionUnavailable": "To set a different currency per expense and convert amounts, select a non-custom currency for the group.",
     "originalAmountField": {
-      "label": "Amount to convert"
+      "label": "Amount to convert",
+      "repaymentLabel": "Amount to transfer",
+      "repaymentDescription": "Converted from the amount above, which is what settles the balance."
     },
     "conversionRateField": {
       "useApi": "Use rates from Frankfurter",
@@ -306,6 +324,16 @@
   },
   "Stats": {
     "title": "Stats",
+    "range": {
+      "label": "Period",
+      "all": "All time",
+      "thisMonth": "This month",
+      "last30": "Last 30 days",
+      "thisYear": "This year",
+      "custom": "Custom range",
+      "from": "From",
+      "to": "To"
+    },
     "Totals": {
       "title": "Totals",
       "description": "Spending summary of the entire group.",
@@ -314,6 +342,51 @@
       "yourSpendings": "Your total spendings",
       "yourEarnings": "Your total earnings",
       "yourShare": "Your total share"
+    },
+    "Summary": {
+      "title": "Summary",
+      "description": "Key figures for the selected period.",
+      "empty": "There are no expenses yet.",
+      "expenseCount": "Expenses",
+      "averageExpense": "Average expense",
+      "largestExpense": "Largest expense",
+      "activeSpan": "Active period"
+    },
+    "OverTime": {
+      "title": "Spending over time",
+      "description": "Total group spending per month. Select a month to see its expenses.",
+      "empty": "There are no expenses yet.",
+      "showExpenses": "Show expenses for {month}",
+      "detailsDescription": "Expenses in this month for the selected period.",
+      "detailsEmpty": "There are no expenses in this month."
+    },
+    "ByParticipant": {
+      "title": "Spending by participant",
+      "description": "How much each participant paid and their share of the expenses.",
+      "empty": "There are no expenses yet.",
+      "participant": "Participant",
+      "paid": "Paid",
+      "count": "Count",
+      "share": "Share"
+    },
+    "ByCategory": {
+      "title": "Spending by category",
+      "description": "Total amount spent in each category. Select a category to see its expenses.",
+      "empty": "There are no expenses yet.",
+      "showExpenses": "Show expenses for {category}",
+      "detailsDescription": "Expenses in this category for the selected period.",
+      "detailsEmpty": "There are no expenses in this category."
+    },
+    "Recurring": {
+      "title": "Recurring expenses",
+      "description": "Estimated cost of the group's active recurring expenses.",
+      "estimatedMonthly": "Estimated monthly cost",
+      "estimatedYearly": "{amount} per year",
+      "period": {
+        "DAILY": "{count, plural, one {# daily expense} other {# daily expenses}}",
+        "WEEKLY": "{count, plural, one {# weekly expense} other {# weekly expenses}}",
+        "MONTHLY": "{count, plural, one {# monthly expense} other {# monthly expenses}}"
+      }
     }
   },
   "Activity": {
@@ -348,8 +421,15 @@
   "Share": {
     "title": "Share",
     "description": "For other participants to see the group and add expenses, share its URL with them.",
+    "copyLink": "Copy link",
+    "shareLink": "Share link",
     "warning": "Warning!",
-    "warningHelp": "Every person with the group URL will be able to see and edit expenses. Share with caution!"
+    "warningHelp": "Every person with the group URL will be able to see and edit expenses. Share with caution!",
+    "qrCode": {
+      "title": "Share via QR Code",
+      "description": "Scan this QR code to open the group on any device.",
+      "download": "Download QR Code"
+    }
   },
   "SchemaErrors": {
     "min1": "Enter at least one character.",
@@ -450,5 +530,10 @@
     "other": {
       "heading": "Other currencies"
     }
+  },
+  "Pwa": {
+    "updateTitle": "Update available",
+    "updateDescription": "A new version of Spliit is available.",
+    "reload": "Reload"
   }
 }

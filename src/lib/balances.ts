@@ -1,6 +1,6 @@
+import { Participant } from '@/generated/prisma/browser'
 import { getGroupExpenses } from '@/lib/api'
-import { Participant } from '@prisma/client'
-import { match } from 'ts-pattern'
+import { getExpenseShares } from '@/lib/shares'
 
 export type Balances = Record<
   Participant['id'],
@@ -20,38 +20,32 @@ export function getBalances(
 
   for (const expense of expenses) {
     const paidBy = expense.paidBy.id
-    const paidFors = expense.paidFor
 
     if (!balances[paidBy]) balances[paidBy] = { paid: 0, paidFor: 0, total: 0 }
     balances[paidBy].paid += expense.amount
 
-    const totalPaidForShares = paidFors.reduce(
-      (sum, paidFor) => sum + paidFor.shares,
-      0,
-    )
-    let remaining = expense.amount
-    paidFors.forEach((paidFor, index) => {
-      if (!balances[paidFor.participant.id])
-        balances[paidFor.participant.id] = { paid: 0, paidFor: 0, total: 0 }
+    const dividedAmounts = getExpenseShares({
+      id: expense.id,
+      amount: expense.amount,
+      splitMode: expense.splitMode,
+      paidFor: expense.paidFor.map(({ participant, shares }) => ({
+        participantId: participant.id,
+        shares,
+      })),
+    })
 
-      const isLast = index === paidFors.length - 1
+    dividedAmounts.forEach((dividedAmount, participantId) => {
+      if (!balances[participantId])
+        balances[participantId] = { paid: 0, paidFor: 0, total: 0 }
 
-      const [shares, totalShares] = match(expense.splitMode)
-        .with('EVENLY', () => [1, paidFors.length])
-        .with('BY_SHARES', () => [paidFor.shares, totalPaidForShares])
-        .with('BY_PERCENTAGE', () => [paidFor.shares, totalPaidForShares])
-        .with('BY_AMOUNT', () => [paidFor.shares, totalPaidForShares])
-        .exhaustive()
-
-      const dividedAmount = isLast
-        ? remaining
-        : (expense.amount * shares) / totalShares
-      remaining -= dividedAmount
-      balances[paidFor.participant.id].paidFor += dividedAmount
+      balances[participantId].paidFor += dividedAmount
     })
   }
 
-  // rounding and add total
+  // Every share is apportioned as a whole minor unit, so the rounding below is
+  // a no-op and only kept as a guard. It is what used to break the books: the
+  // accumulated float totals were rounded per participant, which does not
+  // preserve a sum, and the residue ended up in the group's total balance.
   for (const participantId in balances) {
     // add +0 to avoid negative zeros
     balances[participantId].paidFor =

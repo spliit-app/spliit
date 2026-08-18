@@ -16,7 +16,8 @@
       "lastMonth": "지난달",
       "lastYear": "작년",
       "earlierThisYear": "올해 초",
-      "older": "이전"
+      "older": "이전",
+      "upcoming": "예정 지출"
     },
     "title": "지출",
     "description": "그룹에서 만든 지출 항목들을 보여드려요.",
@@ -337,7 +338,8 @@
     "paidBy": "<strong>{paidBy}</strong>가 <paidFor></paidFor>를 위해 결제함",
     "everyone": "모두",
     "yourBalance": "내 잔액:",
-    "notInvolved": "당신은 관련이 없어요"
+    "notInvolved": "당신은 관련이 없어요",
+    "receivedBy": "문서 업로드 중 오류가 발생했습니다. 다시 시도해보세요."
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {

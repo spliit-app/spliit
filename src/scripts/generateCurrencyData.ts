@@ -37,4 +37,7 @@ const currencyList = locales.reduce((curList, locale) => {
   }
 }
 
-fs.writeFileSync('src/lib/currency-data.json', JSON.stringify(currencyList))
+fs.writeFileSync(
+  'src/lib/currency-data.json',
+  JSON.stringify(currencyList, null, 2) + '\n',
+)

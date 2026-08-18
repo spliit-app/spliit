@@ -31,6 +31,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Locale } from '@/i18n/request'
+import { useAnalytics } from '@/lib/analytics/context'
 import { getGroup } from '@/lib/api'
 import { defaultCurrencyList, getCurrency } from '@/lib/currency'
 import { GroupFormValues, groupFormSchema } from '@/lib/schemas'
@@ -50,12 +51,15 @@ export type Props = {
     participantId?: string,
   ) => Promise<void>
   protectedParticipantIds?: string[]
+  /** Resolved on the server, since the runtime variable is not public. */
+  defaultCurrencyCode?: string
 }
 
 export function GroupForm({
   group,
   onSubmit,
   protectedParticipantIds = [],
+  defaultCurrencyCode = 'USD',
 }: Props) {
   const locale = useLocale()
   const t = useTranslations('GroupForm')
@@ -73,7 +77,7 @@ export function GroupForm({
           name: '',
           information: '',
           currency: '',
-          currencyCode: process.env.NEXT_PUBLIC_DEFAULT_CURRENCY_CODE || 'USD', // TODO: If NEXT_PUBLIC_DEFAULT_CURRENCY_CODE, is not set, determine the default currency code based on locale
+          currencyCode: defaultCurrencyCode, // TODO: derive from the locale when not configured
           participants: [
             { name: t('Participants.John') },
             { name: t('Participants.Jane') },
@@ -86,6 +90,7 @@ export function GroupForm({
     name: 'participants',
     keyName: 'key',
   })
+  const sendEvent = useAnalytics()
 
   const [activeUser, setActiveUser] = useState<string | null>(null)
   useEffect(() => {
@@ -116,6 +121,14 @@ export function GroupForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(async (values) => {
+          if (group) {
+            sendEvent(
+              { event: 'group: update', props: {} },
+              `/groups/${group.id}/edit`,
+            )
+          } else {
+            sendEvent({ event: 'group: create', props: {} }, `/groups`)
+          }
           await onSubmit(
             values,
             group?.participants.find((p) => p.name === activeUser)?.id ??

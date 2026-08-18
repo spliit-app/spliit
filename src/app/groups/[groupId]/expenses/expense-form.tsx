@@ -33,27 +33,35 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { RecurrenceRule, SplitMode } from '@/generated/prisma/browser'
 import { Locale } from '@/i18n/request'
-import { randomId } from '@/lib/api'
+import { useAnalytics } from '@/lib/analytics/context'
 import { defaultCurrencyList, getCurrency } from '@/lib/currency'
+import {
+  convertToGroupCurrency,
+  convertToOriginalCurrency,
+} from '@/lib/currency-conversion'
 import { RuntimeFeatureFlags } from '@/lib/featureFlags'
 import { useActiveUser, useCurrencyRate } from '@/lib/hooks'
+import { randomId } from '@/lib/random'
 import {
+  ExpenseFormInput,
   ExpenseFormValues,
   SplittingOptions,
   expenseFormSchema,
 } from '@/lib/schemas'
+import { distributeAmount } from '@/lib/shares'
 import { calculateShare } from '@/lib/totals'
 import {
   amountAsDecimal,
   amountAsMinorUnits,
   cn,
+  formatAmountAsDecimal,
   formatCurrency,
   getCurrencyFromGroup,
 } from '@/lib/utils'
 import { AppRouterOutput } from '@/trpc/routers/_app'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { RecurrenceRule } from '@prisma/client'
 import { ChevronRight, Save } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
@@ -113,7 +121,7 @@ const getDefaultSplittingOptions = (
     splitMode: parsedDefaultSplitMode.splitMode,
     paidFor: parsedDefaultSplitMode.paidFor.map((paidFor) => ({
       participant: paidFor.participant,
-      shares: (paidFor.shares / 100).toString() as any, // Convert to string for consistent schema handling
+      shares: (paidFor.shares / 100).toString(), // Convert to string for consistent schema handling
     })),
   }
 }
@@ -168,6 +176,9 @@ export function ExpenseForm({
   const isCreate = expense === undefined
   const searchParams = useSearchParams()
 
+  /** Whether the form was opened from a suggested reimbursement ("Mark as paid"). */
+  const isRepayment = isCreate && !!searchParams.get('reimbursement')
+
   const getSelectedPayer = (field?: { value: string }) => {
     if (isCreate && typeof window !== 'undefined') {
       const activeUser = localStorage.getItem(`${group.id}-activeUser`)
@@ -178,12 +189,12 @@ export function ExpenseForm({
     return field?.value
   }
 
-  const getSelectedRecurrenceRule = (field?: { value: string }) => {
+  const getSelectedRecurrenceRule = (field?: { value?: string }) => {
     return field?.value as RecurrenceRule
   }
   const defaultSplittingOptions = getDefaultSplittingOptions(group)
   const groupCurrency = getCurrencyFromGroup(group)
-  const form = useForm<ExpenseFormValues>({
+  const form = useForm<ExpenseFormInput, any, ExpenseFormValues>({
     resolver: zodResolver(expenseFormSchema),
     defaultValues: expense
       ? {
@@ -191,15 +202,26 @@ export function ExpenseForm({
           expenseDate: expense.expenseDate ?? new Date(),
           amount: amountAsDecimal(expense.amount, groupCurrency),
           originalCurrency: expense.originalCurrency ?? group.currencyCode,
-          originalAmount: expense.originalAmount ?? undefined,
+          originalAmount:
+            expense.originalAmount != null
+              ? formatAmountAsDecimal(
+                  expense.originalAmount,
+                  getCurrency(
+                    expense.originalCurrency ?? group.currencyCode,
+                    locale,
+                    'Custom',
+                  ),
+                )
+              : undefined,
           conversionRate: expense.conversionRate?.toNumber(),
           category: expense.categoryId,
           paidBy: expense.paidById,
           paidFor: expense.paidFor.map(({ participantId, shares }) => ({
             participant: participantId,
-            shares: (expense.splitMode === 'BY_AMOUNT'
-              ? amountAsDecimal(shares, groupCurrency)
-              : (shares / 100).toString()) as any, // Convert to string to ensure consistent handling
+            shares:
+              expense.splitMode === 'BY_AMOUNT'
+                ? amountAsDecimal(shares, groupCurrency)
+                : (shares / 100).toString(), // Convert to string to ensure consistent handling
           })),
           splitMode: expense.splitMode,
           saveDefaultSplittingOptions: false,
@@ -208,70 +230,78 @@ export function ExpenseForm({
           notes: expense.notes ?? '',
           recurrenceRule: expense.recurrenceRule ?? undefined,
         }
-      : searchParams.get('reimbursement')
-      ? {
-          title: t('reimbursement'),
-          expenseDate: new Date(),
-          amount: amountAsDecimal(
-            Number(searchParams.get('amount')) || 0,
-            groupCurrency,
-          ),
-          originalCurrency: group.currencyCode,
-          originalAmount: undefined,
-          conversionRate: undefined,
-          category: 1, // category with Id 1 is Payment
-          paidBy: searchParams.get('from') ?? undefined,
-          paidFor: [
-            searchParams.get('to')
-              ? {
-                  participant: searchParams.get('to')!,
-                  shares: '1' as any, // String for consistent form handling
-                }
-              : undefined,
-          ],
-          isReimbursement: true,
-          splitMode: defaultSplittingOptions.splitMode,
-          saveDefaultSplittingOptions: false,
-          documents: [],
-          notes: '',
-          recurrenceRule: RecurrenceRule.NONE,
-        }
-      : {
-          title: searchParams.get('title') ?? '',
-          expenseDate: searchParams.get('date')
-            ? new Date(searchParams.get('date') as string)
-            : new Date(),
-          amount: Number(searchParams.get('amount')) || 0,
-          originalCurrency: group.currencyCode ?? undefined,
-          originalAmount: undefined,
-          conversionRate: undefined,
-          category: searchParams.get('categoryId')
-            ? Number(searchParams.get('categoryId'))
-            : 0, // category with Id 0 is General
-          // paid for all, split evenly
-          paidFor: defaultSplittingOptions.paidFor,
-          paidBy: getSelectedPayer(),
-          isReimbursement: false,
-          splitMode: defaultSplittingOptions.splitMode,
-          saveDefaultSplittingOptions: false,
-          documents: searchParams.get('imageUrl')
-            ? [
-                {
-                  id: randomId(),
-                  url: searchParams.get('imageUrl') as string,
-                  width: Number(searchParams.get('imageWidth')),
-                  height: Number(searchParams.get('imageHeight')),
-                },
-              ]
-            : [],
-          notes: '',
-          recurrenceRule: RecurrenceRule.NONE,
-        },
+      : isRepayment
+        ? {
+            title: t('reimbursement'),
+            expenseDate: new Date(),
+            amount: amountAsDecimal(
+              Number(searchParams.get('amount')) || 0,
+              groupCurrency,
+            ),
+            originalCurrency: group.currencyCode,
+            // Empty rather than undefined: the field is filled in by the conversion, and
+            // switching an input from uncontrolled to controlled warns in React.
+            originalAmount: '',
+            conversionRate: undefined,
+            category: 1, // category with Id 1 is Payment
+            paidBy: searchParams.get('from') ?? undefined,
+            paidFor: [
+              searchParams.get('to')
+                ? {
+                    participant: searchParams.get('to')!,
+                    shares: '1', // String for consistent form handling
+                  }
+                : undefined,
+            ],
+            isReimbursement: true,
+            splitMode: defaultSplittingOptions.splitMode,
+            saveDefaultSplittingOptions: false,
+            documents: [],
+            notes: '',
+            recurrenceRule: RecurrenceRule.NONE,
+          }
+        : {
+            title: searchParams.get('title') ?? '',
+            expenseDate: searchParams.get('date')
+              ? new Date(searchParams.get('date') as string)
+              : new Date(),
+            amount: Number(searchParams.get('amount')) || 0,
+            originalCurrency: group.currencyCode ?? undefined,
+            originalAmount: undefined,
+            conversionRate: undefined,
+            category: searchParams.get('categoryId')
+              ? Number(searchParams.get('categoryId'))
+              : 0, // category with Id 0 is General
+            // paid for all, split evenly
+            paidFor: defaultSplittingOptions.paidFor,
+            paidBy: getSelectedPayer(),
+            isReimbursement: false,
+            splitMode: defaultSplittingOptions.splitMode,
+            saveDefaultSplittingOptions: false,
+            documents: searchParams.get('imageUrl')
+              ? [
+                  {
+                    id: randomId(),
+                    url: searchParams.get('imageUrl') as string,
+                    width: Number(searchParams.get('imageWidth')),
+                    height: Number(searchParams.get('imageHeight')),
+                  },
+                ]
+              : [],
+            notes: '',
+            recurrenceRule: RecurrenceRule.NONE,
+          },
   })
   const [isCategoryLoading, setCategoryLoading] = useState(false)
   const activeUserId = useActiveUser(group.id)
+  const sendEvent = useAnalytics()
 
   const submit = async (values: ExpenseFormValues) => {
+    sendEvent(
+      { event: expense ? 'expense: update' : 'expense: create', props: {} },
+      `/groups/${group.id}/expenses`,
+    )
+
     await persistDefaultSplittingOptions(group.id, values)
 
     // Store monetary amounts in minor units (cents)
@@ -284,10 +314,18 @@ export function ExpenseForm({
           : shares,
     }))
 
-    // Currency should be blank if same as group currency
-    if (!conversionRequired) {
+    // Currency should be blank if same as group currency, or if no conversion took place
+    if (conversionRequired && values.originalAmount !== undefined) {
+      values.originalAmount = amountAsMinorUnits(
+        values.originalAmount,
+        originalCurrency,
+      )
+    } else {
       delete values.originalAmount
       delete values.originalCurrency
+      // Without this a repayment whose converted amount rounded to zero would
+      // still be saved with a rate but no amount to apply it to.
+      delete values.conversionRate
     }
     return onSubmit(values, activeUserId ?? undefined)
   }
@@ -305,7 +343,7 @@ export function ExpenseForm({
     'Custom',
   )
   const exchangeRate = useCurrencyRate(
-    form.watch('expenseDate'),
+    form.watch('expenseDate') as Date,
     form.watch('originalCurrency') ?? '',
     groupCurrency.code,
   )
@@ -315,6 +353,16 @@ export function ExpenseForm({
     group.currencyCode.length &&
     originalCurrency.code.length &&
     originalCurrency.code !== group.currencyCode
+
+  /**
+   * Which of the two amount fields drives the other.
+   *
+   * For a regular expense the user enters what they spent in the original currency and the
+   * group-currency amount follows. For a repayment it is the other way around: the
+   * group-currency amount is the balance being settled, and the original amount is the
+   * amount to actually transfer, derived from it.
+   */
+  const convertFromGroupCurrency = !!form.watch('isReimbursement')
 
   useEffect(() => {
     setManuallyEditedParticipants(new Set())
@@ -349,18 +397,24 @@ export function ExpenseForm({
       })
 
       if (remainingParticipants > 0) {
-        let amountPerRemaining = 0
-        if (splitMode === 'BY_AMOUNT') {
-          amountPerRemaining = remainingAmount / remainingParticipants
-        }
+        // Apportion in minor units so the auto-filled amounts add up to the
+        // total exactly. Dividing and rounding each one independently makes
+        // 95 across three participants come out as 31.67 three times, which
+        // the "amounts must add up" validation then rejects.
+        const amountsPerRemaining = distributeAmount(
+          amountAsMinorUnits(remainingAmount, groupCurrency),
+          remainingParticipants,
+        )
 
+        let remainingIndex = 0
         newPaidFor = newPaidFor.map((participant) => {
           if (!editedParticipants.includes(participant.participant)) {
             return {
               ...participant,
-              shares: amountPerRemaining.toFixed(
-                groupCurrency.decimal_digits,
-              ) as any, // Keep as string for consistent schema handling
+              shares: formatAmountAsDecimal(
+                amountsPerRemaining[remainingIndex++],
+                groupCurrency,
+              ), // Keep as string for consistent schema handling
             }
           }
           return participant
@@ -384,18 +438,21 @@ export function ExpenseForm({
     }
   }, [exchangeRate.data, usingCustomConversionRate])
 
+  // Original currency -> group currency, for regular expenses.
   useEffect(() => {
+    if (convertFromGroupCurrency || !conversionRequired) return
     if (!form.getFieldState('originalAmount').isTouched) return
     const originalAmount = form.getValues('originalAmount') ?? 0
     const conversionRate = form.getValues('conversionRate')
 
     if (conversionRate && originalAmount) {
-      const rate = Number(conversionRate)
-      const convertedAmount = originalAmount * rate
-      if (!Number.isNaN(convertedAmount)) {
-        const v = enforceCurrencyPattern(
-          convertedAmount.toFixed(groupCurrency.decimal_digits),
-        )
+      const converted = convertToGroupCurrency(
+        Number(originalAmount),
+        Number(conversionRate),
+        groupCurrency,
+      )
+      if (converted !== null) {
+        const v = enforceCurrencyPattern(converted)
         const income = Number(v) < 0
         setIsIncome(income)
         if (income) form.setValue('isReimbursement', false)
@@ -406,6 +463,46 @@ export function ExpenseForm({
     form.watch('originalAmount'),
     form.watch('conversionRate'),
     form.getFieldState('originalAmount').isTouched,
+    convertFromGroupCurrency,
+    conversionRequired,
+  ])
+
+  // Group currency -> original currency, for repayments: the group-currency amount settles
+  // the balance, and the original amount is what the user actually transfers.
+  useEffect(() => {
+    if (!convertFromGroupCurrency || !conversionRequired) return
+    // When editing an existing expense, leave the stored amount alone until the user
+    // changes something that the conversion depends on.
+    if (
+      !isCreate &&
+      !form.getFieldState('amount').isDirty &&
+      !form.getFieldState('originalCurrency').isDirty &&
+      !form.getFieldState('conversionRate').isDirty
+    )
+      return
+
+    const converted = convertToOriginalCurrency(
+      Number(form.getValues('amount')),
+      Number(form.getValues('conversionRate')),
+      originalCurrency,
+    )
+    if (converted !== null) {
+      // A tiny balance can round down to zero in the original currency, which the schema
+      // rejects. Leave the field empty rather than block a form the user cannot correct.
+      form.setValue(
+        'originalAmount',
+        // String for consistent form handling, so trailing zeros survive; the schema
+        // coerces it, and it maps '' back to undefined.
+        Number(converted) === 0 ? '' : enforceCurrencyPattern(converted),
+      )
+    }
+  }, [
+    form.watch('amount'),
+    form.watch('conversionRate'),
+    convertFromGroupCurrency,
+    conversionRequired,
+    originalCurrency.code,
+    isCreate,
   ])
 
   let conversionRateMessage = ''
@@ -462,7 +559,12 @@ export function ExpenseForm({
                       {...field}
                       onBlur={async () => {
                         field.onBlur() // avoid skipping other blur event listeners since we overwrite `field`
-                        if (runtimeFeatureFlags.enableCategoryExtract) {
+                        // Skip empty titles: tabbing through the field would
+                        // otherwise spend an API call to categorise "".
+                        if (
+                          runtimeFeatureFlags.enableCategoryExtract &&
+                          field.value.trim()
+                        ) {
                           setCategoryLoading(true)
                           const { categoryId } = await extractCategoryFromTitle(
                             field.value,
@@ -491,7 +593,7 @@ export function ExpenseForm({
                     <Input
                       className="date-base"
                       type="date"
-                      defaultValue={formatDate(field.value)}
+                      defaultValue={formatDate(field.value as Date)}
                       onChange={(event) => {
                         return field.onChange(new Date(event.target.value))
                       }}
@@ -537,24 +639,39 @@ export function ExpenseForm({
             />
 
             <div
-              className={`sm:order-4 ${
-                !conversionRequired ? 'max-sm:hidden sm:invisible' : ''
-              } col-span-2 md:col-span-1 space-y-2`}
+              className={cn(
+                convertFromGroupCurrency ? 'sm:order-5' : 'sm:order-4',
+                !conversionRequired && 'max-sm:hidden sm:invisible',
+                'col-span-2 md:col-span-1 space-y-2',
+              )}
             >
               <FormField
                 control={form.control}
                 name="originalAmount"
                 render={({ field: { onChange, ...field } }) => (
                   <FormItem>
-                    <FormLabel>{t('originalAmountField.label')}</FormLabel>
+                    <FormLabel>
+                      {t(
+                        convertFromGroupCurrency
+                          ? 'originalAmountField.repaymentLabel'
+                          : 'originalAmountField.label',
+                      )}
+                    </FormLabel>
                     <div className="flex items-baseline gap-2">
                       <span>{originalCurrency.symbol}</span>
                       <FormControl>
                         <Input
-                          className="text-base max-w-[120px]"
+                          className={cn(
+                            'text-base max-w-[120px]',
+                            // Derived from the amount being settled: still selectable so it
+                            // can be copied, but not meant to be edited directly.
+                            convertFromGroupCurrency &&
+                              'bg-muted text-muted-foreground',
+                          )}
                           type="text"
                           inputMode="decimal"
                           placeholder="0.00"
+                          readOnly={convertFromGroupCurrency}
                           onChange={(event) => {
                             const v = enforceCurrencyPattern(event.target.value)
                             onChange(v)
@@ -567,8 +684,15 @@ export function ExpenseForm({
                         />
                       </FormControl>
                     </div>
+                    {convertFromGroupCurrency && (
+                      <FormDescription>
+                        {t('originalAmountField.repaymentDescription')}
+                      </FormDescription>
+                    )}
                     <FormDescription>
-                      {isNaN(form.getValues('expenseDate').getTime()) ? (
+                      {isNaN(
+                        (form.getValues('expenseDate') as Date).getTime(),
+                      ) ? (
                         t('conversionRateState.noDate')
                       ) : form.getValues('expenseDate') &&
                         !usingCustomConversionRate ? (
@@ -577,6 +701,9 @@ export function ExpenseForm({
                           {!exchangeRate.isLoading && (
                             <Button
                               className="h-auto py-0"
+                              // Without this the button inherits type="submit"
+                              // and refreshing the rate submits the form.
+                              type="button"
                               variant="link"
                               onClick={() => exchangeRate.refresh()}
                             >
@@ -651,12 +778,12 @@ export function ExpenseForm({
               control={form.control}
               name="category"
               render={({ field }) => (
-                <FormItem className="order-3 sm:order-2">
+                <FormItem className="sm:order-2">
                   <FormLabel>{t('categoryField.label')}</FormLabel>
                   <CategorySelector
                     categories={categories}
                     defaultValue={
-                      form.watch(field.name) // may be overwritten externally
+                      form.watch(field.name) as number // may be overwritten externally
                     }
                     onValueChange={field.onChange}
                     isLoading={isCategoryLoading}
@@ -673,7 +800,11 @@ export function ExpenseForm({
               control={form.control}
               name="amount"
               render={({ field: { onChange, ...field } }) => (
-                <FormItem className="sm:order-5">
+                <FormItem
+                  className={
+                    convertFromGroupCurrency ? 'sm:order-4' : 'sm:order-5'
+                  }
+                >
                   <FormLabel>{t('amountField.label')}</FormLabel>
                   <div className="flex items-baseline gap-2">
                     <span>{group.currency}</span>
@@ -736,7 +867,7 @@ export function ExpenseForm({
                     onValueChange={field.onChange}
                     defaultValue={getSelectedPayer(field)}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger data-testid="paid-by">
                       <SelectValue
                         placeholder={t(`${sExpense}.paidByField.placeholder`)}
                       />
@@ -824,11 +955,11 @@ export function ExpenseForm({
                     ? []
                     : group.participants.map((p) => ({
                         participant: p.id,
-                        shares: (paidFor.find(
-                          (pfor) => pfor.participant === p.id,
-                        )?.shares ?? '1') as any, // Use string to ensure consistent schema handling
+                        shares:
+                          paidFor.find((pfor) => pfor.participant === p.id)
+                            ?.shares ?? '1', // Use string to ensure consistent schema handling
                       }))
-                  form.setValue('paidFor', newPaidFor as any, {
+                  form.setValue('paidFor', newPaidFor, {
                     shouldDirty: true,
                     shouldTouch: true,
                     shouldValidate: true,
@@ -887,7 +1018,7 @@ export function ExpenseForm({
                                               participant: id,
                                               shares: '1', // Use string to ensure consistent schema handling
                                             },
-                                          ] as any,
+                                          ],
                                           options,
                                         )
                                       : form.setValue(
@@ -911,6 +1042,14 @@ export function ExpenseForm({
                                       {formatCurrency(
                                         groupCurrency,
                                         calculateShare(id, {
+                                          // A new expense has no id yet — ids
+                                          // are minted server-side — so the
+                                          // leftover minor unit of an uneven
+                                          // split may land on a different
+                                          // participant once it is saved. When
+                                          // editing, this makes the amounts
+                                          // here match the balances tab.
+                                          id: expense?.id,
                                           amount: amountAsMinorUnits(
                                             Number(form.watch('amount')),
                                             groupCurrency,
@@ -927,17 +1066,19 @@ export function ExpenseForm({
                                                 'BY_PERCENTAGE'
                                                   ? Number(shares) * 100 // Convert percentage to basis points (e.g., 50% -> 5000)
                                                   : form.watch('splitMode') ===
-                                                    'BY_AMOUNT'
-                                                  ? amountAsMinorUnits(
-                                                      shares,
-                                                      groupCurrency,
-                                                    )
-                                                  : shares,
+                                                      'BY_AMOUNT'
+                                                    ? amountAsMinorUnits(
+                                                        Number(shares),
+                                                        groupCurrency,
+                                                      )
+                                                    : Number(shares),
                                               expenseId: '',
                                               participantId: '',
                                             }),
                                           ),
-                                          splitMode: form.watch('splitMode'),
+                                          splitMode: form.watch(
+                                            'splitMode',
+                                          ) as SplitMode,
                                           isReimbursement:
                                             form.watch('isReimbursement'),
                                         }),
@@ -948,7 +1089,7 @@ export function ExpenseForm({
                                   )}
                               </FormLabel>
                             </FormItem>
-                            <div className="flex">
+                            <div className="flex flex-wrap justify-end gap-y-2">
                               {form.getValues().splitMode === 'BY_AMOUNT' &&
                                 !!conversionRequired && (
                                   <FormField
@@ -1141,7 +1282,7 @@ export function ExpenseForm({
                                             'BY_SHARES',
                                             'BY_PERCENTAGE',
                                           ].includes(
-                                            form.getValues().splitMode,
+                                            form.getValues().splitMode!,
                                           ) && sharesLabel}
                                         </div>
                                         <FormMessage className="float-right" />
@@ -1189,7 +1330,7 @@ export function ExpenseForm({
                             }}
                             defaultValue={field.value}
                           >
-                            <SelectTrigger>
+                            <SelectTrigger data-testid="split-mode">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
@@ -1255,8 +1396,14 @@ export function ExpenseForm({
                 name="documents"
                 render={({ field }) => (
                   <ExpenseDocumentsInput
-                    documents={field.value}
+                    documents={field.value ?? []}
                     updateDocuments={field.onChange}
+                    onDocumentAttached={() =>
+                      sendEvent(
+                        { event: 'expense: attach document', props: {} },
+                        `/groups/${group.id}/expenses`,
+                      )
+                    }
                   />
                 )}
               />
@@ -1264,17 +1411,26 @@ export function ExpenseForm({
           </Card>
         )}
 
-        <div className="flex mt-4 gap-2">
-          <SubmitButton loadingContent={t(isCreate ? 'creating' : 'saving')}>
+        <div className="flex flex-col sm:flex-row mt-4 gap-2">
+          <SubmitButton
+            className="w-full sm:w-auto"
+            loadingContent={t(isCreate ? 'creating' : 'saving')}
+          >
             <Save className="w-4 h-4 mr-2" />
             {t(isCreate ? 'create' : 'save')}
           </SubmitButton>
           {!isCreate && onDelete && (
             <DeletePopup
-              onDelete={() => onDelete(activeUserId ?? undefined)}
+              onDelete={async () => {
+                sendEvent(
+                  { event: 'expense: delete', props: {} },
+                  `/groups/${group.id}/expenses`,
+                )
+                await onDelete(activeUserId ?? undefined)
+              }}
             ></DeletePopup>
           )}
-          <Button variant="ghost" asChild>
+          <Button variant="ghost" className="w-full sm:w-auto" asChild>
             <Link href={`/groups/${group.id}`}>{t('cancel')}</Link>
           </Button>
         </div>

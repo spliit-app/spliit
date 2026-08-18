@@ -1,7 +1,7 @@
 {
   "Homepage": {
     "title": "Partagez <strong>vos dépenses</strong> avec <strong>vos amis & votre famille</strong>",
-    "description": "Bienvenue sur votre instance <strong>Spliit</strong> !",
+    "description": "Bienvenue sur votre instance <strong>Spliit</strong> !",
     "button": {
       "groups": "Accéder aux groupes",
       "github": "GitHub"
@@ -18,13 +18,13 @@
     "title": "Dépenses",
     "description": "Voici les dépenses que vous avez créées pour votre groupe.",
     "create": "Créer une dépense",
-    "createFirst": "Créer la première :)",
+    "createFirst": "Créer la première :)",
     "noExpenses": "Votre groupe n'a effectué aucune dépense pour le moment.",
     "exportJson": "Exporter en JSON",
     "exportCsv": "Exporter en CSV",
     "searchPlaceholder": "Rechercher une dépense…",
     "ActiveUserModal": {
-      "title": "Qui êtes-vous ?",
+      "title": "Qui êtes-vous ?",
       "description": "Dites-nous quel participant vous êtes pour personnaliser l'affichage des informations.",
       "nobody": "Je ne veux sélectionner personne",
       "save": "Sauvegarder les modifications",
@@ -161,7 +161,7 @@
       "splitModeDescription": "Sélectionnez comment diviser le revenu.",
       "attachDescription": "Voir et joindre des reçus au revenu.",
       "currencyField": {
-        "label": "Devise de la recette",
+        "label": "Devise du revenu",
         "description": "La devise dans laquelle le revenu a été reçu."
       }
     },
