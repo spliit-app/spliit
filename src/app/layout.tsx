@@ -20,14 +20,7 @@ import './globals.css'
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('Homepage')
-
   return {
-    metadataBase: new URL(env.NEXT_PUBLIC_BASE_URL),
-    title: {
-      default: t('metaTitle'),
-      template: '%s · Spliit',
-    },
-export const metadata: Metadata = {
   metadataBase: new URL(effectiveBaseUrl),
   title: {
     default: 'Spliit · Share Expenses with Friends & Family',
@@ -86,6 +79,7 @@ export const metadata: Metadata = {
       },
     ],
   }
+}
 }
 
 export const viewport: Viewport = {
