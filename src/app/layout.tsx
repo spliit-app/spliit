@@ -23,13 +23,13 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL(effectiveBaseUrl),
     title: {
-      default: 'Spliit · Share Expenses with Friends & Family',
+      default: t('metaTitle'),
       template: '%s · Spliit',
     },
     description:
       'Spliit is a minimalist web application to share expenses with friends and family. No ads, no account, no problem.',
     openGraph: {
-      title: 'Spliit · Share Expenses with Friends & Family',
+      title: t('metaTitle'),
       description:
         'Spliit is a minimalist web application to share expenses with friends and family. No ads, no account, no problem.',
       images: `/banner.png`,
@@ -41,44 +41,27 @@ export async function generateMetadata(): Promise<Metadata> {
       creator: '@scastiel',
       site: '@scastiel',
       images: `/banner.png`,
-      title: 'Spliit · Share Expenses with Friends & Family',
+      title: t('metaTitle'),
       description:
         'Spliit is a minimalist web application to share expenses with friends and family. No ads, no account, no problem.',
-      openGraph: {
-        title: t('metaTitle'),
-        description:
-          'Spliit is a minimalist web application to share expenses with friends and family. No ads, no account, no problem.',
-        images: `/banner.png`,
-        type: 'website',
-        url: '/',
+    },
+    appleWebApp: {
+      capable: true,
+      title: 'Spliit',
+    },
+    applicationName: 'Spliit',
+    icons: [
+      {
+        url: '/android-chrome-192x192.png',
+        sizes: '192x192',
+        type: 'image/png',
       },
-      twitter: {
-        card: 'summary_large_image',
-        creator: '@scastiel',
-        site: '@scastiel',
-        images: `/banner.png`,
-        title: t('metaTitle'),
-        description:
-          'Spliit is a minimalist web application to share expenses with friends and family. No ads, no account, no problem.',
+      {
+        url: '/android-chrome-512x512.png',
+        sizes: '512x512',
+        type: 'image/png',
       },
-      appleWebApp: {
-        capable: true,
-        title: 'Spliit',
-      },
-      applicationName: 'Spliit',
-      icons: [
-        {
-          url: '/android-chrome-192x192.png',
-          sizes: '192x192',
-          type: 'image/png',
-        },
-        {
-          url: '/android-chrome-512x512.png',
-          sizes: '512x512',
-          type: 'image/png',
-        },
-      ],
-    }
+    ],
   }
 }
 
