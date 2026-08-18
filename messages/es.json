@@ -1,6 +1,7 @@
 {
   "Homepage": {
     "title": "Comparte <strong>Gastos</strong> con <strong>Amigos y Familia</strong>",
+    "metaTitle": "Spliit · Comparte gastos con amigos y familia",
     "description": "¡Bienvenido a tu nueva instancia de <strong>Spliit</strong>!",
     "button": {
       "groups": "Ir a grupos",
@@ -51,6 +52,7 @@
   "Groups": {
     "myGroups": "Mis grupos",
     "create": "Crear",
+    "createGroup": "Crear grupo",
     "loadingRecent": "Cargando grupos recientes…",
     "NoRecent": {
       "description": "No has visitado ningun grupo recientemente.",
