@@ -6,12 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Metadata } from 'next'
 import { useTranslations } from 'next-intl'
-
-export const metadata: Metadata = {
-  title: 'Activity',
-}
 
 export function ActivityPageClient() {
   const t = useTranslations('Activity')
