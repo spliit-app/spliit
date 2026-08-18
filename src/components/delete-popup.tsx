@@ -12,12 +12,18 @@ import {
   DialogTrigger,
 } from './ui/dialog'
 
-export function DeletePopup({ onDelete }: { onDelete: () => Promise<void> }) {
+export function DeletePopup({
+  onDelete,
+  className,
+}: {
+  onDelete: () => Promise<void>
+  className?: string
+}) {
   const t = useTranslations('ExpenseForm.DeletePopup')
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="destructive">
+        <Button variant="destructive" className={className}>
           <Trash2 className="w-4 h-4 mr-2" />
           {t('label')}
         </Button>
