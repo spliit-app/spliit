@@ -49,7 +49,7 @@ export function GroupTabs({ groupId }: Props) {
             aria-label={label}
             className="gap-2"
           >
-            <Icon className="w-4 h-4 sm:hidden" />
+            <Icon className="w-4 h-4" />
             <span className="hidden sm:inline">{label}</span>
           </TabsTrigger>
         ))}
