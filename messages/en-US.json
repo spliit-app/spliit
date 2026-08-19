@@ -387,6 +387,32 @@
         "WEEKLY": "{count, plural, one {# weekly expense} other {# weekly expenses}}",
         "MONTHLY": "{count, plural, one {# monthly expense} other {# monthly expenses}}"
       }
+    },
+    "MonthlySpending": {
+      "title": "Monthly spending",
+      "description": "Spending by month and category.",
+      "rangeLabel": "Range",
+      "groupingLabel": "Category grouping",
+      "chartTypeLabel": "Chart type",
+      "stackedTitle": "Monthly categories",
+      "breakdownTitle": "{range} category breakdown",
+      "roundAmountsLabel": "Round amounts",
+      "income": "Income",
+      "noData": "No spending data yet.",
+      "ChartTypes": {
+        "bars": "Stacked bars",
+        "columns": "Stacked columns"
+      },
+      "RangeOptions": {
+        "three": "3 months",
+        "six": "6 months",
+        "twelve": "12 months",
+        "all": "All"
+      },
+      "GroupingOptions": {
+        "categoryGroup": "Categories",
+        "category": "Detailed"
+      }
     }
   },
   "Activity": {

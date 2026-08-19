@@ -3,6 +3,7 @@ import {
   getGroup,
   getGroupExpenses,
 } from '@/lib/api'
+import { getMonthlyCategorySpending } from '@/lib/monthly-spending'
 import {
   filterExpensesByDateRange,
   getRecurringSpending,
@@ -59,6 +60,10 @@ export const getStatsOverviewProcedure = baseProcedure
           : undefined,
       summary: getSpendingSummary(expenses),
       months: getSpendingOverTime(expenses),
+      monthlyCategorySpending: getMonthlyCategorySpending(expenses, {
+        grouping: 'category',
+        range: 'all',
+      }),
       participants: getSpendingByParticipant(participants, expenses),
       categories: getSpendingByCategory(expenses),
       recurring: getRecurringSpending(recurringExpenses),
