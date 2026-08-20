@@ -34,7 +34,7 @@ jobs:
           echo "REPO=${GITHUB_REPOSITORY@L}" >> "${GITHUB_ENV}"
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Login to Github Container Registry
         uses: docker/login-action@v4
