@@ -73,7 +73,7 @@
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-hook-form": "^7.85.0",
-    "react-intersection-observer": "^10.1.0",
+    "react-intersection-observer": "^11.0.0",
     "server-only": "^0.0.1",
     "sharp": "^0.35.3",
     "superjson": "^2.2.6",
