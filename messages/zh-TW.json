@@ -1,0 +1,404 @@
+{
+  "Homepage": {
+    "title": "跟<strong>朋友和家人</strong>一起共享<strong>消費紀錄</strong>",
+    "description": "歡迎開始全新的<strong>Spliit</strong>",
+    "button": {
+      "groups": "前往群組",
+      "github": "GitHub"
+    }
+  },
+  "Header": {
+    "groups": "群組"
+  },
+  "Footer": {
+    "madeIn": "來自 🇨🇦 加拿大魁北克蒙特婁",
+    "builtBy": "由 <author>Sebastien Castiel</author> 以及 <source>社群貢獻者</source> 共同創建維護"
+  },
+  "Expenses": {
+    "title": "消費",
+    "description": "這裡是您為群組建立的消費。",
+    "create": "新增消費紀錄",
+    "createFirst": "新增第一筆消費紀錄",
+    "noExpenses": "你的群組內目前沒有任何消費紀錄。",
+    "exportJson": "匯出為 JSON",
+    "exportCsv": "匯出為 CSV",
+    "searchPlaceholder": "搜尋消費紀錄……",
+    "ActiveUserModal": {
+      "title": "你是誰？",
+      "description": "告訴我們您在群組中的身份，以調整我們顯示資訊的方式。",
+      "nobody": "我不想選擇任何人",
+      "save": "儲存更改",
+      "footer": "此設定可稍後在群組設定中更改。"
+    },
+    "Groups": {
+      "upcoming": "即將到來",
+      "thisWeek": "本週",
+      "earlierThisMonth": "本月稍早",
+      "lastMonth": "上個月",
+      "earlierThisYear": "今年稍早",
+      "lastYear": "去年",
+      "older": "更早"
+    },
+    "export": "匯出"
+  },
+  "ExpenseCard": {
+    "paidBy": "由 <strong>{paidBy}</strong> 支付 <paidFor></paidFor>。",
+    "receivedBy": "由 <strong>{paidBy}</strong> 收取 <paidFor></paidFor>。",
+    "yourBalance": "你的餘額：",
+    "everyone": "大家",
+    "notInvolved": "不包含你"
+  },
+  "Groups": {
+    "myGroups": "我的群組",
+    "create": "建立",
+    "loadingRecent": "讀取最近的群組……",
+    "NoRecent": {
+      "description": "你最近沒有訪問過任何群組。",
+      "create": "建立一個新群組",
+      "orAsk": "或請朋友發送已建立的群組鏈接。"
+    },
+    "recent": "最近的群組",
+    "starred": "已加星標的群組",
+    "archived": "已封存的群組",
+    "archive": "將群組封存",
+    "unarchive": "取消封存群組",
+    "removeRecent": "從最近的群組中移除",
+    "RecentRemovedToast": {
+      "title": "群組已被移除",
+      "description": "該群組已從您的最近群組列表中移除。",
+      "undoAlt": "撤銷移除群組",
+      "undo": "取消操作"
+    },
+    "AddByURL": {
+      "button": "透過連結加入",
+      "title": "透過連結加入群組",
+      "description": "如果某個群組已與您分享，您可以在此處貼上其網址以添加到群組列表中。",
+      "error": "哇哇，我們無法從您提供的網址中找到有效群組……"
+    },
+    "NotFound": {
+      "text": "該群組不存在。",
+      "link": "前往最近訪問的群組"
+    }
+  },
+  "GroupForm": {
+    "title": "群組資訊",
+    "NameField": {
+      "label": "群組名稱",
+      "placeholder": "暑假出遊",
+      "description": "輸入群組的名稱。"
+    },
+    "InformationField": {
+      "label": "群組資訊",
+      "placeholder": "對群組成員有關的資訊是什麼？"
+    },
+    "CurrencyField": {
+      "label": "貨幣符號",
+      "placeholder": "$, €, £…",
+      "description": "我們根據它來顯示相應的金額。"
+    },
+    "Participants": {
+      "title": "群組成員",
+      "description": "輸入每位成員的名稱。",
+      "protectedParticipant": "此成員已有登記支出，無法刪除。",
+      "new": "新增",
+      "add": "新增群組成員",
+      "John": "林俊凱",
+      "Jane": "陳怡婷",
+      "Jack": "張文傑"
+    },
+    "Settings": {
+      "title": "客製化設定",
+      "description": "這些設定是針對每台設備設置的，用於客製化您的體驗。",
+      "ActiveUserField": {
+        "label": "當前使用者",
+        "placeholder": "選擇一位群組成員",
+        "none": "無",
+        "description": "用於支付消費的預設用戶"
+      },
+      "save": "保存",
+      "saving": "保存中……",
+      "create": "建立",
+      "creating": "建立中……",
+      "cancel": "取消"
+    },
+    "CurrencyCodeField": {
+      "label": "主要幣別",
+      "createDescription": "全部的帳戶及金額都會使用此幣別。",
+      "editDescription": "全部的帳戶及金額都會使用此幣別。更改此項目不會影響已建立的消費紀錄，除非轉換幣別有小數點（例如由美金轉換為日幣時）"
+    }
+  },
+  "ExpenseForm": {
+    "Income": {
+      "create": "新增收入",
+      "edit": "編輯收入",
+      "TitleField": {
+        "label": "收入標題",
+        "placeholder": "禮拜一晚餐",
+        "description": "輸入此筆收入的描述。"
+      },
+      "DateField": {
+        "label": "收入日期",
+        "description": "輸入收到這筆收入的日期。"
+      },
+      "categoryFieldDescription": "選擇收入類別。",
+      "paidByField": {
+        "label": "接收人",
+        "description": "選擇接收這筆收入的成員。"
+      },
+      "paidFor": {
+        "title": "應接收人",
+        "description": "選擇應參與此筆收入的成員。"
+      },
+      "splitModeDescription": "選擇如何分配此筆收入。",
+      "attachDescription": "查看／附上此筆收入的收據。"
+    },
+    "Expense": {
+      "create": "新增消費紀錄",
+      "edit": "編輯消費紀錄",
+      "TitleField": {
+        "label": "支出標題",
+        "placeholder": "週一晚餐",
+        "description": "輸入此筆消費的描述。"
+      },
+      "DateField": {
+        "label": "消費日期",
+        "description": "輸入支付此消費的日期。"
+      },
+      "categoryFieldDescription": "選擇消費類別。",
+      "paidByField": {
+        "label": "支付人",
+        "description": "选择支付这笔消费的群组成员。"
+      },
+      "paidFor": {
+        "title": "應支付人",
+        "description": "選擇需參與此筆消費的成員。"
+      },
+      "splitModeDescription": "選擇如何分配此筆消費。",
+      "attachDescription": "查看／附上此筆消費的收據。",
+      "recurrenceRule": {
+        "description": "請選擇消費的重複週期。",
+        "none": "無",
+        "daily": "每天",
+        "weekly": "每週",
+        "monthly": "每月"
+      }
+    },
+    "amountField": {
+      "label": "金額"
+    },
+    "isReimbursementField": {
+      "label": "這是一筆報銷款"
+    },
+    "categoryField": {
+      "label": "類別"
+    },
+    "notesField": {
+      "label": "備註"
+    },
+    "selectNone": "取消全選",
+    "selectAll": "全選",
+    "shares": "份額",
+    "advancedOptions": "進階分帳選項……",
+    "SplitModeField": {
+      "label": "分帳方式",
+      "evenly": "平均分配",
+      "byShares": "自訂份額",
+      "byPercentage": "自訂百分比",
+      "byAmount": "自訂金額",
+      "saveAsDefault": "儲存為預設分帳方式"
+    },
+    "DeletePopup": {
+      "label": "刪除",
+      "title": "要刪除這筆消費嗎？",
+      "description": "確定要刪除這筆消費嗎？刪除後無法回復哦。",
+      "yes": "確定",
+      "cancel": "取消"
+    },
+    "attachDocuments": "附件",
+    "create": "新增",
+    "creating": "新增中……",
+    "save": "儲存",
+    "saving": "儲存中……",
+    "cancel": "取消",
+    "reimbursement": "報銷"
+  },
+  "ExpenseDocumentsInput": {
+    "TooBigToast": {
+      "title": "文件過大",
+      "description": "可以上傳的最大文件大小為 {maxSize}。這份文件大小為 {size}。"
+    },
+    "ErrorToast": {
+      "title": "上傳文件時發生錯誤",
+      "description": "上傳文件時發生錯誤，請再試一次或更換文件。",
+      "retry": "重試"
+    }
+  },
+  "CreateFromReceipt": {
+    "Dialog": {
+      "triggerTitle": "從收據中新增消費紀錄",
+      "title": "從收據中新增消費紀錄",
+      "description": "從收據照片上抓取消費明細。",
+      "body": "上傳收據的圖片，我們會試圖解析其中的支出",
+      "selectImage": "選擇圖片……",
+      "titleLabel": "標題：",
+      "categoryLabel": "類別：",
+      "amountLabel": "金額：",
+      "dateLabel": "日期：",
+      "editNext": "可於後續編輯消費明細。",
+      "continue": "繼續"
+    },
+    "unknown": "未知",
+    "TooBigToast": {
+      "title": "文件過大",
+      "description": "可以上傳的最大文件大小為 {maxSize}。這份文件大小為 {size}。"
+    },
+    "ErrorToast": {
+      "title": "上傳文件時發生錯誤",
+      "description": "上傳文件時發生錯誤，請再試一次或更換文件。",
+      "retry": "重試"
+    }
+  },
+  "Balances": {
+    "title": "總覽",
+    "description": "這是每個成員已支付及需支付的金額",
+    "Reimbursements": {
+      "title": "建議核銷",
+      "description": "這是建議的銷帳方式",
+      "noImbursements": "看起來你的群組目前不需要銷帳😁",
+      "owes": "<strong>{from}</strong> 欠 <strong>{to}</strong>",
+      "markAsPaid": "標記為已支付"
+    }
+  },
+  "Stats": {
+    "title": "統計",
+    "Totals": {
+      "title": "總計",
+      "description": "整個群組的花費總計。",
+      "groupSpendings": "群組總開銷",
+      "groupEarnings": "群組總收入",
+      "yourSpendings": "你的總開銷",
+      "yourEarnings": "你的總收入",
+      "yourShare": "你的總計份額"
+    }
+  },
+  "Activity": {
+    "title": "明細",
+    "description": "群組所有活動總覽",
+    "noActivity": "你的全組目前沒有任何活動",
+    "someone": "某人",
+    "settingsModified": "群組設定已被<strong>{participant}</strong>更改。",
+    "expenseCreated": "消費 <em>{expense}</em> 由 <strong>{participant}</strong> 新增。",
+    "expenseUpdated": "消費 <em>{expense}</em> 由 <strong>{participant}</strong> 更新。",
+    "expenseDeleted": "消費 <em>{expense}</em> 由 <strong>{participant}</strong> 刪除。",
+    "Groups": {
+      "today": "今天",
+      "yesterday": "昨天",
+      "earlierThisWeek": "本週稍早",
+      "lastWeek": "上週",
+      "earlierThisMonth": "本月稍早",
+      "lastMonth": "上個月",
+      "earlierThisYear": "今年稍早",
+      "lastYear": "去年",
+      "older": "更早"
+    }
+  },
+  "Information": {
+    "title": "資訊",
+    "description": "可在此添加群組相關資訊、公告及說明等。",
+    "empty": "目前沒有群組資訊。"
+  },
+  "Settings": {
+    "title": "設定"
+  },
+  "Share": {
+    "title": "分享",
+    "description": "將此網址分享給其他人以加入群組並查看及新增消費紀錄",
+    "warning": "警告！",
+    "warningHelp": "任何有此連結的人都可以看到及編輯消費紀錄。請小心使用！"
+  },
+  "SchemaErrors": {
+    "min1": "請輸入至少 1 個字。",
+    "min2": "請輸入至少 2 個字。",
+    "max5": "請輸入至少 5 個字。",
+    "max50": "請輸入至少 50 個字。",
+    "duplicateParticipantName": "此名稱已被使用",
+    "titleRequired": "請輸入標題。",
+    "invalidNumber": "數值無效。",
+    "amountRequired": "必須輸入一個金額。",
+    "amountNotZero": "金額不可為 0。",
+    "amountTenMillion": "金額需小於 10,000,000。",
+    "paidByRequired": "必須選擇一個成員。",
+    "paidForMin1": "這筆消費必須包含至少一個成員。",
+    "noZeroShares": "份額需大於 0。",
+    "amountSum": "金額總計必須等於消費金額。",
+    "percentageSum": "百分比加總必須等於 100。"
+  },
+  "Categories": {
+    "search": "搜尋類別……",
+    "noCategory": "未找到類別。",
+    "Uncategorized": {
+      "heading": "未分類",
+      "General": "一般",
+      "Payment": "支付"
+    },
+    "Entertainment": {
+      "heading": "娛樂",
+      "Entertainment": "娛樂",
+      "Games": "遊戲",
+      "Movies": "電影",
+      "Music": "音樂",
+      "Sports": "運動"
+    },
+    "Food and Drink": {
+      "heading": "飲食",
+      "Food and Drink": "飲食",
+      "Dining Out": "外食",
+      "Groceries": "食材",
+      "Liquor": "酒水"
+    },
+    "Home": {
+      "heading": "居家",
+      "Home": "居家",
+      "Electronics": "電子產品",
+      "Furniture": "家具",
+      "Household Supplies": "日用品",
+      "Maintenance": "維護",
+      "Mortgage": "貸款",
+      "Pets": "寵物",
+      "Rent": "租金",
+      "Services": "服務"
+    },
+    "Life": {
+      "heading": "生活",
+      "Childcare": "育兒",
+      "Clothing": "衣服",
+      "Education": "教育",
+      "Gifts": "禮物",
+      "Insurance": "保險",
+      "Medical Expenses": "醫療支出",
+      "Taxes": "稅"
+    },
+    "Transportation": {
+      "heading": "交通",
+      "Transportation": "交通",
+      "Bicycle": "自行車",
+      "Bus/Train": "公車/火車",
+      "Car": "汽車",
+      "Gas/Fuel": "油錢/燃料",
+      "Hotel": "旅館/住宿",
+      "Parking": "停車",
+      "Plane": "飛機",
+      "Taxi": "計程車"
+    },
+    "Utilities": {
+      "heading": "日常帳單",
+      "Utilities": "日常帳單",
+      "Cleaning": "清潔費",
+      "Electricity": "電費",
+      "Heat/Gas": "暖氣/瓦斯",
+      "Trash": "垃圾費",
+      "TV/Phone/Internet": "電視/電話/網路",
+      "Water": "水費"
+    }
+  }
+}

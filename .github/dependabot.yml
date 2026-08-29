@@ -1,0 +1,31 @@
+version: 2
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+    # Without grouping, a quiet week still opens half a dozen separate PRs for
+    # patch bumps that would have been reviewed as one. Majors stay separate,
+    # since those are the ones worth reading individually.
+    groups:
+      minor-and-patch:
+        update-types:
+          - 'minor'
+          - 'patch'
+
+  - package-ecosystem: 'docker'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+
+  # Keeps the workflow action pins current. Without this nothing watches them,
+  # which is how checkout/setup-node drifted several majors behind.
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+    groups:
+      actions:
+        update-types:
+          - 'minor'
+          - 'patch'

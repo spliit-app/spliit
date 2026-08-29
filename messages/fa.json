@@ -1,0 +1,334 @@
+{
+  "Homepage": {
+    "button": {
+      "groups": "به صفحه گروه ها برو",
+      "github": "گیت هاب"
+    },
+    "title": "اشتراک گذاری <strong>Expenes</strong> با <strong>دوستان و Family</strong>",
+    "description": "به نمونه جدید <strong>Spliit</strong> خوش آمدید !"
+  },
+  "Header": {
+    "groups": "گروه ها"
+  },
+  "Footer": {
+    "madeIn": "ساخت مونترال، کانادا🇨🇦"
+  },
+  "Expenses": {
+    "title": "مخارج",
+    "create": "افزودن هزینه",
+    "createFirst": "افزودن هزینه اول",
+    "noExpenses": "گروه شما هنوز خرجی ثبت نکرده است.",
+    "searchPlaceholder": "جستجو در هزینه‌ها…",
+    "ActiveUserModal": {
+      "description": "لطفاً مشخص کنید کدام شرکت‌کننده هستید تا نمایش اطلاعات را شخصی‌سازی کنیم.",
+      "nobody": "نمی خواهم کسی را انتخاب کنم",
+      "save": "تغییرات را ذخیره کن",
+      "title": "خودتان را معرفی کنید.",
+      "footer": "بعداً می‌توانید این گزینه را در تنظیمات گروه تغییر دهید."
+    },
+    "Groups": {
+      "thisWeek": "این هفته",
+      "earlierThisMonth": "اوایل این ماه",
+      "lastMonth": "ماه گذشته",
+      "earlierThisYear": "اویل امسال",
+      "lastYear": "سال گذشته",
+      "older": "قدیمی تر",
+      "upcoming": "هزینه های آتی"
+    },
+    "exportCsv": "خروجی فایل CSV",
+    "export": "خروجی",
+    "exportJson": "خروجی فایل JSON"
+  },
+  "ExpenseCard": {
+    "everyone": "همه",
+    "notInvolved": "شامل شما نمی شود",
+    "paidBy": "پرداخت شده توسط  <strong>{paidBy}</strong> برای <paidFor></paidFor>",
+    "receivedBy": "دریافت شده از <strong>{paidBy}</strong> برای <paidFor></paidFor>",
+    "yourBalance": "تراز شما:"
+  },
+  "Groups": {
+    "myGroups": "گروه های من",
+    "create": "افزودن گروه",
+    "loadingRecent": "در حال بارگذاری گروه‌های اخیر…",
+    "NoRecent": {
+      "orAsk": "یا از دوستتان بخواهید لینک یکی از گروه‌های موجود را برایتان ارسال کند.",
+      "description": "‫هیچ گروهی را اخیراً مشاهده نکرده‌اید.",
+      "create": "افزودن یک گروه"
+    },
+    "recent": "گروه‌های اخیر",
+    "starred": "گروه های ستاره خورده",
+    "archived": "گروه های آرشیو شده",
+    "archive": "گروه را آرشیو کن",
+    "unarchive": "گروه را از آرشیو خارج کن",
+    "removeRecent": "حذف از گروه‌های اخیر",
+    "RecentRemovedToast": {
+      "title": "گروه حذف شد",
+      "undoAlt": "بازگرداندن گروه حذف شده",
+      "undo": "واگرد"
+    },
+    "AddByURL": {
+      "button": "افزودن با استفاده از لینک",
+      "title": "افزودن گروه با استفاده از لینک",
+      "description": "اگر لینک گروهی با شما به اشتراک گذاشته شده، می‌توانید آن را اینجا بچسبانید (پیست کنید) تا به لیستتان اضافه شود."
+    },
+    "NotFound": {
+      "text": "این گروه وجود ندارد.",
+      "link": "مشاهده گروه‌های اخیر"
+    }
+  },
+  "GroupForm": {
+    "title": "اطلاعات گروه",
+    "NameField": {
+      "label": "نام گروه",
+      "placeholder": "تعطیلات تابستان",
+      "description": "نامی برای گروهتان وارد کنید."
+    },
+    "InformationField": {
+      "label": "اطلاعات گروه",
+      "placeholder": "چه اطلاعاتی به اعضای گروه مهم است؟"
+    },
+    "CurrencyField": {
+      "label": "سمبل واحد پولی",
+      "placeholder": "$, €, ﷼…",
+      "description": "آن را برای نمایش مبالغ بکار می‌گیریم."
+    },
+    "CurrencyCodeField": {
+      "label": "واحد پولی اصلی",
+      "createDescription": "همه مبالغ و تراز ها با این واحد پولی به نمایش گذاشته خواهند شد.",
+      "editDescription": "همه مبالغ و تراز ها با این واحد پولی به نمایش گذاشته خواهند شد.با تغییر این گزینه، هزینه‌های قبلی تبدیل نمی‌شوند، مگر در مواردی که واحد پول ریزواحد (مثلا سنت) متفاوتی داشته باشد (مثل تغییر از دلار آمریکا به ین ژاپن)",
+      "customOption": "دلخواه"
+    },
+    "Participants": {
+      "title": "اعضا",
+      "description": "نام اعضا را وارد کنید.",
+      "protectedParticipant": "این عضو در هزینه‌ها مشارکت دارد و قابل حذف نیست.",
+      "new": "جدید",
+      "add": "افزودن عضو",
+      "John": "محمد",
+      "Jane": "فاطمه",
+      "Jack": "علی"
+    },
+    "Settings": {
+      "title": "تنظیمات دستگاه",
+      "description": "این تنظیمات مخصوص هر دستگاه است تا تجربه شما را شخصی سازی تر کنند.",
+      "ActiveUserField": {
+        "label": "کاربر فعال",
+        "placeholder": "عضوی را انتخاب کنید",
+        "none": "هیچکس",
+        "description": "کاربر به‌صورت پیش‌فرض برای پرداخت هزینه‌ها استفاده می‌شود."
+      },
+      "save": "ذخیره سازی",
+      "saving": "در حال ذخیره سازی…",
+      "create": "بساز",
+      "creating": "در حال ساختن…",
+      "cancel": "لغو"
+    }
+  },
+  "ExpenseForm": {
+    "Income": {
+      "create": "ثبت درآمد",
+      "edit": "اصلاح درآمد",
+      "TitleField": {
+        "label": "عنوان درآمد",
+        "placeholder": "رستوران، شنبه شب",
+        "description": "توضیحی برای این درآمد وارد کنید."
+      },
+      "DateField": {
+        "label": "تاریخ درآمد",
+        "description": "تاریخی که در آن درآمد دریافت شد را وارد کنید."
+      },
+      "currencyField": {
+        "label": "واحد پولی درآمد",
+        "description": "واحد پولی ای که درآمد به آن دریافت شد."
+      },
+      "categoryFieldDescription": "دسته‌بندی درآمد را انتخاب کنید.",
+      "paidByField": {
+        "label": "توسط … دریافت شد",
+        "description": "عضوی که درآمد را دریافت کرده است را انتخاب کن."
+      },
+      "paidFor": {
+        "title": "بابت … دریافت شد",
+        "description": "مشخص کنید درآمد برای چه کسی دریافت شده است."
+      },
+      "splitModeDescription": "نحوه تقسیم درآمد را انتخاب کنید."
+    },
+    "Expense": {
+      "create": "افزودن هزینه",
+      "edit": "اصلاح هزینه",
+      "TitleField": {
+        "label": "عنوان هزینه"
+      },
+      "recurrenceRule": {
+        "daily": "روزانه",
+        "weekly": "هفتگی",
+        "monthly": "ماهانه",
+        "label": "تناوب هزینه"
+      },
+      "paidFor": {
+        "title": "پرداخت شده برای"
+      },
+      "splitModeDescription": "انتخاب کنید که هزینه چگونه تقسیم شود.",
+      "attachDescription": "رسید های این پرداخت را ببینید و یا پیوست بزنید."
+    },
+    "amountField": {
+      "label": "مقدار"
+    },
+    "categoryField": {
+      "label": "دسته بندی"
+    },
+    "DeletePopup": {
+      "label": "حذف",
+      "title": "این هزینه را حذف کنیم؟",
+      "yes": "آره",
+      "cancel": "لغو"
+    }
+  },
+  "Currencies": {
+    "noCurrency": "هیچ واحد پولی ای پیدا نشد.",
+    "custom": {
+      "heading": "ادامه"
+    },
+    "common": {
+      "heading": "رایج‌ترین"
+    },
+    "other": {
+      "heading": "واحد های پولی دیگر"
+    },
+    "search": "جستجو برای واحد پولی…"
+  },
+  "CreateFromReceipt": {
+    "TooBigToast": {
+      "title": "حجم فایل زیادی بزرگ است",
+      "description": "حداکثر حجم فایل قابل آپلود {maxSize} است. حجم فایل شما {size} است."
+    },
+    "ErrorToast": {
+      "title": "خطا در آپلود فایل",
+      "description": "هنگام آپلود رسید خطایی پیش آمد. لطفاً بعداً دوباره امتحان کنید یا فایل دیگری را انتخاب کنید.",
+      "retry": "تلاش مجدد"
+    }
+  },
+  "Balances": {
+    "title": "تراز ها",
+    "description": "این مقدار پولی است که هر عضو پرداخت کرده یا به او پرداخت شده.",
+    "Reimbursements": {
+      "title": "بازپرداخت‌های پیشنهادی",
+      "description": "اینجا پیشنهاداتی برای بازپرداخت‌های با کمترین تعداد تراکنش بین اعضا داده شده است.",
+      "noImbursements": "به نظر می‌آید گروه شما نیازی به بازپرداخت ندارد 😁",
+      "owes": "<strong>{from}</strong> به <strong>{to}</strong> بدهکار است",
+      "markAsPaid": "تایید تسویه حساب"
+    }
+  },
+  "Stats": {
+    "title": "‍آمار‌ها",
+    "Totals": {
+      "title": "مجموع",
+      "description": "خلاصه هزینه‌های کل گروه.",
+      "groupSpendings": "مجموع هزینه های کل گروه",
+      "groupEarnings": "مجموع درآمد های کل گروه",
+      "yourSpendings": "هزینه های شما",
+      "yourEarnings": "درآمد های شما",
+      "yourShare": "مجموع سهم شما"
+    }
+  },
+  "Activity": {
+    "title": "فعالیت‌ها",
+    "Groups": {
+      "earlierThisMonth": "اوایل این ماه",
+      "lastMonth": "ماه گذشته",
+      "earlierThisYear": "اوایل امسال",
+      "lastYear": "سال گذشته",
+      "older": "قدیمی تر",
+      "today": "امروز",
+      "yesterday": "دیروز",
+      "earlierThisWeek": "اوایل این هفته",
+      "lastWeek": "هفته گذشته"
+    }
+  },
+  "Categories": {
+    "Transportation": {
+      "Bus/Train": "اتوبوس / قطار",
+      "Car": "ماشین",
+      "Gas/Fuel": "بنرین/سوخت",
+      "Hotel": "هتل",
+      "Parking": "پارکینگ",
+      "Plane": "هواپیما",
+      "Taxi": "تاکسی",
+      "heading": "حمل و نقل",
+      "Transportation": "حمل و نقل",
+      "Bicycle": "دوچرخه"
+    },
+    "Utilities": {
+      "heading": "قبوض",
+      "Utilities": "قبوض",
+      "Cleaning": "نظافت",
+      "Electricity": "برق",
+      "Heat/Gas": "گرمایش/گاز",
+      "Trash": "دفع زباله",
+      "TV/Phone/Internet": "تلویزیون/تلفن/اینترنت",
+      "Water": "آب"
+    },
+    "Life": {
+      "Taxes": "مالیات",
+      "heading": "زندگی",
+      "Childcare": "مراقبت از کودک",
+      "Clothing": "پوشاک",
+      "Donation": "صدقه/کمک مالی",
+      "Education": "تحصیلات",
+      "Gifts": "هدایا",
+      "Insurance": "بیمه",
+      "Medical Expenses": "هزینه های درمانی"
+    },
+    "Home": {
+      "Rent": "اجاره",
+      "Services": "خدمات",
+      "heading": "خانه",
+      "Home": "خانه",
+      "Electronics": "لوازم الکترونیکی",
+      "Furniture": "مبلمان",
+      "Household Supplies": "لوازم خانگی",
+      "Maintenance": "تعمیر و نگهداری",
+      "Mortgage": "قسط خانه",
+      "Pets": "حیوانات خانگی"
+    },
+    "Food and Drink": {
+      "Groceries": "خواربار (کالاهای مصرفی)",
+      "Liquor": "نوشیدنی های الکلی",
+      "heading": "غذا و نوشیدنی",
+      "Food and Drink": "غذا و نوشیدنی",
+      "Dining Out": "رستوران و کافه"
+    },
+    "Uncategorized": {
+      "Payment": "پرداخت",
+      "heading": "بدون دسته‌بندی",
+      "General": "عمومی"
+    },
+    "Entertainment": {
+      "heading": "سرگرمی",
+      "Entertainment": "سرگرمی",
+      "Games": "بازی‌ها",
+      "Movies": "فیلم‌ها",
+      "Music": "موسیقی",
+      "Sports": "ورزش‌ها"
+    },
+    "search": "جستجوی دسته‌بندی…",
+    "noCategory": "دسته‌بندی ای پیدا نشد."
+  },
+  "SchemaErrors": {
+    "ratePositive": "نرخ باید حتماً بیشتر از صفر باشد.",
+    "paidByRequired": "حداقل یک عضو انتخاب کنید.",
+    "paidForMin1": "هزینه باید برای حداقل یک عضو پرداخت شود.",
+    "noZeroShares": "تمام سهم‌ها باید بیشتر از ۰ باشند.",
+    "amountSum": "مجموع سهم‌ها باید برابر کل هزینه باشد.",
+    "percentageSum": "مجموع درصدها باید برابر ۱۰۰ باشد.",
+    "min1": "حداقل یک حرف وارد کنید.",
+    "min2": "حداقل ۲ حرف وارد کنید.",
+    "max5": "حداکثر ۵ حرف وارد کنید.(من‌جمله فاصله)",
+    "max50": "حداکثر ۵۰ حرف وارد کنید.(من‌جمله فاصله)",
+    "duplicateParticipantName": "یکی دیگر از اعضا این نام را دارد.",
+    "titleRequired": "لطفا یک عنوان وارد کنید.",
+    "invalidNumber": "شماره نامعتبر.",
+    "amountRequired": "باید یک مقدار وارد کنید.",
+    "amountNotZero": "مقدار نباید صفر باشد.",
+    "amountTenMillion": "این رقم باید کمتر از ۱۰ میلیون باشد."
+  }
+}

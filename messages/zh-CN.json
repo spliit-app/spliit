@@ -1,0 +1,451 @@
+{
+  "Homepage": {
+    "title": "与<strong>朋友和家人</strong>共享<strong>开支</strong>",
+    "description": "欢迎使用你的全新<strong>Spliit</strong>实例！",
+    "button": {
+      "groups": "前往群组",
+      "github": "GitHub"
+    }
+  },
+  "Header": {
+    "groups": "群组"
+  },
+  "Footer": {
+    "madeIn": "Made in Montréal, Québec 🇨🇦",
+    "builtBy": "由 <author>Sebastien Castiel</author> 以及 <source>社区贡献者们</source> 共同构建"
+  },
+  "Expenses": {
+    "title": "消费",
+    "description": "这里有你为你的群组创建的消费。",
+    "create": "创建消费",
+    "createFirst": "创建首个消费",
+    "noExpenses": "你的群组内目前没有任何消费。",
+    "exportJson": "导出到JSON",
+    "exportCsv": "导出到CSV",
+    "searchPlaceholder": "查找消费……",
+    "ActiveUserModal": {
+      "title": "你是哪位？",
+      "description": "告诉我们你在群组中的身份，以便定制你的信息呈现方式。",
+      "nobody": "我不想选择任何人",
+      "save": "保存变更",
+      "footer": "此项设定之后可以在群组设定中修改。"
+    },
+    "Groups": {
+      "upcoming": "即将到来",
+      "thisWeek": "本周",
+      "earlierThisMonth": "本月早些时候",
+      "lastMonth": "上个月",
+      "earlierThisYear": "本年早些时候",
+      "lastYear": "去年",
+      "older": "更早"
+    },
+    "export": "导出"
+  },
+  "ExpenseCard": {
+    "paidBy": "<strong>{paidBy}</strong> 为 <paidFor></paidFor> 支付。",
+    "receivedBy": "<strong>{paidBy}</strong> 为 <paidFor></paidFor> 接收。",
+    "yourBalance": "你的余额：",
+    "everyone": "所有人",
+    "notInvolved": "您无需支付"
+  },
+  "Groups": {
+    "myGroups": "我的群组",
+    "create": "创建",
+    "loadingRecent": "加载最近的群组……",
+    "NoRecent": {
+      "description": "你最近没有访问任何群组。",
+      "create": "创建一个群组",
+      "orAsk": "或者让你的朋友发给你现有群组的链接。"
+    },
+    "recent": "最近的群组",
+    "starred": "已收藏的群组",
+    "archived": "已归档的群组",
+    "archive": "归档群组",
+    "unarchive": "取消归档群组",
+    "removeRecent": "从最近的群组中删除",
+    "RecentRemovedToast": {
+      "title": "群组已删除",
+      "description": "群组已从你的最近群组列表中删除。",
+      "undoAlt": "撤销群组删除",
+      "undo": "撤销"
+    },
+    "AddByURL": {
+      "button": "使用URL添加",
+      "title": "使用URL添加一个群组",
+      "description": "如果你被分享了一个群组，你可以将群组的URL粘贴到这里以添加这个群组。",
+      "error": "哎呀，我们没办法根据你的URL找到相应的群组……"
+    },
+    "NotFound": {
+      "text": "该群组不存在。",
+      "link": "跳转到最近访问过的群组"
+    }
+  },
+  "GroupForm": {
+    "title": "群组信息",
+    "NameField": {
+      "label": "群组名",
+      "placeholder": "暑假",
+      "description": "为你的群组输入一个名字。"
+    },
+    "InformationField": {
+      "label": "群组信息",
+      "placeholder": "哪些信息与群组成员有关？"
+    },
+    "CurrencyField": {
+      "label": "货币标志",
+      "placeholder": "$, €, £…",
+      "description": "我们根据这个显示相应的货币金额。"
+    },
+    "Participants": {
+      "title": "群组成员",
+      "description": "输入每位成员的名字。",
+      "protectedParticipant": "群组成员是消费的一部分，不可删除。",
+      "new": "新建",
+      "add": "添加群组成员",
+      "John": "John",
+      "Jane": "Jane",
+      "Jack": "Jack"
+    },
+    "Settings": {
+      "title": "本地设定",
+      "description": "这些设定是按设备设定的，用于定制你的使用体验。",
+      "ActiveUserField": {
+        "label": "当前用户",
+        "placeholder": "选择一个群组成员",
+        "none": "无",
+        "description": "用于支付消费的默认用户。"
+      },
+      "save": "保存",
+      "saving": "保存中……",
+      "create": "创建",
+      "creating": "创建中",
+      "cancel": "取消"
+    },
+    "CurrencyCodeField": {
+      "label": "首选货币",
+      "createDescription": "所有的交易将使用此币种。",
+      "customOption": "自定义",
+      "editDescription": "所有金额和余额将以此货币表示。更改此项不会转换已输入的费用，除非新货币的\"辅助单位\"与现有货币不同（例如从美元改为日元）"
+    }
+  },
+  "ExpenseForm": {
+    "Income": {
+      "create": "创建收入",
+      "edit": "编辑收入",
+      "TitleField": {
+        "label": "收入标题",
+        "placeholder": "周一晚上的餐厅",
+        "description": "描述这个收入。"
+      },
+      "DateField": {
+        "label": "收入日期",
+        "description": "输入收到这笔收入的日期。"
+      },
+      "categoryFieldDescription": "选择收入类别。",
+      "paidByField": {
+        "label": "接收到",
+        "description": "选择接收到这笔收入的群组成员。"
+      },
+      "paidFor": {
+        "title": "接收给",
+        "description": "选择收入是为谁而收。"
+      },
+      "splitModeDescription": "选择如何划分这笔收入。",
+      "attachDescription": "查看并为这笔收入附加收据。",
+      "currencyField": {
+        "label": "收入币种",
+        "description": "收入所使用的货币。"
+      }
+    },
+    "Expense": {
+      "create": "创建消费",
+      "edit": "编辑消费",
+      "TitleField": {
+        "label": "消费标题",
+        "placeholder": "周一晚上的餐厅",
+        "description": "描述这个消费。"
+      },
+      "DateField": {
+        "label": "消费日期",
+        "description": "输入支付这笔消费的日期。"
+      },
+      "categoryFieldDescription": "选择消费类别。",
+      "paidByField": {
+        "label": "支付自",
+        "description": "选择支付这笔消费的群组成员。",
+        "placeholder": "选择一个参与人"
+      },
+      "paidFor": {
+        "title": "支付给",
+        "description": "选择消费是为谁而支出。"
+      },
+      "splitModeDescription": "选择如何划分这笔消费。",
+      "attachDescription": "查看并为这笔消费附加收据。",
+      "currencyField": {
+        "label": "支出币种",
+        "description": "支出所使用的货币。"
+      },
+      "recurrenceRule": {
+        "label": "订阅式支出",
+        "description": "请选择这笔开销发生的频率。",
+        "none": "无",
+        "daily": "每天",
+        "weekly": "每周",
+        "monthly": "每月"
+      }
+    },
+    "amountField": {
+      "label": "金额"
+    },
+    "isReimbursementField": {
+      "label": "这是一笔报销款"
+    },
+    "categoryField": {
+      "label": "类别"
+    },
+    "notesField": {
+      "label": "附注"
+    },
+    "selectNone": "取消选中",
+    "selectAll": "全选",
+    "shares": "份额",
+    "advancedOptions": "高级分账选项……",
+    "SplitModeField": {
+      "label": "分账模式",
+      "evenly": "平均分配",
+      "byShares": "按份额分配",
+      "byPercentage": "按百分比分配",
+      "byAmount": "按金额分配",
+      "saveAsDefault": "保存为默认分账设置"
+    },
+    "DeletePopup": {
+      "label": "删除",
+      "title": "要删除这项消费吗？",
+      "description": "你真的确定要删除这项消费吗？此行动不可撤销。",
+      "yes": "确定",
+      "cancel": "取消"
+    },
+    "attachDocuments": "附加文档",
+    "create": "创建",
+    "creating": "创建中……",
+    "save": "保存",
+    "saving": "保存中……",
+    "cancel": "取消",
+    "reimbursement": "报销",
+    "originalAmountField": {
+      "label": "需要转换的金额"
+    },
+    "conversionRateField": {
+      "useApi": "使用Frankfurter提供的汇率",
+      "useCustom": "使用自定义汇率",
+      "label": "汇率"
+    },
+    "conversionRateState": {
+      "error": "抱歉，我们无法获取最新的汇率信息。",
+      "noRate": "请在下方输入自定义汇率。",
+      "currencyNotFound": "抱歉，Frankfurter无法为此货币提供此日期的汇率。",
+      "noDate": "请输入交易发生日期来获取当天的汇率。",
+      "refresh": "刷新",
+      "customRate": "使用自定义汇率",
+      "loading": "正在获取兑换汇率…",
+      "success": "获取到的汇率：",
+      "staleRate": "使用中的汇率：",
+      "dateMismatch": "汇率日期：{date}"
+    },
+    "conversionUnavailable": "如需按支出单独设置货币并换算金额，请先将群组货币设为非自定义货币。"
+  },
+  "ExpenseDocumentsInput": {
+    "TooBigToast": {
+      "title": "文件过大",
+      "description": "可上传的最大文件大小为{maxSize}，你的文件为{size}。"
+    },
+    "ErrorToast": {
+      "title": "上传文档时发生错误",
+      "description": "上传文档时发生了一些错误。请稍后重试或更换文件。",
+      "retry": "重试"
+    }
+  },
+  "CreateFromReceipt": {
+    "Dialog": {
+      "triggerTitle": "从收据中创建消费",
+      "title": "从收据中创建",
+      "description": "从收据照片上提取消费信息。",
+      "body": "上传收据的图片，我们会尽可能地从中扫描出消费信息。",
+      "selectImage": "选择图片……",
+      "titleLabel": "标题：",
+      "categoryLabel": "类别：",
+      "amountLabel": "金额：",
+      "dateLabel": "日期：",
+      "editNext": "你之后可以修改消费的信息。",
+      "continue": "继续"
+    },
+    "unknown": "未知",
+    "TooBigToast": {
+      "title": "文件过大",
+      "description": "可上传的最大文件大小为{maxSize}，你的文件为{size}。"
+    },
+    "ErrorToast": {
+      "title": "上传文档时发生错误",
+      "description": "上传文档时发生了一些错误。请稍后重试或更换文件。",
+      "retry": "重试"
+    }
+  },
+  "Balances": {
+    "title": "余额",
+    "description": "这是每位群组成员支付或被支付的金额。",
+    "Reimbursements": {
+      "title": "建议报销",
+      "description": "这里是优化群组成员之间报销的建议。",
+      "noImbursements": "看起来你的群组不需要任何报销😁",
+      "owes": "<strong>{from}</strong> 欠 <strong>{to}</strong>",
+      "markAsPaid": "标记为已支付"
+    }
+  },
+  "Stats": {
+    "title": "统计",
+    "Totals": {
+      "title": "总计",
+      "description": "整个群组的花费合计。",
+      "groupSpendings": "群组总计开销",
+      "groupEarnings": "群组总计收入",
+      "yourSpendings": "你的总计开销",
+      "yourEarnings": "你的总计收入",
+      "yourShare": "你的总计份额"
+    }
+  },
+  "Activity": {
+    "title": "活动",
+    "description": "该群组所有活动总览",
+    "noActivity": "你的群组目前没有任何活动。",
+    "someone": "某人",
+    "settingsModified": "群组设定已被<strong>{participant}</strong>更改。",
+    "expenseCreated": "消费 <em>{expense}</em> 由 <strong>{participant}</strong> 创建。",
+    "expenseUpdated": "消费 <em>{expense}</em> 由 <strong>{participant}</strong> 更新。",
+    "expenseDeleted": "消费 <em>{expense}</em> 由 <strong>{participant}</strong> 删除。",
+    "Groups": {
+      "today": "今天",
+      "yesterday": "昨天",
+      "earlierThisWeek": "这周早些时候",
+      "lastWeek": "上周",
+      "earlierThisMonth": "这月早些时候",
+      "lastMonth": "上月",
+      "earlierThisYear": "这年早些时候",
+      "lastYear": "上年",
+      "older": "更早"
+    }
+  },
+  "Information": {
+    "title": "信息",
+    "description": "使用此处以添加与群组成员相关的任何信息。",
+    "empty": "当前没有群组信息。"
+  },
+  "Settings": {
+    "title": "设定"
+  },
+  "Share": {
+    "title": "分享",
+    "description": "请将此URL分享给其他群组成员，以使其可以查看群组并添加消费。",
+    "warning": "警告！",
+    "warningHelp": "任何持有群组URL的个体都有能够查看并编辑消费。请谨慎分享！"
+  },
+  "SchemaErrors": {
+    "min1": "输入至少1个字符。",
+    "min2": "输入至少2个字符。",
+    "max5": "输入至少5个字符。",
+    "max50": "输入至少50个字符。",
+    "duplicateParticipantName": "此名字已被另一位群组成员占用。",
+    "titleRequired": "请输入标题。",
+    "invalidNumber": "无效数值。",
+    "amountRequired": "你必须输入一个金额。",
+    "amountNotZero": "金额不可以为0。",
+    "amountTenMillion": "金额必须小于10,000,000。",
+    "paidByRequired": "你必须选择一个群组成员。",
+    "paidForMin1": "这项消费必须支付给至少1名群组成员。",
+    "noZeroShares": "所有份额必须大于0。",
+    "amountSum": "金额之和必须等于消费的金额。",
+    "percentageSum": "百分比之和必须等于100。",
+    "ratePositive": "汇率必须为正数（大于0）。"
+  },
+  "Categories": {
+    "search": "搜寻类别……",
+    "noCategory": "未找到类别。",
+    "Uncategorized": {
+      "heading": "未分类",
+      "General": "一般",
+      "Payment": "支付"
+    },
+    "Entertainment": {
+      "heading": "娱乐",
+      "Entertainment": "娱乐",
+      "Games": "游戏",
+      "Movies": "电影",
+      "Music": "音乐",
+      "Sports": "运动"
+    },
+    "Food and Drink": {
+      "heading": "饮食",
+      "Food and Drink": "饮食",
+      "Dining Out": "下馆子",
+      "Groceries": "便利店",
+      "Liquor": "酒水"
+    },
+    "Home": {
+      "heading": "居家",
+      "Home": "居家",
+      "Electronics": "电费",
+      "Furniture": "家具",
+      "Household Supplies": "家庭日用品",
+      "Maintenance": "维护",
+      "Mortgage": "贷款",
+      "Pets": "宠物",
+      "Rent": "租金",
+      "Services": "服务"
+    },
+    "Life": {
+      "heading": "生活",
+      "Childcare": "儿童保育",
+      "Clothing": "衣物",
+      "Education": "教育",
+      "Gifts": "礼物",
+      "Insurance": "保险",
+      "Medical Expenses": "医疗支出",
+      "Taxes": "税",
+      "Donation": "捐赠"
+    },
+    "Transportation": {
+      "heading": "交通",
+      "Transportation": "交通",
+      "Bicycle": "自行车",
+      "Bus/Train": "巴士/列车",
+      "Car": "汽车",
+      "Gas/Fuel": "燃料",
+      "Hotel": "旅馆",
+      "Parking": "停车",
+      "Plane": "飞机",
+      "Taxi": "出租车"
+    },
+    "Utilities": {
+      "heading": "日常账单",
+      "Utilities": "日常账单",
+      "Cleaning": "清洁费",
+      "Electricity": "电费",
+      "Heat/Gas": "暖气/瓦斯",
+      "Trash": "垃圾",
+      "TV/Phone/Internet": "电视/手机/互联网",
+      "Water": "水"
+    }
+  },
+  "Currencies": {
+    "search": "搜索币种...",
+    "noCurrency": "无法找到此货币。",
+    "custom": {
+      "heading": "自定义"
+    },
+    "common": {
+      "heading": "最常用"
+    },
+    "other": {
+      "heading": "其他币种"
+    }
+  }
+}

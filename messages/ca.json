@@ -1,0 +1,459 @@
+{
+  "Homepage": {
+    "title": "Comparteix <strong>despeses</strong> amb <strong>família i amics</strong>",
+    "description": "Et donem la benvinguda a <strong>Spliit</strong>!",
+    "button": {
+      "groups": "Ves als grups",
+      "github": "GitHub"
+    }
+  },
+  "Header": {
+    "groups": "Grups"
+  },
+  "Footer": {
+    "madeIn": "Fet a Montreal, Quebec 🇨🇦",
+    "builtBy": "Desenvolupat per <author>Sebastien Castiel</author> i <source>col·laboradors</source>"
+  },
+  "Expenses": {
+    "title": "Despeses",
+    "description": "Aquí trobaràs les despeses que has creat al teu grup.",
+    "create": "Crea una despesa",
+    "createFirst": "Crea'n la primera",
+    "noExpenses": "El grup encara no té cap despesa.",
+    "exportJson": "Exporta a JSON",
+    "exportCsv": "Exporta a CSV",
+    "searchPlaceholder": "Cerca una despesa…",
+    "ActiveUserModal": {
+      "title": "Qui ets?",
+      "description": "Digue'ns quin participant ets, perquè poguem personalitzar com es mostra la informació.",
+      "nobody": "No vull seleccionar ningú",
+      "save": "Desa els canvis",
+      "footer": "Aquest paràmetre es pot canviar després, en la configuració del grup."
+    },
+    "Groups": {
+      "upcoming": "Pròximament",
+      "thisWeek": "Aquesta setmana",
+      "earlierThisMonth": "Al principi d'aquest mes",
+      "lastMonth": "El mes anterior",
+      "earlierThisYear": "A principi d'aquest any",
+      "lastYear": "L'any passat",
+      "older": "Més antics"
+    },
+    "export": "Exporta"
+  },
+  "ExpenseCard": {
+    "paidBy": "Pagada per <strong>{paidBy}</strong> per a <paidFor></paidFor>",
+    "receivedBy": "Rebuda per <strong>{paidBy}</strong> per a <paidFor></paidFor>",
+    "yourBalance": "El teu balanç:",
+    "everyone": "tothom",
+    "notInvolved": "No t'afecta"
+  },
+  "Groups": {
+    "myGroups": "Els meus grups",
+    "create": "Crea",
+    "loadingRecent": "S'estan carregant els grups recents…",
+    "NoRecent": {
+      "description": "No has visitat cap grup recentment.",
+      "create": "Crea'n un",
+      "orAsk": "o demana a una amiga que et comparteixi l'enllaç a un grup ja existent."
+    },
+    "recent": "Grups recents",
+    "starred": "Grups preferits",
+    "archived": "Grups arxivats",
+    "archive": "Arxiva el grup",
+    "unarchive": "No arxivis el grup",
+    "removeRecent": "Suprimeix dels grups recents",
+    "RecentRemovedToast": {
+      "title": "S'ha eliminat el grup",
+      "description": "S'ha eliminat el grup de la llista de grups recents.",
+      "undoAlt": "Desfés la supressió del grup",
+      "undo": "Desfés"
+    },
+    "AddByURL": {
+      "button": "Afegeix mitjançant un URL",
+      "title": "Afegeix un grup mitjançant un URL",
+      "description": "Si t'han compartit un grup, pots enganxar-ne aqui l'enllaç per a afegir-lo a la teva llista.",
+      "error": "Vatua l’olla! No podem trobar el grup des de l'enllaç que has proporcionat…"
+    },
+    "NotFound": {
+      "text": "Aquest grup no existeix.",
+      "link": "Ves als grups visitats recentment"
+    }
+  },
+  "GroupForm": {
+    "title": "Informació del grup",
+    "NameField": {
+      "label": "Nom del grup",
+      "placeholder": "Calçotada amb la colla",
+      "description": "Afegeix un nom per al grup nou."
+    },
+    "InformationField": {
+      "label": "Informació del grup",
+      "placeholder": "Quina informació és rellevant per als participants?"
+    },
+    "CurrencyField": {
+      "label": "Símbol de la divisa",
+      "placeholder": "$, €, £…",
+      "description": "Ho farem servir per a mostrar els imports."
+    },
+    "Participants": {
+      "title": "Participants",
+      "description": "Afegeix el nom de cada participant.",
+      "protectedParticipant": "Aquest participant té despeses assignades i no es pot eliminar.",
+      "new": "Nou",
+      "add": "Afegeix un participant",
+      "John": "Ermessenda",
+      "Jane": "Guillem",
+      "Jack": "Jaume"
+    },
+    "Settings": {
+      "title": "Configuració local",
+      "description": "Aquests paràmetres s'estableixen per dipositiu i s'usen per a personalitzar l'experiència.",
+      "ActiveUserField": {
+        "label": "Usuari actiu",
+        "placeholder": "Tria un participant",
+        "none": "Cap",
+        "description": "Usuari que paga les despeses de manera predeterminada."
+      },
+      "save": "Desa",
+      "saving": "S'està desant…",
+      "create": "Crea",
+      "creating": "S'està creant…",
+      "cancel": "Cancel·la"
+    },
+    "CurrencyCodeField": {
+      "label": "Divisa principal",
+      "createDescription": "Totes els imports i els balanços es mostraràn en aquesta moneda.",
+      "editDescription": "Totes les quantitas i balanços es mostraràn en aquesta moneda. Canviar açò NO convertirà despeses ja enregistrades, excepte si la moneda té \"unitats menors\" diferents que l'actual (per exemple, en canviar de dòlars estatunidencs a iens japonesos)",
+      "customOption": "Personalitzat"
+    }
+  },
+  "ExpenseForm": {
+    "Income": {
+      "create": "Crea un ingrés",
+      "edit": "Edita l'ingrés",
+      "TitleField": {
+        "label": "Títol de l'ingrés",
+        "placeholder": "Berenar-sopar de dilluns",
+        "description": "Introdueix una descripció per a aquest ingrès."
+      },
+      "DateField": {
+        "label": "Data de l'ingrés",
+        "description": "Introdueix la data en que es va rebre l'ingŕes."
+      },
+      "categoryFieldDescription": "Tria la categoria de l'ingrés.",
+      "paidByField": {
+        "label": "Rebut per",
+        "description": "Tria el participant que ha rebut l'ingrés."
+      },
+      "recurrenceRule": {
+        "label": "Recurrència de la despesa",
+        "description": "Selecciona amb quina freqüència cal que es repeteixi la despesa.",
+        "none": "Puntual",
+        "daily": "Diària",
+        "weekly": "Setmanal",
+        "monthly": "Mensual"
+      },
+      "paidFor": {
+        "title": "Rebut per",
+        "description": "Tria per a qui s'ha rebut l'ingrés."
+      },
+      "splitModeDescription": "Tria com vols dividir la despesa.",
+      "attachDescription": "Mostra i adjunta els tiquets a l'ingrés.",
+      "currencyField": {
+        "label": "Moneda de l'ingrés",
+        "description": "La moneda en que es va rebre l'ingrés."
+      }
+    },
+    "Expense": {
+      "create": "Crea una despesa",
+      "edit": "Edita la despesa",
+      "TitleField": {
+        "label": "Títol de la despesa",
+        "placeholder": "Llaunes del queviures de dilluns",
+        "description": "Introdueix una descripció per a la despesa."
+      },
+      "DateField": {
+        "label": "Data de la despesa",
+        "description": "Afegeix la data en que es va pagar la despesa."
+      },
+      "categoryFieldDescription": "Tria la categoria de la despesa.",
+      "paidByField": {
+        "label": "Pagat per",
+        "description": "Tria el participant que ha pagat la despesa.",
+        "placeholder": "Tria un participant"
+      },
+      "paidFor": {
+        "title": "Pagat per a",
+        "description": "Tria per a qui s'ha pagat la despesa."
+      },
+      "splitModeDescription": "Tria com vols dividir la despesa.",
+      "attachDescription": "Mostra i adjunta tiquets a la despesa.",
+      "currencyField": {
+        "label": "Moneda de la despesa",
+        "description": "La moneda en que es va pagar la despesa."
+      },
+      "recurrenceRule": {
+        "label": "Despesa recurrent",
+        "description": "Tria la freqüència amb que s'ha de repetir la despesa.",
+        "none": "Cap",
+        "daily": "Diàriament",
+        "weekly": "Setmanalment",
+        "monthly": "Mensualment"
+      }
+    },
+    "amountField": {
+      "label": "Import"
+    },
+    "isReimbursementField": {
+      "label": "Això és un reemborsament"
+    },
+    "categoryField": {
+      "label": "Categoria"
+    },
+    "notesField": {
+      "label": "Notes"
+    },
+    "selectNone": "No en seleccionis cap",
+    "selectAll": "Selecciona-ho tot",
+    "shares": "parts",
+    "advancedOptions": "Opcions de partició avançades…",
+    "SplitModeField": {
+      "label": "Mode de partició",
+      "evenly": "Uniforme",
+      "byShares": "Desigual: per parts",
+      "byPercentage": "Desigual: per percentatge",
+      "byAmount": "Desigual: per quantitat",
+      "saveAsDefault": "Desa com a mode preferit"
+    },
+    "DeletePopup": {
+      "label": "Suprimeix",
+      "title": "Vols suprimir aquesta despesa?",
+      "description": "Segur que vols suprimir aquesta despesa? Aquesta acció és irreversible.",
+      "yes": "Sí",
+      "cancel": "Cancel·la"
+    },
+    "attachDocuments": "Adjunta documents",
+    "create": "Crea",
+    "creating": "S'està creant…",
+    "save": "Desa",
+    "saving": "S'està desant…",
+    "cancel": "Cancel·la",
+    "reimbursement": "Reemborsament",
+    "conversionUnavailable": "Per a establir una moneda diferent per despesa i convertir imports, tria una moneda no personalitzada per al grup.",
+    "originalAmountField": {
+      "label": "Import a convertir"
+    },
+    "conversionRateField": {
+      "useApi": "Usa les taxes de Frankfurter",
+      "useCustom": "Usa una taxa personalitzada",
+      "label": "Taxa de canvi"
+    },
+    "conversionRateState": {
+      "loading": "S'estan obtenint taxes de canvi…",
+      "success": "Taxes obtingudes:",
+      "error": "Ups, no hem pogut aconseguir les taxes més recents.",
+      "staleRate": "Taxa usada:",
+      "noRate": "Introdueix una taxa personalitzada a sota.",
+      "currencyNotFound": "Ups, Frankfurter no té la taxa per a la moneda en aquest dia.",
+      "noDate": "Introdueix la data de la despesa per a aconseguir la taxa de canvi.",
+      "dateMismatch": "Taxes per a la data: {date}",
+      "refresh": "Actualitza",
+      "customRate": "S'usa una taxa personalitzada"
+    }
+  },
+  "ExpenseDocumentsInput": {
+    "TooBigToast": {
+      "title": "El fitxer és massa gran",
+      "description": "La mida màxima que pot tenir el fitxer és de {maxSize}. El teu pesa {size}."
+    },
+    "ErrorToast": {
+      "title": "S'ha produït un error en carregar el document",
+      "description": "Hi ha hagut un error en carregar el document. Torna a intentar-ho més tard o selecciona un altre fitxer.",
+      "retry": "Tornar-ho a intentar"
+    }
+  },
+  "CreateFromReceipt": {
+    "Dialog": {
+      "triggerTitle": "Crea una despesa des d'un tiquet",
+      "title": "Crea des d'un tiquet",
+      "description": "Extreu la informació de despeses de la foto d'un tiquet.",
+      "body": "Puja la foto d'un tiquet i l'escanejarem per a extreure'n, si podem, la informació de la despesa.",
+      "selectImage": "Tria una imatge…",
+      "titleLabel": "Títol:",
+      "categoryLabel": "Categoria:",
+      "amountLabel": "Import:",
+      "dateLabel": "Data:",
+      "editNext": "A continuació, podràs editar la informació de les despeses.",
+      "continue": "Continua"
+    },
+    "unknown": "Desconegut",
+    "TooBigToast": {
+      "title": "El fitxer és massa gran",
+      "description": "La mida màxima que pot tenir el fitxer és de {maxSize}. El teu pesa {size}."
+    },
+    "ErrorToast": {
+      "title": "S'ha produït un error en carregar el document",
+      "description": "Hi ha hagut un error al carregar el document. Torna a intentar-ho més tard o selecciona un altre fitxer.",
+      "retry": "Tornar-ho a intentar"
+    }
+  },
+  "Balances": {
+    "title": "Balanç",
+    "description": "L'import total que ha pagat o rebut cada participant.",
+    "Reimbursements": {
+      "title": "Proposta de reemborsaments",
+      "description": "Suggeriments per a optimitzar els reemborsaments entre participants.",
+      "noImbursements": "Sembla que el teu grup no necessita cap reemborsament 😁",
+      "owes": "<strong>{from}</strong> deu a <strong>{to}</strong>",
+      "markAsPaid": "Marca com a pagat"
+    }
+  },
+  "Stats": {
+    "title": "Estadístiques",
+    "Totals": {
+      "title": "Totals",
+      "description": "Resum de les despeses de tot el grup.",
+      "groupSpendings": "Despeses totals del grup",
+      "groupEarnings": "Ingressos totals del grup",
+      "yourSpendings": "Total de les teves despeses",
+      "yourEarnings": "Total dels teus ingressos",
+      "yourShare": "La teva part total"
+    }
+  },
+  "Activity": {
+    "title": "Activitat",
+    "description": "Visió general de tota l'activitat en aquest grup.",
+    "noActivity": "Encara no hi ha cap activitat en el grup.",
+    "someone": "Algú",
+    "settingsModified": "<strong>{participant}</strong> ha canviat la configuració del grup.",
+    "expenseCreated": "<strong>{participant}</strong> ha creat la despesa <em>{expense}</em>.",
+    "expenseUpdated": "Despesa <em>{expense}</em> actualitzada per <strong>{participant}</strong>.",
+    "expenseDeleted": "Despesa <em>{expense}</em> esborrada per <strong>{participant}</strong>.",
+    "Groups": {
+      "today": "Avui",
+      "yesterday": "Ahir",
+      "earlierThisWeek": "A inicis d'aquesta setmana",
+      "lastWeek": "La setmana passada",
+      "earlierThisMonth": "A inicis d'aquest mes",
+      "lastMonth": "El mes passat",
+      "earlierThisYear": "A inicis d'aquest any",
+      "lastYear": "El darrer any",
+      "older": "Més antigues"
+    }
+  },
+  "Information": {
+    "title": "Informació",
+    "description": "Usa aquest apartat per a afegir informació rellevant per als participants del grup.",
+    "empty": "Encara no hi ha informació sobre el grup."
+  },
+  "Settings": {
+    "title": "Configuració"
+  },
+  "Share": {
+    "title": "Comparteix",
+    "description": "Comparteix l'enllaç al grup amb altres participants perquè puguin veure el grup i afegir-hi despeses.",
+    "warning": "Alerta!",
+    "warningHelp": "Tothom qui tingui l'enllaç del grup podrà veure i editar-ne les despeses. Comparteix-lo amb cura!"
+  },
+  "SchemaErrors": {
+    "min1": "Introdueix com a mínim un caràcter.",
+    "min2": "Introdueix com a mínim dos caràcters.",
+    "max5": "Introdueix com a màxim cinc caràcters.",
+    "max50": "Introdueix com a màxim cinquanta caràcters.",
+    "duplicateParticipantName": "Un altre participant ja té el mateix nom.",
+    "titleRequired": "Introdueix un títol.",
+    "invalidNumber": "El número no és vàlid.",
+    "amountRequired": "Cal introduïr un import.",
+    "amountNotZero": "L'import no por ser zero.",
+    "amountTenMillion": "L'import ha de ser inferior a 10.000.000.",
+    "paidByRequired": "Has de triar un participant.",
+    "paidForMin1": "La despesa ha de ser pagada per, com a mínim, un participant.",
+    "noZeroShares": "Totes les participacions han de ser superiors a 0.",
+    "amountSum": "La suma dels imports ha de ser igual a l'import de la despesa.",
+    "percentageSum": "La suma dels percentatges ha de ser igual a 100.",
+    "ratePositive": "La taxa ha de ser estrictament major que zero."
+  },
+  "Categories": {
+    "search": "Cerca una categoria...",
+    "noCategory": "No s'ha trobat la categoria.",
+    "Uncategorized": {
+      "heading": "Sense categoria",
+      "General": "General",
+      "Payment": "Pagament"
+    },
+    "Entertainment": {
+      "heading": "Oci",
+      "Entertainment": "Oci",
+      "Games": "Jocs",
+      "Movies": "Pel·lícules",
+      "Music": "Música",
+      "Sports": "Esport"
+    },
+    "Food and Drink": {
+      "heading": "Menjar i beure",
+      "Food and Drink": "Menjar i beure",
+      "Dining Out": "Menjar fora",
+      "Groceries": "Menjar",
+      "Liquor": "Alcohol"
+    },
+    "Home": {
+      "heading": "Casa",
+      "Home": "Casa",
+      "Electronics": "Electrònica",
+      "Furniture": "Mobles",
+      "Household Supplies": "Suministres per a casa",
+      "Maintenance": "Manteniment",
+      "Mortgage": "Hipoteca",
+      "Pets": "Mascotes",
+      "Rent": "Lloguer",
+      "Services": "Serveis"
+    },
+    "Life": {
+      "heading": "Vida",
+      "Childcare": "Cura de criatures",
+      "Clothing": "Roba",
+      "Education": "Educació",
+      "Gifts": "Regals",
+      "Insurance": "Assegurança",
+      "Medical Expenses": "Despeses mèdiques",
+      "Taxes": "Impostos",
+      "Donation": "Donació"
+    },
+    "Transportation": {
+      "heading": "Transport",
+      "Transportation": "Transport",
+      "Bicycle": "Bicicleta",
+      "Bus/Train": "Autobús/Tren",
+      "Car": "Cotxe",
+      "Gas/Fuel": "Gasolina/Combustible",
+      "Hotel": "Hotel",
+      "Parking": "Aparcament",
+      "Plane": "Avió",
+      "Taxi": "Taxi"
+    },
+    "Utilities": {
+      "heading": "Utilitats",
+      "Utilities": "Utilitats",
+      "Cleaning": "Neteja",
+      "Electricity": "Electricitat",
+      "Heat/Gas": "Calefacció/Gas",
+      "Trash": "Escombraries",
+      "TV/Phone/Internet": "TV/Telèfon/Internet",
+      "Water": "Aigua"
+    }
+  },
+  "Currencies": {
+    "search": "Cerca una moneda...",
+    "noCurrency": "No s'ha trobat cap moneda.",
+    "custom": {
+      "heading": "Personalitzat"
+    },
+    "common": {
+      "heading": "Més comunes"
+    },
+    "other": {
+      "heading": "Altres monedes"
+    }
+  }
+}

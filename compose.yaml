@@ -1,0 +1,33 @@
+services:
+  app:
+    build: .
+    image: spliit:latest
+    ports:
+      - 3000:3000
+    env_file:
+      - container.env
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - spliit_network
+
+  db:
+    image: postgres:latest
+    expose:
+      - 5432
+    env_file:
+      - container.env
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - spliit_network
+
+networks:
+  spliit_network:
+    driver: bridge
