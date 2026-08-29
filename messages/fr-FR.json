@@ -78,6 +78,13 @@
     "NotFound": {
       "text": "Ce groupe n'existe pas.",
       "link": "Aller aux groupes récemment visités"
+    },
+    "GlobalBalance": {
+      "title": "Votre solde total",
+      "description": "Votre solde combiné sur l'ensemble de vos groupes.",
+      "owedToYou": "On vous doit",
+      "youOwe": "Vous devez",
+      "settledUp": "Tout est équilibré sur l'ensemble de vos groupes."
     }
   },
   "GroupForm": {
@@ -242,7 +249,9 @@
     "reimbursement": "Remboursement",
     "conversionUnavailable": "Pour définir une devise différente pour chaque dépense et convertir les montants, sélectionnez une devise non personnalisée pour le groupe.",
     "originalAmountField": {
-      "label": "Montant à convertir"
+      "label": "Montant à convertir",
+      "repaymentLabel": "Montant à transférer",
+      "repaymentDescription": "Converti à partir du montant ci-dessus, celui qui équilibre les comptes."
     },
     "conversionRateField": {
       "useCustom": "Utiliser un taux personnalisé",
@@ -319,6 +328,61 @@
       "yourSpendings": "Vos dépenses totales",
       "yourEarnings": "Vos revenus totaux",
       "yourShare": "Votre part totale"
+    },
+    "range": {
+      "label": "Période",
+      "all": "Tout le temps",
+      "thisMonth": "Ce mois-ci",
+      "last30": "30 derniers jours",
+      "thisYear": "Cette année",
+      "custom": "Période personnalisée",
+      "from": "Du",
+      "to": "Au"
+    },
+    "Summary": {
+      "title": "Résumé",
+      "description": "Chiffres clés pour la période sélectionnée.",
+      "empty": "Il n'y a pas encore de dépenses.",
+      "expenseCount": "Dépenses",
+      "averageExpense": "Dépense moyenne",
+      "largestExpense": "Dépense la plus élevée",
+      "activeSpan": "Période active"
+    },
+    "OverTime": {
+      "title": "Dépenses au fil du temps",
+      "description": "Dépenses totales du groupe par mois. Sélectionnez un mois pour voir ses dépenses.",
+      "empty": "Il n'y a pas encore de dépenses.",
+      "showExpenses": "Afficher les dépenses de {month}",
+      "detailsDescription": "Dépenses de ce mois pour la période sélectionnée.",
+      "detailsEmpty": "Il n'y a aucune dépense pour ce mois."
+    },
+    "ByParticipant": {
+      "title": "Dépenses par participant",
+      "description": "Combien chaque participant a payé et sa part des dépenses.",
+      "empty": "Il n'y a pas encore de dépenses.",
+      "participant": "Participant",
+      "paid": "Payé",
+      "count": "Nombre",
+      "share": "Part"
+    },
+    "ByCategory": {
+      "title": "Dépenses par catégorie",
+      "description": "Montant total dépensé dans chaque catégorie. Sélectionnez une catégorie pour voir ses dépenses.",
+      "empty": "Il n'y a pas encore de dépenses.",
+      "showExpenses": "Afficher les dépenses de {category}",
+      "detailsDescription": "Dépenses de cette catégorie pour la période sélectionnée.",
+      "detailsEmpty": "Il n'y a aucune dépense dans cette catégorie."
+    },
+    "Recurring": {
+      "title": "Dépenses récurrentes",
+      "description": "Coût estimé des dépenses récurrentes actives du groupe.",
+      "estimatedMonthly": "Coût mensuel estimé",
+      "estimatedYearly": "{amount} par an",
+      "period": {
+        "DAILY": "{count, plural, one {# dépense quotidienne} other {# dépenses quotidiennes}}",
+        "WEEKLY": "{count, plural, one {# dépense hebdomadaire} other {# dépenses hebdomadaires}}",
+        "MONTHLY": "{count, plural, one {# dépense mensuelle} other {# dépenses mensuelles}}"
+      }
     }
   },
   "Activity": {
@@ -354,7 +418,9 @@
     "title": "Partager",
     "description": "Pour que d'autres participants puissent voir le groupe et ajouter des dépenses, partagez son URL avec eux.",
     "warning": "Avertissement !",
-    "warningHelp": "Toute personne ayant l'URL du groupe pourra voir et modifier les dépenses. Partagez avec prudence !"
+    "warningHelp": "Toute personne ayant l'URL du groupe pourra voir et modifier les dépenses. Partagez avec prudence !",
+    "copyLink": "Copier le lien",
+    "shareLink": "Partager le lien"
   },
   "SchemaErrors": {
     "min1": "Entrez au moins un caractère.",
@@ -455,5 +521,10 @@
     "other": {
       "heading": "Autres devises"
     }
+  },
+  "Pwa": {
+    "updateTitle": "Mise à jour disponible",
+    "updateDescription": "Une nouvelle version de Spliit est disponible.",
+    "reload": "Recharger"
   }
 }
