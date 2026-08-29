@@ -78,6 +78,13 @@
     "NotFound": {
       "text": "このグループは存在しません。",
       "link": "最近訪れたグループへ移動"
+    },
+    "GlobalBalance": {
+      "title": "あなたの合計残高",
+      "description": "すべてのグループを合わせたあなたの残高です。",
+      "owedToYou": "受け取る金額",
+      "youOwe": "支払う金額",
+      "settledUp": "すべてのグループで精算済みです。"
     }
   },
   "GroupForm": {
@@ -234,7 +241,9 @@
     "reimbursement": "払い戻し",
     "conversionUnavailable": "支出ごとに異なる通貨を設定して金額を換算するには、グループの通貨をカスタム以外の通貨に設定してください。",
     "originalAmountField": {
-      "label": "換算する金額"
+      "label": "換算する金額",
+      "repaymentLabel": "送金する金額",
+      "repaymentDescription": "上の金額から換算した金額です。残高を清算するのは上の金額です。"
     },
     "conversionRateField": {
       "useApi": "Frankfurterのレートを使用する",
@@ -311,6 +320,55 @@
       "yourSpendings": "あなたの総支出",
       "yourEarnings": "あなたの総収入",
       "yourShare": "あなたの総シェア"
+    },
+    "range": {
+      "label": "期間",
+      "all": "全期間",
+      "thisMonth": "今月",
+      "last30": "過去30日間",
+      "thisYear": "今年",
+      "custom": "カスタム",
+      "from": "開始",
+      "to": "終了"
+    },
+    "Summary": {
+      "title": "概要",
+      "description": "選択した期間の主要な数値。",
+      "empty": "まだ支出はありません。",
+      "expenseCount": "支出件数",
+      "averageExpense": "平均支出",
+      "largestExpense": "最高額の支出",
+      "activeSpan": "対象期間"
+    },
+    "OverTime": {
+      "title": "期間ごとの支出",
+      "description": "グループの月別の合計支出。",
+      "empty": "まだ支出はありません。"
+    },
+    "ByParticipant": {
+      "title": "参加者ごとの支出",
+      "description": "各参加者が支払った金額と支出の負担分。",
+      "empty": "まだ支出はありません。",
+      "participant": "参加者",
+      "paid": "支払額",
+      "count": "件数",
+      "share": "負担分"
+    },
+    "ByCategory": {
+      "title": "カテゴリーごとの支出",
+      "description": "各カテゴリーの合計支出額。",
+      "empty": "まだ支出はありません。"
+    },
+    "Recurring": {
+      "title": "定期的な支出",
+      "description": "グループの有効な定期的支出の推定費用。",
+      "estimatedMonthly": "推定月額",
+      "estimatedYearly": "年間 {amount}",
+      "period": {
+        "DAILY": "{count, plural, other {毎日の支出 #件}}",
+        "WEEKLY": "{count, plural, other {毎週の支出 #件}}",
+        "MONTHLY": "{count, plural, other {毎月の支出 #件}}"
+      }
     }
   },
   "Activity": {
@@ -346,7 +404,9 @@
     "title": "共有",
     "description": "他の参加者がグループを見て支出を追加できるように、グループのURLを共有してください。",
     "warning": "警告！",
-    "warningHelp": "グループURLを持つすべての人が支出を閲覧および編集できるようになります。注意して共有してください！"
+    "warningHelp": "グループURLを持つすべての人が支出を閲覧および編集できるようになります。注意して共有してください！",
+    "copyLink": "リンクをコピー",
+    "shareLink": "リンクを共有"
   },
   "SchemaErrors": {
     "min1": "少なくとも1文字入力してください。",
@@ -447,5 +507,10 @@
     "other": {
       "heading": "その他の通貨"
     }
+  },
+  "Pwa": {
+    "updateTitle": "アップデートが利用可能です",
+    "updateDescription": "Spliit の新しいバージョンが利用可能です。",
+    "reload": "再読み込み"
   }
 }
