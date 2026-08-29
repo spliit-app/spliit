@@ -346,7 +346,9 @@
     "title": "Paylaş",
     "description": "Diğer katılımcıların grubu görmesi ve masraf ekleyebilmesi için onlarla bu grubun URL'sini paylaşın.",
     "warning": "Uyarı!",
-    "warningHelp": "Grubun URL'sine sahip olan herkes masrafları görebilir ve düzenleyebilir. Lütfen paylaşırken dikkatli olun!"
+    "warningHelp": "Grubun URL'sine sahip olan herkes masrafları görebilir ve düzenleyebilir. Lütfen paylaşırken dikkatli olun!",
+    "copyLink": "Bağlantıyı kopyala",
+    "shareLink": "Bağlantıyı paylaş"
   },
   "SchemaErrors": {
     "min1": "En az bir karakter girin.",
@@ -447,5 +449,10 @@
     "other": {
       "heading": "Diğer para birimleri"
     }
+  },
+  "Pwa": {
+    "updateTitle": "Güncelleme mevcut",
+    "updateDescription": "Spliit'in yeni bir sürümü mevcut.",
+    "reload": "Yeniden yükle"
   }
 }
