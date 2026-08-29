@@ -5,7 +5,8 @@
     "button": {
       "groups": "Ves als grups",
       "github": "GitHub"
-    }
+    },
+    "metaTitle": "Spliit · Comparteix despeses amb família i amics"
   },
   "Header": {
     "groups": "Grups"
@@ -85,7 +86,8 @@
       "owedToYou": "Et deuen",
       "youOwe": "Deus",
       "settledUp": "Estàs al dia en tots els teus grups."
-    }
+    },
+    "createGroup": "Crea un grup"
   },
   "GroupForm": {
     "title": "Informació del grup",
