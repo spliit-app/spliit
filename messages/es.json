@@ -2,7 +2,7 @@
   "Homepage": {
     "title": "Comparte <strong>Gastos</strong> con <strong>Amigos y Familia</strong>",
     "metaTitle": "Spliit · Comparte gastos con amigos y familia",
-    "description": "¡Bienvenido a tu nueva instancia de <strong>Spliit</strong>!",
+    "description": "¡Te damos la bienvenida a tu nueva instancia de <strong>Spliit</strong>!",
     "button": {
       "groups": "Ir a grupos",
       "github": "GitHub"
@@ -13,14 +13,14 @@
   },
   "Footer": {
     "madeIn": "Hecho en Montréal, Québec 🇨🇦",
-    "builtBy": "Construido por <author>Sebastien Castiel</author> y <source>colaboradores</source>"
+    "builtBy": "Desarrollado por <author>Sebastien Castiel</author> y <source>colaboradores</source>"
   },
   "Expenses": {
     "title": "Gastos",
     "description": "Aqui encontraras los gastos que has creado para tu grupo.",
     "create": "Crear gasto",
     "createFirst": "Crea el primero",
-    "noExpenses": "Tu grupo aun no tiene gastos.",
+    "noExpenses": "Tu grupo aún no tiene gastos.",
     "export": "Exportar",
     "exportJson": "Exportar a JSON",
     "exportCsv": "Exportar a CSV",
