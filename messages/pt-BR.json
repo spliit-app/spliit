@@ -78,6 +78,13 @@
     "NotFound": {
       "text": "Este grupo não existe.",
       "link": "Ir para grupos visitados recentemente"
+    },
+    "GlobalBalance": {
+      "title": "Seu saldo total",
+      "description": "Seu saldo combinado em todos os seus grupos.",
+      "owedToYou": "Você tem a receber",
+      "youOwe": "Você deve",
+      "settledUp": "Você está quitado em todos os seus grupos."
     }
   },
   "GroupForm": {
@@ -251,7 +258,9 @@
     },
     "conversionUnavailable": "Para definir uma moeda diferente por despesa e converter valores, selecione uma moeda não personalizada para o grupo.",
     "originalAmountField": {
-      "label": "Valor a converter"
+      "label": "Valor a converter",
+      "repaymentLabel": "Valor a transferir",
+      "repaymentDescription": "Convertido do valor acima, que é o que zera o saldo."
     }
   },
   "ExpenseDocumentsInput": {
@@ -311,6 +320,61 @@
       "yourSpendings": "Seus gastos totais",
       "yourEarnings": "Suas receitas totais",
       "yourShare": "Sua participação total"
+    },
+    "range": {
+      "label": "Período",
+      "all": "Todo o período",
+      "thisMonth": "Este mês",
+      "last30": "Últimos 30 dias",
+      "thisYear": "Este ano",
+      "custom": "Personalizado",
+      "from": "De",
+      "to": "Até"
+    },
+    "Summary": {
+      "title": "Resumo",
+      "description": "Números principais do período selecionado.",
+      "empty": "Ainda não há despesas.",
+      "expenseCount": "Despesas",
+      "averageExpense": "Despesa média",
+      "largestExpense": "Maior despesa",
+      "activeSpan": "Período ativo"
+    },
+    "OverTime": {
+      "title": "Gastos ao longo do tempo",
+      "description": "Gasto total do grupo por mês. Selecione um mês para ver seus gastos.",
+      "empty": "Ainda não há despesas.",
+      "showExpenses": "Mostrar os gastos de {month}",
+      "detailsDescription": "Gastos deste mês no período selecionado.",
+      "detailsEmpty": "Não há gastos neste mês."
+    },
+    "ByParticipant": {
+      "title": "Gastos por participante",
+      "description": "Quanto cada participante pagou e a sua parte das despesas.",
+      "empty": "Ainda não há despesas.",
+      "participant": "Participante",
+      "paid": "Pago",
+      "count": "Quantidade",
+      "share": "Parte"
+    },
+    "ByCategory": {
+      "title": "Gastos por categoria",
+      "description": "Valor total gasto em cada categoria. Selecione uma categoria para ver seus gastos.",
+      "empty": "Ainda não há despesas.",
+      "showExpenses": "Mostrar os gastos de {category}",
+      "detailsDescription": "Gastos desta categoria no período selecionado.",
+      "detailsEmpty": "Não há gastos nesta categoria."
+    },
+    "Recurring": {
+      "title": "Despesas recorrentes",
+      "description": "Custo estimado das despesas recorrentes ativas do grupo.",
+      "estimatedMonthly": "Custo mensal estimado",
+      "estimatedYearly": "{amount} por ano",
+      "period": {
+        "DAILY": "{count, plural, one {# despesa diária} other {# despesas diárias}}",
+        "WEEKLY": "{count, plural, one {# despesa semanal} other {# despesas semanais}}",
+        "MONTHLY": "{count, plural, one {# despesa mensal} other {# despesas mensais}}"
+      }
     }
   },
   "Activity": {
@@ -346,7 +410,9 @@
     "title": "Compartilhar",
     "description": "Para que outros participantes vejam o grupo e adicionem despesas, compartilhe o link com eles.",
     "warning": "Aviso!",
-    "warningHelp": "Toda pessoa com o link do grupo poderá ver e editar despesas. Compartilhe com cautela!"
+    "warningHelp": "Toda pessoa com o link do grupo poderá ver e editar despesas. Compartilhe com cautela!",
+    "copyLink": "Copiar link",
+    "shareLink": "Compartilhar link"
   },
   "SchemaErrors": {
     "min1": "Digite pelo menos um caractere.",
@@ -447,5 +513,10 @@
     "other": {
       "heading": "Outras moedas"
     }
+  },
+  "Pwa": {
+    "updateTitle": "Atualização disponível",
+    "updateDescription": "Uma nova versão do Spliit está disponível.",
+    "reload": "Recarregar"
   }
 }
