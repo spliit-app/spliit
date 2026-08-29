@@ -346,7 +346,9 @@
     "title": "Partekatu",
     "description": "Beste kide batzuek taldea ikusteko eta gastuak gehitzeko, partekatu haiekin URLa.",
     "warning": "Kontuz!",
-    "warningHelp": "Taldeko URLa duen edozein pertsonak gastuak ikusi eta editatu ahal izango ditu. Partekatu kontuz!"
+    "warningHelp": "Taldeko URLa duen edozein pertsonak gastuak ikusi eta editatu ahal izango ditu. Partekatu kontuz!",
+    "copyLink": "Kopiatu esteka",
+    "shareLink": "Partekatu esteka"
   },
   "SchemaErrors": {
     "min1": "Sartu gutxienez karaktere bat.",
@@ -447,5 +449,10 @@
     "other": {
       "heading": "Beste monetak"
     }
+  },
+  "Pwa": {
+    "updateTitle": "Eguneraketa eskuragarri",
+    "updateDescription": "Spliit-en bertsio berri bat eskuragarri dago.",
+    "reload": "Birkargatu"
   }
 }
