@@ -80,6 +80,13 @@
     "NotFound": {
       "text": "Este grupo no existe.",
       "link": "Ir a los grupos visitados recientemente"
+    },
+    "GlobalBalance": {
+      "title": "Tu saldo total",
+      "description": "Tu saldo combinado en todos tus grupos.",
+      "owedToYou": "Te deben",
+      "youOwe": "Debes",
+      "settledUp": "Estás al día en todos tus grupos."
     }
   },
   "GroupForm": {
@@ -236,7 +243,9 @@
     "reimbursement": "Reembolso",
     "conversionUnavailable": "Para establecer una moneda diferente por gasto y convertir los importes, seleccione una moneda no personalizada para el grupo.",
     "originalAmountField": {
-      "label": "Monto a convertir"
+      "label": "Monto a convertir",
+      "repaymentLabel": "Monto a transferir",
+      "repaymentDescription": "Convertido del monto de arriba, que es el que salda el balance."
     },
     "conversionRateField": {
       "useApi": "Utilizar las tasas del Frankfurter",
@@ -313,6 +322,61 @@
       "yourSpendings": "Tus gastos totales",
       "yourEarnings": "Tus ingresos totales",
       "yourShare": "Tu parte final"
+    },
+    "range": {
+      "label": "Período",
+      "all": "Todo el tiempo",
+      "thisMonth": "Este mes",
+      "last30": "Últimos 30 días",
+      "thisYear": "Este año",
+      "custom": "Personalizado",
+      "from": "Desde",
+      "to": "Hasta"
+    },
+    "Summary": {
+      "title": "Resumen",
+      "description": "Cifras clave del período seleccionado.",
+      "empty": "Todavía no hay gastos.",
+      "expenseCount": "Gastos",
+      "averageExpense": "Gasto medio",
+      "largestExpense": "Gasto más alto",
+      "activeSpan": "Período activo"
+    },
+    "OverTime": {
+      "title": "Gastos a lo largo del tiempo",
+      "description": "Gasto total del grupo por mes. Selecciona un mes para ver sus gastos.",
+      "empty": "Todavía no hay gastos.",
+      "showExpenses": "Mostrar los gastos de {month}",
+      "detailsDescription": "Gastos de este mes en el período seleccionado.",
+      "detailsEmpty": "No hay gastos en este mes."
+    },
+    "ByParticipant": {
+      "title": "Gastos por participante",
+      "description": "Cuánto pagó cada participante y su parte de los gastos.",
+      "empty": "Todavía no hay gastos.",
+      "participant": "Participante",
+      "paid": "Pagado",
+      "count": "Cantidad",
+      "share": "Parte"
+    },
+    "ByCategory": {
+      "title": "Gastos por categoría",
+      "description": "Cantidad total gastada en cada categoría. Selecciona una categoría para ver sus gastos.",
+      "empty": "Todavía no hay gastos.",
+      "showExpenses": "Mostrar los gastos de {category}",
+      "detailsDescription": "Gastos de esta categoría en el período seleccionado.",
+      "detailsEmpty": "No hay gastos en esta categoría."
+    },
+    "Recurring": {
+      "title": "Gastos recurrentes",
+      "description": "Coste estimado de los gastos recurrentes activos del grupo.",
+      "estimatedMonthly": "Coste mensual estimado",
+      "estimatedYearly": "{amount} al año",
+      "period": {
+        "DAILY": "{count, plural, one {# gasto diario} other {# gastos diarios}}",
+        "WEEKLY": "{count, plural, one {# gasto semanal} other {# gastos semanales}}",
+        "MONTHLY": "{count, plural, one {# gasto mensual} other {# gastos mensuales}}"
+      }
     }
   },
   "Activity": {
@@ -348,7 +412,9 @@
     "title": "Compartir",
     "description": "Para que otros participantes puedan ver el grupo y añadir gastos, compárteles su URL.",
     "warning": "Cuidado!",
-    "warningHelp": "Todas las personas que tengan la URL del grupo podrán ver y editar los gastos. ¡Comparte con precaución!"
+    "warningHelp": "Todas las personas que tengan la URL del grupo podrán ver y editar los gastos. ¡Comparte con precaución!",
+    "copyLink": "Copiar enlace",
+    "shareLink": "Compartir enlace"
   },
   "SchemaErrors": {
     "min1": "Introduzca al menos un carácter.",
@@ -449,5 +515,10 @@
     "other": {
       "heading": "Otras monedas"
     }
+  },
+  "Pwa": {
+    "updateTitle": "Actualización disponible",
+    "updateDescription": "Hay una nueva versión de Spliit disponible.",
+    "reload": "Recargar"
   }
 }
