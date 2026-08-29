@@ -148,12 +148,13 @@ const FormMessage = React.forwardRef<
   const messages = useMessages()
   const { error, formMessageId } = useFormField()
   let body
-  if (error) {
-    body = String(error?.message)
-    const translation = (messages.SchemaErrors as any)[body]
-    if (translation) {
-      body = translation
-    }
+  // An error on a field array as a whole -- "sum of percentages must equal
+  // 100", say -- is nested under `root` by @hookform/resolvers rather than
+  // sitting on the field error itself.
+  const message = error?.message ?? error?.root?.message
+  if (message) {
+    const translation = (messages.SchemaErrors as any)[message]
+    body = translation ?? message
   } else {
     body = children
   }
