@@ -78,6 +78,13 @@
     "NotFound": {
       "text": "Aquest grup no existeix.",
       "link": "Ves als grups visitats recentment"
+    },
+    "GlobalBalance": {
+      "title": "El teu saldo total",
+      "description": "El teu saldo combinat de tots els teus grups.",
+      "owedToYou": "Et deuen",
+      "youOwe": "Deus",
+      "settledUp": "Estàs al dia en tots els teus grups."
     }
   },
   "GroupForm": {
@@ -242,7 +249,9 @@
     "reimbursement": "Reemborsament",
     "conversionUnavailable": "Per a establir una moneda diferent per despesa i convertir imports, tria una moneda no personalitzada per al grup.",
     "originalAmountField": {
-      "label": "Import a convertir"
+      "label": "Import a convertir",
+      "repaymentLabel": "Quantitat a transferir",
+      "repaymentDescription": "Convertida a partir de la quantitat de dalt, que és la que salda el balanç."
     },
     "conversionRateField": {
       "useApi": "Usa les taxes de Frankfurter",
@@ -319,6 +328,55 @@
       "yourSpendings": "Total de les teves despeses",
       "yourEarnings": "Total dels teus ingressos",
       "yourShare": "La teva part total"
+    },
+    "range": {
+      "label": "Període",
+      "all": "Tot el temps",
+      "thisMonth": "Aquest mes",
+      "last30": "Últims 30 dies",
+      "thisYear": "Enguany",
+      "custom": "Personalitzat",
+      "from": "Des de",
+      "to": "Fins a"
+    },
+    "Summary": {
+      "title": "Resum",
+      "description": "Xifres clau del període seleccionat.",
+      "empty": "Encara no hi ha cap despesa.",
+      "expenseCount": "Despeses",
+      "averageExpense": "Despesa mitjana",
+      "largestExpense": "Despesa més gran",
+      "activeSpan": "Període actiu"
+    },
+    "OverTime": {
+      "title": "Despeses al llarg del temps",
+      "description": "Despesa total del grup per mes.",
+      "empty": "Encara no hi ha cap despesa."
+    },
+    "ByParticipant": {
+      "title": "Despeses per participant",
+      "description": "Quant ha pagat cada participant i la seva part de les despeses.",
+      "empty": "Encara no hi ha cap despesa.",
+      "participant": "Participant",
+      "paid": "Pagat",
+      "count": "Nombre",
+      "share": "Part"
+    },
+    "ByCategory": {
+      "title": "Despeses per categoria",
+      "description": "Import total gastat en cada categoria.",
+      "empty": "Encara no hi ha cap despesa."
+    },
+    "Recurring": {
+      "title": "Despeses recurrents",
+      "description": "Cost estimat de les despeses recurrents actives del grup.",
+      "estimatedMonthly": "Cost mensual estimat",
+      "estimatedYearly": "{amount} a l'any",
+      "period": {
+        "DAILY": "{count, plural, one {# despesa diària} other {# despeses diàries}}",
+        "WEEKLY": "{count, plural, one {# despesa setmanal} other {# despeses setmanals}}",
+        "MONTHLY": "{count, plural, one {# despesa mensual} other {# despeses mensuals}}"
+      }
     }
   },
   "Activity": {
@@ -354,7 +412,9 @@
     "title": "Comparteix",
     "description": "Comparteix l'enllaç al grup amb altres participants perquè puguin veure el grup i afegir-hi despeses.",
     "warning": "Alerta!",
-    "warningHelp": "Tothom qui tingui l'enllaç del grup podrà veure i editar-ne les despeses. Comparteix-lo amb cura!"
+    "warningHelp": "Tothom qui tingui l'enllaç del grup podrà veure i editar-ne les despeses. Comparteix-lo amb cura!",
+    "copyLink": "Copia l'enllaç",
+    "shareLink": "Comparteix l'enllaç"
   },
   "SchemaErrors": {
     "min1": "Introdueix com a mínim un caràcter.",
@@ -455,5 +515,10 @@
     "other": {
       "heading": "Altres monedes"
     }
+  },
+  "Pwa": {
+    "updateTitle": "Actualització disponible",
+    "updateDescription": "Hi ha una nova versió de Spliit disponible.",
+    "reload": "Torna a carregar"
   }
 }
