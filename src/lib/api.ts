@@ -11,6 +11,12 @@ import { ExpenseFormValues, GroupFormValues } from '@/lib/schemas'
 // Re-exported for backwards compatibility with existing server-side importers.
 export { randomId }
 
+function assertIntegerMinorUnits(amount: number, label: string) {
+  if (!Number.isInteger(amount)) {
+    throw new Error(`${label} must be an integer number of minor units`)
+  }
+}
+
 export async function createGroup(groupFormValues: GroupFormValues) {
   return prisma.group.create({
     data: {
@@ -46,6 +52,17 @@ export async function createExpense(
   ]) {
     if (!group.participants.some((p) => p.id === participant))
       throw new Error(`Invalid participant ID: ${participant}`)
+  }
+
+  assertIntegerMinorUnits(expenseFormValues.amount, 'amount')
+  if (expenseFormValues.originalAmount != null) {
+    assertIntegerMinorUnits(
+      expenseFormValues.originalAmount,
+      'originalAmount',
+    )
+  }
+  for (const paidFor of expenseFormValues.paidFor) {
+    assertIntegerMinorUnits(Number(paidFor.shares), 'paidFor.shares')
   }
 
   const expenseId = randomId()
@@ -168,6 +185,17 @@ export async function updateExpense(
   ]) {
     if (!group.participants.some((p) => p.id === participant))
       throw new Error(`Invalid participant ID: ${participant}`)
+  }
+
+  assertIntegerMinorUnits(expenseFormValues.amount, 'amount')
+  if (expenseFormValues.originalAmount != null) {
+    assertIntegerMinorUnits(
+      expenseFormValues.originalAmount,
+      'originalAmount',
+    )
+  }
+  for (const paidFor of expenseFormValues.paidFor) {
+    assertIntegerMinorUnits(Number(paidFor.shares), 'paidFor.shares')
   }
 
   await logActivity(groupId, ActivityType.UPDATE_EXPENSE, {
