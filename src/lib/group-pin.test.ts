@@ -1,5 +1,10 @@
-import { webcrypto } from 'node:crypto'
 import { hashGroupPin, pinMatchesHash } from '@/lib/group-pin'
+import { webcrypto } from 'node:crypto'
+import { TextDecoder, TextEncoder } from 'node:util'
+
+if (typeof globalThis.TextEncoder === 'undefined') {
+  Object.assign(globalThis, { TextEncoder, TextDecoder })
+}
 
 if (!globalThis.crypto?.subtle) {
   Object.defineProperty(globalThis, 'crypto', { value: webcrypto })
