@@ -5,7 +5,8 @@
     "button": {
       "groups": "Vai ai gruppi",
       "github": "GitHub"
-    }
+    },
+    "metaTitle": "Spliit • Condividi le Spese con Amici e Familiari"
   },
   "Header": {
     "groups": "Gruppi"
@@ -73,7 +74,17 @@
       "button": "Aggiungi tramite URL",
       "title": "Aggiungi un gruppo tramite URL",
       "description": "Se un gruppo è stato condiviso con te, puoi incollare qui il suo URL per aggiungerlo al tuo elenco.",
-      "error": "Oops, non siamo riusciti a trovare il gruppo dall'URL che hai fornito…"
+      "error": "Oops, non siamo riusciti a trovare il gruppo dall'URL che hai fornito…",
+      "urlMode": "Inserisci URL",
+      "qrMode": "Scansiona QR",
+      "scanner": {
+        "startCamera": "Avvia Camera",
+        "stopScanning": "Ferma Scansione",
+        "permissionDenied": "Permesso camera negato. Concedilo per scansionare codici QR.",
+        "noCamera": "Nessuna camera trovata su questo dispositivo.",
+        "cameraError": "Impossibile avviare la fotocamera. Riprova.",
+        "permissionError": "Impossibile accedere alla fotocamera. Verifica le autorizzazioni."
+      }
     },
     "NotFound": {
       "text": "Questo gruppo non esiste.",
@@ -85,7 +96,8 @@
       "owedToYou": "Ti devono",
       "youOwe": "Devi",
       "settledUp": "Sei in pari in tutti i tuoi gruppi."
-    }
+    },
+    "createGroup": "Crea gruppo"
   },
   "GroupForm": {
     "title": "Informazioni del gruppo",
@@ -110,8 +122,8 @@
       "new": "Nuovo",
       "add": "Aggiungi partecipante",
       "John": "Fabio",
-      "Jane": "Kaneda",
-      "Jack": "Albano"
+      "Jane": "Mario",
+      "Jack": "Giacomo"
     },
     "Settings": {
       "title": "Impostazioni locali",
@@ -420,7 +432,12 @@
     "warning": "Attenzione!",
     "warningHelp": "Ogni persona con l'URL del gruppo potrà vedere e modificare le spese. Condividi con cautela!",
     "copyLink": "Copia link",
-    "shareLink": "Condividi link"
+    "shareLink": "Condividi link",
+    "qrCode": {
+      "title": "Condividi Codice QR",
+      "description": "Scansiona questo codice QR per aprire il gruppo su ogni dispositivo.",
+      "download": "Scarica Codice QR"
+    }
   },
   "SchemaErrors": {
     "min1": "Inserisci almeno un carattere.",
