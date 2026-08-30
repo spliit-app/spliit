@@ -5,10 +5,10 @@ import { z } from 'zod'
 export const listGroupExpensesProcedure = baseProcedure
   .input(
     z.object({
-      groupId: z.string().min(1),
-      cursor: z.number().optional(),
-      limit: z.number().optional(),
-      filter: z.string().optional(),
+      groupId: z.string().min(1).max(30),
+      cursor: z.number().int().min(0).optional(),
+      limit: z.number().int().min(1).max(100).optional(),
+      filter: z.string().max(200).optional(),
     }),
   )
   .query(async ({ input: { groupId, cursor = 0, limit = 10, filter } }) => {
