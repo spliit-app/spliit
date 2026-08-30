@@ -56,10 +56,7 @@ export async function createExpense(
 
   assertIntegerMinorUnits(expenseFormValues.amount, 'amount')
   if (expenseFormValues.originalAmount != null) {
-    assertIntegerMinorUnits(
-      expenseFormValues.originalAmount,
-      'originalAmount',
-    )
+    assertIntegerMinorUnits(expenseFormValues.originalAmount, 'originalAmount')
   }
   for (const paidFor of expenseFormValues.paidFor) {
     assertIntegerMinorUnits(Number(paidFor.shares), 'paidFor.shares')
@@ -189,10 +186,7 @@ export async function updateExpense(
 
   assertIntegerMinorUnits(expenseFormValues.amount, 'amount')
   if (expenseFormValues.originalAmount != null) {
-    assertIntegerMinorUnits(
-      expenseFormValues.originalAmount,
-      'originalAmount',
-    )
+    assertIntegerMinorUnits(expenseFormValues.originalAmount, 'originalAmount')
   }
   for (const paidFor of expenseFormValues.paidFor) {
     assertIntegerMinorUnits(Number(paidFor.shares), 'paidFor.shares')
