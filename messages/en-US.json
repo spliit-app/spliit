@@ -436,6 +436,7 @@
     "min2": "Enter at least two characters.",
     "max5": "Enter at most five characters.",
     "max50": "Enter at most 50 characters.",
+    "max200": "Enter at most 200 characters.",
     "duplicateParticipantName": "Another participant already has this name.",
     "titleRequired": "Please enter a title.",
     "invalidNumber": "Invalid number.",
