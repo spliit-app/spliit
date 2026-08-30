@@ -1,9 +1,5 @@
-import {
-  ActivityType,
-  Expense,
-  RecurrenceRule,
-  RecurringExpenseLink,
-} from '@/generated/prisma/client'
+import { Expense, RecurringExpenseLink } from '@/generated/prisma/client'
+import { ActivityType, RecurrenceRule } from '@/lib/enums'
 import { prisma } from '@/lib/prisma'
 import { randomId } from '@/lib/random'
 import { ExpenseFormValues, GroupFormValues } from '@/lib/schemas'

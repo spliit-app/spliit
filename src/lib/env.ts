@@ -18,8 +18,21 @@ const interpretBlankEnvVarAsUndefined = (val: unknown): unknown =>
 
 const envSchema = z
   .object({
-    POSTGRES_URL_NON_POOLING: z.string().url(),
-    POSTGRES_PRISMA_URL: z.string().url(),
+    DATABASE_URL: z.string().optional().default('file:./spliit.db'),
+    POSTGRES_URL_NON_POOLING: z.string().optional(),
+    POSTGRES_PRISMA_URL: z.string().optional(),
+    AUTH_SECRET: z
+      .string()
+      .optional()
+      .default('development_auth_secret_key_minimum_32_characters_long'),
+    AUTH_SESSION_MAX_AGE_DAYS: z.preprocess(
+      (val) => (val && String(val).trim() !== '' ? Number(val) : 365),
+      z.number().positive().default(365),
+    ),
+    AUTH_GOOGLE_ID: z.string().optional(),
+    AUTH_GOOGLE_SECRET: z.string().optional(),
+    AUTH_GITHUB_ID: z.string().optional(),
+    AUTH_GITHUB_SECRET: z.string().optional(),
     // Runtime override for the public base URL, so a prebuilt image can be
     // told where it is reachable without a rebuild. Takes precedence over
     // NEXT_PUBLIC_BASE_URL, which is baked in at build time.

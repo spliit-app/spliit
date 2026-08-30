@@ -28,6 +28,8 @@ yarn-error.log*
 # local env files
 .env*.local
 *.env
+.env
+!.env.example
 !scripts/build.env
 
 # vercel
@@ -39,6 +41,14 @@ next-env.d.ts
 
 # db
 postgres-data
+spliit-data
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# scripts
+redeploy.sh
 
 # prisma generated client (regenerated via `prisma generate`)
 /src/generated

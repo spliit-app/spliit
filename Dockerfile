@@ -12,10 +12,8 @@ COPY ./package.json \
 COPY ./scripts ./scripts
 COPY ./prisma ./prisma
 
-# The registry occasionally resets a connection mid-install, which fails the
-# whole image build for a reason that has nothing to do with the code. Retry a
-# few times before giving up.
-RUN apk add --no-cache openssl && \
+# Install build dependencies for better-sqlite3 native addon
+RUN apk add --no-cache openssl python3 make g++ && \
     for i in 1 2 3 4 5; do \
       npm ci --ignore-scripts --fetch-retries=5 --fetch-timeout=600000 && exit 0; \
       echo "npm ci failed (attempt $i of 5), retrying in 10s..."; \
@@ -35,35 +33,23 @@ ENV NEXT_TELEMETRY_DISABLED=1
 COPY scripts/build.env .env
 RUN npm run build
 
-# Next.js copies .env into the standalone output, which would ship the mocked
-# build values (a database URL pointing at `db`, placeholder S3 and OpenAI
-# credentials) inside the image. Real configuration comes from the container
-# environment and would win, but a variable the operator *forgot* to set would
-# silently resolve to a build placeholder instead of failing. Drop it.
+# Next.js copies .env into the standalone output. Drop it.
 RUN rm -f .next/standalone/.env
 
-# The standalone output traces its own dependencies, so the runtime stage no
-# longer installs a production node_modules. What it does still need is the
-# Prisma CLI, to run `migrate deploy` at container start — and the CLI is not
-# part of the app's module graph, so nothing traces it.
-#
-# It gets its own isolated install rather than being copied out of the base
-# stage: that stage installs with --ignore-scripts (the repo's postinstall runs
-# migrate deploy, which cannot run at build time), so @prisma/engines never
-# downloads the schema engine that `migrate deploy` needs. Installing the same
-# version here, with scripts, produces a complete self-contained CLI.
+# The standalone output traces its own dependencies, but needs Prisma CLI and SQLite adapter
+# at container start to run `prisma db push`.
 FROM node:24-alpine AS prisma-cli
 
 WORKDIR /opt/prisma-cli
 ENV CHECKPOINT_DISABLE=1
-RUN apk add --no-cache openssl
+RUN apk add --no-cache openssl python3 make g++
 COPY --from=base /usr/app/node_modules/prisma/package.json ./_prisma.json
 RUN PRISMA_VERSION="$(node -p "require('./_prisma.json').version")" && \
     rm -f ./_prisma.json && \
     npm init -y > /dev/null && \
     for i in 1 2 3 4 5; do \
       npm install --no-audit --no-fund --fetch-retries=5 \
-        --fetch-timeout=600000 "prisma@${PRISMA_VERSION}" && exit 0; \
+        --fetch-timeout=600000 "prisma@${PRISMA_VERSION}" "@prisma/adapter-better-sqlite3" "better-sqlite3" && exit 0; \
       echo "prisma install failed (attempt $i of 5), retrying in 10s..."; \
       sleep 10; \
     done; \
@@ -76,21 +62,17 @@ WORKDIR /usr/app
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-# The standalone server binds to localhost by default, which is unreachable
-# from outside the container.
 ENV HOSTNAME=0.0.0.0
 ENV PORT=3000
 
 RUN apk add --no-cache openssl
 
-# The traced server, plus the two things tracing cannot know about: the static
-# assets it serves and the public/ directory.
+# The traced server, plus static assets and public/
 COPY --from=base /usr/app/.next/standalone ./
 COPY --from=base /usr/app/.next/static ./.next/static
 COPY ./public ./public
 
-# prisma.config.ts carries the connection URLs that used to live in
-# schema.prisma; `prisma migrate deploy` reads it at container start.
+# prisma config and schema
 COPY --from=base /usr/app/prisma ./prisma
 COPY --from=base /usr/app/prisma.config.ts ./
 COPY --from=prisma-cli /opt/prisma-cli/node_modules ./node_modules

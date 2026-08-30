@@ -109,56 +109,43 @@ E2E_HOST_PORT=3100 npm run e2e:down
 The same suite runs in GitHub Actions from the **E2E** workflow, which can be
 triggered manually and runs automatically on release tags.
 
-## Run in a container
+## Administration & User Management
 
-1. Run `npm run build-image` to build the docker image from the Dockerfile
-2. Copy the file `container.env.example` as `container.env`
-3. Run `npm run start-container` to start the postgres and the spliit2 containers
-4. You can access the app by browsing to http://localhost:3000
+Spliit includes role-based access control with three user tiers:
+- **`sync_users`**: Default tier upon signing in via OAuth. Allows syncing groups across devices.
+- **`group_creators`**: Allows creating new groups and syncing them.
+- **`admin`**: Full access to the Administration Dashboard (`/admin`), platform metrics, and user tier promotion/demotion.
 
-## Run with Docker compose
+### Promoting a User to Administrator (Bootstrap CLI)
 
-This is a sample `docker-compose.yml` file that you can use to deploy this web app.
+After a user signs in at least once via OAuth (so their user record is created in the database), promote them to administrator:
 
-```yaml
-name: spliit
+**On your host machine:**
+```sh
+node scripts/make-admin.mjs your-email@example.com
+```
+*(or `npm run make-admin your-email@example.com`)*
 
-services:
-  app:
-    image: ghcr.io/spliit-app/spliit:latest
-    user: "1000:1000" # change to your user id or remove if you want root
-    ports:
-      - "8080:3000/tcp"
-    environment:
-      POSTGRES_PRISMA_URL: postgresql://spliit:spliit@database:5432/spliit
-      POSTGRES_URL_NON_POOLING: postgresql://spliit:spliit@database:5432/spliit
-    volumes:
-      - ./app/cache:/usr/app/.next/cache
-    depends_on:
-      - database
-    networks:
-      - spliit
-
-  database:
-    image: postgres:17.3
-    user: "1000:1000" # same as above
-    environment:
-      POSTGRES_USER: spliit
-      POSTGRES_PASSWORD: spliit
-      POSTGRES_DB: spliit
-    volumes:
-      - ./database/data:/var/lib/postgresql/data
-    networks:
-      - spliit
-
-networks:
-  spliit:
+**Inside the Docker container:**
+```sh
+docker compose exec app node scripts/make-admin.mjs your-email@example.com
 ```
 
-The web app will then be available on your host at http://localhost:8080/.
+Once promoted, log in (or refresh the page) to access the **Admin Dashboard** (`/admin`) from the user profile dropdown.
 
-You can use named volumes in place of bind mounts if you prefer not having
-data stored inside local directories.
+## Run with Docker Compose
+
+1. Copy `.env.example` to `.env`:
+   ```sh
+   cp .env.example .env
+   ```
+2. Configure your desired `PORT`, `AUTH_SECRET`, and OAuth keys in `.env`.
+3. Start the container:
+   ```sh
+   ./redeploy.sh
+   # or: docker compose up -d --build
+   ```
+4. Access the app at `http://localhost:3000` (or your configured `PORT`). SQLite data is automatically persisted in `./spliit-data/spliit.db`.
 
 ## Health check
 
@@ -184,6 +171,14 @@ BASE_URL=https://spliit.example.com
 ```
 
 Defaults to `http://localhost:3000`.
+
+### Session Duration
+
+Set `AUTH_SESSION_MAX_AGE_DAYS` to control how many days users stay logged in across their devices before needing to re-authenticate. Defaults to `365` days (1 year).
+
+```.env
+AUTH_SESSION_MAX_AGE_DAYS=365
+```
 
 ### Default currency
 

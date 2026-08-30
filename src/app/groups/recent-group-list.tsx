@@ -1,13 +1,16 @@
 'use client'
+
 import { AddGroupByUrlButton } from '@/app/groups/add-group-by-url-button'
 import {
   RecentGroups,
+  archiveGroup,
   getArchivedGroups,
   getRecentGroups,
   getStarredGroups,
+  saveRecentGroup,
+  starGroup,
 } from '@/app/groups/recent-groups-helpers'
 import { Button } from '@/components/ui/button'
-import { getGroups } from '@/lib/api'
 import { trpc } from '@/trpc/client'
 import { AppRouterOutput } from '@/trpc/routers/_app'
 import { Loader2 } from 'lucide-react'
@@ -20,17 +23,11 @@ import { RecentGroupListCard } from './recent-group-list-card'
 export type RecentGroupsState =
   | { status: 'pending' }
   | {
-      status: 'partial'
-      groups: RecentGroups
-      starredGroups: string[]
-      archivedGroups: string[]
-    }
-  | {
       status: 'complete'
       groups: RecentGroups
-      groupsDetails: Awaited<ReturnType<typeof getGroups>>
       starredGroups: string[]
       archivedGroups: string[]
+      groupsDetails?: AppRouterOutput['groups']['list']['groups']
     }
 
 function sortGroups({
@@ -63,31 +60,85 @@ function sortGroups({
 
 export function RecentGroupList() {
   const [state, setState] = useState<RecentGroupsState>({ status: 'pending' })
+  const syncMutation = trpc.groups.sync.useMutation()
 
-  function loadGroups() {
-    const groupsInStorage = getRecentGroups()
-    const starredGroups = getStarredGroups()
-    const archivedGroups = getArchivedGroups()
-    setState({
-      status: 'partial',
-      groups: groupsInStorage,
-      starredGroups,
-      archivedGroups,
-    })
+  async function loadAndSyncGroups() {
+    const localGroups = getRecentGroups()
+    const localStarred = getStarredGroups()
+    const localArchived = getArchivedGroups()
+
+    try {
+      const syncResult = await syncMutation.mutateAsync({
+        localGroupIds: localGroups.map((g) => g.id),
+        starredGroupIds: localStarred,
+        archivedGroupIds: localArchived,
+      })
+
+      if (syncResult.isAuthenticated) {
+        // Sync user groups to local storage for offline / cached use
+        for (const g of syncResult.groups) {
+          saveRecentGroup({ id: g.id, name: g.name })
+          if (g.isStarred) starGroup(g.id)
+          if (g.isArchived) archiveGroup(g.id)
+        }
+
+        const syncedGroups: RecentGroups = syncResult.groups.map((g) => ({
+          id: g.id,
+          name: g.name,
+        }))
+        const starred = syncResult.groups
+          .filter((g) => g.isStarred)
+          .map((g) => g.id)
+        const archived = syncResult.groups
+          .filter((g) => g.isArchived)
+          .map((g) => g.id)
+
+        setState({
+          status: 'complete',
+          groups: syncedGroups,
+          starredGroups: starred,
+          archivedGroups: archived,
+          groupsDetails: syncResult.groups,
+        })
+      } else {
+        setState({
+          status: 'complete',
+          groups: localGroups,
+          starredGroups: localStarred,
+          archivedGroups: localArchived,
+          groupsDetails: syncResult.groups,
+        })
+      }
+    } catch {
+      setState({
+        status: 'complete',
+        groups: localGroups,
+        starredGroups: localStarred,
+        archivedGroups: localArchived,
+      })
+    }
   }
 
   useEffect(() => {
-    loadGroups()
+    loadAndSyncGroups()
   }, [])
 
-  if (state.status === 'pending') return null
+  if (state.status === 'pending') {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <Loader2 className="w-5 h-5 animate-spin text-muted-foreground mr-2" />
+        <span className="text-sm text-muted-foreground">Loading groups...</span>
+      </div>
+    )
+  }
 
   return (
     <RecentGroupList_
       groups={state.groups}
       starredGroups={state.starredGroups}
       archivedGroups={state.archivedGroups}
-      refreshGroupsFromStorage={() => loadGroups()}
+      groupsDetails={state.groupsDetails}
+      refreshGroupsFromStorage={loadAndSyncGroups}
     />
   )
 }
@@ -96,30 +147,18 @@ function RecentGroupList_({
   groups,
   starredGroups,
   archivedGroups,
+  groupsDetails,
   refreshGroupsFromStorage,
 }: {
   groups: RecentGroups
   starredGroups: string[]
   archivedGroups: string[]
+  groupsDetails?: AppRouterOutput['groups']['list']['groups']
   refreshGroupsFromStorage: () => void
 }) {
   const t = useTranslations('Groups')
-  const { data, isLoading } = trpc.groups.list.useQuery({
-    groupIds: groups.map((group) => group.id),
-  })
 
-  if (isLoading || !data) {
-    return (
-      <GroupsPage reload={refreshGroupsFromStorage}>
-        <p>
-          <Loader2 className="w-4 m-4 mr-2 inline animate-spin" />{' '}
-          {t('loadingRecent')}
-        </p>
-      </GroupsPage>
-    )
-  }
-
-  if (data.groups.length === 0) {
+  if (groups.length === 0) {
     return (
       <GroupsPage reload={refreshGroupsFromStorage}>
         <div className="text-sm space-y-2">
@@ -147,10 +186,10 @@ function RecentGroupList_({
 
       {starredGroupInfo.length > 0 && (
         <>
-          <h2 className="mb-2">{t('starred')}</h2>
+          <h2 className="mb-2 font-semibold">{t('starred')}</h2>
           <GroupList
             groups={starredGroupInfo}
-            groupDetails={data.groups}
+            groupDetails={groupsDetails}
             archivedGroups={archivedGroups}
             starredGroups={starredGroups}
             refreshGroupsFromStorage={refreshGroupsFromStorage}
@@ -160,10 +199,10 @@ function RecentGroupList_({
 
       {groupInfo.length > 0 && (
         <>
-          <h2 className="mt-6 mb-2">{t('recent')}</h2>
+          <h2 className="mt-6 mb-2 font-semibold">{t('recent')}</h2>
           <GroupList
             groups={groupInfo}
-            groupDetails={data.groups}
+            groupDetails={groupsDetails}
             archivedGroups={archivedGroups}
             starredGroups={starredGroups}
             refreshGroupsFromStorage={refreshGroupsFromStorage}
@@ -173,11 +212,13 @@ function RecentGroupList_({
 
       {archivedGroupInfo.length > 0 && (
         <>
-          <h2 className="mt-6 mb-2 opacity-50">{t('archived')}</h2>
+          <h2 className="mt-6 mb-2 font-semibold opacity-50">
+            {t('archived')}
+          </h2>
           <div className="opacity-50">
             <GroupList
               groups={archivedGroupInfo}
-              groupDetails={data.groups}
+              groupDetails={groupsDetails}
               archivedGroups={archivedGroups}
               starredGroups={starredGroups}
               refreshGroupsFromStorage={refreshGroupsFromStorage}
@@ -234,10 +275,7 @@ function GroupsPage({
         <div className="flex gap-2">
           <AddGroupByUrlButton reload={reload} />
           <Button asChild>
-            <Link href="/groups/create">
-              {/* <Plus className="w-4 h-4 mr-2" /> */}
-              {t('create')}
-            </Link>
+            <Link href="/groups/create">{t('create')}</Link>
           </Button>
         </div>
       </div>

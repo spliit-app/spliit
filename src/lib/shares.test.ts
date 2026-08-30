@@ -1,4 +1,4 @@
-import { SplitMode } from '@/generated/prisma/browser'
+import { SplitMode } from '@/lib/enums'
 import {
   ShareInput,
   distributeAmount,

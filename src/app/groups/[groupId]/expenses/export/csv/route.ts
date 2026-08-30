@@ -135,7 +135,9 @@ export async function GET(
         ? expense.conversionRate.toString()
         : null,
       isReimbursement: expense.isReimbursement ? 'Yes' : 'No',
-      splitMode: splitModeLabel[expense.splitMode],
+      splitMode:
+        (splitModeLabel as Record<string, string>)[expense.splitMode] ??
+        expense.splitMode,
       ...Object.fromEntries(
         group.participants.map((participant) => {
           const isPaidByParticipant = expense.paidById === participant.id

@@ -7,21 +7,19 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  // Connection URLs moved to prisma.config.ts (Prisma 7 no longer supports
-  // `url`/`directUrl` in the schema). The app passes a driver adapter to
-  // PrismaClient; Migrate reads its connection from prisma.config.ts.
+  provider = "sqlite"
 }
 
 model Group {
   id           String        @id
   name         String
-  information  String?       @db.Text
+  information  String?
   currency     String        @default("$")
   currencyCode String?
   participants Participant[]
   expenses     Expense[]
   activities   Activity[]
+  userGroups   UserGroup[]
   createdAt    DateTime      @default(now())
 }
 
@@ -44,7 +42,7 @@ model Category {
 model Expense {
   id               String            @id
   group            Group             @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  expenseDate      DateTime          @default(dbgenerated("CURRENT_DATE")) @db.Date
+  expenseDate      DateTime          @default(now())
   title            String
   category         Category?         @relation(fields: [categoryId], references: [id])
   categoryId       Int               @default(0)
@@ -57,12 +55,12 @@ model Expense {
   paidFor          ExpensePaidFor[]
   groupId          String
   isReimbursement  Boolean           @default(false)
-  splitMode        SplitMode         @default(EVENLY)
+  splitMode        String            @default("EVENLY")
   createdAt        DateTime          @default(now())
   documents        ExpenseDocument[]
   notes            String?
 
-  recurrenceRule         RecurrenceRule?       @default(NONE)
+  recurrenceRule         String?               @default("NONE")
   recurringExpenseLink   RecurringExpenseLink?
   recurringExpenseLinkId String?
 }
@@ -76,34 +74,16 @@ model ExpenseDocument {
   expenseId String?
 }
 
-enum SplitMode {
-  EVENLY
-  BY_SHARES
-  BY_PERCENTAGE
-  BY_AMOUNT
-}
-
 model RecurringExpenseLink {
-  id                    String  @id
+  id                    String    @id
   groupId               String
-  currentFrameExpense   Expense @relation(fields: [currentFrameExpenseId], references: [id], onDelete: Cascade)
-  currentFrameExpenseId String  @unique
-
-  // Note: We do not want to link to the next expense because once it is created, it should be 
-  // treated as it's own independent entity. This means that if a user wants to delete an Expense
-  // and any prior related recurring expenses, they'll need to delete them one by one.
-  nextExpenseCreatedAt DateTime?
-  nextExpenseDate      DateTime
+  currentFrameExpense   Expense   @relation(fields: [currentFrameExpenseId], references: [id], onDelete: Cascade)
+  currentFrameExpenseId String    @unique
+  nextExpenseCreatedAt  DateTime?
+  nextExpenseDate       DateTime
 
   @@index([groupId])
   @@index([groupId, nextExpenseCreatedAt, nextExpenseDate(sort: Desc)])
-}
-
-enum RecurrenceRule {
-  NONE
-  DAILY
-  WEEKLY
-  MONTHLY
 }
 
 model ExpensePaidFor {
@@ -117,19 +97,76 @@ model ExpensePaidFor {
 }
 
 model Activity {
-  id            String       @id
-  group         Group        @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  id            String   @id
+  group         Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
   groupId       String
-  time          DateTime     @default(now())
-  activityType  ActivityType
+  time          DateTime @default(now())
+  activityType  String
   participantId String?
   expenseId     String?
   data          String?
 }
 
-enum ActivityType {
-  UPDATE_GROUP
-  CREATE_EXPENSE
-  UPDATE_EXPENSE
-  DELETE_EXPENSE
+model User {
+  id            String      @id @default(cuid())
+  name          String?
+  email         String?     @unique
+  emailVerified DateTime?
+  image         String?
+  tier          String      @default("sync_users")
+  accounts      Account[]
+  sessions      Session[]
+  userGroups    UserGroup[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model UserGroup {
+  userId     String
+  groupId    String
+  isStarred  Boolean  @default(false)
+  isArchived Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  group Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@id([userId, groupId])
+  @@index([userId])
+  @@index([groupId])
 }

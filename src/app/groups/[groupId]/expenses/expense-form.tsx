@@ -33,7 +33,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { RecurrenceRule, SplitMode } from '@/generated/prisma/browser'
 import { Locale } from '@/i18n/request'
 import { useAnalytics } from '@/lib/analytics/context'
 import { defaultCurrencyList, getCurrency } from '@/lib/currency'
@@ -41,6 +40,7 @@ import {
   convertToGroupCurrency,
   convertToOriginalCurrency,
 } from '@/lib/currency-conversion'
+import { RecurrenceRule, SplitMode } from '@/lib/enums'
 import { RuntimeFeatureFlags } from '@/lib/featureFlags'
 import { useActiveUser, useCurrencyRate } from '@/lib/hooks'
 import { randomId } from '@/lib/random'
@@ -223,12 +223,12 @@ export function ExpenseForm({
                 ? amountAsDecimal(shares, groupCurrency)
                 : (shares / 100).toString(), // Convert to string to ensure consistent handling
           })),
-          splitMode: expense.splitMode,
+          splitMode: (expense.splitMode as SplitMode) ?? 'EVENLY',
           saveDefaultSplittingOptions: false,
           isReimbursement: expense.isReimbursement,
           documents: expense.documents,
           notes: expense.notes ?? '',
-          recurrenceRule: expense.recurrenceRule ?? undefined,
+          recurrenceRule: (expense.recurrenceRule as RecurrenceRule) ?? 'NONE',
         }
       : isRepayment
         ? {

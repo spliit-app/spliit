@@ -1,5 +1,5 @@
-import type { RecurrenceRule } from '@/generated/prisma/client'
 import { getGroupExpenses } from '@/lib/api'
+import type { RecurrenceRule } from '@/lib/enums'
 import { ShareInput, getExpenseShares, getParticipantShare } from '@/lib/shares'
 
 /**
@@ -366,7 +366,7 @@ const RECURRENCE_PERIODS = Object.keys(PERIOD_FACTORS) as RecurrencePeriod[]
 export function getRecurringSpending(
   expenses: {
     amount: number
-    recurrenceRule: RecurrenceRule | null
+    recurrenceRule: RecurrenceRule | string | null
     isReimbursement: boolean
   }[],
 ): RecurringSpending {

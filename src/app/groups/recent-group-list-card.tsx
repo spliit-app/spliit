@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useToast } from '@/components/ui/use-toast'
+import { trpc } from '@/trpc/client'
 import { AppRouterOutput } from '@/trpc/routers/_app'
 import { StarFilledIcon } from '@radix-ui/react-icons'
 import { Calendar, MoreHorizontal, Star, Users } from 'lucide-react'
@@ -40,6 +41,10 @@ export function RecentGroupListCard({
   const toast = useToast()
   const t = useTranslations('Groups')
 
+  const toggleStarMutation = trpc.groups.toggleStar.useMutation()
+  const toggleArchiveMutation = trpc.groups.toggleArchive.useMutation()
+  const removeMutation = trpc.groups.removeUserGroup.useMutation()
+
   return (
     <li key={group.id}>
       <Button
@@ -64,13 +69,25 @@ export function RecentGroupListCard({
                   size="icon"
                   variant="ghost"
                   className="-my-3 -ml-3 -mr-1.5"
-                  onClick={(event) => {
+                  onClick={async (event) => {
                     event.stopPropagation()
                     if (isStarred) {
                       unstarGroup(group.id)
+                      await toggleStarMutation.mutateAsync({
+                        groupId: group.id,
+                        isStarred: false,
+                      })
                     } else {
                       starGroup(group.id)
                       unarchiveGroup(group.id)
+                      await toggleStarMutation.mutateAsync({
+                        groupId: group.id,
+                        isStarred: true,
+                      })
+                      await toggleArchiveMutation.mutateAsync({
+                        groupId: group.id,
+                        isArchived: false,
+                      })
                     }
                     refreshGroupsFromStorage()
                   }}
@@ -94,9 +111,10 @@ export function RecentGroupListCard({
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem
                       className="text-destructive"
-                      onClick={(event) => {
+                      onClick={async (event) => {
                         event.stopPropagation()
                         deleteRecentGroup(group)
+                        await removeMutation.mutateAsync({ groupId: group.id })
                         refreshGroupsFromStorage()
 
                         toast.toast({
@@ -108,13 +126,25 @@ export function RecentGroupListCard({
                       {t('removeRecent')}
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                      onClick={(event) => {
+                      onClick={async (event) => {
                         event.stopPropagation()
                         if (isArchived) {
                           unarchiveGroup(group.id)
+                          await toggleArchiveMutation.mutateAsync({
+                            groupId: group.id,
+                            isArchived: false,
+                          })
                         } else {
                           archiveGroup(group.id)
                           unstarGroup(group.id)
+                          await toggleArchiveMutation.mutateAsync({
+                            groupId: group.id,
+                            isArchived: true,
+                          })
+                          await toggleStarMutation.mutateAsync({
+                            groupId: group.id,
+                            isStarred: false,
+                          })
                         }
                         refreshGroupsFromStorage()
                       }}

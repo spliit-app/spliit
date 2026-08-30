@@ -1,4 +1,4 @@
-import { SplitMode } from '@/generated/prisma/browser'
+import { SplitMode } from '@/lib/enums'
 import { match } from 'ts-pattern'
 
 /**
@@ -17,7 +17,7 @@ export type ShareInput = {
   id?: string | null
   /** In minor units. */
   amount: number
-  splitMode: SplitMode
+  splitMode: SplitMode | string
   paidFor: { participantId: string; shares: number }[]
 }
 
@@ -113,12 +113,12 @@ export function getExpenseShares(expense: ShareInput): Map<string, number> {
     a.participantId < b.participantId ? -1 : 1,
   )
 
-  const shares = match(expense.splitMode)
+  const shares = match(expense.splitMode as SplitMode)
     .with('EVENLY', () => paidFors.map(() => 1))
     .with('BY_SHARES', 'BY_PERCENTAGE', 'BY_AMOUNT', () =>
       paidFors.map(({ shares }) => shares),
     )
-    .exhaustive()
+    .otherwise(() => paidFors.map(() => 1))
   const totalShares = shares.reduce((sum, share) => sum + share, 0)
 
   const offset =

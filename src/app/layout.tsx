@@ -1,4 +1,5 @@
 import { ApplePwaSplash } from '@/app/apple-pwa-splash'
+import { UserMenu } from '@/components/auth/user-menu'
 import { LocaleSwitcher } from '@/components/locale-switcher'
 import { ProgressBar } from '@/components/progress-bar'
 import { ServiceWorkerRegistration } from '@/components/service-worker-registration'
@@ -105,6 +106,9 @@ function Content({ children }: { children: React.ReactNode }) {
             </li>
             <li>
               <ThemeToggle />
+            </li>
+            <li className="ml-2">
+              <UserMenu />
             </li>
           </ul>
         </div>
