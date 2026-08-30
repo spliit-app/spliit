@@ -1,12 +1,14 @@
 # Ephemeral stack for the performance suite.
 #
 # A near-copy of compose.e2e.yaml -- same throwaway database, same readiness
-# healthcheck -- with two deliberate differences, both load-bearing:
+# healthcheck -- with three deliberate differences, all of them load-bearing:
 #
 #   1. The db port is PUBLISHED. perf/seed.ts runs on the host and writes
 #      directly to postgres; the e2e stack keeps it unpublished because nothing
 #      outside the compose network ever needs it.
-#   2. The app defaults to host port 3100, so a perf run does not collide with a
+#   2. PERF_INSTRUMENTATION is on, which makes /api/trpc report how many Prisma
+#      operations each request ran. It is inert everywhere else.
+#   3. The app defaults to host port 3100, so a perf run does not collide with a
 #      dev server or an e2e stack on 3000. Only /api/trpc is exercised -- never a
 #      server action -- so next.config.mjs pinning serverActions.allowedOrigins
 #      to localhost:3000 does not apply.
@@ -26,6 +28,10 @@ services:
       POSTGRES_PRISMA_URL: postgresql://postgres:perf@db:5432/spliit_perf
       POSTGRES_URL_NON_POOLING: postgresql://postgres:perf@db:5432/spliit_perf
       NEXT_TELEMETRY_DISABLED: '1'
+      # Turns on the query counter in src/lib/perf-instrumentation.ts. Nothing
+      # else in the repository sets this. Read at runtime, not baked into the
+      # image, so the Dockerfile needs no build argument for it.
+      PERF_INSTRUMENTATION: '1'
     restart: 'no'
     depends_on:
       db:

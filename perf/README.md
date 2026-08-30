@@ -82,15 +82,17 @@ improvement rather than a number that silently moved.
 
 ## Query counting
 
-`queries` comes from an optional `X-Perf-Db-Queries` response header. When the
-app under test does not send it the column reads `-` and any query budget is
-skipped rather than failed, so the suite works against any deployment.
+`queries` comes from the `X-Perf-Db-Queries` response header, which the app only
+emits when `PERF_INSTRUMENTATION=1` — set by `compose.perf.yaml` and nowhere
+else. Against any other deployment the column reads `-` and those budgets are
+skipped rather than failed.
 
 It counts **Prisma operations**, not raw SQL statements: one `findMany` with an
 `include` may issue several statements but counts once. That is still exactly
 reproducible, and it is the right granularity for what the counter is for —
 noticing that a procedure now runs N queries where it used to run a constant
-number.
+number. It is what makes the fan-out in `groups.balances.forUser` a catchable
+regression, since that one does not change the response by a single byte.
 
 ## Caveats
 
