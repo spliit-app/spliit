@@ -3,7 +3,7 @@ import { getBalances } from '@/lib/balances'
 import { isGroupUnlocked } from '@/lib/group-access'
 import { prisma } from '@/lib/prisma'
 import { baseProcedure } from '@/trpc/init'
-import { z } from 'zod
+import { z } from 'zod'
 
 /**
  * Aggregates a user's net balance across several groups at once.
