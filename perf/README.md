@@ -94,6 +94,23 @@ noticing that a procedure now runs N queries where it used to run a constant
 number. It is what makes the fan-out in `groups.balances.forUser` a catchable
 regression, since that one does not change the response by a single byte.
 
+## Trend over releases
+
+Every release tag runs the suite and publishes two series to a `gh-pages`
+branch, which GitHub Pages serves as an interactive chart:
+
+- `/dev/bench/deterministic` — query counts and response bytes. A regression
+  beyond 110% alerts and fails the workflow.
+- `/dev/bench/timing` — p50 and p95. Charted only; never alerts.
+
+Both need a `gh-pages` branch and Pages enabled in repository settings. Until
+they are, only the publishing job fails — the benchmarks still run and still
+gate pull requests.
+
+Read the timing chart as a trend across many releases. Two adjacent points come
+from two different runners and are not meaningfully comparable; see the caveat
+below.
+
 ## Caveats
 
 The benchmark Postgres runs with `fsync=off`, `synchronous_commit=off` and
