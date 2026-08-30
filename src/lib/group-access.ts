@@ -1,12 +1,12 @@
 import 'server-only'
 
-import { prisma } from '@/lib/prisma'
 import {
   issueUnlockToken,
   pinCookieName,
   UNLOCK_MAX_AGE_SECONDS,
   verifyUnlockToken,
 } from '@/lib/group-access-token'
+import { prisma } from '@/lib/prisma'
 import { TRPCError } from '@trpc/server'
 import { cookies, headers } from 'next/headers'
 
