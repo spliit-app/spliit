@@ -1,10 +1,10 @@
 import { getGroupExpenses } from '@/lib/api'
-import { assertGroupUnlocked } from '@/lib/group-access'
 import {
   getBalances,
   getPublicBalances,
   getSuggestedReimbursements,
 } from '@/lib/balances'
+import { assertGroupUnlocked } from '@/lib/group-access'
 import { baseProcedure } from '@/trpc/init'
 import { z } from 'zod'
 
