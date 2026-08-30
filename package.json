@@ -12,8 +12,8 @@
     "start": "next start",
     "lint": "eslint .",
     "check-types": "tsc --noEmit",
-    "check-formatting": "prettier -c src e2e playwright.config.ts",
-    "prettier": "prettier -w src e2e playwright.config.ts",
+    "check-formatting": "prettier -c src e2e perf playwright.config.ts",
+    "prettier": "prettier -w src e2e perf playwright.config.ts",
     "postinstall": "prisma migrate deploy && prisma generate",
     "build-image": "./scripts/build-image.sh",
     "start-container": "docker compose --env-file container.env up",
@@ -24,6 +24,12 @@
     "e2e:logs": "./scripts/e2e.sh logs",
     "e2e:test": "./scripts/e2e.sh test",
     "e2e:report": "playwright show-report",
+    "perf": "./scripts/perf.sh",
+    "perf:up": "./scripts/perf.sh up",
+    "perf:seed": "./scripts/perf.sh seed",
+    "perf:bench": "./scripts/perf.sh bench",
+    "perf:down": "./scripts/perf.sh down",
+    "perf:logs": "./scripts/perf.sh logs",
     "generate-currency-data": "ts-node -T ./src/scripts/generateCurrencyData.ts"
   },
   "dependencies": {

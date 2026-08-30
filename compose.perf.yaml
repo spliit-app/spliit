@@ -1,0 +1,78 @@
+# Ephemeral stack for the performance suite.
+#
+# A near-copy of compose.e2e.yaml -- same throwaway database, same readiness
+# healthcheck -- with two deliberate differences, both load-bearing:
+#
+#   1. The db port is PUBLISHED. perf/seed.ts runs on the host and writes
+#      directly to postgres; the e2e stack keeps it unpublished because nothing
+#      outside the compose network ever needs it.
+#   2. The app defaults to host port 3100, so a perf run does not collide with a
+#      dev server or an e2e stack on 3000. Only /api/trpc is exercised -- never a
+#      server action -- so next.config.mjs pinning serverActions.allowedOrigins
+#      to localhost:3000 does not apply.
+#
+# Always invoke through scripts/perf.sh, which adds the flags that guarantee a
+# clean database.
+name: spliit-perf
+
+services:
+  app:
+    build:
+      context: .
+    image: spliit-perf:latest
+    ports:
+      - '${PERF_HOST_PORT:-3100}:3000'
+    environment:
+      POSTGRES_PRISMA_URL: postgresql://postgres:perf@db:5432/spliit_perf
+      POSTGRES_URL_NON_POOLING: postgresql://postgres:perf@db:5432/spliit_perf
+      NEXT_TELEMETRY_DISABLED: '1'
+    restart: 'no'
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      # 127.0.0.1 rather than localhost: busybox may resolve localhost to ::1.
+      # /api/health/readiness runs `SELECT 1`, and scripts/container-entrypoint.sh
+      # runs `prisma migrate deploy` *before* starting the server -- so any 200 here
+      # proves the schema is migrated and the app is serving.
+      test:
+        [
+          'CMD-SHELL',
+          'wget -q -O /dev/null http://127.0.0.1:3000/api/health/readiness || exit 1',
+        ]
+      interval: 3s
+      timeout: 5s
+      retries: 40
+      start_period: 20s
+
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: perf
+      POSTGRES_DB: spliit_perf
+    ports:
+      # Published so the host-side seeder can reach it. Defaults well away from
+      # 5432 to avoid colliding with a local postgres.
+      - '${PERF_DB_PORT:-55432}:5432'
+    # As in compose.e2e.yaml: the postgres image declares its own VOLUME, so
+    # freshness comes from `up --renew-anon-volumes` and `down --volumes` in
+    # scripts/perf.sh, not from the absence of a volume here.
+    #
+    # fsync is off because this database is thrown away every run. It makes the
+    # suite fast, and it is also why the timings are only good for comparing
+    # runs against each other -- never for estimating production capacity.
+    command:
+      - postgres
+      - -c
+      - fsync=off
+      - -c
+      - synchronous_commit=off
+      - -c
+      - full_page_writes=off
+    restart: 'no'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d spliit_perf']
+      interval: 2s
+      timeout: 5s
+      retries: 30

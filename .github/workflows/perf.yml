@@ -1,0 +1,89 @@
+name: Performance
+
+# Path-filtered on pull requests so it stays off PRs that cannot affect query
+# cost, plus a weekly run and manual dispatch. The gate is deterministic
+# (query counts, response bytes, row counts) rather than wall-clock, so it is
+# safe to block a PR on: it does not flake with runner noise.
+on:
+  workflow_dispatch:
+  schedule:
+    # Mondays, 05:00 UTC.
+    - cron: '0 5 * * 1'
+  pull_request:
+    branches: ['main']
+    paths:
+      - 'src/lib/api.ts'
+      - 'src/lib/balances.ts'
+      - 'src/lib/totals.ts'
+      - 'src/lib/prisma.ts'
+      - 'src/trpc/**'
+      - 'prisma/**'
+      - 'perf/**'
+      - 'compose.perf.yaml'
+      - 'scripts/perf.sh'
+      - '.github/workflows/perf.yml'
+
+concurrency:
+  group: perf-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  perf:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: 'npm'
+
+      # --ignore-scripts, as in ci.yml: postinstall runs `prisma migrate deploy`,
+      # which needs a database that does not exist yet at this point.
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      # The seeder runs on the host and talks to postgres directly, so it needs
+      # a generated client.
+      - name: Generate Prisma client
+        run: npx prisma generate
+
+      - name: Start the app stack
+        run: ./scripts/perf.sh up
+
+      - name: Seed the performance dataset
+        run: ./scripts/perf.sh seed
+
+      - name: Run benchmarks
+        run: npx ts-node -T perf/run.ts
+
+      - name: Collect container logs
+        if: failure()
+        run: ./scripts/perf.sh logs > compose-logs.txt
+
+      - name: Upload performance report
+        uses: actions/upload-artifact@v7
+        if: ${{ !cancelled() }}
+        with:
+          name: perf-report
+          path: perf-report.json
+          retention-days: 90
+
+      - name: Upload container logs
+        uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: perf-container-logs
+          path: compose-logs.txt
+          retention-days: 14
+
+      - name: Stop the app stack
+        if: always()
+        run: ./scripts/perf.sh down
