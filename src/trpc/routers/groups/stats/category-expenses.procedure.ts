@@ -1,4 +1,5 @@
 import { getGroupExpenses } from '@/lib/api'
+import { assertGroupUnlocked } from '@/lib/group-access'
 import { filterExpensesByDateRange, getExpensesByCategory } from '@/lib/totals'
 import { baseProcedure } from '@/trpc/init'
 import { z } from 'zod'
@@ -19,6 +20,7 @@ export const getStatsCategoryExpensesProcedure = baseProcedure
     }),
   )
   .query(async ({ input: { groupId, categoryId, from, to } }) => {
+    await assertGroupUnlocked(groupId)
     const allExpenses = await getGroupExpenses(groupId)
     const expenses = filterExpensesByDateRange(allExpenses, from, to)
 

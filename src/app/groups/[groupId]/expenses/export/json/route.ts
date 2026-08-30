@@ -1,3 +1,4 @@
+import { assertExportAccess } from '@/lib/group-access'
 import { prisma } from '@/lib/prisma'
 import { create as contentDisposition } from 'content-disposition'
 import { NextResponse } from 'next/server'
@@ -7,6 +8,9 @@ export async function GET(
   { params }: { params: Promise<{ groupId: string }> },
 ) {
   const { groupId } = await params
+  if (!(await assertExportAccess(req, groupId))) {
+    return NextResponse.json({ error: 'PIN required' }, { status: 401 })
+  }
   const group = await prisma.group.findUnique({
     where: { id: groupId },
     select: {

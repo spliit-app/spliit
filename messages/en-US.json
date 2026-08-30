@@ -121,6 +121,16 @@
       "editDescription": "All amounts and balances will be in this currency. Changing this will NOT convert expenses already entered, except when the currency has different \"minor units\" than the current one (e.g. changing from US Dollar to Japanese Yen)",
       "customOption": "Custom"
     },
+    "PinField": {
+      "title": "Group PIN",
+      "description": "Optional 6–8 digit PIN. Anyone with the link still needs this PIN to open the group.",
+      "enabled": "A PIN is currently enabled for this group.",
+      "current": "Current PIN",
+      "set": "Set PIN",
+      "new": "New PIN",
+      "clear": "Remove PIN",
+      "formatHelp": "Use 6 to 8 digits. Leave blank to keep the current PIN."
+    },
     "Participants": {
       "title": "Participants",
       "description": "Enter the name for each participant.",
@@ -431,12 +441,21 @@
       "download": "Download QR Code"
     }
   },
+  "GroupPin": {
+    "title": "Enter group PIN",
+    "description": "This group is protected with a PIN. Enter it to continue on this device. The unlock lasts 12 hours in this browser.",
+    "placeholder": "PIN",
+    "unlock": "Unlock",
+    "incorrect": "Incorrect PIN. Try again."
+  },
   "SchemaErrors": {
     "min1": "Enter at least one character.",
     "min2": "Enter at least two characters.",
     "max5": "Enter at most five characters.",
     "max50": "Enter at most 50 characters.",
     "duplicateParticipantName": "Another participant already has this name.",
+    "pinFormat": "PIN must be 6 to 8 digits.",
+    "pinConflict": "Choose a new PIN or remove the PIN, not both.",
     "titleRequired": "Please enter a title.",
     "invalidNumber": "Invalid number.",
     "amountRequired": "You must enter an amount.",

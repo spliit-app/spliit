@@ -1,4 +1,5 @@
 import { updateGroup } from '@/lib/api'
+import { assertGroupUnlocked } from '@/lib/group-access'
 import { groupFormSchema } from '@/lib/schemas'
 import { baseProcedure } from '@/trpc/init'
 import { z } from 'zod'
@@ -12,5 +13,6 @@ export const updateGroupProcedure = baseProcedure
     }),
   )
   .mutation(async ({ input: { groupId, groupFormValues, participantId } }) => {
+    await assertGroupUnlocked(groupId)
     await updateGroup(groupId, groupFormValues, participantId)
   })

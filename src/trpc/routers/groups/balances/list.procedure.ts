@@ -1,4 +1,5 @@
 import { getGroupExpenses } from '@/lib/api'
+import { assertGroupUnlocked } from '@/lib/group-access'
 import {
   getBalances,
   getPublicBalances,
@@ -10,6 +11,7 @@ import { z } from 'zod'
 export const listGroupBalancesProcedure = baseProcedure
   .input(z.object({ groupId: z.string().min(1) }))
   .query(async ({ input: { groupId } }) => {
+    await assertGroupUnlocked(groupId)
     const expenses = await getGroupExpenses(groupId)
     const balances = getBalances(expenses)
     const reimbursements = getSuggestedReimbursements(balances)

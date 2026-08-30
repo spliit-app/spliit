@@ -14,6 +14,7 @@ import {
   getTotalActiveUserShare,
   getTotalGroupSpending,
 } from '@/lib/totals'
+import { assertGroupUnlocked } from '@/lib/group-access'
 import { baseProcedure } from '@/trpc/init'
 import { z } from 'zod'
 
@@ -35,6 +36,7 @@ export const getStatsOverviewProcedure = baseProcedure
     }),
   )
   .query(async ({ input: { groupId, participantId, from, to } }) => {
+    await assertGroupUnlocked(groupId)
     // getGroupExpenses and getActiveRecurringExpenses both materialize due
     // recurring frames; run them sequentially so the two passes don't race
     // each other (the second is a no-op once the first has materialized).

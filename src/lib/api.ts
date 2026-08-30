@@ -7,18 +7,24 @@ import {
 import { prisma } from '@/lib/prisma'
 import { randomId } from '@/lib/random'
 import { ExpenseFormValues, GroupFormValues } from '@/lib/schemas'
+import { hashGroupPin, pinMatchesHash } from '@/lib/group-pin'
 
 // Re-exported for backwards compatibility with existing server-side importers.
 export { randomId }
 
 export async function createGroup(groupFormValues: GroupFormValues) {
+  const id = randomId()
   return prisma.group.create({
     data: {
-      id: randomId(),
+      id,
       name: groupFormValues.name,
       information: groupFormValues.information,
       currency: groupFormValues.currency,
       currencyCode: groupFormValues.currencyCode,
+      pinHash:
+        groupFormValues.newPin && groupFormValues.newPin.length > 0
+          ? await hashGroupPin(groupFormValues.newPin, id)
+          : null,
       participants: {
         createMany: {
           data: groupFormValues.participants.map(({ name }) => ({
@@ -144,10 +150,14 @@ export async function getGroups(groupIds: string[]) {
       where: { id: { in: groupIds } },
       include: { _count: { select: { participants: true } } },
     })
-  ).map((group) => ({
-    ...group,
-    createdAt: group.createdAt.toISOString(),
-  }))
+  ).map((group) => {
+    const { pinHash, ...publicGroup } = group
+    return {
+      ...publicGroup,
+      hasPin: Boolean(pinHash),
+      createdAt: group.createdAt.toISOString(),
+    }
+  })
 }
 
 export async function updateExpense(
@@ -293,6 +303,41 @@ export async function updateGroup(
 
   await logActivity(groupId, ActivityType.UPDATE_GROUP, { participantId })
 
+  const existing = await prisma.group.findUnique({
+    where: { id: groupId },
+    select: { pinHash: true },
+  })
+  if (!existing) throw new Error('Invalid group ID')
+
+  let pinHash = existing.pinHash
+  if (groupFormValues.clearPin) {
+    if (pinHash) {
+      if (!groupFormValues.currentPin) {
+        throw new Error('Current PIN required to clear PIN')
+      }
+      const matches = await pinMatchesHash(
+        groupFormValues.currentPin,
+        groupId,
+        pinHash,
+      )
+      if (!matches) throw new Error('Incorrect PIN')
+    }
+    pinHash = null
+  } else if (groupFormValues.newPin) {
+    if (pinHash) {
+      if (!groupFormValues.currentPin) {
+        throw new Error('Current PIN required to change PIN')
+      }
+      const matches = await pinMatchesHash(
+        groupFormValues.currentPin,
+        groupId,
+        pinHash,
+      )
+      if (!matches) throw new Error('Incorrect PIN')
+    }
+    pinHash = await hashGroupPin(groupFormValues.newPin, groupId)
+  }
+
   return prisma.group.update({
     where: { id: groupId },
     data: {
@@ -300,6 +345,7 @@ export async function updateGroup(
       information: groupFormValues.information,
       currency: groupFormValues.currency,
       currencyCode: groupFormValues.currencyCode,
+      pinHash,
       participants: {
         deleteMany: existingGroup.participants.filter(
           (p) => !groupFormValues.participants.some((p2) => p2.id === p.id),
@@ -326,10 +372,13 @@ export async function updateGroup(
 }
 
 export async function getGroup(groupId: string) {
-  return prisma.group.findUnique({
+  const group = await prisma.group.findUnique({
     where: { id: groupId },
     include: { participants: true },
   })
+  if (!group) return null
+  const { pinHash, ...publicGroup } = group
+  return { ...publicGroup, hasPin: Boolean(pinHash) }
 }
 
 export async function getCategories() {

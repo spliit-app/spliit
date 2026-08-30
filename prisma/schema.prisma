@@ -19,9 +19,11 @@ model Group {
   information  String?       @db.Text
   currency     String        @default("$")
   currencyCode String?
+  pinHash      String?
   participants Participant[]
   expenses     Expense[]
   activities   Activity[]
+  pinAttempts  PinAttempt[]
   createdAt    DateTime      @default(now())
 }
 
@@ -133,3 +135,15 @@ enum ActivityType {
   UPDATE_EXPENSE
   DELETE_EXPENSE
 }
+
+model PinAttempt {
+  groupId     String
+  clientKey   String
+  failCount   Int       @default(0)
+  windowStart DateTime
+  lockedUntil DateTime?
+  group       Group     @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@id([groupId, clientKey])
+}
+
