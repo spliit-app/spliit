@@ -14,12 +14,14 @@ import { z } from 'zod'
 export const forUserBalancesProcedure = baseProcedure
   .input(
     z.object({
-      groups: z.array(
-        z.object({
-          groupId: z.string().min(1),
-          participantId: z.string().min(1),
-        }),
-      ),
+      groups: z
+        .array(
+          z.object({
+            groupId: z.string().min(1).max(30),
+            participantId: z.string().min(1).max(30),
+          }),
+        )
+        .max(100),
     }),
   )
   .query(async ({ input: { groups } }) => {
