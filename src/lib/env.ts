@@ -123,6 +123,12 @@ const envSchema = z
       interpretBlankEnvVarAsUndefined,
       z.string().optional(),
     ),
+    // HMAC secret for HTTP-only group PIN unlock cookies. Required in
+    // production if any group uses a PIN. 16+ characters.
+    PIN_SECRET: z.preprocess(
+      interpretBlankEnvVarAsUndefined,
+      z.string().trim().min(16).optional(),
+    ),
   })
   .superRefine((env, ctx) => {
     // Either spelling enables the feature, so either has to satisfy the

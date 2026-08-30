@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl'
 import { PropsWithChildren, useEffect } from 'react'
 import { CurrentGroupProvider } from './current-group-context'
 import { GroupHeader } from './group-header'
+import { GroupPinGate } from './group-pin-gate'
 import { SaveGroupLocally } from './save-recent-group'
 
 export function GroupLayoutClient({
@@ -30,11 +31,13 @@ export function GroupLayoutClient({
       ? { isLoading: true as const, groupId, group: undefined }
       : { isLoading: false as const, groupId, group: data.group }
 
+  const locked = Boolean(data?.locked)
+  const hasPin = Boolean(data?.group?.hasPin)
+
   if (isLoading) {
     return (
       <CurrentGroupProvider {...props}>
         <GroupHeader />
-        {children}
       </CurrentGroupProvider>
     )
   }
@@ -42,8 +45,10 @@ export function GroupLayoutClient({
   return (
     <CurrentGroupProvider {...props}>
       <GroupHeader />
-      {children}
-      <SaveGroupLocally />
+      <GroupPinGate groupId={groupId} hasPin={hasPin} locked={locked}>
+        {children}
+        <SaveGroupLocally />
+      </GroupPinGate>
     </CurrentGroupProvider>
   )
 }
