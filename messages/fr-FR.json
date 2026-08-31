@@ -85,7 +85,8 @@
       "owedToYou": "On vous doit",
       "youOwe": "Vous devez",
       "settledUp": "Tout est équilibré sur l'ensemble de vos groupes."
-    }
+    },
+    "createGroup": "Créer un groupe"
   },
   "GroupForm": {
     "title": "Informations sur le groupe",
