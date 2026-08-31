@@ -11,6 +11,12 @@
   "Header": {
     "groups": "Groups"
   },
+  "Errors": {
+    "title": "Something went wrong",
+    "groupTitle": "Couldn’t load this group",
+    "generic": "Please try again. If this keeps happening, reload the page.",
+    "retry": "Try again"
+  },
   "Footer": {
     "madeIn": "Made in Montréal, Québec 🇨🇦",
     "builtBy": "Built by <author>Sebastien Castiel</author> and <source>contributors</source>"
