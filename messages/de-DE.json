@@ -113,7 +113,7 @@
       "description": "Wir benutzen es, um Beträge anzuzeigen."
     },
     "Participants": {
-      "title": "Teilnehmer",
+      "title": "Teilnehmende",
       "description": "Gib einen Namen für jeden Teilnehmer an.",
       "protectedParticipant": "Dieser Teilnehmer ist Teil von Ausgaben und kann nicht entfernt werden.",
       "new": "Neu",
