@@ -80,7 +80,10 @@
       "scanner": {
         "startCamera": "Kamera öffnen",
         "stopScanning": "Kamera schließen",
-        "permissionDenied": "Kameraberechtigung verweigert. Bitte Kameraberechtigung erteilen, um QR-Codes zu scannen."
+        "permissionDenied": "Kameraberechtigung verweigert. Bitte Kameraberechtigung erteilen, um QR-Codes zu scannen.",
+        "noCamera": "Keine Kamera gefunden.",
+        "permissionError": "Kamerazugriff fehlgeschlagen. Bitte Berechtigungen prüfen.",
+        "cameraError": "Kamerastart fehlgeschlagen. Bitte erneut versuchen."
       }
     },
     "NotFound": {
@@ -119,8 +122,8 @@
       "new": "Neu",
       "add": "Teilnehmer hinzufügen",
       "John": "John",
-      "Jane": "Jane",
-      "Jack": "Jack"
+      "Jane": "Jana",
+      "Jack": "Jakob"
     },
     "Settings": {
       "title": "Lokale Einstellungen",
