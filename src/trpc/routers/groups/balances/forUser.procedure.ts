@@ -1,5 +1,7 @@
 import { getGroup, getGroupExpenses } from '@/lib/api'
 import { getBalances } from '@/lib/balances'
+import { isGroupUnlocked } from '@/lib/group-access'
+import { prisma } from '@/lib/prisma'
 import { baseProcedure } from '@/trpc/init'
 import { z } from 'zod'
 
@@ -25,6 +27,12 @@ export const forUserBalancesProcedure = baseProcedure
   .query(async ({ input: { groups } }) => {
     const balances = await Promise.all(
       groups.map(async ({ groupId, participantId }) => {
+        const pinRow = await prisma.group.findUnique({
+          where: { id: groupId },
+          select: { pinHash: true },
+        })
+        if (pinRow?.pinHash && !(await isGroupUnlocked(groupId))) return null
+
         const group = await getGroup(groupId)
         if (!group) return null
 

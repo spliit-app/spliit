@@ -9,6 +9,11 @@ export const groupFormSchema = z
     information: z.string().optional(),
     currency: z.string().min(1, 'min1').max(5, 'max5'),
     currencyCode: z.union([z.string().length(3).nullish(), z.literal('')]), // ISO-4217 currency code
+    currentPin: z.string().max(32).optional(),
+    newPin: z
+      .union([z.string().regex(/^\d{6,8}$/, 'pinFormat'), z.literal('')])
+      .optional(),
+    clearPin: z.boolean().optional(),
     participants: z
       .array(
         z.object({
@@ -18,7 +23,7 @@ export const groupFormSchema = z
       )
       .min(1),
   })
-  .superRefine(({ participants }, ctx) => {
+  .superRefine(({ participants, newPin, clearPin }, ctx) => {
     participants.forEach((participant, i) => {
       participants.slice(0, i).forEach((otherParticipant) => {
         if (otherParticipant.name === participant.name) {
@@ -30,6 +35,13 @@ export const groupFormSchema = z
         }
       })
     })
+    if (newPin && clearPin) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'pinConflict',
+        path: ['newPin'],
+      })
+    }
   })
 
 export type GroupFormValues = z.infer<typeof groupFormSchema>

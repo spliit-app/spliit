@@ -1,4 +1,5 @@
 import { createExpense } from '@/lib/api'
+import { assertGroupUnlocked } from '@/lib/group-access'
 import { expenseFormSchema } from '@/lib/schemas'
 import { baseProcedure } from '@/trpc/init'
 import { z } from 'zod'
@@ -13,6 +14,7 @@ export const createGroupExpenseProcedure = baseProcedure
   )
   .mutation(
     async ({ input: { groupId, expenseFormValues, participantId } }) => {
+      await assertGroupUnlocked(groupId)
       const expense = await createExpense(
         expenseFormValues,
         groupId,

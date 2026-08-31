@@ -1,4 +1,5 @@
 import { getActivities } from '@/lib/api'
+import { assertGroupUnlocked } from '@/lib/group-access'
 import { baseProcedure } from '@/trpc/init'
 import { z } from 'zod'
 
@@ -11,6 +12,7 @@ export const listGroupActivitiesProcedure = baseProcedure
     }),
   )
   .query(async ({ input: { groupId, cursor, limit } }) => {
+    await assertGroupUnlocked(groupId)
     const activities = await getActivities(groupId, {
       offset: cursor,
       length: limit + 1,
