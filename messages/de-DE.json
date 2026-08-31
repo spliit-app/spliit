@@ -79,7 +79,8 @@
       "qrMode": "QR-Code scannen",
       "scanner": {
         "startCamera": "Kamera öffnen",
-        "stopScanning": "Kamera schließen"
+        "stopScanning": "Kamera schließen",
+        "permissionDenied": "Kameraberechtigung verweigert. Bitte Kameraberechtigung erteilen, um QR-Codes zu scannen."
       }
     },
     "NotFound": {
