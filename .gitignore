@@ -48,3 +48,6 @@ postgres-data
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# performance suite output (perf/run.ts)
+/perf-report.json

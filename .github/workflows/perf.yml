@@ -1,0 +1,167 @@
+name: Performance
+
+# Path-filtered on pull requests so it stays off PRs that cannot affect query
+# cost, plus a weekly run and manual dispatch. The gate is deterministic
+# (query counts, response bytes, row counts) rather than wall-clock, so it is
+# safe to block a PR on: it does not flake with runner noise.
+on:
+  workflow_dispatch:
+  # Release tags, matching cd.yml and e2e.yml -- every release build becomes a
+  # point on the trend chart published to GitHub Pages.
+  push:
+    tags: ['*']
+  schedule:
+    # Mondays, 05:00 UTC.
+    - cron: '0 5 * * 1'
+  pull_request:
+    branches: ['main']
+    paths:
+      - 'src/lib/api.ts'
+      - 'src/lib/balances.ts'
+      - 'src/lib/totals.ts'
+      - 'src/lib/prisma.ts'
+      - 'src/trpc/**'
+      - 'prisma/**'
+      - 'perf/**'
+      - 'compose.perf.yaml'
+      - 'scripts/perf.sh'
+      - '.github/workflows/perf.yml'
+
+concurrency:
+  group: perf-${{ github.ref }}
+  cancel-in-progress: true
+
+# Least privilege by default; only the publish job below widens this, and only
+# on tag builds.
+permissions:
+  contents: read
+
+jobs:
+  perf:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: 'npm'
+
+      # --ignore-scripts, as in ci.yml: postinstall runs `prisma migrate deploy`,
+      # which needs a database that does not exist yet at this point.
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      # The seeder runs on the host and talks to postgres directly, so it needs
+      # a generated client.
+      - name: Generate Prisma client
+        run: npx prisma generate
+
+      - name: Start the app stack
+        run: ./scripts/perf.sh up
+
+      - name: Seed the performance dataset
+        run: ./scripts/perf.sh seed
+
+      - name: Run benchmarks
+        run: npx ts-node -T perf/run.ts
+
+      # Converted here rather than in the publish job so that job needs no
+      # node toolchain -- it only downloads two JSON files and hands them over.
+      - name: Convert report for the trend dashboard
+        if: startsWith(github.ref, 'refs/tags/')
+        run: >
+          npx ts-node -T perf/to-benchmark-json.ts
+          perf-report.json bench-deterministic.json bench-timing.json
+
+      - name: Upload trend data
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: actions/upload-artifact@v7
+        with:
+          name: bench-data
+          path: |
+            bench-deterministic.json
+            bench-timing.json
+          retention-days: 7
+
+      - name: Collect container logs
+        if: failure()
+        run: ./scripts/perf.sh logs > compose-logs.txt
+
+      - name: Upload performance report
+        uses: actions/upload-artifact@v7
+        if: ${{ !cancelled() }}
+        with:
+          name: perf-report
+          path: perf-report.json
+          retention-days: 90
+
+      - name: Upload container logs
+        uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: perf-container-logs
+          path: compose-logs.txt
+          retention-days: 14
+
+      - name: Stop the app stack
+        if: always()
+        run: ./scripts/perf.sh down
+
+  # Separate job purely so `contents: write` is scoped to tag builds instead of
+  # being granted on every pull request run.
+  #
+  # Publishes to a `gh-pages` branch, which GitHub Pages then serves as an
+  # interactive chart at /dev/bench/deterministic and /dev/bench/timing. Both
+  # the branch and Pages have to be enabled in repository settings; until they
+  # are, this job is the only thing that fails and the benchmarks above still
+  # run and still gate.
+  publish-trend:
+    needs: perf
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Download trend data
+        uses: actions/download-artifact@v7
+        with:
+          name: bench-data
+
+      # Exactly reproducible against a fixed dataset, so a tight threshold here
+      # is a real signal rather than noise.
+      - name: Publish deterministic trend
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          name: Spliit performance (deterministic)
+          tool: customSmallerIsBetter
+          output-file-path: bench-deterministic.json
+          benchmark-data-dir-path: dev/bench/deterministic
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-push: true
+          alert-threshold: '110%'
+          comment-on-alert: true
+          fail-on-alert: true
+
+      # Charted for the eye, never gated: runner-to-runner variance would make
+      # any useful threshold fire on noise. See perf/README.md.
+      - name: Publish timing trend
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          name: Spliit performance (timing)
+          tool: customSmallerIsBetter
+          output-file-path: bench-timing.json
+          benchmark-data-dir-path: dev/bench/timing
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-push: true
+          fail-on-alert: false
+          comment-on-alert: false
+          alert-threshold: '300%'
