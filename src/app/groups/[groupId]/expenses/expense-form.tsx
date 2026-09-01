@@ -365,8 +365,13 @@ export function ExpenseForm({
   const convertFromGroupCurrency = !!form.watch('isReimbursement')
 
   useEffect(() => {
+    // Reset only when the split mode changes. Keying this on 'amount' as well
+    // wiped every manually entered by-amount value back to an even split on any
+    // change to the total: clearing the set re-ran the auto-balance effect
+    // below with no participants marked as manually edited.
     setManuallyEditedParticipants(new Set())
-  }, [form.watch('splitMode'), form.watch('amount')])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.watch('splitMode')])
 
   useEffect(() => {
     const splitMode = form.getValues().splitMode
