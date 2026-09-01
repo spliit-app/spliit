@@ -1,11 +1,12 @@
 {
   "Homepage": {
-    "title": "Dziel <strong>Wydatki</strong> z <strong>Rodziną i Przyjaciółmi</strong>",
-    "description": "Witaj na Twojej nowej instancji <strong>Spliit</strong> !",
+    "title": "Dziel <strong>wydatki</strong> z <strong>rodziną i przyjaciółmi</strong>",
+    "description": "Witaj w swojej nowej instancji <strong>Spliit</strong>!",
     "button": {
       "groups": "Przejdź do grup",
       "github": "GitHub"
-    }
+    },
+    "metaTitle": "Spliit · Dziel wydatki ze znajomymi i rodziną"
   },
   "Header": {
     "groups": "Grupy"
@@ -44,7 +45,9 @@
   "ExpenseCard": {
     "paidBy": "Opłacone przez <strong>{paidBy}</strong> dla <paidFor></paidFor>",
     "receivedBy": "Otrzymane przez <strong>{paidBy}</strong> od <paidFor></paidFor>",
-    "yourBalance": "Twjoje saldo:"
+    "yourBalance": "Twjoje saldo:",
+    "everyone": "wszyscy",
+    "notInvolved": "Nie bierzesz udziału"
   },
   "Groups": {
     "myGroups": "Moje grupy",
@@ -71,7 +74,17 @@
       "button": "Dodaj poprzez adres URL",
       "title": "Dodaj grupę poprzez adres URL",
       "description": "Jeśli grupa została Ci udostępniona, możesz wkleić jej adres URL tutaj, aby dodać ją do Twojej listy.",
-      "error": "Ups, nie możemy znaleźć grupy o podanym adresie URL…"
+      "error": "Ups, nie możemy znaleźć grupy o podanym adresie URL…",
+      "urlMode": "Wpisz adres URL",
+      "qrMode": "Zeskanuj kod QR",
+      "scanner": {
+        "startCamera": "Uruchom aparat",
+        "stopScanning": "Zatrzymaj skanowanie",
+        "permissionDenied": "Brak dostępu do aparatu. Zezwól na dostęp, aby skanować kody QR.",
+        "noCamera": "Nie znaleziono aparatu.",
+        "cameraError": "Nie udało się uruchomić aparatu. Spróbuj ponownie.",
+        "permissionError": "Brak dostępu do aparatu. Sprawdź uprawnienia."
+      }
     },
     "NotFound": {
       "text": "Ta grupa nie istnieje.",
@@ -83,7 +96,8 @@
       "owedToYou": "Należy Ci się",
       "youOwe": "Jesteś winien",
       "settledUp": "We wszystkich grupach jesteś rozliczony."
-    }
+    },
+    "createGroup": "Utwórz grupę"
   },
   "GroupForm": {
     "title": "Informacje o grupie",
