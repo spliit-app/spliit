@@ -102,7 +102,8 @@
   "GroupForm": {
     "title": "Información do grupo",
     "NameField": {
-      "label": "Nome do grupo"
+      "label": "Nome do grupo",
+      "placeholder": "Festival de Pardiñas"
     }
   }
 }
