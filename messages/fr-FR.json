@@ -5,7 +5,8 @@
     "button": {
       "groups": "Accéder aux groupes",
       "github": "GitHub"
-    }
+    },
+    "metaTitle": "Spliit · Partagez vos dépenses avec vos amis & votre famille"
   },
   "Header": {
     "groups": "Groupes"
@@ -73,7 +74,17 @@
       "button": "Ajouter par URL",
       "title": "Ajouter un groupe par URL",
       "description": "Si un groupe a été partagé avec vous, vous pouvez coller son URL ici pour l'ajouter à votre liste.",
-      "error": "Oups, nous ne pouvons pas trouver le groupe à partir de l'URL que vous avez fournie…"
+      "error": "Oups, nous ne pouvons pas trouver le groupe à partir de l'URL que vous avez fournie…",
+      "urlMode": "Entrer une URL",
+      "qrMode": "Scanner un QR code",
+      "scanner": {
+        "startCamera": "Démarrer la caméra",
+        "stopScanning": "Arrêter le scan",
+        "permissionDenied": "Accès à la caméra refusé. Veuillez autoriser l'accès à la caméra pour scanner un QR code.",
+        "noCamera": "Aucune caméra détectée sur cet appareil.",
+        "cameraError": "Impossible d'activer la caméra. Veuillez réessayer.",
+        "permissionError": "Impossible d'accéder à la caméra. Veuillez vérifier les autorisations."
+      }
     },
     "NotFound": {
       "text": "Ce groupe n'existe pas.",
@@ -421,7 +432,12 @@
     "warning": "Avertissement !",
     "warningHelp": "Toute personne ayant l'URL du groupe pourra voir et modifier les dépenses. Partagez avec prudence !",
     "copyLink": "Copier le lien",
-    "shareLink": "Partager le lien"
+    "shareLink": "Partager le lien",
+    "qrCode": {
+      "title": "Partager par QR code",
+      "description": "Scannez ce QR code pour ouvrir le groupe sur n'importe quel appareil.",
+      "download": "Télécharger le QR code"
+    }
   },
   "SchemaErrors": {
     "min1": "Entrez au moins un caractère.",
