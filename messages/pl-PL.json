@@ -1,11 +1,12 @@
 {
   "Homepage": {
-    "title": "Dziel <strong>Wydatki</strong> z <strong>Rodziną i Przyjaciółmi</strong>",
-    "description": "Witaj na Twojej nowej instancji <strong>Spliit</strong> !",
+    "title": "Dziel <strong>wydatki</strong> z <strong>rodziną i przyjaciółmi</strong>",
+    "description": "Witaj w swojej nowej instancji <strong>Spliit</strong>!",
     "button": {
       "groups": "Przejdź do grup",
       "github": "GitHub"
-    }
+    },
+    "metaTitle": "Spliit · Dziel wydatki ze znajomymi i rodziną"
   },
   "Header": {
     "groups": "Grupy"
@@ -44,7 +45,9 @@
   "ExpenseCard": {
     "paidBy": "Opłacone przez <strong>{paidBy}</strong> dla <paidFor></paidFor>",
     "receivedBy": "Otrzymane przez <strong>{paidBy}</strong> od <paidFor></paidFor>",
-    "yourBalance": "Twjoje saldo:"
+    "yourBalance": "Twjoje saldo:",
+    "everyone": "wszyscy",
+    "notInvolved": "Nie bierzesz udziału"
   },
   "Groups": {
     "myGroups": "Moje grupy",
@@ -71,12 +74,30 @@
       "button": "Dodaj poprzez adres URL",
       "title": "Dodaj grupę poprzez adres URL",
       "description": "Jeśli grupa została Ci udostępniona, możesz wkleić jej adres URL tutaj, aby dodać ją do Twojej listy.",
-      "error": "Ups, nie możemy znaleźć grupy o podanym adresie URL…"
+      "error": "Ups, nie możemy znaleźć grupy o podanym adresie URL…",
+      "urlMode": "Wpisz adres URL",
+      "qrMode": "Zeskanuj kod QR",
+      "scanner": {
+        "startCamera": "Uruchom aparat",
+        "stopScanning": "Zatrzymaj skanowanie",
+        "permissionDenied": "Brak dostępu do aparatu. Zezwól na dostęp, aby skanować kody QR.",
+        "noCamera": "Nie znaleziono aparatu.",
+        "cameraError": "Nie udało się uruchomić aparatu. Spróbuj ponownie.",
+        "permissionError": "Brak dostępu do aparatu. Sprawdź uprawnienia."
+      }
     },
     "NotFound": {
       "text": "Ta grupa nie istnieje.",
       "link": "Idź do ostatnio odwiedzanych grup"
-    }
+    },
+    "GlobalBalance": {
+      "title": "Twój łączny bilans",
+      "description": "Twój łączny bilans we wszystkich grupach.",
+      "owedToYou": "Należy Ci się",
+      "youOwe": "Jesteś winien",
+      "settledUp": "We wszystkich grupach jesteś rozliczony."
+    },
+    "createGroup": "Utwórz grupę"
   },
   "GroupForm": {
     "title": "Informacje o grupie",
@@ -273,6 +294,55 @@
       "yourSpendings": "Twoje wydatki",
       "yourEarnings": "Twoje wpływy",
       "yourShare": "Twoje udziały"
+    },
+    "range": {
+      "label": "Okres",
+      "all": "Cały czas",
+      "thisMonth": "Ten miesiąc",
+      "last30": "Ostatnie 30 dni",
+      "thisYear": "Ten rok",
+      "custom": "Zakres niestandardowy",
+      "from": "Od",
+      "to": "Do"
+    },
+    "Summary": {
+      "title": "Podsumowanie",
+      "description": "Kluczowe dane dla wybranego okresu.",
+      "empty": "Nie ma jeszcze żadnych wydatków.",
+      "expenseCount": "Wydatki",
+      "averageExpense": "Średni wydatek",
+      "largestExpense": "Największy wydatek",
+      "activeSpan": "Aktywny okres"
+    },
+    "OverTime": {
+      "title": "Wydatki w czasie",
+      "description": "Łączne wydatki grupy w podziale na miesiące.",
+      "empty": "Nie ma jeszcze żadnych wydatków."
+    },
+    "ByParticipant": {
+      "title": "Wydatki według uczestników",
+      "description": "Ile zapłacił każdy uczestnik i jaki jest jego udział w wydatkach.",
+      "empty": "Nie ma jeszcze żadnych wydatków.",
+      "participant": "Uczestnik",
+      "paid": "Zapłacono",
+      "count": "Liczba",
+      "share": "Udział"
+    },
+    "ByCategory": {
+      "title": "Wydatki według kategorii",
+      "description": "Łączna kwota wydana w każdej kategorii.",
+      "empty": "Nie ma jeszcze żadnych wydatków."
+    },
+    "Recurring": {
+      "title": "Wydatki cykliczne",
+      "description": "Szacowany koszt aktywnych wydatków cyklicznych grupy.",
+      "estimatedMonthly": "Szacowany koszt miesięczny",
+      "estimatedYearly": "{amount} rocznie",
+      "period": {
+        "DAILY": "{count, plural, one {# dzienny wydatek} few {# dzienne wydatki} many {# dziennych wydatków} other {# dziennego wydatku}}",
+        "WEEKLY": "{count, plural, one {# tygodniowy wydatek} few {# tygodniowe wydatki} many {# tygodniowych wydatków} other {# tygodniowego wydatku}}",
+        "MONTHLY": "{count, plural, one {# miesięczny wydatek} few {# miesięczne wydatki} many {# miesięcznych wydatków} other {# miesięcznego wydatku}}"
+      }
     }
   },
   "Activity": {
@@ -308,7 +378,9 @@
     "title": "Udostępnij",
     "description": "Aby inni uczestnicy mogli zobaczyć grupę i dodać wydatki, udostępnij im jej adres URL.",
     "warning": "Uwaga!",
-    "warningHelp": "Każda osoba posiadająca adres URL grupy będzie mogła przeglądać i edytować wydatki. Udostępniaj ostrożnie!"
+    "warningHelp": "Każda osoba posiadająca adres URL grupy będzie mogła przeglądać i edytować wydatki. Udostępniaj ostrożnie!",
+    "copyLink": "Kopiuj link",
+    "shareLink": "Udostępnij link"
   },
   "SchemaErrors": {
     "min1": "Wprowadź co najmniej jeden znak.",
@@ -395,5 +467,10 @@
       "TV/Phone/Internet": "TV/Telefon/Internet",
       "Water": "Woda"
     }
+  },
+  "Pwa": {
+    "updateTitle": "Dostępna aktualizacja",
+    "updateDescription": "Dostępna jest nowa wersja Spliit.",
+    "reload": "Załaduj ponownie"
   }
 }

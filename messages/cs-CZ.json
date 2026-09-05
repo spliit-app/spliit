@@ -308,7 +308,9 @@
     "title": "Sdílet",
     "description": "Aby ostatní účastníci mohli vidět skupinu a přidávat výdaje, sdílejte s nimi její URL.",
     "warning": "Varování!",
-    "warningHelp": "Každý, kdo má URL skupiny, bude moci zobrazit a upravovat výdaje. Sdílejte opatrně!"
+    "warningHelp": "Každý, kdo má URL skupiny, bude moci zobrazit a upravovat výdaje. Sdílejte opatrně!",
+    "copyLink": "Kopírovat odkaz",
+    "shareLink": "Sdílet odkaz"
   },
   "SchemaErrors": {
     "min1": "Zadejte alespoň jeden znak.",
@@ -395,5 +397,10 @@
       "TV/Phone/Internet": "TV/Telefon/Internet",
       "Water": "Voda"
     }
+  },
+  "Pwa": {
+    "updateTitle": "Dostupná aktualizace",
+    "updateDescription": "Je dostupná nová verze Spliit.",
+    "reload": "Načíst znovu"
   }
 }

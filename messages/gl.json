@@ -1,0 +1,109 @@
+{
+  "Homepage": {
+    "title": "Comparte <strong>gastos</strong> con <strong>amigos e familia</strong>",
+    "metaTitle": "Spliit · Comparte gastos con amigos e familia",
+    "description": "Dámosche a benvida á túa nova instancia de <strong>Spliit</strong>!",
+    "button": {
+      "groups": "Vai aos grupos",
+      "github": "GitHub"
+    }
+  },
+  "Header": {
+    "groups": "Grupos"
+  },
+  "Footer": {
+    "madeIn": "Feito en Montréal, Québec 🇨🇦",
+    "builtBy": "Creado por <author>Sebastien Castiel</author> e <source>colaboradores</source>"
+  },
+  "Expenses": {
+    "title": "Gastos",
+    "description": "Aquí atoparás os gastos que creaches no teu grupo.",
+    "create": "Crea un gasto",
+    "createFirst": "Crea o primeiro",
+    "noExpenses": "O teu grupo aínda non ten ningún gasto.",
+    "export": "Exporta",
+    "exportJson": "Exporta a JSON",
+    "exportCsv": "Exporta a CSV",
+    "searchPlaceholder": "Busca un gasto…",
+    "ActiveUserModal": {
+      "title": "Quen eres?",
+      "description": "Dinos que participante eres para que podamos personalizar como se mostra a información.",
+      "nobody": "Non quero seleccionar a ninguén",
+      "save": "Gardar cambios",
+      "footer": "Esta configuración pódese cambiar máis tarde nos axustes do grupo."
+    },
+    "Groups": {
+      "upcoming": "Próximamente",
+      "thisWeek": "Esta semana",
+      "earlierThisMonth": "A principios de este mes",
+      "lastMonth": "O mes pasado",
+      "earlierThisYear": "A principios de este ano",
+      "lastYear": "O ano pasado",
+      "older": "Máis antigo"
+    }
+  },
+  "ExpenseCard": {
+    "paidBy": "Pagado por <strong>{paidBy}</strong> para <paidFor></paidFor>",
+    "everyone": "todos",
+    "receivedBy": "Recibido por <strong>{paidBy}</strong> para <paidFor></paidFor>",
+    "yourBalance": "O teu balance:",
+    "notInvolved": "Non estás incluido"
+  },
+  "Groups": {
+    "myGroups": "Os meus grupos",
+    "create": "Crear",
+    "createGroup": "Crear grupo",
+    "loadingRecent": "Cargando grupos recentes…",
+    "NoRecent": {
+      "description": "Non visitaches ningún grupo recentemente.",
+      "create": "Crea un",
+      "orAsk": "ou pide que che manden a ligazón dun grupo xa existente."
+    },
+    "GlobalBalance": {
+      "title": "O teu balance total",
+      "description": "O teu balance combinado entre todos os teus grupos.",
+      "owedToYou": "Débenche",
+      "youOwe": "Debes",
+      "settledUp": "Estás ao día en todos os teus grupos."
+    },
+    "recent": "Grupos recentes",
+    "starred": "Grupos favoritos",
+    "archived": "Grupos arquivados",
+    "archive": "Arquivar grupo",
+    "unarchive": "Desarquivar grupo",
+    "removeRecent": "Eliminar de grupos recentes",
+    "RecentRemovedToast": {
+      "title": "O grupo foi eliminado",
+      "description": "O grupo foi eliminado da túa lista de grupos recentes.",
+      "undoAlt": "Desfacer eliminación do grupo",
+      "undo": "Desfacer"
+    },
+    "AddByURL": {
+      "button": "Engade mediante URL",
+      "title": "Engade un grupo mediante URL",
+      "description": "Se compartiron un grupo contigo, podes pegar a súa URL aquí para engadilo á túa lista.",
+      "error": "Ups, non conseguimos atopar o grupo coa URL fornecida…",
+      "urlMode": "Inserta a URL",
+      "qrMode": "Scanea QR",
+      "scanner": {
+        "startCamera": "Usar a cámara",
+        "stopScanning": "Pechar a cámara",
+        "permissionDenied": "Sen acceso á cámara. Por favor, permite o uso da cámara para escanear códigos QR.",
+        "noCamera": "Non se atopou unha cámara neste dispositivo.",
+        "cameraError": "Erro de inicio da cámara. Por favor, inténtao de novo.",
+        "permissionError": "Acceso á cámara deshabilitado. Por favor, revisa os permisos."
+      }
+    },
+    "NotFound": {
+      "text": "Este grupo non existe.",
+      "link": "Ir a grupos visitados recentemente"
+    }
+  },
+  "GroupForm": {
+    "title": "Información do grupo",
+    "NameField": {
+      "label": "Nome do grupo",
+      "placeholder": "Festival de Pardiñas"
+    }
+  }
+}

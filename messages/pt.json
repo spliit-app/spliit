@@ -78,6 +78,13 @@
     "NotFound": {
       "text": "Este grupo não existe.",
       "link": "Ir para os grupos visitados recentemente"
+    },
+    "GlobalBalance": {
+      "title": "O seu saldo total",
+      "description": "O seu saldo combinado em todos os seus grupos.",
+      "owedToYou": "Devem-lhe",
+      "youOwe": "Deve",
+      "settledUp": "Está tudo acertado em todos os seus grupos."
     }
   },
   "GroupForm": {
@@ -311,6 +318,61 @@
       "yourSpendings": "Os seus gastos totais",
       "yourEarnings": "As suas receitas totais",
       "yourShare": "A sua participação total"
+    },
+    "range": {
+      "label": "Período",
+      "all": "Todo o período",
+      "thisMonth": "Este mês",
+      "last30": "Últimos 30 dias",
+      "thisYear": "Este ano",
+      "custom": "Personalizado",
+      "from": "De",
+      "to": "Até"
+    },
+    "Summary": {
+      "title": "Resumo",
+      "description": "Números principais do período selecionado.",
+      "empty": "Ainda não existem despesas.",
+      "expenseCount": "Despesas",
+      "averageExpense": "Despesa média",
+      "largestExpense": "Maior despesa",
+      "activeSpan": "Período ativo"
+    },
+    "OverTime": {
+      "title": "Despesas ao longo do tempo",
+      "description": "Despesa total do grupo por mês. Seleciona um mês para ver as suas despesas.",
+      "empty": "Ainda não existem despesas.",
+      "showExpenses": "Mostrar as despesas de {month}",
+      "detailsDescription": "Despesas deste mês no período selecionado.",
+      "detailsEmpty": "Não existem despesas neste mês."
+    },
+    "ByParticipant": {
+      "title": "Despesas por participante",
+      "description": "Quanto cada participante pagou e a sua parte das despesas.",
+      "empty": "Ainda não existem despesas.",
+      "participant": "Participante",
+      "paid": "Pago",
+      "count": "Quantidade",
+      "share": "Parte"
+    },
+    "ByCategory": {
+      "title": "Despesas por categoria",
+      "description": "Valor total gasto em cada categoria. Seleciona uma categoria para ver as suas despesas.",
+      "empty": "Ainda não existem despesas.",
+      "showExpenses": "Mostrar as despesas de {category}",
+      "detailsDescription": "Despesas desta categoria no período selecionado.",
+      "detailsEmpty": "Não existem despesas nesta categoria."
+    },
+    "Recurring": {
+      "title": "Despesas recorrentes",
+      "description": "Custo estimado das despesas recorrentes ativas do grupo.",
+      "estimatedMonthly": "Custo mensal estimado",
+      "estimatedYearly": "{amount} por ano",
+      "period": {
+        "DAILY": "{count, plural, one {# despesa diária} other {# despesas diárias}}",
+        "WEEKLY": "{count, plural, one {# despesa semanal} other {# despesas semanais}}",
+        "MONTHLY": "{count, plural, one {# despesa mensal} other {# despesas mensais}}"
+      }
     }
   },
   "Activity": {
@@ -447,5 +509,10 @@
     "other": {
       "heading": "Outras moedas"
     }
+  },
+  "Pwa": {
+    "updateTitle": "Atualização disponível",
+    "updateDescription": "Está disponível uma nova versão do Spliit.",
+    "reload": "Recarregar"
   }
 }

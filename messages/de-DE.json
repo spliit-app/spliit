@@ -5,7 +5,8 @@
     "button": {
       "groups": "Zu den Gruppen",
       "github": "GitHub"
-    }
+    },
+    "metaTitle": "Teile Ausgaben mit Freunden & Familie"
   },
   "Header": {
     "groups": "Gruppen"
@@ -73,12 +74,30 @@
       "button": "Von URL hinzufügen",
       "title": "Gruppe von URL hinzufügen",
       "description": "Wenn eine Gruppe mit dir geteilt wurde, kannst du ihre URL hier einfügen, um sie zu deiner Liste hinzuzufügen.",
-      "error": "Ups, wir können die Gruppe mit der angegebenen URL nicht finden…"
+      "error": "Ups, wir können die Gruppe mit der angegebenen URL nicht finden…",
+      "urlMode": "URL eingeben",
+      "qrMode": "QR-Code scannen",
+      "scanner": {
+        "startCamera": "Kamera öffnen",
+        "stopScanning": "Kamera schließen",
+        "permissionDenied": "Kameraberechtigung verweigert. Bitte Kameraberechtigung erteilen, um QR-Codes zu scannen.",
+        "noCamera": "Keine Kamera gefunden.",
+        "permissionError": "Kamerazugriff fehlgeschlagen. Bitte Berechtigungen prüfen.",
+        "cameraError": "Kamerastart fehlgeschlagen. Bitte erneut versuchen."
+      }
     },
     "NotFound": {
       "text": "Diese Gruppe existiert nicht.",
       "link": "Gehe zu zuletzt besuchten Gruppen"
-    }
+    },
+    "GlobalBalance": {
+      "title": "Deine Gesamtbilanz",
+      "description": "Deine zusammengefasste Bilanz über alle deine Gruppen.",
+      "owedToYou": "Du bekommst",
+      "youOwe": "Du schuldest",
+      "settledUp": "Über alle deine Gruppen hinweg ist alles ausgeglichen."
+    },
+    "createGroup": "Neue Gruppe erstellen"
   },
   "GroupForm": {
     "title": "Gruppeninformationen",
@@ -97,14 +116,14 @@
       "description": "Wir benutzen es, um Beträge anzuzeigen."
     },
     "Participants": {
-      "title": "Teilnehmer",
+      "title": "Teilnehmende",
       "description": "Gib einen Namen für jeden Teilnehmer an.",
       "protectedParticipant": "Dieser Teilnehmer ist Teil von Ausgaben und kann nicht entfernt werden.",
       "new": "Neu",
       "add": "Teilnehmer hinzufügen",
       "John": "John",
-      "Jane": "Jane",
-      "Jack": "Jack"
+      "Jane": "Jana",
+      "Jack": "Jakob"
     },
     "Settings": {
       "title": "Lokale Einstellungen",
@@ -242,7 +261,9 @@
     "reimbursement": "Rückzahlung",
     "conversionUnavailable": "Um für jede Ausgabe eine andere Währung festzulegen und Beträge umzurechnen, wähle eine nicht-benutzerdefinierte Währung für die Gruppe aus.",
     "originalAmountField": {
-      "label": "Umzurechnender Betrag"
+      "label": "Umzurechnender Betrag",
+      "repaymentLabel": "Zu überweisender Betrag",
+      "repaymentDescription": "Umgerechnet aus dem Betrag oben, der die Bilanz ausgleicht."
     },
     "conversionRateState": {
       "customRate": "Eigenen Wechselkurs verwenden",
@@ -319,6 +340,61 @@
       "yourSpendings": "Deine Gesamtausgaben",
       "yourEarnings": "Deine Gesamteinnahmen",
       "yourShare": "Dein Gesamtanteil"
+    },
+    "range": {
+      "label": "Zeitraum",
+      "all": "Gesamter Zeitraum",
+      "thisMonth": "Dieser Monat",
+      "last30": "Letzte 30 Tage",
+      "thisYear": "Dieses Jahr",
+      "custom": "Benutzerdefiniert",
+      "from": "Von",
+      "to": "Bis"
+    },
+    "Summary": {
+      "title": "Zusammenfassung",
+      "description": "Kennzahlen für den ausgewählten Zeitraum.",
+      "empty": "Es gibt noch keine Ausgaben.",
+      "expenseCount": "Ausgaben",
+      "averageExpense": "Durchschnittliche Ausgabe",
+      "largestExpense": "Größte Ausgabe",
+      "activeSpan": "Aktiver Zeitraum"
+    },
+    "OverTime": {
+      "title": "Ausgaben im Zeitverlauf",
+      "description": "Gesamtausgaben der Gruppe pro Monat. Wähle einen Monat, um seine Ausgaben zu sehen.",
+      "empty": "Es gibt noch keine Ausgaben.",
+      "showExpenses": "Ausgaben für {month} anzeigen",
+      "detailsDescription": "Ausgaben in diesem Monat im gewählten Zeitraum.",
+      "detailsEmpty": "Es gibt keine Ausgaben in diesem Monat."
+    },
+    "ByParticipant": {
+      "title": "Ausgaben pro Teilnehmer",
+      "description": "Wie viel jede Person bezahlt hat und ihr Anteil an den Ausgaben.",
+      "empty": "Es gibt noch keine Ausgaben.",
+      "participant": "Teilnehmer",
+      "paid": "Bezahlt",
+      "count": "Anzahl",
+      "share": "Anteil"
+    },
+    "ByCategory": {
+      "title": "Ausgaben nach Kategorie",
+      "description": "Gesamtbetrag pro Kategorie. Wähle eine Kategorie, um ihre Ausgaben zu sehen.",
+      "empty": "Es gibt noch keine Ausgaben.",
+      "showExpenses": "Ausgaben für {category} anzeigen",
+      "detailsDescription": "Ausgaben in dieser Kategorie im gewählten Zeitraum.",
+      "detailsEmpty": "Es gibt keine Ausgaben in dieser Kategorie."
+    },
+    "Recurring": {
+      "title": "Wiederkehrende Ausgaben",
+      "description": "Geschätzte Kosten der aktiven wiederkehrenden Ausgaben der Gruppe.",
+      "estimatedMonthly": "Geschätzte monatliche Kosten",
+      "estimatedYearly": "{amount} pro Jahr",
+      "period": {
+        "DAILY": "{count, plural, one {# tägliche Ausgabe} other {# tägliche Ausgaben}}",
+        "WEEKLY": "{count, plural, one {# wöchentliche Ausgabe} other {# wöchentliche Ausgaben}}",
+        "MONTHLY": "{count, plural, one {# monatliche Ausgabe} other {# monatliche Ausgaben}}"
+      }
     }
   },
   "Activity": {
@@ -354,7 +430,14 @@
     "title": "Teilen",
     "description": "Teile die URL, damit andere Teilnehmer die Gruppe sehen und Ausgaben hinzufügen können.",
     "warning": "Achtung!",
-    "warningHelp": "Jede Person mit der Gruppen-URL kann Ausgaben sehen und bearbeiten. Teile den Link mit Bedacht!"
+    "warningHelp": "Jede Person mit der Gruppen-URL kann Ausgaben sehen und bearbeiten. Teile den Link mit Bedacht!",
+    "copyLink": "Link kopieren",
+    "shareLink": "Link teilen",
+    "qrCode": {
+      "title": "Via QR-Code teilen",
+      "description": "Scanne diesen QR-Code um diese Gruppen auf jedem Gerät zu öffnen.",
+      "download": "QR-Code downloaden"
+    }
   },
   "SchemaErrors": {
     "min1": "Gib mindestens ein Zeichen ein.",
@@ -455,5 +538,10 @@
     "common": {
       "heading": "Häufigste"
     }
+  },
+  "Pwa": {
+    "updateTitle": "Update verfügbar",
+    "updateDescription": "Eine neue Version von Spliit ist verfügbar.",
+    "reload": "Neu laden"
   }
 }

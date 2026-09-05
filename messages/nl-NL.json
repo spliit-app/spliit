@@ -78,6 +78,13 @@
     "NotFound": {
       "text": "Deze groep bestaat niet.",
       "link": "Ga naar je recente groepen"
+    },
+    "GlobalBalance": {
+      "title": "Je totale saldo",
+      "description": "Je gecombineerde saldo over al je groepen.",
+      "owedToYou": "Je krijgt nog",
+      "youOwe": "Je bent verschuldigd",
+      "settledUp": "Je staat quitte in al je groepen."
     }
   },
   "GroupForm": {
@@ -242,7 +249,9 @@
     "reimbursement": "Terugbetaling",
     "conversionUnavailable": "Om een andere munteenheid in te stellen voor een uitgave en bedragen om te rekenen, kies een standaard munteenheid voor de groep.",
     "originalAmountField": {
-      "label": "Om te rekenen bedrag"
+      "label": "Om te rekenen bedrag",
+      "repaymentLabel": "Over te maken bedrag",
+      "repaymentDescription": "Omgerekend van het bedrag hierboven, dat de balans vereffent."
     },
     "conversionRateField": {
       "useApi": "Gebruik koersen van Frankfurter",
@@ -319,6 +328,61 @@
       "yourSpendings": "Jouw totale uitgaven",
       "yourEarnings": "Jouw totale inkomsten",
       "yourShare": "Jouw totale aandeel"
+    },
+    "range": {
+      "label": "Periode",
+      "all": "Alle tijd",
+      "thisMonth": "Deze maand",
+      "last30": "Laatste 30 dagen",
+      "thisYear": "Dit jaar",
+      "custom": "Aangepast",
+      "from": "Van",
+      "to": "Tot"
+    },
+    "Summary": {
+      "title": "Samenvatting",
+      "description": "Kerncijfers voor de geselecteerde periode.",
+      "empty": "Er zijn nog geen uitgaven.",
+      "expenseCount": "Uitgaven",
+      "averageExpense": "Gemiddelde uitgave",
+      "largestExpense": "Grootste uitgave",
+      "activeSpan": "Actieve periode"
+    },
+    "OverTime": {
+      "title": "Uitgaven in de tijd",
+      "description": "Totale uitgaven van de groep per maand. Selecteer een maand om de uitgaven te bekijken.",
+      "empty": "Er zijn nog geen uitgaven.",
+      "showExpenses": "Uitgaven voor {month} tonen",
+      "detailsDescription": "Uitgaven in deze maand voor de geselecteerde periode.",
+      "detailsEmpty": "Er zijn geen uitgaven in deze maand."
+    },
+    "ByParticipant": {
+      "title": "Uitgaven per deelnemer",
+      "description": "Hoeveel elke deelnemer heeft betaald en zijn aandeel in de uitgaven.",
+      "empty": "Er zijn nog geen uitgaven.",
+      "participant": "Deelnemer",
+      "paid": "Betaald",
+      "count": "Aantal",
+      "share": "Aandeel"
+    },
+    "ByCategory": {
+      "title": "Uitgaven per categorie",
+      "description": "Totaalbedrag dat per categorie is uitgegeven. Selecteer een categorie om de uitgaven te bekijken.",
+      "empty": "Er zijn nog geen uitgaven.",
+      "showExpenses": "Uitgaven voor {category} tonen",
+      "detailsDescription": "Uitgaven in deze categorie voor de geselecteerde periode.",
+      "detailsEmpty": "Er zijn geen uitgaven in deze categorie."
+    },
+    "Recurring": {
+      "title": "Terugkerende uitgaven",
+      "description": "Geschatte kosten van de actieve terugkerende uitgaven van de groep.",
+      "estimatedMonthly": "Geschatte maandelijkse kosten",
+      "estimatedYearly": "{amount} per jaar",
+      "period": {
+        "DAILY": "{count, plural, one {# dagelijkse uitgave} other {# dagelijkse uitgaven}}",
+        "WEEKLY": "{count, plural, one {# wekelijkse uitgave} other {# wekelijkse uitgaven}}",
+        "MONTHLY": "{count, plural, one {# maandelijkse uitgave} other {# maandelijkse uitgaven}}"
+      }
     }
   },
   "Activity": {
@@ -354,7 +418,9 @@
     "title": "Delen",
     "description": "Om andere deelnemers de groep te laten zien en uitgaven toe te voegen, deel je de URL met hen.",
     "warning": "Waarschuwing!",
-    "warningHelp": "Iedereen met de groeps-URL kan de uitgaven zien en bewerken. Deel voorzichtig!"
+    "warningHelp": "Iedereen met de groeps-URL kan de uitgaven zien en bewerken. Deel voorzichtig!",
+    "copyLink": "Link kopiëren",
+    "shareLink": "Link delen"
   },
   "SchemaErrors": {
     "min1": "Vul ten minste één karakter in.",
@@ -455,5 +521,10 @@
       "heading": "Andere valuta"
     },
     "search": "Valuta zoeken..."
+  },
+  "Pwa": {
+    "updateTitle": "Update beschikbaar",
+    "updateDescription": "Er is een nieuwe versie van Spliit beschikbaar.",
+    "reload": "Opnieuw laden"
   }
 }
