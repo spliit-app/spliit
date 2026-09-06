@@ -2,15 +2,10 @@
 import { getCategories } from '@/lib/api'
 import { env } from '@/lib/env'
 import { getRuntimeFeatureFlags } from '@/lib/featureFlags'
+import { getOpenAIClient } from '@/lib/openai'
 import { isAllowedUploadUrl } from '@/lib/uploaded-image-url'
 import { formatCategoryForAIPrompt } from '@/lib/utils'
-import OpenAI from 'openai'
 import { z } from 'zod'
-
-const openai = new OpenAI({
-  apiKey: env.OPENAI_API_KEY,
-  baseURL: env.OPENAI_BASE_URL,
-})
 
 // The model is contractually bound to this shape by `strict: true` below, but
 // the response is still parsed rather than trusted: a self-hosted or older
@@ -40,6 +35,7 @@ export async function extractExpenseInformationFromImage(imageUrl: string) {
   }
 
   const categories = await getCategories()
+  const openai = getOpenAIClient()
 
   const completion = await openai.chat.completions.create({
     model: env.OPENAI_MODEL_RECEIPT_EXTRACT,

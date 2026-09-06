@@ -1,6 +1,5 @@
-// `var` and the indirection through an arrow are both deliberate: the module
-// under test constructs its OpenAI client at import time, which jest hoists
-// above this file's own initialisation.
+// `var` and the indirection through an arrow keep the mock reachable if Jest
+// evaluation order changes. The OpenAI client is constructed lazily.
 var mockCreate = jest.fn()
 
 jest.mock('openai', () => ({

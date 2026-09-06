@@ -2,14 +2,9 @@
 import { getCategories } from '@/lib/api'
 import { env } from '@/lib/env'
 import { getRuntimeFeatureFlags } from '@/lib/featureFlags'
+import { getOpenAIClient } from '@/lib/openai'
 import { formatCategoryForAIPrompt } from '@/lib/utils'
-import OpenAI from 'openai'
 import { z } from 'zod'
-
-const openai = new OpenAI({
-  apiKey: env.OPENAI_API_KEY,
-  baseURL: env.OPENAI_BASE_URL,
-})
 
 /** Limit of characters to be evaluated. May help avoiding abuse when using AI. */
 const limit = 40 // ~10 tokens
@@ -33,6 +28,7 @@ export async function extractCategoryFromTitle(description: string) {
   }
 
   const categories = await getCategories()
+  const openai = getOpenAIClient()
 
   const completion = await openai.chat.completions.create({
     model: env.OPENAI_MODEL_CATEGORY_EXTRACT,
