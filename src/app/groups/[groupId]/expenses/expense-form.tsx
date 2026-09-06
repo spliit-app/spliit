@@ -199,7 +199,7 @@ export function ExpenseForm({
     defaultValues: expense
       ? {
           title: expense.title,
-          expenseDate: expense.expenseDate ?? new Date(),
+          expenseDate: expense.expenseDate ?? getTodayForDateInput(),
           amount: amountAsDecimal(expense.amount, groupCurrency),
           originalCurrency: expense.originalCurrency ?? group.currencyCode,
           originalAmount:
@@ -233,7 +233,7 @@ export function ExpenseForm({
       : isRepayment
         ? {
             title: t('reimbursement'),
-            expenseDate: new Date(),
+            expenseDate: getTodayForDateInput(),
             amount: amountAsDecimal(
               Number(searchParams.get('amount')) || 0,
               groupCurrency,
@@ -264,7 +264,7 @@ export function ExpenseForm({
             title: searchParams.get('title') ?? '',
             expenseDate: searchParams.get('date')
               ? new Date(searchParams.get('date') as string)
-              : new Date(),
+              : getTodayForDateInput(),
             amount: Number(searchParams.get('amount')) || 0,
             originalCurrency: group.currencyCode ?? undefined,
             originalAmount: undefined,
@@ -1440,6 +1440,11 @@ export function ExpenseForm({
 }
 
 function formatDate(date?: Date) {
-  if (!date || isNaN(date as any)) date = new Date()
+  if (!date || isNaN(date as any)) date = getTodayForDateInput()
   return date.toISOString().substring(0, 10)
+}
+
+function getTodayForDateInput() {
+  const now = new Date()
+  return new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()))
 }
