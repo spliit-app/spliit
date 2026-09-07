@@ -37,6 +37,7 @@ export function CreateExpenseForm({
           participantId,
         })
         utils.groups.expenses.invalidate()
+        utils.groups.stats.invalidate()
         router.push(`/groups/${group.id}`)
       }}
       runtimeFeatureFlags={runtimeFeatureFlags}
