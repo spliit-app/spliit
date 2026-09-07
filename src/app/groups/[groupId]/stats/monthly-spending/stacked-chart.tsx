@@ -2,9 +2,8 @@
 
 import { formatChartCurrency } from '@/lib/chart-currency'
 import { MonthlySpendingGrouping } from '@/lib/monthly-spending'
-import { cn, formatCurrency } from '@/lib/utils'
+import { formatCurrency } from '@/lib/utils'
 import { useTranslations } from 'next-intl'
-import { CategoryColor } from './category-palette'
 import {
   GraphCategoryIcon,
   MonthlyCategorySpending,
@@ -22,6 +21,7 @@ export function MonthlyCategoryStackedChart({
   colorByCategory,
   currency,
   grouping,
+  includeYear,
   locale,
   monthlyCategorySpending,
   roundAmounts,
@@ -29,9 +29,10 @@ export function MonthlyCategoryStackedChart({
   visibleCategories,
 }: {
   chartType: MonthlySpendingChartType
-  colorByCategory: Map<string, CategoryColor>
+  colorByCategory: Map<string, string>
   currency: Parameters<typeof formatCurrency>[0]
   grouping: MonthlySpendingGrouping
+  includeYear: boolean
   locale: string
   monthlyCategorySpending: MonthlyCategorySpending
   roundAmounts: boolean
@@ -48,6 +49,7 @@ export function MonthlyCategoryStackedChart({
           colorByCategory={colorByCategory}
           currency={currency}
           grouping={grouping}
+          includeYear={includeYear}
           locale={locale}
           monthlyCategorySpending={monthlyCategorySpending}
           roundAmounts={roundAmounts}
@@ -59,6 +61,7 @@ export function MonthlyCategoryStackedChart({
           colorByCategory={colorByCategory}
           currency={currency}
           grouping={grouping}
+          includeYear={includeYear}
           locale={locale}
           monthlyCategorySpending={monthlyCategorySpending}
           roundAmounts={roundAmounts}
@@ -74,15 +77,17 @@ function MonthlyCategoryStackedBars({
   colorByCategory,
   currency,
   grouping,
+  includeYear,
   locale,
   monthlyCategorySpending,
   roundAmounts,
   tCategories,
   visibleCategories,
 }: {
-  colorByCategory: Map<string, CategoryColor>
+  colorByCategory: Map<string, string>
   currency: Parameters<typeof formatCurrency>[0]
   grouping: MonthlySpendingGrouping
+  includeYear: boolean
   locale: string
   monthlyCategorySpending: MonthlyCategorySpending
   roundAmounts: boolean
@@ -90,7 +95,7 @@ function MonthlyCategoryStackedBars({
   visibleCategories: MonthlySpendingCategory[]
 }) {
   return (
-    <div className="space-y-2">
+    <div className="max-h-[32rem] space-y-2 overflow-y-auto pr-1">
       {monthlyCategorySpending.months.map((month) => {
         const monthCategories = getMonthCategoriesInDisplayOrder(
           month,
@@ -106,10 +111,10 @@ function MonthlyCategoryStackedBars({
         return (
           <div
             key={month.key}
-            className="grid grid-cols-[4rem_minmax(0,1fr)] items-center gap-2 text-sm sm:grid-cols-[5rem_minmax(0,1fr)]"
+            className="grid grid-cols-[4.5rem_minmax(0,1fr)] items-center gap-2 text-sm sm:grid-cols-[6rem_minmax(0,1fr)]"
           >
             <div className="text-muted-foreground">
-              {formatMonth(month, locale, 'short')}
+              {formatMonth(month, locale, 'short', includeYear)}
             </div>
             <div
               className="grid items-center gap-2"
@@ -142,14 +147,13 @@ function MonthlyCategoryStackedBars({
                           roundAmounts,
                           share,
                         })}
-                        className={cn(
-                          'flex h-full min-w-[2px] items-center justify-start gap-1 overflow-hidden border-y px-1.5 text-[11px] font-medium',
-                          color?.backgroundClassName,
-                          color?.borderClassName,
-                          color?.foregroundClassName,
-                        )}
+                        className="flex h-full min-w-[2px] items-center justify-start gap-1 overflow-hidden border-y border-transparent px-1.5 text-[11px] font-medium"
                         key={category.key}
-                        style={{ width: `${share * 100}%` }}
+                        style={{
+                          width: `${share * 100}%`,
+                          backgroundColor: color,
+                          color: 'hsl(var(--background))',
+                        }}
                         title={getCategoryHoverLabel({
                           amount: category.expenseAmount,
                           categoryLabel,
@@ -163,7 +167,7 @@ function MonthlyCategoryStackedBars({
                         {share >= 0.06 && (
                           <GraphCategoryIcon
                             category={category}
-                            className="h-3.5 w-3.5 shrink-0 opacity-50"
+                            className="h-3.5 w-3.5 shrink-0 opacity-80"
                             grouping={grouping}
                           />
                         )}
@@ -192,28 +196,33 @@ function MonthlyCategoryStackedColumns({
   colorByCategory,
   currency,
   grouping,
+  includeYear,
   locale,
   monthlyCategorySpending,
   roundAmounts,
   tCategories,
   visibleCategories,
 }: {
-  colorByCategory: Map<string, CategoryColor>
+  colorByCategory: Map<string, string>
   currency: Parameters<typeof formatCurrency>[0]
   grouping: MonthlySpendingGrouping
+  includeYear: boolean
   locale: string
   monthlyCategorySpending: MonthlyCategorySpending
   roundAmounts: boolean
   tCategories: (key: string) => string
   visibleCategories: MonthlySpendingCategory[]
 }) {
-  const gridTemplateColumns = `repeat(${monthlyCategorySpending.months.length}, minmax(0, 1fr))`
+  const columnCount = monthlyCategorySpending.months.length
+  const columnWidthRem = 3.25
 
   return (
-    <div className="pb-1">
+    <div className="overflow-x-auto pb-1">
       <div
         className="grid h-56 items-end gap-1 sm:gap-2"
-        style={{ gridTemplateColumns }}
+        style={{
+          gridTemplateColumns: `repeat(${columnCount}, ${columnWidthRem}rem)`,
+        }}
       >
         {monthlyCategorySpending.months.map((month) => {
           const columnHeight = getShare(
@@ -295,14 +304,13 @@ function MonthlyCategoryStackedColumns({
                             roundAmounts,
                             share,
                           })}
-                          className={cn(
-                            'flex min-h-[3px] items-center justify-center overflow-hidden border-x px-0.5',
-                            color?.backgroundClassName,
-                            color?.borderClassName,
-                            color?.foregroundClassName,
-                          )}
+                          className="flex min-h-[3px] items-center justify-center overflow-hidden border-x border-transparent px-0.5"
                           key={category.key}
-                          style={{ height: `${share * 100}%` }}
+                          style={{
+                            height: `${share * 100}%`,
+                            backgroundColor: color,
+                            color: 'hsl(var(--background))',
+                          }}
                           title={getCategoryHoverLabel({
                             amount: category.expenseAmount,
                             categoryLabel,
@@ -316,7 +324,7 @@ function MonthlyCategoryStackedColumns({
                           {share >= 0.08 && (
                             <GraphCategoryIcon
                               category={category}
-                              className="h-3.5 w-3.5 shrink-0 opacity-50"
+                              className="h-3.5 w-3.5 shrink-0 opacity-80"
                               grouping={grouping}
                             />
                           )}
@@ -326,8 +334,11 @@ function MonthlyCategoryStackedColumns({
                   </div>
                 </div>
               </div>
-              <div className="w-full min-w-0 truncate text-center text-[10px] text-muted-foreground">
-                {formatMonth(month, locale, 'narrow')}
+              <div className="w-full min-w-0 text-center text-[10px] leading-tight text-muted-foreground">
+                <div className="truncate">
+                  {formatMonth(month, locale, 'narrow')}
+                </div>
+                {includeYear && <div>{month.year}</div>}
               </div>
             </div>
           )

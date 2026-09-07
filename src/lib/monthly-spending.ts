@@ -1,10 +1,8 @@
-export const monthlySpendingRangeOptions = ['3', '6', '12', 'all'] as const
 export const monthlySpendingGroupingOptions = [
   'categoryGroup',
   'category',
 ] as const
 
-export type MonthlySpendingRange = (typeof monthlySpendingRangeOptions)[number]
 export type MonthlySpendingGrouping =
   (typeof monthlySpendingGroupingOptions)[number]
 
@@ -53,15 +51,18 @@ type MutableMonthlySpendingMonth = Omit<MonthlySpendingMonth, 'categories'> & {
   categories: Map<string, MutableMonthlySpendingCategory>
 }
 
+type MonthParts = { year: number; month: number }
+
 export function getMonthlyCategorySpending(
   expenses: MonthlySpendingExpense[],
   options: {
     grouping?: MonthlySpendingGrouping
-    range?: MonthlySpendingRange
+    now?: Date
+    from?: string
+    to?: string
   } = {},
 ): MonthlyCategorySpending {
   const grouping = options.grouping ?? 'categoryGroup'
-  const range = options.range ?? '6'
   const expensesForStats = expenses.filter(
     (expense) => !expense.isReimbursement,
   )
@@ -80,11 +81,15 @@ export function getMonthlyCategorySpending(
     monthKey > last ? monthKey : last,
   )
 
-  const lastMonth = getMonthPartsFromKey(lastExpenseMonthKey)
-  const firstMonth =
-    range === 'all'
-      ? getMonthPartsFromKey(firstExpenseMonthKey)
-      : addMonths(lastMonth.year, lastMonth.month, -Number(range) + 1)
+  const firstExpenseMonth = getMonthPartsFromKey(firstExpenseMonthKey)
+  const lastExpenseMonth = getMonthPartsFromKey(lastExpenseMonthKey)
+  const nowMonth = getMonthPartsFromDate(options.now ?? new Date())
+  const firstMonth = options.from
+    ? getMonthPartsFromDateString(options.from)
+    : firstExpenseMonth
+  const lastMonth = options.to
+    ? getMonthPartsFromDateString(options.to)
+    : maxMonth(lastExpenseMonth, nowMonth)
   const monthKeys = getMonthKeysBetween(firstMonth, lastMonth)
   const months = new Map<string, MutableMonthlySpendingMonth>()
   const categoryTotals = new Map<string, MutableMonthlySpendingCategory>()
@@ -130,53 +135,32 @@ export function getMonthlyCategorySpending(
 }
 
 /**
- * Applies chart-local grouping and month-window onto the category-level
- * all-range payload from `groups.stats.overview`, so toggling the stacked
- * chart controls does not refetch the rest of the stats page.
+ * Applies chart-local grouping onto the category-level payload from
+ * `groups.stats.overview`, so toggling Detailed / Categories does not refetch
+ * the rest of the stats page.
  */
 export function applyMonthlySpendingView(
   stats: MonthlyCategorySpending,
   options: {
     grouping?: MonthlySpendingGrouping
-    range?: MonthlySpendingRange
   } = {},
 ): MonthlyCategorySpending {
   const grouping = options.grouping ?? 'categoryGroup'
-  const range = options.range ?? '6'
 
   if (stats.months.length === 0) {
     return { months: [], categories: [], maxExpenseAmount: 0 }
   }
 
-  const lastMonth = getMonthPartsFromKey(
-    stats.months[stats.months.length - 1].key,
-  )
-  const firstMonth =
-    range === 'all'
-      ? getMonthPartsFromKey(stats.months[0].key)
-      : addMonths(lastMonth.year, lastMonth.month, -Number(range) + 1)
-  const monthByKey = new Map(stats.months.map((month) => [month.key, month]))
   const months: MonthlySpendingMonth[] = []
   const categoryTotals = new Map<string, MutableMonthlySpendingCategory>()
 
-  for (const monthKey of getMonthKeysBetween(firstMonth, lastMonth)) {
-    const existing = monthByKey.get(monthKey)
-    const { year, month } = getMonthPartsFromKey(monthKey)
-    const sourceCategories = existing?.categories ?? []
+  for (const month of stats.months) {
     const categories =
       grouping === 'categoryGroup'
-        ? rollupCategories(sourceCategories)
-        : sortCategories(sourceCategories.map((category) => ({ ...category })))
+        ? rollupCategories(month.categories)
+        : sortCategories(month.categories.map((category) => ({ ...category })))
 
-    months.push({
-      key: monthKey,
-      year,
-      month,
-      amount: existing?.amount ?? 0,
-      expenseAmount: existing?.expenseAmount ?? 0,
-      incomeAmount: existing?.incomeAmount ?? 0,
-      categories,
-    })
+    months.push({ ...month, categories })
 
     for (const category of categories) {
       addCategoryToTotals(categoryTotals, category)
@@ -309,13 +293,29 @@ function getMonthKeyFromDate(date: Date) {
   return getMonthKey(date.getUTCFullYear(), date.getUTCMonth())
 }
 
+function getMonthPartsFromDate(date: Date): MonthParts {
+  return { year: date.getUTCFullYear(), month: date.getUTCMonth() }
+}
+
+function getMonthPartsFromDateString(value: string): MonthParts {
+  const [year, month] = value.split('-').map(Number)
+  return { year, month: month - 1 }
+}
+
 function getMonthKey(year: number, month: number) {
   return `${year}-${String(month + 1).padStart(2, '0')}`
 }
 
-function getMonthPartsFromKey(monthKey: string) {
+function getMonthPartsFromKey(monthKey: string): MonthParts {
   const [year, month] = monthKey.split('-').map(Number)
   return { year, month: month - 1 }
+}
+
+function maxMonth(left: MonthParts, right: MonthParts) {
+  return getMonthKey(left.year, left.month) >=
+    getMonthKey(right.year, right.month)
+    ? left
+    : right
 }
 
 function addMonths(year: number, month: number, monthsToAdd: number) {
@@ -323,10 +323,7 @@ function addMonths(year: number, month: number, monthsToAdd: number) {
   return { year: date.getUTCFullYear(), month: date.getUTCMonth() }
 }
 
-function getMonthKeysBetween(
-  start: { year: number; month: number },
-  end: { year: number; month: number },
-) {
+function getMonthKeysBetween(start: MonthParts, end: MonthParts) {
   const monthKeys: string[] = []
   let current = start
 

@@ -1,6 +1,5 @@
 'use client'
 
-import { MonthlyCategoryBreakdown } from '@/app/groups/[groupId]/stats/monthly-spending/breakdown'
 import { getColorByCategory } from '@/app/groups/[groupId]/stats/monthly-spending/category-palette'
 import { MonthlySpendingChartType } from '@/app/groups/[groupId]/stats/monthly-spending/category-utils'
 import {
@@ -29,7 +28,6 @@ import {
   applyMonthlySpendingView,
   MonthlyCategorySpending,
   MonthlySpendingGrouping,
-  MonthlySpendingRange,
 } from '@/lib/monthly-spending'
 import { cn } from '@/lib/utils'
 import { useLocale, useTranslations } from 'next-intl'
@@ -45,7 +43,6 @@ export function MonthlySpending({
   const t = useTranslations('Stats.MonthlySpending')
   const tCategories = useTranslations('Categories')
   const locale = useLocale()
-  const [range, setRange] = useState<MonthlySpendingRange>('6')
   const [grouping, setGrouping] =
     useState<MonthlySpendingGrouping>('categoryGroup')
   const [chartType, setChartType] = useState<MonthlySpendingChartType>('bars')
@@ -54,21 +51,25 @@ export function MonthlySpending({
   const visibleSpending = useMemo(
     () =>
       monthlyCategorySpending
-        ? applyMonthlySpendingView(monthlyCategorySpending, {
-            grouping,
-            range,
-          })
+        ? applyMonthlySpendingView(monthlyCategorySpending, { grouping })
         : undefined,
-    [grouping, monthlyCategorySpending, range],
+    [grouping, monthlyCategorySpending],
   )
-  const visibleCategories =
-    visibleSpending?.categories.filter(
-      (category) => category.expenseAmount > 0,
-    ) ?? []
+  const visibleCategories = useMemo(
+    () =>
+      visibleSpending?.categories.filter(
+        (category) => category.expenseAmount > 0,
+      ) ?? [],
+    [visibleSpending],
+  )
   const colorByCategory = useMemo(
-    () => getColorByCategory(visibleSpending?.categories ?? []),
-    [visibleSpending?.categories],
+    () => getColorByCategory(visibleCategories),
+    [visibleCategories],
   )
+  const firstYear = visibleSpending?.months[0]?.year
+  const lastYear =
+    visibleSpending?.months[visibleSpending.months.length - 1]?.year
+  const includeYear = firstYear !== undefined && firstYear !== lastYear
 
   return (
     <Card className="mb-4">
@@ -84,20 +85,6 @@ export function MonthlySpending({
               onCheckedChange={setRoundAmounts}
               t={t}
             />
-            <Select
-              value={range}
-              onValueChange={(value) => setRange(value as MonthlySpendingRange)}
-            >
-              <SelectTrigger aria-label={t('rangeLabel')} className="h-8 w-28">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="3">{t('RangeOptions.three')}</SelectItem>
-                <SelectItem value="6">{t('RangeOptions.six')}</SelectItem>
-                <SelectItem value="12">{t('RangeOptions.twelve')}</SelectItem>
-                <SelectItem value="all">{t('RangeOptions.all')}</SelectItem>
-              </SelectContent>
-            </Select>
             <Select
               value={grouping}
               onValueChange={(value) =>
@@ -133,46 +120,34 @@ export function MonthlySpending({
         ) : visibleSpending.months.length === 0 ? (
           <p className="text-sm text-muted-foreground py-4">{t('noData')}</p>
         ) : (
-          <div className="space-y-8">
-            <div
-              className={cn(
-                'gap-4',
-                chartType === 'columns' &&
-                  'grid lg:grid-cols-[minmax(0,1fr)_13rem] lg:items-end',
-              )}
-            >
-              <MonthlyCategoryStackedChart
-                chartType={chartType}
-                colorByCategory={colorByCategory}
-                currency={currency}
-                grouping={grouping}
-                locale={locale}
-                monthlyCategorySpending={visibleSpending}
-                roundAmounts={roundAmounts}
-                visibleCategories={visibleCategories}
-                tCategories={tCategories}
-              />
-              <MonthlySpendingLegend
-                categories={visibleCategories}
-                className={cn(
-                  chartType === 'bars' && 'mt-3',
-                  chartType === 'columns' && 'mt-4 lg:mb-7 lg:mt-0',
-                )}
-                colorByCategory={colorByCategory}
-                grouping={grouping}
-                isVertical={chartType === 'columns'}
-                tCategories={tCategories}
-              />
-            </div>
-            <MonthlyCategoryBreakdown
+          <div
+            className={cn(
+              'gap-4',
+              chartType === 'columns' &&
+                'grid lg:grid-cols-[minmax(0,1fr)_13rem] lg:items-end',
+            )}
+          >
+            <MonthlyCategoryStackedChart
+              chartType={chartType}
               colorByCategory={colorByCategory}
               currency={currency}
               grouping={grouping}
+              includeYear={includeYear}
               locale={locale}
               monthlyCategorySpending={visibleSpending}
-              range={range}
               roundAmounts={roundAmounts}
-              t={t}
+              visibleCategories={visibleCategories}
+              tCategories={tCategories}
+            />
+            <MonthlySpendingLegend
+              categories={visibleCategories}
+              className={cn(
+                chartType === 'bars' && 'mt-3',
+                chartType === 'columns' && 'mt-4 lg:mb-7 lg:mt-0',
+              )}
+              colorByCategory={colorByCategory}
+              grouping={grouping}
+              isVertical={chartType === 'columns'}
               tCategories={tCategories}
             />
           </div>

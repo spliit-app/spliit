@@ -7,7 +7,6 @@ import {
   MonthlySpendingCategory,
   MonthlySpendingGrouping,
   MonthlySpendingMonth,
-  MonthlySpendingRange,
 } from '@/lib/monthly-spending'
 import { formatCurrency } from '@/lib/utils'
 import {
@@ -120,16 +119,6 @@ export function getCategoryHoverLabel({
   })} (${formatPercent(share, locale)})`
 }
 
-export function getRangeLabel(
-  range: MonthlySpendingRange,
-  t: (key: string) => string,
-) {
-  if (range === '3') return t('RangeOptions.three')
-  if (range === '6') return t('RangeOptions.six')
-  if (range === '12') return t('RangeOptions.twelve')
-  return t('RangeOptions.all')
-}
-
 export function getShare(amount: number, total: number) {
   if (total <= 0) return 0
   return amount / total
@@ -162,10 +151,11 @@ export function formatMonth(
   month: Pick<MonthlySpendingMonth, 'year' | 'month'>,
   locale: string,
   length: 'short' | 'long' | 'narrow',
+  includeYear = false,
 ) {
   return new Intl.DateTimeFormat(locale, {
     month: length === 'narrow' ? 'short' : length,
     timeZone: 'UTC',
-    year: length === 'long' ? 'numeric' : undefined,
+    year: length === 'long' || includeYear ? 'numeric' : undefined,
   }).format(new Date(Date.UTC(month.year, month.month, 1)))
 }

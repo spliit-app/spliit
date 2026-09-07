@@ -62,7 +62,8 @@ export const getStatsOverviewProcedure = baseProcedure
       months: getSpendingOverTime(expenses),
       monthlyCategorySpending: getMonthlyCategorySpending(expenses, {
         grouping: 'category',
-        range: 'all',
+        from,
+        to,
       }),
       participants: getSpendingByParticipant(participants, expenses),
       categories: getSpendingByCategory(expenses),

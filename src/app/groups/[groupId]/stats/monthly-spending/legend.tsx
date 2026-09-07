@@ -2,7 +2,6 @@
 
 import { MonthlySpendingGrouping } from '@/lib/monthly-spending'
 import { cn } from '@/lib/utils'
-import { CategoryColor } from './category-palette'
 import {
   GraphCategoryIcon,
   MonthlySpendingCategory,
@@ -19,7 +18,7 @@ export function MonthlySpendingLegend({
 }: {
   categories: MonthlySpendingCategory[]
   className?: string
-  colorByCategory: Map<string, CategoryColor>
+  colorByCategory: Map<string, string>
   grouping: MonthlySpendingGrouping
   isVertical?: boolean
   tCategories: (key: string) => string
@@ -41,12 +40,11 @@ export function MonthlySpendingLegend({
       {visibleCategories.map((category) => (
         <div key={category.key} className="flex min-w-0 items-center gap-2">
           <span
-            className={cn(
-              'flex h-6 w-6 shrink-0 items-center justify-center rounded-md border',
-              colorByCategory.get(category.key)?.backgroundClassName,
-              colorByCategory.get(category.key)?.borderClassName,
-              colorByCategory.get(category.key)?.foregroundClassName,
-            )}
+            className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md border"
+            style={{
+              backgroundColor: colorByCategory.get(category.key),
+              color: 'hsl(var(--background))',
+            }}
           >
             <GraphCategoryIcon
               category={category}
