@@ -1,4 +1,5 @@
 import { getGroupExpenses } from '@/lib/api'
+import { assertGroupUnlocked } from '@/lib/group-access'
 import { baseProcedure } from '@/trpc/init'
 import { z } from 'zod'
 
@@ -12,6 +13,7 @@ export const listGroupExpensesProcedure = baseProcedure
     }),
   )
   .query(async ({ input: { groupId, cursor = 0, limit = 10, filter } }) => {
+    await assertGroupUnlocked(groupId)
     const expenses = await getGroupExpenses(groupId, {
       offset: cursor,
       length: limit + 1,

@@ -9,13 +9,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { Group } from '@/generated/prisma/browser'
 import { useBaseUrl } from '@/lib/hooks'
 import { Share } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
 type Props = {
-  group: Group
+  group: { id: string; name: string }
 }
 
 export function ShareButton({ group }: Props) {

@@ -1,4 +1,5 @@
 import { getCurrency } from '@/lib/currency'
+import { assertExportAccess } from '@/lib/group-access'
 import { prisma } from '@/lib/prisma'
 import { getExpenseShares } from '@/lib/shares'
 import { formatAmountAsDecimal, getCurrencyFromGroup } from '@/lib/utils'
@@ -37,6 +38,9 @@ export async function GET(
   { params }: { params: Promise<{ groupId: string }> },
 ) {
   const { groupId } = await params
+  if (!(await assertExportAccess(req, groupId))) {
+    return NextResponse.json({ error: 'PIN required' }, { status: 401 })
+  }
   const group = await prisma.group.findUnique({
     where: { id: groupId },
     select: {

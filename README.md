@@ -195,6 +195,19 @@ DEFAULT_CURRENCY_CODE=EUR
 
 Defaults to `USD`.
 
+### Optional group PIN
+
+Groups can be protected with a 6–8 digit PIN. Unlock is an HTTP-only cookie
+signed with `PIN_SECRET` (at least 16 characters). Required in production if
+any group has a PIN.
+
+```.env
+PIN_SECRET=replace-with-a-long-random-string
+```
+
+Failed attempts are rate-limited. The hash is stored on the group; it is never
+returned to clients.
+
 ### Migrating from the `NEXT_PUBLIC_*` variables
 
 Earlier versions used `NEXT_PUBLIC_`-prefixed variables for the settings above
