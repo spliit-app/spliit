@@ -1,4 +1,3 @@
-import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import useSWR, { Fetcher } from 'swr'
 
@@ -85,11 +84,15 @@ export function useCurrencyRate(
   baseCurrency: string,
   targetCurrency: string,
 ) {
-  const dateString = dayjs(date).format('YYYY-MM-DD')
+  const isValidDate = !isNaN(date.getTime())
+  // `date` is a date-only value carried at UTC midnight (that is what both the
+  // date picker and the DATE column produce), so it has to be read back in UTC.
+  // Formatting it locally would ask for the previous day west of UTC.
+  const dateString = isValidDate ? date.toISOString().slice(0, 10) : ''
 
   // Only send request if both currency codes are given and not the same
   const url =
-    !isNaN(date.getTime()) &&
+    isValidDate &&
     !!baseCurrency.length &&
     !!targetCurrency.length &&
     baseCurrency !== targetCurrency &&
