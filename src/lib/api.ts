@@ -127,14 +127,24 @@ export async function deleteExpense(
 }
 
 export async function getGroupExpensesParticipants(groupId: string) {
-  const expenses = await getGroupExpenses(groupId)
+  const [payers, paidFor] = await Promise.all([
+    prisma.expense.findMany({
+      where: { groupId },
+      distinct: ['paidById'],
+      select: { paidById: true },
+    }),
+    prisma.expensePaidFor.findMany({
+      where: { expense: { groupId } },
+      distinct: ['participantId'],
+      select: { participantId: true },
+    }),
+  ])
+
   return Array.from(
-    new Set(
-      expenses.flatMap((e) => [
-        e.paidBy.id,
-        ...e.paidFor.map((pf) => pf.participant.id),
-      ]),
-    ),
+    new Set([
+      ...payers.map((expense) => expense.paidById),
+      ...paidFor.map((row) => row.participantId),
+    ]),
   )
 }
 
