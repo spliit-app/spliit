@@ -543,5 +543,10 @@
     "updateTitle": "Update verfügbar",
     "updateDescription": "Eine neue Version von Spliit ist verfügbar.",
     "reload": "Neu laden"
+  },
+  "Errors": {
+    "retry": "Erneut versuchen",
+    "title": "Es ist etwas schief gelaufen",
+    "groupTitle": "Konhte diese Gruppe nicht laden"
   }
 }
