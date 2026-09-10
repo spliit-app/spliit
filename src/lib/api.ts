@@ -4,18 +4,13 @@ import {
   RecurrenceRule,
   RecurringExpenseLink,
 } from '@/generated/prisma/client'
+import { assertExpenseFormIntegerMinorUnits } from '@/lib/integer-minor-units'
 import { prisma } from '@/lib/prisma'
 import { randomId } from '@/lib/random'
 import { ExpenseFormValues, GroupFormValues } from '@/lib/schemas'
 
 // Re-exported for backwards compatibility with existing server-side importers.
 export { randomId }
-
-function assertIntegerMinorUnits(amount: number, label: string) {
-  if (!Number.isInteger(amount)) {
-    throw new Error(`${label} must be an integer number of minor units`)
-  }
-}
 
 export async function createGroup(groupFormValues: GroupFormValues) {
   return prisma.group.create({
@@ -54,13 +49,7 @@ export async function createExpense(
       throw new Error(`Invalid participant ID: ${participant}`)
   }
 
-  assertIntegerMinorUnits(expenseFormValues.amount, 'amount')
-  if (expenseFormValues.originalAmount != null) {
-    assertIntegerMinorUnits(expenseFormValues.originalAmount, 'originalAmount')
-  }
-  for (const paidFor of expenseFormValues.paidFor) {
-    assertIntegerMinorUnits(Number(paidFor.shares), 'paidFor.shares')
-  }
+  assertExpenseFormIntegerMinorUnits(expenseFormValues)
 
   const expenseId = randomId()
   await logActivity(groupId, ActivityType.CREATE_EXPENSE, {
@@ -184,13 +173,7 @@ export async function updateExpense(
       throw new Error(`Invalid participant ID: ${participant}`)
   }
 
-  assertIntegerMinorUnits(expenseFormValues.amount, 'amount')
-  if (expenseFormValues.originalAmount != null) {
-    assertIntegerMinorUnits(expenseFormValues.originalAmount, 'originalAmount')
-  }
-  for (const paidFor of expenseFormValues.paidFor) {
-    assertIntegerMinorUnits(Number(paidFor.shares), 'paidFor.shares')
-  }
+  assertExpenseFormIntegerMinorUnits(expenseFormValues)
 
   await logActivity(groupId, ActivityType.UPDATE_EXPENSE, {
     participantId,
