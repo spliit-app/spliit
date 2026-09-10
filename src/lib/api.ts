@@ -4,6 +4,7 @@ import {
   RecurrenceRule,
   RecurringExpenseLink,
 } from '@/generated/prisma/client'
+import { assertExpenseFormIntegerMinorUnits } from '@/lib/integer-minor-units'
 import { prisma } from '@/lib/prisma'
 import { randomId } from '@/lib/random'
 import { ExpenseFormValues, GroupFormValues } from '@/lib/schemas'
@@ -47,6 +48,8 @@ export async function createExpense(
     if (!group.participants.some((p) => p.id === participant))
       throw new Error(`Invalid participant ID: ${participant}`)
   }
+
+  assertExpenseFormIntegerMinorUnits(expenseFormValues)
 
   const expenseId = randomId()
   await logActivity(groupId, ActivityType.CREATE_EXPENSE, {
@@ -179,6 +182,8 @@ export async function updateExpense(
     if (!group.participants.some((p) => p.id === participant))
       throw new Error(`Invalid participant ID: ${participant}`)
   }
+
+  assertExpenseFormIntegerMinorUnits(expenseFormValues)
 
   await logActivity(groupId, ActivityType.UPDATE_EXPENSE, {
     participantId,
