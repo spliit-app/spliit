@@ -30,7 +30,7 @@ services:
     healthcheck:
       # 127.0.0.1 rather than localhost: busybox may resolve localhost to ::1.
       # /api/health/readiness runs `SELECT 1`, and scripts/container-entrypoint.sh
-      # runs `prisma migrate deploy` *before* `npm run start` -- so any 200 here
+      # runs `prisma migrate deploy` *before* starting the server -- so any 200 here
       # proves the schema is migrated and the app is serving.
       test:
         [

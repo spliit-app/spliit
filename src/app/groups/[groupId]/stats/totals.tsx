@@ -3,20 +3,22 @@ import { TotalsGroupSpending } from '@/app/groups/[groupId]/stats/totals-group-s
 import { TotalsYourShare } from '@/app/groups/[groupId]/stats/totals-your-share'
 import { TotalsYourSpendings } from '@/app/groups/[groupId]/stats/totals-your-spending'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useActiveUser } from '@/lib/hooks'
-import { getCurrencyFromGroup } from '@/lib/utils'
-import { trpc } from '@/trpc/client'
-import { useCurrentGroup } from '../current-group-context'
+import { Currency } from '@/lib/currency'
 
-export function Totals() {
-  const { groupId, group } = useCurrentGroup()
-  const activeUser = useActiveUser(groupId)
+type Props = {
+  totalGroupSpendings?: number
+  totalParticipantSpendings?: number
+  totalParticipantShare?: number
+  currency?: Currency
+}
 
-  const participantId =
-    activeUser && activeUser !== 'None' ? activeUser : undefined
-  const { data } = trpc.groups.stats.get.useQuery({ groupId, participantId })
-
-  if (!data || !group)
+export function Totals({
+  totalGroupSpendings,
+  totalParticipantSpendings,
+  totalParticipantShare,
+  currency,
+}: Props) {
+  if (totalGroupSpendings === undefined || !currency)
     return (
       <div className="flex flex-col gap-7">
         {[0, 1, 2].map((index) => (
@@ -28,32 +30,25 @@ export function Totals() {
       </div>
     )
 
-  const {
-    totalGroupSpendings,
-    totalParticipantShare,
-    totalParticipantSpendings,
-  } = data
-
-  const currency = getCurrencyFromGroup(group)
-
   return (
     <>
       <TotalsGroupSpending
         totalGroupSpendings={totalGroupSpendings}
         currency={currency}
       />
-      {participantId && (
-        <>
-          <TotalsYourSpendings
-            totalParticipantSpendings={totalParticipantSpendings}
-            currency={currency}
-          />
-          <TotalsYourShare
-            totalParticipantShare={totalParticipantShare}
-            currency={currency}
-          />
-        </>
-      )}
+      {totalParticipantSpendings !== undefined &&
+        totalParticipantShare !== undefined && (
+          <>
+            <TotalsYourSpendings
+              totalParticipantSpendings={totalParticipantSpendings}
+              currency={currency}
+            />
+            <TotalsYourShare
+              totalParticipantShare={totalParticipantShare}
+              currency={currency}
+            />
+          </>
+        )}
     </>
   )
 }

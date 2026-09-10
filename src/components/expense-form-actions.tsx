@@ -4,12 +4,19 @@ import { env } from '@/lib/env'
 import { getRuntimeFeatureFlags } from '@/lib/featureFlags'
 import { formatCategoryForAIPrompt } from '@/lib/utils'
 import OpenAI from 'openai'
-import { ChatCompletionCreateParamsNonStreaming } from 'openai/resources/index.mjs'
+import { z } from 'zod'
 
-const openai = new OpenAI({ apiKey: env.OPENAI_API_KEY })
+const openai = new OpenAI({
+  apiKey: env.OPENAI_API_KEY,
+  baseURL: env.OPENAI_BASE_URL,
+})
 
 /** Limit of characters to be evaluated. May help avoiding abuse when using AI. */
 const limit = 40 // ~10 tokens
+
+// See the note in create-from-receipt-button-actions.ts: `strict: true` binds
+// the model to this shape, but the response is parsed rather than trusted.
+const categoryResponseSchema = z.object({ categoryId: z.number() })
 
 /**
  * Attempt extraction of category from expense title
@@ -27,15 +34,26 @@ export async function extractCategoryFromTitle(description: string) {
 
   const categories = await getCategories()
 
-  const body: ChatCompletionCreateParamsNonStreaming = {
-    model: 'gpt-3.5-turbo',
-    temperature: 0.1, // try to be highly deterministic so that each distinct title may lead to the same category every time
-    max_tokens: 1, // category ids are unlikely to go beyond ~4 digits so limit possible abuse
+  const completion = await openai.chat.completions.create({
+    model: env.OPENAI_MODEL_CATEGORY_EXTRACT,
+    response_format: {
+      type: 'json_schema',
+      json_schema: {
+        name: 'category_response',
+        strict: true,
+        schema: {
+          type: 'object',
+          properties: { categoryId: { type: 'integer' } },
+          required: ['categoryId'],
+          additionalProperties: false,
+        },
+      },
+    },
     messages: [
       {
         role: 'system',
         content: `
-        Task: Receive expense titles. Respond with the most relevant category ID from the list below. Respond with the ID only.
+        Task: Receive expense titles. Respond with the most relevant category ID from the list below.
         Categories: ${categories.map((category) =>
           formatCategoryForAIPrompt(category),
         )}
@@ -50,12 +68,19 @@ export async function extractCategoryFromTitle(description: string) {
         content: description.substring(0, limit),
       },
     ],
-  }
-  const completion = await openai.chat.completions.create(body)
+  })
   const messageContent = completion.choices.at(0)?.message.content
+  const parsed = (() => {
+    if (!messageContent) return null
+    try {
+      return categoryResponseSchema.parse(JSON.parse(messageContent))
+    } catch {
+      return null
+    }
+  })()
   // ensure the returned id actually exists
   const category = categories.find((category) => {
-    return category.id === Number(messageContent)
+    return category.id === parsed?.categoryId
   })
   // fall back to first category (should be "General") if no category matches the output
   return { categoryId: category?.id || 0 }

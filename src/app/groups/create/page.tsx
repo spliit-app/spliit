@@ -1,10 +1,17 @@
 import { CreateGroup } from '@/app/groups/create/create-group'
-import { Metadata } from 'next'
+import { env } from '@/lib/env'
+import { getTranslations } from 'next-intl/server'
 
-export const metadata: Metadata = {
-  title: 'Create Group',
+export async function generateMetadata() {
+  const t = await getTranslations('Groups')
+
+  return {
+    title: t('createGroup'),
+  }
 }
 
 export default function CreateGroupPage() {
-  return <CreateGroup />
+  const defaultCurrencyCode =
+    env.DEFAULT_CURRENCY_CODE ?? env.NEXT_PUBLIC_DEFAULT_CURRENCY_CODE ?? 'USD'
+  return <CreateGroup defaultCurrencyCode={defaultCurrencyCode} />
 }

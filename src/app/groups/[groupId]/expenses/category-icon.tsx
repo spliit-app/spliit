@@ -1,4 +1,4 @@
-import { Category } from '@prisma/client'
+import { Category } from '@/generated/prisma/browser'
 import {
   Armchair,
   Baby,

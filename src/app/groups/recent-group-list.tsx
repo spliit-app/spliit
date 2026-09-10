@@ -14,6 +14,7 @@ import { Loader2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { PropsWithChildren, useEffect, useState } from 'react'
+import { GlobalBalanceCard } from './global-balance-card'
 import { RecentGroupListCard } from './recent-group-list-card'
 
 export type RecentGroupsState =
@@ -142,6 +143,8 @@ function RecentGroupList_({
 
   return (
     <GroupsPage reload={refreshGroupsFromStorage}>
+      <GlobalBalanceCard groups={groups} />
+
       {starredGroupInfo.length > 0 && (
         <>
           <h2 className="mb-2">{t('starred')}</h2>

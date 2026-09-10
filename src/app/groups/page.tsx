@@ -1,9 +1,13 @@
 import { RecentGroupList } from '@/app/groups/recent-group-list'
 import { TrackPage } from '@/lib/analytics/track-page'
-import { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 
-export const metadata: Metadata = {
-  title: 'Recently visited groups',
+export async function generateMetadata() {
+  const t = await getTranslations('Groups')
+
+  return {
+    title: t('recent'),
+  }
 }
 
 export default async function GroupsPage() {
