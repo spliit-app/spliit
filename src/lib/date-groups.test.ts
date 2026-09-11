@@ -112,6 +112,30 @@ describe('getGroupedExpensesByDate', () => {
 
     expect(Object.keys(grouped)).toEqual([EXPENSE_GROUPS.LAST_MONTH])
   })
+
+  it('accumulates several expenses into the same bucket', () => {
+    const expenses = [
+      { id: 'first', expenseDate: new Date('2024-08-05T00:00:00.000Z') },
+      { id: 'second', expenseDate: new Date('2024-08-12T00:00:00.000Z') },
+      { id: 'other', expenseDate: new Date('2024-07-15T00:00:00.000Z') },
+    ]
+
+    const grouped = getGroupedExpensesByDate(
+      expenses,
+      dayjs('2024-08-20'),
+      weekStartsOn,
+    )
+
+    expect(Object.keys(grouped).sort()).toEqual([
+      EXPENSE_GROUPS.EARLIER_THIS_MONTH,
+      EXPENSE_GROUPS.LAST_MONTH,
+    ])
+    expect(grouped[EXPENSE_GROUPS.EARLIER_THIS_MONTH]).toEqual([
+      expenses[0],
+      expenses[1],
+    ])
+    expect(grouped[EXPENSE_GROUPS.LAST_MONTH]).toEqual([expenses[2]])
+  })
 })
 
 describe('getExpenseGroup', () => {
@@ -145,5 +169,33 @@ describe('getExpenseGroup', () => {
     expect(
       getExpenseGroup(dayjs('2022-08-15'), dayjs('2024-08-20'), weekStartsOn),
     ).toBe(EXPENSE_GROUPS.OLDER)
+  })
+
+  // 2024-08-21 is a Wednesday, so the two first-day-of-week conventions put the
+  // week boundary on different days around it.
+  const wednesday = dayjs('2024-08-21')
+
+  it('places an expense in the current week in thisWeek for a Monday-first locale', () => {
+    expect(getExpenseGroup(dayjs('2024-08-19'), wednesday, 1)).toBe(
+      EXPENSE_GROUPS.THIS_WEEK,
+    )
+  })
+
+  it('places an expense in the current week in thisWeek for a Sunday-first locale', () => {
+    expect(getExpenseGroup(dayjs('2024-08-18'), wednesday, 0)).toBe(
+      EXPENSE_GROUPS.THIS_WEEK,
+    )
+  })
+
+  it('resolves the week check before the same-month check', () => {
+    // 2024-08-18 is a Sunday: still in the current week when the week starts on
+    // Sunday, but a week earlier once it starts on Monday, where the same
+    // Sunday must fall through to the earlier-this-month bucket.
+    expect(getExpenseGroup(dayjs('2024-08-18'), wednesday, 0)).toBe(
+      EXPENSE_GROUPS.THIS_WEEK,
+    )
+    expect(getExpenseGroup(dayjs('2024-08-18'), wednesday, 1)).toBe(
+      EXPENSE_GROUPS.EARLIER_THIS_MONTH,
+    )
   })
 })
