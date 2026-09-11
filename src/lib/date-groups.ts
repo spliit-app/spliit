@@ -55,7 +55,7 @@ export const EXPENSE_GROUPS = {
   EARLIER_THIS_YEAR: 'earlierThisYear',
   LAST_YEAR: 'lastYear',
   OLDER: 'older',
-}
+} as const
 
 export function getExpenseGroup(
   date: Dayjs,

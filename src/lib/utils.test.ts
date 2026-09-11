@@ -88,10 +88,12 @@ describe('dateOnlyToLocalDate', () => {
     expect(date.getDate()).toBe(1)
   })
 
-  it('does not shift the first of a month into the previous month', () => {
-    const date = dateOnlyToLocalDate(new Date('2024-08-01T00:00:00.000Z'))
+  it('keeps the first of January in its own year', () => {
+    const date = dateOnlyToLocalDate(new Date('2024-01-01T00:00:00.000Z'))
 
-    expect(date.getMonth()).toBe(7)
+    expect(date.getFullYear()).toBe(2024)
+    expect(date.getMonth()).toBe(0)
+    expect(date.getDate()).toBe(1)
   })
 
   it('keeps the last day of a month on that same day', () => {
