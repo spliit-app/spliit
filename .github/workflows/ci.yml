@@ -45,3 +45,10 @@ jobs:
 
       - name: Run tests
         run: npm test
+
+      # Date-only values (Expense.expenseDate) are carried at UTC midnight, so
+      # an off-by-one-day bug only shows up west of UTC. The ubuntu runner is
+      # UTC, so rerun the suite with an explicit negative-offset timezone to
+      # exercise those cases.
+      - name: Run tests west of UTC
+        run: npm run test:tz

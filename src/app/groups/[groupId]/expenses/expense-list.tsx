@@ -1,13 +1,16 @@
 'use client'
 import { ExpenseCard } from '@/app/groups/[groupId]/expenses/expense-card'
-import { getGroupExpensesAction } from '@/app/groups/[groupId]/expenses/expense-list-fetch-action'
 import { Button } from '@/components/ui/button'
 import { SearchBar } from '@/components/ui/search-bar'
 import { Skeleton } from '@/components/ui/skeleton'
-import { getWeekStartsOn, isSameWeek } from '@/lib/date-groups'
+import {
+  EXPENSE_GROUPS,
+  getGroupedExpensesByDate,
+  getWeekStartsOn,
+} from '@/lib/date-groups'
 import { getCurrencyFromGroup } from '@/lib/utils'
 import { trpc } from '@/trpc/client'
-import dayjs, { type Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { forwardRef, useEffect, useMemo, useState } from 'react'
@@ -16,55 +19,6 @@ import { useDebounce } from 'use-debounce'
 import { useCurrentGroup } from '../current-group-context'
 
 const PAGE_SIZE = 20
-
-type ExpensesType = NonNullable<
-  Awaited<ReturnType<typeof getGroupExpensesAction>>
->
-
-const EXPENSE_GROUPS = {
-  UPCOMING: 'upcoming',
-  THIS_WEEK: 'thisWeek',
-  EARLIER_THIS_MONTH: 'earlierThisMonth',
-  LAST_MONTH: 'lastMonth',
-  EARLIER_THIS_YEAR: 'earlierThisYear',
-  LAST_YEAR: 'lastYear',
-  OLDER: 'older',
-}
-
-function getExpenseGroup(date: Dayjs, today: Dayjs, weekStartsOn: number) {
-  if (today.isBefore(date)) {
-    return EXPENSE_GROUPS.UPCOMING
-  } else if (isSameWeek(today, date, weekStartsOn)) {
-    return EXPENSE_GROUPS.THIS_WEEK
-  } else if (today.isSame(date, 'month')) {
-    return EXPENSE_GROUPS.EARLIER_THIS_MONTH
-  } else if (today.subtract(1, 'month').isSame(date, 'month')) {
-    return EXPENSE_GROUPS.LAST_MONTH
-  } else if (today.isSame(date, 'year')) {
-    return EXPENSE_GROUPS.EARLIER_THIS_YEAR
-  } else if (today.subtract(1, 'year').isSame(date, 'year')) {
-    return EXPENSE_GROUPS.LAST_YEAR
-  } else {
-    return EXPENSE_GROUPS.OLDER
-  }
-}
-
-function getGroupedExpensesByDate(
-  expenses: ExpensesType,
-  weekStartsOn: number,
-) {
-  const today = dayjs()
-  return expenses.reduce((result: { [key: string]: ExpensesType }, expense) => {
-    const expenseGroup = getExpenseGroup(
-      dayjs(expense.expenseDate),
-      today,
-      weekStartsOn,
-    )
-    result[expenseGroup] = result[expenseGroup] ?? []
-    result[expenseGroup].push(expense)
-    return result
-  }, {})
-}
 
 export function ExpenseList() {
   const { groupId, group } = useCurrentGroup()
@@ -144,7 +98,8 @@ const ExpenseListForSearch = ({
   }, [fetchNextPage, hasMore, inView, isLoading])
 
   const groupedExpensesByDate = useMemo(
-    () => (expenses ? getGroupedExpensesByDate(expenses, weekStartsOn) : {}),
+    () =>
+      expenses ? getGroupedExpensesByDate(expenses, dayjs(), weekStartsOn) : {},
     [expenses, weekStartsOn],
   )
 

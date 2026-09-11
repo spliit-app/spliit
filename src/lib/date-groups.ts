@@ -1,4 +1,5 @@
-import { Dayjs } from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
+import { dateOnlyToLocalDate } from './utils'
 
 /**
  * Determine the first day of the week for a given locale, expressed using
@@ -44,4 +45,62 @@ export function isSameWeek(a: Dayjs, b: Dayjs, weekStartsOn: number): boolean {
     startOfWeek(b, weekStartsOn),
     'day',
   )
+}
+
+export const EXPENSE_GROUPS = {
+  UPCOMING: 'upcoming',
+  THIS_WEEK: 'thisWeek',
+  EARLIER_THIS_MONTH: 'earlierThisMonth',
+  LAST_MONTH: 'lastMonth',
+  EARLIER_THIS_YEAR: 'earlierThisYear',
+  LAST_YEAR: 'lastYear',
+  OLDER: 'older',
+}
+
+export function getExpenseGroup(
+  date: Dayjs,
+  today: Dayjs,
+  weekStartsOn: number,
+) {
+  if (today.isBefore(date)) {
+    return EXPENSE_GROUPS.UPCOMING
+  } else if (isSameWeek(today, date, weekStartsOn)) {
+    return EXPENSE_GROUPS.THIS_WEEK
+  } else if (today.isSame(date, 'month')) {
+    return EXPENSE_GROUPS.EARLIER_THIS_MONTH
+  } else if (today.subtract(1, 'month').isSame(date, 'month')) {
+    return EXPENSE_GROUPS.LAST_MONTH
+  } else if (today.isSame(date, 'year')) {
+    return EXPENSE_GROUPS.EARLIER_THIS_YEAR
+  } else if (today.subtract(1, 'year').isSame(date, 'year')) {
+    return EXPENSE_GROUPS.LAST_YEAR
+  } else {
+    return EXPENSE_GROUPS.OLDER
+  }
+}
+
+/**
+ * Buckets expenses by the date group their `expenseDate` falls into.
+ *
+ * `expenseDate` is a DATE column carried at UTC midnight, so it is converted
+ * with `dateOnlyToLocalDate` before classification; parsing it directly would
+ * file it under the previous day west of UTC.
+ *
+ * `today` is a parameter so the bucketing is deterministic in tests.
+ */
+export function getGroupedExpensesByDate<T extends { expenseDate: Date }>(
+  expenses: T[],
+  today: Dayjs,
+  weekStartsOn: number,
+) {
+  return expenses.reduce((result: { [key: string]: T[] }, expense) => {
+    const expenseGroup = getExpenseGroup(
+      dayjs(dateOnlyToLocalDate(expense.expenseDate)),
+      today,
+      weekStartsOn,
+    )
+    result[expenseGroup] = result[expenseGroup] ?? []
+    result[expenseGroup].push(expense)
+    return result
+  }, {})
 }
