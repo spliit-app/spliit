@@ -1,5 +1,11 @@
 import dayjs from 'dayjs'
-import { getWeekStartsOn, isSameWeek } from './date-groups'
+import {
+  EXPENSE_GROUPS,
+  getExpenseGroup,
+  getGroupedExpensesByDate,
+  getWeekStartsOn,
+  isSameWeek,
+} from './date-groups'
 
 describe('getWeekStartsOn', () => {
   it('returns Monday (1) for German locale', () => {
@@ -52,5 +58,144 @@ describe('isSameWeek', () => {
     expect(
       isSameWeek(dayjs('2024-01-01T23:59:59'), dayjs('2024-01-01T00:00:00'), 1),
     ).toBe(true)
+  })
+})
+
+/**
+ * `expenseDate` is a DATE column, so it is carried at UTC midnight. Reading it
+ * in the local timezone moves it to the previous day west of UTC, which used
+ * to file an expense under "Last month" while its card still showed the
+ * stored day. Those cases are only observable with TZ set west of UTC, so
+ * they run under `npm run test:tz`; a UTC runner takes the passing side of
+ * the defect.
+ */
+describe('getGroupedExpensesByDate', () => {
+  const weekStartsOn = 0
+
+  it('groups a DATE value by its stored calendar day, not the local one', () => {
+    const expenses = [{ expenseDate: new Date('2024-08-01T00:00:00.000Z') }]
+
+    const grouped = getGroupedExpensesByDate(
+      expenses,
+      dayjs('2024-08-20'),
+      weekStartsOn,
+    )
+
+    expect(Object.keys(grouped)).toEqual([EXPENSE_GROUPS.EARLIER_THIS_MONTH])
+    expect(grouped[EXPENSE_GROUPS.LAST_MONTH]).toBeUndefined()
+  })
+
+  it('does not read a first-of-year value as the last day of the previous year', () => {
+    const expenses = [{ expenseDate: new Date('2024-01-01T00:00:00.000Z') }]
+
+    const grouped = getGroupedExpensesByDate(
+      expenses,
+      dayjs('2024-06-15'),
+      weekStartsOn,
+    )
+
+    expect(Object.keys(grouped)).toEqual([EXPENSE_GROUPS.EARLIER_THIS_YEAR])
+    expect(grouped[EXPENSE_GROUPS.LAST_YEAR]).toBeUndefined()
+  })
+
+  // Not a regression test: east of UTC the local parse already agreed with the
+  // stored day, so this passes either way. It guards against a fix that
+  // over-corrects by pushing the day forwards instead.
+  it('does not move the stored day forwards on an east-of-UTC host', () => {
+    const expenses = [{ expenseDate: new Date('2024-08-31T00:00:00.000Z') }]
+
+    const grouped = getGroupedExpensesByDate(
+      expenses,
+      dayjs('2024-09-10'),
+      weekStartsOn,
+    )
+
+    expect(Object.keys(grouped)).toEqual([EXPENSE_GROUPS.LAST_MONTH])
+  })
+
+  it('accumulates several expenses into the same bucket', () => {
+    const expenses = [
+      { id: 'first', expenseDate: new Date('2024-08-05T00:00:00.000Z') },
+      { id: 'second', expenseDate: new Date('2024-08-12T00:00:00.000Z') },
+      { id: 'other', expenseDate: new Date('2024-07-15T00:00:00.000Z') },
+    ]
+
+    const grouped = getGroupedExpensesByDate(
+      expenses,
+      dayjs('2024-08-20'),
+      weekStartsOn,
+    )
+
+    expect(Object.keys(grouped).sort()).toEqual([
+      EXPENSE_GROUPS.EARLIER_THIS_MONTH,
+      EXPENSE_GROUPS.LAST_MONTH,
+    ])
+    expect(grouped[EXPENSE_GROUPS.EARLIER_THIS_MONTH]).toEqual([
+      expenses[0],
+      expenses[1],
+    ])
+    expect(grouped[EXPENSE_GROUPS.LAST_MONTH]).toEqual([expenses[2]])
+  })
+})
+
+describe('getExpenseGroup', () => {
+  const weekStartsOn = 0
+
+  it('places a future expense in upcoming', () => {
+    expect(
+      getExpenseGroup(dayjs('2024-09-01'), dayjs('2024-08-20'), weekStartsOn),
+    ).toBe(EXPENSE_GROUPS.UPCOMING)
+  })
+
+  it('places an expense in the current month in earlierThisMonth', () => {
+    expect(
+      getExpenseGroup(dayjs('2024-08-05'), dayjs('2024-08-20'), weekStartsOn),
+    ).toBe(EXPENSE_GROUPS.EARLIER_THIS_MONTH)
+  })
+
+  it('places an expense in the previous month in lastMonth', () => {
+    expect(
+      getExpenseGroup(dayjs('2024-07-15'), dayjs('2024-08-20'), weekStartsOn),
+    ).toBe(EXPENSE_GROUPS.LAST_MONTH)
+  })
+
+  it('places an expense in the previous year in lastYear', () => {
+    expect(
+      getExpenseGroup(dayjs('2023-08-15'), dayjs('2024-08-20'), weekStartsOn),
+    ).toBe(EXPENSE_GROUPS.LAST_YEAR)
+  })
+
+  it('places an older expense in older', () => {
+    expect(
+      getExpenseGroup(dayjs('2022-08-15'), dayjs('2024-08-20'), weekStartsOn),
+    ).toBe(EXPENSE_GROUPS.OLDER)
+  })
+
+  // 2024-08-21 is a Wednesday, so the two first-day-of-week conventions put the
+  // week boundary on different days around it.
+  const wednesday = dayjs('2024-08-21')
+
+  it('places an expense in the current week in thisWeek for a Monday-first locale', () => {
+    expect(getExpenseGroup(dayjs('2024-08-19'), wednesday, 1)).toBe(
+      EXPENSE_GROUPS.THIS_WEEK,
+    )
+  })
+
+  it('places an expense in the current week in thisWeek for a Sunday-first locale', () => {
+    expect(getExpenseGroup(dayjs('2024-08-18'), wednesday, 0)).toBe(
+      EXPENSE_GROUPS.THIS_WEEK,
+    )
+  })
+
+  it('resolves the week check before the same-month check', () => {
+    // 2024-08-18 is a Sunday: still in the current week when the week starts on
+    // Sunday, but a week earlier once it starts on Monday, where the same
+    // Sunday must fall through to the earlier-this-month bucket.
+    expect(getExpenseGroup(dayjs('2024-08-18'), wednesday, 0)).toBe(
+      EXPENSE_GROUPS.THIS_WEEK,
+    )
+    expect(getExpenseGroup(dayjs('2024-08-18'), wednesday, 1)).toBe(
+      EXPENSE_GROUPS.EARLIER_THIS_MONTH,
+    )
   })
 })
