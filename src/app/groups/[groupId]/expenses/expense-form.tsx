@@ -21,6 +21,7 @@ import {
   FormControl,
   FormDescription,
   FormField,
+  FormFieldScope,
   FormItem,
   FormLabel,
   FormMessage,
@@ -990,6 +991,25 @@ export function ExpenseForm({
                       control={form.control}
                       name="paidFor"
                       render={({ field }) => {
+                        const index = field.value.findIndex(
+                          ({ participant }) => participant === id,
+                        )
+                        const isSelected = index !== -1
+                        const sharesLabel = (
+                          <span
+                            className={cn('text-sm', {
+                              'text-muted': !isSelected,
+                            })}
+                          >
+                            {match(form.getValues().splitMode)
+                              .with('BY_SHARES', () => <>{t('shares')}</>)
+                              .with('BY_PERCENTAGE', () => <>%</>)
+                              .with('BY_AMOUNT', () => <>{group.currency}</>)
+                              .otherwise(() => (
+                                <></>
+                              ))}
+                          </span>
+                        )
                         return (
                           <div
                             data-id={`${id}/${form.getValues().splitMode}/${
@@ -1092,204 +1112,130 @@ export function ExpenseForm({
                             <div className="flex flex-wrap justify-end gap-y-2">
                               {form.getValues().splitMode === 'BY_AMOUNT' &&
                                 !!conversionRequired && (
-                                  <FormField
-                                    name={`paidFor[${field.value.findIndex(
-                                      ({ participant }) => participant === id,
-                                    )}].originalAmount`}
-                                    render={() => {
-                                      const sharesLabel = (
+                                  <FormFieldScope
+                                    name={`paidFor.${index}.originalAmount`}
+                                  >
+                                    <div>
+                                      <div className="flex gap-1 items-center">
                                         <span
                                           className={cn('text-sm', {
-                                            'text-muted': !field.value?.some(
-                                              ({ participant }) =>
-                                                participant === id,
-                                            ),
+                                            'text-muted': !isSelected,
                                           })}
                                         >
                                           {originalCurrency.symbol}
                                         </span>
-                                      )
-                                      return (
-                                        <div>
-                                          <div className="flex gap-1 items-center">
-                                            {sharesLabel}
-                                            <FormControl>
-                                              <Input
-                                                key={String(
-                                                  !field.value?.some(
-                                                    ({ participant }) =>
-                                                      participant === id,
-                                                  ),
-                                                )}
-                                                className="text-base w-[80px] -my-2"
-                                                type="text"
-                                                inputMode="decimal"
-                                                disabled={
-                                                  !field.value?.some(
-                                                    ({ participant }) =>
-                                                      participant === id,
-                                                  )
-                                                }
-                                                value={
-                                                  field.value.find(
-                                                    ({ participant }) =>
-                                                      participant === id,
-                                                  )?.originalAmount ?? ''
-                                                }
-                                                onChange={(event) => {
-                                                  const originalAmount = Number(
-                                                    event.target.value,
-                                                  )
-                                                  let convertedAmount = ''
-                                                  if (
-                                                    !Number.isNaN(
-                                                      originalAmount,
-                                                    ) &&
-                                                    exchangeRate.data
-                                                  ) {
-                                                    convertedAmount = (
-                                                      originalAmount *
-                                                      exchangeRate.data
-                                                    ).toFixed(
-                                                      groupCurrency.decimal_digits,
-                                                    )
-                                                  }
-                                                  field.onChange(
-                                                    field.value.map((p) =>
-                                                      p.participant === id
-                                                        ? {
-                                                            participant: id,
-                                                            originalAmount:
-                                                              event.target
-                                                                .value,
-                                                            shares:
-                                                              enforceCurrencyPattern(
-                                                                convertedAmount,
-                                                              ),
-                                                          }
-                                                        : p,
-                                                    ),
-                                                  )
-                                                  setManuallyEditedParticipants(
-                                                    (prev) =>
-                                                      new Set(prev).add(id),
-                                                  )
-                                                }}
-                                                step={
-                                                  10 **
-                                                  -originalCurrency.decimal_digits
-                                                }
-                                              />
-                                            </FormControl>
-                                            <ChevronRight className="h-4 w-4 mx-1 opacity-50" />
-                                          </div>
-                                        </div>
-                                      )
-                                    }}
-                                  />
+                                        <FormControl>
+                                          <Input
+                                            key={String(!isSelected)}
+                                            className="text-base w-[80px] -my-2"
+                                            type="text"
+                                            inputMode="decimal"
+                                            disabled={!isSelected}
+                                            value={
+                                              field.value[index]
+                                                ?.originalAmount ?? ''
+                                            }
+                                            onChange={(event) => {
+                                              const originalAmount = Number(
+                                                event.target.value,
+                                              )
+                                              let convertedAmount = ''
+                                              if (
+                                                !Number.isNaN(originalAmount) &&
+                                                exchangeRate.data
+                                              ) {
+                                                convertedAmount = (
+                                                  originalAmount *
+                                                  exchangeRate.data
+                                                ).toFixed(
+                                                  groupCurrency.decimal_digits,
+                                                )
+                                              }
+                                              field.onChange(
+                                                field.value.map((p) =>
+                                                  p.participant === id
+                                                    ? {
+                                                        participant: id,
+                                                        originalAmount:
+                                                          event.target.value,
+                                                        shares:
+                                                          enforceCurrencyPattern(
+                                                            convertedAmount,
+                                                          ),
+                                                      }
+                                                    : p,
+                                                ),
+                                              )
+                                              setManuallyEditedParticipants(
+                                                (prev) => new Set(prev).add(id),
+                                              )
+                                            }}
+                                            step={
+                                              10 **
+                                              -originalCurrency.decimal_digits
+                                            }
+                                          />
+                                        </FormControl>
+                                        <ChevronRight className="h-4 w-4 mx-1 opacity-50" />
+                                      </div>
+                                    </div>
+                                  </FormFieldScope>
                                 )}
                               {form.getValues().splitMode !== 'EVENLY' && (
-                                <FormField
-                                  name={`paidFor[${field.value.findIndex(
-                                    ({ participant }) => participant === id,
-                                  )}].shares`}
-                                  render={() => {
-                                    const sharesLabel = (
-                                      <span
-                                        className={cn('text-sm', {
-                                          'text-muted': !field.value?.some(
-                                            ({ participant }) =>
-                                              participant === id,
-                                          ),
-                                        })}
-                                      >
-                                        {match(form.getValues().splitMode)
-                                          .with('BY_SHARES', () => (
-                                            <>{t('shares')}</>
-                                          ))
-                                          .with('BY_PERCENTAGE', () => <>%</>)
-                                          .with('BY_AMOUNT', () => (
-                                            <>{group.currency}</>
-                                          ))
-                                          .otherwise(() => (
-                                            <></>
-                                          ))}
-                                      </span>
-                                    )
-                                    return (
-                                      <div>
-                                        <div className="flex gap-1 items-center">
-                                          {form.getValues().splitMode ===
-                                            'BY_AMOUNT' && sharesLabel}
-                                          <FormControl>
-                                            <Input
-                                              key={String(
-                                                !field.value?.some(
-                                                  ({ participant }) =>
-                                                    participant === id,
-                                                ),
-                                              )}
-                                              className="text-base w-[80px] -my-2"
-                                              type="text"
-                                              disabled={
-                                                !field.value?.some(
-                                                  ({ participant }) =>
-                                                    participant === id,
-                                                )
-                                              }
-                                              value={
-                                                field.value?.find(
-                                                  ({ participant }) =>
-                                                    participant === id,
-                                                )?.shares
-                                              }
-                                              onChange={(event) => {
-                                                field.onChange(
-                                                  field.value.map((p) =>
-                                                    p.participant === id
-                                                      ? {
-                                                          participant: id,
-                                                          shares:
-                                                            enforceCurrencyPattern(
-                                                              event.target
-                                                                .value,
-                                                            ),
-                                                        }
-                                                      : p,
-                                                  ),
-                                                )
-                                                setManuallyEditedParticipants(
-                                                  (prev) =>
-                                                    new Set(prev).add(id),
-                                                )
-                                              }}
-                                              inputMode={
-                                                form.getValues().splitMode ===
-                                                'BY_AMOUNT'
-                                                  ? 'decimal'
-                                                  : 'numeric'
-                                              }
-                                              step={
-                                                form.getValues().splitMode ===
-                                                'BY_AMOUNT'
-                                                  ? 10 **
-                                                    -groupCurrency.decimal_digits
-                                                  : 1
-                                              }
-                                            />
-                                          </FormControl>
-                                          {[
-                                            'BY_SHARES',
-                                            'BY_PERCENTAGE',
-                                          ].includes(
-                                            form.getValues().splitMode!,
-                                          ) && sharesLabel}
-                                        </div>
-                                        <FormMessage className="float-right" />
-                                      </div>
-                                    )
-                                  }}
-                                />
+                                <FormFieldScope
+                                  name={`paidFor.${index}.shares`}
+                                >
+                                  <div>
+                                    <div className="flex gap-1 items-center">
+                                      {form.getValues().splitMode ===
+                                        'BY_AMOUNT' && sharesLabel}
+                                      <FormControl>
+                                        <Input
+                                          key={String(!isSelected)}
+                                          className="text-base w-[80px] -my-2"
+                                          type="text"
+                                          disabled={!isSelected}
+                                          value={field.value[index]?.shares}
+                                          onChange={(event) => {
+                                            field.onChange(
+                                              field.value.map((p) =>
+                                                p.participant === id
+                                                  ? {
+                                                      participant: id,
+                                                      shares:
+                                                        enforceCurrencyPattern(
+                                                          event.target.value,
+                                                        ),
+                                                    }
+                                                  : p,
+                                              ),
+                                            )
+                                            setManuallyEditedParticipants(
+                                              (prev) => new Set(prev).add(id),
+                                            )
+                                          }}
+                                          inputMode={
+                                            form.getValues().splitMode ===
+                                            'BY_AMOUNT'
+                                              ? 'decimal'
+                                              : 'numeric'
+                                          }
+                                          step={
+                                            form.getValues().splitMode ===
+                                            'BY_AMOUNT'
+                                              ? 10 **
+                                                -groupCurrency.decimal_digits
+                                              : 1
+                                          }
+                                        />
+                                      </FormControl>
+                                      {['BY_SHARES', 'BY_PERCENTAGE'].includes(
+                                        form.getValues().splitMode!,
+                                      ) && sharesLabel}
+                                    </div>
+                                    <FormMessage className="float-right" />
+                                  </div>
+                                </FormFieldScope>
                               )}
                             </div>
                           </div>

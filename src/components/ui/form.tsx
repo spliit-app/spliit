@@ -40,6 +40,33 @@ const FormField = <
   )
 }
 
+/**
+ * Scopes FormControl and FormMessage to `name` without registering a field.
+ *
+ * For an input whose value is read from and written to a parent field -- one
+ * row of an array field, say -- FormField is the wrong wrapper: its Controller
+ * registers `name` as a field of its own, and react-hook-form then writes that
+ * path into the form values. A path the parent's value does not have (an
+ * index of -1, a key the row lacks) makes the parent compare unequal to its
+ * default and read as dirty even though nothing was edited.
+ */
+const FormFieldScope = <
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+>({
+  name,
+  children,
+}: {
+  name: TName
+  children: React.ReactNode
+}) => {
+  return (
+    <FormFieldContext.Provider value={{ name }}>
+      {children}
+    </FormFieldContext.Provider>
+  )
+}
+
 const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext)
   const itemContext = React.useContext(FormItemContext)
@@ -185,4 +212,5 @@ export {
   FormDescription,
   FormMessage,
   FormField,
+  FormFieldScope,
 }

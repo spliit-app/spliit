@@ -2,6 +2,8 @@ import {
   addExpense,
   createGroup,
   expectBalance,
+  EXPENSES_URL,
+  openExpense,
   openTab,
   paidForRow,
   uniqueSuffix,
@@ -70,6 +72,43 @@ test('splits an expense by amount', async ({ page }) => {
   await expectBalance(page, 'Alice', 50)
   await expectBalance(page, 'Bob', -30)
   await expectBalance(page, 'Carol', -20)
+})
+
+test('keeps a by-amount split that skips a participant when reopened', async ({
+  page,
+}) => {
+  const groupId = await createGroup(page, {
+    name: `E2E AmountReopen ${uniqueSuffix()}`,
+    participants: PARTICIPANTS,
+  })
+
+  // Regression for #621: with a participant left unchecked, the edit form
+  // used to rebalance the stored amounts evenly as soon as it loaded.
+  await addExpense(page, groupId, {
+    title: 'Taxi',
+    amount: '100',
+    paidBy: 'Alice',
+    paidFor: ['Alice', 'Bob'],
+    splitMode: 'BY_AMOUNT',
+    shares: { Alice: '60', Bob: '40' },
+  })
+
+  await openExpense(page, 'Taxi')
+  await expect(paidForRow(page, 'Alice').getByRole('textbox')).toHaveValue('60')
+  await expect(paidForRow(page, 'Bob').getByRole('textbox')).toHaveValue('40')
+  await expect(paidForRow(page, 'Carol').getByRole('checkbox')).toHaveAttribute(
+    'aria-checked',
+    'false',
+  )
+
+  // Saving without touching the split must not change it either.
+  await page.getByRole('button', { name: 'Save', exact: true }).click()
+  await page.waitForURL(EXPENSES_URL, { timeout: 30_000 })
+
+  await openTab(page, 'Balances')
+  await expectBalance(page, 'Alice', 40)
+  await expectBalance(page, 'Bob', -40)
+  await expectBalance(page, 'Carol', 0)
 })
 
 test('rejects percentages that do not add up to 100', async ({ page }) => {
