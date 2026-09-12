@@ -7,7 +7,7 @@ import {
   uniqueSuffix,
 } from './app'
 import { expect, test } from './fixtures'
-import { fillStable, selectRadixOption } from './ui'
+import { fillStable, money, selectRadixOption } from './ui'
 
 const PARTICIPANTS = ['Alice', 'Bob', 'Carol']
 
@@ -98,7 +98,79 @@ test('rejects percentages that do not add up to 100', async ({ page }) => {
   await submit.click()
 
   await expect(
-    page.getByText('Sum of percentages must equal 100.'),
+    page.getByText('The percentages add up to 90%, 10% less than 100%.'),
   ).toBeVisible()
   await expect(page).toHaveURL(/\/expenses\/create/)
+})
+
+test('names the difference when amounts do not add up', async ({ page }) => {
+  const groupId = await createGroup(page, {
+    name: `E2E BadAmount ${uniqueSuffix()}`,
+    participants: PARTICIPANTS,
+  })
+
+  await page.goto(`/groups/${groupId}/expenses/create`)
+  const submit = page.getByRole('button', { name: 'Create', exact: true })
+  await expect(submit).toBeVisible({ timeout: 30_000 })
+
+  await fillStable(page.locator('input[name="title"]'), 'Off by a cent')
+  await fillStable(page.locator('input[name="amount"]'), '100')
+  await selectRadixOption(page, page.getByTestId('paid-by'), 'Alice')
+  await page.getByRole('button', { name: /Advanced splitting options/ }).click()
+  await selectRadixOption(page, page.getByTestId('split-mode'), /By amount/)
+
+  // Receipt rounding: the last amount is one cent too high.
+  const shares: Record<string, string> = {
+    Alice: '50',
+    Bob: '30',
+    Carol: '20.01',
+  }
+  for (const name of Object.keys(shares)) {
+    await fillStable(paidForRow(page, name).getByRole('textbox'), shares[name])
+  }
+
+  await submit.click()
+
+  await expect(
+    page.getByText(
+      `The amounts add up to ${money(100.01)}, ${money(0.01)} more than the expense amount (${money(100)}).`,
+    ),
+  ).toBeVisible()
+  await expect(page).toHaveURL(/\/expenses\/create/)
+})
+
+test('offers the remainder again when an amount is cleared', async ({
+  page,
+}) => {
+  const groupId = await createGroup(page, {
+    name: `E2E ClearAmount ${uniqueSuffix()}`,
+    participants: PARTICIPANTS,
+  })
+
+  await page.goto(`/groups/${groupId}/expenses/create`)
+  const submit = page.getByRole('button', { name: 'Create', exact: true })
+  await expect(submit).toBeVisible({ timeout: 30_000 })
+
+  await fillStable(page.locator('input[name="title"]'), 'Cleared')
+  await fillStable(page.locator('input[name="amount"]'), '100')
+  await selectRadixOption(page, page.getByTestId('paid-by'), 'Alice')
+  await page.getByRole('button', { name: /Advanced splitting options/ }).click()
+  await selectRadixOption(page, page.getByTestId('split-mode'), /By amount/)
+
+  await fillStable(paidForRow(page, 'Alice').getByRole('textbox'), '50')
+  await fillStable(paidForRow(page, 'Bob').getByRole('textbox'), '30')
+  // Carol's amount was filled in; type a wrong one, then delete it. The input
+  // must go back to suggesting the remainder, as a placeholder this time.
+  const carol = paidForRow(page, 'Carol').getByRole('textbox')
+  await fillStable(carol, '25')
+  await fillStable(carol, '')
+  await expect(carol).toHaveAttribute('placeholder', '20.00')
+
+  // The suggestion is what gets saved when the input is left empty.
+  await submit.click()
+  await page.waitForURL(/\/groups\/[^/]+\/expenses(\?|$)/, { timeout: 30_000 })
+  await openTab(page, 'Balances')
+  await expectBalance(page, 'Alice', 50)
+  await expectBalance(page, 'Bob', -30)
+  await expectBalance(page, 'Carol', -20)
 })

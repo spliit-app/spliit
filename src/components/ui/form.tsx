@@ -12,7 +12,7 @@ import {
 
 import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
-import { useMessages } from "next-intl"
+import { useMessages, useTranslations } from "next-intl"
 
 const Form = FormProvider
 
@@ -143,9 +143,17 @@ FormDescription.displayName = "FormDescription"
 
 const FormMessage = React.forwardRef<
   HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, children, ...props }, ref) => {
+  React.HTMLAttributes<HTMLParagraphElement> & {
+    /**
+     * Values for the placeholders of the translated error, for messages that
+     * have some ("the amounts add up to {sum}"). The resolver only keeps the
+     * message key of a schema issue, so the caller has to provide them.
+     */
+    values?: Record<string, string | number>
+  }
+>(({ className, children, values, ...props }, ref) => {
   const messages = useMessages()
+  const t = useTranslations("SchemaErrors")
   const { error, formMessageId } = useFormField()
   let body
   // An error on a field array as a whole -- "sum of percentages must equal
@@ -154,7 +162,7 @@ const FormMessage = React.forwardRef<
   const message = error?.message ?? error?.root?.message
   if (message) {
     const translation = (messages.SchemaErrors as any)[message]
-    body = translation ?? message
+    body = translation ? t(message, values) : message
   } else {
     body = children
   }

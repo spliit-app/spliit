@@ -334,6 +334,29 @@ export function ExpenseForm({
   const [manuallyEditedParticipants, setManuallyEditedParticipants] = useState<
     Set<string>
   >(new Set())
+  // Participants whose amount the user emptied. They take a share of the
+  // remainder again, like participants that were never edited, but the input
+  // shows that share as a placeholder rather than a value so the user can type
+  // over it without deleting it first.
+  const [clearedParticipants, setClearedParticipants] = useState<Set<string>>(
+    new Set(),
+  )
+
+  const markShareEdited = (id: string, cleared: boolean) => {
+    const isCleared = cleared && form.getValues().splitMode === 'BY_AMOUNT'
+    setManuallyEditedParticipants((prev) => {
+      const next = new Set(prev)
+      if (isCleared) next.delete(id)
+      else next.add(id)
+      return next
+    })
+    setClearedParticipants((prev) => {
+      const next = new Set(prev)
+      if (isCleared) next.add(id)
+      else next.delete(id)
+      return next
+    })
+  }
 
   const sExpense = isIncome ? 'Income' : 'Expense'
 
@@ -366,6 +389,7 @@ export function ExpenseForm({
 
   useEffect(() => {
     setManuallyEditedParticipants(new Set())
+    setClearedParticipants(new Set())
   }, [form.watch('splitMode'), form.watch('amount')])
 
   useEffect(() => {
@@ -535,6 +559,55 @@ export function ExpenseForm({
         : t('conversionRateState.currencyNotFound')
     }
   }
+
+  // What the "amounts must add up" error reports: the current sum and how far
+  // off it is, so the user can fix a one-cent rounding difference without
+  // adding the amounts up themselves. Computed in minor units, like the schema
+  // check, so that 0.1 + 0.2 does not come out as a difference.
+  const splitSumValues = ((): Record<string, string> | undefined => {
+    const paidFor = form.watch('paidFor')
+    switch (form.watch('splitMode')) {
+      case 'BY_AMOUNT': {
+        const amount = amountAsMinorUnits(
+          Number(form.watch('amount')) || 0,
+          groupCurrency,
+        )
+        const sum = paidFor.reduce(
+          (sum, { shares }) =>
+            sum + amountAsMinorUnits(Number(shares) || 0, groupCurrency),
+          0,
+        )
+        return {
+          sum: formatCurrency(groupCurrency, sum, locale),
+          amount: formatCurrency(groupCurrency, amount, locale),
+          difference: formatCurrency(
+            groupCurrency,
+            Math.abs(sum - amount),
+            locale,
+          ),
+          direction: sum > amount ? 'over' : 'under',
+        }
+      }
+      case 'BY_PERCENTAGE': {
+        // Basis points, like the schema check
+        const sum = paidFor.reduce(
+          (sum, { shares }) => sum + Math.round((Number(shares) || 0) * 100),
+          0,
+        )
+        const formatPercentage = (basisPoints: number) =>
+          (basisPoints / 100).toLocaleString(locale, {
+            maximumFractionDigits: 2,
+          })
+        return {
+          sum: formatPercentage(sum),
+          difference: formatPercentage(Math.abs(sum - 10000)),
+          direction: sum > 10000 ? 'over' : 'under',
+        }
+      }
+      default:
+        return undefined
+    }
+  })()
 
   return (
     <Form {...form}>
@@ -1137,11 +1210,14 @@ export function ExpenseForm({
                                                   )?.originalAmount ?? ''
                                                 }
                                                 onChange={(event) => {
+                                                  const cleared =
+                                                    event.target.value === ''
                                                   const originalAmount = Number(
                                                     event.target.value,
                                                   )
                                                   let convertedAmount = ''
                                                   if (
+                                                    !cleared &&
                                                     !Number.isNaN(
                                                       originalAmount,
                                                     ) &&
@@ -1170,10 +1246,7 @@ export function ExpenseForm({
                                                         : p,
                                                     ),
                                                   )
-                                                  setManuallyEditedParticipants(
-                                                    (prev) =>
-                                                      new Set(prev).add(id),
-                                                  )
+                                                  markShareEdited(id, cleared)
                                                 }}
                                                 step={
                                                   10 **
@@ -1238,29 +1311,41 @@ export function ExpenseForm({
                                                 )
                                               }
                                               value={
-                                                field.value?.find(
-                                                  ({ participant }) =>
-                                                    participant === id,
-                                                )?.shares
+                                                clearedParticipants.has(id)
+                                                  ? ''
+                                                  : field.value?.find(
+                                                      ({ participant }) =>
+                                                        participant === id,
+                                                    )?.shares
+                                              }
+                                              placeholder={
+                                                clearedParticipants.has(id)
+                                                  ? String(
+                                                      field.value?.find(
+                                                        ({ participant }) =>
+                                                          participant === id,
+                                                      )?.shares ?? '',
+                                                    )
+                                                  : undefined
                                               }
                                               onChange={(event) => {
+                                                const shares =
+                                                  enforceCurrencyPattern(
+                                                    event.target.value,
+                                                  )
                                                 field.onChange(
                                                   field.value.map((p) =>
                                                     p.participant === id
                                                       ? {
                                                           participant: id,
-                                                          shares:
-                                                            enforceCurrencyPattern(
-                                                              event.target
-                                                                .value,
-                                                            ),
+                                                          shares,
                                                         }
                                                       : p,
                                                   ),
                                                 )
-                                                setManuallyEditedParticipants(
-                                                  (prev) =>
-                                                    new Set(prev).add(id),
+                                                markShareEdited(
+                                                  id,
+                                                  shares === '',
                                                 )
                                               }}
                                               inputMode={
@@ -1297,7 +1382,7 @@ export function ExpenseForm({
                       }}
                     />
                   ))}
-                  <FormMessage />
+                  <FormMessage values={splitSumValues} />
                 </FormItem>
               )}
             />

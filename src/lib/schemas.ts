@@ -152,15 +152,18 @@ export const expenseFormSchema = z
       case 'BY_SHARES':
         break // noop
       case 'BY_AMOUNT': {
-        const sum = expense.paidFor.reduce(
-          (sum, { shares }) => new Decimal(shares).add(sum),
-          new Decimal(0),
-        )
+        const sum = expense.paidFor.reduce((sum, { shares }) => {
+          // An emptied or half-typed input is reported as an invalid share on
+          // its own; it must not make the sum of the others throw.
+          const value = String(shares).trim()
+          return value === '' || Number.isNaN(Number(value))
+            ? sum
+            : sum.add(value)
+        }, new Decimal(0))
         if (!sum.equals(new Decimal(expense.amount))) {
-          // const detail =
-          //   sum < expense.amount
-          //     ? `${((expense.amount - sum) / 100).toFixed(2)} missing`
-          //     : `${((sum - expense.amount) / 100).toFixed(2)} surplus`
+          // The message names the sum and how far off it is. Issue params do
+          // not survive the form resolver, so the expense form computes those
+          // values itself and hands them to the message.
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: 'amountSum',
@@ -179,10 +182,6 @@ export const expenseFormSchema = z
           0,
         )
         if (sum !== 10000) {
-          const detail =
-            sum < 10000
-              ? `${((10000 - sum) / 100).toFixed(0)}% missing`
-              : `${((sum - 10000) / 100).toFixed(0)}% surplus`
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: 'percentageSum',
