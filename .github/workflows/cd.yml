@@ -25,6 +25,15 @@ jobs:
     permissions:
       contents: read
       packages: write
+    # Each matrix leg only sets the output for its own platform; GitHub merges
+    # the outputs of every leg, so the merge job sees both. The digests used to
+    # travel through workflow artifacts, but the artifact service intermittently
+    # answers 403 and actions/download-artifact does not retry
+    # (actions/download-artifact#464), which left a release tag with no image
+    # (#636). Job outputs are stored with the run and have no such dependency.
+    outputs:
+      digest-linux-amd64: ${{ steps.export.outputs.digest-linux-amd64 }}
+      digest-linux-arm64: ${{ steps.export.outputs.digest-linux-arm64 }}
 
     steps:
       - name: Prepare environment
@@ -62,18 +71,9 @@ jobs:
           outputs: type=image,name=${{ env.REGISTRY }}/${{ env.REPO }},push-by-digest=true,name-canonical=true,push=true
 
       - name: Export digest
+        id: export
         run: |
-          mkdir -p "${{ runner.temp }}/digests"
-          digest="${{ steps.build.outputs.digest }}"
-          touch "${{ runner.temp }}/digests/${digest#sha256:}"
-
-      - name: Upload digest
-        uses: actions/upload-artifact@v7
-        with:
-          name: digests-${{ env.PLATFORM_PAIR }}
-          path: ${{ runner.temp }}/digests/*
-          if-no-files-found: error
-          retention-days: 1
+          echo "digest-${PLATFORM_PAIR}=${{ steps.build.outputs.digest }}" >> "${GITHUB_OUTPUT}"
 
   # Combine the per-architecture digests into a single multi-arch manifest
   # published under the version tag and `latest`.
@@ -83,18 +83,26 @@ jobs:
     permissions:
       contents: read
       packages: write
+    env:
+      DIGEST_AMD64: ${{ needs.build.outputs.digest-linux-amd64 }}
+      DIGEST_ARM64: ${{ needs.build.outputs.digest-linux-arm64 }}
 
     steps:
       - name: Downcase repo
         run: |
           echo "REPO=${GITHUB_REPOSITORY@L}" >> "${GITHUB_ENV}"
 
-      - name: Download digests
-        uses: actions/download-artifact@v8
-        with:
-          path: ${{ runner.temp }}/digests
-          pattern: digests-*
-          merge-multiple: true
+      # `needs` only runs this job once every build leg succeeded, but an empty
+      # digest would still be a bug in the hand-off above, and an image with a
+      # missing architecture must never be published as `latest`.
+      - name: Check digests
+        run: |
+          for digest in "${DIGEST_AMD64}" "${DIGEST_ARM64}"; do
+            if [[ ! "${digest}" =~ ^sha256:[0-9a-f]{64}$ ]]; then
+              echo "::error::Missing or malformed image digest: '${digest}'"
+              exit 1
+            fi
+          done
 
       - name: Login to Github Container Registry
         uses: docker/login-action@v4
@@ -107,16 +115,12 @@ jobs:
         uses: docker/setup-buildx-action@v4
 
       - name: Create manifest list and push
-        working-directory: ${{ runner.temp }}/digests
         run: |
-          sources=()
-          for digest in *; do
-            sources+=("${REGISTRY}/${REPO}@sha256:${digest}")
-          done
           docker buildx imagetools create \
             --tag "${REGISTRY}/${REPO}:${{ github.ref_name }}" \
             --tag "${REGISTRY}/${REPO}:latest" \
-            "${sources[@]}"
+            "${REGISTRY}/${REPO}@${DIGEST_AMD64}" \
+            "${REGISTRY}/${REPO}@${DIGEST_ARM64}"
 
       - name: Inspect image
         run: |
