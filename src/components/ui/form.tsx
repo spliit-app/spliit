@@ -40,6 +40,36 @@ const FormField = <
   )
 }
 
+/**
+ * Scopes FormControl and FormMessage to `name` without registering a field.
+ *
+ * For an input whose value is read from and written to a parent field -- one
+ * row of an array field, say -- FormField is the wrong wrapper: its Controller
+ * registers `name` as a field of its own, and react-hook-form then writes that
+ * path into the form values. A path the parent's value does not have (an
+ * index of -1, a key the row lacks) makes the parent compare unequal to its
+ * default. That alone changes nothing, but the next change event -- even one
+ * that re-submits a default value, as a selector may do on mount -- makes
+ * react-hook-form recompute `dirtyFields` from those values, and the parent
+ * reads as dirty even though nothing was edited.
+ *
+ * `name` is a plain string on purpose: it is only used to look up the field's
+ * state, and a row that is not in the parent's value has no valid path.
+ */
+const FormFieldScope = ({
+  name,
+  children,
+}: {
+  name: string
+  children: React.ReactNode
+}) => {
+  return (
+    <FormFieldContext.Provider value={{ name }}>
+      {children}
+    </FormFieldContext.Provider>
+  )
+}
+
 const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext)
   const itemContext = React.useContext(FormItemContext)
@@ -48,7 +78,9 @@ const useFormField = () => {
   const fieldState = getFieldState(fieldContext.name, formState)
 
   if (!fieldContext) {
-    throw new Error("useFormField should be used within <FormField>")
+    throw new Error(
+      "useFormField should be used within <FormField> or <FormFieldScope>"
+    )
   }
 
   const { id } = itemContext
@@ -191,4 +223,5 @@ export {
   FormDescription,
   FormMessage,
   FormField,
+  FormFieldScope,
 }
