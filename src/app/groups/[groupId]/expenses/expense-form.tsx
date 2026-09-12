@@ -1020,9 +1020,7 @@ export function ExpenseForm({
                             <FormItem className="flex-1 flex flex-row items-start space-x-3 space-y-0">
                               <FormControl>
                                 <Checkbox
-                                  checked={field.value?.some(
-                                    ({ participant }) => participant === id,
-                                  )}
+                                  checked={isSelected}
                                   onCheckedChange={(checked) => {
                                     const options = {
                                       shouldDirty: true,
@@ -1053,9 +1051,7 @@ export function ExpenseForm({
                               </FormControl>
                               <FormLabel className="text-sm font-normal flex-1">
                                 {name}
-                                {field.value?.some(
-                                  ({ participant }) => participant === id,
-                                ) &&
+                                {isSelected &&
                                   !form.watch('isReimbursement') && (
                                     <span className="text-muted-foreground ml-2">
                                       (

@@ -48,16 +48,19 @@ const FormField = <
  * registers `name` as a field of its own, and react-hook-form then writes that
  * path into the form values. A path the parent's value does not have (an
  * index of -1, a key the row lacks) makes the parent compare unequal to its
- * default and read as dirty even though nothing was edited.
+ * default. That alone changes nothing, but the next change event -- even one
+ * that re-submits a default value, as a selector may do on mount -- makes
+ * react-hook-form recompute `dirtyFields` from those values, and the parent
+ * reads as dirty even though nothing was edited.
+ *
+ * `name` is a plain string on purpose: it is only used to look up the field's
+ * state, and a row that is not in the parent's value has no valid path.
  */
-const FormFieldScope = <
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
->({
+const FormFieldScope = ({
   name,
   children,
 }: {
-  name: TName
+  name: string
   children: React.ReactNode
 }) => {
   return (
@@ -75,7 +78,9 @@ const useFormField = () => {
   const fieldState = getFieldState(fieldContext.name, formState)
 
   if (!fieldContext) {
-    throw new Error("useFormField should be used within <FormField>")
+    throw new Error(
+      "useFormField should be used within <FormField> or <FormFieldScope>"
+    )
   }
 
   const { id } = itemContext
