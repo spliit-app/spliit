@@ -153,9 +153,10 @@ export const expenseFormSchema = z
         break // noop
       case 'BY_AMOUNT': {
         const sum = expense.paidFor.reduce((sum, { shares }) => {
-          // An emptied or half-typed input is reported as an invalid share on
-          // its own; it must not make the sum of the others throw.
-          const value = String(shares).trim()
+          // Same normalisation as the share itself above. An emptied or
+          // half-typed input is reported as an invalid share on its own; it
+          // must not make the sum of the others throw.
+          const value = String(shares).replace(/,/g, '.').trim()
           return value === '' || Number.isNaN(Number(value))
             ? sum
             : sum.add(value)

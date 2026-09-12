@@ -47,6 +47,12 @@ describe('expenseFormSchema, split by amount', () => {
     ).toEqual(['amountSum'])
   })
 
+  it('sums amounts typed with a decimal comma', () => {
+    expect(
+      issueMessages(byAmountExpense('100', ['50', '30', '20,00'])),
+    ).toEqual([])
+  })
+
   it('reports an emptied amount instead of throwing on it', () => {
     expect(issueMessages(byAmountExpense('100', ['60', '']))).toEqual([
       'noZeroShares',

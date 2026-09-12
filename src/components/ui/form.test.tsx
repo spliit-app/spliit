@@ -6,15 +6,14 @@ import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
 // next-intl is ESM-only, which Jest does not transform inside node_modules.
-// FormMessage only reads the message catalogue and formats one message, so
-// stand those two hooks up with the real translations and just enough ICU
-// syntax for the schema errors: `{name}` and `{name, select, a {..} other {..}}`.
+// FormMessage only looks a message up and formats it, so stand that one hook
+// up with the real translations and just enough ICU syntax for the schema
+// errors: `{name}` and `{name, select, a {..} other {..}}`.
 jest.mock('next-intl', () => ({
-  useMessages: () => require('../../../messages/en-US.json'),
-  useTranslations:
-    (namespace: string) =>
-    (key: string, values: Record<string, string | number> = {}) =>
-      (require('../../../messages/en-US.json')[namespace][key] as string)
+  useTranslations: (namespace: string) => {
+    const messages = require('../../../messages/en-US.json')[namespace]
+    const t = (key: string, values: Record<string, string | number> = {}) =>
+      (messages[key] as string)
         .replace(
           /\{(\w+), select,((?:\s*\w+ \{[^}]*\})+)\s*\}/g,
           (_, name, options: string) => {
@@ -27,7 +26,10 @@ jest.mock('next-intl', () => ({
             return choices[String(values[name])] ?? choices.other
           },
         )
-        .replace(/\{(\w+)\}/g, (_, name) => String(values[name])),
+        .replace(/\{(\w+)\}/g, (_, name) => String(values[name]))
+    t.has = (key: string) => key in messages
+    return t
+  },
 }))
 
 // Mirrors the expense form: a `paidFor` array whose per-row inputs register

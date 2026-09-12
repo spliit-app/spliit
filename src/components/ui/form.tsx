@@ -12,7 +12,7 @@ import {
 
 import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
-import { useMessages, useTranslations } from "next-intl"
+import { useTranslations } from "next-intl"
 
 const Form = FormProvider
 
@@ -152,7 +152,6 @@ const FormMessage = React.forwardRef<
     values?: Record<string, string | number>
   }
 >(({ className, children, values, ...props }, ref) => {
-  const messages = useMessages()
   const t = useTranslations("SchemaErrors")
   const { error, formMessageId } = useFormField()
   let body
@@ -161,8 +160,7 @@ const FormMessage = React.forwardRef<
   // sitting on the field error itself.
   const message = error?.message ?? error?.root?.message
   if (message) {
-    const translation = (messages.SchemaErrors as any)[message]
-    body = translation ? t(message, values) : message
+    body = t.has(message) ? t(message, values) : message
   } else {
     body = children
   }

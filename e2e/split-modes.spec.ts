@@ -131,12 +131,16 @@ test('names the difference when amounts do not add up', async ({ page }) => {
 
   await submit.click()
 
-  await expect(
-    page.getByText(
-      `The amounts add up to ${money(100.01)}, ${money(0.01)} more than the expense amount (${money(100)}).`,
-    ),
-  ).toBeVisible()
+  const message = page.getByText(
+    `The amounts add up to ${money(100.01)}, ${money(0.01)} more than the expense amount (${money(100)}).`,
+  )
+  await expect(message).toBeVisible()
   await expect(page).toHaveURL(/\/expenses\/create/)
+
+  // The error is about amounts; it must not outlive the split mode.
+  await selectRadixOption(page, page.getByTestId('split-mode'), /Evenly/)
+  await expect(message).toBeHidden()
+  await expect(page.getByText(/SchemaErrors/)).toHaveCount(0)
 })
 
 test('offers the remainder again when an amount is cleared', async ({
