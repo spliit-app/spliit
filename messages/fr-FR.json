@@ -370,8 +370,8 @@
     "paidByRequired": "Vous devez sélectionner un participant.",
     "paidForMin1": "La dépense doit concerner au moins un participant.",
     "noZeroShares": "Toutes les parts doivent être supérieures à 0.",
-    "amountSum": "La somme des montants doit être égale au montant de la dépense.",
-    "percentageSum": "La somme des pourcentages doit être égale à 100.",
+    "amountSum": "La somme des montants est de {sum}, soit {difference} de {direction, select, over {plus} other {moins}} que le montant de la dépense ({amount}).",
+    "percentageSum": "La somme des pourcentages est de {sum} %, soit {difference} % de {direction, select, over {plus} other {moins}} que 100 %.",
     "ratePositive": "Le taux de change doit être strictement supérieur à zéro."
   },
   "Categories": {
