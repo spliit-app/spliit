@@ -155,7 +155,7 @@ jobs:
           git checkout --detach "$GITHUB_SHA"
 
       - name: Download trend data
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: bench-data
 
