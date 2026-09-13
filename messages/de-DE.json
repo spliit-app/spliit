@@ -395,6 +395,23 @@
         "WEEKLY": "{count, plural, one {# wöchentliche Ausgabe} other {# wöchentliche Ausgaben}}",
         "MONTHLY": "{count, plural, one {# monatliche Ausgabe} other {# monatliche Ausgaben}}"
       }
+    },
+    "MonthlySpending": {
+      "title": "Monatliche Ausgaben",
+      "description": "Ausgaben nach Monat und Kategorie für den ausgewählten Zeitraum.",
+      "groupingLabel": "Kategoriegruppierung",
+      "chartTypeLabel": "Diagrammtyp",
+      "stackedTitle": "Monatliche Kategorien",
+      "roundAmountsLabel": "Runde Beträge",
+      "noData": "Noch keine Ausgabendaten.",
+      "ChartTypes": {
+        "bars": "Gestapelte Balken",
+        "columns": "Gestapelte Spalten"
+      },
+      "GroupingOptions": {
+        "categoryGroup": "Kategorien",
+        "category": "Detailliert"
+      }
     }
   },
   "Activity": {
@@ -453,8 +470,8 @@
     "paidByRequired": "Du musst einen Teilnehmer auswählen.",
     "paidForMin1": "Die Ausgabe muss für mindestens einen Teilnehmer bezahlt werden.",
     "noZeroShares": "Alle Anteile müssen größer als 0 sein.",
-    "amountSum": "Die Summe der Beträge muss dem Betrag der Ausgabe entsprechen.",
-    "percentageSum": "Die Summe der prozentualen Anteile muss 100 ergeben.",
+    "amountSum": "Die Beträge summieren sich zu {sum}, {difference} {direction, select, over {more} other {less}} als der Ausgabenbetrag ({amount}).",
+    "percentageSum": "Die Prozentsätze ergeben zusammen {sum} %, {difference} % {direction, select, over {more} other {less}} als 100 %.",
     "ratePositive": "Der Wechselkurs muss unbedingt größer als Null sein."
   },
   "Categories": {
@@ -547,6 +564,8 @@
   "Errors": {
     "retry": "Erneut versuchen",
     "title": "Es ist etwas schief gelaufen",
-    "groupTitle": "Konhte diese Gruppe nicht laden"
+    "groupTitle": "Gruppe konnte nicht geladen werden",
+    "generic": "Bitte erneut versuchen. Aktualisiere die Seite, wenn es wiederholt auftritt.",
+    "reference": "Referenz: {digest}"
   }
 }
