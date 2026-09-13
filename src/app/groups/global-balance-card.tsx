@@ -1,6 +1,7 @@
 'use client'
 
 import { RecentGroups } from '@/app/groups/recent-groups-helpers'
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -10,6 +11,7 @@ import {
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Currency } from '@/lib/currency'
+import { MAX_GROUPS_PER_QUERY } from '@/lib/group-query-limits'
 import { cn, formatCurrency, getCurrencyFromGroup } from '@/lib/utils'
 import { trpc } from '@/trpc/client'
 import { useLocale, useTranslations } from 'next-intl'
@@ -51,9 +53,27 @@ function GlobalBalanceCard_({
 }) {
   const locale = useLocale()
   const t = useTranslations('Groups.GlobalBalance')
-  const { data, isLoading } = trpc.groups.balances.forUser.useQuery({
-    groups: activeUserGroups,
-  })
+  const { data, isLoading, isError, refetch } =
+    trpc.groups.balances.forUser.useQuery({
+      groups: activeUserGroups.slice(0, MAX_GROUPS_PER_QUERY),
+    })
+
+  if (isError) {
+    return (
+      <Card className="mb-4">
+        <CardHeader>
+          <CardTitle>{t('title')}</CardTitle>
+          <CardDescription>{t('description')}</CardDescription>
+        </CardHeader>
+        <CardContent className="text-sm space-y-2">
+          <p>{t('loadError')}</p>
+          <Button variant="secondary" onClick={() => refetch()}>
+            {t('retry')}
+          </Button>
+        </CardContent>
+      </Card>
+    )
+  }
 
   if (isLoading || !data) {
     return (

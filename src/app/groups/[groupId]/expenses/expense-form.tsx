@@ -46,6 +46,7 @@ import { RuntimeFeatureFlags } from '@/lib/featureFlags'
 import { useActiveUser, useCurrencyRate } from '@/lib/hooks'
 import { randomId } from '@/lib/random'
 import {
+  EXPENSE_NOTES_MAX,
   ExpenseFormInput,
   ExpenseFormValues,
   SplittingOptions,
@@ -982,8 +983,13 @@ export function ExpenseForm({
                 <FormItem className="sm:order-6">
                   <FormLabel>{t('notesField.label')}</FormLabel>
                   <FormControl>
-                    <Textarea className="text-base" {...field} />
+                    <Textarea
+                      className="text-base"
+                      maxLength={EXPENSE_NOTES_MAX}
+                      {...field}
+                    />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />

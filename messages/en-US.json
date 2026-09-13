@@ -61,6 +61,8 @@
     "create": "Create",
     "createGroup": "Create group",
     "loadingRecent": "Loading recent groups…",
+    "loadError": "Could not load your groups. Try again.",
+    "retry": "Retry",
     "NoRecent": {
       "description": "You have not visited any group recently.",
       "create": "Create one",
@@ -71,7 +73,9 @@
       "description": "Your combined balance across all your groups.",
       "owedToYou": "You are owed",
       "youOwe": "You owe",
-      "settledUp": "You are all settled up across your groups."
+      "settledUp": "You are all settled up across your groups.",
+      "loadError": "Could not load your total balance. Try again.",
+      "retry": "Retry"
     },
     "recent": "Recent groups",
     "starred": "Starred groups",
@@ -460,6 +464,9 @@
     "min2": "Enter at least two characters.",
     "max5": "Enter at most five characters.",
     "max50": "Enter at most 50 characters.",
+    "max200": "Enter at most 200 characters.",
+    "max5000": "Enter at most 5,000 characters.",
+    "max10000": "Enter at most 10,000 characters.",
     "duplicateParticipantName": "Another participant already has this name.",
     "titleRequired": "Please enter a title.",
     "invalidNumber": "Invalid number.",
