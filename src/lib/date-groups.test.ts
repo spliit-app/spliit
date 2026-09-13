@@ -62,12 +62,14 @@ describe('isSameWeek', () => {
 })
 
 /**
- * `expenseDate` is a DATE column, so it is carried at UTC midnight. Reading it
- * in the local timezone moves it to the previous day west of UTC, which used
- * to file an expense under "Last month" while its card still showed the
- * stored day. Those cases are only observable with TZ set west of UTC, so
- * they run under `npm run test:tz`; a UTC runner takes the passing side of
- * the defect.
+ * `expenseDate` is a DATE column, so it is carried at UTC midnight. Parsed in
+ * the local timezone it lands on the previous day west of UTC, which used to
+ * file a first-of-month expense under "Last month" while its card showed the
+ * stored day, and at midday east of UTC, which used to file today's expense
+ * under "Upcoming" until noon. A host at UTC takes the passing side of both
+ * defects, so the suite runs pinned on each side of UTC (see jest.config.ts):
+ * the west-of-UTC cases below fail without the conversion in the
+ * America/Los_Angeles run, the east-of-UTC case in the Pacific/Auckland run.
  */
 describe('getGroupedExpensesByDate', () => {
   const weekStartsOn = 0
@@ -98,7 +100,22 @@ describe('getGroupedExpensesByDate', () => {
     expect(grouped[EXPENSE_GROUPS.LAST_YEAR]).toBeUndefined()
   })
 
-  // Not a regression test: east of UTC the local parse already agreed with the
+  // East of UTC the local parse lands at midday on the stored day, later than
+  // a `today` taken in the morning, so an expense dated today was "upcoming".
+  it('files an expense dated today under this week whatever the time of day', () => {
+    const expenses = [{ expenseDate: new Date('2024-08-20T00:00:00.000Z') }]
+
+    const grouped = getGroupedExpensesByDate(
+      expenses,
+      dayjs('2024-08-20T09:00'),
+      weekStartsOn,
+    )
+
+    expect(Object.keys(grouped)).toEqual([EXPENSE_GROUPS.THIS_WEEK])
+    expect(grouped[EXPENSE_GROUPS.UPCOMING]).toBeUndefined()
+  })
+
+  // Not a regression test: east of UTC the local parse already lands on the
   // stored day, so this passes either way. It guards against a fix that
   // over-corrects by pushing the day forwards instead.
   it('does not move the stored day forwards on an east-of-UTC host', () => {
