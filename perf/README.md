@@ -103,9 +103,10 @@ branch, which GitHub Pages serves as an interactive chart:
   beyond 110% alerts and fails the workflow.
 - `/dev/bench/timing` — p50 and p95. Charted only; never alerts.
 
-Both need a `gh-pages` branch and Pages enabled in repository settings. Until
-they are, only the publishing job fails — the benchmarks still run and still
-gate pull requests.
+The workflow creates the `gh-pages` branch itself on the first tag build.
+Serving the chart needs Pages enabled once in repository settings (deploy from
+the `gh-pages` branch, root folder); until then the data still accumulates on
+the branch and the workflow still passes — only the chart URL is not served.
 
 Read the timing chart as a trend across many releases. Two adjacent points come
 from two different runners and are not meaningfully comparable; see the caveat

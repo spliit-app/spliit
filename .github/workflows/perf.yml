@@ -116,10 +116,11 @@ jobs:
   # being granted on every pull request run.
   #
   # Publishes to a `gh-pages` branch, which GitHub Pages then serves as an
-  # interactive chart at /dev/bench/deterministic and /dev/bench/timing. Both
-  # the branch and Pages have to be enabled in repository settings; until they
-  # are, this job is the only thing that fails and the benchmarks above still
-  # run and still gate.
+  # interactive chart at /dev/bench/deterministic and /dev/bench/timing. The
+  # branch is created below on the first tag build; Pages itself has to be
+  # enabled once in repository settings (deploy from `gh-pages`, root). Until
+  # it is, the data still accumulates on the branch and this job still passes
+  # -- only the chart URL is not served yet.
   publish-trend:
     needs: perf
     if: startsWith(github.ref, 'refs/tags/')
@@ -130,6 +131,28 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
+
+      # github-action-benchmark fetches and switches to the gh-pages branch and
+      # aborts with `couldn't find remote ref gh-pages` when it is missing -- it
+      # never creates it. Create an empty orphan branch on the first tag build
+      # so a fresh repository (or a fork) needs no manual setup.
+      #
+      # Runs before the artifact download: `switch --orphan` empties the working
+      # tree of tracked files, and ordering it first keeps that well away from
+      # the downloaded JSON. The final `checkout --detach` puts the checkout
+      # back on the tag commit, where the action expects to start from.
+      - name: Create the gh-pages branch if it does not exist
+        run: |
+          if git ls-remote --exit-code --heads origin gh-pages > /dev/null; then
+            echo "gh-pages branch already exists"
+            exit 0
+          fi
+          git switch --orphan gh-pages
+          git -c user.name=github-action-benchmark \
+              -c user.email=github@users.noreply.github.com \
+              commit --allow-empty -m "Initialize benchmark trend branch"
+          git push origin gh-pages
+          git checkout --detach "$GITHUB_SHA"
 
       - name: Download trend data
         uses: actions/download-artifact@v7
