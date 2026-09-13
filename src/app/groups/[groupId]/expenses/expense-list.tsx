@@ -88,7 +88,12 @@ const ExpenseListForSearch = ({
     { groupId, limit: PAGE_SIZE, filter: searchText },
     { getNextPageParam: ({ nextCursor }) => nextCursor },
   )
-  const expenses = data?.pages.flatMap((page) => page.expenses)
+  // Memoised so the bucketing below is only redone when a page arrives, not on
+  // every render (a fresh `flatMap` array would defeat its `useMemo`).
+  const expenses = useMemo(
+    () => data?.pages.flatMap((page) => page.expenses),
+    [data],
+  )
   const hasMore = data?.pages.at(-1)?.hasMore ?? false
 
   const isLoading = expensesAreLoading || !expenses || !group
