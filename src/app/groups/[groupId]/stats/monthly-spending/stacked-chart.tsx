@@ -4,6 +4,7 @@ import { formatChartCurrency } from '@/lib/chart-currency'
 import { MonthlySpendingGrouping } from '@/lib/monthly-spending'
 import { formatCurrency } from '@/lib/utils'
 import { useTranslations } from 'next-intl'
+import { useLayoutEffect, useRef } from 'react'
 import {
   GraphCategoryIcon,
   MonthlyCategorySpending,
@@ -215,11 +216,18 @@ function MonthlyCategoryStackedColumns({
 }) {
   const columnCount = monthlyCategorySpending.months.length
   const columnWidthRem = 3.25
+  const scrollerRef = useRef<HTMLDivElement>(null)
+
+  useLayoutEffect(() => {
+    const scroller = scrollerRef.current
+    if (!scroller) return
+    scroller.scrollLeft = scroller.scrollWidth
+  }, [columnCount])
 
   return (
-    <div className="overflow-x-auto pb-1">
+    <div className="overflow-x-auto pb-1" dir="ltr" ref={scrollerRef}>
       <div
-        className="grid h-56 items-end gap-1 sm:gap-2"
+        className="grid items-end gap-1 sm:gap-2"
         style={{
           gridTemplateColumns: `repeat(${columnCount}, ${columnWidthRem}rem)`,
         }}
@@ -235,25 +243,24 @@ function MonthlyCategoryStackedColumns({
             month,
             visibleCategories,
           )
+          const monthTitle = `${formatMonth(
+            month,
+            locale,
+            'long',
+          )}: ${formatChartCurrency({
+            amount: month.expenseAmount,
+            currency,
+            locale,
+            roundAmounts,
+          })}`
 
           return (
             <div
               className="flex min-w-0 flex-col items-center gap-2"
               key={month.key}
             >
-              <div className="relative h-48 w-full">
-                <div
-                  className="absolute max-w-full truncate text-left text-[10px] leading-none text-muted-foreground"
-                  style={{
-                    bottom:
-                      columnHeightPercent > 0
-                        ? `calc(${columnHeightPercent}% + 0.25rem)`
-                        : '0.25rem',
-                    left: '50%',
-                    width: '3.75rem',
-                    transform: 'translateX(-50%)',
-                  }}
-                >
+              <div className="flex h-56 w-full flex-col items-center justify-end">
+                <div className="mb-1 max-w-full truncate px-0.5 text-center text-[10px] leading-none text-muted-foreground">
                   {formatChartCurrency({
                     amount: month.expenseAmount,
                     currency,
@@ -262,23 +269,14 @@ function MonthlyCategoryStackedColumns({
                   })}
                 </div>
                 <div
-                  className="absolute bottom-0 left-1/2 flex w-full max-w-14 -translate-x-1/2 items-end rounded-md bg-muted"
+                  className="flex w-full max-w-14 items-end rounded-md bg-muted"
                   style={{
                     height:
                       columnHeightPercent > 0
-                        ? `${columnHeightPercent}%`
-                        : '0%',
+                        ? `calc(12rem * ${columnHeightPercent / 100})`
+                        : '0px',
                   }}
-                  title={`${formatMonth(
-                    month,
-                    locale,
-                    'long',
-                  )}: ${formatChartCurrency({
-                    amount: month.expenseAmount,
-                    currency,
-                    locale,
-                    roundAmounts,
-                  })}`}
+                  title={monthTitle}
                 >
                   <div className="flex h-full w-full flex-col-reverse overflow-hidden rounded-md">
                     {monthCategories.map((category) => {
