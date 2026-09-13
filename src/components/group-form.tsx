@@ -34,7 +34,11 @@ import { Locale } from '@/i18n/request'
 import { useAnalytics } from '@/lib/analytics/context'
 import { getGroup } from '@/lib/api'
 import { defaultCurrencyList, getCurrency } from '@/lib/currency'
-import { GroupFormValues, groupFormSchema } from '@/lib/schemas'
+import {
+  GROUP_INFORMATION_MAX,
+  GroupFormValues,
+  groupFormSchema,
+} from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Save, Trash2 } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
@@ -234,6 +238,7 @@ export function GroupForm({
                       <Textarea
                         rows={2}
                         className="text-base"
+                        maxLength={GROUP_INFORMATION_MAX}
                         {...field}
                         placeholder={t('InformationField.placeholder')}
                       />

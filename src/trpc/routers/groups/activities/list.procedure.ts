@@ -5,7 +5,7 @@ import { z } from 'zod'
 export const listGroupActivitiesProcedure = baseProcedure
   .input(
     z.object({
-      groupId: z.string().min(1).max(30),
+      groupId: z.string().min(1).max(64),
       cursor: z.number().int().min(0).optional().default(0),
       limit: z.number().int().min(1).max(100).optional().default(5),
     }),
