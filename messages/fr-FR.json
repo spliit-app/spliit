@@ -92,10 +92,10 @@
     },
     "GlobalBalance": {
       "title": "Votre solde total",
-      "description": "Votre solde combiné sur l'ensemble de vos groupes.",
+      "description": "Votre solde cumulé pour l'ensemble de vos groupes.",
       "owedToYou": "On vous doit",
       "youOwe": "Vous devez",
-      "settledUp": "Tout est équilibré sur l'ensemble de vos groupes."
+      "settledUp": "Vos comptes sont réglés pour tous vos groupes."
     },
     "createGroup": "Créer un groupe"
   },
@@ -343,13 +343,13 @@
     },
     "range": {
       "label": "Période",
-      "all": "Tout le temps",
+      "all": "Depuis le début",
       "thisMonth": "Ce mois-ci",
-      "last30": "30 derniers jours",
+      "last30": "Les 30 derniers jours",
       "thisYear": "Cette année",
       "custom": "Période personnalisée",
       "from": "Du",
-      "to": "Au"
+      "to": "au"
     },
     "Summary": {
       "title": "Résumé",
@@ -394,6 +394,23 @@
         "DAILY": "{count, plural, one {# dépense quotidienne} other {# dépenses quotidiennes}}",
         "WEEKLY": "{count, plural, one {# dépense hebdomadaire} other {# dépenses hebdomadaires}}",
         "MONTHLY": "{count, plural, one {# dépense mensuelle} other {# dépenses mensuelles}}"
+      }
+    },
+    "MonthlySpending": {
+      "title": "Dépenses mensuelles",
+      "description": "Dépenses par mois et par catégorie pour la période sélectionnée.",
+      "groupingLabel": "Regroupement par catégorie",
+      "chartTypeLabel": "Type de graphique",
+      "stackedTitle": "Catégories mensuelles",
+      "roundAmountsLabel": "Montants arrondis",
+      "noData": "Aucune donnée de dépenses pour le moment.",
+      "ChartTypes": {
+        "bars": "Barres empilées",
+        "columns": "Colonnes empilées"
+      },
+      "GroupingOptions": {
+        "categoryGroup": "Catégories",
+        "category": "Détaillée"
       }
     }
   },
@@ -543,5 +560,12 @@
     "updateTitle": "Mise à jour disponible",
     "updateDescription": "Une nouvelle version de Spliit est disponible.",
     "reload": "Recharger"
+  },
+  "Errors": {
+    "title": "Un problème est survenu",
+    "groupTitle": "Impossible de charger ce groupe",
+    "generic": "Veuillez réessayer. Si le problème persiste, actualisez la page.",
+    "reference": "Référence : {digest}",
+    "retry": "Essayer à nouveau"
   }
 }
