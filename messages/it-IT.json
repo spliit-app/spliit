@@ -28,7 +28,7 @@
       "title": "Chi sei?",
       "description": "Dicci quale partecipante sei per consentirci di personalizzare la modalità di visualizzazione delle informazioni.",
       "nobody": "Non voglio selezionare nessuno",
-      "save": "Salva cambiamenti",
+      "save": "Salva i cambiamenti",
       "footer": "Questa impostazione può essere modificata successivamente nelle impostazioni del gruppo."
     },
     "Groups": {
@@ -395,6 +395,23 @@
         "WEEKLY": "{count, plural, one {# spesa settimanale} other {# spese settimanali}}",
         "MONTHLY": "{count, plural, one {# spesa mensile} other {# spese mensili}}"
       }
+    },
+    "MonthlySpending": {
+      "title": "Spesa mensile",
+      "description": "Spese per mese e categoria per il periodo selezionato.",
+      "groupingLabel": "Raggruppamento per categoria",
+      "chartTypeLabel": "Tipo di grafico",
+      "stackedTitle": "Categorie mensili",
+      "roundAmountsLabel": "Arrotonda gli importi",
+      "noData": "Ancora nessun dato di spesa.",
+      "ChartTypes": {
+        "bars": "Barre sovrapposte",
+        "columns": "Colonne in pila"
+      },
+      "GroupingOptions": {
+        "categoryGroup": "Categorie",
+        "category": "Dettagliato"
+      }
     }
   },
   "Activity": {
@@ -543,5 +560,12 @@
     "updateTitle": "Aggiornamento disponibile",
     "updateDescription": "È disponibile una nuova versione di Spliit.",
     "reload": "Ricarica"
+  },
+  "Errors": {
+    "title": "Qualcosa è andato storto",
+    "groupTitle": "Impossibile caricare questo gruppo",
+    "generic": "Riprova. Se il problema persiste, ricarica la pagina.",
+    "reference": "Riferimento: {digest}",
+    "retry": "Riprova"
   }
 }
