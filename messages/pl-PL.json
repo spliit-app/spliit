@@ -139,6 +139,11 @@
       "create": "Stwórz",
       "creating": "Tworzenie…",
       "cancel": "Anuluj"
+    },
+    "CurrencyCodeField": {
+      "label": "Waluta główna",
+      "createDescription": "Wszystkie kwoty i salda będą podane w tej walucie.",
+      "customOption": "Niestandardowe"
     }
   },
   "ExpenseForm": {
@@ -164,7 +169,11 @@
         "description": "Podaj dla kogo wpływ był przeznaczony."
       },
       "splitModeDescription": "Wybierz jak podzielić wpływ.",
-      "attachDescription": "Zobacz i załącz rachunki do wpływu."
+      "attachDescription": "Zobacz i załącz rachunki do wpływu.",
+      "currencyField": {
+        "label": "Waluta, w której osiągnięto dochód",
+        "description": "Waluta, w której uzyskano dochód."
+      }
     },
     "Expense": {
       "create": "Stwórz wydatek",
@@ -196,7 +205,11 @@
         "description": "Wybierz kogo dotyczył wydatek."
       },
       "splitModeDescription": "Wybierz jak podzielić wydatek.",
-      "attachDescription": "Zobacz i załącz rachunki do wydatku."
+      "attachDescription": "Zobacz i załącz rachunki do wydatku.",
+      "currencyField": {
+        "label": "Waluta wydatku",
+        "description": "Waluta, w której uregulowano wydatek."
+      }
     },
     "amountField": {
       "label": "Suma"
@@ -235,7 +248,19 @@
     "save": "Zapisz",
     "saving": "Zapisywanie…",
     "cancel": "Anuluj",
-    "reimbursement": "Zwrot środków"
+    "reimbursement": "Zwrot środków",
+    "originalAmountField": {
+      "label": "Kwota do przeliczenia",
+      "repaymentLabel": "Kwota do przelania"
+    },
+    "conversionRateField": {
+      "useCustom": "Zastosuj stawkę niestandardową",
+      "label": "Kurs walutowy"
+    },
+    "conversionRateState": {
+      "refresh": "Odśwież",
+      "customRate": "Korzystanie ze stawki niestandardowej"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
@@ -317,7 +342,10 @@
     "OverTime": {
       "title": "Wydatki w czasie",
       "description": "Łączne wydatki grupy w podziale na miesiące.",
-      "empty": "Nie ma jeszcze żadnych wydatków."
+      "empty": "Nie ma jeszcze żadnych wydatków.",
+      "showExpenses": "Pokaż wydatki za {miesiąc}",
+      "detailsDescription": "Wydatki w bieżącym miesiącu za wybrany okres.",
+      "detailsEmpty": "W tym miesiącu nie ma żadnych wydatków."
     },
     "ByParticipant": {
       "title": "Wydatki według uczestników",
@@ -331,7 +359,8 @@
     "ByCategory": {
       "title": "Wydatki według kategorii",
       "description": "Łączna kwota wydana w każdej kategorii.",
-      "empty": "Nie ma jeszcze żadnych wydatków."
+      "empty": "Nie ma jeszcze żadnych wydatków.",
+      "showExpenses": "Pokaż wydatki w kategorii {category}"
     },
     "Recurring": {
       "title": "Wydatki cykliczne",
@@ -472,5 +501,11 @@
     "updateTitle": "Dostępna aktualizacja",
     "updateDescription": "Dostępna jest nowa wersja Spliit.",
     "reload": "Załaduj ponownie"
+  },
+  "Errors": {
+    "title": "Coś poszło nie tak",
+    "groupTitle": "Nie udało się załadować tej grupy",
+    "generic": "Spróbuj ponownie. Jeśli problem będzie się powtarzał, odśwież stronę.",
+    "retry": "Spróbuj ponownie"
   }
 }
