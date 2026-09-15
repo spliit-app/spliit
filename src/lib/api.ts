@@ -36,6 +36,10 @@ export async function createExpense(
   expenseFormValues: ExpenseFormValues,
   groupId: string,
   participantId?: string,
+  // The expense form mints the id up front so the split it previews is the
+  // one the saved expense gets (the id seeds who takes the leftover minor
+  // unit, see `getExpenseShares`).
+  expenseId: string = randomId(),
 ): Promise<Expense> {
   const group = await getGroup(groupId)
   if (!group) throw new Error(`Invalid group ID: ${groupId}`)
@@ -48,7 +52,6 @@ export async function createExpense(
       throw new Error(`Invalid participant ID: ${participant}`)
   }
 
-  const expenseId = randomId()
   await logActivity(groupId, ActivityType.CREATE_EXPENSE, {
     participantId,
     expenseId,

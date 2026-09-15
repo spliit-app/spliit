@@ -1,3 +1,4 @@
+import { Page } from '@playwright/test'
 import {
   addExpense,
   createGroup,
@@ -9,7 +10,7 @@ import {
   uniqueSuffix,
 } from './app'
 import { expect, test } from './fixtures'
-import { fillStable, money, selectRadixOption } from './ui'
+import { fillStable, money, normalizeMoney, selectRadixOption } from './ui'
 
 const PARTICIPANTS = ['Alice', 'Bob', 'Carol']
 
@@ -216,4 +217,70 @@ test('offers the remainder again when an amount is cleared', async ({
   await expectBalance(page, 'Alice', 50)
   await expectBalance(page, 'Bob', -30)
   await expectBalance(page, 'Carol', -20)
+})
+
+/** The share previewed next to a participant on the expense form, e.g. '$8.28'. */
+async function previewedShare(
+  page: Page,
+  participant: string,
+): Promise<string> {
+  const label = (await paidForRow(page, participant).innerText()).split('\n')[0]
+  return normalizeMoney(label.match(/\(([^)]+)\)\s*$/)?.[1] ?? '')
+}
+
+test('saves an even split with the leftover cent where it was previewed', async ({
+  page,
+}) => {
+  const groupId = await createGroup(page, {
+    name: `E2E OddCent ${uniqueSuffix()}`,
+    participants: ['Alice', 'Bob'],
+  })
+
+  // Regression for #646: the leftover cent of an even split rotates by a hash
+  // of the expense id, and the form used to preview without one, so the cent
+  // could move to the other participant on save. Several expenses so a lucky
+  // hash cannot hide a regression.
+  let bobOwes = 0
+  for (const [title, amount, low, high] of [
+    ['Dinner', '16.57', 8.28, 8.29],
+    ['Taxi', '20.01', 10, 10.01],
+    ['Coffee', '9.99', 4.99, 5],
+  ] as const) {
+    await page.goto(`/groups/${groupId}/expenses/create`)
+    const submit = page.getByRole('button', { name: 'Create', exact: true })
+    await expect(submit).toBeVisible({ timeout: 30_000 })
+
+    await fillStable(page.locator('input[name="title"]'), title)
+    await fillStable(page.locator('input[name="amount"]'), amount)
+    await selectRadixOption(page, page.getByTestId('paid-by'), 'Alice')
+
+    // Wait for the preview to reflect the amount before recording who was
+    // shown the extra cent.
+    await expect
+      .poll(async () =>
+        [
+          await previewedShare(page, 'Alice'),
+          await previewedShare(page, 'Bob'),
+        ].sort(),
+      )
+      .toEqual([money(low), money(high)])
+    const previewed = {
+      Alice: await previewedShare(page, 'Alice'),
+      Bob: await previewedShare(page, 'Bob'),
+    }
+
+    await submit.click()
+    await page.waitForURL(EXPENSES_URL, { timeout: 30_000 })
+
+    // The edit form previews with the saved id, i.e. the split that counts.
+    await openExpense(page, title)
+    await expect(paidForRow(page, 'Alice')).toContainText(previewed.Alice)
+    await expect(paidForRow(page, 'Bob')).toContainText(previewed.Bob)
+
+    bobOwes += previewed.Bob === money(high) ? high : low
+  }
+
+  await openTab(page, 'Balances')
+  await expectBalance(page, 'Alice', bobOwes)
+  await expectBalance(page, 'Bob', -bobOwes)
 })
