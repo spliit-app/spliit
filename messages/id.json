@@ -359,7 +359,9 @@
     "title": "Bagikan",
     "description": "Agar peserta lain dapat melihat grup dan menambahkan pengeluaran, bagikan URL-nya dengan mereka.",
     "warning": "Peringatan!",
-    "warningHelp": "Setiap orang yang memiliki URL grup akan dapat melihat dan mengedit pengeluaran. Bagikan dengan hati-hati!"
+    "warningHelp": "Setiap orang yang memiliki URL grup akan dapat melihat dan mengedit pengeluaran. Bagikan dengan hati-hati!",
+    "copyLink": "Salin tautan",
+    "shareLink": "Bagikan tautan"
   },
   "SchemaErrors": {
     "min1": "Masukkan setidaknya satu karakter.",
@@ -447,5 +449,10 @@
       "TV/Phone/Internet": "TV/HP/Internet",
       "Water": "Air"
     }
+  },
+  "Pwa": {
+    "updateTitle": "Pembaruan tersedia",
+    "updateDescription": "Versi baru Spliit tersedia.",
+    "reload": "Muat ulang"
   }
 }
