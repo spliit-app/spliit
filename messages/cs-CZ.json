@@ -5,7 +5,8 @@
     "button": {
       "groups": "Přejít na skupiny",
       "github": "GitHub"
-    }
+    },
+    "metaTitle": "Spliit · Sdílejte výdaje s přáteli a rodinou"
   },
   "Header": {
     "groups": "Skupiny"
@@ -44,14 +45,16 @@
   "ExpenseCard": {
     "paidBy": "Zaplatil/a <strong>{paidBy}</strong> za <paidFor></paidFor>",
     "receivedBy": "Obdržel/a <strong>{paidBy}</strong> od <paidFor></paidFor>",
-    "yourBalance": "Váš zůstatek:"
+    "yourBalance": "Váš zůstatek:",
+    "everyone": "všichni",
+    "notInvolved": "Neúčastníte se"
   },
   "Groups": {
     "myGroups": "Moje skupiny",
     "create": "Vytvořit",
     "loadingRecent": "Načítání nedávných skupin…",
     "NoRecent": {
-      "description": "Nedávno jste nenavštívili žádnou skupinu.",
+      "description": "V poslední době jste nenavštívili žádnou skupinu.",
       "create": "Vytvořit skupinu",
       "orAsk": "nebo požádejte přítele, aby vám poslal odkaz na existující."
     },
@@ -71,11 +74,29 @@
       "button": "Přidat pomocí URL",
       "title": "Přidat skupinu pomocí URL",
       "description": "Pokud s vámi byla skupina sdílena, můžete sem vložit její URL a přidat ji do svého seznamu.",
-      "error": "Bohužel se nám nepodařilo najít skupinu podle zadané URL…"
+      "error": "Bohužel se nám nepodařilo najít skupinu podle zadané URL…",
+      "urlMode": "Zadejte adresu URL",
+      "qrMode": "Naskenovat QR",
+      "scanner": {
+        "startCamera": "Otevřít kameru",
+        "stopScanning": "Ukončit skenování",
+        "permissionDenied": "Oprávnění k použití fotoaparátu bylo zamítnuto. Povolte prosím přístup k fotoaparátu, abyste mohli naskenovat QR kódy.",
+        "noCamera": "Na tomto zařízení nebyla nalezena žádná kamera.",
+        "cameraError": "Spuštění kamery se nezdařilo. Zkuste to prosím znovu.",
+        "permissionError": "Nelze získat přístup k fotoaparátu. Zkontrolujte prosím oprávnění."
+      }
     },
     "NotFound": {
       "text": "Tato skupina neexistuje.",
       "link": "Přejít na nedávno navštívené skupiny"
+    },
+    "createGroup": "Vytvořit skupinu",
+    "GlobalBalance": {
+      "title": "Váš celkový zůstatek",
+      "description": "Váš celkový zůstatek ve všech vašich skupinách.",
+      "owedToYou": "Dluží se ti",
+      "youOwe": "Dlužíš",
+      "settledUp": "Ve všech skupinách máte vše vyrovnané."
     }
   },
   "GroupForm": {
@@ -118,6 +139,12 @@
       "create": "Vytvořit",
       "creating": "Vytváření…",
       "cancel": "Zrušit"
+    },
+    "CurrencyCodeField": {
+      "label": "Hlavní měna",
+      "createDescription": "Všechny částky a zůstatky budou uvedeny v této měně.",
+      "editDescription": "Všechny částky a zůstatky budou uvedeny v této měně. Změna této měny NEPOVEDE k přepočtu již zadaných výdajů, s výjimkou případů, kdy má daná měna jiné „dílčí jednotky“ než aktuální měna (např. při změně z amerického dolaru na japonský jen)",
+      "customOption": "Vlastní"
     }
   },
   "ExpenseForm": {
@@ -143,7 +170,11 @@
         "description": "Vyberte, pro koho byl příjem obdržen."
       },
       "splitModeDescription": "Vyberte, jak rozdělit příjem.",
-      "attachDescription": "Zobrazit a připojit účtenky k příjmu."
+      "attachDescription": "Zobrazit a připojit účtenky k příjmu.",
+      "currencyField": {
+        "label": "Měna příjmů",
+        "description": "Měna, ve které byl příjem přijat."
+      }
     },
     "Expense": {
       "create": "Vytvořit výdaj",
@@ -160,7 +191,8 @@
       "categoryFieldDescription": "Vyberte kategorii výdaje.",
       "paidByField": {
         "label": "Zaplatil/a",
-        "description": "Vyberte účastníka, který výdaj zaplatil."
+        "description": "Vyberte účastníka, který výdaj zaplatil.",
+        "placeholder": "Vyberte účastníka"
       },
       "recurrenceRule": {
         "label": "Opakování výdaje",
@@ -175,7 +207,11 @@
         "description": "Vyberte, pro koho byl výdaj zaplacen."
       },
       "splitModeDescription": "Vyberte, jak rozdělit výdaj.",
-      "attachDescription": "Zobrazit a připojit účtenky k výdaji."
+      "attachDescription": "Zobrazit a připojit účtenky k výdaji.",
+      "currencyField": {
+        "label": "Měna výdaje",
+        "description": "Měna, ve které byl výdaj uhrazen."
+      }
     },
     "amountField": {
       "label": "Částka"
@@ -214,7 +250,28 @@
     "save": "Uložit",
     "saving": "Ukládání…",
     "cancel": "Zrušit",
-    "reimbursement": "Proplacení"
+    "reimbursement": "Proplacení",
+    "originalAmountField": {
+      "repaymentLabel": "Částka k převodu",
+      "label": "Částka k přepočtu",
+      "repaymentDescription": "Přepočítáno z výše uvedené částky, která představuje konečný zůstatek."
+    },
+    "conversionRateField": {
+      "label": "Směnný kurz",
+      "useCustom": "Použít vlastní kurz"
+    },
+    "conversionRateState": {
+      "loading": "Načítání směnných kurzů…",
+      "success": "Získané sazby:",
+      "error": "Ups, nepodařilo se nám načíst nejnovější sazby.",
+      "noRate": "Zadejte vlastní kurz níže.",
+      "currencyNotFound": "Ups, Frankfurter pro tuto měnu k dnešnímu dni nemá kurz.",
+      "refresh": "Obnovit",
+      "staleRate": "Používá kurz:",
+      "noDate": "Zadejte datum výdaje, abyste získali směnný kurz.",
+      "dateMismatch": "Kurzy platné od data: {date}",
+      "customRate": "Použití vlastního kurzu"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
@@ -273,6 +330,64 @@
       "yourSpendings": "Vaše celkové výdaje",
       "yourEarnings": "Vaše celkové příjmy",
       "yourShare": "Váš celkový podíl"
+    },
+    "range": {
+      "label": "Období",
+      "all": "Celkem",
+      "thisMonth": "Tento měsíc",
+      "last30": "Posledních 30 dní",
+      "thisYear": "Tento rok",
+      "custom": "Vlastní rozsah",
+      "from": "Od",
+      "to": "Do"
+    },
+    "Summary": {
+      "title": "Shrnutí",
+      "empty": "Zatím zde nejsou žádné výdaje.",
+      "expenseCount": "Výdaje",
+      "averageExpense": "Průměrné výdaje",
+      "largestExpense": "Největší výdaj",
+      "activeSpan": "Aktivní období"
+    },
+    "OverTime": {
+      "title": "Výdaje v průběhu času",
+      "description": "Celkové měsíční výdaje skupiny. Vyberte měsíc, abyste si prohlédli jeho výdaje.",
+      "empty": "Zatím nevznikly žádné výdaje.",
+      "showExpenses": "Zobrazit výdaje za {month}",
+      "detailsDescription": "Výdaje v tomto měsíci za vybrané období.",
+      "detailsEmpty": "V tomto měsíci nejsou žádné výdaje."
+    },
+    "ByParticipant": {
+      "title": "Výdaje jednotlivých účastníků",
+      "description": "Kolik každý účastník zaplatil a jaký je jeho podíl na výdajích.",
+      "empty": "Zatím zde nejsou žádné výdaje.",
+      "participant": "Účastník",
+      "paid": "Zaplatil",
+      "count": "Počet",
+      "share": "Sdílené"
+    },
+    "ByCategory": {
+      "title": "Výdaje podle kategorií",
+      "description": "Celková částka utracená v jednotlivých kategoriích. Vyberte kategorii, abyste si prohlédli její výdaje.",
+      "empty": "Zatím nevznikly žádné výdaje.",
+      "showExpenses": "Zobrazit výdaje za {category}",
+      "detailsDescription": "Výdaje v této kategorii za vybrané období.",
+      "detailsEmpty": "V této kategorii nejsou žádné výdaje."
+    },
+    "Recurring": {
+      "title": "Opakující se výdaje",
+      "estimatedYearly": "{amount} ročně",
+      "description": "Odhadované náklady na aktivní opakující se výdaje skupiny.",
+      "estimatedMonthly": "Odhadované měsíční náklady",
+      "period": {
+        "DAILY": "{count, plural, one {# denní výdaj} few {# denní výdaje} many {# denního výdaje} other {# denních výdajů}}",
+        "WEEKLY": "{count, plural, one {# týdenní výdaj} few {# týdenní výdaje} many {# týdenního výdaje} other {# týdenních výdajů}}",
+        "MONTHLY": "{count, plural, one {# měsíční výdaj} few {# měsíční výdaje} many {# měsíčního výdaje} other {# měsíčních výdajů}}"
+      }
+    },
+    "MonthlySpending": {
+      "title": "Měsíční výdaje",
+      "description": "Výdaje podle měsíce a kategorie za zvolené období."
     }
   },
   "Activity": {
@@ -310,7 +425,12 @@
     "warning": "Varování!",
     "warningHelp": "Každý, kdo má URL skupiny, bude moci zobrazit a upravovat výdaje. Sdílejte opatrně!",
     "copyLink": "Kopírovat odkaz",
-    "shareLink": "Sdílet odkaz"
+    "shareLink": "Sdílet odkaz",
+    "qrCode": {
+      "title": "Sdílet pomocí QR kódu",
+      "description": "Naskenujte tento QR kód a otevřete skupinu na jakémkoli zařízení.",
+      "download": "Stáhnout QR kód"
+    }
   },
   "SchemaErrors": {
     "min1": "Zadejte alespoň jeden znak.",
@@ -326,8 +446,9 @@
     "paidByRequired": "Musíte vybrat účastníka.",
     "paidForMin1": "Výdaj musí být zaplacen alespoň za jednoho účastníka.",
     "noZeroShares": "Všechny podíly musí být větší než 0.",
-    "amountSum": "Součet částek se musí rovnat částce výdaje.",
-    "percentageSum": "Součet procent musí být 100."
+    "amountSum": "Součet částek je {sum}, což je o {difference} {direction, select, over {více} other {méně}} než částka výdaje ({amount}).",
+    "percentageSum": "Součet procent je {sum} %, což je o {difference} % {direction, select, over {více} other {méně}} než 100 %.",
+    "ratePositive": "Tato hodnota musí být jednoznačně větší než nula."
   },
   "Categories": {
     "search": "Hledat kategorii...",
@@ -402,5 +523,25 @@
     "updateTitle": "Dostupná aktualizace",
     "updateDescription": "Je dostupná nová verze Spliit.",
     "reload": "Načíst znovu"
+  },
+  "Errors": {
+    "title": "Něco se pokazilo",
+    "groupTitle": "Tuto skupinu se nepodařilo načíst",
+    "generic": "Zkuste to prosím znovu. Pokud se tento problém bude opakovat, obnovte stránku.",
+    "retry": "Zkusit znovu",
+    "reference": "Odkaz: {digest}"
+  },
+  "Currencies": {
+    "search": "Vyhledat měnu...",
+    "noCurrency": "Nebyly nalezeny žádné měny.",
+    "custom": {
+      "heading": "Vlastní"
+    },
+    "common": {
+      "heading": "Nejčastější"
+    },
+    "other": {
+      "heading": "Ostatní měny"
+    }
   }
 }
