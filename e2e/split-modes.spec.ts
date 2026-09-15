@@ -284,3 +284,38 @@ test('saves an even split with the leftover cent where it was previewed', async 
   await expectBalance(page, 'Alice', bobOwes)
   await expectBalance(page, 'Bob', -bobOwes)
 })
+
+test('can retry a create whose response was lost', async ({ page }) => {
+  const groupId = await createGroup(page, {
+    name: `E2E LostResponse ${uniqueSuffix()}`,
+    participants: ['Alice', 'Bob'],
+  })
+
+  await page.goto(`/groups/${groupId}/expenses/create`)
+  const submit = page.getByRole('button', { name: 'Create', exact: true })
+  await expect(submit).toBeVisible({ timeout: 30_000 })
+
+  await fillStable(page.locator('input[name="title"]'), 'Lost')
+  await fillStable(page.locator('input[name="amount"]'), '16.57')
+  await selectRadixOption(page, page.getByTestId('paid-by'), 'Alice')
+
+  // The form mints the expense id itself so its split preview can be exact.
+  // Let the server handle the first create but lose its response: a retry
+  // that reused the id would collide with the expense it already made.
+  let lost = false
+  await page.route(/\/api\/trpc\/groups\.expenses\.create/, async (route) => {
+    if (lost) return route.continue()
+    lost = true
+    await route.fetch()
+    await route.abort('failed')
+  })
+  await submit.click()
+  await expect.poll(() => lost).toBe(true)
+  await expect(submit).toBeEnabled()
+
+  await submit.click()
+  await page.waitForURL(EXPENSES_URL, { timeout: 30_000 })
+  await expect(
+    page.getByTestId('expense-card').filter({ hasText: 'Lost' }),
+  ).toHaveCount(2)
+})
