@@ -258,7 +258,8 @@
     },
     "conversionRateField": {
       "label": "Směnný kurz",
-      "useCustom": "Použít vlastní kurz"
+      "useCustom": "Použít vlastní kurz",
+      "useApi": "Použít kurzy ze služby Frankfurter"
     },
     "conversionRateState": {
       "loading": "Načítání směnných kurzů…",
@@ -271,7 +272,8 @@
       "noDate": "Zadejte datum výdaje, abyste získali směnný kurz.",
       "dateMismatch": "Kurzy platné od data: {date}",
       "customRate": "Použití vlastního kurzu"
-    }
+    },
+    "conversionUnavailable": "Chcete-li nastavit jinou měnu pro jednotlivé výdaje a převádět částky, vyberte pro skupinu jinou než vlastní měnu."
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
@@ -347,7 +349,8 @@
       "expenseCount": "Výdaje",
       "averageExpense": "Průměrné výdaje",
       "largestExpense": "Největší výdaj",
-      "activeSpan": "Aktivní období"
+      "activeSpan": "Aktivní období",
+      "description": "Klíčové ukazatele za zvolené období."
     },
     "OverTime": {
       "title": "Výdaje v průběhu času",
@@ -387,7 +390,20 @@
     },
     "MonthlySpending": {
       "title": "Měsíční výdaje",
-      "description": "Výdaje podle měsíce a kategorie za zvolené období."
+      "description": "Výdaje podle měsíce a kategorie za zvolené období.",
+      "groupingLabel": "Seskupení kategorií",
+      "chartTypeLabel": "Typ grafu",
+      "stackedTitle": "Měsíční kategorie",
+      "roundAmountsLabel": "Zaokrouhlené částky",
+      "noData": "Zatím žádná data o výdajích.",
+      "GroupingOptions": {
+        "categoryGroup": "Kategorie",
+        "category": "Podrobně"
+      },
+      "ChartTypes": {
+        "columns": "Vrstvené sloupce",
+        "bars": "Vrstvené pruhy"
+      }
     }
   },
   "Activity": {
@@ -520,9 +536,9 @@
     }
   },
   "Pwa": {
-    "updateTitle": "Dostupná aktualizace",
-    "updateDescription": "Je dostupná nová verze Spliit.",
-    "reload": "Načíst znovu"
+    "updateTitle": "Je k dispozici aktualizace",
+    "updateDescription": "Je k dispozici nová verze aplikace Spliit.",
+    "reload": "Obnovit"
   },
   "Errors": {
     "title": "Něco se pokazilo",
