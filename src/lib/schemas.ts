@@ -3,20 +3,24 @@ import Decimal from 'decimal.js'
 
 import * as z from 'zod'
 
+export const GROUP_INFORMATION_MAX = 10_000
+export const EXPENSE_NOTES_MAX = 5_000
+
 export const groupFormSchema = z
   .object({
     name: z.string().min(2, 'min2').max(50, 'max50'),
-    information: z.string().optional(),
+    information: z.string().max(GROUP_INFORMATION_MAX, 'max10000').optional(),
     currency: z.string().min(1, 'min1').max(5, 'max5'),
     currencyCode: z.union([z.string().length(3).nullish(), z.literal('')]), // ISO-4217 currency code
     participants: z
       .array(
         z.object({
-          id: z.string().optional(),
+          id: z.string().max(64).optional(),
           name: z.string().min(2, 'min2').max(50, 'max50'),
         }),
       )
-      .min(1),
+      .min(1)
+      .max(100),
   })
   .superRefine(({ participants }, ctx) => {
     participants.forEach((participant, i) => {
@@ -55,7 +59,8 @@ export const expenseFormSchema = z
         error: (issue) =>
           issue.input === undefined ? 'titleRequired' : undefined,
       })
-      .min(2, 'min2'),
+      .min(2, 'min2')
+      .max(200, 'max200'),
     category: z.coerce.number().default(0),
     amount: z
       .union(
@@ -100,7 +105,7 @@ export const expenseFormSchema = z
     paidFor: z
       .array(
         z.object({
-          participant: z.string(),
+          participant: z.string().max(64),
           originalAmount: z.string().optional(), // For converting shares by amounts in original currency, not saved.
           shares: z.union([
             z.number(),
@@ -118,6 +123,7 @@ export const expenseFormSchema = z
         }),
       )
       .min(1, 'paidForMin1')
+      .max(100)
       .superRefine((paidFor, ctx) => {
         for (const { shares } of paidFor) {
           const shareNumber = Number(shares)
@@ -135,14 +141,15 @@ export const expenseFormSchema = z
     documents: z
       .array(
         z.object({
-          id: z.string(),
-          url: z.string().url(),
+          id: z.string().max(64),
+          url: z.string().url().max(2000),
           width: z.number().int().min(1),
           height: z.number().int().min(1),
         }),
       )
+      .max(100)
       .default([]),
-    notes: z.string().optional(),
+    notes: z.string().max(EXPENSE_NOTES_MAX, 'max5000').optional(),
     recurrenceRule: z.enum(RecurrenceRule).default('NONE'),
   })
   .superRefine((expense, ctx) => {
