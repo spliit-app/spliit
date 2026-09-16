@@ -95,9 +95,13 @@
       "description": "Deine zusammengefasste Bilanz über alle deine Gruppen.",
       "owedToYou": "Du bekommst",
       "youOwe": "Du schuldest",
-      "settledUp": "Über alle deine Gruppen hinweg ist alles ausgeglichen."
+      "settledUp": "Über alle deine Gruppen hinweg ist alles ausgeglichen.",
+      "loadError": "Das Gesamtguthaben konnte nicht geladen werden. Erneut versuchen.",
+      "retry": "Wiederholen"
     },
-    "createGroup": "Neue Gruppe erstellen"
+    "createGroup": "Neue Gruppe erstellen",
+    "loadError": "Deine Gruppen konnten nicht geladen werden. Bitte erneut versuchen.",
+    "retry": "Wiederholen"
   },
   "GroupForm": {
     "title": "Gruppeninformationen",
@@ -472,7 +476,10 @@
     "noZeroShares": "Alle Anteile müssen größer als 0 sein.",
     "amountSum": "Die Beträge summieren sich zu {sum}, {difference} {direction, select, over {more} other {less}} als der Ausgabenbetrag ({amount}).",
     "percentageSum": "Die Prozentsätze ergeben zusammen {sum} %, {difference} % {direction, select, over {more} other {less}} als 100 %.",
-    "ratePositive": "Der Wechselkurs muss unbedingt größer als Null sein."
+    "ratePositive": "Der Wechselkurs muss unbedingt größer als Null sein.",
+    "max200": "Gib höchstens 200 Zeichen ein.",
+    "max5000": "Gib höchstens 5.000 Zeichen ein.",
+    "max10000": "Gib höchstens 10.000 Zeichen ein."
   },
   "Categories": {
     "search": "Kategorie suchen...",
