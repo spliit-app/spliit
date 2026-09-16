@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1789266977551,
+  "lastUpdate": 1789517181781,
   "repoUrl": "https://github.com/spliit-app/spliit",
   "entries": {
     "Spliit performance (timing)": [
@@ -83,6 +83,90 @@ window.BENCHMARK_DATA = {
           {
             "name": "view-expense:edit-form p95",
             "value": 8.16,
+            "unit": "ms"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "32952971+t0ma5@users.noreply.github.com",
+            "name": "t0ma5",
+            "username": "t0ma5"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "cc796210db06bb112609f820c8eb8d7bbecdce83",
+          "message": "Cap Zod inputs for groups, expenses, and pagination (#644)\n\n## Summary\n- Caps group metadata, participant arrays, document URLs, and\nexpense/activity pagination so oversized tRPC payloads are rejected.\n- Home-page `groups.list` / `balances.forUser` callers now slice to 100\nids and show an error/retry instead of spinning forever.\n- Raises group `information` to 10000 with i18n keys, unifies tRPC IDs\nat 64, drops image dimension caps, and adds `maxLength={200}` on expense\nsearch.\n\nThis replaces #610. GitHub could not reopen that PR:\n`t0ma5:pr/zod-input-caps` has no history in common with\n`spliit-app:main` after the earlier rewrite. Same two commits, rebased\nonto current `main`.\n\nAddresses\nhttps://github.com/spliit-app/spliit/pull/610#pullrequestreview-5188951542\n\n## Test plan\n- [ ] Create/edit a group with a long information field under 10000\ncharacters; save succeeds.\n- [ ] Expense list pagination still loads the next page.\n- [ ] Sending `limit: 10000` on expenses.list is rejected by Zod.\n- [ ] Home page with many saved groups loads (or shows retry) instead of\nhanging on a spinner.\n- [ ] Notes/information over the cap show a translated FormMessage, not\nZod's raw English.",
+          "timestamp": "2026-09-15T20:02:36-04:00",
+          "tree_id": "6b6c5b0f371c69e5789f6a733c5d04c1a609c0bf",
+          "url": "https://github.com/spliit-app/spliit/commit/cc796210db06bb112609f820c8eb8d7bbecdce83"
+        },
+        "date": 1789517181325,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "list-groups:home p50",
+            "value": 235.48,
+            "unit": "ms"
+          },
+          {
+            "name": "list-groups:home p95",
+            "value": 274.51,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:first-page p50",
+            "value": 17.15,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:first-page p95",
+            "value": 22.5,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:deep-page p50",
+            "value": 15.1,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:deep-page p95",
+            "value": 17.2,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:search p50",
+            "value": 13.83,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:search p95",
+            "value": 15.32,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:balances p50",
+            "value": 170.95,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:balances p95",
+            "value": 206.94,
+            "unit": "ms"
+          },
+          {
+            "name": "view-expense:edit-form p50",
+            "value": 8.33,
+            "unit": "ms"
+          },
+          {
+            "name": "view-expense:edit-form p95",
+            "value": 9.76,
             "unit": "ms"
           }
         ]
