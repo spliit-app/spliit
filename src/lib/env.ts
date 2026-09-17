@@ -16,6 +16,23 @@ const interpretEnvVarAsBool = (val: unknown): boolean => {
 const interpretBlankEnvVarAsUndefined = (val: unknown): unknown =>
   typeof val === 'string' && val.trim() === '' ? undefined : val
 
+/**
+ * Splits a comma-separated variable into its items, dropping whitespace, blank
+ * items and repeats: `plausible, umami,` reads as `['plausible', 'umami']`, and
+ * a blank variable as `[]`. Order is kept.
+ */
+const interpretEnvVarAsList = (val: unknown): unknown =>
+  typeof val === 'string'
+    ? Array.from(
+        new Set(
+          val
+            .split(',')
+            .map((item) => item.trim())
+            .filter(Boolean),
+        ),
+      )
+    : val
+
 const envSchema = z
   .object({
     POSTGRES_URL_NON_POOLING: z.string().url(),
@@ -98,12 +115,13 @@ const envSchema = z
       interpretBlankEnvVarAsUndefined,
       z.string().trim().default('gpt-5-nano'),
     ),
-    // Analytics is disabled unless a provider is selected. These are read on
-    // the server and passed to the client as props, so they are deliberately
+    // Analytics is disabled unless a provider is selected. Several can be
+    // listed, comma-separated, to report to all of them at once. These are read
+    // on the server and passed to the client as props, so they are deliberately
     // not `NEXT_PUBLIC_`: a single image stays configurable at container start.
     ANALYTICS_PROVIDER: z.preprocess(
-      interpretBlankEnvVarAsUndefined,
-      z.enum(ANALYTICS_PROVIDER_IDS).optional(),
+      interpretEnvVarAsList,
+      z.array(z.enum(ANALYTICS_PROVIDER_IDS)).default([]),
     ),
     PLAUSIBLE_DOMAIN: z.preprocess(
       interpretBlankEnvVarAsUndefined,
@@ -120,6 +138,21 @@ const envSchema = z
       z.string().optional(),
     ),
     PLAUSIBLE_API_URL: z.preprocess(
+      interpretBlankEnvVarAsUndefined,
+      z.string().optional(),
+    ),
+    UMAMI_WEBSITE_ID: z.preprocess(
+      interpretBlankEnvVarAsUndefined,
+      z.string().optional(),
+    ),
+    // Neither is a `z.string().url()`: the script URL doubles as the pointer to
+    // a self-hosted instance, and either may be a relative path pointing at a
+    // rewrite that serves Umami first-party.
+    UMAMI_SCRIPT_URL: z.preprocess(
+      interpretBlankEnvVarAsUndefined,
+      z.string().optional(),
+    ),
+    UMAMI_HOST_URL: z.preprocess(
       interpretBlankEnvVarAsUndefined,
       z.string().optional(),
     ),
@@ -157,11 +190,18 @@ const envSchema = z
           'If ENABLE_RECEIPT_EXTRACT or ENABLE_CATEGORY_EXTRACT is set, then OPENAI_API_KEY must be set too',
       })
     }
-    if (env.ANALYTICS_PROVIDER === 'plausible' && !env.PLAUSIBLE_DOMAIN) {
+    if (env.ANALYTICS_PROVIDER.includes('plausible') && !env.PLAUSIBLE_DOMAIN) {
       ctx.addIssue({
         code: ZodIssueCode.custom,
         message:
-          'If ANALYTICS_PROVIDER is set to "plausible", then PLAUSIBLE_DOMAIN must be specified too',
+          'If ANALYTICS_PROVIDER includes "plausible", then PLAUSIBLE_DOMAIN must be specified too',
+      })
+    }
+    if (env.ANALYTICS_PROVIDER.includes('umami') && !env.UMAMI_WEBSITE_ID) {
+      ctx.addIssue({
+        code: ZodIssueCode.custom,
+        message:
+          'If ANALYTICS_PROVIDER includes "umami", then UMAMI_WEBSITE_ID must be specified too',
       })
     }
   })

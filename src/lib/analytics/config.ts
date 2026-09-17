@@ -1,6 +1,6 @@
 'use server'
 
-import { AnalyticsConfig } from '@/lib/analytics/types'
+import { AnalyticsConfig, AnalyticsOptions } from '@/lib/analytics/types'
 import { env } from '@/lib/env'
 import { match } from 'ts-pattern'
 
@@ -15,17 +15,23 @@ import { match } from 'ts-pattern'
  * Everything returned here is public — it is serialized into the HTML.
  */
 export async function getAnalyticsConfig(): Promise<AnalyticsConfig> {
-  return match(env.ANALYTICS_PROVIDER)
-    .with(undefined, () => ({ provider: null, options: {} }))
-    .with('console', (provider) => ({ provider, options: {} }))
-    .with('plausible', (provider) => ({
-      provider,
-      options: {
-        domain: env.PLAUSIBLE_DOMAIN,
-        host: env.PLAUSIBLE_HOST,
-        scriptUrl: env.PLAUSIBLE_SCRIPT_URL,
-        apiUrl: env.PLAUSIBLE_API_URL,
-      },
-    }))
-    .exhaustive()
+  return {
+    providers: env.ANALYTICS_PROVIDER.map((id) => ({
+      id,
+      options: match<typeof id, AnalyticsOptions>(id)
+        .with('console', () => ({}))
+        .with('plausible', () => ({
+          domain: env.PLAUSIBLE_DOMAIN,
+          host: env.PLAUSIBLE_HOST,
+          scriptUrl: env.PLAUSIBLE_SCRIPT_URL,
+          apiUrl: env.PLAUSIBLE_API_URL,
+        }))
+        .with('umami', () => ({
+          websiteId: env.UMAMI_WEBSITE_ID,
+          scriptUrl: env.UMAMI_SCRIPT_URL,
+          hostUrl: env.UMAMI_HOST_URL,
+        }))
+        .exhaustive(),
+    })),
+  }
 }
