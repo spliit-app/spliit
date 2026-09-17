@@ -311,6 +311,23 @@
       "yourSpendings": "Te összes kiadásod",
       "yourEarnings": "Te összes bevételed",
       "yourShare": "Te részesedésed"
+    },
+    "MonthlySpending": {
+      "GroupingOptions": {
+        "category": "Részletes",
+        "categoryGroup": "Kategóriák"
+      },
+      "ChartTypes": {
+        "columns": "Halmozott oszlopok",
+        "bars": "Halmozott oszlopok (fekvő)"
+      },
+      "noData": "Nincs költési adat egyenlőre.",
+      "roundAmountsLabel": "Kerekített összegek",
+      "stackedTitle": "Havi kategóriák",
+      "chartTypeLabel": "Diagramtípus",
+      "groupingLabel": "Kategória csoportosítás",
+      "description": "Költések hónaponként és kategóriánként a kiválasztott időszakra.",
+      "title": "Havi költések"
     }
   },
   "Activity": {
@@ -363,8 +380,8 @@
     "paidByRequired": "Ki kell válassz egy résztvevőt.",
     "paidForMin1": "A kiadáshoz legalább egy résztvevőt ki kell jelölj.",
     "noZeroShares": "Összes résznek nagyobbnak kell lennie, mint 0.",
-    "amountSum": "Az összegek összegének egyenlőnek kell lennie a kiadás összegével.",
-    "percentageSum": "A százalékok összegének egyenlőnek kell lennie 100-zal."
+    "amountSum": "Az összegek végösszege {sum}, ami {difference} {direction, select, over {több} other {kevesebb}} a kiadás összegénél ({amount}).",
+    "percentageSum": "A százalékos értékek összege {sum}%, ami {difference}%-kal {direction, select, over {több} other {kevesebb}}, mint 100%."
   },
   "Categories": {
     "search": "Keresés kategóriák közt...",
@@ -447,5 +464,12 @@
     "other": {
       "heading": "További pénznemek"
     }
+  },
+  "Errors": {
+    "retry": "Próbáld újra",
+    "reference": "Hivatkozás: {digest}",
+    "generic": "Kérjük próbáld újra! Ha továbbra is ez történik, töltsd újra az oldalt.",
+    "groupTitle": "Nem sikerült betölteni a csoportot",
+    "title": "Valami elromlott"
   }
 }
