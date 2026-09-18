@@ -1,0 +1,38 @@
+name: Monitorar Aplicação
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"  # roda a cada 5 minutos
+  workflow_dispatch:  # permite rodar manualmente também
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Criar arquivo de log se não existir
+        run: |
+          if [ ! -f monitor.log ]; then
+            echo "Arquivo de log criado em $(date)" > monitor.log
+          fi
+
+      - name: Monitorar aplicação
+        run: |
+          URL="https://spliit-ivory.vercel.app"
+          TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" $URL)
+
+          if [ "$STATUS" == "200" ]; then
+            echo "$TIMESTAMP - OK (200)" >> monitor.log
+          else
+            echo "$TIMESTAMP - ERRO (Status: $STATUS)" >> monitor.log
+          fi
+
+      - name: Salvar log como artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: monitor-log
+          path: monitor.log
