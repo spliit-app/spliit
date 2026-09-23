@@ -26,7 +26,7 @@ type Options = {
   seedActiveUser: boolean
 
   /**
-   * Rate returned for every api.frankfurter.dev request, so currency
+   * Rate returned for every /api/exchange-rates request, so currency
    * conversion is deterministic and offline. Null (the default) aborts the
    * request instead, which is what every non-currency spec wants.
    */
@@ -59,11 +59,12 @@ export const test = base.extend<Options>({
     }
 
     // The suite must never depend on a third-party API. useCurrencyRate calls
-    // this only when the expense currency differs from the group currency.
-    await page.route('https://api.frankfurter.dev/**', (route) => {
+    // the server-side Frankfurter proxy only when the expense currency differs
+    // from the group currency, so intercept it before it reaches the server.
+    await page.route('**/api/exchange-rates?**', (route) => {
       if (exchangeRate === null) return route.abort()
 
-      // Request shape: /v2/rates?date=<YYYY-MM-DD>&base=<CODE>&quotes=<CODE>.
+      // Request shape: /api/exchange-rates?date=<YYYY-MM-DD>&base=<CODE>&quotes=<CODE>.
       // The hook turns the response into a RangeError unless `date` echoes the
       // requested date exactly, so mirror it back rather than inventing one.
       const url = new URL(route.request().url())
