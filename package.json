@@ -64,6 +64,7 @@
     "content-disposition": "^3.0.0",
     "dayjs": "^1.11.23",
     "embla-carousel-react": "^8.6.0",
+    "flag-icons": "^7.5.0",
     "html5-qrcode": "^2.3.8",
     "lucide-react": "^1.52.0",
     "nanoid": "^6.0.1",
