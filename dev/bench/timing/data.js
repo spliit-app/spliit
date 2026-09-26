@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1790440237935,
+  "lastUpdate": 1790454785962,
   "repoUrl": "https://github.com/spliit-app/spliit",
   "entries": {
     "Spliit performance (timing)": [
@@ -251,6 +251,90 @@ window.BENCHMARK_DATA = {
           {
             "name": "view-expense:edit-form p95",
             "value": 6.31,
+            "unit": "ms"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "sebastien@castiel.me",
+            "name": "Sebastien Castiel",
+            "username": "scastiel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "936adbcbbd116fbbb39b942ae9088b25f1af3f61",
+          "message": "Combine Dependabot updates (openai 7, jest-dom 7, react 19.3, trpc 11.19 and minor/patch group) (#657)\n\nCombines the three open Dependabot PRs into one branch so they can be\nvalidated and landed together.\n\n## Included\n\n| PR | Bump |\n| --- | --- |\n| #656 | minor-and-patch group: react / react-dom 19.3.0,\n@tanstack/react-query 5.103.2, @trpc/client / @trpc/react-query 11.19.0,\nnext-intl 4.14.6, lucide-react 1.47.0, react-hook-form 7.88.0,\n@formatjs/intl-localematcher 0.9.0, @testing-library/dom 10.4.2, jest /\njest-environment-jsdom 30.5.2, prettier 3.9.9, and transitive updates |\n| #649 | openai 6.49.0 → 7.15.0 |\n| #650 | @testing-library/jest-dom 6.9.1 → 7.0.1 |\n\nEach branch is merged as-is on top of current `main` (merge commits\npreserved).\n\n## Changes on top of the Dependabot branches\n\n- `package.json` conflict between #656 and #650 (adjacent lines): kept\nboth, `@testing-library/dom` ^10.4.2 and `@testing-library/jest-dom`\n^7.0.1. `package-lock.json` regenerated with `npm install\n--package-lock-only`.\n- `@trpc/server` bumped to ^11.19.0 as well. The group only moved\n`@trpc/client` and `@trpc/react-query`, which would have left the tRPC\npackages on different versions.\n\n## Breaking changes reviewed\n\n- **openai 7.0.0**: the only breaking change is \"require Node.js 22\".\nThe API surface we use (`new OpenAI({ apiKey, baseURL })`,\n`chat.completions.create`) is unchanged.\n- **jest-dom 7.0.0**: `@testing-library/dom` is now a required peer\ndependency (we already list it in devDependencies), and the minimum Node\nversion is 22.\n\nWe're on Node 24 in CI and Node 26 in the Docker image, so both are\nfine.\n\n## Verification\n\nRun locally on Node 24 with `npm ci --ignore-scripts && npx prisma\ngenerate` (same as CI):\n\n- `npm run check-types` ✅\n- `npm run lint` ✅ (oxlint, 0 errors, only the existing warnings)\n- `npm run check-formatting` ✅\n- `npm test` ✅ 36 suites / 434 tests\n\n- E2E workflow (manually dispatched on this branch, Docker build +\nPlaywright) ✅\nhttps://github.com/spliit-app/spliit/actions/runs/36269280987\n\nCloses #649, closes #650, closes #656.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\n---------\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>",
+          "timestamp": "2026-09-26T16:29:16-04:00",
+          "tree_id": "ff292ee9b5acb278c84a501a7b07e20d4556fa41",
+          "url": "https://github.com/spliit-app/spliit/commit/936adbcbbd116fbbb39b942ae9088b25f1af3f61"
+        },
+        "date": 1790454785460,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "list-groups:home p50",
+            "value": 223.76,
+            "unit": "ms"
+          },
+          {
+            "name": "list-groups:home p95",
+            "value": 249.69,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:first-page p50",
+            "value": 14.28,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:first-page p95",
+            "value": 17.17,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:deep-page p50",
+            "value": 12.44,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:deep-page p95",
+            "value": 16.15,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:search p50",
+            "value": 10.79,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:search p95",
+            "value": 11.95,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:balances p50",
+            "value": 163.99,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:balances p95",
+            "value": 187.49,
+            "unit": "ms"
+          },
+          {
+            "name": "view-expense:edit-form p50",
+            "value": 5.79,
+            "unit": "ms"
+          },
+          {
+            "name": "view-expense:edit-form p95",
+            "value": 6.66,
             "unit": "ms"
           }
         ]
