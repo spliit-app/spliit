@@ -68,14 +68,14 @@ jobs:
         run: ./scripts/perf.sh seed
 
       - name: Run benchmarks
-        run: npx ts-node -T perf/run.ts
+        run: npx tsx perf/run.ts
 
       # Converted here rather than in the publish job so that job needs no
       # node toolchain -- it only downloads two JSON files and hands them over.
       - name: Convert report for the trend dashboard
         if: startsWith(github.ref, 'refs/tags/')
         run: >
-          npx ts-node -T perf/to-benchmark-json.ts
+          npx tsx perf/to-benchmark-json.ts
           perf-report.json bench-deterministic.json bench-timing.json
 
       - name: Upload trend data

@@ -1,4 +1,5 @@
 'use server'
+
 import { getCategories } from '@/lib/api'
 import { env } from '@/lib/env'
 import { getRuntimeFeatureFlags } from '@/lib/featureFlags'

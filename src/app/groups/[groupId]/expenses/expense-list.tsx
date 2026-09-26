@@ -1,4 +1,5 @@
 'use client'
+
 import { ExpenseCard } from '@/app/groups/[groupId]/expenses/expense-card'
 import { Button } from '@/components/ui/button'
 import { SearchBar } from '@/components/ui/search-bar'

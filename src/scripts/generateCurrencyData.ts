@@ -1,13 +1,12 @@
 // @ts-nocheck
+import fs from 'node:fs'
 import { Locale, locales } from '@/i18n/request'
 import {
   Currency,
-  supportedCurrencyCodeType,
   supportedCurrencyCodes,
+  supportedCurrencyCodeType,
 } from '@/lib/currency'
 import CurrencyList from 'currency-list'
-
-import fs from 'node:fs'
 
 const currencyList = locales.reduce((curList, locale) => {
   const currencyData = supportedCurrencyCodes.reduce(

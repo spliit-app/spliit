@@ -3,7 +3,7 @@
  *
  * Talks to postgres through `pg` rather than through Prisma, for two reasons.
  * The generated Prisma 7 client is ESM-only and cannot be required from the
- * CommonJS context ts-node gives these scripts; and multi-row INSERTs are far
+ * CommonJS context tsx gives these scripts; and multi-row INSERTs are far
  * faster than `createMany` for the tens of thousands of rows this writes.
  * Going through `src/lib/api.ts` would be slower still -- that path writes one
  * expense per call and logs an activity for each.
@@ -26,7 +26,6 @@
  */
 import { Client } from 'pg'
 import {
-  SEARCH_TOKEN,
   config,
   expenseCountFor,
   expenseId,
@@ -34,6 +33,7 @@ import {
   paidForCountFor,
   participantCountFor,
   participantId,
+  SEARCH_TOKEN,
   seedDatabaseUrl,
 } from './config'
 import { makeRandom } from './random'

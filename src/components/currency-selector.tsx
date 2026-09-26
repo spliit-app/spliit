@@ -1,5 +1,3 @@
-import { ChevronDown, Loader2 } from 'lucide-react'
-
 import { Button, ButtonProps } from '@/components/ui/button'
 import {
   Command,
@@ -17,6 +15,7 @@ import {
 } from '@/components/ui/popover'
 import { Currency } from '@/lib/currency'
 import { useMediaQuery } from '@/lib/hooks'
+import { ChevronDown, Loader2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { forwardRef, useEffect, useState } from 'react'
 

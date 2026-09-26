@@ -1,4 +1,5 @@
 'use client'
+
 import {
   STATS_PERIODS,
   StatsPeriod,

@@ -48,9 +48,9 @@ import { randomId } from '@/lib/random'
 import {
   EXPENSE_NOTES_MAX,
   ExpenseFormInput,
+  expenseFormSchema,
   ExpenseFormValues,
   SplittingOptions,
-  expenseFormSchema,
 } from '@/lib/schemas'
 import { distributeAmount } from '@/lib/shares'
 import { calculateShare } from '@/lib/totals'

@@ -6,15 +6,15 @@ import { formatCurrency } from '@/lib/utils'
 import { useTranslations } from 'next-intl'
 import { useLayoutEffect, useRef } from 'react'
 import {
-  GraphCategoryIcon,
-  MonthlyCategorySpending,
-  MonthlySpendingCategory,
-  MonthlySpendingChartType,
   formatMonth,
   getCategoryHoverLabel,
   getCategoryLabel,
   getMonthCategoriesInDisplayOrder,
   getShare,
+  GraphCategoryIcon,
+  MonthlyCategorySpending,
+  MonthlySpendingCategory,
+  MonthlySpendingChartType,
 } from './category-utils'
 
 export function MonthlyCategoryStackedChart({

@@ -3,9 +3,9 @@
 import { MonthlySpendingGrouping } from '@/lib/monthly-spending'
 import { cn } from '@/lib/utils'
 import {
+  getCategoryLabel,
   GraphCategoryIcon,
   MonthlySpendingCategory,
-  getCategoryLabel,
 } from './category-utils'
 
 export function MonthlySpendingLegend({

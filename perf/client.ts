@@ -25,7 +25,7 @@ import { baseUrl } from './config'
  *
  * A pass-through rather than an import of `@/generated/prisma/client`: the
  * generated Prisma 7 client is ESM-only and cannot be required from the
- * CommonJS context ts-node gives these scripts.
+ * CommonJS context tsx gives these scripts.
  */
 superjson.registerCustom<string, string>(
   {

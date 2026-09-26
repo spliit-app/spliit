@@ -1,4 +1,5 @@
 'use client'
+
 import { CopyButton } from '@/components/copy-button'
 import { ShareQrCodeDialog } from '@/components/share-qr-code-dialog'
 import { ShareUrlButton } from '@/components/share-url-button'

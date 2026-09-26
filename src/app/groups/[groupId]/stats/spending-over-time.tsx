@@ -1,4 +1,5 @@
 'use client'
+
 import { ExpensesDialog } from '@/app/groups/[groupId]/stats/expenses-dialog'
 import {
   StatBar,

@@ -176,7 +176,6 @@ export async function GET(
 
   // Use the original group name for the 'filename*' parameter (UTF-8 encoded)
   const fullFilename = `Spliit Export - ${group.name} - ${date}.csv`
-  const encodedFullFilename = encodeURIComponent(fullFilename)
 
   // \uFEFF character is added at the beginning of the CSV content to ensure that it is interpreted as UTF-8 with BOM (Byte Order Mark), which helps some applications correctly interpret the encoding.
   return new NextResponse(`\uFEFF${csv}`, {

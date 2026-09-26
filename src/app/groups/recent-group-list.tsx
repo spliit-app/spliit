@@ -1,10 +1,11 @@
 'use client'
+
 import { AddGroupByUrlButton } from '@/app/groups/add-group-by-url-button'
 import {
-  RecentGroups,
   getArchivedGroups,
   getRecentGroups,
   getStarredGroups,
+  RecentGroups,
 } from '@/app/groups/recent-groups-helpers'
 import { Button } from '@/components/ui/button'
 import { getGroups } from '@/lib/api'

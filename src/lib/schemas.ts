@@ -1,6 +1,5 @@
 import { RecurrenceRule, SplitMode } from '@/generated/prisma/browser'
 import Decimal from 'decimal.js'
-
 import * as z from 'zod'
 
 export const GROUP_INFORMATION_MAX = 10_000

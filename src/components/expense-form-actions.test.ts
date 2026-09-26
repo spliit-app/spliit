@@ -1,3 +1,5 @@
+import { extractCategoryFromTitle } from './expense-form-actions'
+
 // `var` and the indirection through an arrow keep the mock reachable if Jest
 // evaluation order changes. The OpenAI client is constructed lazily.
 var mockCreate = jest.fn()
@@ -26,8 +28,6 @@ jest.mock('../lib/api', () => ({
     { id: 4, grouping: 'Transport', name: 'Taxi' },
   ],
 }))
-
-import { extractCategoryFromTitle } from './expense-form-actions'
 
 function respondWith(content: string | null) {
   mockCreate.mockResolvedValue({ choices: [{ message: { content } }] })
