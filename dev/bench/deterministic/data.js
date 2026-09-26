@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1789517180208,
+  "lastUpdate": 1790440236213,
   "repoUrl": "https://github.com/spliit-app/spliit",
   "entries": {
     "Spliit performance (deterministic)": [
@@ -107,6 +107,90 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/spliit-app/spliit/commit/cc796210db06bb112609f820c8eb8d7bbecdce83"
         },
         "date": 1789517179618,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "list-groups:home bytes",
+            "value": 6744,
+            "unit": "bytes"
+          },
+          {
+            "name": "list-groups:home queries",
+            "value": 61,
+            "unit": "queries"
+          },
+          {
+            "name": "view-group:first-page bytes",
+            "value": 25242,
+            "unit": "bytes"
+          },
+          {
+            "name": "view-group:first-page queries",
+            "value": 3,
+            "unit": "queries"
+          },
+          {
+            "name": "view-group:deep-page bytes",
+            "value": 24564,
+            "unit": "bytes"
+          },
+          {
+            "name": "view-group:deep-page queries",
+            "value": 2,
+            "unit": "queries"
+          },
+          {
+            "name": "view-group:search bytes",
+            "value": 23714,
+            "unit": "bytes"
+          },
+          {
+            "name": "view-group:search queries",
+            "value": 2,
+            "unit": "queries"
+          },
+          {
+            "name": "view-group:balances bytes",
+            "value": 2370,
+            "unit": "bytes"
+          },
+          {
+            "name": "view-group:balances queries",
+            "value": 2,
+            "unit": "queries"
+          },
+          {
+            "name": "view-expense:edit-form bytes",
+            "value": 5641,
+            "unit": "bytes"
+          },
+          {
+            "name": "view-expense:edit-form queries",
+            "value": 3,
+            "unit": "queries"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "pkong.subscribe@gmail.com",
+            "name": "Peter Kong",
+            "username": "pkong-ds"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "9edfaffd7a17903a32d36b3c8044cd9ae7bd1328",
+          "message": "Make tab buttons show `cursor: pointer` (#653)\n\n## Preview\n\n### Before\n\n\nhttps://github.com/user-attachments/assets/0bd15569-9014-4080-b9b6-4eb4c86670c1\n\n### After\n\n\nhttps://github.com/user-attachments/assets/87724265-6fd0-49fe-a22c-dd20279c1a47\n\n## Why?\nTailwind v4 removed `cursor: pointer` from buttons.\n\nPersonally prefer having it.\n\nIf we wanna go the extra mile of changing all buttons, can do below too\n\n```css\n@layer base {\n  button:not(:disabled), [role='button']:not(:disabled) {\n    cursor: pointer;\n  }\n}\n```\n\nref https://github.com/shadcn-ui/ui/issues/6843\nref https://github.com/tailwindlabs/tailwindcss/issues/15773",
+          "timestamp": "2026-09-26T12:27:00-04:00",
+          "tree_id": "6b9242e77696a582f95f7e77e06f154932812052",
+          "url": "https://github.com/spliit-app/spliit/commit/9edfaffd7a17903a32d36b3c8044cd9ae7bd1328"
+        },
+        "date": 1790440235558,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
