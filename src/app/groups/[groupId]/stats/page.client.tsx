@@ -1,4 +1,5 @@
 'use client'
+
 import { useCurrentGroup } from '@/app/groups/[groupId]/current-group-context'
 import { CategoryBreakdown } from '@/app/groups/[groupId]/stats/category-breakdown'
 import { MonthlySpending } from '@/app/groups/[groupId]/stats/monthly-spending'

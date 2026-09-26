@@ -36,8 +36,8 @@ import { getGroup } from '@/lib/api'
 import { defaultCurrencyList, getCurrency } from '@/lib/currency'
 import {
   GROUP_INFORMATION_MAX,
-  GroupFormValues,
   groupFormSchema,
+  GroupFormValues,
 } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Save, Trash2 } from 'lucide-react'

@@ -1,4 +1,5 @@
 'use client'
+
 import { Money } from '@/components/money'
 import { getBalances } from '@/lib/balances'
 import { Currency } from '@/lib/currency'

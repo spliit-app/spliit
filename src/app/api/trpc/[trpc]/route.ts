@@ -1,7 +1,7 @@
 import {
   PERF_INSTRUMENTATION_ENABLED,
-  type PerfCounters,
   withPerfCounters,
+  type PerfCounters,
 } from '@/lib/perf-instrumentation'
 import { createTRPCContext } from '@/trpc/init'
 import { appRouter } from '@/trpc/routers/_app'

@@ -1,3 +1,7 @@
+import OpenAI from 'openai'
+import { env } from './env'
+import { getOpenAIClient } from './openai'
+
 jest.mock('openai', () => ({
   __esModule: true,
   default: jest.fn(),
@@ -9,10 +13,6 @@ jest.mock('./env', () => ({
     OPENAI_BASE_URL: undefined as string | undefined,
   },
 }))
-
-import OpenAI from 'openai'
-import { env } from './env'
-import { getOpenAIClient } from './openai'
 
 const mockEnv = env as {
   OPENAI_API_KEY?: string

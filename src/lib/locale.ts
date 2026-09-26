@@ -1,6 +1,6 @@
 'use server'
 
-import { Locale, Locales, defaultLocale, locales } from '@/i18n/request'
+import { defaultLocale, Locale, Locales, locales } from '@/i18n/request'
 import { match } from '@formatjs/intl-localematcher'
 import Negotiator from 'negotiator'
 import { cookies, headers } from 'next/headers'

@@ -10,7 +10,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint .",
+    "lint": "oxlint",
     "check-types": "tsc --noEmit",
     "check-formatting": "prettier -c src e2e perf playwright.config.ts",
     "prettier": "prettier -w src e2e perf playwright.config.ts",
@@ -30,7 +30,7 @@
     "perf:bench": "./scripts/perf.sh bench",
     "perf:down": "./scripts/perf.sh down",
     "perf:logs": "./scripts/perf.sh logs",
-    "generate-currency-data": "ts-node -T ./src/scripts/generateCurrencyData.ts"
+    "generate-currency-data": "tsx ./src/scripts/generateCurrencyData.ts"
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.8.13",
@@ -67,7 +67,7 @@
     "lucide-react": "^1.41.0",
     "nanoid": "^5.1.16",
     "negotiator": "^1.1.0",
-    "next": "^16.3.4",
+    "next": "^16.3.6",
     "next-intl": "^4.14.2",
     "next-s3-upload": "^0.3.4",
     "next-themes": "^0.4.6",
@@ -92,6 +92,7 @@
     "zod": "^4"
   },
   "devDependencies": {
+    "@ianvs/prettier-plugin-sort-imports": "^4.7.1",
     "@playwright/test": "^1.63.0",
     "@tailwindcss/postcss": "^4.3.2",
     "@testing-library/dom": "^10.4.1",
@@ -107,16 +108,13 @@
     "babel-plugin-react-compiler": "^1.0.0",
     "currency-list": "^1.0.8",
     "dotenv": "^17.4.2",
-    "eslint": "^9.39.5",
-    "eslint-config-next": "^16.3.4",
     "jest": "^30.5.1",
     "jest-environment-jsdom": "^30.5.1",
+    "oxlint": "^1.85.0",
     "postcss": "^8.5.28",
     "prettier": "^3.9.6",
-    "prettier-plugin-organize-imports": "^4.3.0",
     "tailwindcss": "^4.3.2",
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0",
-    "typescript": "^6.0.3"
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
   }
 }

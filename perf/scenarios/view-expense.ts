@@ -8,7 +8,7 @@
  * screen.
  */
 import { batched } from '../client'
-import { LARGE_GROUP, expenseId, groupId, targetExpenseIndex } from '../config'
+import { expenseId, groupId, LARGE_GROUP, targetExpenseIndex } from '../config'
 import type { Step } from '../harness'
 
 const id = groupId(LARGE_GROUP)

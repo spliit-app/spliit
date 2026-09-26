@@ -1,4 +1,5 @@
 'use client'
+
 import {
   Activity,
   ActivityItem,

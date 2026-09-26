@@ -1,3 +1,5 @@
+import { extractExpenseInformationFromImage } from './create-from-receipt-button-actions'
+
 // See the note in src/components/expense-form-actions.test.ts on why this is a
 // `var` reached through an arrow.
 var mockCreate = jest.fn()
@@ -29,8 +31,6 @@ jest.mock('../../../../lib/api', () => ({
 jest.mock('../../../../lib/uploaded-image-url', () => ({
   isAllowedUploadUrl: (url: string) => url.startsWith('https://uploads.test/'),
 }))
-
-import { extractExpenseInformationFromImage } from './create-from-receipt-button-actions'
 
 const IMAGE = 'https://uploads.test/receipt.jpg'
 

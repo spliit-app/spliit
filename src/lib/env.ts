@@ -1,4 +1,4 @@
-import { ZodIssueCode, z } from 'zod'
+import { z, ZodIssueCode } from 'zod'
 import { ANALYTICS_PROVIDER_IDS } from './analytics/provider-ids'
 
 const interpretEnvVarAsBool = (val: unknown): boolean => {

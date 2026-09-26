@@ -1,7 +1,7 @@
 import {
-  MonthlySpendingExpense,
   applyMonthlySpendingView,
   getMonthlyCategorySpending,
+  MonthlySpendingExpense,
 } from './monthly-spending'
 
 const categories = {

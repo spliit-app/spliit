@@ -1,7 +1,8 @@
 'use client'
+
 import { Button } from '@/components/ui/button'
 import { ActivityType, Participant } from '@/generated/prisma/browser'
-import { DateTimeStyle, cn, formatDate } from '@/lib/utils'
+import { cn, DateTimeStyle, formatDate } from '@/lib/utils'
 import { AppRouterOutput } from '@/trpc/routers/_app'
 import { ChevronRight } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'

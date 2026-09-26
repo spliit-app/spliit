@@ -2,8 +2,8 @@
 
 import { CategoryIcon } from '@/app/groups/[groupId]/expenses/category-icon'
 import {
-  ReceiptExtractedInfo,
   extractExpenseInformationFromImage,
+  ReceiptExtractedInfo,
 } from '@/app/groups/[groupId]/expenses/create-from-receipt-button-actions'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
