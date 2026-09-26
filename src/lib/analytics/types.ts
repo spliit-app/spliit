@@ -40,7 +40,15 @@ export type AnalyticsProviderComponent = ComponentType<
  */
 export type SendEvent = (event: AnalyticsEvent, path?: string) => void
 
-export type AnalyticsConfig = {
-  provider: AnalyticsProviderId | null
+export type AnalyticsProviderConfig = {
+  id: AnalyticsProviderId
   options: AnalyticsOptions
+}
+
+/**
+ * The providers to report to, in the order they were configured. Empty when
+ * analytics is disabled, which is the default.
+ */
+export type AnalyticsConfig = {
+  providers: AnalyticsProviderConfig[]
 }
