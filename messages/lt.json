@@ -5,7 +5,8 @@
     "button": {
       "groups": "Eiti į grupes",
       "github": "GitHub"
-    }
+    },
+    "metaTitle": "Spliit - Dalinkitės išlaidomis su draugais ir šeima"
   },
   "Header": {
     "groups": "Grupės"
@@ -73,11 +74,33 @@
       "button": "Pridėti pagal nuorodą",
       "title": "Pridėti grupę pagal nuorodą",
       "description": "jei turite grupės nuorodą, galite įkelti ją čia, kad būtų pridėta prie jūsų sąrašo.",
-      "error": "Ups, pagal jūsų pateiktą nuorodą neradome jokios grupės…"
+      "error": "Ups, pagal jūsų pateiktą nuorodą neradome jokios grupės…",
+      "urlMode": "Įveskite URL",
+      "qrMode": "Skenuokite QR",
+      "scanner": {
+        "startCamera": "Įjunkite kamerą",
+        "stopScanning": "Sustabdyti skenavimą",
+        "permissionDenied": "Kameros leidimas atmestas. Leiskite kamerai nuskaityti QR kodus.",
+        "noCamera": "Šiame įrenginyje nerasta jokios kameros.",
+        "cameraError": "Nepavyko paleisti kameros. Bandykite dar kartą.",
+        "permissionError": "Nepavyko pasiekti kameros. Patikrinkite leidimus."
+      }
     },
     "NotFound": {
       "text": "Šios grupės nėra.",
       "link": "Eikite į paskiausiai aplankytas grupes"
+    },
+    "createGroup": "Sukurti grupę",
+    "loadError": "Nepavyko užkrauti jūsų grupių. Bandykite dar kartą.",
+    "retry": "Bandykite dar kartą",
+    "GlobalBalance": {
+      "title": "Jūsų bendras likutis",
+      "description": "Jūsų bendras likutis visose jūsų grupėse.",
+      "owedToYou": "Skola jums",
+      "youOwe": "Esate skolingi",
+      "settledUp": "Visose grupėse esate atsiskaitę.",
+      "loadError": "Negalėjau užkrauti jūsų likučio. Bandykite dar kartą.",
+      "retry": "Bandykite dar kartą"
     }
   },
   "GroupForm": {
@@ -199,7 +222,9 @@
     },
     "conversionUnavailable": "Norėdami kiekvienai išlaidai nustatyti skirtingą valiutą ir konvertuoti sumas, grupei pasirinkite ne individualią valiutą.",
     "originalAmountField": {
-      "label": "Konvertuotina suma"
+      "label": "Konvertuotina suma",
+      "repaymentLabel": "Pervedama suma",
+      "repaymentDescription": "Konvertuota iš aukščiau nurodytos sumos, kuria padengiamas likutis."
     },
     "conversionRateField": {
       "useApi": "Naudoti „Frankfurter“ kursus",
@@ -311,6 +336,78 @@
       "yourSpendings": "Bendra jūsų išlaidų suma",
       "yourEarnings": "Bendra jūsų pajamų suma",
       "yourShare": "Jūsų mokėtina dalis"
+    },
+    "range": {
+      "label": "Laikotarpis",
+      "all": "Visą laiką",
+      "thisMonth": "Šis mėnuo",
+      "last30": "Paskutinės 30 dienų",
+      "thisYear": "Šiais metais",
+      "custom": "Pasirinktinės ribos",
+      "from": "Nuo",
+      "to": "Iki"
+    },
+    "Summary": {
+      "title": "Santrauka",
+      "description": "Pagrindiniai pasirinkto laikotarpio rodikliai.",
+      "empty": "Išlaidų kol kas nėra.",
+      "expenseCount": "Išlaidos",
+      "averageExpense": "Vidutinės išlaidos",
+      "largestExpense": "Didžiausios išlaidos",
+      "activeSpan": "Aktyvus laikotarpis"
+    },
+    "OverTime": {
+      "title": "Išlaidos per laikotarpį",
+      "description": "Bendros grupės išlaidos per mėnesį. Pasirinkite mėnesį, kad pamatytumėte jo išlaidas.",
+      "empty": "Išlaidų kol kas nėra.",
+      "showExpenses": "Rodyti {month} išlaidas",
+      "detailsDescription": "Šio mėnesio išlaidos pasirinktu laikotarpiu.",
+      "detailsEmpty": "Šį mėnesį išlaidų nėra."
+    },
+    "ByParticipant": {
+      "title": "Dalyvio išlaidos",
+      "description": "Kiek sumokėjo kiekvienas dalyvis ir kokia buvo jo išlaidų dalis.",
+      "empty": "Išlaidų kol kas nėra.",
+      "participant": "Dalyvis",
+      "paid": "Sumokėta",
+      "count": "Skaičius",
+      "share": "Dalis"
+    },
+    "ByCategory": {
+      "title": "Išlaidos pagal kategoriją",
+      "description": "Bendra kiekvienoje kategorijoje išleista suma. Pasirinkite kategoriją, kad pamatytumėte jos išlaidas.",
+      "empty": "Išlaidų kol kas nėra.",
+      "showExpenses": "Rodyti {category} išlaidas",
+      "detailsDescription": "Šios kategorijos išlaidos pasirinktu laikotarpiu.",
+      "detailsEmpty": "Šioje kategorijoje nėra jokių išlaidų."
+    },
+    "Recurring": {
+      "title": "Pasikartojančios išlaidos",
+      "description": "Suskaičiuota grupės aktyvių pasikartojančių išlaidų kaina.",
+      "estimatedMonthly": "Suskaičiuotos mėnesinės išlaidos",
+      "estimatedYearly": "{amount} per metus",
+      "period": {
+        "DAILY": "{skaičius, daugkartinė, vienintelė {# daily expense} kitos {# daily expenses}}",
+        "WEEKLY": "{skaičius, daugkartinė, vienintelė {# weekly expense} kitos {# weekly expenses}}",
+        "MONTHLY": "{skaičius, daugkartinė, vienintelė {# monthly expense} kitos {# monthly expenses}}"
+      }
+    },
+    "MonthlySpending": {
+      "title": "Mėnesinės išlaidos",
+      "description": "Išlaidos pagal mėnesį ir kategoriją pasirinktu laikotarpiu.",
+      "groupingLabel": "Kategorijų grupavimas",
+      "chartTypeLabel": "Diagramos tipas",
+      "stackedTitle": "Mėnesio kategorijos",
+      "roundAmountsLabel": "Apvalintos sumos",
+      "noData": "Išlaidų duomenų dar nėra.",
+      "ChartTypes": {
+        "bars": "Sudėtinės eilutės",
+        "columns": "Sudėtiniai stulpeliai"
+      },
+      "GroupingOptions": {
+        "categoryGroup": "Kategorijos",
+        "category": "Išsamiai"
+      }
     }
   },
   "Activity": {
@@ -346,7 +443,14 @@
     "title": "Bendrinti",
     "description": "Norėdami, kad kiti galėtų matyti grupę ir pridėti išlaidų, pasidalykite jos nuoroda.",
     "warning": "Dėmesio!",
-    "warningHelp": "Visi, turintys grupės nuorodą, galės peržiūrėti ir keisti išlaidas. Dalinkitės atsargiai!"
+    "warningHelp": "Visi, turintys grupės nuorodą, galės peržiūrėti ir keisti išlaidas. Dalinkitės atsargiai!",
+    "copyLink": "Kopijuoti nuorodą",
+    "shareLink": "Bendrinti nuorodą",
+    "qrCode": {
+      "title": "Bendrinti naudojant QR kodą",
+      "description": "Nuskaitykite šį QR kodą, kad atidarytumėte grupę bet kuriame įrenginyje.",
+      "download": "Atsisiųsti QR kodą"
+    }
   },
   "SchemaErrors": {
     "min1": "Įveskite bent vieną simbolį.",
@@ -363,8 +467,11 @@
     "paidByRequired": "Būtina pasirinkti dalyvį.",
     "paidForMin1": "Turite pasirinkti bent vieną dalyvį, kuriam priskiriamos išlaidos.",
     "noZeroShares": "Visos dalys turi būti didesnės nei 0.",
-    "amountSum": "Viso suma turi būti lygi išlaidų sumai.",
-    "percentageSum": "Visų procentų suma turi būti 100."
+    "amountSum": "Sumuokite iki: {sum}, {difference} {direction}, pasirinkite, didesnę {more} mažesnę {less}} nei išlaidų sumą ({amount}).",
+    "percentageSum": "Procentai susisumuoja iki {sum}%, {difference}% {kryptis, pasirinkite, daugiau {more} mažiau {less}} nei 100%.",
+    "max200": "Įveskite ne daugiau kaip 200 simbolių.",
+    "max5000": "Įveskite ne daugiau kaip 5000 simbolių.",
+    "max10000": "Įveskite ne daugiau kaip 10 000 simbolių."
   },
   "Categories": {
     "search": "Ieškoti kategorijos…",
@@ -447,5 +554,17 @@
     "other": {
       "heading": "Kitos valiutos"
     }
+  },
+  "Errors": {
+    "title": "Kažkas nepavyko",
+    "groupTitle": "Šios grupės užkrauti negalima",
+    "generic": "Bandykite dar kartą. Jei tai kartosis, perkraukite puslapį.",
+    "reference": "Nuoroda: {digest}",
+    "retry": "Bandykite dar"
+  },
+  "Pwa": {
+    "updateTitle": "Galimas atnaujinimas",
+    "updateDescription": "Išleista nauja „Spliit“ versija.",
+    "reload": "Įkelti iš naujo"
   }
 }

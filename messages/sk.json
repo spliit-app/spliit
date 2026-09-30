@@ -5,7 +5,8 @@
     "button": {
       "groups": "Prejsť na skupiny",
       "github": "GitHub"
-    }
+    },
+    "metaTitle": "Spliit · Zdielaj výdavky medzi kamarátmi alebo rodinou"
   },
   "Header": {
     "groups": "Skupiny"
@@ -46,7 +47,7 @@
     "everyone": "všetci",
     "receivedBy": "Prijaté od <strong>{paidBy}</strong> pre <paidFor></paidFor>",
     "yourBalance": "Tvoj zostatok:",
-    "notInvolved": "Nie si účastníkom tejto platby."
+    "notInvolved": "Nie je to tvoja vec"
   },
   "Groups": {
     "myGroups": "Moje skupiny",
@@ -73,17 +74,115 @@
       "button": "Pridať podľa URL",
       "title": "Pridať skupinu podľa URL",
       "description": "Ak vám bola zdieľaná nejaká skupina, môžete sem vložiť jej URL adresu a pridať ju do svojho zoznamu.",
-      "error": "Ups, na základe zadaného URL sme skupinu nenašli…"
+      "error": "Ups, na základe zadaného URL sme skupinu nenašli…",
+      "urlMode": "Zadaj URL",
+      "qrMode": "Oskenuj QR",
+      "scanner": {
+        "startCamera": "Zapni kameru",
+        "stopScanning": "Zastav skenovanie",
+        "permissionDenied": "Povoľte prístup k fotoaparátu na skenovanie QR kódov.",
+        "noCamera": "Na tomto zariadení nebola nájdená žiadna kamera.",
+        "cameraError": "Nepodarilo sa spustiť kameru. Skúste to prosím znova.",
+        "permissionError": "Nie je možné získať prístup k fotoaparátu. Skontrolujte oprávnenia."
+      }
     },
     "NotFound": {
       "text": "Táto skupina neexistuje.",
       "link": "Prejsť na nedávno navštívené skupiny"
+    },
+    "createGroup": "Vytvor skupinu",
+    "loadError": "Vaše skupiny sa nepodarilo načítať. Skúste to znova.",
+    "retry": "Skús znova",
+    "GlobalBalance": {
+      "title": "Tvoj celkový zostatok",
+      "description": "Celkový zostatok vo všetkých tvojích skupinách.",
+      "owedToYou": "Máš nárok na",
+      "youOwe": "Máš dlh",
+      "settledUp": "Všetci ste už rozdelení do svojich skupín.",
+      "loadError": "Nepodarilo sa načítať tvoj celkový zostatok. Skús to znovu.",
+      "retry": "Skús znova"
     }
   },
   "GroupForm": {
     "title": "Informácie o skupine",
     "NameField": {
-      "label": "Názov skupiny"
+      "label": "Názov skupiny",
+      "placeholder": "Letné prázdniny",
+      "description": "Zadajte názov tvojej skupiny."
+    },
+    "InformationField": {
+      "label": "Informácie o skupine",
+      "placeholder": "Aké informácie sú dôležité pre účastníkov skupiny?"
+    },
+    "CurrencyField": {
+      "label": "Symbol meny",
+      "placeholder": "$, €, £…",
+      "description": "Použijeme to na zobrazenie súm."
+    },
+    "CurrencyCodeField": {
+      "label": "Hlanvá mena",
+      "createDescription": "Všetky sumy a zostatky budú uvedené v tejto mene.",
+      "editDescription": "Všetky sumy a zostatky budú uvedené v tejto mene. Zmena tejto meny NEPOVEDIE k prepočtu už zadaných výdavkov, s výnimkou prípadov, keď má daná mena iné „drobné jednotky“ ako aktuálna mena (napr. pri prechode z amerického dolára na japonský jen)",
+      "customOption": "Vlastné"
+    },
+    "Participants": {
+      "title": "Účastníci",
+      "description": "Zadajte meno každého účastníka.",
+      "protectedParticipant": "Tento účastník je zahrnutý v nákladoch a nemožno ho odstrániť.",
+      "new": "Nový",
+      "add": "Pridať účastníka",
+      "John": "Ján",
+      "Jane": "Jolana",
+      "Jack": "Rudolf"
+    },
+    "Settings": {
+      "title": "Miestne nastavenia",
+      "description": "Tieto nastavenia sa konfigurujú pre každé zariadenie zvlášť a slúžia na prispôsobenie používateľského prostredia.",
+      "ActiveUserField": {
+        "label": "Aktívny používateľ",
+        "placeholder": "Vyber účastníka",
+        "none": "Nikto",
+        "description": "Používateľ nastavený ako predvolený pre úhradu výdavkov."
+      },
+      "save": "Ulož",
+      "saving": "Ukladám…",
+      "create": "Vytvor",
+      "creating": "Vytváram…",
+      "cancel": "Zruš"
+    }
+  },
+  "Errors": {
+    "title": "Niečo sa pokazilo",
+    "groupTitle": "Túto skupinu sa nepodarilo načítať",
+    "generic": "Skúste to prosím znova. Ak sa tento problém bude opakovať, obnovte stránku.",
+    "reference": "Referencia: {digest}",
+    "retry": "Skús to znovu"
+  },
+  "ExpenseForm": {
+    "Income": {
+      "create": "Vytvor príjem",
+      "edit": "Edituj príjem",
+      "TitleField": {
+        "label": "Názov príjmu",
+        "placeholder": "Reštaurácia pondelok večer",
+        "description": "Zadajte popis príjmu."
+      },
+      "DateField": {
+        "label": "Dátum príjmu",
+        "description": "Zadajte dátum, kedy bol príjem prijatý."
+      },
+      "currencyField": {
+        "label": "Mena prijmu",
+        "description": "Mena, v ktorej bol príjem prijatý."
+      },
+      "categoryFieldDescription": "Vyberte kategóriu príjmu.",
+      "paidByField": {
+        "label": "Prijaté od",
+        "description": "Vyberte účastníka, ktorý prijal príjem."
+      },
+      "paidFor": {
+        "title": "Prijaté pre"
+      }
     }
   }
 }
