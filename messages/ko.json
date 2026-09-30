@@ -42,7 +42,8 @@
     "RecentRemovedToast": {
       "title": "그룹이 삭제되었습니다",
       "description": "그룹이 최신 그룹 목록에서 삭제되었습니다.",
-      "undoAlt": "그룹 삭제 취소"
+      "undoAlt": "그룹 삭제 취소",
+      "undo": "실행 취소"
     },
     "AddByURL": {
       "button": "URL로 불러오기",
@@ -55,7 +56,14 @@
       "link": "최근에 방문한 그룹 보기"
     },
     "unarchive": "그룹 다시 불러오기",
-    "removeRecent": "최근 그룹 목록에서 삭제하기"
+    "removeRecent": "최근 그룹 목록에서 삭제하기",
+    "GlobalBalance": {
+      "title": "전체 잔액",
+      "description": "모든 그룹을 합한 잔액입니다.",
+      "owedToYou": "받을 금액",
+      "youOwe": "보낼 금액",
+      "settledUp": "모든 그룹에서 정산이 완료되었습니다."
+    }
   },
   "GroupForm": {
     "title": "그룹 정보",
@@ -76,7 +84,8 @@
     "CurrencyCodeField": {
       "label": "기본 통화",
       "createDescription": "금액, 잔액 전부 이 통화로 표시돼요.",
-      "editDescription": "모든 금액이랑 잔액은 이 통화로 보여요. 통화를 바꿔도 이미 입력한 지출은 바뀌지 않아요. 단, (예: 미국 달러에서 일본 엔으로 바꿀 때처럼) 통화의 소수점 단위가 다를 경우에는 예외가 있을 수 있어요."
+      "editDescription": "모든 금액이랑 잔액은 이 통화로 보여요. 통화를 바꿔도 이미 입력한 지출은 바뀌지 않아요. 단, (예: 미국 달러에서 일본 엔으로 바꿀 때처럼) 통화의 소수점 단위가 다를 경우에는 예외가 있을 수 있어요.",
+      "customOption": "사용자 지정"
     },
     "Participants": {
       "title": "참여자",
@@ -85,7 +94,8 @@
       "add": "참가자 추가하기",
       "John": "민수",
       "Jane": "수영",
-      "Jack": "길동"
+      "Jack": "길동",
+      "new": "새로 추가"
     },
     "Settings": {
       "ActiveUserField": {
@@ -98,7 +108,9 @@
       "saving": "저장중…",
       "description": "이 설정들은 기기별로 저장되며, 사용자 경험을 맞춤화하는 데 사용돼요.",
       "cancel": "취소",
-      "creating": "만드는 중…"
+      "creating": "만드는 중…",
+      "title": "로컬 설정",
+      "create": "만들기"
     }
   },
   "ExpenseForm": {
@@ -129,13 +141,15 @@
         "description": "지출 반복 주기를 선택해 주세요.",
         "daily": "매일",
         "weekly": "매주",
-        "monthly": "매달"
+        "monthly": "매달",
+        "none": "없음"
       },
       "paidFor": {
         "title": "비용 부담자들",
         "description": "비용 부담자들을 선택해 주세요."
       },
-      "splitModeDescription": "지출을 어떻게 나눌지 선택해 주세요."
+      "splitModeDescription": "지출을 어떻게 나눌지 선택해 주세요.",
+      "attachDescription": "지출에 영수증을 확인하고 첨부하세요."
     },
     "amountField": {
       "label": "금액"
@@ -177,15 +191,53 @@
     "DeletePopup": {
       "description": "정말 이 지출을 삭제할까요? 한 번 삭제하면 되돌릴 수 없어요.",
       "yes": "네",
-      "cancel": "취소"
+      "cancel": "취소",
+      "label": "삭제",
+      "title": "이 지출을 삭제할까요?"
     },
     "Income": {
       "TitleField": {
-        "placeholder": "월요일 저녁 식사"
-      }
+        "placeholder": "월요일 저녁 식사",
+        "label": "수입 제목",
+        "description": "수입에 대한 설명을 입력하세요."
+      },
+      "create": "수입 추가",
+      "edit": "수입 편집",
+      "DateField": {
+        "label": "수입 날짜",
+        "description": "수입을 받은 날짜를 입력하세요."
+      },
+      "currencyField": {
+        "label": "수입 통화",
+        "description": "수입을 받은 통화입니다."
+      },
+      "categoryFieldDescription": "수입 카테고리를 선택하세요.",
+      "paidByField": {
+        "label": "받은 사람",
+        "description": "수입을 받은 참가자를 선택하세요."
+      },
+      "paidFor": {
+        "title": "받은 대상",
+        "description": "수입을 누구를 위해 받았는지 선택하세요."
+      },
+      "splitModeDescription": "수입을 나누는 방법을 선택하세요.",
+      "attachDescription": "수입에 영수증을 확인하고 첨부하세요."
     },
     "reimbursement": "정산",
-    "cancel": "취소"
+    "cancel": "취소",
+    "conversionUnavailable": "지출마다 다른 통화를 설정하고 금액을 환산하려면, 그룹에 사용자 지정이 아닌 통화를 선택하세요.",
+    "originalAmountField": {
+      "label": "환산할 금액"
+    },
+    "selectNone": "전체 해제",
+    "selectAll": "전체 선택",
+    "shares": "몫",
+    "advancedOptions": "고급 분할 옵션…",
+    "attachDocuments": "문서 첨부",
+    "create": "만들기",
+    "creating": "만드는 중…",
+    "save": "저장",
+    "saving": "저장 중…"
   },
   "Balances": {
     "title": "잔액",
@@ -195,7 +247,8 @@
       "noImbursements": "그룹에선 따로 정산할 게 없네요 😁",
       "markAsPaid": "지불 완료로 표시하기",
       "owes": "<strong>{from}</strong>가 <strong>{to}</strong>에게 돈을 내야 해요"
-    }
+    },
+    "description": "각 참가자가 지불했거나 받은 금액입니다."
   },
   "Stats": {
     "title": "현황",
@@ -204,7 +257,58 @@
       "description": "그룹 전체 지출 요약 입니다.",
       "groupSpendings": "그룹 총 지출액",
       "yourSpendings": "나의 총 지출",
-      "yourShare": "나의 총 부담금"
+      "yourShare": "나의 총 부담금",
+      "groupEarnings": "그룹 총수입",
+      "yourEarnings": "내 총수입"
+    },
+    "range": {
+      "label": "기간",
+      "all": "전체 기간",
+      "thisMonth": "이번 달",
+      "last30": "지난 30일",
+      "thisYear": "올해",
+      "custom": "사용자 지정",
+      "from": "시작",
+      "to": "종료"
+    },
+    "Summary": {
+      "title": "요약",
+      "description": "선택한 기간의 주요 수치.",
+      "empty": "아직 지출이 없습니다.",
+      "expenseCount": "지출 건수",
+      "averageExpense": "평균 지출",
+      "largestExpense": "최대 지출",
+      "activeSpan": "활동 기간"
+    },
+    "OverTime": {
+      "title": "기간별 지출",
+      "description": "그룹의 월별 총 지출.",
+      "empty": "아직 지출이 없습니다."
+    },
+    "ByParticipant": {
+      "title": "참가자별 지출",
+      "description": "각 참가자가 지불한 금액과 지출 부담.",
+      "empty": "아직 지출이 없습니다.",
+      "participant": "참가자",
+      "paid": "지불액",
+      "count": "건수",
+      "share": "부담액"
+    },
+    "ByCategory": {
+      "title": "카테고리별 지출",
+      "description": "각 카테고리의 총 지출액.",
+      "empty": "아직 지출이 없습니다."
+    },
+    "Recurring": {
+      "title": "반복 지출",
+      "description": "그룹의 활성 반복 지출의 예상 비용.",
+      "estimatedMonthly": "예상 월 비용",
+      "estimatedYearly": "연 {amount}",
+      "period": {
+        "DAILY": "{count, plural, other {매일 지출 #건}}",
+        "WEEKLY": "{count, plural, other {매주 지출 #건}}",
+        "MONTHLY": "{count, plural, other {매월 지출 #건}}"
+      }
     }
   },
   "Activity": {
@@ -225,7 +329,8 @@
     "settingsModified": "<strong>{participant}</strong>가 그룹 설정을 수정했어요.",
     "expenseCreated": "<strong>{participant}</strong>가 <em>{expense}</em> 지출 내역을 추가했어요.",
     "expenseUpdated": "<strong>{participant}</strong>가 <em>{expense}</em> 지출을 수정했어요.",
-    "expenseDeleted": "<strong>{participant}</strong>가 <em>{expense}</em> 지출을 삭제했어요."
+    "expenseDeleted": "<strong>{participant}</strong>가 <em>{expense}</em> 지출을 삭제했어요.",
+    "someone": "누군가"
   },
   "SchemaErrors": {
     "duplicateParticipantName": "이미 같은 이름을 가진 참가자가 있어요.",
@@ -241,14 +346,17 @@
     "percentageSum": "퍼센트 합이 100이 되어야 합니다.",
     "min1": "최소 한 글자 이상 입력해 주세요.",
     "min2": "최소 두 글자 이상 입력해 주세요.",
-    "titleRequired": "제목을 입력해 주세요."
+    "titleRequired": "제목을 입력해 주세요.",
+    "max5": "최대 5자까지 입력하세요.",
+    "max50": "최대 50자까지 입력하세요."
   },
   "Categories": {
     "search": "카테고리 선택...",
     "noCategory": "카테고리를 찾을 수 없어요.",
     "Uncategorized": {
       "heading": "카테고리 없음",
-      "General": "일반"
+      "General": "일반",
+      "Payment": "결제"
     },
     "Entertainment": {
       "heading": "엔터테인먼트",
@@ -274,7 +382,8 @@
       "Maintenance": "수리 / 관리",
       "Mortgage": "주택 담보 대출",
       "Pets": "반려동물",
-      "Rent": "임대료 / 월세"
+      "Rent": "임대료 / 월세",
+      "Services": "서비스"
     },
     "Life": {
       "Childcare": "육아 / 보육",
@@ -332,7 +441,9 @@
     "warningHelp": "그룹 URL을 가진 사람은 누구나 지출 내역을 보고 수정할 수 있어요. 조심해서 공유하세요!",
     "warning": "경고!",
     "title": "공유하기",
-    "description": "다른 참가자들이 그룹을 보고 지출을 추가할 수 있도록 URL을 공유해 주세요."
+    "description": "다른 참가자들이 그룹을 보고 지출을 추가할 수 있도록 URL을 공유해 주세요.",
+    "copyLink": "링크 복사",
+    "shareLink": "링크 공유"
   },
   "ExpenseCard": {
     "paidBy": "<strong>{paidBy}</strong>가 <paidFor></paidFor>를 위해 결제함",
@@ -348,7 +459,8 @@
     },
     "ErrorToast": {
       "title": "문서 업로드 중 오류가 발생했어요",
-      "description": "문서 업로드 중 오류가 발생했습니다. 나중에 다시 시도하거나 다른 파일을 선택해 주세요."
+      "description": "문서 업로드 중 오류가 발생했습니다. 나중에 다시 시도하거나 다른 파일을 선택해 주세요.",
+      "retry": "다시 시도"
     }
   },
   "CreateFromReceipt": {
@@ -362,7 +474,8 @@
       "amountLabel": "금액:",
       "dateLabel": "날짜:",
       "editNext": "다음 단계에서 지출 정보를 수정할 수 있습니다.",
-      "continue": "계속하기"
+      "continue": "계속하기",
+      "title": "영수증으로 만들기"
     },
     "TooBigToast": {
       "title": "파일이 너무 커요",
@@ -370,12 +483,15 @@
     },
     "ErrorToast": {
       "title": "문서 업로드 중 오류가 발생했어요",
-      "description": "문서 업로드 중 오류가 발생했습니다. 나중에 다시 시도하거나 다른 파일을 선택해 주세요."
-    }
+      "description": "문서 업로드 중 오류가 발생했습니다. 나중에 다시 시도하거나 다른 파일을 선택해 주세요.",
+      "retry": "다시 시도"
+    },
+    "unknown": "알 수 없음"
   },
   "Information": {
     "title": "정보",
-    "empty": "아직 그룹 정보가 없어요."
+    "empty": "아직 그룹 정보가 없어요.",
+    "description": "그룹 참가자에게 관련될 수 있는 정보를 여기에 추가하세요."
   },
   "Currencies": {
     "search": "통화 선택하기...",
@@ -385,6 +501,14 @@
     },
     "other": {
       "heading": "그 외 통화"
+    },
+    "custom": {
+      "heading": "사용자 지정"
     }
+  },
+  "Pwa": {
+    "updateTitle": "업데이트 사용 가능",
+    "updateDescription": "Spliit의 새 버전을 사용할 수 있습니다.",
+    "reload": "새로고침"
   }
 }

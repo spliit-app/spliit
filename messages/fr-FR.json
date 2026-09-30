@@ -5,13 +5,14 @@
     "button": {
       "groups": "Accéder aux groupes",
       "github": "GitHub"
-    }
+    },
+    "metaTitle": "Spliit · Partagez vos dépenses avec vos amis & votre famille"
   },
   "Header": {
     "groups": "Groupes"
   },
   "Footer": {
-    "madeIn": "Made in Montréal, Québec 🇨🇦",
+    "madeIn": "Fait à Montréal, Québec 🇨🇦",
     "builtBy": "Développé par <author>Sebastien Castiel</author> et <source>contributeurs</source>"
   },
   "Expenses": {
@@ -54,7 +55,7 @@
     "loadingRecent": "Chargement des groupes récents…",
     "NoRecent": {
       "description": "Vous n'avez visité aucun groupe récemment.",
-      "create": "Créer un groupe",
+      "create": "En créer un",
       "orAsk": "ou demandez à un ami de vous envoyer le lien d'un groupe existant."
     },
     "recent": "Groupes récents",
@@ -73,12 +74,34 @@
       "button": "Ajouter par URL",
       "title": "Ajouter un groupe par URL",
       "description": "Si un groupe a été partagé avec vous, vous pouvez coller son URL ici pour l'ajouter à votre liste.",
-      "error": "Oups, nous ne pouvons pas trouver le groupe à partir de l'URL que vous avez fournie…"
+      "error": "Oups, nous ne pouvons pas trouver le groupe à partir de l'URL que vous avez fournie…",
+      "urlMode": "Entrer une URL",
+      "qrMode": "Scanner un QR code",
+      "scanner": {
+        "startCamera": "Lancer la caméra",
+        "stopScanning": "Arrêter l'analyse",
+        "permissionDenied": "Accès à la caméra refusé. Veuillez autoriser l'accès à la caméra pour scanner un QR code.",
+        "noCamera": "Aucune caméra n'a été trouvée sur l'appareil.",
+        "cameraError": "Impossible d'activer la caméra. Veuillez réessayer.",
+        "permissionError": "Impossible d'accéder à la caméra. Vérifiez les permissions."
+      }
     },
     "NotFound": {
       "text": "Ce groupe n'existe pas.",
       "link": "Aller aux groupes récemment visités"
-    }
+    },
+    "GlobalBalance": {
+      "title": "Votre solde total",
+      "description": "Votre solde cumulé pour l'ensemble de vos groupes.",
+      "owedToYou": "On vous doit",
+      "youOwe": "Vous devez",
+      "settledUp": "Vos comptes sont réglés pour tous vos groupes.",
+      "loadError": "Impossible de charger le montant total de votre solde. Veuillez réessayer.",
+      "retry": "Réessayer"
+    },
+    "createGroup": "Créer un groupe",
+    "loadError": "Vos groupes n'ont pas pu être chargés. Essayez à nouveau.",
+    "retry": "Réessayer"
   },
   "GroupForm": {
     "title": "Informations sur le groupe",
@@ -145,14 +168,6 @@
       "paidByField": {
         "label": "Reçu par",
         "description": "Sélectionnez le participant qui a reçu le revenu."
-      },
-      "recurrenceRule": {
-        "label": "Récurrence de la dépense",
-        "description": "Sélectionnez la fréquence de répétition de la dépense.",
-        "none": "Aucune",
-        "daily": "Quotidienne",
-        "weekly": "Hebdomadaire",
-        "monthly": "Mensuelle"
       },
       "paidFor": {
         "title": "Reçu pour",
@@ -242,7 +257,9 @@
     "reimbursement": "Remboursement",
     "conversionUnavailable": "Pour définir une devise différente pour chaque dépense et convertir les montants, sélectionnez une devise non personnalisée pour le groupe.",
     "originalAmountField": {
-      "label": "Montant à convertir"
+      "label": "Montant à convertir",
+      "repaymentLabel": "Montant à transférer",
+      "repaymentDescription": "Converti à partir du montant ci-dessus, celui qui équilibre les comptes."
     },
     "conversionRateField": {
       "useCustom": "Utiliser un taux personnalisé",
@@ -319,6 +336,78 @@
       "yourSpendings": "Vos dépenses totales",
       "yourEarnings": "Vos revenus totaux",
       "yourShare": "Votre part totale"
+    },
+    "range": {
+      "label": "Période",
+      "all": "Depuis le début",
+      "thisMonth": "Ce mois-ci",
+      "last30": "Les 30 derniers jours",
+      "thisYear": "Cette année",
+      "custom": "Période personnalisée",
+      "from": "Du",
+      "to": "au"
+    },
+    "Summary": {
+      "title": "Résumé",
+      "description": "Chiffres clés pour la période sélectionnée.",
+      "empty": "Il n'y a pas encore de dépenses.",
+      "expenseCount": "Dépenses",
+      "averageExpense": "Dépense moyenne",
+      "largestExpense": "Dépense la plus élevée",
+      "activeSpan": "Période active"
+    },
+    "OverTime": {
+      "title": "Dépenses au fil du temps",
+      "description": "Dépenses totales du groupe par mois. Sélectionnez un mois pour voir ses dépenses.",
+      "empty": "Il n'y a pas encore de dépenses.",
+      "showExpenses": "Afficher les dépenses de {month}",
+      "detailsDescription": "Dépenses de ce mois pour la période sélectionnée.",
+      "detailsEmpty": "Il n'y a aucune dépense pour ce mois."
+    },
+    "ByParticipant": {
+      "title": "Dépenses par participant",
+      "description": "Combien chaque participant a payé et sa part des dépenses.",
+      "empty": "Il n'y a pas encore de dépenses.",
+      "participant": "Participant",
+      "paid": "Payé",
+      "count": "Nombre",
+      "share": "Part"
+    },
+    "ByCategory": {
+      "title": "Dépenses par catégorie",
+      "description": "Montant total dépensé dans chaque catégorie. Sélectionnez une catégorie pour voir ses dépenses.",
+      "empty": "Il n'y a pas encore de dépenses.",
+      "showExpenses": "Afficher les dépenses de {category}",
+      "detailsDescription": "Dépenses de cette catégorie pour la période sélectionnée.",
+      "detailsEmpty": "Il n'y a aucune dépense dans cette catégorie."
+    },
+    "Recurring": {
+      "title": "Dépenses récurrentes",
+      "description": "Coût estimé des dépenses récurrentes actives du groupe.",
+      "estimatedMonthly": "Coût mensuel estimé",
+      "estimatedYearly": "{amount} par an",
+      "period": {
+        "DAILY": "{count, plural, one {# dépense quotidienne} other {# dépenses quotidiennes}}",
+        "WEEKLY": "{count, plural, one {# dépense hebdomadaire} other {# dépenses hebdomadaires}}",
+        "MONTHLY": "{count, plural, one {# dépense mensuelle} other {# dépenses mensuelles}}"
+      }
+    },
+    "MonthlySpending": {
+      "title": "Dépenses mensuelles",
+      "description": "Dépenses par mois et par catégorie pour la période sélectionnée.",
+      "groupingLabel": "Regroupement par catégorie",
+      "chartTypeLabel": "Type de graphique",
+      "stackedTitle": "Catégories mensuelles",
+      "roundAmountsLabel": "Montants arrondis",
+      "noData": "Aucune donnée de dépenses pour le moment.",
+      "ChartTypes": {
+        "bars": "Barres empilées",
+        "columns": "Colonnes empilées"
+      },
+      "GroupingOptions": {
+        "categoryGroup": "Catégories",
+        "category": "Détaillée"
+      }
     }
   },
   "Activity": {
@@ -354,7 +443,14 @@
     "title": "Partager",
     "description": "Pour que d'autres participants puissent voir le groupe et ajouter des dépenses, partagez son URL avec eux.",
     "warning": "Avertissement !",
-    "warningHelp": "Toute personne ayant l'URL du groupe pourra voir et modifier les dépenses. Partagez avec prudence !"
+    "warningHelp": "Toute personne ayant l'URL du groupe pourra voir et modifier les dépenses. Partagez avec prudence !",
+    "copyLink": "Copier le lien",
+    "shareLink": "Partager le lien",
+    "qrCode": {
+      "title": "Partager par QR code",
+      "description": "Scannez ce QR code pour ouvrir le groupe sur n'importe quel appareil.",
+      "download": "Télécharger le QR code"
+    }
   },
   "SchemaErrors": {
     "min1": "Entrez au moins un caractère.",
@@ -372,7 +468,10 @@
     "noZeroShares": "Toutes les parts doivent être supérieures à 0.",
     "amountSum": "La somme des montants est de {sum}, soit {difference} de {direction, select, over {plus} other {moins}} que le montant de la dépense ({amount}).",
     "percentageSum": "La somme des pourcentages est de {sum} %, soit {difference} % de {direction, select, over {plus} other {moins}} que 100 %.",
-    "ratePositive": "Le taux de change doit être strictement supérieur à zéro."
+    "ratePositive": "Le taux de change doit être strictement supérieur à zéro.",
+    "max200": "Entrez au maximum 200 caractères.",
+    "max5000": "Entrez au maximum 5 000 caractères.",
+    "max10000": "Saisissez au maximum 10 000 caractères."
   },
   "Categories": {
     "search": "Rechercher une catégorie…",
@@ -455,5 +554,17 @@
     "other": {
       "heading": "Autres devises"
     }
+  },
+  "Pwa": {
+    "updateTitle": "Mise à jour disponible",
+    "updateDescription": "Une nouvelle version de Spliit est disponible.",
+    "reload": "Recharger"
+  },
+  "Errors": {
+    "title": "Un problème est survenu",
+    "groupTitle": "Impossible de charger ce groupe",
+    "generic": "Veuillez réessayer. Si le problème persiste, actualisez la page.",
+    "reference": "Référence : {digest}",
+    "retry": "Essayer à nouveau"
   }
 }
