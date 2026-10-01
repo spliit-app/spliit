@@ -379,8 +379,12 @@ export async function getGroupExpenses(
     },
     where: {
       groupId,
-      title: options?.filter
-        ? { contains: options.filter, mode: 'insensitive' }
+      // Search matches the title or the notes (#601).
+      OR: options?.filter
+        ? [
+            { title: { contains: options.filter, mode: 'insensitive' } },
+            { notes: { contains: options.filter, mode: 'insensitive' } },
+          ]
         : undefined,
     },
     orderBy: [{ expenseDate: 'desc' }, { createdAt: 'desc' }],
