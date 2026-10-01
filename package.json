@@ -60,7 +60,7 @@
     "client-only": "^0.0.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
-    "content-disposition": "^2.0.1",
+    "content-disposition": "^3.0.0",
     "dayjs": "^1.11.23",
     "embla-carousel-react": "^8.6.0",
     "html5-qrcode": "^2.3.8",
