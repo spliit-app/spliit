@@ -769,6 +769,7 @@ export function ExpenseForm({
                             onChange(v)
                           }}
                           {...field}
+                          value={field.value ?? ''}
                           onFocus={(e) => {
                             const target = e.currentTarget
                             setTimeout(() => target.select(), 1)
@@ -852,6 +853,7 @@ export function ExpenseForm({
                                 onChange(v)
                               }}
                               {...field}
+                              value={field.value ?? ''}
                               onFocus={(e) => {
                                 const target = e.currentTarget
                                 setTimeout(() => target.select(), 1)
