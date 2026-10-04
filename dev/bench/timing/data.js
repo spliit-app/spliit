@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1790454785962,
+  "lastUpdate": 1791142611127,
   "repoUrl": "https://github.com/spliit-app/spliit",
   "entries": {
     "Spliit performance (timing)": [
@@ -335,6 +335,90 @@ window.BENCHMARK_DATA = {
           {
             "name": "view-expense:edit-form p95",
             "value": 6.66,
+            "unit": "ms"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hosted@weblate.org",
+            "name": "Weblate (bot)",
+            "username": "weblate"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d3b1e1e6787ffe13c6dfe0b6a2fcfc403d81686a",
+          "message": "Translations update from Hosted Weblate (#607)\n\nTranslations update from [Hosted Weblate](https://hosted.weblate.org)\nfor [Spliit/Spliit](https://hosted.weblate.org/projects/spliit/spliit/).\n\n\n\nCurrent translation status:\n\n![Weblate translation\nstatus](https://hosted.weblate.org/widget/spliit/spliit/matrix-auto.svg)\n\nCo-authored-by: Agoston Dauner <dauner.agoston@gmail.com>\nCo-authored-by: Alicia <alicia.mosq@gmail.com>\nCo-authored-by: Balduin Scheffbuch <tbscheffbuch@gmail.com>\nCo-authored-by: BastiOfBerlin <bastiofberlin@users.noreply.hosted.weblate.org>\nCo-authored-by: Florian <weblate.oblivious209@passmail.net>\nCo-authored-by: Florian Maruejol <florian.maruejol@gmail.com>\nCo-authored-by: Gustavo Vicentini Deon <gugadeon@gmail.com>\nCo-authored-by: Jyothish Atheendran <athi.jyothish@gmail.com>\nCo-authored-by: Kustu Künnapas (KustuGaming) <kynnapas.kustu@gmail.com>\nCo-authored-by: Louis Chance <contact@louischance.com>\nCo-authored-by: Marek Rybarik <marek@rybarik.net>\nCo-authored-by: Paro The Parrot <parotheparrot@gmail.com>\nCo-authored-by: Pierre K <pierrekouyoumdjian@hotmail.fr>\nCo-authored-by: Vilmantas Matulis <vilmantas.matulis@gmail.com>\nCo-authored-by: Wiktor Styczeń <wiktorek5033@gmail.com>\nCo-authored-by: albanobattistella <albano_battistella@hotmail.com>\nCo-authored-by: dacchio <alexxio@gmail.com>\nCo-authored-by: iDazai <thanon@mailbox.org>\nCo-authored-by: lucasb <lucas.botka@gmail.com>\nCo-authored-by: rgabbo <scanner126@yahoo.it>",
+          "timestamp": "2026-09-30T13:05:46+02:00",
+          "tree_id": "ea43b811fcfc0c7d0434661764724cb5de4df473",
+          "url": "https://github.com/spliit-app/spliit/commit/d3b1e1e6787ffe13c6dfe0b6a2fcfc403d81686a"
+        },
+        "date": 1791142610723,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "list-groups:home p50",
+            "value": 210.75,
+            "unit": "ms"
+          },
+          {
+            "name": "list-groups:home p95",
+            "value": 244.09,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:first-page p50",
+            "value": 13.66,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:first-page p95",
+            "value": 16.07,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:deep-page p50",
+            "value": 12.34,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:deep-page p95",
+            "value": 13.79,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:search p50",
+            "value": 9.9,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:search p95",
+            "value": 11.49,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:balances p50",
+            "value": 159.71,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:balances p95",
+            "value": 181.16,
+            "unit": "ms"
+          },
+          {
+            "name": "view-expense:edit-form p50",
+            "value": 5.56,
+            "unit": "ms"
+          },
+          {
+            "name": "view-expense:edit-form p95",
+            "value": 6.52,
             "unit": "ms"
           }
         ]
