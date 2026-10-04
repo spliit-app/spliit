@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1790454784254,
+  "lastUpdate": 1791142609409,
   "repoUrl": "https://github.com/spliit-app/spliit",
   "entries": {
     "Spliit performance (deterministic)": [
@@ -275,6 +275,90 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/spliit-app/spliit/commit/936adbcbbd116fbbb39b942ae9088b25f1af3f61"
         },
         "date": 1790454783551,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "list-groups:home bytes",
+            "value": 6744,
+            "unit": "bytes"
+          },
+          {
+            "name": "list-groups:home queries",
+            "value": 61,
+            "unit": "queries"
+          },
+          {
+            "name": "view-group:first-page bytes",
+            "value": 25242,
+            "unit": "bytes"
+          },
+          {
+            "name": "view-group:first-page queries",
+            "value": 3,
+            "unit": "queries"
+          },
+          {
+            "name": "view-group:deep-page bytes",
+            "value": 24564,
+            "unit": "bytes"
+          },
+          {
+            "name": "view-group:deep-page queries",
+            "value": 2,
+            "unit": "queries"
+          },
+          {
+            "name": "view-group:search bytes",
+            "value": 23714,
+            "unit": "bytes"
+          },
+          {
+            "name": "view-group:search queries",
+            "value": 2,
+            "unit": "queries"
+          },
+          {
+            "name": "view-group:balances bytes",
+            "value": 2370,
+            "unit": "bytes"
+          },
+          {
+            "name": "view-group:balances queries",
+            "value": 2,
+            "unit": "queries"
+          },
+          {
+            "name": "view-expense:edit-form bytes",
+            "value": 5641,
+            "unit": "bytes"
+          },
+          {
+            "name": "view-expense:edit-form queries",
+            "value": 3,
+            "unit": "queries"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hosted@weblate.org",
+            "name": "Weblate (bot)",
+            "username": "weblate"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d3b1e1e6787ffe13c6dfe0b6a2fcfc403d81686a",
+          "message": "Translations update from Hosted Weblate (#607)\n\nTranslations update from [Hosted Weblate](https://hosted.weblate.org)\nfor [Spliit/Spliit](https://hosted.weblate.org/projects/spliit/spliit/).\n\n\n\nCurrent translation status:\n\n![Weblate translation\nstatus](https://hosted.weblate.org/widget/spliit/spliit/matrix-auto.svg)\n\nCo-authored-by: Agoston Dauner <dauner.agoston@gmail.com>\nCo-authored-by: Alicia <alicia.mosq@gmail.com>\nCo-authored-by: Balduin Scheffbuch <tbscheffbuch@gmail.com>\nCo-authored-by: BastiOfBerlin <bastiofberlin@users.noreply.hosted.weblate.org>\nCo-authored-by: Florian <weblate.oblivious209@passmail.net>\nCo-authored-by: Florian Maruejol <florian.maruejol@gmail.com>\nCo-authored-by: Gustavo Vicentini Deon <gugadeon@gmail.com>\nCo-authored-by: Jyothish Atheendran <athi.jyothish@gmail.com>\nCo-authored-by: Kustu Künnapas (KustuGaming) <kynnapas.kustu@gmail.com>\nCo-authored-by: Louis Chance <contact@louischance.com>\nCo-authored-by: Marek Rybarik <marek@rybarik.net>\nCo-authored-by: Paro The Parrot <parotheparrot@gmail.com>\nCo-authored-by: Pierre K <pierrekouyoumdjian@hotmail.fr>\nCo-authored-by: Vilmantas Matulis <vilmantas.matulis@gmail.com>\nCo-authored-by: Wiktor Styczeń <wiktorek5033@gmail.com>\nCo-authored-by: albanobattistella <albano_battistella@hotmail.com>\nCo-authored-by: dacchio <alexxio@gmail.com>\nCo-authored-by: iDazai <thanon@mailbox.org>\nCo-authored-by: lucasb <lucas.botka@gmail.com>\nCo-authored-by: rgabbo <scanner126@yahoo.it>",
+          "timestamp": "2026-09-30T13:05:46+02:00",
+          "tree_id": "ea43b811fcfc0c7d0434661764724cb5de4df473",
+          "url": "https://github.com/spliit-app/spliit/commit/d3b1e1e6787ffe13c6dfe0b6a2fcfc403d81686a"
+        },
+        "date": 1791142608829,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
