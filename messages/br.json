@@ -1,0 +1,173 @@
+{
+  "Homepage": {
+    "title": "Rannit <strong>ho tispignoù</strong> gant <strong>ho Mignoned & ho Familh</strong>",
+    "metaTitle": "Spliit · Rannañ Dispignoù gant Mignoned & Familh",
+    "button": {
+      "github": "GitHub",
+      "groups": "Mont d'ar strolladoù"
+    },
+    "description": "Donemat deoc'h war hoc'h istañs nevez <strong>Spliit</strong> !"
+  },
+  "Header": {
+    "groups": "Strolladoù"
+  },
+  "Errors": {
+    "title": "Ur gudenn a zo bet",
+    "groupTitle": "N’haller ket kargañ ar strollad-mañ",
+    "generic": "Klaskit en-dro mar plij. Ma c'hoarvez c'hoazh, adkargit ar bajenn-mañ.",
+    "reference": "Dave : {digest}",
+    "retry": "Klaskit en-dro"
+  },
+  "Footer": {
+    "madeIn": "Graet e Montreal, Kebek 🇨🇦",
+    "builtBy": "Savet gant <author>Sebastien Castiel</author> ha <source>perzhidi</source>"
+  },
+  "Expenses": {
+    "title": "Dispignoù",
+    "description": "Setu an dispignoù ho peus krouet evit ho strollad.",
+    "create": "Krouiñ un dispign",
+    "createFirst": "Krouiñ an hini kentañ",
+    "noExpenses": "N'ez eus dispign ebet e-barzh ho strollad evit poent.",
+    "export": "Ezporzhiañ",
+    "exportJson": "Ezporzhiañ da JSON",
+    "exportCsv": "Ezporzhiañ da CSV",
+    "searchPlaceholder": "Klask un dispign…",
+    "ActiveUserModal": {
+      "title": "Piv oc'h ?",
+      "description": "Lârit deomp piv oc'h evit personelaat an doare da ziskouez an titouroù.",
+      "nobody": "Ne fell ket din choaz unan bennak",
+      "save": "Enrollañ ar cheñchamantoù",
+      "footer": "An arventenn-mañ a c'hello bezañ kemmet diwezhatoc'h e arventennoù ar strollad."
+    },
+    "Groups": {
+      "upcoming": "A-benn nebeut",
+      "thisWeek": "Ar sizhun-mañ",
+      "earlierThisMonth": "Abretoc'h er miz-mañ",
+      "lastMonth": "Er miz paseet",
+      "earlierThisYear": "Abretoc'h er bloaz-mañ",
+      "lastYear": "Warlene",
+      "older": "Koshoc'h"
+    }
+  },
+  "GroupForm": {
+    "Participants": {
+      "John": "Yann",
+      "Jane": "Aziliz",
+      "Jack": "Tugdual",
+      "new": "Nevez",
+      "add": "Ouzhpennañ ur perzhiad",
+      "title": "Perzhidi",
+      "description": "Skrivit an anv evit pep den o kemer perzh."
+    },
+    "Settings": {
+      "title": "Arventennoù lec'hel"
+    }
+  },
+  "ExpenseForm": {
+    "Expense": {
+      "recurrenceRule": {
+        "daily": "Pemdeziek",
+        "weekly": "Bep sizhun",
+        "monthly": "Bep miz"
+      }
+    },
+    "amountField": {
+      "label": "Sammad"
+    },
+    "conversionUnavailable": "Evit choaz ur moneiz disheñvel evit pep dispign hag amdreiñ ar sammadoù, na choazit ket ur moneiz personelaet evit ar strollad."
+  },
+  "Categories": {
+    "Utilities": {
+      "Heat/Gas": "Tommerezh/Gaz",
+      "Electricity": "Tredan"
+    },
+    "Home": {
+      "Maintenance": "Trezlac'h",
+      "Electronics": "Elektronek",
+      "Home": "Ti",
+      "heading": "Ti"
+    },
+    "Uncategorized": {
+      "heading": "Dirummad",
+      "General": "Hollek"
+    }
+  },
+  "CreateFromReceipt": {
+    "ErrorToast": {
+      "retry": "Klask en-dro",
+      "description": "C'hoarvezet ez eus ur fazi e-ser kargañ ar restr. Klaskit en-dro diwezhatoc'h, pe dibabit ur restr all."
+    }
+  },
+  "Activity": {
+    "Groups": {
+      "today": "Hiziv"
+    },
+    "someone": "Unan bennak"
+  },
+  "ExpenseCard": {
+    "everyone": "an holl dud",
+    "paidBy": "Paet gant <strong>{paidBy}</strong> evit <paidFor></paidFor>",
+    "receivedBy": "Resevet gant <strong>{paidBy}</strong> evit <paidFor></paidFor>",
+    "yourBalance": "Ho mentelad :",
+    "notInvolved": "Ne gemerit ket perzh"
+  },
+  "Groups": {
+    "retry": "Klask en-dro",
+    "AddByURL": {
+      "error": "Hopala, n'omp ket evit kavout ar strollad gant an URL ho peus roet…",
+      "button": "Ouzhpennañ gant un URL",
+      "title": "Ouzhpennañ ur strollad gant un URL",
+      "urlMode": "Lakaat un URL",
+      "qrMode": "Skanniñ ur c'hod QR",
+      "scanner": {
+        "startCamera": "Enaouiñ ar c'hamera",
+        "noCamera": "N’eus bet kavet kamera ebet war an trevnad-mañ.",
+        "cameraError": "C’hwitet war enaouiñ ar c'hamera. Klaskit en-dro mar-plij."
+      }
+    },
+    "NoRecent": {
+      "orAsk": "pe goulenn gant ur mignon kas deoc'h al liamm war-zu unan a zo anezhañ.",
+      "description": "N'oc'h ket bet e strollad ebet nevez zo.",
+      "create": "Krouiñ unan"
+    },
+    "myGroups": "Ma strolladoù",
+    "create": "Krouiñ",
+    "createGroup": "Krouiñ ur strollad",
+    "loadingRecent": "O kargañ ar strolladoù nevesañ…",
+    "loadError": "N'haller ket kargañ ho strolladoù. Klaskit en-dro.",
+    "GlobalBalance": {
+      "title": "Ho mentelad hollek",
+      "owedToYou": "Dleet deoc'h",
+      "youOwe": "Dleout a rit",
+      "retry": "Klaskit en-dro"
+    },
+    "recent": "Strolladoù nevesañ",
+    "starred": "Strolladoù karetañ",
+    "archived": "Strolladoù diellaouet",
+    "archive": "Diellaouiñ ar strollad",
+    "unarchive": "Adsevel ar strollad",
+    "removeRecent": "Dilemel eus ar strolladoù nevesañ",
+    "RecentRemovedToast": {
+      "title": "Dilamet eo bet ar strollad",
+      "description": "Dilamet eo bet ar strollad eus roll ho strolladoù nevesañ.",
+      "undoAlt": "Nullañ dilemel ar strollad",
+      "undo": "Nullañ"
+    }
+  },
+  "Share": {
+    "warningHelp": "Forzh piv gant URL ar strollad a c'hello gwelet ha kemmañ an dispignoù. Rannit gant evezh bras !",
+    "description": "Evit ma c'hellfe tud all gwelet ar strollad hag ouzhpennañ dispignoù, rannit an URL ganto."
+  },
+  "SchemaErrors": {
+    "amountSum": "Ar sammad a zo par da {sum}, {difference} {direction, select, over {muioc'h} other {nebeutoc'h}} eget sammad an dispignoù ({amount}).",
+    "percentageSum": "Sammad an tregantadoù a zo par da {sum}%, {difference}% {direction, select, over {muioc'h} other {nebeutoc'h}} eget 100%."
+  },
+  "ExpenseDocumentsInput": {
+    "ErrorToast": {
+      "description": "C'hoarvezet ez eus ur fazi e-ser kargañ ar restr. Klaskit en-dro diwezhatoc'h, pe dibabit ur restr all."
+    }
+  },
+  "Information": {
+    "description": "Implijit al lec'h-mañ evit ouzhpennañ titouroù a c'hellfe bezañ talvoudus evit izili ar strollad."
+  }
+}
