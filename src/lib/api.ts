@@ -304,9 +304,7 @@ export async function updateGroup(
   const existingGroup = await getGroup(groupId)
   if (!existingGroup) throw new Error('Invalid group ID')
 
-  await logActivity(groupId, ActivityType.UPDATE_GROUP, { participantId })
-
-  return prisma.group.update({
+  const group = await prisma.group.update({
     where: { id: groupId },
     data: {
       name: groupFormValues.name,
@@ -336,6 +334,11 @@ export async function updateGroup(
       },
     },
   })
+
+  // Logged after the update, which can be refused (a removed participant who
+  // is part of expenses), so a refused save leaves no activity behind.
+  await logActivity(groupId, ActivityType.UPDATE_GROUP, { participantId })
+  return group
 }
 
 export async function getGroup(groupId: string) {

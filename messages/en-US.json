@@ -136,6 +136,7 @@
       "title": "Participants",
       "description": "Enter the name for each participant.",
       "protectedParticipant": "This participant is part of expenses, and can not be removed.",
+      "removedParticipantHasExpenses": "{names} {count, plural, one {is} other {are}} part of expenses, and can not be removed.",
       "new": "New",
       "add": "Add participant",
       "John": "John",
