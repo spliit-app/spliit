@@ -52,7 +52,9 @@ model Expense {
   originalAmount   Int?
   originalCurrency String?
   conversionRate   Decimal?
-  paidBy           Participant       @relation(fields: [paidById], references: [id], onDelete: Cascade)
+  // No cascade: a participant in an expense can't be deleted. Checked at commit
+  // (DEFERRABLE, set in migration 20261009111613) so deleting a group still works.
+  paidBy           Participant       @relation(fields: [paidById], references: [id], onDelete: NoAction)
   paidById         String
   paidFor          ExpensePaidFor[]
   groupId          String
@@ -108,7 +110,9 @@ enum RecurrenceRule {
 
 model ExpensePaidFor {
   expense       Expense     @relation(fields: [expenseId], references: [id], onDelete: Cascade)
-  participant   Participant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  // No cascade: a participant in an expense can't be deleted. Checked at commit
+  // (DEFERRABLE, set in migration 20261009111613) so deleting a group still works.
+  participant   Participant @relation(fields: [participantId], references: [id], onDelete: NoAction)
   expenseId     String
   participantId String
   shares        Int         @default(1)
