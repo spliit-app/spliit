@@ -1,4 +1,4 @@
-import { Category, Group } from '@prisma/client'
+import { Category, Group } from '@/generated/prisma/browser'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 import { Currency, getCurrency } from './currency'
@@ -20,6 +20,40 @@ export function formatDate(
   options: { dateStyle?: DateTimeStyle; timeStyle?: DateTimeStyle } = {},
 ) {
   return date.toLocaleString(locale, {
+    ...options,
+  })
+}
+
+/**
+ * Converts a date-only field to a date on its own calendar day.
+ *
+ * Fields stored as DATE type in the database (e.g., expenseDate) come back at
+ * UTC midnight. Reading them in the local timezone would shift them to the
+ * previous day west of UTC, so the calendar day is taken from the UTC
+ * components and rebuilt as a local date.
+ *
+ * @param date - The date to convert (typically from a database DATE field, e.g., 2025-10-17T00:00:00.000Z)
+ * @returns A date at local midnight on the calendar day the field stores
+ */
+export function dateOnlyToLocalDate(date: Date) {
+  return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
+}
+
+/**
+ * Formats a date-only field (without time) for display.
+ * Use this for dates stored as DATE type in the database (e.g., expenseDate).
+ *
+ * @param date - The date to format (typically from a database DATE field, e.g., 2025-10-17T00:00:00.000Z)
+ * @param locale - The locale string (e.g., 'en-US', 'fr-FR')
+ * @param options - Formatting options (dateStyle, timeStyle)
+ * @returns Formatted date string in the specified locale
+ */
+export function formatDateOnly(
+  date: Date,
+  locale: string,
+  options: { dateStyle?: DateTimeStyle; timeStyle?: DateTimeStyle } = {},
+) {
+  return dateOnlyToLocalDate(date).toLocaleString(locale, {
     ...options,
   })
 }

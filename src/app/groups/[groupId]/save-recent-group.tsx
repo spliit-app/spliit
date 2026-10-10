@@ -1,4 +1,5 @@
 'use client'
+
 import { saveRecentGroup } from '@/app/groups/recent-groups-helpers'
 import { useEffect } from 'react'
 import { useCurrentGroup } from './current-group-context'

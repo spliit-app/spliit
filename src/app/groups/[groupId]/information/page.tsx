@@ -1,14 +1,19 @@
 import GroupInformation from '@/app/groups/[groupId]/information/group-information'
-import { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 
-export const metadata: Metadata = {
-  title: 'Group Information',
+export async function generateMetadata() {
+  const t = await getTranslations('Information')
+
+  return {
+    title: t('title'),
+  }
 }
 
-export default function InformationPage({
-  params: { groupId },
+export default async function InformationPage({
+  params,
 }: {
-  params: { groupId: string }
+  params: Promise<{ groupId: string }>
 }) {
+  const { groupId } = await params
   return <GroupInformation groupId={groupId} />
 }

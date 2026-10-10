@@ -5,7 +5,8 @@
     "button": {
       "groups": "Vai ai gruppi",
       "github": "GitHub"
-    }
+    },
+    "metaTitle": "Spliit • Condividi le Spese con Amici e Familiari"
   },
   "Header": {
     "groups": "Gruppi"
@@ -27,7 +28,7 @@
       "title": "Chi sei?",
       "description": "Dicci quale partecipante sei per consentirci di personalizzare la modalità di visualizzazione delle informazioni.",
       "nobody": "Non voglio selezionare nessuno",
-      "save": "Salva cambiamenti",
+      "save": "Salva i cambiamenti",
       "footer": "Questa impostazione può essere modificata successivamente nelle impostazioni del gruppo."
     },
     "Groups": {
@@ -73,12 +74,34 @@
       "button": "Aggiungi tramite URL",
       "title": "Aggiungi un gruppo tramite URL",
       "description": "Se un gruppo è stato condiviso con te, puoi incollare qui il suo URL per aggiungerlo al tuo elenco.",
-      "error": "Oops, non siamo riusciti a trovare il gruppo dall'URL che hai fornito…"
+      "error": "Oops, non siamo riusciti a trovare il gruppo dall'URL che hai fornito…",
+      "urlMode": "Inserisci URL",
+      "qrMode": "Scansiona QR",
+      "scanner": {
+        "startCamera": "Avvia Camera",
+        "stopScanning": "Ferma Scansione",
+        "permissionDenied": "Permesso camera negato. Concedilo per scansionare codici QR.",
+        "noCamera": "Nessuna camera trovata su questo dispositivo.",
+        "cameraError": "Impossibile avviare la fotocamera. Riprova.",
+        "permissionError": "Impossibile accedere alla fotocamera. Verifica le autorizzazioni."
+      }
     },
     "NotFound": {
       "text": "Questo gruppo non esiste.",
       "link": "Vai ai gruppi visitati di recente"
-    }
+    },
+    "GlobalBalance": {
+      "title": "Il tuo saldo totale",
+      "description": "Il tuo saldo complessivo in tutti i tuoi gruppi.",
+      "owedToYou": "Ti devono",
+      "youOwe": "Devi",
+      "settledUp": "Sei in pari in tutti i tuoi gruppi.",
+      "loadError": "Impossibile caricare il tuo saldo totale. Riprova.",
+      "retry": "Riprova"
+    },
+    "createGroup": "Crea gruppo",
+    "loadError": "Impossibile caricare i tuoi gruppi. Riprova.",
+    "retry": "Riprova"
   },
   "GroupForm": {
     "title": "Informazioni del gruppo",
@@ -103,8 +126,8 @@
       "new": "Nuovo",
       "add": "Aggiungi partecipante",
       "John": "Fabio",
-      "Jane": "Kaneda",
-      "Jack": "Albano"
+      "Jane": "Mario",
+      "Jack": "Giacomo"
     },
     "Settings": {
       "title": "Impostazioni locali",
@@ -120,6 +143,12 @@
       "create": "Crea",
       "creating": "Sto creando…",
       "cancel": "Annulla"
+    },
+    "CurrencyCodeField": {
+      "label": "Moneta principale",
+      "createDescription": "Tutti gli importi e i saldi saranno in questa moneta.",
+      "customOption": "Personalizzato",
+      "editDescription": "Tutti gli importi e i saldi saranno in questa valuta. Se cambi questa opzione NON verranno convertite le spese già inserite, ad eccezione di quando la valuta ha una struttura sub-unitaria differente (es. se si cambia da Dollari Americani a Yen Giapponesi)"
     }
   },
   "ExpenseForm": {
@@ -140,20 +169,16 @@
         "label": "Ricevuta da",
         "description": "Seleziona il partecipante che ha ricevuto l'entrata."
       },
-      "recurrenceRule": {
-        "label": "Spesa ricorrente",
-        "description": "Seleziona quanto spesso deve ripetersi.",
-        "none": "Mai",
-        "daily": "Giornaliera",
-        "weekly": "Settimanale",
-        "monthly": "Mensile"
-      },
       "paidFor": {
         "title": "Ricevuto per",
         "description": "Seleziona per chi è stato ricevuto il reddito."
       },
       "splitModeDescription": "Seleziona come dividere l'entrata.",
-      "attachDescription": "Vedi ed allega la ricevuta per l'entrata."
+      "attachDescription": "Vedi ed allega la ricevuta per l'entrata.",
+      "currencyField": {
+        "label": "Valuta di ingresso",
+        "description": "La valuta in cui il pagamento è stato ricevuto."
+      }
     },
     "Expense": {
       "create": "Crea spesa",
@@ -186,7 +211,11 @@
         "description": "Seleleziona per chi è stato pagato."
       },
       "splitModeDescription": "Seleziona come dividere la spesa.",
-      "attachDescription": "Vedi ed allega la ricevuta per la spesa."
+      "attachDescription": "Vedi ed allega la ricevuta per la spesa.",
+      "currencyField": {
+        "label": "Valuta di spesa",
+        "description": "La valuta in cui la spesa è stata pagata."
+      }
     },
     "amountField": {
       "label": "Importo"
@@ -225,7 +254,30 @@
     "save": "Salva",
     "saving": "Sto salvando…",
     "cancel": "Annulla",
-    "reimbursement": "Rimborso"
+    "reimbursement": "Rimborso",
+    "conversionRateState": {
+      "refresh": "Aggiornare",
+      "loading": "Recuperando i tassi di cambio…",
+      "success": "Tassi ottenuti:",
+      "error": "Ops, non siamo riusciti a ottenere i tassi più recenti.",
+      "staleRate": "Tasso di utilizzo:",
+      "noRate": "Inserisci qui sotto un tasso personalizzato.",
+      "currencyNotFound": "Ops, Frankfurter non dispone del tasso di cambio per questa valuta in questo giorno.",
+      "noDate": "Inserisci la data della spesa per ottenere il tasso di cambio.",
+      "dateMismatch": "Tassi a partire dalla data: {date}",
+      "customRate": "Utilizzando il tasso personalizzato"
+    },
+    "conversionUnavailable": "Per impostare una valuta diversa per ogni spesa e convertire gli importi, seleziona una valuta non personalizzata per il gruppo.",
+    "originalAmountField": {
+      "label": "Importo da convertire",
+      "repaymentLabel": "Importo da trasferire",
+      "repaymentDescription": "Convertito dall'importo qui sopra, che è quello che pareggia i conti."
+    },
+    "conversionRateField": {
+      "label": "Tasso di cambio",
+      "useApi": "Usa i tassi di Frankfurter",
+      "useCustom": "Usa tasso personalizzato"
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
@@ -284,6 +336,78 @@
       "yourSpendings": "Le tue spese totali",
       "yourEarnings": "I tuoi guadagni totali",
       "yourShare": "La tua quota totale"
+    },
+    "range": {
+      "label": "Periodo",
+      "all": "Sempre",
+      "thisMonth": "Questo mese",
+      "last30": "Ultimi 30 giorni",
+      "thisYear": "Quest'anno",
+      "custom": "Personalizzato",
+      "from": "Da",
+      "to": "A"
+    },
+    "Summary": {
+      "title": "Riepilogo",
+      "description": "Dati principali per il periodo selezionato.",
+      "empty": "Non ci sono ancora spese.",
+      "expenseCount": "Spese",
+      "averageExpense": "Spesa media",
+      "largestExpense": "Spesa maggiore",
+      "activeSpan": "Periodo attivo"
+    },
+    "OverTime": {
+      "title": "Spese nel tempo",
+      "description": "Spesa totale del gruppo per mese. Seleziona un mese per vedere le sue spese.",
+      "empty": "Non ci sono ancora spese.",
+      "showExpenses": "Mostra le spese di {month}",
+      "detailsDescription": "Spese di questo mese nel periodo selezionato.",
+      "detailsEmpty": "Non ci sono spese in questo mese."
+    },
+    "ByParticipant": {
+      "title": "Spese per partecipante",
+      "description": "Quanto ha pagato ogni partecipante e la sua quota delle spese.",
+      "empty": "Non ci sono ancora spese.",
+      "participant": "Partecipante",
+      "paid": "Pagato",
+      "count": "Numero",
+      "share": "Quota"
+    },
+    "ByCategory": {
+      "title": "Spese per categoria",
+      "description": "Importo totale speso in ogni categoria. Seleziona una categoria per vedere le sue spese.",
+      "empty": "Non ci sono ancora spese.",
+      "showExpenses": "Mostra le spese di {category}",
+      "detailsDescription": "Spese di questa categoria nel periodo selezionato.",
+      "detailsEmpty": "Non ci sono spese in questa categoria."
+    },
+    "Recurring": {
+      "title": "Spese ricorrenti",
+      "description": "Costo stimato delle spese ricorrenti attive del gruppo.",
+      "estimatedMonthly": "Costo mensile stimato",
+      "estimatedYearly": "{amount} all'anno",
+      "period": {
+        "DAILY": "{count, plural, one {# spesa giornaliera} other {# spese giornaliere}}",
+        "WEEKLY": "{count, plural, one {# spesa settimanale} other {# spese settimanali}}",
+        "MONTHLY": "{count, plural, one {# spesa mensile} other {# spese mensili}}"
+      }
+    },
+    "MonthlySpending": {
+      "title": "Spesa mensile",
+      "description": "Spese per mese e categoria per il periodo selezionato.",
+      "groupingLabel": "Raggruppamento per categoria",
+      "chartTypeLabel": "Tipo di grafico",
+      "stackedTitle": "Categorie mensili",
+      "roundAmountsLabel": "Arrotonda gli importi",
+      "noData": "Ancora nessun dato di spesa.",
+      "ChartTypes": {
+        "bars": "Barre sovrapposte",
+        "columns": "Colonne in pila"
+      },
+      "GroupingOptions": {
+        "categoryGroup": "Categorie",
+        "category": "Dettagliato"
+      }
     }
   },
   "Activity": {
@@ -319,7 +443,14 @@
     "title": "Condividi",
     "description": "Per consentire agli altri partecipanti di vedere il gruppo e aggiungere spese, condividi il suo URL con loro.",
     "warning": "Attenzione!",
-    "warningHelp": "Ogni persona con l'URL del gruppo potrà vedere e modificare le spese. Condividi con cautela!"
+    "warningHelp": "Ogni persona con l'URL del gruppo potrà vedere e modificare le spese. Condividi con cautela!",
+    "copyLink": "Copia link",
+    "shareLink": "Condividi link",
+    "qrCode": {
+      "title": "Condividi Codice QR",
+      "description": "Scansiona questo codice QR per aprire il gruppo su ogni dispositivo.",
+      "download": "Scarica Codice QR"
+    }
   },
   "SchemaErrors": {
     "min1": "Inserisci almeno un carattere.",
@@ -336,7 +467,11 @@
     "paidForMin1": "La spesa deve essere pagata per almeno un partecipante.",
     "noZeroShares": "Tutti gli importi devono essere superiori a 0.",
     "amountSum": "La somma degli importi deve essere uguale all'importo della spesa.",
-    "percentageSum": "La somma delle percentuali deve essere uguale a 100."
+    "percentageSum": "La somma delle percentuali deve essere uguale a 100.",
+    "ratePositive": "Il tasso deve essere strettamente maggiore di zero.",
+    "max200": "Inserisci al massimo 200 caratteri.",
+    "max5000": "Inserisci al massimo 5.000 caratteri.",
+    "max10000": "Inserisci al massimo 10.000 caratteri."
   },
   "Categories": {
     "search": "Cerca categoria...",
@@ -406,5 +541,30 @@
       "TV/Phone/Internet": "TV/Telefono/Internet",
       "Water": "Acqua"
     }
+  },
+  "Currencies": {
+    "search": "Cerca valuta...",
+    "noCurrency": "Nessuna valuta trovata.",
+    "custom": {
+      "heading": "Personalizzato"
+    },
+    "common": {
+      "heading": "Più comune"
+    },
+    "other": {
+      "heading": "Altre valute"
+    }
+  },
+  "Pwa": {
+    "updateTitle": "Aggiornamento disponibile",
+    "updateDescription": "È disponibile una nuova versione di Spliit.",
+    "reload": "Ricarica"
+  },
+  "Errors": {
+    "title": "Qualcosa è andato storto",
+    "groupTitle": "Impossibile caricare questo gruppo",
+    "generic": "Riprova. Se il problema persiste, ricarica la pagina.",
+    "reference": "Riferimento: {digest}",
+    "retry": "Riprova"
   }
 }

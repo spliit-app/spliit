@@ -1,7 +1,7 @@
 import {
-  RecentGroup,
   archiveGroup,
   deleteRecentGroup,
+  RecentGroup,
   starGroup,
   unarchiveGroup,
   unstarGroup,

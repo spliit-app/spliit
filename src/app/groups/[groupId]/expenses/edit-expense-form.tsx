@@ -1,4 +1,5 @@
 'use client'
+
 import { RuntimeFeatureFlags } from '@/lib/featureFlags'
 import { trpc } from '@/trpc/client'
 import { useRouter } from 'next/navigation'
@@ -48,6 +49,7 @@ export function EditExpenseForm({
           participantId,
         })
         utils.groups.expenses.invalidate()
+        utils.groups.stats.invalidate()
         router.push(`/groups/${group.id}`)
       }}
       onDelete={async (participantId) => {
@@ -57,6 +59,7 @@ export function EditExpenseForm({
           participantId,
         })
         utils.groups.expenses.invalidate()
+        utils.groups.stats.invalidate()
         router.push(`/groups/${group.id}`)
       }}
       runtimeFeatureFlags={runtimeFeatureFlags}

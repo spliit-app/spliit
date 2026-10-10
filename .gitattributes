@@ -1,0 +1,8 @@
+# Force LF line endings on environment files. A CRLF .env makes every value end
+# in a stray carriage return, which used to disable feature flags silently and
+# break credentials. The parser now trims, but keeping these files LF-only stops
+# the problem at the source — including for any variable read directly from
+# process.env rather than through the schema.
+*.env text eol=lf
+.env text eol=lf
+.env.* text eol=lf

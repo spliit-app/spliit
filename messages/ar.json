@@ -1,0 +1,451 @@
+{
+  "Homepage": {
+    "title": "مشاركة <strong>المصاريف</strong> مع <strong>الأصدقاء والعائلة</strong>",
+    "description": "مرحبًا بك في تطبيق <strong>Spliit</strong> الخاص بك!",
+    "button": {
+      "groups": "الذهاب إلى المجموعات",
+      "github": "جيت هاب"
+    }
+  },
+  "Header": {
+    "groups": "المجموعات"
+  },
+  "Footer": {
+    "madeIn": "صُنع في مونتريال، كيبك 🇨🇦",
+    "builtBy": "تطوير <author>سيباستيان كاستيل</author> و <source>المساهمين</source>"
+  },
+  "Expenses": {
+    "title": "المصاريف",
+    "description": "إليك المصاريف التي قمت بإنشائها لمجموعتك.",
+    "create": "إضافة مصروف",
+    "createFirst": "إضافة أول مصروف",
+    "noExpenses": "لا تحتوي مجموعتك على أي مصروفات بعد.",
+    "export": "تصدير",
+    "exportJson": "تصدير إلى JSON",
+    "exportCsv": "تصدير إلى CSV",
+    "searchPlaceholder": "البحث عن مصروف…",
+    "ActiveUserModal": {
+      "title": "من أنت؟",
+      "description": "أخبرنا أي مشارك أنت لتخصيص طريقة عرض المعلومات.",
+      "nobody": "لا أرغب في تحديد أي شخص",
+      "save": "حفظ التغييرات",
+      "footer": "يمكن تغيير هذا الإعداد لاحقًا من إعدادات المجموعة."
+    },
+    "Groups": {
+      "upcoming": "القادمة",
+      "thisWeek": "هذا الأسبوع",
+      "earlierThisMonth": "في وقت سابق من هذا الشهر",
+      "lastMonth": "الشهر الماضي",
+      "earlierThisYear": "في وقت سابق من هذا العام",
+      "lastYear": "العام الماضي",
+      "older": "أقدم"
+    }
+  },
+  "ExpenseCard": {
+    "paidBy": "دفعه <strong>{paidBy}</strong> لـ <paidFor></paidFor>",
+    "everyone": "الجميع",
+    "receivedBy": "استلمه <strong>{paidBy}</strong> لـ <paidFor></paidFor>",
+    "yourBalance": "رصيدك:",
+    "notInvolved": "أنت غير مشارك"
+  },
+  "Groups": {
+    "myGroups": "مجموعاتي",
+    "create": "إنشاء",
+    "loadingRecent": "جاري تحميل المجموعات الأخيرة…",
+    "NoRecent": {
+      "description": "لم تقم بزيارة أي مجموعة مؤخرًا.",
+      "create": "إنشاء مجموعة",
+      "orAsk": "أو اطلب من صديق إرسال رابط مجموعة حالية."
+    },
+    "recent": "المجموعات الأخيرة",
+    "starred": "المجموعات المميزة",
+    "archived": "المجموعات المؤرشفة",
+    "archive": "أرشفة المجموعة",
+    "unarchive": "إلغاء أرشفة المجموعة",
+    "removeRecent": "إزالة من المجموعات الأخيرة",
+    "RecentRemovedToast": {
+      "title": "تمت إزالة المجموعة",
+      "description": "تمت إزالة المجموعة من قائمة المجموعات الأخيرة الخاصة بك.",
+      "undoAlt": "التراجع عن إزالة المجموعة",
+      "undo": "تراجع"
+    },
+    "AddByURL": {
+      "button": "إضافة عبر الرابط",
+      "title": "إضافة مجموعة عبر الرابط",
+      "description": "إذا تمت مشاركة مجموعة معك، يمكنك لصق رابطها هنا لإضافتها إلى قائمتك.",
+      "error": "عذرًا، لم نتمكن من العثور على المجموعة من الرابط الذي أدخلته…"
+    },
+    "NotFound": {
+      "text": "هذه المجموعة غير موجودة.",
+      "link": "الذهاب إلى المجموعات التي زرتها مؤخرًا"
+    }
+  },
+  "GroupForm": {
+    "title": "معلومات المجموعة",
+    "NameField": {
+      "label": "اسم المجموعة",
+      "placeholder": "العطلة الصيفية",
+      "description": "أدخل اسمًا لمجموعتك."
+    },
+    "InformationField": {
+      "label": "معلومات المجموعة",
+      "placeholder": "ما هي المعلومات المهمة لمشاركي المجموعة؟"
+    },
+    "CurrencyField": {
+      "label": "رمز العملة",
+      "placeholder": "$, €, £…",
+      "description": "سنستخدمه لعرض المبالغ."
+    },
+    "CurrencyCodeField": {
+      "label": "العملة الرئيسية",
+      "createDescription": "ستكون جميع المبالغ والأرصدة بهذه العملة.",
+      "editDescription": "ستكون جميع المبالغ والأرصدة بهذه العملة. تغيير هذا لن يحول المصاريف المكتوبة سابقًا، إلا إذا كانت العملة ذات وحدات فرعية مختلفة.",
+      "customOption": "مخصص"
+    },
+    "Participants": {
+      "title": "المشاركون",
+      "description": "أدخل اسم كل مشارك.",
+      "protectedParticipant": "هذا المشارك جزء من مصاريف قائمة، ولا يمكن إزالته.",
+      "new": "جديد",
+      "add": "إضافة مشارك",
+      "John": "أحمد",
+      "Jane": "سارة",
+      "Jack": "خالد"
+    },
+    "Settings": {
+      "title": "الإعدادات المحلية",
+      "description": "يتم ضبط هذه الإعدادات لكل جهاز لتخصيص تجربتك.",
+      "ActiveUserField": {
+        "label": "المستخدم النشط",
+        "placeholder": "اختر مشاركًا",
+        "none": "لا يوجد",
+        "description": "المستخدم الافتراضي لدفع المصاريف."
+      },
+      "save": "حفظ",
+      "saving": "جاري الحفظ…",
+      "create": "إنشاء",
+      "creating": "جاري الإنشاء…",
+      "cancel": "إلغاء"
+    }
+  },
+  "ExpenseForm": {
+    "Income": {
+      "create": "إضافة دخل",
+      "edit": "تعديل الدخل",
+      "TitleField": {
+        "label": "عنوان الدخل",
+        "placeholder": "عشاء يوم الاثنين",
+        "description": "أدخل وصفًا للدخل."
+      },
+      "DateField": {
+        "label": "تاريخ الدخل",
+        "description": "أدخل تاريخ استلام الدخل."
+      },
+      "currencyField": {
+        "label": "عملة الدخل",
+        "description": "العملة التي تم استلام الدخل بها."
+      },
+      "categoryFieldDescription": "اختر فئة الدخل.",
+      "paidByField": {
+        "label": "مستلم بواسطة",
+        "description": "اختر المشارك الذي استلم الدخل."
+      },
+      "paidFor": {
+        "title": "مستلم لصالحه",
+        "description": "اختر من تم استلام الدخل لأجله."
+      },
+      "splitModeDescription": "اختر طريقة تقسيم الدخل.",
+      "attachDescription": "عرض وإرفاق الإيصالات بالدخل."
+    },
+    "Expense": {
+      "create": "إضافة مصروف",
+      "edit": "تعديل المصروف",
+      "TitleField": {
+        "label": "عنوان المصروف",
+        "placeholder": "مطعم مساء الاثنين",
+        "description": "أدخل وصفًا للمصروف."
+      },
+      "DateField": {
+        "label": "تاريخ المصروف",
+        "description": "أدخل تاريخ دفع المصروف."
+      },
+      "currencyField": {
+        "label": "عملة المصروف",
+        "description": "العملة التي تم دفع المصروف بها."
+      },
+      "categoryFieldDescription": "اختر فئة المصروف.",
+      "paidByField": {
+        "label": "دفعه",
+        "placeholder": "اختر مشاركًا",
+        "description": "اختر المشارك الذي دفع المصروف."
+      },
+      "recurrenceRule": {
+        "label": "تكرار المصروف",
+        "description": "اختر عدد مرات تكرار المصروف.",
+        "none": "لا يوجد",
+        "daily": "يوميًا",
+        "weekly": "أسبوعيًا",
+        "monthly": "شهريًا"
+      },
+      "paidFor": {
+        "title": "مدفوع لـ",
+        "description": "اختر من تم دفع المصروف لأجله."
+      },
+      "splitModeDescription": "اختر طريقة تقسيم المصروف.",
+      "attachDescription": "عرض وإرفاق الإيصالات بالمصروف."
+    },
+    "amountField": {
+      "label": "المبلغ"
+    },
+    "conversionUnavailable": "لتحديد عملة مختلفة لكل مصروف وتحويل المبالغ، اختر عملة غير مخصصة للمجموعة.",
+    "originalAmountField": {
+      "label": "المبلغ المراد تحويله"
+    },
+    "conversionRateField": {
+      "useApi": "استخدام أسعار الصرف من Frankfurter",
+      "useCustom": "استخدام سعر مخصص",
+      "label": "سعر الصرف"
+    },
+    "conversionRateState": {
+      "loading": "جاري جلب أسعار الصرف…",
+      "success": "تم الحصول على الأسعار:",
+      "error": "عذرًا، لم نتمكن من الحصول على أحدث أسعار الصرف.",
+      "staleRate": "استخدام السعر:",
+      "noRate": "أدخل سعرًا مخصصًا أدناه.",
+      "currencyNotFound": "عذرًا، لا تتوفر أسعار لهذه العملة في هذا اليوم.",
+      "noDate": "أدخل تاريخ المصروف للحصول على سعر التحويل.",
+      "dateMismatch": "أسعار الصرف من تاريخ: {date}",
+      "refresh": "تحديث",
+      "customRate": "استخدام سعر مخصص"
+    },
+    "isReimbursementField": {
+      "label": "هذا سداد/تسوية دين"
+    },
+    "categoryField": {
+      "label": "الفئة"
+    },
+    "notesField": {
+      "label": "ملاحظات"
+    },
+    "selectNone": "إلغاء التحديد",
+    "selectAll": "تحديد الكل",
+    "shares": "حصة/حصص",
+    "advancedOptions": "خيارات تقسيم متقدمة…",
+    "SplitModeField": {
+      "label": "طريقة التقسيم",
+      "evenly": "بالتساوي",
+      "byShares": "غير متساوٍ – بالحطب/الحصص",
+      "byPercentage": "غير متساوٍ – بالنسبة المئوية",
+      "byAmount": "غير متساوٍ – بالمبلغ",
+      "saveAsDefault": "حفظ كخيارات تقسيم افتراضية"
+    },
+    "DeletePopup": {
+      "label": "حذف",
+      "title": "حذف هذا المصروف؟",
+      "description": "هل أنت تأكد أنك تريد حذف هذا المصروف؟ لا يمكن التراجع عن هذا الإجراء.",
+      "yes": "نعم",
+      "cancel": "إلغاء"
+    },
+    "attachDocuments": "إرفاق مستندات",
+    "create": "إنشاء",
+    "creating": "جاري الإنشاء…",
+    "save": "حفظ",
+    "saving": "جاري الحفظ…",
+    "cancel": "إلغاء",
+    "reimbursement": "تسوية"
+  },
+  "ExpenseDocumentsInput": {
+    "TooBigToast": {
+      "title": "الملف كبير جدًا",
+      "description": "الحد الأقصى لحجم الملف الذي يمكنك رفعه هو {maxSize}. حجم ملفك هو {size}."
+    },
+    "ErrorToast": {
+      "title": "خطأ أثناء رفع المستند",
+      "description": "حدث خطأ ما أثناء رفع المستند. يرجى المحاولة لاحقًا أو تحديد ملف آخر.",
+      "retry": "إعادة المحاولة"
+    }
+  },
+  "CreateFromReceipt": {
+    "Dialog": {
+      "triggerTitle": "إنشاء مصروف من إيصال",
+      "title": "إنشاء من إيصال",
+      "description": "استخراج معلومات المصروف من صورة الإيصال.",
+      "body": "قم برفع صورة الإيصال وسنقوم بمسحها ضوئيًا لاستخراج معلومات المصروف إن أمكن.",
+      "selectImage": "تحديد صورة…",
+      "titleLabel": "العنوان:",
+      "categoryLabel": "الفئة:",
+      "amountLabel": "المبلغ:",
+      "dateLabel": "التاريخ:",
+      "editNext": "ستتمكن من تعديل معلومات المصروف في الخطوة التالية.",
+      "continue": "متابعة"
+    },
+    "unknown": "غير معروف",
+    "TooBigToast": {
+      "title": "الملف كبير جدًا",
+      "description": "الحد الأقصى لحجم الملف الذي يمكنك رفعه هو {maxSize}. حجم ملفك هو {size}."
+    },
+    "ErrorToast": {
+      "title": "خطأ أثناء رفع المستند",
+      "description": "حدث خطأ ما أثناء رفع المستند. يرجى المحاولة لاحقًا أو تحديد ملف آخر.",
+      "retry": "إعادة المحاولة"
+    }
+  },
+  "Balances": {
+    "title": "الأرصدة",
+    "description": "هذا هو المبلغ الذي دفعه كل مشارك أو دُفع عنه.",
+    "Reimbursements": {
+      "title": "التسويات المقترحة",
+      "description": "إليك مقترحات للتسويات المحسّنة بين المشاركين.",
+      "noImbursements": "يبدو أن مجموعتك لا تحتاج إلى أي تسويات 😁",
+      "owes": "يدين <strong>{from}</strong> لـ <strong>{to}</strong> بمبلغ",
+      "markAsPaid": "تحديد كمدفوع"
+    }
+  },
+  "Stats": {
+    "title": "الإحصائيات",
+    "Totals": {
+      "title": "الإجماليات",
+      "description": "ملخص إنفاق المجموعة بالكامل.",
+      "groupSpendings": "إجمالي نفقات المجموعة",
+      "groupEarnings": "إجمالي أرباح/مداخيل المجموعة",
+      "yourSpendings": "إجمالي نفقاتك",
+      "yourEarnings": "إجمالي مداخيلك",
+      "yourShare": "إجمالي حصتك"
+    }
+  },
+  "Activity": {
+    "title": "النشاط",
+    "description": "نظرة عامة على جميع الأنشطة في هذه المجموعة.",
+    "noActivity": "لا يوجد أي نشاط في مجموعتك بعد.",
+    "someone": "شخص ما",
+    "settingsModified": "تم تعديل إعدادات المجموعة بواسطة <strong>{participant}</strong>.",
+    "expenseCreated": "تم إنشاء المصروف <em>{expense}</em> بواسطة <strong>{participant}</strong>.",
+    "expenseUpdated": "تم تحديث المصروف <em>{expense}</em> بواسطة <strong>{participant}</strong>.",
+    "expenseDeleted": "تم حذف المصروف <em>{expense}</em> بواسطة <strong>{participant}</strong>.",
+    "Groups": {
+      "today": "اليوم",
+      "yesterday": "أمس",
+      "earlierThisWeek": "في وقت سابق من هذا الأسبوع",
+      "lastWeek": "الأسبوع الماضي",
+      "earlierThisMonth": "في وقت سابق من هذا الشهر",
+      "lastMonth": "الشهر الماضي",
+      "earlierThisYear": "في وقت سابق من هذا العام",
+      "lastYear": "العام الماضي",
+      "older": "أقدم"
+    }
+  },
+  "Information": {
+    "title": "المعلومات",
+    "description": "استخدم هذا المكان لإضافة أي معلومات قد تكون مهمة لمشاركي المجموعة.",
+    "empty": "لا توجد معلومات للمجموعة بعد."
+  },
+  "Settings": {
+    "title": "الإعدادات"
+  },
+  "Share": {
+    "title": "مشاركة",
+    "description": "لكي يتمكن المشاركون الآخرون من رؤية المجموعة وإضافة المصاريف، شارك رابطها معهم.",
+    "warning": "تنبيه!",
+    "warningHelp": "أي شخص يملك رابط المجموعة سيكون قادرًا على رؤية وتعديل المصاريف. شارك الرابط بحذر!"
+  },
+  "SchemaErrors": {
+    "min1": "أدخل حرفًا واحدًا على الأقل.",
+    "min2": "أدخل حرفين على الأقل.",
+    "max5": "أدخل 5 أحرف كحد أقصى.",
+    "max50": "أدخل 50 حرفًا كحد أقصى.",
+    "duplicateParticipantName": "يوجد مشارك آخر يحمل هذا الاسم بالفعل.",
+    "titleRequired": "يرجى إدخال عنوان.",
+    "invalidNumber": "رقم غير صالح.",
+    "amountRequired": "يجب عليك إدخال مبلغ.",
+    "amountNotZero": "يجب ألا يكون المبلغ صفرًا.",
+    "amountTenMillion": "يجب أن يكون المبلغ أقل من 10,000,000.",
+    "ratePositive": "يجب أن يكون سعر الصرف أكبر من الصفر تمامًا.",
+    "paidByRequired": "يجب عليك تحديد مشارك.",
+    "paidForMin1": "يجب دفع المصروف لمشارك واحد على الأقل.",
+    "noZeroShares": "يجب أن تكون جميع الحصص أكبر من 0.",
+    "amountSum": "يجب أن يساوي مجموع المبالغ مبلغ المصروف الكلي.",
+    "percentageSum": "يجب أن يساوي مجموع النسب المئوية 100."
+  },
+  "Categories": {
+    "search": "البحث عن فئة...",
+    "noCategory": "لم يتم العثور على فئة.",
+    "Uncategorized": {
+      "heading": "غير مصنف",
+      "General": "عام",
+      "Payment": "دفع"
+    },
+    "Entertainment": {
+      "heading": "ترفيه",
+      "Entertainment": "ترفيه",
+      "Games": "ألعاب",
+      "Movies": "أفلام",
+      "Music": "موسيقى",
+      "Sports": "رياضة"
+    },
+    "Food and Drink": {
+      "heading": "طعام وشراب",
+      "Food and Drink": "طعام وشراب",
+      "Dining Out": "تناول الطعام في الخارج",
+      "Groceries": "بقالة وتسوّق",
+      "Liquor": "مشروبات"
+    },
+    "Home": {
+      "heading": "المنزل",
+      "Home": "المنزل",
+      "Electronics": "إلكترونيات",
+      "Furniture": "أثاث",
+      "Household Supplies": "مستلزمات منزلية",
+      "Maintenance": "صيانة",
+      "Mortgage": "تمويل عقاري",
+      "Pets": "حيوانات أليفة",
+      "Rent": "إيجار",
+      "Services": "خدمات"
+    },
+    "Life": {
+      "heading": "الحياة اليومية",
+      "Childcare": "رعاية الأطفال",
+      "Clothing": "ملابس",
+      "Donation": "تبرعات",
+      "Education": "تعليم",
+      "Gifts": "هدايا",
+      "Insurance": "تأمين",
+      "Medical Expenses": "مصاريف طبية",
+      "Taxes": "ضرائب"
+    },
+    "Transportation": {
+      "heading": "المواصلات",
+      "Transportation": "المواصلات",
+      "Bicycle": "دراجة",
+      "Bus/Train": "حافلة/قطار",
+      "Car": "سيارة",
+      "Gas/Fuel": "وقود/بنزين",
+      "Hotel": "فندق",
+      "Parking": "مواقف سيارات",
+      "Plane": "طائرة",
+      "Taxi": "سيارة أجرة (تاكسي)"
+    },
+    "Utilities": {
+      "heading": "المرافق والخدمات",
+      "Utilities": "المرافق والخدمات",
+      "Cleaning": "تنظيف",
+      "Electricity": "كهرباء",
+      "Heat/Gas": "تدفئة/غاز",
+      "Trash": "نفايات",
+      "TV/Phone/Internet": "تلفزيون/هاتف/إنترنت",
+      "Water": "مياه"
+    }
+  },
+  "Currencies": {
+    "search": "البحث عن عملة...",
+    "noCurrency": "لم يتم العثور على عملات.",
+    "custom": {
+      "heading": "مخصص"
+    },
+    "common": {
+      "heading": "الأكثر شيوعًا"
+    },
+    "other": {
+      "heading": "عملات أخرى"
+    }
+  }
+}

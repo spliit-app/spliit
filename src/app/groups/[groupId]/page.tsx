@@ -1,9 +1,10 @@
 import { redirect } from 'next/navigation'
 
 export default async function GroupPage({
-  params: { groupId },
+  params,
 }: {
-  params: { groupId: string }
+  params: Promise<{ groupId: string }>
 }) {
+  const { groupId } = await params
   redirect(`/groups/${groupId}/expenses`)
 }

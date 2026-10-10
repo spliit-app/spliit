@@ -1,19 +1,22 @@
 'use client'
+
 import { AddGroupByUrlButton } from '@/app/groups/add-group-by-url-button'
 import {
-  RecentGroups,
   getArchivedGroups,
   getRecentGroups,
   getStarredGroups,
+  RecentGroups,
 } from '@/app/groups/recent-groups-helpers'
 import { Button } from '@/components/ui/button'
 import { getGroups } from '@/lib/api'
+import { MAX_GROUPS_PER_QUERY } from '@/lib/group-query-limits'
 import { trpc } from '@/trpc/client'
 import { AppRouterOutput } from '@/trpc/routers/_app'
 import { Loader2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { PropsWithChildren, useEffect, useState } from 'react'
+import { GlobalBalanceCard } from './global-balance-card'
 import { RecentGroupListCard } from './recent-group-list-card'
 
 export type RecentGroupsState =
@@ -103,9 +106,22 @@ function RecentGroupList_({
   refreshGroupsFromStorage: () => void
 }) {
   const t = useTranslations('Groups')
-  const { data, isLoading } = trpc.groups.list.useQuery({
-    groupIds: groups.map((group) => group.id),
+  const { data, isLoading, isError, refetch } = trpc.groups.list.useQuery({
+    groupIds: groups.map((group) => group.id).slice(0, MAX_GROUPS_PER_QUERY),
   })
+
+  if (isError) {
+    return (
+      <GroupsPage reload={refreshGroupsFromStorage}>
+        <div className="text-sm space-y-2">
+          <p>{t('loadError')}</p>
+          <Button variant="secondary" onClick={() => refetch()}>
+            {t('retry')}
+          </Button>
+        </div>
+      </GroupsPage>
+    )
+  }
 
   if (isLoading || !data) {
     return (
@@ -151,6 +167,8 @@ function RecentGroupList_({
 
   return (
     <GroupsPage reload={refreshGroupsFromStorage}>
+      <GlobalBalanceCard groups={groups} />
+
       {starredGroupInfo.length > 0 && (
         <>
           <h2 className="mb-2">{t('starred')}</h2>

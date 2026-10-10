@@ -1,8 +1,13 @@
 import { getCurrency } from '@/lib/currency'
-import { formatAmountAsDecimal, getCurrencyFromGroup } from '@/lib/utils'
+import { prisma } from '@/lib/prisma'
+import { getExpenseShares } from '@/lib/shares'
+import {
+  dateOnlyToLocalDate,
+  formatAmountAsDecimal,
+  getCurrencyFromGroup,
+} from '@/lib/utils'
 import { Parser } from '@json2csv/plainjs'
-import { PrismaClient } from '@prisma/client'
-import contentDisposition from 'content-disposition'
+import { create as contentDisposition } from 'content-disposition'
 import { NextResponse } from 'next/server'
 
 const splitModeLabel = {
@@ -12,20 +17,35 @@ const splitModeLabel = {
   BY_AMOUNT: 'Unevenly – By amount',
 }
 
-function formatDate(isoDateString: Date): string {
-  const date = new Date(isoDateString)
+/**
+ * Prevents CSV formula/command injection (CWE-1236): a cell beginning with
+ * =, +, -, @, tab or carriage return can be executed as a formula by spreadsheet
+ * applications (Excel, LibreOffice, Sheets). Expense titles, category and
+ * participant names are user-controlled, so prefix such text cells with a single
+ * quote to neutralize them.
+ */
+function escapeCsvFormula(value: string): string {
+  return /^[=+\-@\t\r]/.test(value) ? `'${value}` : value
+}
+
+/**
+ * `expenseDate` is a DATE column carried at UTC midnight, so it is converted
+ * with `dateOnlyToLocalDate` first: reading it through local getters directly
+ * would export the previous day on a server west of UTC.
+ */
+function formatDate(dateOnly: Date): string {
+  const date = dateOnlyToLocalDate(dateOnly)
   const year = date.getFullYear()
   const month = String(date.getMonth() + 1).padStart(2, '0') // Months are zero-based
   const day = String(date.getDate()).padStart(2, '0')
   return `${year}-${month}-${day}` // YYYY-MM-DD format
 }
 
-const prisma = new PrismaClient()
-
 export async function GET(
   req: Request,
-  { params: { groupId } }: { params: { groupId: string } },
+  { params }: { params: Promise<{ groupId: string }> },
 ) {
+  const { groupId } = await params
   const group = await prisma.group.findUnique({
     where: { id: groupId },
     select: {
@@ -35,6 +55,9 @@ export async function GET(
       currencyCode: true,
       expenses: {
         select: {
+          // Seeds which participant is offered the leftover minor unit of an
+          // uneven split, so the export agrees with the balances tab.
+          id: true,
           expenseDate: true,
           title: true,
           category: { select: { name: true } },
@@ -94,69 +117,74 @@ export async function GET(
     { label: 'Is Reimbursement', value: 'isReimbursement' },
     { label: 'Split mode', value: 'splitMode' },
     ...group.participants.map((participant) => ({
-      label: participant.name,
+      label: escapeCsvFormula(participant.name),
       value: participant.name,
     })),
   ]
 
   const currency = getCurrencyFromGroup(group)
 
-  const expenses = group.expenses.map((expense) => ({
-    date: formatDate(expense.expenseDate),
-    title: expense.title,
-    categoryName: expense.category?.name || '',
-    currency: group.currencyCode ?? group.currency,
-    amount: formatAmountAsDecimal(expense.amount, currency),
-    originalAmount: expense.originalAmount
-      ? formatAmountAsDecimal(
-          expense.originalAmount,
-          getCurrency(expense.originalCurrency),
-        )
-      : null,
-    originalCurrency: expense.originalCurrency,
-    conversionRate: expense.conversionRate
-      ? expense.conversionRate.toString()
-      : null,
-    isReimbursement: expense.isReimbursement ? 'Yes' : 'No',
-    splitMode: splitModeLabel[expense.splitMode],
-    ...Object.fromEntries(
-      group.participants.map((participant) => {
-        const { totalShares, participantShare } = expense.paidFor.reduce(
-          (acc, { participantId, shares }) => {
-            acc.totalShares += shares
-            if (participantId === participant.id) {
-              acc.participantShare = shares
-            }
-            return acc
-          },
-          { totalShares: 0, participantShare: 0 },
-        )
+  const expenses = group.expenses.map((expense) => {
+    const shares = getExpenseShares(expense)
 
-        const isPaidByParticipant = expense.paidById === participant.id
-        const participantAmountShare = +formatAmountAsDecimal(
-          (expense.amount / totalShares) * participantShare,
-          currency,
-        )
+    return {
+      date: formatDate(expense.expenseDate),
+      title: escapeCsvFormula(expense.title),
+      categoryName: escapeCsvFormula(expense.category?.name || ''),
+      currency: group.currencyCode ?? group.currency,
+      amount: formatAmountAsDecimal(expense.amount, currency),
+      originalAmount: expense.originalAmount
+        ? formatAmountAsDecimal(
+            expense.originalAmount,
+            getCurrency(expense.originalCurrency),
+          )
+        : null,
+      originalCurrency: expense.originalCurrency,
+      conversionRate: expense.conversionRate
+        ? expense.conversionRate.toString()
+        : null,
+      isReimbursement: expense.isReimbursement ? 'Yes' : 'No',
+      splitMode: splitModeLabel[expense.splitMode],
+      ...Object.fromEntries(
+        group.participants.map((participant) => {
+          const isPaidByParticipant = expense.paidById === participant.id
+          // The same apportionment the balances tab uses, so a participant's
+          // column here matches what they are actually charged: whole minor
+          // units, honouring the split mode, adding up to the expense amount.
+          const participantAmountShare = +formatAmountAsDecimal(
+            shares.get(participant.id) ?? 0,
+            currency,
+          )
 
-        return [
-          participant.name,
-          participantAmountShare * (isPaidByParticipant ? 1 : -1),
-        ]
-      }),
-    ),
-  }))
+          return [
+            participant.name,
+            participantAmountShare * (isPaidByParticipant ? 1 : -1),
+          ]
+        }),
+      ),
+    }
+  })
 
   const json2csvParser = new Parser({ fields })
   const csv = json2csvParser.parse(expenses)
 
   const date = new Date().toISOString().split('T')[0]
-  const filename = `Spliit Export - ${group.name} - ${date}.csv`
+
+  // Create an ASCII-safe version of the group name for the 'filename' parameter
+  const asciiSafeGroupName = group.name.replace(/[^\x00-\x7F]/g, '_') // Replace non-ASCII with underscore
+  const asciiFilename = `Spliit Export - ${asciiSafeGroupName} - ${date}.csv`
+
+  // Use the original group name for the 'filename*' parameter (UTF-8 encoded)
+  const fullFilename = `Spliit Export - ${group.name} - ${date}.csv`
 
   // \uFEFF character is added at the beginning of the CSV content to ensure that it is interpreted as UTF-8 with BOM (Byte Order Mark), which helps some applications correctly interpret the encoding.
   return new NextResponse(`\uFEFF${csv}`, {
     headers: {
       'Content-Type': 'text/csv; charset=utf-8',
-      'Content-Disposition': contentDisposition(filename),
+      'Content-Disposition': contentDisposition(fullFilename, {
+        type: 'attachment',
+        fallback: asciiFilename,
+      }),
     },
   })
 }

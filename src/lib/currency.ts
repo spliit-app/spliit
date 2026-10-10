@@ -1,4 +1,4 @@
-import { Locale } from '@/i18n'
+import { Locale } from '@/i18n/request'
 import currencyList from './currency-data.json'
 
 export type Currency = {
@@ -36,12 +36,16 @@ export const supportedCurrencyCodes = [
   'ILS',
   'INR',
   'KRW',
+  'MKD',
   'MXN',
+  'MYR',
   'NZD',
   'PHP',
   'SGD',
   'THB',
+  'VND',
   'ZAR',
+  'COP',
 ] as const
 export type supportedCurrencyCodeType = (typeof supportedCurrencyCodes)[number]
 

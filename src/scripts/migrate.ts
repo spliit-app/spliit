@@ -1,10 +1,8 @@
 // @ts-nocheck
+import { Prisma } from '@/generated/prisma/client'
 import { randomId } from '@/lib/api'
 import { prisma } from '@/lib/prisma'
-import { Prisma } from '@prisma/client'
 import { Client } from 'pg'
-
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 async function main() {
   withClient(async (client) => {
@@ -116,9 +114,15 @@ async function main() {
 }
 
 async function withClient(fn: (client: Client) => void | Promise<void>) {
+  // Connect over TLS with full certificate validation. If the legacy database
+  // presents a certificate signed by a private/self-signed CA, provide that CA
+  // via OLD_POSTGRES_CA_CERT instead of disabling validation (previously done
+  // globally with NODE_TLS_REJECT_UNAUTHORIZED='0', which turned off TLS
+  // verification for the entire process).
+  const caCert = process.env.OLD_POSTGRES_CA_CERT
   const client = new Client({
     connectionString: process.env.OLD_POSTGRES_URL,
-    ssl: true,
+    ssl: caCert ? { ca: caCert, rejectUnauthorized: true } : true,
   })
   await client.connect()
   console.log('Connected.')

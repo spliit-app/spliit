@@ -1,0 +1,92 @@
+{
+  "Homepage": {
+    "title": "Partejatz <strong>vòstras despensas</strong> amb <strong>vòstres amics & vòstra familha</strong>",
+    "description": "Benvenguda sus vòstra novèla instància <strong>Spliit</strong> !",
+    "button": {
+      "groups": "Accedir als grops",
+      "github": "GitHub"
+    }
+  },
+  "Header": {
+    "groups": "Grops"
+  },
+  "Footer": {
+    "madeIn": "Fach a Montréal, Québec 🇨🇦",
+    "builtBy": "Desvolopat per <author>Sebastien Castiel</author> e <source>contributors</source>"
+  },
+  "Expenses": {
+    "title": "Despensas",
+    "description": "Vaquí las despensas qu'avètz creadas per vòstre grop.",
+    "create": "Crear una despensa",
+    "createFirst": "Crear la primièra",
+    "noExpenses": "Vòstre grop a pas encara de despensas.",
+    "export": "Exportar",
+    "exportJson": "Exportar en JSON",
+    "exportCsv": "Exportar en CSV",
+    "searchPlaceholder": "Recercar una despensa…",
+    "ActiveUserModal": {
+      "title": "Qual sètz ?",
+      "description": "Digatz-nos quin participant sètz per que poscam personalizar l'afichatge de las informacions.",
+      "nobody": "Vòli pas seleccionar degun",
+      "save": "Salvar las modificacions",
+      "footer": "Aqueste paramètre se pòt modificar mai tard dins los paramètres del grop."
+    },
+    "Groups": {
+      "upcoming": "A venir",
+      "thisWeek": "Aquesta setmana",
+      "earlierThisMonth": "A la debuta del mes",
+      "lastMonth": "Lo mes passat",
+      "earlierThisYear": "Mai d’ora ongan",
+      "lastYear": "L’an passat",
+      "older": "Mai ancians"
+    }
+  },
+  "ExpenseCard": {
+    "paidBy": "Pagat per <strong>{paidBy}</strong> per <paidFor></paidFor>",
+    "everyone": "totòm",
+    "receivedBy": "Recebut per <strong>{paidBy}</strong> per <paidFor></paidFor>",
+    "yourBalance": "Vòstre resultat :",
+    "notInvolved": "Sètz pas concernit"
+  },
+  "Groups": {
+    "myGroups": "Mos grops",
+    "create": "Crear",
+    "loadingRecent": "Cargament dels grops recents…",
+    "NoRecent": {
+      "create": "Ne crear un"
+    },
+    "recent": "Grops recents",
+    "starred": "Grops preferits",
+    "archived": "Grops archivats",
+    "archive": "Archivar lo grop",
+    "unarchive": "Desarchivar lo grop",
+    "removeRecent": "Tirar dels grops recents",
+    "RecentRemovedToast": {
+      "undo": "Desfar",
+      "title": "Lo grop es estat suprimit",
+      "undoAlt": "Anullar la supression del grop"
+    },
+    "AddByURL": {
+      "button": "Apondre per URL",
+      "title": "Apondre un grop via URL"
+    },
+    "NotFound": {
+      "text": "Aqueste grop existís pas.",
+      "link": "Anar als darrièrs grops consultats"
+    }
+  },
+  "GroupForm": {
+    "title": "Informacions del grop",
+    "NameField": {
+      "label": "Nom del grop",
+      "placeholder": "Vacanças d'estiu",
+      "description": "Picatz un nom per vòstre grop."
+    },
+    "InformationField": {
+      "label": "Informacions del grop"
+    },
+    "CurrencyField": {
+      "placeholder": "$, €, £…"
+    }
+  }
+}

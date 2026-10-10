@@ -299,7 +299,9 @@
     "title": "Distribuie",
     "description": "Pentru ca ceilalți participanți să poată vedea grupul și cheltuielile adăugate, distribuie URL-ul acestuia cu ei.",
     "warning": "Avertisment!",
-    "warningHelp": "Oricine are URL-ul grupului va putea să vadă și să editeze cheltuielile. Distribuie cu grijă!"
+    "warningHelp": "Oricine are URL-ul grupului va putea să vadă și să editeze cheltuielile. Distribuie cu grijă!",
+    "copyLink": "Copiază linkul",
+    "shareLink": "Distribuie linkul"
   },
   "SchemaErrors": {
     "min1": "Introduceți cel puțin un caracter.",
@@ -385,5 +387,10 @@
       "TV/Phone/Internet": "TV/Telefon/Internet",
       "Water": "Apă"
     }
+  },
+  "Pwa": {
+    "updateTitle": "Actualizare disponibilă",
+    "updateDescription": "O nouă versiune de Spliit este disponibilă.",
+    "reload": "Reîncarcă"
   }
 }

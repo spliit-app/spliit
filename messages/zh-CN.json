@@ -38,12 +38,15 @@
       "earlierThisYear": "本年早些时候",
       "lastYear": "去年",
       "older": "更早"
-    }
+    },
+    "export": "导出"
   },
   "ExpenseCard": {
     "paidBy": "<strong>{paidBy}</strong> 为 <paidFor></paidFor> 支付。",
     "receivedBy": "<strong>{paidBy}</strong> 为 <paidFor></paidFor> 接收。",
-    "yourBalance": "你的余额："
+    "yourBalance": "你的余额：",
+    "everyone": "所有人",
+    "notInvolved": "您无需支付"
   },
   "Groups": {
     "myGroups": "我的群组",
@@ -75,6 +78,13 @@
     "NotFound": {
       "text": "该群组不存在。",
       "link": "跳转到最近访问过的群组"
+    },
+    "GlobalBalance": {
+      "title": "你的总余额",
+      "description": "你在所有群组中的合计余额。",
+      "owedToYou": "应收",
+      "youOwe": "应付",
+      "settledUp": "你在所有群组中均已结清。"
     }
   },
   "GroupForm": {
@@ -117,6 +127,12 @@
       "create": "创建",
       "creating": "创建中",
       "cancel": "取消"
+    },
+    "CurrencyCodeField": {
+      "label": "首选货币",
+      "createDescription": "所有的交易将使用此币种。",
+      "customOption": "自定义",
+      "editDescription": "所有金额和余额将以此货币表示。更改此项不会转换已输入的费用，除非新货币的\"辅助单位\"与现有货币不同（例如从美元改为日元）"
     }
   },
   "ExpenseForm": {
@@ -142,7 +158,11 @@
         "description": "选择收入是为谁而收。"
       },
       "splitModeDescription": "选择如何划分这笔收入。",
-      "attachDescription": "查看并为这笔收入附加收据。"
+      "attachDescription": "查看并为这笔收入附加收据。",
+      "currencyField": {
+        "label": "收入币种",
+        "description": "收入所使用的货币。"
+      }
     },
     "Expense": {
       "create": "创建消费",
@@ -159,14 +179,27 @@
       "categoryFieldDescription": "选择消费类别。",
       "paidByField": {
         "label": "支付自",
-        "description": "选择支付这笔消费的群组成员。"
+        "description": "选择支付这笔消费的群组成员。",
+        "placeholder": "选择一个参与人"
       },
       "paidFor": {
         "title": "支付给",
         "description": "选择消费是为谁而支出。"
       },
       "splitModeDescription": "选择如何划分这笔消费。",
-      "attachDescription": "查看并为这笔消费附加收据。"
+      "attachDescription": "查看并为这笔消费附加收据。",
+      "currencyField": {
+        "label": "支出币种",
+        "description": "支出所使用的货币。"
+      },
+      "recurrenceRule": {
+        "label": "订阅式支出",
+        "description": "请选择这笔开销发生的频率。",
+        "none": "无",
+        "daily": "每天",
+        "weekly": "每周",
+        "monthly": "每月"
+      }
     },
     "amountField": {
       "label": "金额"
@@ -205,7 +238,30 @@
     "save": "保存",
     "saving": "保存中……",
     "cancel": "取消",
-    "reimbursement": "报销"
+    "reimbursement": "报销",
+    "originalAmountField": {
+      "label": "需要转换的金额",
+      "repaymentLabel": "需要转账的金额",
+      "repaymentDescription": "由上方金额换算而来；结清余额的是上方的金额。"
+    },
+    "conversionRateField": {
+      "useApi": "使用Frankfurter提供的汇率",
+      "useCustom": "使用自定义汇率",
+      "label": "汇率"
+    },
+    "conversionRateState": {
+      "error": "抱歉，我们无法获取最新的汇率信息。",
+      "noRate": "请在下方输入自定义汇率。",
+      "currencyNotFound": "抱歉，Frankfurter无法为此货币提供此日期的汇率。",
+      "noDate": "请输入交易发生日期来获取当天的汇率。",
+      "refresh": "刷新",
+      "customRate": "使用自定义汇率",
+      "loading": "正在获取兑换汇率…",
+      "success": "获取到的汇率：",
+      "staleRate": "使用中的汇率：",
+      "dateMismatch": "汇率日期：{date}"
+    },
+    "conversionUnavailable": "如需按支出单独设置货币并换算金额，请先将群组货币设为非自定义货币。"
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
@@ -264,6 +320,55 @@
       "yourSpendings": "你的总计开销",
       "yourEarnings": "你的总计收入",
       "yourShare": "你的总计份额"
+    },
+    "range": {
+      "label": "时间段",
+      "all": "全部时间",
+      "thisMonth": "本月",
+      "last30": "最近 30 天",
+      "thisYear": "今年",
+      "custom": "自定义范围",
+      "from": "开始",
+      "to": "结束"
+    },
+    "Summary": {
+      "title": "概览",
+      "description": "所选时间段的关键数据。",
+      "empty": "还没有任何支出。",
+      "expenseCount": "支出笔数",
+      "averageExpense": "平均支出",
+      "largestExpense": "最大支出",
+      "activeSpan": "活跃时间段"
+    },
+    "OverTime": {
+      "title": "支出趋势",
+      "description": "群组每月的总支出。",
+      "empty": "还没有任何支出。"
+    },
+    "ByParticipant": {
+      "title": "按参与者统计支出",
+      "description": "每位参与者支付的金额及其分摊份额。",
+      "empty": "还没有任何支出。",
+      "participant": "参与者",
+      "paid": "已支付",
+      "count": "笔数",
+      "share": "分摊"
+    },
+    "ByCategory": {
+      "title": "按类别统计支出",
+      "description": "每个类别的支出总额。",
+      "empty": "还没有任何支出。"
+    },
+    "Recurring": {
+      "title": "周期性支出",
+      "description": "群组活跃周期性支出的预估费用。",
+      "estimatedMonthly": "预计每月费用",
+      "estimatedYearly": "每年 {amount}",
+      "period": {
+        "DAILY": "{count, plural, other {# 笔每日支出}}",
+        "WEEKLY": "{count, plural, other {# 笔每周支出}}",
+        "MONTHLY": "{count, plural, other {# 笔每月支出}}"
+      }
     }
   },
   "Activity": {
@@ -299,7 +404,9 @@
     "title": "分享",
     "description": "请将此URL分享给其他群组成员，以使其可以查看群组并添加消费。",
     "warning": "警告！",
-    "warningHelp": "任何持有群组URL的个体都有能够查看并编辑消费。请谨慎分享！"
+    "warningHelp": "任何持有群组URL的个体都有能够查看并编辑消费。请谨慎分享！",
+    "copyLink": "复制链接",
+    "shareLink": "分享链接"
   },
   "SchemaErrors": {
     "min1": "输入至少1个字符。",
@@ -316,7 +423,8 @@
     "paidForMin1": "这项消费必须支付给至少1名群组成员。",
     "noZeroShares": "所有份额必须大于0。",
     "amountSum": "金额之和必须等于消费的金额。",
-    "percentageSum": "百分比之和必须等于100。"
+    "percentageSum": "百分比之和必须等于100。",
+    "ratePositive": "汇率必须为正数（大于0）。"
   },
   "Categories": {
     "search": "搜寻类别……",
@@ -361,7 +469,8 @@
       "Gifts": "礼物",
       "Insurance": "保险",
       "Medical Expenses": "医疗支出",
-      "Taxes": "税"
+      "Taxes": "税",
+      "Donation": "捐赠"
     },
     "Transportation": {
       "heading": "交通",
@@ -385,5 +494,23 @@
       "TV/Phone/Internet": "电视/手机/互联网",
       "Water": "水"
     }
+  },
+  "Currencies": {
+    "search": "搜索币种...",
+    "noCurrency": "无法找到此货币。",
+    "custom": {
+      "heading": "自定义"
+    },
+    "common": {
+      "heading": "最常用"
+    },
+    "other": {
+      "heading": "其他币种"
+    }
+  },
+  "Pwa": {
+    "updateTitle": "有可用更新",
+    "updateDescription": "Spliit 有新版本可用。",
+    "reload": "重新加载"
   }
 }

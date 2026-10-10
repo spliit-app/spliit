@@ -1,0 +1,269 @@
+{
+  "Homepage": {
+    "button": {
+      "github": "GitHub"
+    }
+  },
+  "Header": {
+    "groups": "Групы"
+  },
+  "Expenses": {
+    "export": "Экспартаваць",
+    "exportJson": "Экспартаваць у JSON",
+    "exportCsv": "Экспартаваць у CSV",
+    "ActiveUserModal": {
+      "title": "Хто вы?",
+      "nobody": "Я не хачу нікога выбіраць",
+      "save": "Захаваць змены",
+      "footer": "Гэту наладу можна змяніць пазней у наладах групы."
+    },
+    "Groups": {
+      "thisWeek": "На гэтым тыдні",
+      "earlierThisMonth": "Раней у гэтым месяцы",
+      "lastMonth": "У мінулым месяцы",
+      "earlierThisYear": "Раней у гэтым годзе",
+      "lastYear": "Летась",
+      "older": "Старэйшыя"
+    }
+  },
+  "ExpenseCard": {
+    "everyone": "усе",
+    "yourBalance": "Ваш баланс:",
+    "notInvolved": "Вы не ўдзельнічаеце"
+  },
+  "Groups": {
+    "myGroups": "Мае групы",
+    "create": "Стварыць",
+    "loadingRecent": "Загрузка апошніх груп…",
+    "AddByURL": {
+      "button": "Дадаць па URL",
+      "title": "Дадаць групу па URL"
+    },
+    "NotFound": {
+      "text": "Такой групы не існуе."
+    }
+  },
+  "GroupForm": {
+    "title": "Інфармацыя пра групу",
+    "NameField": {
+      "label": "Назва групы",
+      "description": "Увядзіце назву для вашай групы."
+    },
+    "InformationField": {
+      "label": "Інфармацыя пра групу"
+    },
+    "CurrencyField": {
+      "label": "Сімвал валюты",
+      "placeholder": "$, €, £…",
+      "description": "Ён будзе выкарыстоўвацца для адлюстравання сум."
+    },
+    "CurrencyCodeField": {
+      "label": "Асноўная валюта",
+      "customOption": "Карыстальніцкая"
+    },
+    "Participants": {
+      "title": "Удзельнікі",
+      "description": "Увядзіце імя кожнага ўдзельніка.",
+      "new": "Новы ўдзельнік",
+      "add": "Дадаць удзельніка"
+    },
+    "Settings": {
+      "title": "Лакальныя налады",
+      "ActiveUserField": {
+        "label": "Актыўны карыстальнік",
+        "placeholder": "Выберыце ўдзельніка",
+        "none": "Не выбраны"
+      },
+      "save": "Захаваць",
+      "saving": "Захаванне…",
+      "create": "Стварыць",
+      "creating": "Стварэнне…",
+      "cancel": "Скасаваць"
+    }
+  },
+  "ExpenseForm": {
+    "Expense": {
+      "recurrenceRule": {
+        "none": "Ніколі",
+        "daily": "Штодзённа",
+        "weekly": "Штотыдзень",
+        "monthly": "Штомесяц"
+      },
+      "paidFor": {
+        "title": "Удзельнікі"
+      }
+    },
+    "amountField": {
+      "label": "Сума"
+    },
+    "originalAmountField": {
+      "label": "Сума для канвертацыі"
+    },
+    "conversionRateField": {
+      "useApi": "Выкарыстоўваць курсы абмену з Frankfurter",
+      "useCustom": "Выкарыстоўваць свой курс абмену",
+      "label": "Курс абмену"
+    },
+    "conversionRateState": {
+      "loading": "Атрыманне курсаў абмену…",
+      "success": "Атрыманы курс абмену:",
+      "noRate": "Увядзіце свой курс абмену ніжэй.",
+      "currencyNotFound": "У Frankfurter няма курсу гэтай валюты на дадзены момант.",
+      "dateMismatch": "Курс за {date}",
+      "refresh": "Абнавіць",
+      "customRate": "Выкарыстанне свайго курсу абмену"
+    },
+    "categoryField": {
+      "label": "Катэгорыя"
+    },
+    "notesField": {
+      "label": "Нататкі"
+    },
+    "selectNone": "Выбраць нікога",
+    "selectAll": "Выбраць усіх",
+    "shares": "частка(і)",
+    "DeletePopup": {
+      "label": "Выдаліць",
+      "yes": "Выдаліць",
+      "cancel": "Скасаваць"
+    },
+    "create": "Стварыць",
+    "creating": "Стварэнне…",
+    "save": "Захаваць",
+    "saving": "Захаванне…",
+    "cancel": "Скасаваць"
+  },
+  "ExpenseDocumentsInput": {
+    "TooBigToast": {
+      "title": "Файл занадта вялікі"
+    }
+  },
+  "CreateFromReceipt": {
+    "Dialog": {
+      "selectImage": "Выбраць відарыс…",
+      "titleLabel": "Назва:",
+      "categoryLabel": "Катэгорыя:",
+      "amountLabel": "Сума:",
+      "dateLabel": "Дата:",
+      "continue": "Працягнуць"
+    },
+    "unknown": "Невядома",
+    "TooBigToast": {
+      "title": "Файл занадта вялікі"
+    }
+  },
+  "Balances": {
+    "title": "Балансы"
+  },
+  "Stats": {
+    "title": "Статыстыка"
+  },
+  "Activity": {
+    "title": "Актыўнасць",
+    "someone": "Хтосьці",
+    "settingsModified": "Налады групы былі зменены карыстальнікам <strong>{participant}</strong>.",
+    "Groups": {
+      "today": "Сёння",
+      "yesterday": "Учора",
+      "earlierThisWeek": "Раней на гэтым тыдні",
+      "lastWeek": "На мінулым тыдні",
+      "earlierThisMonth": "Раней у гэтым месяцы",
+      "lastMonth": "У мінулым месяцы",
+      "earlierThisYear": "Раней у гэтым годзе",
+      "lastYear": "Летась",
+      "older": "Старэйшае"
+    }
+  },
+  "Information": {
+    "title": "Інфармацыя",
+    "empty": "Інфармацыі пра групу пакуль няма."
+  },
+  "Settings": {
+    "title": "Налады"
+  },
+  "Share": {
+    "title": "Абагуліць",
+    "warning": "Увага!"
+  },
+  "SchemaErrors": {
+    "duplicateParticipantName": "Удзельнік з такім імем ужо існуе.",
+    "titleRequired": "Калі ласка, увядзіце назву.",
+    "paidByRequired": "Вы павінны выбраць ўдзельніка."
+  },
+  "Categories": {
+    "search": "Пошук катэгорый...",
+    "Uncategorized": {
+      "heading": "Без катэгорыі",
+      "General": "Агульнае",
+      "Payment": "Плацеж"
+    },
+    "Entertainment": {
+      "heading": "Забавы",
+      "Entertainment": "Забавы",
+      "Games": "Гульні",
+      "Movies": "Фільмы",
+      "Music": "Музыка",
+      "Sports": "Спорт"
+    },
+    "Food and Drink": {
+      "heading": "Ежа і напоі",
+      "Food and Drink": "Ежа і напоі",
+      "Dining Out": "Рэстараны і кафэ",
+      "Groceries": "Прадукты",
+      "Liquor": "Спіртное"
+    },
+    "Home": {
+      "heading": "Дом",
+      "Home": "Дом",
+      "Electronics": "Электроніка",
+      "Furniture": "Мэбля",
+      "Mortgage": "Іпатэка",
+      "Pets": "Хатнія жывёлы",
+      "Rent": "Арэнда"
+    },
+    "Life": {
+      "heading": "Жыццё",
+      "Childcare": "Дагляд за дзецьмі",
+      "Clothing": "Адзенне",
+      "Donation": "Ахвярванні",
+      "Education": "Адукацыя",
+      "Gifts": "Падарункі",
+      "Insurance": "Страхаванне",
+      "Taxes": "Падаткі"
+    },
+    "Transportation": {
+      "heading": "Транспарт",
+      "Transportation": "Транспарт",
+      "Bicycle": "Веласіпед",
+      "Bus/Train": "Аўтобус/Цягнік",
+      "Car": "Аўтамабіль",
+      "Gas/Fuel": "Паліва",
+      "Hotel": "Атэль",
+      "Parking": "Паркінг",
+      "Plane": "Самалёт",
+      "Taxi": "Таксі"
+    },
+    "Utilities": {
+      "heading": "Камунальныя паслугі",
+      "Utilities": "Камунальныя паслугі",
+      "Electricity": "Электрычнасць",
+      "Heat/Gas": "Ацяпленне/Газ",
+      "Trash": "Смецце",
+      "TV/Phone/Internet": "ТБ/Тэлефон/Інтэрнэт",
+      "Water": "Вада"
+    }
+  },
+  "Currencies": {
+    "search": "Пошук валюты...",
+    "noCurrency": "Валюты не знойдзены.",
+    "custom": {
+      "heading": "Карыстальніцкая"
+    },
+    "common": {
+      "heading": "Найбольш распаўсюджаныя"
+    },
+    "other": {
+      "heading": "Іншыя валюты"
+    }
+  }
+}

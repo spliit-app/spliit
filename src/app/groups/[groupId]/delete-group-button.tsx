@@ -7,7 +7,7 @@ PopoverContent,
 PopoverTrigger,
 } from '@/components/ui/popover'
 import { trpc } from '@/trpc/client'
-import { Group } from '@prisma/client'
+import { Group } from '@/generated/prisma/client'
 import { Trash2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
