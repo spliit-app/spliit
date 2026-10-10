@@ -129,7 +129,11 @@ export async function deleteExpense(
   })
 }
 
-export async function scheduleDeleteGroup(groupId: string, groupName: string, participantId?: string) {
+export async function scheduleDeleteGroup(
+  groupId: string,
+  groupName: string,
+  participantId?: string,
+) {
   const existingGroup = await getGroup(groupId)
   if (!existingGroup) throw new Error('Invalid group ID')
   if (existingGroup.name !== groupName)
@@ -533,44 +537,44 @@ async function deleteScheduledGroups() {
     // Delete Activities associated with the group
     await prisma.activity.deleteMany({
       where: { groupId: group.id },
-    });
+    })
 
     await prisma.recurringExpenseLink.deleteMany({
       where: { groupId: group.id },
-    });
+    })
 
     // Delete Expenses associated with the group
     const expensesToDelete = await prisma.expense.findMany({
       where: { groupId: group.id },
-    });
+    })
 
     for (const expense of expensesToDelete) {
       await prisma.expensePaidFor.deleteMany({
         where: { expenseId: expense.id },
-      });
+      })
 
       // delete documents associated with the expense
       const documentsToDelete = await prisma.expenseDocument.findMany({
         where: { expenseId: expense.id },
-      });
+      })
       for (const documentToDelete of documentsToDelete) {
         // todo: delete the actual document from storage (e.g., S3, local storage, etc.)
         await prisma.expenseDocument.delete({
           where: { id: documentToDelete.id },
-        });
+        })
       }
       await prisma.expense.delete({
         where: { id: expense.id },
-      });
+      })
     }
 
     await prisma.participant.deleteMany({
       where: { groupId: group.id },
-    });
+    })
 
     await prisma.group.delete({
       where: { id: group.id },
-    });
+    })
   }
 }
 

@@ -1,5 +1,6 @@
 'use client'
 
+import { DeleteGroupNotice } from '@/app/groups/[groupId]/delete-group-notice'
 import { useToast } from '@/components/ui/use-toast'
 import { trpc } from '@/trpc/client'
 import { useTranslations } from 'next-intl'
@@ -7,7 +8,6 @@ import { PropsWithChildren, useEffect } from 'react'
 import { CurrentGroupProvider } from './current-group-context'
 import { GroupHeader } from './group-header'
 import { SaveGroupLocally } from './save-recent-group'
-import { DeleteGroupNotice } from '@/app/groups/[groupId]/delete-group-notice'
 
 export function GroupLayoutClient({
   groupId,

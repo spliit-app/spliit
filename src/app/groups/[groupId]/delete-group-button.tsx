@@ -1,22 +1,22 @@
 'use client'
+
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
-Popover,
-PopoverContent,
-PopoverTrigger,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
 } from '@/components/ui/popover'
-import { trpc } from '@/trpc/client'
 import { Group } from '@/generated/prisma/client'
+import { trpc } from '@/trpc/client'
 import { Trash2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 type Props = {
   group: Group
 }
-
 
 export function DeleteGroupButton({ group }: Props) {
   const { mutateAsync } = trpc.groups.delete.useMutation()
@@ -37,14 +37,18 @@ export function DeleteGroupButton({ group }: Props) {
           <Input
             className="flex-1"
             placeholder={t('groupNameField') + ` (${group.name})`}
-            onChange={e => setInputValue(e.target.value)}
+            onChange={(e) => setInputValue(e.target.value)}
           />
         </div>
         <div className="flex gap-2">
           <Button
             variant="destructive"
             className="flex-1"
-            onClick={() => mutateAsync({ groupId: group.id, groupName: inputValue }).then(() => router.push(`/groups/${group.id}`))}
+            onClick={() =>
+              mutateAsync({ groupId: group.id, groupName: inputValue }).then(
+                () => router.push(`/groups/${group.id}`),
+              )
+            }
             disabled={inputValue !== group.name}
           >
             {t('title')}

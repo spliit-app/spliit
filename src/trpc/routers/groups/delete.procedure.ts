@@ -1,6 +1,6 @@
-import { z } from 'zod'
 import { scheduleDeleteGroup } from '@/lib/api'
 import { baseProcedure } from '@/trpc/init'
+import { z } from 'zod'
 
 export const deleteGroupProcedure = baseProcedure
   .input(
@@ -11,5 +11,5 @@ export const deleteGroupProcedure = baseProcedure
     }),
   )
   .mutation(async ({ input: { groupId, groupName, participantId } }) => {
-    await scheduleDeleteGroup(groupId,groupName, participantId)
+    await scheduleDeleteGroup(groupId, groupName, participantId)
   })
