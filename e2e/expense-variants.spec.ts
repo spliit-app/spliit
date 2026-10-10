@@ -95,3 +95,32 @@ test('filters the expense list with the search bar', async ({ page }) => {
   await expect(expenseCard(page, 'Cinema tickets')).toBeVisible()
   await expect(expenseCard(page, 'Train fare')).toHaveCount(0)
 })
+
+test('the search bar also matches expense notes', async ({ page }) => {
+  const groupId = await createGroup(page, {
+    name: `E2E Search Notes ${uniqueSuffix()}`,
+    participants: PARTICIPANTS,
+  })
+
+  await addExpense(page, groupId, {
+    title: 'Dinner',
+    amount: '50',
+    paidBy: 'Alice',
+    notes: 'Birthday at the lake house',
+  })
+  await addExpense(page, groupId, {
+    title: 'Groceries',
+    amount: '20',
+    paidBy: 'Bob',
+  })
+
+  await expect(expenseCard(page, 'Dinner')).toBeVisible()
+  await expect(expenseCard(page, 'Groceries')).toBeVisible()
+
+  await page.getByPlaceholder(/Search for an expense/).fill('lake house')
+
+  // Wait for the filter to apply before checking what is left, otherwise the
+  // match check passes on the unfiltered list.
+  await expect(expenseCard(page, 'Groceries')).toHaveCount(0)
+  await expect(expenseCard(page, 'Dinner')).toBeVisible()
+})

@@ -113,6 +113,7 @@ export async function addExpense(
     category?: string
     /** Visible label: 'None' | 'Daily' | 'Weekly' | 'Monthly'. Defaults to None. */
     recurrence?: Recurrence
+    notes?: string
   },
 ): Promise<void> {
   await page.goto(`/groups/${groupId}/expenses/create`)
@@ -149,6 +150,10 @@ export async function addExpense(
       fieldByLabel(page, 'Expense Recurrence').getByRole('combobox'),
       expense.recurrence,
     )
+  }
+
+  if (expense.notes) {
+    await fillStable(page.locator('textarea[name="notes"]'), expense.notes)
   }
 
   if (expense.paidFor) {
