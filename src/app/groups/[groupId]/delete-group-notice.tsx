@@ -26,11 +26,13 @@ export const DeleteGroupNotice = () => {
   const { mutateAsync } = trpc.groups.restore.useMutation()
   const utils = trpc.useUtils()
   const [isRestoring, setIsRestoring] = useState(false)
+  // Read the clock once on mount: render must stay pure.
+  const [now] = useState(() => new Date())
 
   if (!group?.deleteAt) return null
 
   // Past this date the group may be being purged, and cannot be restored.
-  const canRestore = group.deleteAt > new Date()
+  const canRestore = group.deleteAt > now
 
   const restore = async () => {
     setIsRestoring(true)
