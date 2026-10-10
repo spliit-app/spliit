@@ -16,7 +16,13 @@ import { AppRouterOutput } from '@/trpc/routers/_app'
 import { Loader2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
-import { PropsWithChildren, useEffect, useState } from 'react'
+import {
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import { GlobalBalanceCard } from './global-balance-card'
 import { RecentGroupListCard } from './recent-group-list-card'
 
@@ -67,7 +73,7 @@ function sortGroups({
 export function RecentGroupList() {
   const [state, setState] = useState<RecentGroupsState>({ status: 'pending' })
 
-  function loadGroups() {
+  const loadGroups = useCallback(() => {
     const groupsInStorage = getRecentGroups()
     const starredGroups = getStarredGroups()
     const archivedGroups = getArchivedGroups()
@@ -77,11 +83,11 @@ export function RecentGroupList() {
       starredGroups,
       archivedGroups,
     })
-  }
+  }, [])
 
   useEffect(() => {
     loadGroups()
-  }, [])
+  }, [loadGroups])
 
   if (state.status === 'pending') return null
 
@@ -90,7 +96,7 @@ export function RecentGroupList() {
       groups={state.groups}
       starredGroups={state.starredGroups}
       archivedGroups={state.archivedGroups}
-      refreshGroupsFromStorage={() => loadGroups()}
+      refreshGroupsFromStorage={loadGroups}
     />
   )
 }
@@ -107,9 +113,10 @@ function RecentGroupList_({
   refreshGroupsFromStorage: () => void
 }) {
   const t = useTranslations('Groups')
-  const groupIds = groups
-    .map((group) => group.id)
-    .slice(0, MAX_GROUPS_PER_QUERY)
+  const groupIds = useMemo(
+    () => groups.map((group) => group.id).slice(0, MAX_GROUPS_PER_QUERY),
+    [groups],
+  )
   const { data, isLoading, isError, refetch } = trpc.groups.list.useQuery({
     groupIds,
   })
@@ -123,7 +130,7 @@ function RecentGroupList_({
     if (deletedGroupIds.length === 0) return
     forgetGroups(deletedGroupIds)
     refreshGroupsFromStorage()
-  }, [data])
+  }, [data, groupIds, refreshGroupsFromStorage])
 
   if (isError) {
     return (
