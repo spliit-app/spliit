@@ -24,6 +24,8 @@ export async function getRuntimeFeatureFlags() {
     enableCategoryExtract:
       parseFlag(process.env.ENABLE_CATEGORY_EXTRACT) ||
       env.NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT,
+    // No NEXT_PUBLIC_* counterpart: this one was never build-time.
+    enableGroupDeletion: parseFlag(process.env.ENABLE_GROUP_DELETION),
   }
 }
 

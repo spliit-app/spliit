@@ -63,3 +63,22 @@ describe('ANALYTICS_PROVIDER', () => {
     ).not.toThrow()
   })
 })
+
+describe('ENABLE_GROUP_DELETION', () => {
+  it('is disabled by default', () => {
+    expect(
+      loadEnv({ ENABLE_GROUP_DELETION: '', CRON_SECRET: '' })
+        .ENABLE_GROUP_DELETION,
+    ).toBe(false)
+  })
+
+  it('requires CRON_SECRET, as groups are only purged by the cron job', () => {
+    expect(() =>
+      loadEnv({ ENABLE_GROUP_DELETION: 'true', CRON_SECRET: '' }),
+    ).toThrow(/CRON_SECRET/)
+    expect(
+      loadEnv({ ENABLE_GROUP_DELETION: 'true', CRON_SECRET: 's3cret' })
+        .ENABLE_GROUP_DELETION,
+    ).toBe(true)
+  })
+})

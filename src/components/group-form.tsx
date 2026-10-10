@@ -58,6 +58,8 @@ export type Props = {
   protectedParticipantIds?: string[]
   /** Resolved on the server, since the runtime variable is not public. */
   defaultCurrencyCode?: string
+  /** Whether to offer deleting the group (ENABLE_GROUP_DELETION). */
+  enableGroupDeletion?: boolean
 }
 
 export function GroupForm({
@@ -65,6 +67,7 @@ export function GroupForm({
   onSubmit,
   protectedParticipantIds = [],
   defaultCurrencyCode = 'USD',
+  enableGroupDeletion = false,
 }: Props) {
   const locale = useLocale()
   const t = useTranslations('GroupForm')
@@ -377,7 +380,7 @@ export function GroupForm({
             </div>
           </CardContent>
         </Card>
-        <div className="flex mt-4 mb-8 gap-2">
+        <div className="flex mt-4 gap-2">
           <SubmitButton
             loadingContent={t(group ? 'Settings.saving' : 'Settings.creating')}
             onClick={updateActiveUser}
@@ -392,8 +395,8 @@ export function GroupForm({
           )}
         </div>
 
-        {group && !group.deleteAt && (
-          <Card className="border-red-700">
+        {enableGroupDeletion && group && !group.deleteAt && (
+          <Card className="mt-8 border-red-700">
             <CardHeader>
               <CardTitle className="text-red-700">
                 {t('Delete.title')}
