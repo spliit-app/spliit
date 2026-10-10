@@ -604,11 +604,16 @@ async function createRecurringExpenses() {
                 },
               },
               documents: {
-                connect: currentExpenseRecord.documents.map(
-                  (documentRecord) => ({
-                    id: documentRecord.id,
-                  }),
-                ),
+                createMany: {
+                  data: currentExpenseRecord.documents.map(
+                    (documentRecord) => ({
+                      id: randomId(),
+                      url: documentRecord.url,
+                      width: documentRecord.width,
+                      height: documentRecord.height,
+                    }),
+                  ),
+                },
               },
               id: newExpenseId,
               expenseDate: newExpenseDate,
