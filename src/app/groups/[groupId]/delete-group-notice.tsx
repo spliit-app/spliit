@@ -16,6 +16,7 @@ export const DeleteGroupNotice = () => {
   const { group } = useCurrentGroup()
   const t = useTranslations('DeleteGroupNotice')
   const { mutateAsync } = trpc.groups.restore.useMutation()
+  const utils = trpc.useUtils()
 
   return (
     group?.deleteAt && (
@@ -31,10 +32,9 @@ export const DeleteGroupNotice = () => {
         <CardContent>
           <Button
             variant="destructive"
-            onClick={() => {
-              mutateAsync({ groupId: group.id }).then(() =>
-                window.location.reload(),
-              )
+            onClick={async () => {
+              await mutateAsync({ groupId: group.id })
+              await utils.groups.invalidate()
             }}
           >
             {t('restore')}

@@ -20,6 +20,7 @@ type Props = {
 
 export function DeleteGroupButton({ group }: Props) {
   const { mutateAsync } = trpc.groups.delete.useMutation()
+  const utils = trpc.useUtils()
   const t = useTranslations('DeleteGroupButton')
   const [inputValue, setInputValue] = useState('')
   const router = useRouter()
@@ -44,11 +45,11 @@ export function DeleteGroupButton({ group }: Props) {
           <Button
             variant="destructive"
             className="flex-1"
-            onClick={() =>
-              mutateAsync({ groupId: group.id, groupName: inputValue }).then(
-                () => router.push(`/groups/${group.id}`),
-              )
-            }
+            onClick={async () => {
+              await mutateAsync({ groupId: group.id, groupName: inputValue })
+              await utils.groups.invalidate()
+              router.push(`/groups/${group.id}`)
+            }}
             disabled={inputValue !== group.name}
           >
             {t('title')}
