@@ -33,6 +33,7 @@
     "generate-currency-data": "tsx ./src/scripts/generateCurrencyData.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1110.0",
     "@formatjs/intl-localematcher": "^0.9.0",
     "@hookform/resolvers": "^5",
     "@json2csv/plainjs": "^7.0.8",

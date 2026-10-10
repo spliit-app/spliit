@@ -77,6 +77,12 @@ const envSchema = z
     S3_UPLOAD_BUCKET: z.string().optional(),
     S3_UPLOAD_REGION: z.string().optional(),
     S3_UPLOAD_ENDPOINT: z.string().optional(),
+    // Bearer token the scheduled jobs under /api/cron must be called with.
+    // They are disabled while it is unset. Vercel Cron sends it automatically.
+    CRON_SECRET: z.preprocess(
+      interpretBlankEnvVarAsUndefined,
+      z.string().trim().optional(),
+    ),
     NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT: z.preprocess(
       interpretEnvVarAsBool,
       z.boolean().default(false),

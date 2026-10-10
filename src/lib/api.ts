@@ -392,7 +392,6 @@ export async function getGroupExpenses(
   groupId: string,
   options?: { offset?: number; length?: number; filter?: string },
 ) {
-  await deleteScheduledGroups()
   await createRecurringExpenses()
 
   return prisma.expense.findMany({
@@ -520,62 +519,6 @@ export async function logActivity(
       ...extra,
     },
   })
-}
-
-async function deleteScheduledGroups() {
-  const now = new Date()
-  const groupsToDelete = await prisma.group.findMany({
-    where: {
-      deleteAt: {
-        lte: now,
-      },
-    },
-  })
-
-  // Delete the group and all its associated data
-  for (const group of groupsToDelete) {
-    // Delete Activities associated with the group
-    await prisma.activity.deleteMany({
-      where: { groupId: group.id },
-    })
-
-    await prisma.recurringExpenseLink.deleteMany({
-      where: { groupId: group.id },
-    })
-
-    // Delete Expenses associated with the group
-    const expensesToDelete = await prisma.expense.findMany({
-      where: { groupId: group.id },
-    })
-
-    for (const expense of expensesToDelete) {
-      await prisma.expensePaidFor.deleteMany({
-        where: { expenseId: expense.id },
-      })
-
-      // delete documents associated with the expense
-      const documentsToDelete = await prisma.expenseDocument.findMany({
-        where: { expenseId: expense.id },
-      })
-      for (const documentToDelete of documentsToDelete) {
-        // todo: delete the actual document from storage (e.g., S3, local storage, etc.)
-        await prisma.expenseDocument.delete({
-          where: { id: documentToDelete.id },
-        })
-      }
-      await prisma.expense.delete({
-        where: { id: expense.id },
-      })
-    }
-
-    await prisma.participant.deleteMany({
-      where: { groupId: group.id },
-    })
-
-    await prisma.group.delete({
-      where: { id: group.id },
-    })
-  }
 }
 
 async function createRecurringExpenses() {

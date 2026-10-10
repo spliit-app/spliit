@@ -167,6 +167,32 @@ The application has a health check endpoint that can be used to check if the app
 - `GET /api/health/readiness` or `GET /api/health` - Check if the application is ready to serve requests, including database connectivity.
 - `GET /api/health/liveness` - Check if the application is running, but not necessarily ready to serve requests.
 
+## Purging deleted groups
+
+Deleting a group only schedules it for deletion: it can be restored for 30 days.
+Groups whose grace period has ended are permanently deleted, along with their
+uploaded documents, by `GET /api/cron/purge-deleted-groups`, which you need to
+call on a schedule (daily is enough).
+
+The endpoint is disabled until `CRON_SECRET` is set, and must be called with it
+as a bearer token:
+
+```.env
+CRON_SECRET=a-long-random-string
+```
+
+```sh
+curl -H "Authorization: Bearer $CRON_SECRET" https://your-instance/api/cron/purge-deleted-groups
+```
+
+[Vercel Cron Jobs](https://vercel.com/docs/cron-jobs) send this header
+automatically when `CRON_SECRET` is set. The response lists the purged groups;
+it has a 500 status when some failed, in which case they are retried on the
+next call.
+
+If expense documents are enabled, the S3 credentials also need the
+`s3:DeleteObject` permission on the bucket.
+
 ## Configuration
 
 Every variable below is read at runtime. For a container deployment, set them in
