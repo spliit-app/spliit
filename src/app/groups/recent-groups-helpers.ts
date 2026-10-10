@@ -42,6 +42,23 @@ export function deleteRecentGroup(group: RecentGroup) {
   )
 }
 
+/** Forgets groups that no longer exist, including their starred and archived flags. */
+export function forgetGroups(groupIds: string[]) {
+  const forgotten = new Set(groupIds)
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(getRecentGroups().filter((rg) => !forgotten.has(rg.id))),
+  )
+  localStorage.setItem(
+    STARRED_GROUPS_STORAGE_KEY,
+    JSON.stringify(getStarredGroups().filter((id) => !forgotten.has(id))),
+  )
+  localStorage.setItem(
+    ARCHIVED_GROUPS_STORAGE_KEY,
+    JSON.stringify(getArchivedGroups().filter((id) => !forgotten.has(id))),
+  )
+}
+
 export function getStarredGroups() {
   const starredGroupsJson = localStorage.getItem(STARRED_GROUPS_STORAGE_KEY)
   const starredGroupsRaw = starredGroupsJson

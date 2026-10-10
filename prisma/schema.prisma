@@ -23,6 +23,7 @@ model Group {
   expenses     Expense[]
   activities   Activity[]
   createdAt    DateTime      @default(now())
+  deleteAt     DateTime?
 }
 
 model Participant {
@@ -132,4 +133,6 @@ enum ActivityType {
   CREATE_EXPENSE
   UPDATE_EXPENSE
   DELETE_EXPENSE
+  SCHEDULE_GROUP_DELETION
+  RESTORE_GROUP
 }

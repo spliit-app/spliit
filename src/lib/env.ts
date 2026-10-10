@@ -77,6 +77,18 @@ const envSchema = z
     S3_UPLOAD_BUCKET: z.string().optional(),
     S3_UPLOAD_REGION: z.string().optional(),
     S3_UPLOAD_ENDPOINT: z.string().optional(),
+    // Lets users delete a group, after a grace period. Requires CRON_SECRET, as
+    // groups are only purged by a scheduled call to /api/cron.
+    ENABLE_GROUP_DELETION: z.preprocess(
+      interpretEnvVarAsBool,
+      z.boolean().default(false),
+    ),
+    // Bearer token the scheduled jobs under /api/cron must be called with.
+    // They are disabled while it is unset. Vercel Cron sends it automatically.
+    CRON_SECRET: z.preprocess(
+      interpretBlankEnvVarAsUndefined,
+      z.string().trim().optional(),
+    ),
     NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT: z.preprocess(
       interpretEnvVarAsBool,
       z.boolean().default(false),
@@ -178,6 +190,13 @@ const envSchema = z
         code: ZodIssueCode.custom,
         message:
           'If ENABLE_EXPENSE_DOCUMENTS is set, then S3_* must be set too',
+      })
+    }
+    if (env.ENABLE_GROUP_DELETION && !env.CRON_SECRET) {
+      ctx.addIssue({
+        code: ZodIssueCode.custom,
+        message:
+          'If ENABLE_GROUP_DELETION is set, then CRON_SECRET must be set too, and /api/cron/purge-deleted-groups called on a schedule',
       })
     }
     if (

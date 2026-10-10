@@ -2,6 +2,7 @@
 
 import { AddGroupByUrlButton } from '@/app/groups/add-group-by-url-button'
 import {
+  forgetGroups,
   getArchivedGroups,
   getRecentGroups,
   getStarredGroups,
@@ -106,9 +107,23 @@ function RecentGroupList_({
   refreshGroupsFromStorage: () => void
 }) {
   const t = useTranslations('Groups')
+  const groupIds = groups
+    .map((group) => group.id)
+    .slice(0, MAX_GROUPS_PER_QUERY)
   const { data, isLoading, isError, refetch } = trpc.groups.list.useQuery({
-    groupIds: groups.map((group) => group.id).slice(0, MAX_GROUPS_PER_QUERY),
+    groupIds,
   })
+
+  // Groups that were requested but not returned have been deleted: forget
+  // them. Only the requested ones can be judged, as the query is capped.
+  useEffect(() => {
+    if (!data) return
+    const foundGroupIds = new Set(data.groups.map((group) => group.id))
+    const deletedGroupIds = groupIds.filter((id) => !foundGroupIds.has(id))
+    if (deletedGroupIds.length === 0) return
+    forgetGroups(deletedGroupIds)
+    refreshGroupsFromStorage()
+  }, [data])
 
   if (isError) {
     return (
