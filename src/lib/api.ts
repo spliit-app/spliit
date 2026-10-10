@@ -129,43 +129,48 @@ export async function deleteExpense(
   })
 }
 
-export async function scheduleDeleteGroup(
+// Instead of deleting a group and all its data right away, it is scheduled for
+// deletion, and can be restored during this grace period. Once it is over, the
+// group is purged by src/lib/group-deletion.ts.
+const GROUP_DELETION_GRACE_PERIOD_MS = 30 * 24 * 60 * 60 * 1000
+
+export async function scheduleGroupDeletion(
   groupId: string,
   groupName: string,
   participantId?: string,
 ) {
-  const existingGroup = await getGroup(groupId)
-  if (!existingGroup) throw new Error('Invalid group ID')
-  if (existingGroup.name !== groupName)
+  // A single conditional update, so that two concurrent requests cannot both
+  // succeed, nor push the deletion date back.
+  const { count } = await prisma.group.updateMany({
+    where: { id: groupId, name: groupName, deleteAt: null },
+    data: { deleteAt: new Date(Date.now() + GROUP_DELETION_GRACE_PERIOD_MS) },
+  })
+  if (count === 0) {
+    const group = await getGroup(groupId)
+    if (!group) throw new Error('Invalid group ID')
+    if (group.deleteAt)
+      throw new Error('Group is already scheduled for deletion')
     throw new Error('Group name does not match')
+  }
 
-  await logActivity(groupId, ActivityType.UPDATE_GROUP, { participantId })
-
-  // Instead of deleting the group and all its associated data right away, we mark it as "to be deleted"
-  // This allows for a grace period during which the deletion can be reviewed or reversed if needed.
-  // the grace period is 30 days
-  const deletionTimestamp = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
-
-  return prisma.group.update({
-    where: { id: groupId },
-    data: {
-      deleteAt: deletionTimestamp,
-    },
+  await logActivity(groupId, ActivityType.SCHEDULE_GROUP_DELETION, {
+    participantId,
   })
 }
 
-export async function restoreGroup(groupId: string) {
-  const existingGroup = await getGroup(groupId)
-  if (!existingGroup) throw new Error('Invalid group ID')
-  if (existingGroup.deleteAt === null)
-    throw new Error('Group is not marked for deletion')
-
-  return prisma.group.update({
-    where: { id: groupId },
-    data: {
-      deleteAt: null,
-    },
+export async function restoreGroup(groupId: string, participantId?: string) {
+  // Once its deletion date has passed, the group may be being purged: it can
+  // no longer be restored.
+  const { count } = await prisma.group.updateMany({
+    where: { id: groupId, deleteAt: { gt: new Date() } },
+    data: { deleteAt: null },
   })
+  if (count === 0)
+    throw new Error(
+      'Group is not scheduled for deletion, or can no longer be restored',
+    )
+
+  await logActivity(groupId, ActivityType.RESTORE_GROUP, { participantId })
 }
 
 export async function getGroupExpensesParticipants(groupId: string) {

@@ -1,4 +1,4 @@
-import { DeleteGroupButton } from '@/app/groups/[groupId]/delete-group-button'
+import { DeleteGroupButton } from '@/components/delete-group-button'
 import { SubmitButton } from '@/components/submit-button'
 import { Button } from '@/components/ui/button'
 import {
@@ -401,7 +401,7 @@ export function GroupForm({
               <CardDescription>{t('Delete.description')}</CardDescription>
             </CardHeader>
             <CardContent>
-              {group && <DeleteGroupButton group={group} />}
+              <DeleteGroupButton group={group} />
             </CardContent>
           </Card>
         )}

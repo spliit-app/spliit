@@ -185,10 +185,14 @@ CRON_SECRET=a-long-random-string
 curl -H "Authorization: Bearer $CRON_SECRET" https://your-instance/api/cron/purge-deleted-groups
 ```
 
-[Vercel Cron Jobs](https://vercel.com/docs/cron-jobs) send this header
-automatically when `CRON_SECRET` is set. The response lists the purged groups;
-it has a 500 status when some failed, in which case they are retried on the
-next call.
+On Vercel, `vercel.json` already schedules this call daily as a
+[cron job](https://vercel.com/docs/cron-jobs), which sends the header
+automatically: setting `CRON_SECRET` in the project is enough. The response
+lists the purged groups; it has a 500 status when some failed, in which case
+they are retried on the next call.
+
+Once its deletion date has passed, a group can no longer be restored, even if
+it has not been purged yet.
 
 If expense documents are enabled, the S3 credentials also need the
 `s3:DeleteObject` permission on the bucket.

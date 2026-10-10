@@ -9,6 +9,6 @@ export const restoreGroupProcedure = baseProcedure
       participantId: z.string().optional(),
     }),
   )
-  .mutation(async ({ input: { groupId } }) => {
-    await restoreGroup(groupId)
+  .mutation(async ({ input: { groupId, participantId } }) => {
+    await restoreGroup(groupId, participantId)
   })

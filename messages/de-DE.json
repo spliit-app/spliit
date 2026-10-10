@@ -162,12 +162,21 @@
   "DeleteGroupButton": {
     "title": "Gruppe löschen",
     "description": "Willst du diese Gruppe wirklich löschen? Gib zum Bestätigen den Gruppennamen ein:",
-    "groupNameField": "Gruppenname"
+    "groupNameField": "Gruppenname",
+    "ErrorToast": {
+      "title": "Gruppe konnte nicht gelöscht werden",
+      "description": "Sie wurde möglicherweise inzwischen umbenannt oder gelöscht. Lade die Seite neu und versuche es erneut."
+    }
   },
   "DeleteGroupNotice": {
     "title": "Zur Löschung vorgemerkte Gruppe",
     "description": "Diese Gruppe wurde zur Löschung vorgemerkt und wird am {date} endgültig gelöscht. Wenn du diese Gruppe reaktivieren möchtest, klicke auf die Schaltfläche unten.",
-    "restore": "Gruppe wiederherstellen"
+    "restore": "Gruppe wiederherstellen",
+    "pastDeadline": "Diese Gruppe wurde zur Löschung vorgemerkt und wird in Kürze endgültig gelöscht. Sie kann nicht mehr wiederhergestellt werden.",
+    "ErrorToast": {
+      "title": "Gruppe konnte nicht wiederhergestellt werden",
+      "description": "Sie wurde möglicherweise bereits wiederhergestellt, oder ihr Löschdatum ist verstrichen. Lade die Seite neu, um ihren aktuellen Stand zu sehen."
+    }
   },
   "ExpenseForm": {
     "Income": {
@@ -447,7 +456,9 @@
       "earlierThisYear": "Anfang des Jahres",
       "lastYear": "Letztes Jahr",
       "older": "Älter"
-    }
+    },
+    "groupDeletionScheduled": "Gruppe zur Löschung vorgemerkt von <strong>{participant}</strong>.",
+    "groupRestored": "Gruppe wiederhergestellt von <strong>{participant}</strong>."
   },
   "Information": {
     "title": "Informationen",

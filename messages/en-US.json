@@ -165,12 +165,21 @@
   "DeleteGroupButton": {
     "title": "Delete group",
     "description": "Do you really want to delete this group? To confirm, please enter the group name below.",
-    "groupNameField": "Group name"
+    "groupNameField": "Group name",
+    "ErrorToast": {
+      "title": "Could not delete the group",
+      "description": "It may have been renamed or deleted in the meantime. Reload the page and try again."
+    }
   },
   "DeleteGroupNotice": {
     "title": "Group scheduled for deletion",
     "description": "This group was scheduled for deletion and will be permanently deleted on {date}. If you want to restore it, click the button below.",
-    "restore": "Restore group"
+    "restore": "Restore group",
+    "pastDeadline": "This group was scheduled for deletion and will be permanently deleted shortly. It can no longer be restored.",
+    "ErrorToast": {
+      "title": "Could not restore the group",
+      "description": "It may already have been restored, or its deletion date has passed. Reload the page to see its current state."
+    }
   },
   "ExpenseForm": {
     "Income": {
@@ -450,7 +459,9 @@
       "earlierThisYear": "Earlier this year",
       "lastYear": "Last year",
       "older": "Older"
-    }
+    },
+    "groupDeletionScheduled": "Group scheduled for deletion by <strong>{participant}</strong>.",
+    "groupRestored": "Group restored by <strong>{participant}</strong>."
   },
   "Information": {
     "title": "Information",

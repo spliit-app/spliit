@@ -8,6 +8,8 @@ export type PurgeResult = {
   failedGroupIds: string[]
 }
 
+const S3_DELETE_CONCURRENCY = 10
+
 let s3Client: S3Client | undefined
 
 // Configured the same way next-s3-upload configures the client it uploads with
@@ -58,19 +60,27 @@ async function purgeGroup(groupId: string, now: Date) {
   })
 
   // Files go first: once the rows are gone, nothing points to them anymore.
-  // URLs outside the configured bucket are not ours to delete.
-  for (const { url } of documents) {
-    const key = getUploadKeyFromUrl(url)
-    if (!key) continue
-    await getS3Client().send(
-      new DeleteObjectCommand({ Bucket: env.S3_UPLOAD_BUCKET, Key: key }),
+  // URLs outside the configured bucket are not ours to delete. The group can
+  // no longer be restored at this point (see restoreGroup), so this is final.
+  // One DeleteObject per file rather than a DeleteObjects batch, which some
+  // S3-compatible providers reject, but several at a time.
+  const keys = documents
+    .map(({ url }) => getUploadKeyFromUrl(url))
+    .filter((key) => key !== null)
+  for (let i = 0; i < keys.length; i += S3_DELETE_CONCURRENCY) {
+    await Promise.all(
+      keys
+        .slice(i, i + S3_DELETE_CONCURRENCY)
+        .map((key) =>
+          getS3Client().send(
+            new DeleteObjectCommand({ Bucket: env.S3_UPLOAD_BUCKET, Key: key }),
+          ),
+        ),
     )
   }
 
   // Deleting the group cascades to its participants, expenses and activities,
   // but documents are only detached from their expense, so they go explicitly.
-  // The deleteAt condition makes the delete fail if the group was restored in
-  // the meantime.
   await prisma.$transaction([
     prisma.expenseDocument.deleteMany({
       where: { id: { in: documents.map((document) => document.id) } },
