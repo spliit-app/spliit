@@ -32,29 +32,39 @@ export function DeleteGroupButton({ group }: Props) {
           <Trash2 className="w-4 h-4 mr-2" /> {t('title')}
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="end" className="[&_p]:text-sm flex flex-col gap-3">
-        <p>{t('description')}</p>
-        <div className="flex gap-2">
-          <Input
-            className="flex-1"
-            placeholder={t('groupNameField') + ` (${group.name})`}
-            onChange={(e) => setInputValue(e.target.value)}
-          />
-        </div>
-        <div className="flex gap-2">
-          <Button
-            variant="destructive"
-            className="flex-1"
-            onClick={async () => {
-              await mutateAsync({ groupId: group.id, groupName: inputValue })
-              await utils.groups.invalidate()
-              router.push(`/groups/${group.id}`)
-            }}
-            disabled={inputValue !== group.name}
-          >
-            {t('title')}
-          </Button>
-        </div>
+      <PopoverContent align="start">
+        <form
+          className="[&_p]:text-sm flex flex-col gap-3"
+          onSubmit={async (event) => {
+            event.preventDefault()
+            // The popover is portaled out of the group form in the DOM, but
+            // React still bubbles the submit event up to it.
+            event.stopPropagation()
+            if (inputValue !== group.name) return
+            await mutateAsync({ groupId: group.id, groupName: inputValue })
+            await utils.groups.invalidate()
+            router.push(`/groups/${group.id}`)
+          }}
+        >
+          <p>{t('description')}</p>
+          <div className="flex gap-2">
+            <Input
+              className="flex-1"
+              placeholder={t('groupNameField') + ` (${group.name})`}
+              onChange={(e) => setInputValue(e.target.value)}
+            />
+          </div>
+          <div className="flex gap-2">
+            <Button
+              type="submit"
+              variant="destructive"
+              className="flex-1"
+              disabled={inputValue !== group.name}
+            >
+              {t('title')}
+            </Button>
+          </div>
+        </form>
       </PopoverContent>
     </Popover>
   )
