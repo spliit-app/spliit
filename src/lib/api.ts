@@ -590,11 +590,14 @@ async function createRecurringExpenses() {
         : null)
 
     while (newExpenseDate < utcDateFromLocal) {
+      const recurrenceRule = currentExpenseRecord.recurrenceRule
+      if (recurrenceRule === null) break
+
       const newExpenseId = randomId()
       const newRecurringExpenseLinkId = randomId()
 
       const newRecurringExpenseNextExpenseDate = nextRecurringDate(
-        currentExpenseRecord.recurrenceRule,
+        recurrenceRule,
         newExpenseDate,
         anchorDay,
       )
