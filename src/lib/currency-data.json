@@ -126,6 +126,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "NPR": {
+      "name": "Rupee Nepal",
+      "symbol_native": "नेरू",
+      "symbol": "NPRs",
+      "code": "NPR",
+      "name_plural": "Nepalese rupees",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "TRY": {
       "name": "Lira Turki",
       "symbol_native": "₺",
@@ -431,6 +440,15 @@
       "symbol": "Nkr",
       "code": "NOK",
       "name_plural": "Norwegian kroner",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "NPR": {
+      "name": "rupia nepalesa",
+      "symbol_native": "नेरू",
+      "symbol": "NPRs",
+      "code": "NPR",
+      "name_plural": "Nepalese rupees",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -742,6 +760,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "NPR": {
+      "name": "nepálská rupie",
+      "symbol_native": "नेरू",
+      "symbol": "NPRs",
+      "code": "NPR",
+      "name_plural": "Nepalese rupees",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "TRY": {
       "name": "turecká lira",
       "symbol_native": "₺",
@@ -1047,6 +1074,15 @@
       "symbol": "Nkr",
       "code": "NOK",
       "name_plural": "Norwegian kroner",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "NPR": {
+      "name": "Nepalesische Rupie",
+      "symbol_native": "नेरू",
+      "symbol": "NPRs",
+      "code": "NPR",
+      "name_plural": "Nepalese rupees",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -1358,6 +1394,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "NPR": {
+      "name": "Nepalese Rupee",
+      "symbol_native": "नेरू",
+      "symbol": "NPRs",
+      "code": "NPR",
+      "name_plural": "Nepalese rupees",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "TRY": {
       "name": "Turkish Lira",
       "symbol_native": "₺",
@@ -1663,6 +1708,15 @@
       "symbol": "Nkr",
       "code": "NOK",
       "name_plural": "Norwegian kroner",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "NPR": {
+      "name": "rupia nepalí",
+      "symbol_native": "नेरू",
+      "symbol": "NPRs",
+      "code": "NPR",
+      "name_plural": "Nepalese rupees",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -1974,6 +2028,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "NPR": {
+      "name": "Nepalgo errupia",
+      "symbol_native": "नेरू",
+      "symbol": "NPRs",
+      "code": "NPR",
+      "name_plural": "Nepalese rupees",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "TRY": {
       "name": "Turkiako lira",
       "symbol_native": "₺",
@@ -2279,6 +2342,15 @@
       "symbol": "Nkr",
       "code": "NOK",
       "name_plural": "Norwegian kroner",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "NPR": {
+      "name": "roupie népalaise",
+      "symbol_native": "नेरू",
+      "symbol": "NPRs",
+      "code": "NPR",
+      "name_plural": "Nepalese rupees",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -2590,6 +2662,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "NPR": {
+      "name": "rupia nepalese",
+      "symbol_native": "नेरू",
+      "symbol": "NPRs",
+      "code": "NPR",
+      "name_plural": "Nepalese rupees",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "TRY": {
       "name": "lira turca",
       "symbol_native": "₺",
@@ -2895,6 +2976,15 @@
       "symbol": "Nkr",
       "code": "NOK",
       "name_plural": "Norwegian kroner",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "NPR": {
+      "name": "Nepalese roepie",
+      "symbol_native": "नेरू",
+      "symbol": "NPRs",
+      "code": "NPR",
+      "name_plural": "Nepalese rupees",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -3206,6 +3296,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "NPR": {
+      "name": "rupia nepalska",
+      "symbol_native": "नेरू",
+      "symbol": "NPRs",
+      "code": "NPR",
+      "name_plural": "Nepalese rupees",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "TRY": {
       "name": "lira turecka",
       "symbol_native": "₺",
@@ -3511,6 +3610,15 @@
       "symbol": "Nkr",
       "code": "NOK",
       "name_plural": "Norwegian kroner",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "NPR": {
+      "name": "Rupia nepalesa",
+      "symbol_native": "नेरू",
+      "symbol": "NPRs",
+      "code": "NPR",
+      "name_plural": "Nepalese rupees",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -3822,6 +3930,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "NPR": {
+      "name": "Rupia nepalesa",
+      "symbol_native": "नेरू",
+      "symbol": "NPRs",
+      "code": "NPR",
+      "name_plural": "Nepalese rupees",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "TRY": {
       "name": "Lira turca",
       "symbol_native": "₺",
@@ -4127,6 +4244,15 @@
       "symbol": "Nkr",
       "code": "NOK",
       "name_plural": "Norwegian kroner",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "NPR": {
+      "name": "rupie nepaleză",
+      "symbol_native": "नेरू",
+      "symbol": "NPRs",
+      "code": "NPR",
+      "name_plural": "Nepalese rupees",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -4438,6 +4564,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "NPR": {
+      "name": "Nepalin rupia",
+      "symbol_native": "नेरू",
+      "symbol": "NPRs",
+      "code": "NPR",
+      "name_plural": "Nepalese rupees",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "TRY": {
       "name": "Turkin liira",
       "symbol_native": "₺",
@@ -4743,6 +4878,15 @@
       "symbol": "Nkr",
       "code": "NOK",
       "name_plural": "Norwegian kroner",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "NPR": {
+      "name": "Nepal Rupisi",
+      "symbol_native": "नेरू",
+      "symbol": "NPRs",
+      "code": "NPR",
+      "name_plural": "Nepalese rupees",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -5054,6 +5198,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "NPR": {
+      "name": "Непальская рупия",
+      "symbol_native": "नेरू",
+      "symbol": "NPRs",
+      "code": "NPR",
+      "name_plural": "Nepalese rupees",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "TRY": {
       "name": "Турецкая лира",
       "symbol_native": "₺",
@@ -5359,6 +5512,15 @@
       "symbol": "Nkr",
       "code": "NOK",
       "name_plural": "Norwegian kroner",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "NPR": {
+      "name": "непальська рупія",
+      "symbol_native": "नेरू",
+      "symbol": "NPRs",
+      "code": "NPR",
+      "name_plural": "Nepalese rupees",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -5670,6 +5832,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "NPR": {
+      "name": "רופי נפאלי",
+      "symbol_native": "नेरू",
+      "symbol": "NPRs",
+      "code": "NPR",
+      "name_plural": "Nepalese rupees",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "TRY": {
       "name": "לירה טורקית חדשה",
       "symbol_native": "₺",
@@ -5975,6 +6146,15 @@
       "symbol": "Nkr",
       "code": "NOK",
       "name_plural": "Norwegian kroner",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "NPR": {
+      "name": "روبية نيبالي",
+      "symbol_native": "नेरू",
+      "symbol": "NPRs",
+      "code": "NPR",
+      "name_plural": "Nepalese rupees",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -6286,6 +6466,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "NPR": {
+      "name": "네팔 루피",
+      "symbol_native": "नेरू",
+      "symbol": "NPRs",
+      "code": "NPR",
+      "name_plural": "Nepalese rupees",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "TRY": {
       "name": "신 터키 리라",
       "symbol_native": "₺",
@@ -6591,6 +6780,15 @@
       "symbol": "Nkr",
       "code": "NOK",
       "name_plural": "Norwegian kroner",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "NPR": {
+      "name": "ネパール ルピー",
+      "symbol_native": "नेरू",
+      "symbol": "NPRs",
+      "code": "NPR",
+      "name_plural": "Nepalese rupees",
       "rounding": 0,
       "decimal_digits": 2
     },
@@ -6902,6 +7100,15 @@
       "rounding": 0,
       "decimal_digits": 2
     },
+    "NPR": {
+      "name": "尼泊尔卢比",
+      "symbol_native": "नेरू",
+      "symbol": "NPRs",
+      "code": "NPR",
+      "name_plural": "Nepalese rupees",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
     "TRY": {
       "name": "土耳其里拉",
       "symbol_native": "₺",
@@ -7207,6 +7414,15 @@
       "symbol": "Nkr",
       "code": "NOK",
       "name_plural": "Norwegian kroner",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "NPR": {
+      "name": "尼泊尔卢比",
+      "symbol_native": "नेरू",
+      "symbol": "NPRs",
+      "code": "NPR",
+      "name_plural": "Nepalese rupees",
       "rounding": 0,
       "decimal_digits": 2
     },

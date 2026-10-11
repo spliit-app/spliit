@@ -26,6 +26,7 @@ export const supportedCurrencyCodes = [
   'CHF',
   'ISK',
   'NOK',
+  'NPR',
   'TRY',
   'AUD',
   'BRL',
