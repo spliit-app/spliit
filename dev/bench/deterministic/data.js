@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1791142609409,
+  "lastUpdate": 1791693648476,
   "repoUrl": "https://github.com/spliit-app/spliit",
   "entries": {
     "Spliit performance (deterministic)": [
@@ -414,6 +414,90 @@ window.BENCHMARK_DATA = {
           {
             "name": "view-expense:edit-form bytes",
             "value": 5641,
+            "unit": "bytes"
+          },
+          {
+            "name": "view-expense:edit-form queries",
+            "value": 3,
+            "unit": "queries"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "sebastien@castiel.me",
+            "name": "Sebastien Castiel",
+            "username": "scastiel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "28d360d2372b51782d8be92de03d73e220b19dc6",
+          "message": "Save a new group to Recent groups as soon as it is created (#674)\n\nFixes #673.\n\n## Cause\nThe issue suspected the forget-deleted-groups effect from #420. A repro\nagainst the CI Docker stack showed otherwise: right after\n`createGroup(A)` returned, `localStorage.recentGroups` was `null`. Group\nA was **never saved**, so it was never requested by `groups.list` and\nnever forgotten.\n\n`SaveGroupLocally` only saves a group once the group page has fetched\nit. The e2e helper (and a real user) can leave the page before that, and\nthe new group is lost from Recent groups.\n\n## Fix\n- `create-group.tsx`: save the group to Recent groups as soon as\n`groups.create` returns, before navigating.\n- `recent-group-list.tsx`: fix the `exhaustive-deps` warning on the\nforget effect (memoized `groupIds`, stable `loadGroups`). React Query\nonly returns `data` for the current key, so the effect's logic is\nunchanged.\n\n## Testing\n- Against `./scripts/e2e.sh up` (production build):\n`group-management.spec.ts` passed 3× with no retries, and the full e2e\nsuite passed (48/48).\n- `tsc`, jest (464/464), and oxlint (no warnings left in the changed\nfiles).\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-authored-by: Claude Opus 5.5 <noreply@anthropic.com>",
+          "timestamp": "2026-10-10T15:02:26-04:00",
+          "tree_id": "4c0d1a0dcd2bd71023a1f1cbfad35629c7689a71",
+          "url": "https://github.com/spliit-app/spliit/commit/28d360d2372b51782d8be92de03d73e220b19dc6"
+        },
+        "date": 1791693647712,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "list-groups:home bytes",
+            "value": 7064,
+            "unit": "bytes"
+          },
+          {
+            "name": "list-groups:home queries",
+            "value": 61,
+            "unit": "queries"
+          },
+          {
+            "name": "view-group:first-page bytes",
+            "value": 25258,
+            "unit": "bytes"
+          },
+          {
+            "name": "view-group:first-page queries",
+            "value": 3,
+            "unit": "queries"
+          },
+          {
+            "name": "view-group:deep-page bytes",
+            "value": 24564,
+            "unit": "bytes"
+          },
+          {
+            "name": "view-group:deep-page queries",
+            "value": 2,
+            "unit": "queries"
+          },
+          {
+            "name": "view-group:search bytes",
+            "value": 23714,
+            "unit": "bytes"
+          },
+          {
+            "name": "view-group:search queries",
+            "value": 2,
+            "unit": "queries"
+          },
+          {
+            "name": "view-group:balances bytes",
+            "value": 2370,
+            "unit": "bytes"
+          },
+          {
+            "name": "view-group:balances queries",
+            "value": 2,
+            "unit": "queries"
+          },
+          {
+            "name": "view-expense:edit-form bytes",
+            "value": 5657,
             "unit": "bytes"
           },
           {
