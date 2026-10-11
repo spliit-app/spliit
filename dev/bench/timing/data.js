@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1791142611127,
+  "lastUpdate": 1791693650347,
   "repoUrl": "https://github.com/spliit-app/spliit",
   "entries": {
     "Spliit performance (timing)": [
@@ -419,6 +419,90 @@ window.BENCHMARK_DATA = {
           {
             "name": "view-expense:edit-form p95",
             "value": 6.52,
+            "unit": "ms"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "sebastien@castiel.me",
+            "name": "Sebastien Castiel",
+            "username": "scastiel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "28d360d2372b51782d8be92de03d73e220b19dc6",
+          "message": "Save a new group to Recent groups as soon as it is created (#674)\n\nFixes #673.\n\n## Cause\nThe issue suspected the forget-deleted-groups effect from #420. A repro\nagainst the CI Docker stack showed otherwise: right after\n`createGroup(A)` returned, `localStorage.recentGroups` was `null`. Group\nA was **never saved**, so it was never requested by `groups.list` and\nnever forgotten.\n\n`SaveGroupLocally` only saves a group once the group page has fetched\nit. The e2e helper (and a real user) can leave the page before that, and\nthe new group is lost from Recent groups.\n\n## Fix\n- `create-group.tsx`: save the group to Recent groups as soon as\n`groups.create` returns, before navigating.\n- `recent-group-list.tsx`: fix the `exhaustive-deps` warning on the\nforget effect (memoized `groupIds`, stable `loadGroups`). React Query\nonly returns `data` for the current key, so the effect's logic is\nunchanged.\n\n## Testing\n- Against `./scripts/e2e.sh up` (production build):\n`group-management.spec.ts` passed 3× with no retries, and the full e2e\nsuite passed (48/48).\n- `tsc`, jest (464/464), and oxlint (no warnings left in the changed\nfiles).\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-authored-by: Claude Opus 5.5 <noreply@anthropic.com>",
+          "timestamp": "2026-10-10T15:02:26-04:00",
+          "tree_id": "4c0d1a0dcd2bd71023a1f1cbfad35629c7689a71",
+          "url": "https://github.com/spliit-app/spliit/commit/28d360d2372b51782d8be92de03d73e220b19dc6"
+        },
+        "date": 1791693649803,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "list-groups:home p50",
+            "value": 215.64,
+            "unit": "ms"
+          },
+          {
+            "name": "list-groups:home p95",
+            "value": 256.03,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:first-page p50",
+            "value": 13.46,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:first-page p95",
+            "value": 16.99,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:deep-page p50",
+            "value": 11.49,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:deep-page p95",
+            "value": 13.44,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:search p50",
+            "value": 10.26,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:search p95",
+            "value": 11.54,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:balances p50",
+            "value": 164.13,
+            "unit": "ms"
+          },
+          {
+            "name": "view-group:balances p95",
+            "value": 202.19,
+            "unit": "ms"
+          },
+          {
+            "name": "view-expense:edit-form p50",
+            "value": 5.28,
+            "unit": "ms"
+          },
+          {
+            "name": "view-expense:edit-form p95",
+            "value": 6.28,
             "unit": "ms"
           }
         ]
