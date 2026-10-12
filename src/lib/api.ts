@@ -1,6 +1,7 @@
 import {
   ActivityType,
   Expense,
+  Prisma,
   RecurrenceRule,
   RecurringExpenseLink,
 } from '@/generated/prisma/client'
@@ -296,49 +297,78 @@ export async function updateExpense(
   })
 }
 
+/** A group update tried to remove participants who are part of expenses. */
+export class ParticipantsHaveExpensesError extends Error {
+  constructor(public names: string[]) {
+    super(`${names.join(', ')} can not be removed: part of expenses.`)
+  }
+}
+
 export async function updateGroup(
   groupId: string,
   groupFormValues: GroupFormValues,
   participantId?: string,
 ) {
-  const existingGroup = await getGroup(groupId)
-  if (!existingGroup) throw new Error('Invalid group ID')
+  // One transaction, so a refused save changes nothing and logs nothing.
+  return prisma.$transaction(async (tx) => {
+    const existingGroup = await tx.group.findUnique({
+      where: { id: groupId },
+      include: { participants: true },
+    })
+    if (!existingGroup) throw new Error('Invalid group ID')
 
-  const group = await prisma.group.update({
-    where: { id: groupId },
-    data: {
-      name: groupFormValues.name,
-      information: groupFormValues.information,
-      currency: groupFormValues.currency,
-      currencyCode: groupFormValues.currencyCode,
-      participants: {
-        deleteMany: existingGroup.participants.filter(
-          (p) => !groupFormValues.participants.some((p2) => p2.id === p.id),
-        ),
-        updateMany: groupFormValues.participants
-          .filter((participant) => participant.id !== undefined)
-          .map((participant) => ({
-            where: { id: participant.id },
-            data: {
-              name: participant.name,
-            },
-          })),
-        createMany: {
-          data: groupFormValues.participants
-            .filter((participant) => participant.id === undefined)
+    const removed = existingGroup.participants.filter(
+      (p) => !groupFormValues.participants.some((p2) => p2.id === p.id),
+    )
+    // The form hides the remove button for participants who are part of
+    // expenses, but only for the expenses it knew of when it loaded. The
+    // foreign keys still refuse an expense added between this check and the
+    // commit.
+    const withExpenses = await tx.participant.findMany({
+      where: {
+        id: { in: removed.map((p) => p.id) },
+        OR: [
+          { expensesPaidBy: { some: {} } },
+          { expensesPaidFor: { some: {} } },
+        ],
+      },
+      select: { name: true },
+    })
+    if (withExpenses.length > 0)
+      throw new ParticipantsHaveExpensesError(withExpenses.map((p) => p.name))
+
+    const group = await tx.group.update({
+      where: { id: groupId },
+      data: {
+        name: groupFormValues.name,
+        information: groupFormValues.information,
+        currency: groupFormValues.currency,
+        currencyCode: groupFormValues.currencyCode,
+        participants: {
+          deleteMany: removed.map(({ id }) => ({ id })),
+          updateMany: groupFormValues.participants
+            .filter((participant) => participant.id !== undefined)
             .map((participant) => ({
-              id: randomId(),
-              name: participant.name,
+              where: { id: participant.id },
+              data: {
+                name: participant.name,
+              },
             })),
+          createMany: {
+            data: groupFormValues.participants
+              .filter((participant) => participant.id === undefined)
+              .map((participant) => ({
+                id: randomId(),
+                name: participant.name,
+              })),
+          },
         },
       },
-    },
-  })
+    })
 
-  // Logged after the update, which can be refused (a removed participant who
-  // is part of expenses), so a refused save leaves no activity behind.
-  await logActivity(groupId, ActivityType.UPDATE_GROUP, { participantId })
-  return group
+    await logActivity(groupId, ActivityType.UPDATE_GROUP, { participantId }, tx)
+    return group
+  })
 }
 
 export async function getGroup(groupId: string) {
@@ -474,8 +504,9 @@ export async function logActivity(
   groupId: string,
   activityType: ActivityType,
   extra?: { participantId?: string; expenseId?: string; data?: string },
+  client: Prisma.TransactionClient = prisma,
 ) {
-  return prisma.activity.create({
+  return client.activity.create({
     data: {
       id: randomId(),
       groupId,

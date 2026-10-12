@@ -32,22 +32,16 @@ export const EditGroup = () => {
             throw error
           // Someone added an expense for a participant removed here since the
           // page loaded. Reload the group so they come back, now protected.
-          const fresh = await utils.groups.getDetails.fetch(
-            { groupId },
-            { staleTime: 0 },
-          )
-          const names = (data?.group?.participants ?? [])
-            .filter(
-              (p) =>
-                !groupFormValues.participants.some(({ id }) => id === p.id) &&
-                fresh.participantsWithExpenses.includes(p.id),
-            )
-            .map((p) => p.name)
+          await utils.groups.getDetails.invalidate({ groupId })
+          const names = error.data.participantsWithExpenses ?? []
           toast({
-            description: t('removedParticipantHasExpenses', {
-              names: names.join(', '),
-              count: names.length,
-            }),
+            description:
+              names.length > 0
+                ? t('removedParticipantHasExpenses', {
+                    names: names.join(', '),
+                    count: names.length,
+                  })
+                : t('removedParticipantsHaveExpenses'),
             variant: 'destructive',
           })
           setFormKey((key) => key + 1)
