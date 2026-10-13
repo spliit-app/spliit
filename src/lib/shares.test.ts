@@ -1,9 +1,9 @@
 import { SplitMode } from '@/generated/prisma/browser'
 import {
-  ShareInput,
   distributeAmount,
   getExpenseShares,
   getParticipantShare,
+  ShareInput,
 } from './shares'
 
 const SPLIT_MODES: SplitMode[] = [

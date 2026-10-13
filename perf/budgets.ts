@@ -22,8 +22,8 @@
  * intentional change, run `npm run perf` and take the figures the report prints.
  */
 import {
-  LARGE_GROUP,
   config,
+  LARGE_GROUP,
   paidForCountFor,
   participantCountFor,
   searchMatchCount,

@@ -1,5 +1,5 @@
 import { env } from './env'
-import { isAllowedUploadUrl } from './uploaded-image-url'
+import { getUploadKeyFromUrl, isAllowedUploadUrl } from './uploaded-image-url'
 
 // The helper derives its allow-list from the S3 upload configuration in `env`.
 // Mock it with a mutable object so each test can set the relevant variables;
@@ -149,5 +149,85 @@ describe('isAllowedUploadUrl', () => {
         isAllowedUploadUrl('https://minio.example.com/bucket/receipt.jpg'),
       ).toBe(false)
     })
+  })
+})
+
+describe('getUploadKeyFromUrl', () => {
+  afterEach(() => {
+    delete mockEnv.S3_UPLOAD_ENDPOINT
+    delete mockEnv.S3_UPLOAD_BUCKET
+    delete mockEnv.S3_UPLOAD_REGION
+  })
+
+  describe('on AWS', () => {
+    beforeEach(() => {
+      mockEnv.S3_UPLOAD_BUCKET = 'my-bucket'
+      mockEnv.S3_UPLOAD_REGION = 'eu-central-1'
+    })
+
+    it('returns the path as the key', () => {
+      expect(
+        getUploadKeyFromUrl(
+          'https://my-bucket.s3.eu-central-1.amazonaws.com/document-2026-10-10T12:00:00.000Z-abc.jpg',
+        ),
+      ).toBe('document-2026-10-10T12:00:00.000Z-abc.jpg')
+    })
+
+    it('decodes percent-encoded characters', () => {
+      expect(
+        getUploadKeyFromUrl(
+          'https://my-bucket.s3.eu-central-1.amazonaws.com/next-s3-uploads/1/my%20receipt.jpg',
+        ),
+      ).toBe('next-s3-uploads/1/my receipt.jpg')
+    })
+
+    it('returns null for a URL outside the bucket', () => {
+      expect(
+        getUploadKeyFromUrl('https://other.example.com/document-1.jpg'),
+      ).toBeNull()
+    })
+  })
+
+  describe('with a custom endpoint', () => {
+    beforeEach(() => {
+      mockEnv.S3_UPLOAD_BUCKET = 'my-bucket'
+      mockEnv.S3_UPLOAD_ENDPOINT = 'https://minio.example.com:9000'
+    })
+
+    it('strips the bucket from the path-style URL', () => {
+      expect(
+        getUploadKeyFromUrl(
+          'https://minio.example.com:9000/my-bucket/document-1.jpg',
+        ),
+      ).toBe('document-1.jpg')
+    })
+
+    it('strips a path the endpoint is mounted under', () => {
+      mockEnv.S3_UPLOAD_ENDPOINT = 'https://minio.example.com/s3/'
+      expect(
+        getUploadKeyFromUrl('https://minio.example.com/s3/my-bucket/doc.jpg'),
+      ).toBe('doc.jpg')
+    })
+
+    it('returns null for another bucket on the same host', () => {
+      expect(
+        getUploadKeyFromUrl(
+          'https://minio.example.com:9000/other-bucket/document-1.jpg',
+        ),
+      ).toBeNull()
+    })
+
+    it('returns null for the bucket root', () => {
+      expect(
+        getUploadKeyFromUrl('https://minio.example.com:9000/my-bucket/'),
+      ).toBeNull()
+    })
+  })
+
+  it('returns null when no bucket is configured', () => {
+    mockEnv.S3_UPLOAD_ENDPOINT = 'https://minio.example.com'
+    expect(
+      getUploadKeyFromUrl('https://minio.example.com/my-bucket/doc.jpg'),
+    ).toBeNull()
   })
 })

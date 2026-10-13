@@ -43,11 +43,11 @@ down() { compose down --volumes --remove-orphans --timeout 10; }
 
 logs() { compose logs --no-color --timestamps; }
 
-seed() { npx ts-node -T perf/seed.ts; }
+seed() { npx tsx perf/seed.ts; }
 
 bench() {
   shift || true
-  npx ts-node -T perf/run.ts "$@"
+  npx tsx perf/run.ts "$@"
 }
 
 case "${1:-all}" in
@@ -64,7 +64,7 @@ all)
   trap 'status=$?; if [ $status -ne 0 ]; then logs || true; fi; down || true; exit $status' EXIT
   up
   seed
-  npx ts-node -T perf/run.ts "$@"
+  npx tsx perf/run.ts "$@"
   ;;
 *)
   echo "usage: $0 [all|up|seed|bench|down|logs]" >&2

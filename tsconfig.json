@@ -42,16 +42,5 @@
   ],
   "exclude": [
     "node_modules"
-  ],
-  "ts-node": {
-    "require": [
-      "tsconfig-paths/register",
-      "dotenv/config"
-    ],
-    "compilerOptions": {
-      "isolatedModules": false,
-      "moduleResolution": "nodenext",
-      "module": "nodenext"
-    }
-  }
+  ]
 }

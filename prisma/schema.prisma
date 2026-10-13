@@ -23,6 +23,7 @@ model Group {
   expenses     Expense[]
   activities   Activity[]
   createdAt    DateTime      @default(now())
+  deleteAt     DateTime?
 }
 
 model Participant {
@@ -94,6 +95,9 @@ model RecurringExpenseLink {
   // and any prior related recurring expenses, they'll need to delete them one by one.
   nextExpenseCreatedAt DateTime?
   nextExpenseDate      DateTime
+  // Day of month (1-31) a monthly series repeats on. Null for daily and weekly.
+  // A 31st clamps in February and returns to the 31st in March.
+  anchorDay            Int?
 
   @@index([groupId])
   @@index([groupId, nextExpenseCreatedAt, nextExpenseDate(sort: Desc)])
@@ -132,4 +136,6 @@ enum ActivityType {
   CREATE_EXPENSE
   UPDATE_EXPENSE
   DELETE_EXPENSE
+  SCHEDULE_GROUP_DELETION
+  RESTORE_GROUP
 }

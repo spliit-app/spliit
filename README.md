@@ -240,6 +240,39 @@ You can also use other S3 providers by providing a custom endpoint:
 S3_UPLOAD_ENDPOINT=http://localhost:9000
 ```
 
+### Group deletion
+
+You can let users delete their groups. Deleting a group only schedules it for
+deletion: it can be restored for 30 days. Groups whose grace period has ended
+are then permanently deleted, along with their uploaded documents, by
+`GET /api/cron/purge-deleted-groups`, which has to be called on a schedule
+(daily is enough). Without that scheduled call, nothing is ever deleted, which
+is why the feature is disabled by default.
+
+To enable it, set both variables below, then schedule the call:
+
+```.env
+ENABLE_GROUP_DELETION=true
+CRON_SECRET=a-long-random-string
+```
+
+```sh
+curl -H "Authorization: Bearer $CRON_SECRET" https://your-instance/api/cron/purge-deleted-groups
+```
+
+On Vercel, `vercel.json` already schedules this call daily as a
+[cron job](https://vercel.com/docs/cron-jobs), which sends the header
+automatically. The response lists the purged groups; it has a 500 status when
+some failed, in which case they are retried on the next call.
+
+Once its deletion date has passed, a group can no longer be restored, even if
+it has not been purged yet. If you disable the feature later, groups that were
+already scheduled can still be restored, and are still purged as long as the
+call keeps being made.
+
+If expense documents are enabled, the S3 credentials also need the
+`s3:DeleteObject` permission on the bucket.
+
 ### Create expense from receipt
 
 You can offer users to create expense by uploading a receipt. This feature relies on a [vision-capable OpenAI model](https://platform.openai.com/docs/guides/vision) and a public S3 storage endpoint.
@@ -288,6 +321,12 @@ Spliit can report anonymous usage events to an analytics service. **It is disabl
 
 Select one with `ANALYTICS_PROVIDER`. The variables are read on the server, so a single Docker image can be configured when the container starts.
 
+Several providers can be listed, comma-separated, and every event is reported to each of them. That is how to try a new service next to the one you already use, or to watch what is sent while keeping the real one:
+
+```.env
+ANALYTICS_PROVIDER=plausible,umami
+```
+
 #### `console` — see what would be reported
 
 Logs every event to the browser console and sends nothing anywhere. Useful while developing, and the shortest example of what a provider looks like.
@@ -316,6 +355,38 @@ Ad blockers drop requests to known analytics hosts. To avoid that, serve the scr
 ```.env
 PLAUSIBLE_SCRIPT_URL=/js/script.manual.js
 PLAUSIBLE_API_URL=/proxy/api/event
+```
+
+#### `umami`
+
+Reports to [Umami](https://umami.is), a privacy-friendly, cookie-free analytics service that is open source and runs on PostgreSQL if you self-host it. Like the Plausible provider, it is a script tag and a function call: no dependency is installed. Umami's tracker would also send the page title and same-origin referrers, which on group pages carry the group name and possibly a group ID; the provider drops both.
+
+```.env
+ANALYTICS_PROVIDER=umami
+UMAMI_WEBSITE_ID=your-website-id
+```
+
+The script is loaded from Umami Cloud by default. For a self-hosted instance, point at its script:
+
+```.env
+UMAMI_SCRIPT_URL=https://umami.your-domain.com/script.js
+```
+
+To serve the script and the event endpoint from your own origin (see the Plausible section for why), add the rewrites and tell the tracker where events go — `UMAMI_HOST_URL` is the base the tracker appends `/api/send` to:
+
+```.env
+UMAMI_SCRIPT_URL=/js/umami.js
+UMAMI_HOST_URL=/proxy/umami
+```
+
+```js
+// next.config.mjs — with your own instance in place of cloud.umami.is if you self-host
+async rewrites() {
+  return [
+    { source: '/js/umami.js', destination: 'https://cloud.umami.is/script.js' },
+    { source: '/proxy/umami/api/send', destination: 'https://cloud.umami.is/api/send' },
+  ]
+},
 ```
 
 #### What is reported

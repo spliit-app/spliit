@@ -1,7 +1,8 @@
-'use client' // <-- to make sure we can mount the Provider from a server component
+'use client'
+
+// <-- to make sure we can mount the Provider from a server component
 import { Prisma } from '@/generated/prisma/browser'
-import type { QueryClient } from '@tanstack/react-query'
-import { QueryClientProvider } from '@tanstack/react-query'
+import { QueryClientProvider, type QueryClient } from '@tanstack/react-query'
 import { httpBatchLink } from '@trpc/client'
 import { createTRPCReact } from '@trpc/react-query'
 import { useState } from 'react'

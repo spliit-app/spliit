@@ -1,4 +1,5 @@
 'use client'
+
 import { Currency } from '@/lib/currency'
 import { cn, formatCurrency } from '@/lib/utils'
 import { useLocale, useTranslations } from 'next-intl'

@@ -289,7 +289,9 @@
     "title": "Jaa",
     "description": "Jaa ryhmän URL muille jäsenille, jotta he voivat nähdä sen ja lisätä kuluja.",
     "warning": "Varoitus!",
-    "warningHelp": "Tällä URLilla kuka tahansa pääsee näkemään ja muokkaamaan kuluja. Jaa harkiten!"
+    "warningHelp": "Tällä URLilla kuka tahansa pääsee näkemään ja muokkaamaan kuluja. Jaa harkiten!",
+    "copyLink": "Kopioi linkki",
+    "shareLink": "Jaa linkki"
   },
   "SchemaErrors": {
     "min1": "Syötä vähintään yksi merkki.",
@@ -375,5 +377,10 @@
       "TV/Phone/Internet": "TV/Puhelin/Internet",
       "Water": "Vesi"
     }
+  },
+  "Pwa": {
+    "updateTitle": "Päivitys saatavilla",
+    "updateDescription": "Spliitistä on saatavilla uusi versio.",
+    "reload": "Lataa uudelleen"
   }
 }

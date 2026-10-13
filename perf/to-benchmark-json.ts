@@ -11,7 +11,7 @@
  *   timing         p50 / p95 wall clock. Charted for the eye only, never
  *                  alerted -- see the note on runner noise in README.md.
  *
- * Usage: ts-node -T perf/to-benchmark-json.ts <report> <deterministic> <timing>
+ * Usage: tsx perf/to-benchmark-json.ts <report> <deterministic> <timing>
  */
 import { readFileSync, writeFileSync } from 'node:fs'
 import type { StepResult } from './harness'

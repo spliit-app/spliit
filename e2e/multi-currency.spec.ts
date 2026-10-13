@@ -5,6 +5,7 @@ import {
   EXPENSES_URL,
   openExpense,
   openTab,
+  paidForRow,
   uniqueSuffix,
 } from './app'
 import { expect, test } from './fixtures'
@@ -118,6 +119,46 @@ test('lets a custom rate override the fetched one', async ({ page }) => {
   await openTab(page, 'Balances')
   await expectBalance(page, 'Alice', 80)
   await expectBalance(page, 'Bob', -80)
+})
+
+test('keeps a by-amount split of a converted expense when reopened', async ({
+  page,
+}) => {
+  const groupId = await createGroup(page, {
+    name: `E2E CurrencyAmount ${uniqueSuffix()}`,
+    participants: PARTICIPANTS,
+  })
+
+  await openExpenseForm(page, groupId)
+  await fillStable(page.locator('input[name="title"]'), 'Lisbon tickets')
+  await selectRadixOption(
+    page,
+    fieldByLabel(page, 'Currency of expense').getByRole('combobox'),
+    /Euro \(EUR\)/,
+  )
+  await setOriginalAmount(page, '80')
+  await expect(page.locator('input[name="amount"]')).toHaveValue('100')
+  await selectRadixOption(page, page.getByTestId('paid-by'), 'Alice')
+
+  await page.getByRole('button', { name: /Advanced splitting options/ }).click()
+  await selectRadixOption(page, page.getByTestId('split-mode'), /By amount/)
+
+  // A converted expense shows two inputs per row, the foreign amount and the
+  // group-currency share; the share is the last one.
+  const shareInput = (name: string) =>
+    paidForRow(page, name).getByRole('textbox').last()
+  await fillStable(shareInput('Alice'), '60')
+  await fillStable(shareInput('Bob'), '40')
+
+  await page.getByRole('button', { name: 'Create', exact: true }).click()
+  await page.waitForURL(EXPENSES_URL, { timeout: 30_000 })
+
+  // Regression for #621: the per-row foreign-amount inputs used to register
+  // themselves as fields, which marked the split dirty and rebalanced it
+  // evenly as soon as the edit form loaded.
+  await openExpense(page, 'Lisbon tickets')
+  await expect(shareInput('Alice')).toHaveValue('60')
+  await expect(shareInput('Bob')).toHaveValue('40')
 })
 
 test('exports the original currency and rate to CSV', async ({ page }) => {

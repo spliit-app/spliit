@@ -10,8 +10,8 @@ import { match } from 'ts-pattern'
 export type ShareInput = {
   /**
    * Seeds the rotation that decides who is offered the leftover minor unit of
-   * an uneven split. Absent on expenses that have not been saved yet — ids are
-   * minted server-side — in which case the rotation starts at the first
+   * an uneven split. The expense form mints the id before saving so its
+   * preview matches; when absent, the rotation starts at the first
    * participant.
    */
   id?: string | null

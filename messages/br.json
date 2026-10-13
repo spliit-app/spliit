@@ -1,0 +1,347 @@
+{
+  "Homepage": {
+    "title": "Rannit <strong>ho tispignoù</strong> gant <strong>ho Mignoned & ho Familh</strong>",
+    "metaTitle": "Spliit · Rannañ Dispignoù gant Mignoned & Familh",
+    "button": {
+      "github": "GitHub",
+      "groups": "Mont d'ar strolladoù"
+    },
+    "description": "Donemat deoc'h war hoc'h istañs nevez <strong>Spliit</strong> !"
+  },
+  "Header": {
+    "groups": "Strolladoù"
+  },
+  "Errors": {
+    "title": "Ur gudenn a zo bet",
+    "groupTitle": "N’haller ket kargañ ar strollad-mañ",
+    "generic": "Klaskit en-dro mar plij. Ma c'hoarvez c'hoazh, adkargit ar bajenn-mañ.",
+    "reference": "Dave : {digest}",
+    "retry": "Klaskit en-dro"
+  },
+  "Footer": {
+    "madeIn": "Graet e Montreal, Kebek 🇨🇦",
+    "builtBy": "Savet gant <author>Sebastien Castiel</author> ha <source>perzhidi</source>"
+  },
+  "Expenses": {
+    "title": "Dispignoù",
+    "description": "Setu an dispignoù ho peus krouet evit ho strollad.",
+    "create": "Krouiñ un dispign",
+    "createFirst": "Krouiñ an hini kentañ",
+    "noExpenses": "N'ez eus dispign ebet e-barzh ho strollad evit poent.",
+    "export": "Ezporzhiañ",
+    "exportJson": "Ezporzhiañ da JSON",
+    "exportCsv": "Ezporzhiañ da CSV",
+    "searchPlaceholder": "Klask un dispign…",
+    "ActiveUserModal": {
+      "title": "Piv oc'h ?",
+      "description": "Lârit deomp piv oc'h evit personelaat an doare da ziskouez an titouroù.",
+      "nobody": "Ne fell ket din choaz unan bennak",
+      "save": "Enrollañ ar cheñchamantoù",
+      "footer": "An arventenn-mañ a c'hello bezañ kemmet diwezhatoc'h e arventennoù ar strollad."
+    },
+    "Groups": {
+      "upcoming": "A-benn nebeut",
+      "thisWeek": "Ar sizhun-mañ",
+      "earlierThisMonth": "Abretoc'h er miz-mañ",
+      "lastMonth": "Er miz paseet",
+      "earlierThisYear": "Abretoc'h er bloaz-mañ",
+      "lastYear": "Warlene",
+      "older": "Koshoc'h"
+    }
+  },
+  "GroupForm": {
+    "Participants": {
+      "John": "Yann",
+      "Jane": "Aziliz",
+      "Jack": "Tugdual",
+      "new": "Nevez",
+      "add": "Ouzhpennañ ur perzhiad",
+      "title": "Perzhidi",
+      "description": "Skrivit an anv evit pep den o kemer perzh."
+    },
+    "Settings": {
+      "title": "Arventennoù lec'hel",
+      "ActiveUserField": {
+        "none": "Hini ebet"
+      },
+      "save": "Enrollañ",
+      "saving": "Oc'h enrollañ…",
+      "create": "Krouiñ",
+      "creating": "O krouiñ…",
+      "cancel": "Nullañ"
+    },
+    "title": "Titouroù diwar-benn ar strollad",
+    "NameField": {
+      "label": "Anv ar strollad",
+      "placeholder": "Vakañsoù hañv",
+      "description": "Roit un anv d'ho strollad."
+    },
+    "InformationField": {
+      "label": "Titouroù ar strollad"
+    },
+    "CurrencyField": {
+      "label": "Arouez ar moneiz",
+      "placeholder": "$, €, £…",
+      "description": "Implijet e vo evit diskouez ar sammadoù."
+    },
+    "CurrencyCodeField": {
+      "label": "Moneiz pennañ",
+      "customOption": "Personelaat"
+    }
+  },
+  "ExpenseForm": {
+    "Expense": {
+      "recurrenceRule": {
+        "daily": "Pemdeziek",
+        "weekly": "Bep sizhun",
+        "monthly": "Bep miz",
+        "none": "Hini ebet"
+      },
+      "paidByField": {
+        "label": "Paeet gant"
+      },
+      "paidFor": {
+        "title": "Paeet evit"
+      }
+    },
+    "amountField": {
+      "label": "Sammad"
+    },
+    "conversionUnavailable": "Evit choaz ur moneiz disheñvel evit pep dispign hag amdreiñ ar sammadoù, na choazit ket ur moneiz personelaet evit ar strollad.",
+    "conversionRateState": {
+      "refresh": "Freskaat"
+    },
+    "categoryField": {
+      "label": "Rummad"
+    },
+    "notesField": {
+      "label": "Notennoù"
+    },
+    "selectAll": "Diuzañ pep-tra",
+    "DeletePopup": {
+      "label": "Dilemel",
+      "yes": "Ya",
+      "cancel": "Nullañ"
+    },
+    "create": "Krouiñ",
+    "creating": "O krouiñ…",
+    "save": "Enrollañ",
+    "saving": "Oc'h enrollañ…",
+    "cancel": "Nullañ"
+  },
+  "Categories": {
+    "Utilities": {
+      "Heat/Gas": "Tommerezh/Gaz",
+      "Electricity": "Tredan",
+      "heading": "Goulevioù mavek",
+      "Utilities": "Goulevioù mavek",
+      "Cleaning": "Naetaat",
+      "Trash": "Lastez",
+      "Water": "Dour"
+    },
+    "Home": {
+      "Maintenance": "Trezlac'h",
+      "Electronics": "Elektronek",
+      "Home": "Ti",
+      "heading": "Ti",
+      "Furniture": "Stal arrebeuri",
+      "Pets": "Loeneds",
+      "Services": "Servijoù"
+    },
+    "Uncategorized": {
+      "heading": "Dirummad",
+      "General": "Hollek",
+      "Payment": "Paeamant"
+    },
+    "Entertainment": {
+      "heading": "Dudi",
+      "Entertainment": "Dudi",
+      "Games": "C'hoarioù",
+      "Movies": "Filmoù",
+      "Music": "Sonerezh",
+      "Sports": "Sportoù"
+    },
+    "Life": {
+      "heading": "Buhez",
+      "Childcare": "Diwaller bugale",
+      "Clothing": "Dilhad",
+      "Donation": "Donezon",
+      "Education": "Deskadurezh",
+      "Gifts": "Profoù",
+      "Insurance": "Asurañs",
+      "Taxes": "Taosioù"
+    },
+    "Transportation": {
+      "heading": "Treuzdougen",
+      "Transportation": "Treuzdougen",
+      "Bicycle": "Marc'h-houarn",
+      "Bus/Train": "Karr-boutin/Tren",
+      "Car": "Karr-tan",
+      "Gas/Fuel": "Gaz/Dour tan",
+      "Hotel": "Leti",
+      "Parking": "Parklec'h",
+      "Plane": "Plaenenn",
+      "Taxi": "Taksi"
+    }
+  },
+  "CreateFromReceipt": {
+    "ErrorToast": {
+      "retry": "Klask en-dro",
+      "description": "C'hoarvezet ez eus ur fazi e-ser kargañ ar restr. Klaskit en-dro diwezhatoc'h, pe dibabit ur restr all."
+    },
+    "Dialog": {
+      "amountLabel": "Sammad :",
+      "titleLabel": "Titl :",
+      "categoryLabel": "Rummad :",
+      "dateLabel": "Deiziad :",
+      "continue": "Kenderc'hel"
+    },
+    "unknown": "Dianav"
+  },
+  "Activity": {
+    "Groups": {
+      "today": "Hiziv",
+      "yesterday": "Dec'h",
+      "earlierThisWeek": "Abretoc'h er sizhun-mañ",
+      "lastWeek": "Sizhun diwezhañ",
+      "earlierThisMonth": "Abretoc'h er miz-mañ",
+      "lastMonth": "Miz diwezhañ",
+      "earlierThisYear": "Abretoc’h er bloaz-mañ",
+      "lastYear": "Warlene",
+      "older": "Koshañ"
+    },
+    "someone": "Unan bennak",
+    "title": "Obererezh"
+  },
+  "ExpenseCard": {
+    "everyone": "an holl dud",
+    "paidBy": "Paet gant <strong>{paidBy}</strong> evit <paidFor></paidFor>",
+    "receivedBy": "Resevet gant <strong>{paidBy}</strong> evit <paidFor></paidFor>",
+    "yourBalance": "Ho mentelad :",
+    "notInvolved": "Ne gemerit ket perzh"
+  },
+  "Groups": {
+    "retry": "Klask en-dro",
+    "AddByURL": {
+      "error": "Hopala, n'omp ket evit kavout ar strollad gant an URL ho peus roet…",
+      "button": "Ouzhpennañ gant un URL",
+      "title": "Ouzhpennañ ur strollad gant un URL",
+      "urlMode": "Lakaat un URL",
+      "qrMode": "Skanniñ ur c'hod QR",
+      "scanner": {
+        "startCamera": "Enaouiñ ar c'hamera",
+        "noCamera": "N’eus bet kavet kamera ebet war an trevnad-mañ.",
+        "cameraError": "C’hwitet war enaouiñ ar c'hamera. Klaskit en-dro mar-plij.",
+        "permissionError": "N'haller ket implijout ar c'hamera. Gwiriit an aotreoù.",
+        "stopScanning": "Paouez da furchal"
+      }
+    },
+    "NoRecent": {
+      "orAsk": "pe goulenn gant ur mignon kas deoc'h al liamm war-zu unan a zo anezhañ.",
+      "description": "N'oc'h ket bet e strollad ebet nevez zo.",
+      "create": "Krouiñ unan"
+    },
+    "myGroups": "Ma strolladoù",
+    "create": "Krouiñ",
+    "createGroup": "Krouiñ ur strollad",
+    "loadingRecent": "O kargañ ar strolladoù nevesañ…",
+    "loadError": "N'haller ket kargañ ho strolladoù. Klaskit en-dro.",
+    "GlobalBalance": {
+      "title": "Ho mentelad hollek",
+      "owedToYou": "Dleet deoc'h",
+      "youOwe": "Dleout a rit",
+      "retry": "Klaskit en-dro",
+      "loadError": "N'haller ket kargañ ho mentelad hollek. Klaskit en-dro."
+    },
+    "recent": "Strolladoù nevesañ",
+    "starred": "Strolladoù karetañ",
+    "archived": "Strolladoù diellaouet",
+    "archive": "Diellaouiñ ar strollad",
+    "unarchive": "Adsevel ar strollad",
+    "removeRecent": "Dilemel eus ar strolladoù nevesañ",
+    "RecentRemovedToast": {
+      "title": "Dilamet eo bet ar strollad",
+      "description": "Dilamet eo bet ar strollad eus roll ho strolladoù nevesañ.",
+      "undoAlt": "Nullañ dilemel ar strollad",
+      "undo": "Nullañ"
+    },
+    "NotFound": {
+      "text": "N'eus ket eus ar strollad-mañ.",
+      "link": "Mont d'ar strolladoù bet gwelet nevez zo"
+    }
+  },
+  "Share": {
+    "warningHelp": "Forzh piv gant URL ar strollad a c'hello gwelet ha kemmañ an dispignoù. Rannit gant evezh bras !",
+    "description": "Evit ma c'hellfe tud all gwelet ar strollad hag ouzhpennañ dispignoù, rannit an URL ganto.",
+    "title": "Rannañ",
+    "copyLink": "Eilañ al liamm",
+    "shareLink": "Rannañ al liamm",
+    "warning": "Diwallit !",
+    "qrCode": {
+      "title": "Rannañ dre QR Kod"
+    }
+  },
+  "SchemaErrors": {
+    "amountSum": "Ar sammad a zo par da {sum}, {difference} {direction, select, over {muioc'h} other {nebeutoc'h}} eget sammad an dispignoù ({amount}).",
+    "percentageSum": "Sammad an tregantadoù a zo par da {sum}%, {difference}% {direction, select, over {muioc'h} other {nebeutoc'h}} eget 100%.",
+    "titleRequired": "Lakait un titl mar-plij."
+  },
+  "ExpenseDocumentsInput": {
+    "ErrorToast": {
+      "description": "C'hoarvezet ez eus ur fazi e-ser kargañ ar restr. Klaskit en-dro diwezhatoc'h, pe dibabit ur restr all.",
+      "retry": "Klask en-dro"
+    }
+  },
+  "Information": {
+    "description": "Implijit al lec'h-mañ evit ouzhpennañ titouroù a c'hellfe bezañ talvoudus evit izili ar strollad.",
+    "title": "Titouroù"
+  },
+  "Balances": {
+    "Reimbursements": {
+      "markAsPaid": "Merkañ evel paet"
+    }
+  },
+  "Stats": {
+    "title": "Stadegoù",
+    "range": {
+      "label": "Prantad",
+      "all": "A-viskoazh",
+      "thisMonth": "Er miz-mañ",
+      "thisYear": "Er bloaz-mañ",
+      "custom": "Pajenn personelaet",
+      "from": "A-berzh",
+      "to": "Da"
+    },
+    "Totals": {
+      "title": "Holladoù"
+    },
+    "Summary": {
+      "title": "Diverradenn",
+      "expenseCount": "Dispignoù"
+    },
+    "ByParticipant": {
+      "paid": "Paeet",
+      "count": "Kont",
+      "share": "Rannañ"
+    },
+    "MonthlySpending": {
+      "chartTypeLabel": "Seurt grafik",
+      "GroupingOptions": {
+        "categoryGroup": "Rummadoù",
+        "category": "Dre ar munud"
+      }
+    }
+  },
+  "Settings": {
+    "title": "Arventennoù"
+  },
+  "Currencies": {
+    "custom": {
+      "heading": "Personelaat"
+    }
+  },
+  "Pwa": {
+    "updateTitle": "Hizivadur hegerz",
+    "reload": "Adkargañ"
+  }
+}

@@ -1,4 +1,5 @@
 'use client'
+
 import { CategoryIcon } from '@/app/groups/[groupId]/expenses/category-icon'
 import { ExpensesDialog } from '@/app/groups/[groupId]/stats/expenses-dialog'
 import {

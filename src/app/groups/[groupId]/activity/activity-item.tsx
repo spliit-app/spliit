@@ -1,7 +1,8 @@
 'use client'
+
 import { Button } from '@/components/ui/button'
 import { ActivityType, Participant } from '@/generated/prisma/browser'
-import { DateTimeStyle, cn, formatDate } from '@/lib/utils'
+import { cn, DateTimeStyle, formatDate } from '@/lib/utils'
 import { AppRouterOutput } from '@/trpc/routers/_app'
 import { ChevronRight } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
@@ -39,6 +40,10 @@ function useSummary(activity: Activity, participantName?: string) {
     return <>{tr('expenseUpdated')}</>
   } else if (activity.activityType == ActivityType.DELETE_EXPENSE) {
     return <>{tr('expenseDeleted')}</>
+  } else if (activity.activityType == ActivityType.SCHEDULE_GROUP_DELETION) {
+    return <>{tr('groupDeletionScheduled')}</>
+  } else if (activity.activityType == ActivityType.RESTORE_GROUP) {
+    return <>{tr('groupRestored')}</>
   }
 }
 

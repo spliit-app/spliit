@@ -1,4 +1,5 @@
 'use client'
+
 import { TotalsGroupSpending } from '@/app/groups/[groupId]/stats/totals-group-spending'
 import { TotalsYourShare } from '@/app/groups/[groupId]/stats/totals-your-share'
 import { TotalsYourSpendings } from '@/app/groups/[groupId]/stats/totals-your-spending'

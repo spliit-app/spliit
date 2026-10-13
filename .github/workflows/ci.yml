@@ -37,7 +37,7 @@ jobs:
       - name: Check TypeScript types
         run: npm run check-types
 
-      - name: Check ESLint
+      - name: Lint (oxlint)
         run: npm run lint
 
       - name: Check Prettier formatting

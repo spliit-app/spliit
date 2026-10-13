@@ -305,6 +305,15 @@
       "name_plural": "Colombian pesos",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MAD": {
+      "name": "Dirham Maroko",
+      "symbol_native": "DH",
+      "symbol": "DH",
+      "code": "MAD",
+      "name_plural": "Dirham Maroko",
+      "rounding": 0,
+      "decimal_digits": 2
     }
   },
   "ca": {
@@ -613,6 +622,15 @@
       "name_plural": "Colombian pesos",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MAD": {
+      "name": "Dirham marroquí",
+      "symbol_native": "DH",
+      "symbol": "DH",
+      "code": "MAD",
+      "name_plural": "Dírhams marroquins",
+      "rounding": 0,
+      "decimal_digits": 2
     }
   },
   "cs-CZ": {
@@ -921,6 +939,15 @@
       "name_plural": "Colombian pesos",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MAD": {
+      "name": "marocký dirham",
+      "symbol_native": "DH",
+      "symbol": "DH",
+      "code": "MAD",
+      "name_plural": "marocké dirhamy",
+      "rounding": 0,
+      "decimal_digits": 2
     }
   },
   "de-DE": {
@@ -1229,6 +1256,15 @@
       "name_plural": "Colombian pesos",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MAD": {
+      "name": "Marokkanischer Dirham",
+      "symbol_native": "DH",
+      "symbol": "DH",
+      "code": "MAD",
+      "name_plural": "Marokkanische Dirham",
+      "rounding": 0,
+      "decimal_digits": 2
     }
   },
   "et": {
@@ -1845,6 +1881,15 @@
       "name_plural": "Colombian pesos",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MAD": {
+      "name": "Moroccan dirham",
+      "symbol_native": "DH",
+      "symbol": "DH",
+      "code": "MAD",
+      "name_plural": "Moroccan dirhams",
+      "rounding": 0,
+      "decimal_digits": 2
     }
   },
   "es": {
@@ -2153,6 +2198,15 @@
       "name_plural": "Colombian pesos",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MAD": {
+      "name": "dírham marroquí",
+      "symbol_native": "DH",
+      "symbol": "DH",
+      "code": "MAD",
+      "name_plural": "dírhams marroquíes",
+      "rounding": 0,
+      "decimal_digits": 2
     }
   },
   "eu": {
@@ -2461,6 +2515,15 @@
       "name_plural": "Colombian pesos",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MAD": {
+      "name": "Marokoar dirham",
+      "symbol_native": "DH",
+      "symbol": "DH",
+      "code": "MAD",
+      "name_plural": "Marokoko dirhamak",
+      "rounding": 0,
+      "decimal_digits": 2
     }
   },
   "fr-FR": {
@@ -2769,6 +2832,15 @@
       "name_plural": "Colombian pesos",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MAD": {
+      "name": "dirham marocain",
+      "symbol_native": "DH",
+      "symbol": "DH",
+      "code": "MAD",
+      "name_plural": "dirhams marocains",
+      "rounding": 0,
+      "decimal_digits": 2
     }
   },
   "it-IT": {
@@ -3077,6 +3149,15 @@
       "name_plural": "Colombian pesos",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MAD": {
+      "name": "dirham marocchino",
+      "symbol_native": "DH",
+      "symbol": "DH",
+      "code": "MAD",
+      "name_plural": "dirham marocchini",
+      "rounding": 0,
+      "decimal_digits": 2
     }
   },
   "lt": {
@@ -4001,6 +4082,15 @@
       "name_plural": "Colombian pesos",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MAD": {
+      "name": "Marokkaanse dirham",
+      "symbol_native": "DH",
+      "symbol": "DH",
+      "code": "MAD",
+      "name_plural": "Marokkaanse dirhams",
+      "rounding": 0,
+      "decimal_digits": 2
     }
   },
   "pl-PL": {
@@ -4309,6 +4399,15 @@
       "name_plural": "Colombian pesos",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MAD": {
+      "name": "dirham marokański",
+      "symbol_native": "DH",
+      "symbol": "DH",
+      "code": "MAD",
+      "name_plural": "dirhamy marokańskie",
+      "rounding": 0,
+      "decimal_digits": 2
     }
   },
   "pt": {
@@ -4617,6 +4716,15 @@
       "name_plural": "Colombian pesos",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MAD": {
+      "name": "dirham marroquino",
+      "symbol_native": "DH",
+      "symbol": "DH",
+      "code": "MAD",
+      "name_plural": "dirhams marroquinos",
+      "rounding": 0,
+      "decimal_digits": 2
     }
   },
   "pt-BR": {
@@ -4925,6 +5033,15 @@
       "name_plural": "Colombian pesos",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MAD": {
+      "name": "dirham marroquino",
+      "symbol_native": "DH",
+      "symbol": "DH",
+      "code": "MAD",
+      "name_plural": "dirhams marroquinos",
+      "rounding": 0,
+      "decimal_digits": 2
     }
   },
   "ro": {
@@ -5233,6 +5350,15 @@
       "name_plural": "Colombian pesos",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MAD": {
+      "name": "dirham marocan",
+      "symbol_native": "DH",
+      "symbol": "DH",
+      "code": "MAD",
+      "name_plural": "dirhami marocani",
+      "rounding": 0,
+      "decimal_digits": 2
     }
   },
   "fi": {
@@ -5541,6 +5667,15 @@
       "name_plural": "Colombian pesos",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MAD": {
+      "name": "Marokon dirhami",
+      "symbol_native": "DH",
+      "symbol": "DH",
+      "code": "MAD",
+      "name_plural": "Marokon dirhami",
+      "rounding": 0,
+      "decimal_digits": 2
     }
   },
   "sv": {
@@ -6157,6 +6292,15 @@
       "name_plural": "Colombian pesos",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MAD": {
+      "name": "Fas dirhemi",
+      "symbol_native": "DH",
+      "symbol": "DH",
+      "code": "MAD",
+      "name_plural": "Fas dirhemleri",
+      "rounding": 0,
+      "decimal_digits": 2
     }
   },
   "ru-RU": {
@@ -6465,6 +6609,15 @@
       "name_plural": "Colombian pesos",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MAD": {
+      "name": "марокканский дирхам",
+      "symbol_native": "DH",
+      "symbol": "DH",
+      "code": "MAD",
+      "name_plural": "марокканские дирхамы",
+      "rounding": 0,
+      "decimal_digits": 2
     }
   },
   "uk-UA": {
@@ -6773,6 +6926,15 @@
       "name_plural": "Colombian pesos",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MAD": {
+      "name": "Марокканський дирхам",
+      "symbol_native": "DH",
+      "symbol": "DH",
+      "code": "MAD",
+      "name_plural": "Марокканські дирхами",
+      "rounding": 0,
+      "decimal_digits": 2
     }
   },
   "he": {
@@ -7081,6 +7243,15 @@
       "name_plural": "Colombian pesos",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MAD": {
+      "name": "דירהם מרוקני",
+      "symbol_native": "DH",
+      "symbol": "DH",
+      "code": "MAD",
+      "name_plural": "דירהם מרוקאים",
+      "rounding": 0,
+      "decimal_digits": 2
     }
   },
   "ar": {
@@ -7389,6 +7560,15 @@
       "name_plural": "Colombian pesos",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MAD": {
+      "name": "درهم مغربي",
+      "symbol_native": "DH",
+      "symbol": "DH",
+      "code": "MAD",
+      "name_plural": "الدراهم المغربية",
+      "rounding": 0,
+      "decimal_digits": 2
     }
   },
   "ko": {
@@ -7697,6 +7877,15 @@
       "name_plural": "Colombian pesos",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MAD": {
+      "name": "모로코 디르함",
+      "symbol_native": "DH",
+      "symbol": "DH",
+      "code": "MAD",
+      "name_plural": "모로코 디르함",
+      "rounding": 0,
+      "decimal_digits": 2
     }
   },
   "ja-JP": {
@@ -8005,6 +8194,15 @@
       "name_plural": "Colombian pesos",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MAD": {
+      "name": "モロッコ・ディルハム",
+      "symbol_native": "DH",
+      "symbol": "DH",
+      "code": "MAD",
+      "name_plural": "モロッコ・ディルハム",
+      "rounding": 0,
+      "decimal_digits": 2
     }
   },
   "zh-CN": {
@@ -8313,6 +8511,15 @@
       "name_plural": "Colombian pesos",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MAD": {
+      "name": "摩洛哥迪拉姆",
+      "symbol_native": "DH",
+      "symbol": "DH",
+      "code": "MAD",
+      "name_plural": "摩洛哥迪拉姆",
+      "rounding": 0,
+      "decimal_digits": 2
     }
   },
   "zh-TW": {
@@ -8621,6 +8828,15 @@
       "name_plural": "Colombian pesos",
       "rounding": 0,
       "decimal_digits": 0
+    },
+    "MAD": {
+      "name": "摩洛哥迪拉姆",
+      "symbol_native": "DH",
+      "symbol": "DH",
+      "code": "MAD",
+      "name_plural": "摩洛哥迪拉姆",
+      "rounding": 0,
+      "decimal_digits": 2
     }
   }
 }

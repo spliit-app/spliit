@@ -1,5 +1,3 @@
-import { ChevronDown, Loader2 } from 'lucide-react'
-
 import { CategoryIcon } from '@/app/groups/[groupId]/expenses/category-icon'
 import { Button, ButtonProps } from '@/components/ui/button'
 import {
@@ -18,6 +16,7 @@ import {
 } from '@/components/ui/popover'
 import { Category } from '@/generated/prisma/browser'
 import { useMediaQuery } from '@/lib/hooks'
+import { ChevronDown, Loader2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { forwardRef, useEffect, useState } from 'react'
 
