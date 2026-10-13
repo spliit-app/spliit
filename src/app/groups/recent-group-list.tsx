@@ -1,19 +1,28 @@
 'use client'
+
 import { AddGroupByUrlButton } from '@/app/groups/add-group-by-url-button'
 import {
-  RecentGroups,
+  forgetGroups,
   getArchivedGroups,
   getRecentGroups,
   getStarredGroups,
+  RecentGroups,
 } from '@/app/groups/recent-groups-helpers'
 import { Button } from '@/components/ui/button'
 import { getGroups } from '@/lib/api'
+import { MAX_GROUPS_PER_QUERY } from '@/lib/group-query-limits'
 import { trpc } from '@/trpc/client'
 import { AppRouterOutput } from '@/trpc/routers/_app'
 import { Loader2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
-import { PropsWithChildren, useEffect, useState } from 'react'
+import {
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import { GlobalBalanceCard } from './global-balance-card'
 import { RecentGroupListCard } from './recent-group-list-card'
 
@@ -64,7 +73,7 @@ function sortGroups({
 export function RecentGroupList() {
   const [state, setState] = useState<RecentGroupsState>({ status: 'pending' })
 
-  function loadGroups() {
+  const loadGroups = useCallback(() => {
     const groupsInStorage = getRecentGroups()
     const starredGroups = getStarredGroups()
     const archivedGroups = getArchivedGroups()
@@ -74,11 +83,11 @@ export function RecentGroupList() {
       starredGroups,
       archivedGroups,
     })
-  }
+  }, [])
 
   useEffect(() => {
     loadGroups()
-  }, [])
+  }, [loadGroups])
 
   if (state.status === 'pending') return null
 
@@ -87,7 +96,7 @@ export function RecentGroupList() {
       groups={state.groups}
       starredGroups={state.starredGroups}
       archivedGroups={state.archivedGroups}
-      refreshGroupsFromStorage={() => loadGroups()}
+      refreshGroupsFromStorage={loadGroups}
     />
   )
 }
@@ -104,9 +113,37 @@ function RecentGroupList_({
   refreshGroupsFromStorage: () => void
 }) {
   const t = useTranslations('Groups')
-  const { data, isLoading } = trpc.groups.list.useQuery({
-    groupIds: groups.map((group) => group.id),
+  const groupIds = useMemo(
+    () => groups.map((group) => group.id).slice(0, MAX_GROUPS_PER_QUERY),
+    [groups],
+  )
+  const { data, isLoading, isError, refetch } = trpc.groups.list.useQuery({
+    groupIds,
   })
+
+  // Groups that were requested but not returned have been deleted: forget
+  // them. Only the requested ones can be judged, as the query is capped.
+  useEffect(() => {
+    if (!data) return
+    const foundGroupIds = new Set(data.groups.map((group) => group.id))
+    const deletedGroupIds = groupIds.filter((id) => !foundGroupIds.has(id))
+    if (deletedGroupIds.length === 0) return
+    forgetGroups(deletedGroupIds)
+    refreshGroupsFromStorage()
+  }, [data, groupIds, refreshGroupsFromStorage])
+
+  if (isError) {
+    return (
+      <GroupsPage reload={refreshGroupsFromStorage}>
+        <div className="text-sm space-y-2">
+          <p>{t('loadError')}</p>
+          <Button variant="secondary" onClick={() => refetch()}>
+            {t('retry')}
+          </Button>
+        </div>
+      </GroupsPage>
+    )
+  }
 
   if (isLoading || !data) {
     return (

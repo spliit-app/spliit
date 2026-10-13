@@ -17,11 +17,11 @@
  */
 import { batched, single } from '../client'
 import {
-  LARGE_GROUP,
-  SEARCH_TOKEN,
   config,
   deepPageOffset,
   groupId,
+  LARGE_GROUP,
+  SEARCH_TOKEN,
 } from '../config'
 import type { Step } from '../harness'
 

@@ -1,13 +1,16 @@
+import { Page } from '@playwright/test'
 import {
   addExpense,
   createGroup,
   expectBalance,
+  EXPENSES_URL,
+  openExpense,
   openTab,
   paidForRow,
   uniqueSuffix,
 } from './app'
 import { expect, test } from './fixtures'
-import { fillStable, selectRadixOption } from './ui'
+import { fillStable, money, normalizeMoney, selectRadixOption } from './ui'
 
 const PARTICIPANTS = ['Alice', 'Bob', 'Carol']
 
@@ -72,6 +75,43 @@ test('splits an expense by amount', async ({ page }) => {
   await expectBalance(page, 'Carol', -20)
 })
 
+test('keeps a by-amount split that skips a participant when reopened', async ({
+  page,
+}) => {
+  const groupId = await createGroup(page, {
+    name: `E2E AmountReopen ${uniqueSuffix()}`,
+    participants: PARTICIPANTS,
+  })
+
+  // Regression for #621: with a participant left unchecked, the edit form
+  // used to rebalance the stored amounts evenly as soon as it loaded.
+  await addExpense(page, groupId, {
+    title: 'Taxi',
+    amount: '100',
+    paidBy: 'Alice',
+    paidFor: ['Alice', 'Bob'],
+    splitMode: 'BY_AMOUNT',
+    shares: { Alice: '60', Bob: '40' },
+  })
+
+  await openExpense(page, 'Taxi')
+  await expect(paidForRow(page, 'Alice').getByRole('textbox')).toHaveValue('60')
+  await expect(paidForRow(page, 'Bob').getByRole('textbox')).toHaveValue('40')
+  await expect(paidForRow(page, 'Carol').getByRole('checkbox')).toHaveAttribute(
+    'aria-checked',
+    'false',
+  )
+
+  // Saving without touching the split must not change it either.
+  await page.getByRole('button', { name: 'Save', exact: true }).click()
+  await page.waitForURL(EXPENSES_URL, { timeout: 30_000 })
+
+  await openTab(page, 'Balances')
+  await expectBalance(page, 'Alice', 40)
+  await expectBalance(page, 'Bob', -40)
+  await expectBalance(page, 'Carol', 0)
+})
+
 test('rejects percentages that do not add up to 100', async ({ page }) => {
   const groupId = await createGroup(page, {
     name: `E2E BadPercent ${uniqueSuffix()}`,
@@ -98,7 +138,184 @@ test('rejects percentages that do not add up to 100', async ({ page }) => {
   await submit.click()
 
   await expect(
-    page.getByText('Sum of percentages must equal 100.'),
+    page.getByText('The percentages add up to 90%, 10% less than 100%.'),
   ).toBeVisible()
   await expect(page).toHaveURL(/\/expenses\/create/)
+})
+
+test('names the difference when amounts do not add up', async ({ page }) => {
+  const groupId = await createGroup(page, {
+    name: `E2E BadAmount ${uniqueSuffix()}`,
+    participants: PARTICIPANTS,
+  })
+
+  await page.goto(`/groups/${groupId}/expenses/create`)
+  const submit = page.getByRole('button', { name: 'Create', exact: true })
+  await expect(submit).toBeVisible({ timeout: 30_000 })
+
+  await fillStable(page.locator('input[name="title"]'), 'Off by a cent')
+  await fillStable(page.locator('input[name="amount"]'), '100')
+  await selectRadixOption(page, page.getByTestId('paid-by'), 'Alice')
+  await page.getByRole('button', { name: /Advanced splitting options/ }).click()
+  await selectRadixOption(page, page.getByTestId('split-mode'), /By amount/)
+
+  // Receipt rounding: the last amount is one cent too high.
+  const shares: Record<string, string> = {
+    Alice: '50',
+    Bob: '30',
+    Carol: '20.01',
+  }
+  for (const name of Object.keys(shares)) {
+    await fillStable(paidForRow(page, name).getByRole('textbox'), shares[name])
+  }
+
+  await submit.click()
+
+  const message = page.getByText(
+    `The amounts add up to ${money(100.01)}, ${money(0.01)} more than the expense amount (${money(100)}).`,
+  )
+  await expect(message).toBeVisible()
+  await expect(page).toHaveURL(/\/expenses\/create/)
+
+  // The error is about amounts; it must not outlive the split mode.
+  await selectRadixOption(page, page.getByTestId('split-mode'), /Evenly/)
+  await expect(message).toBeHidden()
+  await expect(page.getByText(/SchemaErrors/)).toHaveCount(0)
+})
+
+test('offers the remainder again when an amount is cleared', async ({
+  page,
+}) => {
+  const groupId = await createGroup(page, {
+    name: `E2E ClearAmount ${uniqueSuffix()}`,
+    participants: PARTICIPANTS,
+  })
+
+  await page.goto(`/groups/${groupId}/expenses/create`)
+  const submit = page.getByRole('button', { name: 'Create', exact: true })
+  await expect(submit).toBeVisible({ timeout: 30_000 })
+
+  await fillStable(page.locator('input[name="title"]'), 'Cleared')
+  await fillStable(page.locator('input[name="amount"]'), '100')
+  await selectRadixOption(page, page.getByTestId('paid-by'), 'Alice')
+  await page.getByRole('button', { name: /Advanced splitting options/ }).click()
+  await selectRadixOption(page, page.getByTestId('split-mode'), /By amount/)
+
+  await fillStable(paidForRow(page, 'Alice').getByRole('textbox'), '50')
+  await fillStable(paidForRow(page, 'Bob').getByRole('textbox'), '30')
+  // Carol's amount was filled in; type a wrong one, then delete it. The input
+  // must go back to suggesting the remainder, as a placeholder this time.
+  const carol = paidForRow(page, 'Carol').getByRole('textbox')
+  await fillStable(carol, '25')
+  await fillStable(carol, '')
+  await expect(carol).toHaveAttribute('placeholder', '20.00')
+
+  // The suggestion is what gets saved when the input is left empty.
+  await submit.click()
+  await page.waitForURL(/\/groups\/[^/]+\/expenses(\?|$)/, { timeout: 30_000 })
+  await openTab(page, 'Balances')
+  await expectBalance(page, 'Alice', 50)
+  await expectBalance(page, 'Bob', -30)
+  await expectBalance(page, 'Carol', -20)
+})
+
+/** The share previewed next to a participant on the expense form, e.g. '$8.28'. */
+async function previewedShare(
+  page: Page,
+  participant: string,
+): Promise<string> {
+  const label = (await paidForRow(page, participant).innerText()).split('\n')[0]
+  return normalizeMoney(label.match(/\(([^)]+)\)\s*$/)?.[1] ?? '')
+}
+
+test('saves an even split with the leftover cent where it was previewed', async ({
+  page,
+}) => {
+  const groupId = await createGroup(page, {
+    name: `E2E OddCent ${uniqueSuffix()}`,
+    participants: ['Alice', 'Bob'],
+  })
+
+  // Regression for #646: the leftover cent of an even split rotates by a hash
+  // of the expense id, and the form used to preview without one, so the cent
+  // could move to the other participant on save. Several expenses so a lucky
+  // hash cannot hide a regression.
+  let bobOwes = 0
+  for (const [title, amount, low, high] of [
+    ['Dinner', '16.57', 8.28, 8.29],
+    ['Taxi', '20.01', 10, 10.01],
+    ['Coffee', '9.99', 4.99, 5],
+  ] as const) {
+    await page.goto(`/groups/${groupId}/expenses/create`)
+    const submit = page.getByRole('button', { name: 'Create', exact: true })
+    await expect(submit).toBeVisible({ timeout: 30_000 })
+
+    await fillStable(page.locator('input[name="title"]'), title)
+    await fillStable(page.locator('input[name="amount"]'), amount)
+    await selectRadixOption(page, page.getByTestId('paid-by'), 'Alice')
+
+    // Wait for the preview to reflect the amount before recording who was
+    // shown the extra cent.
+    await expect
+      .poll(async () =>
+        [
+          await previewedShare(page, 'Alice'),
+          await previewedShare(page, 'Bob'),
+        ].sort(),
+      )
+      .toEqual([money(low), money(high)])
+    const previewed = {
+      Alice: await previewedShare(page, 'Alice'),
+      Bob: await previewedShare(page, 'Bob'),
+    }
+
+    await submit.click()
+    await page.waitForURL(EXPENSES_URL, { timeout: 30_000 })
+
+    // The edit form previews with the saved id, i.e. the split that counts.
+    await openExpense(page, title)
+    await expect(paidForRow(page, 'Alice')).toContainText(previewed.Alice)
+    await expect(paidForRow(page, 'Bob')).toContainText(previewed.Bob)
+
+    bobOwes += previewed.Bob === money(high) ? high : low
+  }
+
+  await openTab(page, 'Balances')
+  await expectBalance(page, 'Alice', bobOwes)
+  await expectBalance(page, 'Bob', -bobOwes)
+})
+
+test('can retry a create whose response was lost', async ({ page }) => {
+  const groupId = await createGroup(page, {
+    name: `E2E LostResponse ${uniqueSuffix()}`,
+    participants: ['Alice', 'Bob'],
+  })
+
+  await page.goto(`/groups/${groupId}/expenses/create`)
+  const submit = page.getByRole('button', { name: 'Create', exact: true })
+  await expect(submit).toBeVisible({ timeout: 30_000 })
+
+  await fillStable(page.locator('input[name="title"]'), 'Lost')
+  await fillStable(page.locator('input[name="amount"]'), '16.57')
+  await selectRadixOption(page, page.getByTestId('paid-by'), 'Alice')
+
+  // The form mints the expense id itself so its split preview can be exact.
+  // Let the server handle the first create but lose its response: a retry
+  // that reused the id would collide with the expense it already made.
+  let lost = false
+  await page.route(/\/api\/trpc\/groups\.expenses\.create/, async (route) => {
+    if (lost) return route.continue()
+    lost = true
+    await route.fetch()
+    await route.abort('failed')
+  })
+  await submit.click()
+  await expect.poll(() => lost).toBe(true)
+  await expect(submit).toBeEnabled()
+
+  await submit.click()
+  await page.waitForURL(EXPENSES_URL, { timeout: 30_000 })
+  await expect(
+    page.getByTestId('expense-card').filter({ hasText: 'Lost' }),
+  ).toHaveCount(2)
 })

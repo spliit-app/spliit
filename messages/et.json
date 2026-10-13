@@ -5,7 +5,8 @@
     "button": {
       "groups": "Mine gruppidesse",
       "github": "GitHub"
-    }
+    },
+    "metaTitle": "Spliit · Jaga kulusid sõprade ja perega"
   },
   "Header": {
     "groups": "Grupid"
@@ -73,11 +74,29 @@
       "button": "Lisa URL-i kaudu",
       "title": "Lisa grupp URL-i kaudu",
       "description": "Kui sinuga jagati gruppi, saad selle URL-i siia kleepida, et lisada see oma loendisse.",
-      "error": "Oih, me ei leidnud gruppi sinu esitatud URL-i põhjal…"
+      "error": "Oih, me ei leidnud gruppi sinu esitatud URL-i põhjal…",
+      "urlMode": "Sisesta URL",
+      "qrMode": "Skänni QR kood",
+      "scanner": {
+        "startCamera": "Käivita kaamera",
+        "stopScanning": "Lõpeta skännimine",
+        "permissionDenied": "Kaamera kasutamise luba puudub. QR-koodide skannimiseks luba palun juurdepääs kaamerale.",
+        "noCamera": "Selles seadmes ei leitud kaamerat.",
+        "cameraError": "Kaamera käivitamine ebaõnnestus. Palun proovi uuesti.",
+        "permissionError": "Ligipääs kaamerale puudub. Palun kontrolli õiguseid."
+      }
     },
     "NotFound": {
       "text": "Seda gruppi ei ole olemas.",
       "link": "Mine hiljuti külastatud gruppidesse"
+    },
+    "createGroup": "Loo grupp",
+    "GlobalBalance": {
+      "title": "Sinu kontojääk",
+      "description": "Sinu kontojääk üle kõikide gruppide.",
+      "owedToYou": "Sulle ollakse võlgu",
+      "youOwe": "Sina oled võlgu",
+      "settledUp": "Kõik sinu grupid on tasaarveldatud."
     }
   },
   "GroupForm": {
@@ -199,7 +218,9 @@
     },
     "conversionUnavailable": "Erineva valuuta seadmiseks kulu kohta ja summade teisendamiseks vali grupile mitte-kohandatud valuuta.",
     "originalAmountField": {
-      "label": "Teisendatav summa"
+      "label": "Teisendatav summa",
+      "repaymentLabel": "Ülekantav summa",
+      "repaymentDescription": "Teisendatud ülaltoodud summast, millega saldo tasaarveldatakse."
     },
     "conversionRateField": {
       "useApi": "Kasuta Frankfurteri kursse",
@@ -304,13 +325,85 @@
   "Stats": {
     "title": "Statistika",
     "Totals": {
-      "title": "Kokkuvõte",
+      "title": "Summad",
       "description": "Kogu grupi kulutuste ülevaade.",
       "groupSpendings": "Grupi kogukulud",
       "groupEarnings": "Grupi kogutulud",
       "yourSpendings": "Sinu kogukulud",
       "yourEarnings": "Sinu kogutulud",
       "yourShare": "Sinu kogu osa"
+    },
+    "range": {
+      "label": "Periood",
+      "all": "Kogu periood",
+      "thisMonth": "See kuu",
+      "last30": "Viimased 30 päeva",
+      "thisYear": "See aasta",
+      "custom": "Kohandatud periood",
+      "from": "Alates",
+      "to": "Kuni"
+    },
+    "Summary": {
+      "title": "Kokkuvõte",
+      "description": "Valitud perioodi põhinäitajad.",
+      "empty": "Kulusid veel ei ole.",
+      "expenseCount": "Kulud",
+      "averageExpense": "Keskmine kulu",
+      "largestExpense": "Suurim kulu",
+      "activeSpan": "Aktiivne periood"
+    },
+    "OverTime": {
+      "title": "Kulud aja jooksul",
+      "description": "Grupi kogukulud kuude kaupa. Vali kuu, et näha selle kulusid.",
+      "empty": "Kulusid veel ei ole.",
+      "showExpenses": "Näita {month} kulusid",
+      "detailsDescription": "Selle kuu kulud valitud perioodil.",
+      "detailsEmpty": "Sellel kuul veel kulusid ei ole."
+    },
+    "ByParticipant": {
+      "title": "Kulud osaleja kaupa",
+      "description": "Kui palju iga osaleja maksis ja kui suur oli tema osa kuludest.",
+      "empty": "Kulusid veel ei ole.",
+      "participant": "Osaleja",
+      "paid": "Makstud",
+      "count": "Arv",
+      "share": "Osak"
+    },
+    "ByCategory": {
+      "title": "Kulud kategooriate kaupa",
+      "description": "Igas kategoorias kulutatud kogusumma. Vali kategooria, et näha selle kulusid.",
+      "empty": "Kulusid veel ei ole.",
+      "showExpenses": "Näita kategooria {category} kulusid",
+      "detailsDescription": "Selle kategooria kulud valitud perioodil.",
+      "detailsEmpty": "Selles kategoorias kulusid ei ole."
+    },
+    "Recurring": {
+      "title": "Korduvad kulud",
+      "description": "Grupi aktiivsete korduvkulude hinnanguline maksumus.",
+      "estimatedMonthly": "Hinnanguline kuukulu",
+      "estimatedYearly": "{amount} aastas",
+      "period": {
+        "DAILY": "{count, plural, one {# päevane kulu} other {# päevast kulu}}",
+        "WEEKLY": "{count, plural, one {# iganädalane kulu} other {# iganädalast kulu}}",
+        "MONTHLY": "{count, plural, one {# igakuine kulu} other {# igakuist kulu}}"
+      }
+    },
+    "MonthlySpending": {
+      "title": "Kuukulud",
+      "description": "Kulud kuude ja kategooriate kaupa valitud perioodil.",
+      "groupingLabel": "Kategooriate rühmitamine",
+      "chartTypeLabel": "Diagrammi tüüp",
+      "stackedTitle": "Kategooriad kuude kaupa",
+      "roundAmountsLabel": "Ümarda summad",
+      "noData": "Kulude andmed veel puuduvad.",
+      "ChartTypes": {
+        "bars": "Virnastatud veerud",
+        "columns": "Virnastatud tulbad"
+      },
+      "GroupingOptions": {
+        "categoryGroup": "Kategooriad",
+        "category": "Detailid"
+      }
     }
   },
   "Activity": {
@@ -346,7 +439,14 @@
     "title": "Jaga",
     "description": "Selleks, et teised osalejad saaksid gruppi näha ja kulusid lisada, jaga nendega grupi URL-i.",
     "warning": "Hoiatus!",
-    "warningHelp": "Igaüks, kellel on grupi URL, saab kulusid näha ja muuta. Jaga ettevaatlikult!"
+    "warningHelp": "Igaüks, kellel on grupi URL, saab kulusid näha ja muuta. Jaga ettevaatlikult!",
+    "copyLink": "Kopeeri link",
+    "shareLink": "Jaga linki",
+    "qrCode": {
+      "title": "Jaga QR koodiga",
+      "description": "Skäneeri QR koodi et avada grupp teisest seadmest.",
+      "download": "Lae QR kood alla"
+    }
   },
   "SchemaErrors": {
     "min1": "Sisesta vähemalt üks tähemärk.",
@@ -363,8 +463,8 @@
     "paidByRequired": "Pead valima osaleja.",
     "paidForMin1": "Kulu peab olema makstud vähemalt ühe osaleja eest.",
     "noZeroShares": "Kõik osad peavad olema suuremad kui 0.",
-    "amountSum": "Summade kogusumma peab võrduma kulu summaga.",
-    "percentageSum": "Protsentide summa peab võrduma 100-ga."
+    "amountSum": "Summad annavad kokku {sum}, mis on {difference} {direction, select, over {rohkem} other {vähem}} kui kulu summa ({amount}).",
+    "percentageSum": "Protsendid annavad kokku {sum}%, mis on {difference}% {direction, select, over {rohkem} other {vähem}} kui 100%."
   },
   "Categories": {
     "search": "Otsi kategooriat...",
@@ -447,5 +547,17 @@
     "other": {
       "heading": "Muud valuutad"
     }
+  },
+  "Errors": {
+    "title": "Midagi läks valesti",
+    "groupTitle": "Selle grupi laadimine ebaõnnestus",
+    "generic": "Palun proovi uuesti. Kui probleem ei parane, lae leht uuesti.",
+    "reference": "Viide: {digest}",
+    "retry": "Proovi uuesti"
+  },
+  "Pwa": {
+    "updateTitle": "Värskendus on saadaval",
+    "updateDescription": "Spliiti uus versioon on saadaval.",
+    "reload": "Lae uuesti"
   }
 }

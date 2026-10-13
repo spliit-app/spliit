@@ -39,3 +39,29 @@ export function isAllowedUploadUrl(rawUrl: string): boolean {
   if (url.protocol !== 'https:' && url.protocol !== 'http:') return false
   return getAllowedUploadHosts().includes(url.hostname)
 }
+
+/**
+ * Returns the S3 object key of a document the app uploaded, or null when the
+ * URL does not point into the configured bucket. next-s3-upload builds URLs as
+ * `https://<bucket>.s3.<region>.amazonaws.com/<key>` on AWS, and path-style as
+ * `<endpoint>/<bucket>/<key>` with a custom endpoint.
+ */
+export function getUploadKeyFromUrl(rawUrl: string): string | null {
+  if (!env.S3_UPLOAD_BUCKET || !isAllowedUploadUrl(rawUrl)) return null
+  let path: string
+  try {
+    path = decodeURIComponent(new URL(rawUrl).pathname)
+  } catch {
+    return null
+  }
+  let prefix = '/'
+  if (env.S3_UPLOAD_ENDPOINT) {
+    const endpointPath = new URL(env.S3_UPLOAD_ENDPOINT).pathname.replace(
+      /\/+$/,
+      '',
+    )
+    prefix = `${endpointPath}/${env.S3_UPLOAD_BUCKET}/`
+  }
+  if (!path.startsWith(prefix)) return null
+  return path.slice(prefix.length) || null
+}

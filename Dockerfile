@@ -1,4 +1,4 @@
-FROM node:24-alpine AS base
+FROM node:26-alpine AS base
 
 WORKDIR /usr/app
 COPY ./package.json \
@@ -52,7 +52,7 @@ RUN rm -f .next/standalone/.env
 # migrate deploy, which cannot run at build time), so @prisma/engines never
 # downloads the schema engine that `migrate deploy` needs. Installing the same
 # version here, with scripts, produces a complete self-contained CLI.
-FROM node:24-alpine AS prisma-cli
+FROM node:26-alpine AS prisma-cli
 
 WORKDIR /opt/prisma-cli
 ENV CHECKPOINT_DISABLE=1
@@ -69,7 +69,7 @@ RUN PRISMA_VERSION="$(node -p "require('./_prisma.json').version")" && \
     done; \
     exit 1
 
-FROM node:24-alpine AS runner
+FROM node:26-alpine AS runner
 
 EXPOSE 3000/tcp
 WORKDIR /usr/app

@@ -39,8 +39,12 @@ export function createAnalyticsProvider({
   return function AnalyticsProvider({ options, children }) {
     const transport = useTransport(options)
 
-    // The transport is read through a ref so that `sendEvent` below can have an
-    // empty dependency array. `TrackPage` passes `sendEvent` to a `useEffect`
+    // When several providers are configured they nest (see `Analytics`), and
+    // each forwards every event to the one above it. The outermost has none.
+    const parentSendEvent = useContext(AnalyticsContext)
+
+    // The transport is read through a ref so that `sendEvent` below can have a
+    // stable identity. `TrackPage` passes `sendEvent` to a `useEffect`
     // dependency array, and group pages re-render on every tRPC refetch, so an
     // identity that changed between renders would re-send the pageview every
     // time. Keeping the indirection here means a provider cannot reintroduce
@@ -50,13 +54,19 @@ export function createAnalyticsProvider({
       transportRef.current = transport
     }, [transport])
 
-    const sendEvent = useCallback<SendEvent>(({ event, props }, path = '/') => {
-      // Anonymized here, once, between the call sites and every provider: no
-      // caller can leak an ID by passing a path built from `groupId`, and no
-      // provider has to remember to scrub it.
-      const url = `${window.location.origin}${anonymizePath(path)}`
-      transportRef.current(event, props, url)
-    }, [])
+    const sendEvent = useCallback<SendEvent>(
+      (analyticsEvent, path = '/') => {
+        // Anonymized here, once per provider, between the call sites and the
+        // transport: no caller can leak an ID by passing a path built from
+        // `groupId`, and no provider has to remember to scrub it.
+        const url = `${window.location.origin}${anonymizePath(path)}`
+        transportRef.current(analyticsEvent.event, analyticsEvent.props, url)
+        parentSendEvent?.(analyticsEvent, path)
+      },
+      // The parent's `sendEvent` is memoized exactly like this one, so this
+      // dependency never changes and the identity stays stable.
+      [parentSendEvent],
+    )
 
     return (
       <>

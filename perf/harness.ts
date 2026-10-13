@@ -8,7 +8,7 @@
  * percentiles is the whole of it.
  */
 import { performance } from 'node:perf_hooks'
-import { type Recording, withRecording } from './client'
+import { withRecording, type Recording } from './client'
 import { config } from './config'
 
 /**

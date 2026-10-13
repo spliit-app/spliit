@@ -3,13 +3,13 @@
  * report, writes it as JSON, and fails when a deterministic budget is exceeded.
  *
  * Usage (normally via `npm run perf`, which brings the stack up first):
- *   ts-node -T perf/run.ts [--filter <substring>] [--json <path>]
+ *   tsx perf/run.ts [--filter <substring>] [--json <path>]
  */
 import { writeFileSync } from 'node:fs'
-import { type Budget, budgets } from './budgets'
+import { budgets, type Budget } from './budgets'
 import { waitForApp } from './client'
 import { baseUrl, config } from './config'
-import { type StepResult, runStep } from './harness'
+import { runStep, type StepResult } from './harness'
 import { listGroups } from './scenarios/list-groups'
 import { viewExpense } from './scenarios/view-expense'
 import { viewGroup } from './scenarios/view-group'

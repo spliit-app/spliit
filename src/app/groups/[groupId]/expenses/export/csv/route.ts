@@ -1,7 +1,11 @@
 import { getCurrency } from '@/lib/currency'
 import { prisma } from '@/lib/prisma'
 import { getExpenseShares } from '@/lib/shares'
-import { formatAmountAsDecimal, getCurrencyFromGroup } from '@/lib/utils'
+import {
+  dateOnlyToLocalDate,
+  formatAmountAsDecimal,
+  getCurrencyFromGroup,
+} from '@/lib/utils'
 import { Parser } from '@json2csv/plainjs'
 import { create as contentDisposition } from 'content-disposition'
 import { NextResponse } from 'next/server'
@@ -24,8 +28,13 @@ function escapeCsvFormula(value: string): string {
   return /^[=+\-@\t\r]/.test(value) ? `'${value}` : value
 }
 
-function formatDate(isoDateString: Date): string {
-  const date = new Date(isoDateString)
+/**
+ * `expenseDate` is a DATE column carried at UTC midnight, so it is converted
+ * with `dateOnlyToLocalDate` first: reading it through local getters directly
+ * would export the previous day on a server west of UTC.
+ */
+function formatDate(dateOnly: Date): string {
+  const date = dateOnlyToLocalDate(dateOnly)
   const year = date.getFullYear()
   const month = String(date.getMonth() + 1).padStart(2, '0') // Months are zero-based
   const day = String(date.getDate()).padStart(2, '0')
@@ -167,7 +176,6 @@ export async function GET(
 
   // Use the original group name for the 'filename*' parameter (UTF-8 encoded)
   const fullFilename = `Spliit Export - ${group.name} - ${date}.csv`
-  const encodedFullFilename = encodeURIComponent(fullFilename)
 
   // \uFEFF character is added at the beginning of the CSV content to ensure that it is interpreted as UTF-8 with BOM (Byte Order Mark), which helps some applications correctly interpret the encoding.
   return new NextResponse(`\uFEFF${csv}`, {

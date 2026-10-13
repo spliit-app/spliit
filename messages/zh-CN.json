@@ -78,6 +78,13 @@
     "NotFound": {
       "text": "该群组不存在。",
       "link": "跳转到最近访问过的群组"
+    },
+    "GlobalBalance": {
+      "title": "你的总余额",
+      "description": "你在所有群组中的合计余额。",
+      "owedToYou": "应收",
+      "youOwe": "应付",
+      "settledUp": "你在所有群组中均已结清。"
     }
   },
   "GroupForm": {
@@ -233,7 +240,9 @@
     "cancel": "取消",
     "reimbursement": "报销",
     "originalAmountField": {
-      "label": "需要转换的金额"
+      "label": "需要转换的金额",
+      "repaymentLabel": "需要转账的金额",
+      "repaymentDescription": "由上方金额换算而来；结清余额的是上方的金额。"
     },
     "conversionRateField": {
       "useApi": "使用Frankfurter提供的汇率",
@@ -311,6 +320,55 @@
       "yourSpendings": "你的总计开销",
       "yourEarnings": "你的总计收入",
       "yourShare": "你的总计份额"
+    },
+    "range": {
+      "label": "时间段",
+      "all": "全部时间",
+      "thisMonth": "本月",
+      "last30": "最近 30 天",
+      "thisYear": "今年",
+      "custom": "自定义范围",
+      "from": "开始",
+      "to": "结束"
+    },
+    "Summary": {
+      "title": "概览",
+      "description": "所选时间段的关键数据。",
+      "empty": "还没有任何支出。",
+      "expenseCount": "支出笔数",
+      "averageExpense": "平均支出",
+      "largestExpense": "最大支出",
+      "activeSpan": "活跃时间段"
+    },
+    "OverTime": {
+      "title": "支出趋势",
+      "description": "群组每月的总支出。",
+      "empty": "还没有任何支出。"
+    },
+    "ByParticipant": {
+      "title": "按参与者统计支出",
+      "description": "每位参与者支付的金额及其分摊份额。",
+      "empty": "还没有任何支出。",
+      "participant": "参与者",
+      "paid": "已支付",
+      "count": "笔数",
+      "share": "分摊"
+    },
+    "ByCategory": {
+      "title": "按类别统计支出",
+      "description": "每个类别的支出总额。",
+      "empty": "还没有任何支出。"
+    },
+    "Recurring": {
+      "title": "周期性支出",
+      "description": "群组活跃周期性支出的预估费用。",
+      "estimatedMonthly": "预计每月费用",
+      "estimatedYearly": "每年 {amount}",
+      "period": {
+        "DAILY": "{count, plural, other {# 笔每日支出}}",
+        "WEEKLY": "{count, plural, other {# 笔每周支出}}",
+        "MONTHLY": "{count, plural, other {# 笔每月支出}}"
+      }
     }
   },
   "Activity": {
@@ -346,7 +404,9 @@
     "title": "分享",
     "description": "请将此URL分享给其他群组成员，以使其可以查看群组并添加消费。",
     "warning": "警告！",
-    "warningHelp": "任何持有群组URL的个体都有能够查看并编辑消费。请谨慎分享！"
+    "warningHelp": "任何持有群组URL的个体都有能够查看并编辑消费。请谨慎分享！",
+    "copyLink": "复制链接",
+    "shareLink": "分享链接"
   },
   "SchemaErrors": {
     "min1": "输入至少1个字符。",
@@ -447,5 +507,10 @@
     "other": {
       "heading": "其他币种"
     }
+  },
+  "Pwa": {
+    "updateTitle": "有可用更新",
+    "updateDescription": "Spliit 有新版本可用。",
+    "reload": "重新加载"
   }
 }

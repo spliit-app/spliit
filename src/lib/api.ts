@@ -6,6 +6,7 @@ import {
 } from '@/generated/prisma/client'
 import { prisma } from '@/lib/prisma'
 import { randomId } from '@/lib/random'
+import { nextRecurringDate } from '@/lib/recurrence'
 import { ExpenseFormValues, GroupFormValues } from '@/lib/schemas'
 
 // Re-exported for backwards compatibility with existing server-side importers.
@@ -36,6 +37,10 @@ export async function createExpense(
   expenseFormValues: ExpenseFormValues,
   groupId: string,
   participantId?: string,
+  // The expense form mints the id up front so the split it previews is the
+  // one the saved expense gets (the id seeds who takes the leftover minor
+  // unit, see `getExpenseShares`).
+  expenseId: string = randomId(),
 ): Promise<Expense> {
   const group = await getGroup(groupId)
   if (!group) throw new Error(`Invalid group ID: ${groupId}`)
@@ -48,7 +53,6 @@ export async function createExpense(
       throw new Error(`Invalid participant ID: ${participant}`)
   }
 
-  const expenseId = randomId()
   await logActivity(groupId, ActivityType.CREATE_EXPENSE, {
     participantId,
     expenseId,
@@ -126,6 +130,50 @@ export async function deleteExpense(
   })
 }
 
+// Instead of deleting a group and all its data right away, it is scheduled for
+// deletion, and can be restored during this grace period. Once it is over, the
+// group is purged by src/lib/group-deletion.ts.
+const GROUP_DELETION_GRACE_PERIOD_MS = 30 * 24 * 60 * 60 * 1000
+
+export async function scheduleGroupDeletion(
+  groupId: string,
+  groupName: string,
+  participantId?: string,
+) {
+  // A single conditional update, so that two concurrent requests cannot both
+  // succeed, nor push the deletion date back.
+  const { count } = await prisma.group.updateMany({
+    where: { id: groupId, name: groupName, deleteAt: null },
+    data: { deleteAt: new Date(Date.now() + GROUP_DELETION_GRACE_PERIOD_MS) },
+  })
+  if (count === 0) {
+    const group = await getGroup(groupId)
+    if (!group) throw new Error('Invalid group ID')
+    if (group.deleteAt)
+      throw new Error('Group is already scheduled for deletion')
+    throw new Error('Group name does not match')
+  }
+
+  await logActivity(groupId, ActivityType.SCHEDULE_GROUP_DELETION, {
+    participantId,
+  })
+}
+
+export async function restoreGroup(groupId: string, participantId?: string) {
+  // Once its deletion date has passed, the group may be being purged: it can
+  // no longer be restored.
+  const { count } = await prisma.group.updateMany({
+    where: { id: groupId, deleteAt: { gt: new Date() } },
+    data: { deleteAt: null },
+  })
+  if (count === 0)
+    throw new Error(
+      'Group is not scheduled for deletion, or can no longer be restored',
+    )
+
+  await logActivity(groupId, ActivityType.RESTORE_GROUP, { participantId })
+}
+
 export async function getGroupExpensesParticipants(groupId: string) {
   const [payers, paidFor] = await Promise.all([
     prisma.expense.findMany({
@@ -192,10 +240,18 @@ export async function updateExpense(
     // Delete the existing RecurrenceExpenseLink only if it has not been acted upon yet
     existingExpense.recurringExpenseLink?.nextExpenseCreatedAt === null
 
+  const expenseDateChanged =
+    existingExpense.expenseDate.getUTCFullYear() !==
+      expenseFormValues.expenseDate.getUTCFullYear() ||
+    existingExpense.expenseDate.getUTCMonth() !==
+      expenseFormValues.expenseDate.getUTCMonth() ||
+    existingExpense.expenseDate.getUTCDate() !==
+      expenseFormValues.expenseDate.getUTCDate()
   const isUpdateRecurrenceExpenseLink =
-    existingExpense.recurrenceRule !== expenseFormValues.recurrenceRule &&
-    // Update the exisiting RecurrenceExpenseLink only if it has not been acted upon yet
-    existingExpense.recurringExpenseLink?.nextExpenseCreatedAt === null
+    existingExpense.recurringExpenseLink?.nextExpenseCreatedAt === null &&
+    expenseFormValues.recurrenceRule !== RecurrenceRule.NONE &&
+    (existingExpense.recurrenceRule !== expenseFormValues.recurrenceRule ||
+      expenseDateChanged)
   const isCreateRecurrenceExpenseLink =
     existingExpense.recurrenceRule === RecurrenceRule.NONE &&
     expenseFormValues.recurrenceRule !== RecurrenceRule.NONE &&
@@ -208,9 +264,14 @@ export async function updateExpense(
     groupId,
   )
 
-  const updatedRecurrenceExpenseLinkNextExpenseDate = calculateNextDate(
-    expenseFormValues.recurrenceRule as RecurrenceRule,
-    existingExpense.expenseDate,
+  const updatedAnchorDay =
+    expenseFormValues.recurrenceRule === RecurrenceRule.MONTHLY
+      ? expenseFormValues.expenseDate.getUTCDate()
+      : null
+  const updatedRecurrenceExpenseLinkNextExpenseDate = nextRecurringDate(
+    expenseFormValues.recurrenceRule,
+    expenseFormValues.expenseDate,
+    updatedAnchorDay,
   )
 
   return prisma.expense.update({
@@ -266,6 +327,7 @@ export async function updateExpense(
           ? {
               update: {
                 nextExpenseDate: updatedRecurrenceExpenseLinkNextExpenseDate,
+                anchorDay: updatedAnchorDay,
               },
             }
           : {}),
@@ -376,8 +438,12 @@ export async function getGroupExpenses(
     },
     where: {
       groupId,
-      title: options?.filter
-        ? { contains: options.filter, mode: 'insensitive' }
+      // Search matches the title or the notes (#601).
+      OR: options?.filter
+        ? [
+            { title: { contains: options.filter, mode: 'insensitive' } },
+            { notes: { contains: options.filter, mode: 'insensitive' } },
+          ]
         : undefined,
     },
     orderBy: [{ expenseDate: 'desc' }, { createdAt: 'desc' }],
@@ -517,14 +583,25 @@ async function createRecurringExpenses() {
 
     let currentExpenseRecord = recurringExpenseLink.currentFrameExpense
     let currentReccuringExpenseLinkId = recurringExpenseLink.id
+    const anchorDay =
+      recurringExpenseLink.anchorDay ??
+      (currentExpenseRecord.recurrenceRule === RecurrenceRule.MONTHLY
+        ? currentExpenseRecord.expenseDate.getUTCDate()
+        : null)
 
     while (newExpenseDate < utcDateFromLocal) {
+      const recurrenceRule = currentExpenseRecord.recurrenceRule
+
+      if (recurrenceRule === null || recurrenceRule === RecurrenceRule.NONE)
+        break
+
       const newExpenseId = randomId()
       const newRecurringExpenseLinkId = randomId()
 
-      const newRecurringExpenseNextExpenseDate = calculateNextDate(
-        currentExpenseRecord.recurrenceRule as RecurrenceRule,
+      const newRecurringExpenseNextExpenseDate = nextRecurringDate(
+        recurrenceRule,
         newExpenseDate,
+        anchorDay,
       )
 
       const {
@@ -553,11 +630,16 @@ async function createRecurringExpenses() {
                 },
               },
               documents: {
-                connect: currentExpenseRecord.documents.map(
-                  (documentRecord) => ({
-                    id: documentRecord.id,
-                  }),
-                ),
+                createMany: {
+                  data: currentExpenseRecord.documents.map(
+                    (documentRecord) => ({
+                      id: randomId(),
+                      url: documentRecord.url,
+                      width: documentRecord.width,
+                      height: documentRecord.height,
+                    }),
+                  ),
+                },
               },
               id: newExpenseId,
               expenseDate: newExpenseDate,
@@ -566,6 +648,7 @@ async function createRecurringExpenses() {
                   groupId: currentExpenseRecord.groupId,
                   id: newRecurringExpenseLinkId,
                   nextExpenseDate: newRecurringExpenseNextExpenseDate,
+                  anchorDay,
                 },
               },
             },
@@ -587,6 +670,7 @@ async function createRecurringExpenses() {
             },
             data: {
               nextExpenseCreatedAt: newExpense.createdAt,
+              anchorDay,
             },
           })
 
@@ -616,9 +700,14 @@ function createPayloadForNewRecurringExpenseLink(
   priorDateToNextRecurrence: Date,
   groupId: String,
 ): RecurringExpenseLink {
-  const nextExpenseDate = calculateNextDate(
+  const anchorDay =
+    recurrenceRule === RecurrenceRule.MONTHLY
+      ? priorDateToNextRecurrence.getUTCDate()
+      : null
+  const nextExpenseDate = nextRecurringDate(
     recurrenceRule,
     priorDateToNextRecurrence,
+    anchorDay,
   )
 
   const recurringExpenseLinkId = randomId()
@@ -626,56 +715,8 @@ function createPayloadForNewRecurringExpenseLink(
     id: recurringExpenseLinkId,
     groupId: groupId,
     nextExpenseDate: nextExpenseDate,
+    anchorDay,
   }
 
   return recurringExpenseLinkPayload as RecurringExpenseLink
-}
-
-// TODO: Modify this function to use a more comprehensive recurrence Rule library like rrule (https://github.com/jkbrzt/rrule)
-//
-// Current limitations:
-// - If a date is intended to be repeated monthly on the 29th, 30th or 31st, it will change to repeating on the smallest
-// date that the reccurence has encountered. Ex. If a recurrence is created for Jan 31st on 2025, the recurring expense
-// will be created for Feb 28th, March 28, etc. until it is cancelled or fixed
-function calculateNextDate(
-  recurrenceRule: RecurrenceRule,
-  priorDateToNextRecurrence: Date,
-): Date {
-  const nextDate = new Date(priorDateToNextRecurrence)
-  switch (recurrenceRule) {
-    case RecurrenceRule.DAILY:
-      nextDate.setUTCDate(nextDate.getUTCDate() + 1)
-      break
-    case RecurrenceRule.WEEKLY:
-      nextDate.setUTCDate(nextDate.getUTCDate() + 7)
-      break
-    case RecurrenceRule.MONTHLY:
-      const nextYear = nextDate.getUTCFullYear()
-      const nextMonth = nextDate.getUTCMonth() + 1
-      let nextDay = nextDate.getUTCDate()
-
-      // Reduce the next day until it is within the direct next month
-      while (!isDateInNextMonth(nextYear, nextMonth, nextDay)) {
-        nextDay -= 1
-      }
-      nextDate.setUTCMonth(nextMonth, nextDay)
-      break
-  }
-
-  return nextDate
-}
-
-function isDateInNextMonth(
-  utcYear: number,
-  utcMonth: number,
-  utcDate: number,
-): Boolean {
-  const testDate = new Date(Date.UTC(utcYear, utcMonth, utcDate))
-
-  // We're not concerned if the year or month changes. We only want to make sure that the date is our target date
-  if (testDate.getUTCDate() !== utcDate) {
-    return false
-  }
-
-  return true
 }
