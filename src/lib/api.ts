@@ -591,7 +591,7 @@ async function createRecurringExpenses() {
 
     while (newExpenseDate < utcDateFromLocal) {
       const recurrenceRule = currentExpenseRecord.recurrenceRule
-      
+
       if (recurrenceRule === null || recurrenceRule === RecurrenceRule.NONE)
         break
 
