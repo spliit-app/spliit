@@ -9,9 +9,10 @@ function utcDaysInMonth(year: number, monthIndex: number): number {
  *
  * Monthly dates keep `anchorDay` (the day the series was created on). A 31st
  * clamps to the 28th in February, then returns to the 31st in March.
+ * NONE returns `prior` unchanged, so callers that loop must stop on it.
  */
 export function nextRecurringDate(
-  recurrenceRule: RecurrenceRuleName | string,
+  recurrenceRule: RecurrenceRuleName,
   prior: Date,
   anchorDay?: number | null,
 ): Date {
@@ -34,8 +35,12 @@ export function nextRecurringDate(
       nextDate.setUTCFullYear(year, month, day)
       break
     }
-    default:
+    case 'NONE':
       break
+    default: {
+      const unknownRule: never = recurrenceRule
+      throw new Error(`Unknown recurrence rule: ${unknownRule}`)
+    }
   }
   return nextDate
 }
