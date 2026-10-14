@@ -95,6 +95,7 @@
         "daily": "Pemdeziek",
         "weekly": "Bep sizhun",
         "monthly": "Bep miz",
+        "yearly": "Bep bloaz",
         "none": "Hini ebet"
       },
       "paidByField": {

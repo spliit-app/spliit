@@ -185,7 +185,8 @@
         "none": "Ingen",
         "daily": "Dagligen",
         "weekly": "Veckovis",
-        "monthly": "Månadsvis"
+        "monthly": "Månadsvis",
+        "yearly": "Årsvis"
       },
       "paidFor": {
         "title": "Betalat för",

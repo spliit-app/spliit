@@ -198,7 +198,8 @@
         "none": "无",
         "daily": "每天",
         "weekly": "每周",
-        "monthly": "每月"
+        "monthly": "每月",
+        "yearly": "每年"
       }
     },
     "amountField": {
@@ -367,7 +368,8 @@
       "period": {
         "DAILY": "{count, plural, other {# 笔每日支出}}",
         "WEEKLY": "{count, plural, other {# 笔每周支出}}",
-        "MONTHLY": "{count, plural, other {# 笔每月支出}}"
+        "MONTHLY": "{count, plural, other {# 笔每月支出}}",
+        "YEARLY": "{count, plural, other {# 笔每年支出}}"
       }
     }
   },

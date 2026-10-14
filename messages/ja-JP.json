@@ -188,7 +188,8 @@
         "none": "なし",
         "daily": "毎日",
         "weekly": "毎週",
-        "monthly": "毎月"
+        "monthly": "毎月",
+        "yearly": "毎年"
       },
       "paidFor": {
         "title": "支払い対象",
@@ -367,7 +368,8 @@
       "period": {
         "DAILY": "{count, plural, other {毎日の支出 #件}}",
         "WEEKLY": "{count, plural, other {毎週の支出 #件}}",
-        "MONTHLY": "{count, plural, other {毎月の支出 #件}}"
+        "MONTHLY": "{count, plural, other {毎月の支出 #件}}",
+        "YEARLY": "{count, plural, other {毎年の支出 #件}}"
       }
     }
   },

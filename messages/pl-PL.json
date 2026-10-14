@@ -198,7 +198,8 @@
         "none": "Jednorazowo",
         "daily": "Codziennie",
         "weekly": "Co tydzień",
-        "monthly": "Co miesiąc"
+        "monthly": "Co miesiąc",
+        "yearly": "Co rok"
       },
       "paidFor": {
         "title": "Opłacone dla",
@@ -370,7 +371,8 @@
       "period": {
         "DAILY": "{count, plural, one {# dzienny wydatek} few {# dzienne wydatki} many {# dziennych wydatków} other {# dziennego wydatku}}",
         "WEEKLY": "{count, plural, one {# tygodniowy wydatek} few {# tygodniowe wydatki} many {# tygodniowych wydatków} other {# tygodniowego wydatku}}",
-        "MONTHLY": "{count, plural, one {# miesięczny wydatek} few {# miesięczne wydatki} many {# miesięcznych wydatków} other {# miesięcznego wydatku}}"
+        "MONTHLY": "{count, plural, one {# miesięczny wydatek} few {# miesięczne wydatki} many {# miesięcznych wydatków} other {# miesięcznego wydatku}}",
+        "YEARLY": "{count, plural, one {# roczny wydatek} few {# roczne wydatki} many {# rocznych wydatków} other {# rocznego wydatku}}"
       }
     }
   },

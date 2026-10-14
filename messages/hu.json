@@ -191,7 +191,8 @@
         "none": "Soha",
         "daily": "Naponta",
         "weekly": "Hetente",
-        "monthly": "Havonta"
+        "monthly": "Havonta",
+        "yearly": "Évente"
       },
       "paidFor": {
         "description": "Válasz ki, kinek a részére fizették ki a kadást.",

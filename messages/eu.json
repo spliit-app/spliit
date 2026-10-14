@@ -185,7 +185,8 @@
         "none": "Bat ere ez",
         "daily": "Egunero",
         "weekly": "Astero",
-        "monthly": "Hilabetero"
+        "monthly": "Hilabetero",
+        "yearly": "Urtero"
       },
       "paidFor": {
         "title": "Honentzat ordaindu da",

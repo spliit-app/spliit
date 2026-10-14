@@ -1,4 +1,4 @@
-import { nextRecurringDate } from './recurrence'
+import { nextRecurringDate, usesAnchorDay } from './recurrence'
 
 describe('nextRecurringDate', () => {
   it('keeps the monthly anchor day after a short month', () => {
@@ -17,6 +17,46 @@ describe('nextRecurringDate', () => {
     expect(nextRecurringDate('WEEKLY', start).toISOString().slice(0, 10)).toBe(
       '2025-02-07',
     )
+  })
+})
+
+describe('nextRecurringDate yearly', () => {
+  const day = (date: Date) => date.toISOString().slice(0, 10)
+
+  it('repeats on the same day one year later', () => {
+    const start = new Date(Date.UTC(2025, 2, 15))
+    expect(day(nextRecurringDate('YEARLY', start, 15))).toBe('2026-03-15')
+  })
+
+  it('returns to 29 February in the next leap year', () => {
+    let date = new Date(Date.UTC(2024, 1, 29))
+    const dates = []
+    for (let i = 0; i < 4; i++) {
+      date = nextRecurringDate('YEARLY', date, 29)
+      dates.push(day(date))
+    }
+    expect(dates).toEqual([
+      '2025-02-28',
+      '2026-02-28',
+      '2027-02-28',
+      '2028-02-29',
+    ])
+  })
+
+  it('falls back to the day of the prior date without an anchor', () => {
+    const start = new Date(Date.UTC(2025, 11, 31))
+    expect(day(nextRecurringDate('YEARLY', start))).toBe('2026-12-31')
+  })
+})
+
+describe('usesAnchorDay', () => {
+  it('is true only for monthly and yearly', () => {
+    expect(usesAnchorDay('MONTHLY')).toBe(true)
+    expect(usesAnchorDay('YEARLY')).toBe(true)
+    expect(usesAnchorDay('DAILY')).toBe(false)
+    expect(usesAnchorDay('WEEKLY')).toBe(false)
+    expect(usesAnchorDay('NONE')).toBe(false)
+    expect(usesAnchorDay(null)).toBe(false)
   })
 })
 
@@ -61,8 +101,8 @@ describe('nextRecurringDate edge cases', () => {
 
   it('throws on an unknown rule', () => {
     const prior = new Date(Date.UTC(2025, 0, 31))
-    expect(() => nextRecurringDate('YEARLY' as never, prior)).toThrow(
-      'Unknown recurrence rule: YEARLY',
+    expect(() => nextRecurringDate('HOURLY' as never, prior)).toThrow(
+      'Unknown recurrence rule: HOURLY',
     )
   })
 })
