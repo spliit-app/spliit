@@ -188,7 +188,8 @@
         "none": "Niet",
         "daily": "Dagelijks",
         "weekly": "Wekelijks",
-        "monthly": "Maandelijks"
+        "monthly": "Maandelijks",
+        "yearly": "Jaarlijks"
       },
       "paidFor": {
         "title": "Betaald voor",
@@ -373,7 +374,8 @@
       "period": {
         "DAILY": "{count, plural, one {# dagelijkse uitgave} other {# dagelijkse uitgaven}}",
         "WEEKLY": "{count, plural, one {# wekelijkse uitgave} other {# wekelijkse uitgaven}}",
-        "MONTHLY": "{count, plural, one {# maandelijkse uitgave} other {# maandelijkse uitgaven}}"
+        "MONTHLY": "{count, plural, one {# maandelijkse uitgave} other {# maandelijkse uitgaven}}",
+        "YEARLY": "{count, plural, one {# jaarlijkse uitgave} other {# jaarlijkse uitgaven}}"
       }
     }
   },

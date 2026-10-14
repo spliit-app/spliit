@@ -185,7 +185,8 @@
         "none": "ללא",
         "daily": "יומית",
         "weekly": "שבועית",
-        "monthly": "חודשית"
+        "monthly": "חודשית",
+        "yearly": "שנתית"
       },
       "paidFor": {
         "title": "שולם עבור",
