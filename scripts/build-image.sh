@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Read name/version from package.json using only POSIX tools, so the image can
 # be built on hosts where Node.js/npm is not installed (see #219). Anchored on
