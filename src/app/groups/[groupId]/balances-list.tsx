@@ -1,7 +1,7 @@
+import { Participant } from '@/generated/prisma/browser'
 import { Balances } from '@/lib/balances'
 import { Currency } from '@/lib/currency'
 import { cn, formatCurrency } from '@/lib/utils'
-import { Participant } from '@prisma/client'
 import { useLocale } from 'next-intl'
 
 type Props = {
@@ -24,6 +24,8 @@ export function BalancesList({ balances, participants, currency }: Props) {
         return (
           <div
             key={participant.id}
+            data-testid="balance-row"
+            data-participant={participant.name}
             className={cn('flex', isLeft || 'flex-row-reverse')}
           >
             <div className={cn('w-1/2 p-2', isLeft && 'text-right')}>

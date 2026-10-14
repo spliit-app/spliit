@@ -1,8 +1,12 @@
 import { TotalsPageClient } from '@/app/groups/[groupId]/stats/page.client'
-import { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 
-export const metadata: Metadata = {
-  title: 'Totals',
+export async function generateMetadata() {
+  const t = await getTranslations('Stats')
+
+  return {
+    title: t('Totals.title'),
+  }
 }
 
 export default async function TotalsPage() {

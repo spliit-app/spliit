@@ -1,0 +1,6 @@
+-- AlterEnum
+ALTER TYPE "ActivityType" ADD VALUE 'SCHEDULE_GROUP_DELETION';
+ALTER TYPE "ActivityType" ADD VALUE 'RESTORE_GROUP';
+
+-- AlterTable
+ALTER TABLE "Group" ADD COLUMN     "deleteAt" TIMESTAMP(3);

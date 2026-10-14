@@ -1,5 +1,3 @@
-import { ChevronDown, Loader2 } from 'lucide-react'
-
 import { Button, ButtonProps } from '@/components/ui/button'
 import {
   Command,
@@ -7,6 +5,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
 } from '@/components/ui/command'
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer'
 import {
@@ -16,6 +15,7 @@ import {
 } from '@/components/ui/popover'
 import { Currency } from '@/lib/currency'
 import { useMediaQuery } from '@/lib/hooks'
+import { ChevronDown, Loader2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { forwardRef, useEffect, useState } from 'react'
 
@@ -128,8 +128,8 @@ function CurrencyCommand({
   return (
     <Command>
       <CommandInput placeholder={t('search')} className="text-base" />
-      <CommandEmpty>{t('noCurrency')}</CommandEmpty>
-      <div className="w-full max-h-[300px] overflow-y-auto">
+      <CommandList>
+        <CommandEmpty>{t('noCurrency')}</CommandEmpty>
         {Object.entries(currenciesByGroup).map(
           ([group, groupCurrencies], index) => (
             <CommandGroup key={index} heading={t(`${group}.heading`)}>
@@ -147,7 +147,7 @@ function CurrencyCommand({
             </CommandGroup>
           ),
         )}
-      </div>
+      </CommandList>
     </Command>
   )
 }

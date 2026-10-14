@@ -5,42 +5,123 @@ on:
     tags:
       - '*'
 
+env:
+  REGISTRY: ghcr.io
+
 jobs:
-  build-and-push-image:
-    runs-on: ubuntu-latest
+  # Each platform is built on a runner of that architecture, then pushed
+  # untagged (by digest only). Emulating linux/arm64 with QEMU crashes Node
+  # during `npm ci` with an illegal instruction, so we never emulate.
+  build:
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: linux/amd64
+            runner: ubuntu-latest
+          - platform: linux/arm64
+            runner: ubuntu-24.04-arm
     permissions:
       contents: read
       packages: write
+    # Each matrix leg only sets the output for its own platform; GitHub merges
+    # the outputs of every leg, so the merge job sees both. The digests used to
+    # travel through workflow artifacts, but the artifact service intermittently
+    # answers 403 and actions/download-artifact does not retry
+    # (actions/download-artifact#464), which left a release tag with no image
+    # (#636). Job outputs are stored with the run and have no such dependency.
+    outputs:
+      digest-linux-amd64: ${{ steps.export.outputs.digest-linux-amd64 }}
+      digest-linux-arm64: ${{ steps.export.outputs.digest-linux-arm64 }}
 
     steps:
+      - name: Prepare environment
+        run: |
+          platform=${{ matrix.platform }}
+          echo "PLATFORM_PAIR=${platform//\//-}" >> "${GITHUB_ENV}"
+          echo "REPO=${GITHUB_REPOSITORY@L}" >> "${GITHUB_ENV}"
+
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Login to Github Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
-          registry: ghcr.io
+          registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
+      - name: Build and push by digest
+        id: build
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          platforms: ${{ matrix.platform }}
+          provenance: false # Disable provenance to avoid unknown/unknown
+          sbom: false       # Disable sbom to avoid unknown/unknown
+          # Reuse layers from previous runs, scoped per architecture so the two
+          # matrix jobs do not overwrite each other's cache. The dependency
+          # install is the slow layer and only changes when the lockfile does.
+          cache-from: type=gha,scope=${{ env.PLATFORM_PAIR }}
+          cache-to: type=gha,mode=max,scope=${{ env.PLATFORM_PAIR }}
+          outputs: type=image,name=${{ env.REGISTRY }}/${{ env.REPO }},push-by-digest=true,name-canonical=true,push=true
+
+      - name: Export digest
+        id: export
+        run: |
+          echo "digest-${PLATFORM_PAIR}=${{ steps.build.outputs.digest }}" >> "${GITHUB_OUTPUT}"
+
+  # Combine the per-architecture digests into a single multi-arch manifest
+  # published under the version tag and `latest`.
+  merge:
+    runs-on: ubuntu-latest
+    needs: [build]
+    permissions:
+      contents: read
+      packages: write
+    env:
+      DIGEST_AMD64: ${{ needs.build.outputs.digest-linux-amd64 }}
+      DIGEST_ARM64: ${{ needs.build.outputs.digest-linux-arm64 }}
+
+    steps:
       - name: Downcase repo
         run: |
           echo "REPO=${GITHUB_REPOSITORY@L}" >> "${GITHUB_ENV}"
 
-      - name: Build and push
-        uses: docker/build-push-action@v6
+      # `needs` only runs this job once every build leg succeeded, but an empty
+      # digest would still be a bug in the hand-off above, and an image with a
+      # missing architecture must never be published as `latest`.
+      - name: Check digests
+        run: |
+          for digest in "${DIGEST_AMD64}" "${DIGEST_ARM64}"; do
+            if [[ ! "${digest}" =~ ^sha256:[0-9a-f]{64}$ ]]; then
+              echo "::error::Missing or malformed image digest: '${digest}'"
+              exit 1
+            fi
+          done
+
+      - name: Login to Github Container Registry
+        uses: docker/login-action@v4
         with:
-          context: .
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: |
-            ghcr.io/${{ env.REPO }}:${{ github.ref_name }}
-            ghcr.io/${{ env.REPO }}:latest
-          provenance: false # Disable provenance to avoid unknown/unknown
-          sbom: false       # Disable sbom to avoid unknown/unknown
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Create manifest list and push
+        run: |
+          docker buildx imagetools create \
+            --tag "${REGISTRY}/${REPO}:${{ github.ref_name }}" \
+            --tag "${REGISTRY}/${REPO}:latest" \
+            "${REGISTRY}/${REPO}@${DIGEST_AMD64}" \
+            "${REGISTRY}/${REPO}@${DIGEST_ARM64}"
+
+      - name: Inspect image
+        run: |
+          docker buildx imagetools inspect "${REGISTRY}/${REPO}:${{ github.ref_name }}"

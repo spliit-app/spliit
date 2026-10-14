@@ -1,4 +1,5 @@
 'use client'
+
 import { Currency } from '@/lib/currency'
 import { cn, formatCurrency } from '@/lib/utils'
 import { useLocale } from 'next-intl'
@@ -23,8 +24,8 @@ export function Money({
         colored && amount <= 1
           ? 'text-red-600'
           : colored && amount >= 1
-          ? 'text-green-600'
-          : '',
+            ? 'text-green-600'
+            : '',
         bold && 'font-bold',
       )}
     >

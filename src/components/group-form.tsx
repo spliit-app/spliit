@@ -1,3 +1,4 @@
+import { DeleteGroupButton } from '@/components/delete-group-button'
 import { SubmitButton } from '@/components/submit-button'
 import { Button } from '@/components/ui/button'
 import {
@@ -31,9 +32,14 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Locale } from '@/i18n/request'
+import { useAnalytics } from '@/lib/analytics/context'
 import { getGroup } from '@/lib/api'
 import { defaultCurrencyList, getCurrency } from '@/lib/currency'
-import { GroupFormValues, groupFormSchema } from '@/lib/schemas'
+import {
+  GROUP_INFORMATION_MAX,
+  groupFormSchema,
+  GroupFormValues,
+} from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Save, Trash2 } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
@@ -50,12 +56,18 @@ export type Props = {
     participantId?: string,
   ) => Promise<void>
   protectedParticipantIds?: string[]
+  /** Resolved on the server, since the runtime variable is not public. */
+  defaultCurrencyCode?: string
+  /** Whether to offer deleting the group (ENABLE_GROUP_DELETION). */
+  enableGroupDeletion?: boolean
 }
 
 export function GroupForm({
   group,
   onSubmit,
   protectedParticipantIds = [],
+  defaultCurrencyCode = 'USD',
+  enableGroupDeletion = false,
 }: Props) {
   const locale = useLocale()
   const t = useTranslations('GroupForm')
@@ -73,7 +85,7 @@ export function GroupForm({
           name: '',
           information: '',
           currency: '',
-          currencyCode: process.env.NEXT_PUBLIC_DEFAULT_CURRENCY_CODE || 'USD', // TODO: If NEXT_PUBLIC_DEFAULT_CURRENCY_CODE, is not set, determine the default currency code based on locale
+          currencyCode: defaultCurrencyCode, // TODO: derive from the locale when not configured
           participants: [
             { name: t('Participants.John') },
             { name: t('Participants.Jane') },
@@ -86,6 +98,7 @@ export function GroupForm({
     name: 'participants',
     keyName: 'key',
   })
+  const sendEvent = useAnalytics()
 
   const [activeUser, setActiveUser] = useState<string | null>(null)
   useEffect(() => {
@@ -116,6 +129,14 @@ export function GroupForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(async (values) => {
+          if (group) {
+            sendEvent(
+              { event: 'group: update', props: {} },
+              `/groups/${group.id}/edit`,
+            )
+          } else {
+            sendEvent({ event: 'group: create', props: {} }, `/groups`)
+          }
           await onSubmit(
             values,
             group?.participants.find((p) => p.name === activeUser)?.id ??
@@ -221,6 +242,7 @@ export function GroupForm({
                       <Textarea
                         rows={2}
                         className="text-base"
+                        maxLength={GROUP_INFORMATION_MAX}
                         {...field}
                         placeholder={t('InformationField.placeholder')}
                       />
@@ -358,7 +380,6 @@ export function GroupForm({
             </div>
           </CardContent>
         </Card>
-
         <div className="flex mt-4 gap-2">
           <SubmitButton
             loadingContent={t(group ? 'Settings.saving' : 'Settings.creating')}
@@ -373,6 +394,20 @@ export function GroupForm({
             </Button>
           )}
         </div>
+
+        {enableGroupDeletion && group && !group.deleteAt && (
+          <Card className="mt-8 border-red-700">
+            <CardHeader>
+              <CardTitle className="text-red-700">
+                {t('Delete.title')}
+              </CardTitle>
+              <CardDescription>{t('Delete.description')}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <DeleteGroupButton group={group} />
+            </CardContent>
+          </Card>
+        )}
       </form>
     </Form>
   )

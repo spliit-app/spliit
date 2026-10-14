@@ -1,5 +1,3 @@
-import { ChevronDown, Loader2 } from 'lucide-react'
-
 import { CategoryIcon } from '@/app/groups/[groupId]/expenses/category-icon'
 import { Button, ButtonProps } from '@/components/ui/button'
 import {
@@ -8,6 +6,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
 } from '@/components/ui/command'
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer'
 import {
@@ -15,8 +14,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { Category } from '@/generated/prisma/browser'
 import { useMediaQuery } from '@/lib/hooks'
-import { Category } from '@prisma/client'
+import { ChevronDown, Loader2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { forwardRef, useEffect, useState } from 'react'
 
@@ -113,8 +113,8 @@ function CategoryCommand({
   return (
     <Command>
       <CommandInput placeholder={t('search')} className="text-base" />
-      <CommandEmpty>{t('noCategory')}</CommandEmpty>
-      <div className="w-full max-h-[300px] overflow-y-auto">
+      <CommandList>
+        <CommandEmpty>{t('noCategory')}</CommandEmpty>
         {Object.entries(categoriesByGroup).map(
           ([group, groupCategories], index) => (
             <CommandGroup key={index} heading={t(`${group}.heading`)}>
@@ -135,7 +135,7 @@ function CategoryCommand({
             </CommandGroup>
           ),
         )}
-      </div>
+      </CommandList>
     </Command>
   )
 }

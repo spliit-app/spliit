@@ -1,8 +1,12 @@
 import BalancesAndReimbursements from '@/app/groups/[groupId]/balances/balances-and-reimbursements'
-import { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 
-export const metadata: Metadata = {
-  title: 'Balances',
+export async function generateMetadata() {
+  const t = await getTranslations('Balances')
+
+  return {
+    title: t('title'),
+  }
 }
 
 export default async function GroupPage() {

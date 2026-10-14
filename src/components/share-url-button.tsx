@@ -7,9 +7,10 @@ import { useEffect, useState } from 'react'
 interface Props {
   text: string
   url: string
+  title?: string
 }
 
-export function ShareUrlButton({ url, text }: Props) {
+export function ShareUrlButton({ url, text, title }: Props) {
   const canShare = useCanShare(url, text)
   if (!canShare) return null
 
@@ -18,6 +19,7 @@ export function ShareUrlButton({ url, text }: Props) {
       size="icon"
       variant="secondary"
       type="button"
+      title={title}
       onClick={() => {
         if (navigator.share) {
           navigator.share({ text, url })
