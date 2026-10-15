@@ -1,3 +1,4 @@
+import 'flag-icons/css/flag-icons.min.css'
 import { Button, ButtonProps } from '@/components/ui/button'
 import {
   Command,
@@ -15,6 +16,7 @@ import {
 } from '@/components/ui/popover'
 import { Currency } from '@/lib/currency'
 import { useMediaQuery } from '@/lib/hooks'
+import flagIconsCountries from 'flag-icons/country.json'
 import { ChevronDown, Loader2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { forwardRef, useEffect, useState } from 'react'
@@ -184,13 +186,21 @@ const CurrencyButton = forwardRef<HTMLButtonElement, CurrencyButtonProps>(
 )
 CurrencyButton.displayName = 'CurrencyButton'
 
+const flagCodes = new Set(flagIconsCountries.map(({ code }) => code))
+
+function getFlagCode(currencyCode: string) {
+  if (!currencyCode.length) return 'un'
+  const countryCode = currencyCode.slice(0, 2).toLowerCase()
+  return flagCodes.has(countryCode) ? countryCode : 'xx'
+}
+
 function CurrencyLabel({ currency }: { currency: Currency }) {
-  const flagUrl = `https://flagcdn.com/h24/${
-    currency?.code.length ? currency.code.slice(0, 2).toLowerCase() : 'un'
-  }.png`
   return (
     <div className="flex items-center gap-3">
-      <img src={flagUrl} className="w-4" alt="" />
+      <span
+        className={`fi fi-${getFlagCode(currency?.code ?? '')} w-4 shrink-0`}
+        aria-hidden
+      />
       {currency.name}
       {currency.code ? ` (${currency.code})` : ''}
     </div>
