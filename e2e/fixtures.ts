@@ -63,21 +63,18 @@ export const test = base.extend<Options>({
     await page.route('https://api.frankfurter.dev/**', (route) => {
       if (exchangeRate === null) return route.abort()
 
-      // Request shape: /v1/<YYYY-MM-DD>?base=<CODE>. The hook turns the
-      // response into a RangeError unless `date` echoes the requested date
-      // exactly, so mirror it back rather than inventing one.
+      // Request shape: /v2/rates?date=<YYYY-MM-DD>&base=<CODE>&quotes=<CODE>.
+      // The hook turns the response into a RangeError unless `date` echoes the
+      // requested date exactly, so mirror it back rather than inventing one.
       const url = new URL(route.request().url())
-      const date = url.pathname.split('/').pop() ?? ''
+      const date = url.searchParams.get('date') ?? ''
       const base = url.searchParams.get('base') ?? ''
+      const quote = url.searchParams.get('quotes') ?? ''
 
       return route.fulfill({
         status: 200,
         contentType: 'application/json',
-        body: JSON.stringify({
-          base,
-          date,
-          rates: { USD: exchangeRate, EUR: exchangeRate, GBP: exchangeRate },
-        }),
+        body: JSON.stringify([{ date, base, quote, rate: exchangeRate }]),
       })
     })
 
