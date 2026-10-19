@@ -142,6 +142,7 @@
         "daily": "매일",
         "weekly": "매주",
         "monthly": "매달",
+        "yearly": "매년",
         "none": "없음"
       },
       "paidFor": {
@@ -307,7 +308,8 @@
       "period": {
         "DAILY": "{count, plural, other {매일 지출 #건}}",
         "WEEKLY": "{count, plural, other {매주 지출 #건}}",
-        "MONTHLY": "{count, plural, other {매월 지출 #건}}"
+        "MONTHLY": "{count, plural, other {매월 지출 #건}}",
+        "YEARLY": "{count, plural, other {매년 지출 #건}}"
       }
     }
   },

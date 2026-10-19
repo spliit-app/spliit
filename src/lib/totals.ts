@@ -352,6 +352,7 @@ const PERIOD_FACTORS: Record<
   DAILY: { perMonth: 365.25 / 12, perYear: 365.25 },
   WEEKLY: { perMonth: 365.25 / 12 / 7, perYear: 365.25 / 7 },
   MONTHLY: { perMonth: 1, perYear: 12 },
+  YEARLY: { perMonth: 1 / 12, perYear: 1 },
 }
 
 const RECURRENCE_PERIODS = Object.keys(PERIOD_FACTORS) as RecurrencePeriod[]

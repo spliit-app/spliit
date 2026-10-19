@@ -190,7 +190,8 @@
         "none": "Ninguno",
         "daily": "Diario",
         "weekly": "Semanal",
-        "monthly": "Mensual"
+        "monthly": "Mensual",
+        "yearly": "Anual"
       },
       "paidFor": {
         "title": "Pagado para",
@@ -375,7 +376,8 @@
       "period": {
         "DAILY": "{count, plural, one {# gasto diario} other {# gastos diarios}}",
         "WEEKLY": "{count, plural, one {# gasto semanal} other {# gastos semanales}}",
-        "MONTHLY": "{count, plural, one {# gasto mensual} other {# gastos mensuales}}"
+        "MONTHLY": "{count, plural, one {# gasto mensual} other {# gastos mensuales}}",
+        "YEARLY": "{count, plural, one {# gasto anual} other {# gastos anuales}}"
       }
     }
   },
