@@ -1,4 +1,5 @@
 import { Prisma } from '@/generated/prisma/client'
+import { ParticipantsHaveExpensesError } from '@/lib/api'
 import { initTRPC } from '@trpc/server'
 import { cache } from 'react'
 import superjson from 'superjson'
@@ -28,6 +29,17 @@ const t = initTRPC.create({
    * @see https://trpc.io/docs/server/data-transformers
    */
   transformer: superjson,
+  errorFormatter: ({ shape, error }) => ({
+    ...shape,
+    data: {
+      ...shape.data,
+      // Who a refused group update tried to remove, for the error message.
+      participantsWithExpenses:
+        error.cause instanceof ParticipantsHaveExpensesError
+          ? error.cause.names
+          : undefined,
+    },
+  }),
 })
 
 // Base router and procedure helpers
