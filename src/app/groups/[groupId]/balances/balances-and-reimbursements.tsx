@@ -71,6 +71,7 @@ export default function BalancesAndReimbursements() {
               participants={group?.participants}
               currency={getCurrencyFromGroup(group)}
               groupId={groupId}
+              groupName={group?.name}
             />
           )}
         </CardContent>

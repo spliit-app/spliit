@@ -35,7 +35,7 @@ export async function GET(
         },
         orderBy: [{ expenseDate: 'asc' }, { createdAt: 'asc' }],
       },
-      participants: { select: { id: true, name: true } },
+      participants: { select: { id: true, name: true, paymentMethods: true } },
       activities: {
         select: {
           id: true,

@@ -591,5 +591,92 @@
     "updateTitle": "Update available",
     "updateDescription": "A new version of Spliit is available.",
     "reload": "Reload"
+  },
+  "PaymentMethods": {
+    "pay": "Pay",
+    "payTitle": "Pay {name} {amount}",
+    "payDescription": "Scan the code in your banking app, open the payment app, or copy the details.",
+    "afterPaying": "Once the money is sent, record it so the balances update.",
+    "markAsPaid": "Record as paid",
+    "openApp": "Open {method}",
+    "qrAlt": "{method} payment QR code",
+    "checkDetails": "Check the amount and recipient in your app before you confirm.",
+    "editorToggle": "Payment details",
+    "editorToggleCount": "Payment details ({count})",
+    "editorPrivacy": "Shown to everyone who can open this group, so others can pay this person back.",
+    "add": "Add a way to get paid",
+    "edit": "Edit {method}",
+    "remove": "Remove {method}",
+    "method": "Method",
+    "optional": "optional",
+    "save": "Save",
+    "cancel": "Cancel",
+    "fields": {
+      "name": "Account holder",
+      "iban": "IBAN",
+      "bic": "BIC",
+      "phone": "Phone number",
+      "username": "Username"
+    },
+    "errors": {
+      "invalid": "Check this value.",
+      "invalidIban": "This IBAN is not valid. Check for typos.",
+      "invalidBic": "A BIC has 8 or 11 letters and digits.",
+      "invalidPhone": "Enter a phone number with 6 to 15 digits.",
+      "invalidUsername": "Enter the username only, without spaces.",
+      "min1": "Required.",
+      "max70": "At most 70 characters."
+    },
+    "copy": {
+      "recipient": "Recipient",
+      "iban": "IBAN",
+      "bic": "BIC",
+      "phone": "Phone",
+      "username": "Username",
+      "amount": "Amount",
+      "message": "Message"
+    },
+    "sepa": {
+      "label": "Bank transfer (SEPA)",
+      "where": "euro area",
+      "qrHelp": "Scan with your banking app. The amount and message are filled in.",
+      "copyHelp": "Make a transfer with these details."
+    },
+    "mobilepay": {
+      "label": "MobilePay",
+      "where": "Finland, Denmark",
+      "qrHelp": "",
+      "copyHelp": "Open MobilePay and send to this number."
+    },
+    "swish": {
+      "label": "Swish",
+      "where": "Sweden",
+      "qrHelp": "Scan with the Swish app. The amount and message are filled in.",
+      "copyHelp": "Open Swish and send to this number."
+    },
+    "bizum": {
+      "label": "Bizum",
+      "where": "Spain",
+      "qrHelp": "",
+      "copyHelp": "Open your banking app, choose Bizum and send to this number."
+    },
+    "venmo": {
+      "label": "Venmo",
+      "where": "US",
+      "qrHelp": "",
+      "copyHelp": "Open Venmo and pay this user."
+    },
+    "paypal": {
+      "label": "PayPal",
+      "where": "worldwide",
+      "qrHelp": "",
+      "copyHelp": "Open PayPal and pay this user."
+    },
+    "revolut": {
+      "label": "Revolut",
+      "where": "worldwide",
+      "qrHelp": "",
+      "copyHelp": "Open Revolut, find this user and enter the amount."
+    }
   }
 }

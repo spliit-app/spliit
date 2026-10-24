@@ -1,4 +1,5 @@
 import { DeleteGroupButton } from '@/components/delete-group-button'
+import { PaymentMethodsEditor } from '@/components/payment-methods-editor'
 import { SubmitButton } from '@/components/submit-button'
 import { Button } from '@/components/ui/button'
 import {
@@ -35,6 +36,7 @@ import { Locale } from '@/i18n/request'
 import { useAnalytics } from '@/lib/analytics/context'
 import { getGroup } from '@/lib/api'
 import { defaultCurrencyList, getCurrency } from '@/lib/currency'
+import { parsePaymentMethods } from '@/lib/payment-methods'
 import {
   GROUP_INFORMATION_MAX,
   groupFormSchema,
@@ -79,7 +81,13 @@ export function GroupForm({
           information: group.information ?? '',
           currency: group.currency ?? '',
           currencyCode: group.currencyCode ?? '',
-          participants: group.participants,
+          participants: group.participants.map(
+            ({ id, name, paymentMethods }) => ({
+              id,
+              name,
+              paymentMethods: parsePaymentMethods(paymentMethods),
+            }),
+          ),
         }
       : {
           name: '',
@@ -315,6 +323,19 @@ export function GroupForm({
                         </FormControl>
                         <FormMessage />
                       </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name={`participants.${index}.paymentMethods`}
+                    render={({ field }) => (
+                      <PaymentMethodsEditor
+                        value={field.value}
+                        onChange={field.onChange}
+                        participantName={form.getValues(
+                          `participants.${index}.name`,
+                        )}
+                      />
                     )}
                   />
                 </li>
