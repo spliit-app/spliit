@@ -40,6 +40,9 @@ next-env.d.ts
 # db
 postgres-data
 
+# backups downloaded by `npm run backup:download`
+/backups/
+
 # prisma generated client (regenerated via `prisma generate`)
 /src/generated
 
