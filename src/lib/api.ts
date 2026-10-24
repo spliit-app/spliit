@@ -1,9 +1,11 @@
 import {
   ActivityType,
   Expense,
+  Prisma,
   RecurrenceRule,
   RecurringExpenseLink,
 } from '@/generated/prisma/client'
+import type { PaymentMethod } from '@/lib/payment-methods'
 import { prisma } from '@/lib/prisma'
 import { randomId } from '@/lib/random'
 import { nextRecurringDate } from '@/lib/recurrence'
@@ -11,6 +13,13 @@ import { ExpenseFormValues, GroupFormValues } from '@/lib/schemas'
 
 // Re-exported for backwards compatibility with existing server-side importers.
 export { randomId }
+
+/** Undefined stays undefined so Prisma leaves the column as it is. */
+function paymentMethodsToJson(
+  paymentMethods: PaymentMethod[] | undefined,
+): Prisma.InputJsonValue | undefined {
+  return paymentMethods as Prisma.InputJsonValue | undefined
+}
 
 export async function createGroup(groupFormValues: GroupFormValues) {
   return prisma.group.create({
@@ -22,10 +31,13 @@ export async function createGroup(groupFormValues: GroupFormValues) {
       currencyCode: groupFormValues.currencyCode,
       participants: {
         createMany: {
-          data: groupFormValues.participants.map(({ name }) => ({
-            id: randomId(),
-            name,
-          })),
+          data: groupFormValues.participants.map(
+            ({ name, paymentMethods }) => ({
+              id: randomId(),
+              name,
+              paymentMethods: paymentMethodsToJson(paymentMethods),
+            }),
+          ),
         },
       },
     },
@@ -373,15 +385,20 @@ export async function updateGroup(
       currency: groupFormValues.currency,
       currencyCode: groupFormValues.currencyCode,
       participants: {
-        deleteMany: existingGroup.participants.filter(
-          (p) => !groupFormValues.participants.some((p2) => p2.id === p.id),
-        ),
+        deleteMany: existingGroup.participants
+          .filter(
+            (p) => !groupFormValues.participants.some((p2) => p2.id === p.id),
+          )
+          .map((p) => ({ id: p.id })),
         updateMany: groupFormValues.participants
           .filter((participant) => participant.id !== undefined)
           .map((participant) => ({
             where: { id: participant.id },
             data: {
               name: participant.name,
+              // Undefined leaves the column untouched, so a client that does
+              // not send payment methods keeps the stored ones.
+              paymentMethods: paymentMethodsToJson(participant.paymentMethods),
             },
           })),
         createMany: {
@@ -390,6 +407,7 @@ export async function updateGroup(
             .map((participant) => ({
               id: randomId(),
               name: participant.name,
+              paymentMethods: paymentMethodsToJson(participant.paymentMethods),
             })),
         },
       },
