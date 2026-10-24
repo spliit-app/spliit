@@ -10,14 +10,20 @@
  *    cache-first — fetched from the network once, then served from cache.
  *  - Optimized images (/_next/image): stale-while-revalidate.
  *  - Page navigations: network-first with a cached fallback, then the offline
- *    page when both network and cache miss.
+ *    page when both network and cache miss. A redirected page is stored under
+ *    its final URL (a navigation cannot use a redirected response), a page
+ *    with a query string falls back to the cached page without it, and
+ *    /groups/<id> falls back to /groups/<id>/expenses.
+ *  - Offline add: the group layout posts WARM_GROUP while online, and the
+ *    worker caches that group's expense list and create form plus the
+ *    /_next/static files their HTML references, so both open offline later.
  *  - API / tRPC requests and any non-GET request: never cached (always network),
  *    so expense data is never stale.
  *
  * Bump CACHE_VERSION to invalidate all previously cached content on deploy.
  */
 
-const CACHE_VERSION = 'v1'
+const CACHE_VERSION = 'v2'
 const PRECACHE = `spliit-precache-${CACHE_VERSION}`
 const RUNTIME = `spliit-runtime-${CACHE_VERSION}`
 const IMAGE_CACHE = `spliit-images-${CACHE_VERSION}`
@@ -87,19 +93,99 @@ async function staleWhileRevalidate(request, cacheName) {
   return cached || (await network) || Response.error()
 }
 
+/**
+ * A copy of `response` without the `redirected` flag: a navigation refuses a
+ * redirected response, so cached pages are stored clean under their final URL.
+ */
+async function cleanResponse(response) {
+  const body = await response.blob()
+  return new Response(body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers: response.headers,
+  })
+}
+
+async function cachePage(cache, request, response) {
+  const key = response.redirected ? new Request(response.url) : request
+  await cache.put(key, await cleanResponse(response))
+}
+
+const GROUP_ROOT = /^\/groups\/([^/]+)\/?$/
+
+/** The cached copy of a page, or the closest page that works offline. */
+async function cachedPage(cache, request) {
+  const url = new URL(request.url)
+  const exact = await cache.match(request)
+  if (exact) return exact
+  // e.g. /expenses/create?reimbursement=yes… → the cached create form, which
+  // reads its query string on the client.
+  const withoutSearch = await cache.match(request, { ignoreSearch: true })
+  if (withoutSearch) return withoutSearch
+  const root = url.pathname.match(GROUP_ROOT)
+  if (root) return cache.match(`/groups/${root[1]}/expenses`)
+  return undefined
+}
+
 /** Network-first: try the network, fall back to cache, then the offline page. */
 async function networkFirst(request, cacheName) {
   const cache = await caches.open(cacheName)
   try {
     const response = await fetch(request)
-    if (response && response.ok) cache.put(request, response.clone())
+    if (response && response.ok)
+      cachePage(cache, request, response.clone()).catch(() => {})
     return response
   } catch (err) {
-    const cached = await cache.match(request)
+    const cached = await cachedPage(cache, request)
     if (cached) return cached
     const offline = await caches.match(OFFLINE_URL)
     if (offline) return offline
     throw err
+  }
+}
+
+const STATIC_REF = /\/_next\/static\/[A-Za-z0-9_\-.~%@/]+?\.(?:js|css|woff2?)/g
+const WARM_INTERVAL = 10 * 60 * 1000
+const lastWarm = new Map()
+
+/** Caches a page and the hashed static files its HTML references. */
+async function warmPage(path) {
+  const cache = await caches.open(RUNTIME)
+  const response = await fetch(path, { credentials: 'same-origin' })
+  const type = response.headers.get('content-type') || ''
+  if (!response.ok || !type.includes('text/html')) return
+  const html = await response.clone().text()
+  await cachePage(cache, new Request(path), response)
+  const refs = [...new Set(html.match(STATIC_REF) || [])]
+  for (const ref of refs) {
+    if (await caches.match(ref)) continue
+    try {
+      const asset = await fetch(ref)
+      if (asset.ok) await cache.put(ref, asset)
+    } catch {
+      // Best effort: a missing chunk only matters offline.
+    }
+  }
+}
+
+/**
+ * Caches a group's expense list and create form so an expense can be added
+ * offline. At most once per WARM_INTERVAL per group.
+ */
+async function warmGroup(groupId) {
+  if (!/^[A-Za-z0-9_-]{1,64}$/.test(groupId)) return
+  const now = Date.now()
+  if (now - (lastWarm.get(groupId) || 0) < WARM_INTERVAL) return
+  lastWarm.set(groupId, now)
+  for (const path of [
+    `/groups/${groupId}/expenses`,
+    `/groups/${groupId}/expenses/create`,
+  ]) {
+    try {
+      await warmPage(path)
+    } catch {
+      lastWarm.delete(groupId)
+    }
   }
 }
 
@@ -145,4 +231,7 @@ self.addEventListener('fetch', (event) => {
 // Allow the page to trigger an immediate activation of a waiting worker.
 self.addEventListener('message', (event) => {
   if (event.data === 'SKIP_WAITING') self.skipWaiting()
+  const data = event.data
+  if (data && data.type === 'WARM_GROUP' && typeof data.groupId === 'string')
+    event.waitUntil(warmGroup(data.groupId))
 })

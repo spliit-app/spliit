@@ -33,6 +33,8 @@ export async function createGroup(groupFormValues: GroupFormValues) {
   })
 }
 
+export const EXPENSE_ID_EXISTS = 'Expense id already exists'
+
 export async function createExpense(
   expenseFormValues: ExpenseFormValues,
   groupId: string,
@@ -52,6 +54,16 @@ export async function createExpense(
     if (!group.participants.some((p) => p.id === participant))
       throw new Error(`Invalid participant ID: ${participant}`)
   }
+
+  // A client-minted id may be sent twice, e.g. when an expense saved offline
+  // is replayed after the response to the first attempt was lost. Refuse it
+  // before logging the activity, so the replay leaves no trace; the offline
+  // queue reads this message as "already saved".
+  const existing = await prisma.expense.findUnique({
+    where: { id: expenseId },
+    select: { id: true },
+  })
+  if (existing) throw new Error(EXPENSE_ID_EXISTS)
 
   await logActivity(groupId, ActivityType.CREATE_EXPENSE, {
     participantId,
