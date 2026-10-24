@@ -587,6 +587,13 @@
       "heading": "Other currencies"
     }
   },
+  "Offline": {
+    "savedOffline": "Saved offline, will sync",
+    "synced": "{count, plural, one {Synced # offline expense} other {Synced # offline expenses}}",
+    "waiting": "Waiting to sync",
+    "failed": "Could not sync",
+    "discard": "Discard"
+  },
   "Pwa": {
     "updateTitle": "Update available",
     "updateDescription": "A new version of Spliit is available.",

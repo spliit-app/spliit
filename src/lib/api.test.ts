@@ -1,4 +1,9 @@
-import { getGroupExpenses, updateExpense } from './api'
+import {
+  createExpense,
+  EXPENSE_ID_EXISTS,
+  getGroupExpenses,
+  updateExpense,
+} from './api'
 import { prisma } from './prisma'
 import { ExpenseFormValues } from './schemas'
 
@@ -6,7 +11,12 @@ jest.mock('./prisma', () => ({
   prisma: {
     $transaction: jest.fn(),
     activity: { create: jest.fn() },
-    expense: { findMany: jest.fn(), findUnique: jest.fn(), update: jest.fn() },
+    expense: {
+      create: jest.fn(),
+      findMany: jest.fn(),
+      findUnique: jest.fn(),
+      update: jest.fn(),
+    },
     group: { findUnique: jest.fn() },
     recurringExpenseLink: { findMany: jest.fn() },
   },
@@ -289,5 +299,62 @@ describe('updateExpense', () => {
       nextExpenseDate: new Date(Date.UTC(2025, 0, 22)),
       anchorDay: null,
     })
+  })
+})
+
+describe('createExpense', () => {
+  const values = {
+    expenseDate: new Date(Date.UTC(2025, 0, 15)),
+    title: 'Dinner',
+    category: 0,
+    amount: 1000,
+    paidBy: 'participant-1',
+    paidFor: [{ participant: 'participant-1', shares: 1 }],
+    splitMode: 'EVENLY',
+    isReimbursement: false,
+    documents: [],
+    recurrenceRule: 'NONE',
+  } as unknown as ExpenseFormValues
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+    jest.mocked(prisma.group.findUnique).mockResolvedValue({
+      id: 'group-1',
+      participants: [{ id: 'participant-1' }],
+    } as never)
+  })
+
+  it('creates the expense under the id the client minted', async () => {
+    jest.mocked(prisma.expense.findUnique).mockResolvedValue(null)
+    jest.mocked(prisma.expense.create).mockImplementation((async ({
+      data,
+    }: {
+      data: { id: string }
+    }) => ({
+      id: data.id,
+    })) as never)
+
+    const expense = await createExpense(
+      values,
+      'group-1',
+      undefined,
+      'a'.repeat(21),
+    )
+
+    expect(expense.id).toBe('a'.repeat(21))
+    expect(prisma.activity.create).toHaveBeenCalledTimes(1)
+  })
+
+  it('refuses a reused id without logging an activity', async () => {
+    // e.g. an expense queued offline and replayed after it was saved.
+    jest
+      .mocked(prisma.expense.findUnique)
+      .mockResolvedValue({ id: 'a'.repeat(21) } as never)
+
+    await expect(
+      createExpense(values, 'group-1', undefined, 'a'.repeat(21)),
+    ).rejects.toThrow(EXPENSE_ID_EXISTS)
+    expect(prisma.activity.create).not.toHaveBeenCalled()
+    expect(prisma.expense.create).not.toHaveBeenCalled()
   })
 })
