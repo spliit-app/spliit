@@ -1239,10 +1239,16 @@ export function ExpenseForm({
                                             // currency typed here
                                             placeholder={
                                               (cleared &&
-                                                exchangeRate.data &&
+                                                Number(
+                                                  form.watch('conversionRate'),
+                                                ) &&
                                                 convertToOriginalCurrency(
                                                   Number(row?.shares),
-                                                  exchangeRate.data,
+                                                  Number(
+                                                    form.watch(
+                                                      'conversionRate',
+                                                    ),
+                                                  ),
                                                   originalCurrency,
                                                 )) ||
                                               undefined
@@ -1255,15 +1261,21 @@ export function ExpenseForm({
                                                 )
                                               const originalAmount =
                                                 Number(value)
+                                              // the custom rate when one is set, the fetched one otherwise
+                                              const conversionRate = Number(
+                                                form.getValues(
+                                                  'conversionRate',
+                                                ),
+                                              )
                                               let convertedAmount = ''
                                               if (
                                                 value !== '' &&
                                                 !Number.isNaN(originalAmount) &&
-                                                exchangeRate.data
+                                                conversionRate
                                               ) {
                                                 convertedAmount = (
                                                   originalAmount *
-                                                  exchangeRate.data
+                                                  conversionRate
                                                 ).toFixed(
                                                   groupCurrency.decimal_digits,
                                                 )

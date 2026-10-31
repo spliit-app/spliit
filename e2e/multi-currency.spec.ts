@@ -161,6 +161,37 @@ test('keeps a by-amount split of a converted expense when reopened', async ({
   await expect(shareInput('Bob')).toHaveValue('40')
 })
 
+test('converts by-amount shares at the custom rate', async ({ page }) => {
+  const groupId = await createGroup(page, {
+    name: `E2E CustomRateAmount ${uniqueSuffix()}`,
+    participants: PARTICIPANTS,
+  })
+
+  await openExpenseForm(page, groupId)
+  await fillStable(page.locator('input[name="title"]'), 'Porto hotel')
+  await selectRadixOption(
+    page,
+    fieldByLabel(page, 'Currency of expense').getByRole('combobox'),
+    /Euro \(EUR\)/,
+  )
+  await setOriginalAmount(page, '100')
+  await page.getByRole('button', { name: 'Use custom rate' }).click()
+  await fillStable(page.locator('input[name="conversionRate"]'), '1.5')
+  await expect(page.locator('input[name="amount"]')).toHaveValue('150')
+  await selectRadixOption(page, page.getByTestId('paid-by'), 'Alice')
+
+  await page.getByRole('button', { name: /Advanced splitting options/ }).click()
+  await selectRadixOption(page, page.getByTestId('split-mode'), /By amount/)
+
+  // The first input of a row is the amount in the expense currency, the last
+  // one the share in the group currency.
+  const row = (name: string) => paidForRow(page, name).getByRole('textbox')
+  await fillStable(row('Alice').first(), '60')
+  await fillStable(row('Bob').first(), '40')
+  await expect(row('Alice').last()).toHaveValue('90.00')
+  await expect(row('Bob').last()).toHaveValue('60.00')
+})
+
 test('exports the original currency and rate to CSV', async ({ page }) => {
   const groupId = await createGroup(page, {
     name: `E2E CurrencyExport ${uniqueSuffix()}`,
