@@ -7,6 +7,7 @@ export const localeLabels = {
   ca: 'Català',
   'cs-CZ': 'Česky',
   'de-DE': 'Deutsch',
+  el: 'Ελληνικά',
   et: 'Eesti',
   'en-US': 'English',
   es: 'Español',
