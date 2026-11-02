@@ -1,5 +1,12 @@
 import { getGroupExpenses } from '@/lib/api'
 import { getBalances, getSuggestedReimbursements } from './balances'
+import {
+  addFractions,
+  Fraction,
+  fraction,
+  FRACTION_ZERO,
+  subtractFractions,
+} from './fraction'
 
 type Expenses = NonNullable<Awaited<ReturnType<typeof getGroupExpenses>>>
 type Expense = Expenses[number]
@@ -275,23 +282,88 @@ describe('balances sum to zero', () => {
   })
 })
 
-describe('remainder distribution', () => {
-  it('does not always hand the extra minor unit to the same participant', () => {
-    const participants = ['alice', 'bob', 'carol']
-    const receivers = new Set<string>()
+describe('precision', () => {
+  it('rounds the balance once, not expense by expense', () => {
+    // 2.93 split four ways is 0.7325 each. Rounding every expense used to
+    // charge 0.73, 0.73, 0.73 and 0.74 and let each person's balance drift;
+    // four such expenses are exactly 2.93 per person.
+    const people = ['alice', 'bob', 'carol', 'dave']
+    const balances = getBalances(
+      ['e1', 'e2', 'e3', 'e4'].map((id) => evenly(id, 'alice', 293, people)),
+    )
 
-    for (let index = 0; index < 50; index++) {
-      const balances = getBalances([
-        evenly(`expense-${index}`, 'alice', 100, participants),
-      ])
-      for (const id of participants) {
-        if (balances[id].paidFor === 34) receivers.add(id)
-      }
+    expect(balances.alice).toEqual({ paid: 1172, paidFor: 293, total: 879 })
+    for (const id of ['bob', 'carol', 'dave']) {
+      expect(balances[id]).toEqual({ paid: 0, paidFor: 293, total: -293 })
     }
-
-    expect(receivers).toEqual(new Set(participants))
   })
 
+  it('does not let rounding accumulate over many uneven expenses', () => {
+    // 30 expenses of 1.00 split three ways: each person owes exactly 10.00.
+    const people = ['alice', 'bob', 'carol']
+    const balances = getBalances(
+      Array.from({ length: 30 }, (_, index) =>
+        evenly(`expense-${index}`, 'alice', 100, people),
+      ),
+    )
+
+    expect(balances.bob.total).toBe(-1000)
+    expect(balances.carol.total).toBe(-1000)
+    expect(balances.alice.total).toBe(2000)
+  })
+
+  it('keeps every balance within one minor unit of the exact amount', () => {
+    const random = makeRandom(20261102)
+
+    for (let run = 0; run < 300; run++) {
+      const participants = Array.from(
+        { length: 2 + random(7) },
+        (_, index) => `participant-${index}`,
+      )
+      const expenses = Array.from({ length: 1 + random(40) }, (_, index) =>
+        randomExpense(`run-${run}-expense-${index}`, participants, random),
+      )
+
+      // The exact balance, in fractions of a minor unit.
+      const exact = new Map<string, Fraction>()
+      const add = (id: string, value: Fraction) =>
+        exact.set(id, addFractions(exact.get(id) ?? FRACTION_ZERO, value))
+      for (const e of expenses) {
+        add(e.paidBy.id, fraction(e.amount))
+        const weights = e.paidFor.map(({ shares }) =>
+          e.splitMode === 'EVENLY' ? 1 : shares,
+        )
+        const total = weights.reduce((sum, w) => sum + w, 0)
+        e.paidFor.forEach(({ participant }, index) =>
+          add(
+            participant.id,
+            fraction(-BigInt(e.amount) * BigInt(weights[index]), total),
+          ),
+        )
+      }
+
+      const balances = getBalances(expenses)
+      expect(sumOfTotals(balances)).toBe(0)
+      for (const [id, value] of exact) {
+        const gap = subtractFractions(value, fraction(balances[id].total))
+        expect(gap.num < gap.den && -gap.num < gap.den).toBe(true)
+      }
+    }
+  })
+
+  it('never rounds a debt or a credit up', () => {
+    // Exact: alice +66.67, bob -33.33, carol -33.33.
+    const balances = getBalances([
+      evenly('e1', 'alice', 100, ['alice', 'bob', 'carol']),
+    ])
+
+    expect(balances.alice.total).toBe(66)
+    expect(balances.bob.total).toBe(-33)
+    expect(balances.carol.total).toBe(-33)
+  })
+})
+
+describe('remainder distribution', () => {
   it('gives the same expense the same split every time', () => {
     const split = () =>
       getBalances([
@@ -367,7 +439,7 @@ describe('split modes', () => {
     ).toBe(100)
   })
 
-  it('splits BY_SHARES proportionally and to the last minor unit', () => {
+  it('splits BY_SHARES proportionally', () => {
     const balances = getBalances([
       splitExpense(
         'e1',
@@ -381,8 +453,10 @@ describe('split modes', () => {
       ),
     ])
 
-    expect(balances.alice.paidFor).toBe(33)
-    expect(balances.bob.paidFor).toBe(67)
+    // Exact: bob owes 66.67, alice is owed 66.67. Rounded toward zero, so
+    // nobody is asked for more than they owe.
+    expect(balances.bob.total).toBe(-66)
+    expect(balances.alice.total).toBe(66)
     expect(sumOfTotals(balances)).toBe(0)
   })
 

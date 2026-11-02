@@ -1,4 +1,5 @@
 import { SplitMode } from '@/generated/prisma/browser'
+import { Fraction, fraction, FRACTION_ZERO } from '@/lib/fraction'
 import { match } from 'ts-pattern'
 
 /**
@@ -129,6 +130,40 @@ export function getExpenseShares(expense: ShareInput): Map<string, number> {
 
   return new Map(
     paidFors.map(({ participantId }, index) => [participantId, amounts[index]]),
+  )
+}
+
+/**
+ * The exact share of each participant, as fractions of a minor unit: 2.93
+ * split four ways is 73.25 each, not 73, 73, 73 and 74.
+ *
+ * Use it wherever shares are added up across expenses (balances, totals) and
+ * round once at the end with `roundPreservingSum`. Rounding every expense with
+ * {@link getExpenseShares} first makes each participant's total drift by up to
+ * one minor unit per uneven expense.
+ *
+ * Split modes are read as in {@link getExpenseShares}: `EVENLY` ignores the
+ * stored shares, the others are a ratio. The shares always add up to exactly
+ * `expense.amount`, unless every stored share is zero, in which case nobody
+ * is charged.
+ */
+export function getExactExpenseShares(
+  expense: ShareInput,
+): Map<string, Fraction> {
+  const weights = expense.paidFor.map(({ participantId, shares }) => ({
+    participantId,
+    weight: expense.splitMode === 'EVENLY' ? 1 : Math.round(shares),
+  }))
+  const totalWeight = weights.reduce((sum, { weight }) => sum + weight, 0)
+  const amount = BigInt(Math.round(expense.amount))
+
+  return new Map(
+    weights.map(({ participantId, weight }) => [
+      participantId,
+      totalWeight === 0
+        ? FRACTION_ZERO
+        : fraction(amount * BigInt(weight), totalWeight),
+    ]),
   )
 }
 

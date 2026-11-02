@@ -1,6 +1,16 @@
 import type { RecurrenceRule } from '@/generated/prisma/client'
 import { getGroupExpenses } from '@/lib/api'
-import { getExpenseShares, getParticipantShare, ShareInput } from '@/lib/shares'
+import {
+  addFractions,
+  Fraction,
+  FRACTION_ZERO,
+  roundPreservingSum,
+} from '@/lib/fraction'
+import {
+  getExactExpenseShares,
+  getParticipantShare,
+  ShareInput,
+} from '@/lib/shares'
 
 /**
  * Filters expenses to those whose `expenseDate` falls within an inclusive
@@ -53,9 +63,9 @@ type SplittableExpense = Pick<
 > & { id?: string | null }
 
 /**
- * Maps an expense into the shape {@link getExpenseShares} takes. The id decides
- * who is offered the leftover minor unit of an uneven split; passing it keeps
- * the stats and the expense form in step with the balances tab.
+ * Maps an expense into the shape the share helpers take. The id decides who is
+ * offered the leftover minor unit when a single expense is split into whole
+ * minor units (the expense form, the CSV export).
  */
 function toShareInput(expense: SplittableExpense): ShareInput {
   return {
@@ -72,9 +82,10 @@ function toShareInput(expense: SplittableExpense): ShareInput {
 /**
  * A participant's share of a single expense, in whole minor units.
  *
- * Delegates to the shared apportionment so that the number shown on the stats
- * pages, in the CSV export and next to a participant in the expense form is the
- * same one the balances tab charges them. Reimbursements count as zero here:
+ * Used for one expense on its own: next to a participant in the expense form
+ * and in the CSV export. Totals across expenses (balances, stats) add up the
+ * exact shares instead and round once, so they can differ from the sum of
+ * these by less than one minor unit. Reimbursements count as zero here:
  * unlike balances, the spending stats deliberately ignore settling up.
  */
 export function calculateShare(
@@ -86,16 +97,36 @@ export function calculateShare(
   return getParticipantShare(participantId, toShareInput(expense))
 }
 
+/**
+ * Each participant's share of the spending, with every expense split exactly
+ * and the totals rounded once (see `getExactExpenseShares`). The totals still
+ * add up to exactly what the group spent. Reimbursements are left out, as in
+ * the other spending stats.
+ */
+function getShareTotals(
+  expenses: NonNullable<Awaited<ReturnType<typeof getGroupExpenses>>>,
+): Map<string, number> {
+  const exact = new Map<string, Fraction>()
+  for (const expense of expenses) {
+    if (expense.isReimbursement) continue
+    for (const [participantId, share] of getExactExpenseShares(
+      toShareInput(expense),
+    )) {
+      exact.set(
+        participantId,
+        addFractions(exact.get(participantId) ?? FRACTION_ZERO, share),
+      )
+    }
+  }
+  return roundPreservingSum(exact, 'floor')
+}
+
 export function getTotalActiveUserShare(
   activeUserId: string | null,
   expenses: NonNullable<Awaited<ReturnType<typeof getGroupExpenses>>>,
 ): number {
-  // Every share is a whole number of minor units, so the sum needs no rounding
-  // — rounding it here is what used to make the totals disagree with balances.
-  return expenses.reduce(
-    (sum, expense) => sum + calculateShare(activeUserId, expense),
-    0,
-  )
+  if (activeUserId === null) return 0
+  return getShareTotals(expenses).get(activeUserId) ?? 0
 }
 
 export type CategorySpending = {
@@ -212,15 +243,11 @@ export function getSpendingByParticipant(
       payer.paid += expense.amount
       payer.paidCount += 1
     }
+  }
 
-    // Split the expense once and hand out the shares, rather than re-deriving
-    // the whole split for every participant.
-    for (const [participantId, share] of getExpenseShares(
-      toShareInput(expense),
-    )) {
-      const entry = totals.get(participantId)
-      if (entry) entry.share += share
-    }
+  for (const [participantId, share] of getShareTotals(expenses)) {
+    const entry = totals.get(participantId)
+    if (entry) entry.share = share
   }
 
   return participants
