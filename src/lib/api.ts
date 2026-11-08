@@ -81,6 +81,7 @@ export async function createExpense(
       paidById: expenseFormValues.paidBy,
       splitMode: expenseFormValues.splitMode,
       recurrenceRule: expenseFormValues.recurrenceRule,
+      recurringSeriesId: isCreateRecurrence ? expenseId : undefined,
       recurringExpenseLink: {
         ...(isCreateRecurrence
           ? {
@@ -287,6 +288,9 @@ export async function updateExpense(
       paidById: expenseFormValues.paidBy,
       splitMode: expenseFormValues.splitMode,
       recurrenceRule: expenseFormValues.recurrenceRule,
+      recurringSeriesId: isCreateRecurrenceExpenseLink
+        ? (existingExpense.recurringSeriesId ?? expenseId)
+        : undefined,
       paidFor: {
         create: expenseFormValues.paidFor
           .filter(
@@ -487,6 +491,113 @@ export async function getActiveRecurringExpenses(groupId: string) {
   })
 }
 
+/**
+ * Returns the current frame of every active recurring series of a group,
+ * soonest next occurrence first. Unlike `getActiveRecurringExpenses`, it keeps
+ * reimbursements, so every series can be managed.
+ */
+export async function getRecurringExpenseSeries(groupId: string) {
+  await createRecurringExpenses()
+
+  return prisma.expense.findMany({
+    select: {
+      id: true,
+      title: true,
+      amount: true,
+      originalAmount: true,
+      originalCurrency: true,
+      recurrenceRule: true,
+      recurringSeriesId: true,
+      isReimbursement: true,
+      paidBy: { select: { id: true, name: true } },
+      recurringExpenseLink: { select: { nextExpenseDate: true } },
+    },
+    where: {
+      groupId,
+      recurrenceRule: { not: RecurrenceRule.NONE },
+      recurringExpenseLink: { is: { nextExpenseCreatedAt: null } },
+    },
+    orderBy: [
+      { recurringExpenseLink: { nextExpenseDate: 'asc' } },
+      { title: 'asc' },
+    ],
+  })
+}
+
+/**
+ * Returns every occurrence of a recurring series, newest first, and the
+ * current one if the series is still active. An occurrence created by a
+ * version without `recurringSeriesId` is found by its own id.
+ */
+export async function getRecurringExpenseSeriesDetail(
+  groupId: string,
+  seriesId: string,
+) {
+  await createRecurringExpenses()
+
+  const occurrences = await prisma.expense.findMany({
+    select: {
+      id: true,
+      title: true,
+      expenseDate: true,
+      amount: true,
+      recurrenceRule: true,
+      paidBy: { select: { id: true, name: true } },
+      recurringExpenseLink: {
+        select: { nextExpenseDate: true, nextExpenseCreatedAt: true },
+      },
+    },
+    where: {
+      groupId,
+      OR: [{ recurringSeriesId: seriesId }, { id: seriesId }],
+    },
+    orderBy: [{ expenseDate: 'desc' }, { createdAt: 'desc' }],
+  })
+
+  const current =
+    occurrences.find(
+      (occurrence) =>
+        occurrence.recurrenceRule !== RecurrenceRule.NONE &&
+        occurrence.recurringExpenseLink?.nextExpenseCreatedAt === null,
+    ) ?? null
+
+  return { current, occurrences }
+}
+
+export async function stopRecurringExpense(
+  groupId: string,
+  expenseId: string,
+  participantId?: string,
+) {
+  // Due occurrences are created first, so stopping never skips one.
+  await createRecurringExpenses()
+
+  const expense = await getExpense(groupId, expenseId)
+  if (!expense || expense.groupId !== groupId)
+    throw new Error(`Invalid expense ID: ${expenseId}`)
+
+  await prisma.$transaction(async (transaction) => {
+    // Only the current occurrence has an open link; an older one has already
+    // been copied to its successor.
+    const { count } = await transaction.recurringExpenseLink.deleteMany({
+      where: { currentFrameExpenseId: expenseId, nextExpenseCreatedAt: null },
+    })
+    if (count === 0)
+      throw new Error(`Expense ${expenseId} is not an active recurring expense`)
+
+    await transaction.expense.update({
+      where: { id: expenseId },
+      data: { recurrenceRule: RecurrenceRule.NONE },
+    })
+  })
+
+  await logActivity(groupId, ActivityType.UPDATE_EXPENSE, {
+    participantId,
+    expenseId,
+    data: expense.title,
+  })
+}
+
 export async function getExpense(groupId: string, expenseId: string) {
   return prisma.expense.findUnique({
     where: { id: expenseId },
@@ -642,6 +753,9 @@ async function createRecurringExpenses() {
                 },
               },
               id: newExpenseId,
+              recurringSeriesId:
+                currentExpenseRecord.recurringSeriesId ??
+                currentExpenseRecord.id,
               expenseDate: newExpenseDate,
               recurringExpenseLink: {
                 create: {

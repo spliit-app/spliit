@@ -19,10 +19,11 @@ Spliit is a free and open source alternative to Splitwise. You can either use th
 - [x] Search for expenses in a group [(#51)](https://github.com/spliit-app/spliit/issues/51)
 - [x] Upload and attach images to expenses [(#63)](https://github.com/spliit-app/spliit/issues/63)
 - [x] Create expense by scanning a receipt [(#23)](https://github.com/spliit-app/spliit/issues/23)
+- [x] Create recurring expenses [(#5)](https://github.com/spliit-app/spliit/issues/5)
+- [x] See, edit and stop recurring expenses, with their history, from a dedicated tab [(#426)](https://github.com/spliit-app/spliit/issues/426)
 
 ### Possible incoming features
 
-- [ ] Ability to create recurring expenses [(#5)](https://github.com/spliit-app/spliit/issues/5)
 - [ ] Import expenses from Splitwise [(#22)](https://github.com/spliit-app/spliit/issues/22)
 
 ## Stack

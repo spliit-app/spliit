@@ -66,6 +66,10 @@ model Expense {
   recurrenceRule         RecurrenceRule?       @default(NONE)
   recurringExpenseLink   RecurringExpenseLink?
   recurringExpenseLinkId String?
+  // Id of the first expense of the series, shared by every occurrence.
+  recurringSeriesId      String?
+
+  @@index([groupId, recurringSeriesId])
 }
 
 model ExpenseDocument {

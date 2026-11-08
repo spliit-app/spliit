@@ -440,6 +440,28 @@
       }
     }
   },
+  "Recurring": {
+    "title": "Recurring",
+    "description": "Expenses that repeat automatically in this group.",
+    "noRecurring": "There are no recurring expenses in this group.",
+    "paidBy": "Paid by <strong>{paidBy}</strong>",
+    "next": "Next on {date}",
+    "back": "Recurring expenses",
+    "edit": "Edit",
+    "history": "History",
+    "latest": "latest",
+    "StopPopup": {
+      "label": "Stop recurring",
+      "title": "Stop this recurring expense?",
+      "description": "No new expenses will be created. The existing ones are kept.",
+      "yes": "Stop",
+      "cancel": "Cancel",
+      "ErrorToast": {
+        "title": "Could not stop this recurring expense",
+        "description": "It was changed in the meantime. Check it and try again."
+      }
+    }
+  },
   "Activity": {
     "title": "Activity",
     "description": "Overview of all activity in this group.",

@@ -6,6 +6,7 @@ import {
   BarChart3,
   Info,
   Receipt,
+  Repeat,
   Scale,
   Settings,
 } from 'lucide-react'
@@ -29,6 +30,7 @@ export function GroupTabs({ groupId }: Props) {
     { value: 'balances', label: t('Balances.title'), Icon: Scale },
     { value: 'information', label: t('Information.title'), Icon: Info },
     { value: 'stats', label: t('Stats.title'), Icon: BarChart3 },
+    { value: 'recurring', label: t('Recurring.title'), Icon: Repeat },
     { value: 'activity', label: t('Activity.title'), Icon: Activity },
     { value: 'edit', label: t('Settings.title'), Icon: Settings },
   ]
@@ -36,7 +38,7 @@ export function GroupTabs({ groupId }: Props) {
   return (
     <Tabs
       value={value}
-      className="[&>*]:border flex-1 min-w-0 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      className="[&>*]:border flex-1 min-w-0 overflow-x-auto [scrollbar-width:thin]"
       onValueChange={(value) => {
         router.push(`/groups/${groupId}/${value}`)
       }}
