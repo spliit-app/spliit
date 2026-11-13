@@ -139,5 +139,11 @@ test('exports the expenses as CSV', async ({ page }) => {
     `/groups/${groupId}/expenses/export/csv`,
   )
   expect(response.status()).toBe(200)
-  expect(await response.text()).toContain('Parking')
+  const csv = await response.text()
+  expect(csv).toContain('Paid By')
+  const row = csv.split('\n').find((line) => line.includes('Parking'))!
+  const cells = row.split(',')
+  expect(cells).toContain('\"Alice\"')
+  expect(Number(cells.at(-2))).toBe(6)
+  expect(Number(cells.at(-1))).toBe(-6)
 })

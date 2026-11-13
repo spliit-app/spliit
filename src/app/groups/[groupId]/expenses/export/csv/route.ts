@@ -54,6 +54,7 @@ export async function GET(
       currency: true,
       currencyCode: true,
       expenses: {
+        orderBy: [{ expenseDate: 'asc' }, { createdAt: 'asc' }],
         select: {
           // Seeds which participant is offered the leftover minor unit of an
           // uneven split, so the export agrees with the balances tab.
@@ -79,32 +80,8 @@ export async function GET(
     return NextResponse.json({ error: 'Invalid group ID' }, { status: 404 })
   }
 
-  /*
-
-  CSV Columns:
-  - Date: The date of the expense.
-  - Description: A brief description of the expense.
-  - Category: The category of the expense (e.g., Food, Travel, etc.).
-  - Currency: The currency in which the expense is recorded.
-  - Cost: The amount spent.
-  - Original cost: The amount spent in the original currency.
-  - Original currency: The currency the amount was originally spent in.
-  - Conversion rate: The rate used to convert the amount.
-  - Is Reimbursement: Whether the expense is a reimbursement or not.
-  - Split mode: The method used to split the expense (e.g., Evenly, By shares, By percentage, By amount).
-  - UserA, UserB: User-specific data or balances (e.g., amount owed or contributed by each user).
-
-  Example Table:
-  +------------+------------------+----------+----------+----------+---------------+-------------------+-----------------+------------------+----------------------+--------+-----------+
-  | Date       | Description      | Category | Currency | Cost     | Original cost | Original currency | Conversion rate | Is reinbursement | Split mode           | User A | User B    |
-  +------------+------------------+----------+----------+----------+---------------+-------------------+-----------------+------------------+----------------------+--------+-----------+
-  | 2025-01-06 | Dinner with team | Food     | INR      | 5000     |               |                   |                 | No               | Evenly               | 2500   | -2500     |
-  +------------+------------------+----------+----------+----------+---------------+-------------------+-----------------+------------------+----------------------+--------+-----------+
-  | 2025-02-07 | Plane tickets    | Travel   | INR      | 97264.09 | 1000          | EUR               | 97.2641         | No               | Unevenly - By amount | -80000 | -17264.09 |
-  +------------+------------------+----------+----------+----------+---------------+-------------------+-----------------+------------------+----------------------+--------+-----------+
-
-  */
-
+  // Retain the reimbursement flag for compatibility with existing CSV consumers.
+  // Participant columns represent each person's net change for the expense.
   const fields = [
     { label: 'Date', value: 'date' },
     { label: 'Description', value: 'title' },
@@ -116,9 +93,10 @@ export async function GET(
     { label: 'Conversion rate', value: 'conversionRate' },
     { label: 'Is Reimbursement', value: 'isReimbursement' },
     { label: 'Split mode', value: 'splitMode' },
+    { label: 'Paid By', value: 'paidBy' },
     ...group.participants.map((participant) => ({
       label: escapeCsvFormula(participant.name),
-      value: participant.name,
+      value: `participant_${participant.id}`,
     })),
   ]
 
@@ -131,8 +109,14 @@ export async function GET(
       date: formatDate(expense.expenseDate),
       title: escapeCsvFormula(expense.title),
       categoryName: escapeCsvFormula(expense.category?.name || ''),
-      currency: group.currencyCode ?? group.currency,
-      amount: formatAmountAsDecimal(expense.amount, currency),
+      currency: escapeCsvFormula(group.currencyCode ?? group.currency),
+      amount: formatAmountAsDecimal(
+        expense.isReimbursement ? 0 : expense.amount,
+        currency,
+      ),
+      paidBy: escapeCsvFormula(
+        group.participants.find((p) => p.id === expense.paidById)?.name ?? '',
+      ),
       originalAmount: expense.originalAmount
         ? formatAmountAsDecimal(
             expense.originalAmount,
@@ -157,8 +141,13 @@ export async function GET(
           )
 
           return [
-            participant.name,
-            participantAmountShare * (isPaidByParticipant ? 1 : -1),
+            `participant_${participant.id}`,
+            isPaidByParticipant
+              ? +formatAmountAsDecimal(
+                  expense.amount - (shares.get(participant.id) ?? 0),
+                  currency,
+                )
+              : -participantAmountShare,
           ]
         }),
       ),
