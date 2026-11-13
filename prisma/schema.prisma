@@ -31,6 +31,8 @@ model Participant {
   name            String
   group           Group            @relation(fields: [groupId], references: [id], onDelete: Cascade)
   groupId         String
+  // Ways to be paid back, validated by src/lib/payment-methods.
+  paymentMethods  Json?
   expensesPaidBy  Expense[]
   expensesPaidFor ExpensePaidFor[]
 }

@@ -19,6 +19,16 @@ Spliit is a free and open source alternative to Splitwise. You can either use th
 - [x] Search for expenses in a group [(#51)](https://github.com/spliit-app/spliit/issues/51)
 - [x] Upload and attach images to expenses [(#63)](https://github.com/spliit-app/spliit/issues/63)
 - [x] Create expense by scanning a receipt [(#23)](https://github.com/spliit-app/spliit/issues/23)
+- [x] Pay a suggested reimbursement from the balances page: a SEPA QR code for banking apps, a prefilled link (PayPal.me, Revolut.me, Venmo), a Swish QR code, or details to copy (MobilePay, Bizum). Each participant adds their payment details in the group settings.
+
+### Payment methods
+
+Each way to get paid lives in its own file in `src/lib/payment-methods/methods/`
+(validation, form fields, and the QR code, link or details to show). To add a
+country's app, write one file there and register it in
+`src/lib/payment-methods/index.ts`, then add its labels under `PaymentMethods`
+in `messages/en-US.json`. The settings form and the pay dialog pick it up from
+that list.
 
 ### Possible incoming features
 

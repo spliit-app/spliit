@@ -1,4 +1,5 @@
 import { RecurrenceRule, SplitMode } from '@/generated/prisma/browser'
+import { paymentMethodsSchema } from '@/lib/payment-methods'
 import Decimal from 'decimal.js'
 import * as z from 'zod'
 
@@ -16,6 +17,8 @@ export const groupFormSchema = z
         z.object({
           id: z.string().max(64).optional(),
           name: z.string().min(2, 'min2').max(50, 'max50'),
+          // Omitted (older clients, API callers): keep the stored methods.
+          paymentMethods: paymentMethodsSchema.optional(),
         }),
       )
       .min(1)
