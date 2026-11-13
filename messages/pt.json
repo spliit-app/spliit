@@ -191,7 +191,8 @@
         "none": "Nenhuma",
         "daily": "Diária",
         "weekly": "Semanal",
-        "monthly": "Mensal"
+        "monthly": "Mensal",
+        "yearly": "Anual"
       },
       "paidFor": {
         "title": "Paga a",
@@ -371,7 +372,8 @@
       "period": {
         "DAILY": "{count, plural, one {# despesa diária} other {# despesas diárias}}",
         "WEEKLY": "{count, plural, one {# despesa semanal} other {# despesas semanais}}",
-        "MONTHLY": "{count, plural, one {# despesa mensal} other {# despesas mensais}}"
+        "MONTHLY": "{count, plural, one {# despesa mensal} other {# despesas mensais}}",
+        "YEARLY": "{count, plural, one {# despesa anual} other {# despesas anuais}}"
       }
     }
   },

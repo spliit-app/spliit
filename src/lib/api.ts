@@ -6,7 +6,7 @@ import {
 } from '@/generated/prisma/client'
 import { prisma } from '@/lib/prisma'
 import { randomId } from '@/lib/random'
-import { nextRecurringDate } from '@/lib/recurrence'
+import { nextRecurringDate, usesAnchorDay } from '@/lib/recurrence'
 import { ExpenseFormValues, GroupFormValues } from '@/lib/schemas'
 
 // Re-exported for backwards compatibility with existing server-side importers.
@@ -264,10 +264,9 @@ export async function updateExpense(
     groupId,
   )
 
-  const updatedAnchorDay =
-    expenseFormValues.recurrenceRule === RecurrenceRule.MONTHLY
-      ? expenseFormValues.expenseDate.getUTCDate()
-      : null
+  const updatedAnchorDay = usesAnchorDay(expenseFormValues.recurrenceRule)
+    ? expenseFormValues.expenseDate.getUTCDate()
+    : null
   const updatedRecurrenceExpenseLinkNextExpenseDate = nextRecurringDate(
     expenseFormValues.recurrenceRule,
     expenseFormValues.expenseDate,
@@ -585,7 +584,7 @@ async function createRecurringExpenses() {
     let currentReccuringExpenseLinkId = recurringExpenseLink.id
     const anchorDay =
       recurringExpenseLink.anchorDay ??
-      (currentExpenseRecord.recurrenceRule === RecurrenceRule.MONTHLY
+      (usesAnchorDay(currentExpenseRecord.recurrenceRule)
         ? currentExpenseRecord.expenseDate.getUTCDate()
         : null)
 
@@ -700,10 +699,9 @@ function createPayloadForNewRecurringExpenseLink(
   priorDateToNextRecurrence: Date,
   groupId: String,
 ): RecurringExpenseLink {
-  const anchorDay =
-    recurrenceRule === RecurrenceRule.MONTHLY
-      ? priorDateToNextRecurrence.getUTCDate()
-      : null
+  const anchorDay = usesAnchorDay(recurrenceRule)
+    ? priorDateToNextRecurrence.getUTCDate()
+    : null
   const nextExpenseDate = nextRecurringDate(
     recurrenceRule,
     priorDateToNextRecurrence,

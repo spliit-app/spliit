@@ -204,7 +204,8 @@
         "none": "Puudub",
         "daily": "Iga päev",
         "weekly": "Iga nädal",
-        "monthly": "Iga kuu"
+        "monthly": "Iga kuu",
+        "yearly": "Iga aasta"
       },
       "paidFor": {
         "title": "Makstud kelle eest",
@@ -385,7 +386,8 @@
       "period": {
         "DAILY": "{count, plural, one {# päevane kulu} other {# päevast kulu}}",
         "WEEKLY": "{count, plural, one {# iganädalane kulu} other {# iganädalast kulu}}",
-        "MONTHLY": "{count, plural, one {# igakuine kulu} other {# igakuist kulu}}"
+        "MONTHLY": "{count, plural, one {# igakuine kulu} other {# igakuist kulu}}",
+        "YEARLY": "{count, plural, one {# iga-aastane kulu} other {# iga-aastast kulu}}"
       }
     },
     "MonthlySpending": {

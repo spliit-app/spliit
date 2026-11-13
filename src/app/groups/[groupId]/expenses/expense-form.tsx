@@ -1027,6 +1027,9 @@ export function ExpenseForm({
                       <SelectItem value="MONTHLY">
                         {t(`${sExpense}.recurrenceRule.monthly`)}
                       </SelectItem>
+                      <SelectItem value="YEARLY">
+                        {t(`${sExpense}.recurrenceRule.yearly`)}
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                   <FormDescription>

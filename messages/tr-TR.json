@@ -191,7 +191,8 @@
         "none": "Hiçbiri",
         "daily": "Günlük",
         "weekly": "Haftalık",
-        "monthly": "Aylık"
+        "monthly": "Aylık",
+        "yearly": "Yıllık"
       }
     },
     "amountField": {

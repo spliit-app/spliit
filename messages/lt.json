@@ -208,7 +208,8 @@
         "none": "Nėra",
         "daily": "Kasdien",
         "weekly": "Kas savaitę",
-        "monthly": "Kas mėnesį"
+        "monthly": "Kas mėnesį",
+        "yearly": "Kas metus"
       },
       "paidFor": {
         "title": "Sumokėta už",
@@ -389,7 +390,8 @@
       "period": {
         "DAILY": "{skaičius, daugkartinė, vienintelė {# daily expense} kitos {# daily expenses}}",
         "WEEKLY": "{skaičius, daugkartinė, vienintelė {# weekly expense} kitos {# weekly expenses}}",
-        "MONTHLY": "{skaičius, daugkartinė, vienintelė {# monthly expense} kitos {# monthly expenses}}"
+        "MONTHLY": "{skaičius, daugkartinė, vienintelė {# monthly expense} kitos {# monthly expenses}}",
+        "YEARLY": "{count, plural, one {# yearly expense} other {# yearly expenses}}"
       }
     },
     "MonthlySpending": {

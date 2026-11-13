@@ -185,7 +185,8 @@
         "none": "Không có",
         "daily": "Hàng ngày",
         "weekly": "Hàng tuần",
-        "monthly": "Hàng tháng"
+        "monthly": "Hàng tháng",
+        "yearly": "Hàng năm"
       },
       "paidFor": {
         "title": "Chi cho",

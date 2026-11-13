@@ -200,7 +200,8 @@
         "none": "Žádné",
         "daily": "Denně",
         "weekly": "Týdně",
-        "monthly": "Měsíčně"
+        "monthly": "Měsíčně",
+        "yearly": "Ročně"
       },
       "paidFor": {
         "title": "Zaplaceno pro",
@@ -385,7 +386,8 @@
       "period": {
         "DAILY": "{count, plural, one {# denní výdaj} few {# denní výdaje} many {# denního výdaje} other {# denních výdajů}}",
         "WEEKLY": "{count, plural, one {# týdenní výdaj} few {# týdenní výdaje} many {# týdenního výdaje} other {# týdenních výdajů}}",
-        "MONTHLY": "{count, plural, one {# měsíční výdaj} few {# měsíční výdaje} many {# měsíčního výdaje} other {# měsíčních výdajů}}"
+        "MONTHLY": "{count, plural, one {# měsíční výdaj} few {# měsíční výdaje} many {# měsíčního výdaje} other {# měsíčních výdajů}}",
+        "YEARLY": "{count, plural, one {# roční výdaj} few {# roční výdaje} many {# ročního výdaje} other {# ročních výdajů}}"
       }
     },
     "MonthlySpending": {

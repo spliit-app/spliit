@@ -185,7 +185,8 @@
         "none": "Tidak ada",
         "daily": "Setiap hari",
         "weekly": "Setiap minggu",
-        "monthly": "Setiap bulan"
+        "monthly": "Setiap bulan",
+        "yearly": "Setiap tahun"
       },
       "paidFor": {
         "title": "Dibayar oleh",

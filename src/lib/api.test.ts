@@ -200,6 +200,22 @@ describe('createRecurringExpenses', () => {
     expect(created[0].recurringExpenseLink.create.anchorDay).toBe(31)
     expect(updateLink.mock.calls[0][0].data.anchorDay).toBe(31)
   })
+
+  it('repeats a yearly expense on 29 February in common years', async () => {
+    const { createExpense } = setUp({
+      recurrenceRule: 'YEARLY',
+      expenseDate: new Date(Date.UTC(2024, 1, 29)),
+      nextExpenseDate: new Date(Date.UTC(2025, 1, 28)),
+      anchorDay: null,
+    })
+
+    await getGroupExpenses('group-1')
+
+    const created = createExpense.mock.calls.map(([{ data }]) => data)
+    expect(day(created[0].expenseDate)).toBe('2025-02-28')
+    expect(day(created[1].expenseDate)).toBe('2026-02-28')
+    expect(created[0].recurringExpenseLink.create.anchorDay).toBe(29)
+  })
 })
 
 describe('updateExpense', () => {
@@ -280,6 +296,15 @@ describe('updateExpense', () => {
     )
 
     expect(link).toEqual({ delete: true })
+  })
+
+  it('schedules the next occurrence a year later when switching to yearly', async () => {
+    const link = await linkUpdate(formValues({ recurrenceRule: 'YEARLY' }))
+
+    expect(link?.update).toEqual({
+      nextExpenseDate: new Date(Date.UTC(2026, 0, 15)),
+      anchorDay: 15,
+    })
   })
 
   it('clears the anchor day when switching to weekly', async () => {

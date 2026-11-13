@@ -200,7 +200,8 @@
         "none": "Cap",
         "daily": "Diàriament",
         "weekly": "Setmanalment",
-        "monthly": "Mensualment"
+        "monthly": "Mensualment",
+        "yearly": "Anualment"
       }
     },
     "amountField": {
@@ -369,7 +370,8 @@
       "period": {
         "DAILY": "{count, plural, one {# despesa diària} other {# despeses diàries}}",
         "WEEKLY": "{count, plural, one {# despesa setmanal} other {# despeses setmanals}}",
-        "MONTHLY": "{count, plural, one {# despesa mensual} other {# despeses mensuals}}"
+        "MONTHLY": "{count, plural, one {# despesa mensual} other {# despeses mensuals}}",
+        "YEARLY": "{count, plural, one {# despesa anual} other {# despeses anuals}}"
       }
     }
   },
