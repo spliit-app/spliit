@@ -7,7 +7,7 @@ export const EXPENSE_NOTES_MAX = 5_000
 
 export const groupFormSchema = z
   .object({
-    name: z.string().min(2, 'min2').max(50, 'max50'),
+    name: z.string().trim().min(2, 'min2').max(50, 'max50'),
     information: z.string().max(GROUP_INFORMATION_MAX, 'max10000').optional(),
     currency: z.string().min(1, 'min1').max(5, 'max5'),
     currencyCode: z.union([z.string().length(3).nullish(), z.literal('')]), // ISO-4217 currency code
@@ -15,7 +15,7 @@ export const groupFormSchema = z
       .array(
         z.object({
           id: z.string().max(64).optional(),
-          name: z.string().min(2, 'min2').max(50, 'max50'),
+          name: z.string().trim().min(2, 'min2').max(50, 'max50'),
         }),
       )
       .min(1)
@@ -58,6 +58,7 @@ export const expenseFormSchema = z
         error: (issue) =>
           issue.input === undefined ? 'titleRequired' : undefined,
       })
+      .trim()
       .min(2, 'min2')
       .max(200, 'max200'),
     category: z.coerce.number().default(0),
