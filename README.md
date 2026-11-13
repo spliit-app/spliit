@@ -19,6 +19,7 @@ Spliit is a free and open source alternative to Splitwise. You can either use th
 - [x] Search for expenses in a group [(#51)](https://github.com/spliit-app/spliit/issues/51)
 - [x] Upload and attach images to expenses [(#63)](https://github.com/spliit-app/spliit/issues/63)
 - [x] Create expense by scanning a receipt [(#23)](https://github.com/spliit-app/spliit/issues/23)
+- [x] Daily automatic database backups to an S3-compatible bucket
 
 ### Possible incoming features
 
@@ -272,6 +273,77 @@ call keeps being made.
 
 If expense documents are enabled, the S3 credentials also need the
 `s3:DeleteObject` permission on the bucket.
+
+### Backups
+
+Spliit can back up its whole database every day to an S3-compatible bucket (AWS
+S3, Cloudflare R2, MinIO, Backblaze B2…). This is worth having even if your
+database host takes backups: point-in-time restore on hosted Postgres is often
+limited to a few days or a paid plan, and a self-hosted database has none.
+
+Each run of `GET /api/cron/backup` stores every table as gzipped JSON, at
+`backups/spliit-backup-YYYY-MM-DD.json.gz`. A second run on the same day
+replaces that day's file. The newest 30 daily backups are kept, plus the first
+backup of each of the last 12 months; older ones are deleted by the same run.
+
+Use a **private** bucket of its own: backups contain every group. They are
+written without an ACL, so they are only as public as the bucket. To enable
+backups, set:
+
+```.env
+CRON_SECRET=a-long-random-string
+BACKUP_S3_BUCKET=name-of-private-bucket
+# Optional, each falls back to its S3_UPLOAD_* counterpart:
+BACKUP_S3_KEY=AAAAAAAAAAAAAAAAAAAA
+BACKUP_S3_SECRET=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+BACKUP_S3_REGION=us-east-1
+BACKUP_S3_ENDPOINT=https://<account-id>.r2.cloudflarestorage.com
+# Optional, defaults to backups/:
+BACKUP_S3_PREFIX=backups/
+```
+
+The credentials need `s3:PutObject`, `s3:GetObject`, `s3:ListBucket` and
+`s3:DeleteObject` on that bucket.
+
+Then call the endpoint daily. On Vercel, `vercel.json` already schedules it (at
+02:00 UTC, before the group purge). Elsewhere, for example from the host's
+crontab when running with Docker:
+
+```sh
+0 2 * * * curl -fsS -H "Authorization: Bearer $CRON_SECRET" https://your-instance/api/cron/backup
+```
+
+The response lists the stored file and the deleted ones. Without a bucket the
+endpoint skips (`{ "skipped": true }`, status 200). Either way, you can download a backup on demand, as plain
+JSON:
+
+```sh
+curl -H "Authorization: Bearer $CRON_SECRET" -o spliit-backup.json "https://your-instance/api/cron/backup?download=1"
+```
+
+To restore, from a checkout of this repository with `npm ci` done:
+
+1. List and download a backup from the bucket (reads the same `BACKUP_S3_*`
+   variables from the environment or `.env`; files go to `./backups/`):
+
+   ```sh
+   npm run backup:download               # list
+   npm run backup:download -- latest     # or a date: 2026-01-31
+   ```
+
+2. Create an **empty** database, point `POSTGRES_URL_NON_POOLING` (or
+   `POSTGRES_PRISMA_URL`) at it, and create the tables with
+   `npx prisma migrate deploy`.
+
+3. Load the backup (`.json.gz` or `.json`):
+
+   ```sh
+   npm run backup:restore -- backups/spliit-backup-2026-01-31.json.gz
+   ```
+
+The restore refuses to run on a database that already has groups, so it cannot
+overwrite or mix with live data, and inserts everything in a single transaction.
+Then point the app at the restored database.
 
 ### Create expense from receipt
 

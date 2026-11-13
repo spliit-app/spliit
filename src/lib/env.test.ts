@@ -82,3 +82,46 @@ describe('ENABLE_GROUP_DELETION', () => {
     ).toBe(true)
   })
 })
+
+describe('BACKUP_S3_BUCKET', () => {
+  const noUploadCredentials = {
+    S3_UPLOAD_KEY: '',
+    S3_UPLOAD_SECRET: '',
+    S3_UPLOAD_REGION: '',
+  }
+
+  it('is optional', () => {
+    expect(loadEnv({ BACKUP_S3_BUCKET: '' }).BACKUP_S3_BUCKET).toBeUndefined()
+  })
+
+  it('requires CRON_SECRET, as backups are only taken by the cron job', () => {
+    expect(() =>
+      loadEnv({
+        BACKUP_S3_BUCKET: 'backups',
+        BACKUP_S3_KEY: 'k',
+        BACKUP_S3_SECRET: 's',
+        BACKUP_S3_REGION: 'auto',
+        CRON_SECRET: '',
+      }),
+    ).toThrow(/CRON_SECRET/)
+  })
+
+  it('requires credentials, from BACKUP_S3_* or S3_UPLOAD_*', () => {
+    expect(() =>
+      loadEnv({
+        ...noUploadCredentials,
+        BACKUP_S3_BUCKET: 'backups',
+        CRON_SECRET: 's3cret',
+      }),
+    ).toThrow(/BACKUP_S3_KEY, BACKUP_S3_SECRET, BACKUP_S3_REGION/)
+    expect(
+      loadEnv({
+        S3_UPLOAD_KEY: 'k',
+        S3_UPLOAD_SECRET: 's',
+        S3_UPLOAD_REGION: 'eu-north-1',
+        BACKUP_S3_BUCKET: 'backups',
+        CRON_SECRET: 's3cret',
+      }).BACKUP_S3_BUCKET,
+    ).toBe('backups')
+  })
+})

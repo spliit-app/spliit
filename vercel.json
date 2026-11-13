@@ -2,6 +2,10 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "crons": [
     {
+      "path": "/api/cron/backup",
+      "schedule": "0 2 * * *"
+    },
+    {
       "path": "/api/cron/purge-deleted-groups",
       "schedule": "0 3 * * *"
     }

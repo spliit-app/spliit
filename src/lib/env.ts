@@ -1,5 +1,6 @@
 import { z, ZodIssueCode } from 'zod'
 import { ANALYTICS_PROVIDER_IDS } from './analytics/provider-ids'
+import { resolveBackupStorage } from './backup-format'
 
 const interpretEnvVarAsBool = (val: unknown): boolean => {
   if (typeof val !== 'string') return false
@@ -86,6 +87,33 @@ const envSchema = z
     // Bearer token the scheduled jobs under /api/cron must be called with.
     // They are disabled while it is unset. Vercel Cron sends it automatically.
     CRON_SECRET: z.preprocess(
+      interpretBlankEnvVarAsUndefined,
+      z.string().trim().optional(),
+    ),
+    // Daily backups (see /api/cron/backup), enabled by naming a bucket. Each
+    // other BACKUP_S3_* variable falls back to its S3_UPLOAD_* counterpart, so
+    // a separate private bucket on the same account only needs the bucket.
+    BACKUP_S3_BUCKET: z.preprocess(
+      interpretBlankEnvVarAsUndefined,
+      z.string().trim().optional(),
+    ),
+    BACKUP_S3_PREFIX: z.preprocess(
+      interpretBlankEnvVarAsUndefined,
+      z.string().trim().optional(),
+    ),
+    BACKUP_S3_KEY: z.preprocess(
+      interpretBlankEnvVarAsUndefined,
+      z.string().trim().optional(),
+    ),
+    BACKUP_S3_SECRET: z.preprocess(
+      interpretBlankEnvVarAsUndefined,
+      z.string().trim().optional(),
+    ),
+    BACKUP_S3_REGION: z.preprocess(
+      interpretBlankEnvVarAsUndefined,
+      z.string().trim().optional(),
+    ),
+    BACKUP_S3_ENDPOINT: z.preprocess(
       interpretBlankEnvVarAsUndefined,
       z.string().trim().optional(),
     ),
@@ -198,6 +226,20 @@ const envSchema = z
         message:
           'If ENABLE_GROUP_DELETION is set, then CRON_SECRET must be set too, and /api/cron/purge-deleted-groups called on a schedule',
       })
+    }
+    if (env.BACKUP_S3_BUCKET) {
+      if (!env.CRON_SECRET)
+        ctx.addIssue({
+          code: ZodIssueCode.custom,
+          message:
+            'If BACKUP_S3_BUCKET is set, then CRON_SECRET must be set too, and /api/cron/backup called on a schedule',
+        })
+      const { missing } = resolveBackupStorage(env)
+      if (missing.length > 0)
+        ctx.addIssue({
+          code: ZodIssueCode.custom,
+          message: `If BACKUP_S3_BUCKET is set, then ${missing.join(', ')} (or the S3_UPLOAD_* equivalent) must be set too`,
+        })
     }
     if (
       (enableReceiptExtract || enableCategoryExtract) &&
