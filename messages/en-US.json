@@ -108,6 +108,11 @@
     "NotFound": {
       "text": "This group does not exist.",
       "link": "Go to recently visited groups"
+    },
+    "CreateOptions": {
+      "openMenu": "Open create options",
+      "newGroup": "New group",
+      "importFromFile": "Import from file"
     }
   },
   "GroupForm": {
@@ -593,5 +598,51 @@
     "updateTitle": "Update available",
     "updateDescription": "A new version of Spliit is available.",
     "reload": "Reload"
+  },
+  "FileImport": {
+    "title": "Import group from file",
+    "buttonLabel": "Open import dialog",
+    "errorTitle": "Error",
+    "processing": "Processing…",
+    "fileLabel": "Select a file",
+    "uploadDragTitle": "Drop a file here or click to select",
+    "uploadDragDescription": "Supported: JSON (Spliit-JSON) and debug files",
+    "fileReadError": "Could not read the selected file.",
+    "newGroupNameLabel": "New group name",
+    "newGroupNamePlaceholder": "Enter a group name (optional)",
+    "analysisAwaiting": "Awaiting file analysis…",
+    "analysisExplanation": "Select a file to analyze its content before importing.",
+    "previewErrorTitle": "We couldn't analyze your file",
+    "generalInfoTitle": "General information",
+    "generalInfoFormat": "Format",
+    "generalInfoRows": "Rows",
+    "generalInfoInvalidRows": "Invalid rows",
+    "generalInfoTotal": "Total amount",
+    "generalInfoParticipantNames": "Participants",
+    "generalInfoParticipants": "Participants and balances",
+    "generalInfoParticipantsEmpty": "No participant information detected.",
+    "generalInfoUnknown": "Unknown",
+    "analysisHeaderTitle": "Header issues",
+    "analysisGeneralWarningsTitle": "General warnings",
+    "analysisCategoryTitle": "Category mapping warnings",
+    "analysisErrorsTitle": "Row errors",
+    "analysisFatalHint": "Fix these errors to enable import.",
+    "import": "Import",
+    "importing": "Importing…",
+    "importProgressLabel": "Importing expenses",
+    "importCancel": "Cancel import",
+    "importCanceling": "Cancelling…",
+    "importResultCompleted": "Imported {created} of {total} rows",
+    "importResultCancelledSimple": "Import cancelled. The partially imported group remains in your groups.",
+    "importResultConfirm": "Continue",
+    "recurrenceWarning": "Recurring expenses are imported as individual expenses with recurrence turned off. The export does not identify active series. Enable recurrence manually on the latest expense if needed.",
+    "roundingWarning": "Rounding of individual balances can differ by minor units after import. Check balances before using the new group.",
+    "historyWarning": "The activity history is not imported; Spliit JSON exports do not include document attachments."
+  },
+  "FileImportErrors": {
+    "noParticipants": "No participants defined in file.",
+    "fileEmpty": "The uploaded file was empty.",
+    "invalidAmount": "Invalid amount in one or more rows.",
+    "invalidDate": "Invalid expense date in one or more rows."
   }
 }

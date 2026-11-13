@@ -7,15 +7,24 @@ import {
   getRecentGroups,
   getStarredGroups,
   RecentGroups,
+  saveRecentGroup,
 } from '@/app/groups/recent-groups-helpers'
+import { FileImportModal } from '@/components/file-import-modal'
 import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { getGroups } from '@/lib/api'
 import { MAX_GROUPS_PER_QUERY } from '@/lib/group-query-limits'
 import { trpc } from '@/trpc/client'
 import { AppRouterOutput } from '@/trpc/routers/_app'
-import { Loader2 } from 'lucide-react'
+import { ChevronDown, Loader2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import {
   PropsWithChildren,
   useCallback,
@@ -262,6 +271,8 @@ function GroupsPage({
   reload,
 }: PropsWithChildren<{ reload: () => void }>) {
   const t = useTranslations('Groups')
+  const router = useRouter()
+  const [importOpen, setImportOpen] = useState(false)
   return (
     <>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
@@ -270,14 +281,41 @@ function GroupsPage({
         </h1>
         <div className="flex gap-2">
           <AddGroupByUrlButton reload={reload} />
-          <Button asChild>
-            <Link href="/groups/create">
-              {/* <Plus className="w-4 h-4 mr-2" /> */}
-              {t('create')}
-            </Link>
-          </Button>
+          <div className="inline-flex">
+            <Button asChild className="rounded-r-none">
+              <Link href="/groups/create">{t('create')}</Link>
+            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  className="rounded-l-none px-2"
+                  aria-label={t('CreateOptions.openMenu')}
+                >
+                  <ChevronDown className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => setImportOpen(true)}>
+                  {t('CreateOptions.importFromFile')}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </div>
+      <FileImportModal
+        hideTrigger
+        open={importOpen}
+        onOpenChange={(open) => {
+          setImportOpen(open)
+          if (!open) reload()
+        }}
+        onCreateSuccess={({ groupId, groupName }) => {
+          saveRecentGroup({ id: groupId, name: groupName })
+          reload()
+          router.push(`/groups/${groupId}`)
+        }}
+      />
       <div>{children}</div>
     </>
   )
