@@ -5,10 +5,17 @@ import {
   expenseCard,
   openExpense,
   openTab,
+  paidForRow,
   uniqueSuffix,
 } from './app'
 import { expect, test } from './fixtures'
-import { fieldByLabel, fillStable, money } from './ui'
+import {
+  fieldByLabel,
+  fillStable,
+  money,
+  selectRadixOption,
+  setChecked,
+} from './ui'
 
 const PARTICIPANTS = ['Alice', 'Bob', 'Carol']
 
@@ -123,4 +130,58 @@ test('the search bar also matches expense notes', async ({ page }) => {
   // match check passes on the unfiltered list.
   await expect(expenseCard(page, 'Groceries')).toHaveCount(0)
   await expect(expenseCard(page, 'Dinner')).toBeVisible()
+})
+
+test('rebalances a by-amount split when a participant is ticked again', async ({
+  page,
+}) => {
+  const groupId = await createGroup(page, {
+    name: `E2E Retick ${uniqueSuffix()}`,
+    participants: PARTICIPANTS,
+  })
+
+  await page.goto(`/groups/${groupId}/expenses/create`)
+  await expect(
+    page.getByRole('button', { name: 'Create', exact: true }),
+  ).toBeVisible({ timeout: 30_000 })
+  await fillStable(page.locator('input[name="amount"]'), '90')
+  await page.getByRole('button', { name: /Advanced splitting options/ }).click()
+  await selectRadixOption(page, page.getByTestId('split-mode'), /By amount/)
+
+  const share = (name: string) => paidForRow(page, name).getByRole('textbox')
+  for (const name of PARTICIPANTS)
+    await expect(share(name)).toHaveValue('30.00')
+
+  await setChecked(paidForRow(page, 'Carol').getByRole('checkbox'), false)
+  await expect(share('Alice')).toHaveValue('45.00')
+  await expect(share('Bob')).toHaveValue('45.00')
+
+  await setChecked(paidForRow(page, 'Carol').getByRole('checkbox'), true)
+  for (const name of PARTICIPANTS)
+    await expect(share(name)).toHaveValue('30.00')
+})
+
+test('rebalances a by-amount split after Select none and Select all', async ({
+  page,
+}) => {
+  const groupId = await createGroup(page, {
+    name: `E2E Select all ${uniqueSuffix()}`,
+    participants: PARTICIPANTS,
+  })
+
+  await page.goto(`/groups/${groupId}/expenses/create`)
+  await expect(
+    page.getByRole('button', { name: 'Create', exact: true }),
+  ).toBeVisible({ timeout: 30_000 })
+  await fillStable(page.locator('input[name="amount"]'), '90')
+  await page.getByRole('button', { name: /Advanced splitting options/ }).click()
+  await selectRadixOption(page, page.getByTestId('split-mode'), /By amount/)
+
+  await page.getByRole('button', { name: 'Select none' }).click()
+  await page.getByRole('button', { name: 'Select all' }).click()
+  for (const name of PARTICIPANTS) {
+    await expect(paidForRow(page, name).getByRole('textbox')).toHaveValue(
+      '30.00',
+    )
+  }
 })

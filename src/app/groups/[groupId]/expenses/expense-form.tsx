@@ -1067,7 +1067,10 @@ export function ExpenseForm({
                     shouldTouch: true,
                     shouldValidate: true,
                   })
-                  if (allSelected) setShareEdits(new Map())
+                  // a new map reruns the by-amount balancing for the participants added
+                  setShareEdits((prev) =>
+                    allSelected ? new Map() : new Map(prev),
+                  )
                 }}
               >
                 {form.getValues().paidFor.length ===
@@ -1151,7 +1154,8 @@ export function ExpenseForm({
                                           ),
                                           options,
                                         )
-                                    if (!checked) forgetShareEdit(id)
+                                    // a new map also reruns the by-amount balancing for a participant added back
+                                    forgetShareEdit(id)
                                   }}
                                 />
                               </FormControl>
