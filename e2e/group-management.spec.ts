@@ -2,6 +2,7 @@ import {
   addExpense,
   createGroup,
   expectBalance,
+  expenseCard,
   openTab,
   paidForRow,
   uniqueSuffix,
@@ -54,6 +55,46 @@ test('renames a group and adds a participant afterwards', async ({ page }) => {
   await page.goto(`/groups/${groupId}/balances`)
   // Brunch: 60 over 3 (Dave did not exist yet). Drinks: 80 over 4 = 20 each.
   await expectBalance(page, 'Dave', 60)
+})
+
+test('refuses to remove a participant who got an expense while the settings were open', async ({
+  page,
+}) => {
+  const groupId = await createGroup(page, {
+    name: `E2E Remove race ${uniqueSuffix()}`,
+    participants: ['Alice', 'Bob', 'Carol'],
+  })
+
+  // Bob has no expense yet, so the settings page offers to remove him.
+  await openTab(page, 'Settings')
+  const bobRow = page
+    .locator('li')
+    .filter({ has: page.locator('input[name="participants.1.name"]') })
+  await expect(bobRow.getByRole('button')).toBeEnabled()
+
+  // Meanwhile, someone else adds an expense paid by Bob.
+  const otherTab = await page.context().newPage()
+  await addExpense(otherTab, groupId, {
+    title: 'Hotel',
+    amount: '90',
+    paidBy: 'Bob',
+  })
+  await otherTab.close()
+
+  // The stale settings page still lets Bob be removed and saved.
+  await bobRow.getByRole('button').click()
+  await page.getByRole('button', { name: 'Save', exact: true }).click()
+  await expect(
+    page
+      .getByRole('region', { name: /Notifications/ })
+      .getByText('Bob is part of expenses, and can not be removed.'),
+  ).toBeVisible({ timeout: 30_000 })
+
+  // Bob and his expense are still there, and the balances still count it.
+  await page.goto(`/groups/${groupId}/expenses`)
+  await expect(expenseCard(page, 'Hotel')).toBeVisible()
+  await page.goto(`/groups/${groupId}/balances`)
+  await expectBalance(page, 'Bob', 60)
 })
 
 test('lists visited groups under Recent groups', async ({ page }) => {
