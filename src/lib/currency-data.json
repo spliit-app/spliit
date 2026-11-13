@@ -4039,6 +4039,1016 @@
       "decimal_digits": 0
     }
   },
+  "el": {
+    "USD": {
+      "name": "Δολάριο ΗΠΑ",
+      "symbol_native": "$",
+      "symbol": "$",
+      "code": "USD",
+      "name_plural": "US dollars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "EUR": {
+      "name": "Ευρώ",
+      "symbol_native": "€",
+      "symbol": "€",
+      "code": "EUR",
+      "name_plural": "euros",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "JPY": {
+      "name": "Γιεν Ιαπωνίας",
+      "symbol_native": "￥",
+      "symbol": "¥",
+      "code": "JPY",
+      "name_plural": "Japanese yen",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "BGN": {
+      "name": "Λεβ Βουλγαρίας",
+      "symbol_native": "лв.",
+      "symbol": "BGN",
+      "code": "BGN",
+      "name_plural": "Bulgarian leva",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "CZK": {
+      "name": "Κορόνα Τσεχίας",
+      "symbol_native": "Kč",
+      "symbol": "Kč",
+      "code": "CZK",
+      "name_plural": "Czech Republic korunas",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "DKK": {
+      "name": "Κορόνα Δανίας",
+      "symbol_native": "kr",
+      "symbol": "Dkr",
+      "code": "DKK",
+      "name_plural": "Danish kroner",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "GBP": {
+      "name": "Λίρα Στερλίνα Βρετανίας",
+      "symbol_native": "£",
+      "symbol": "£",
+      "code": "GBP",
+      "name_plural": "British pounds sterling",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "HUF": {
+      "name": "Φιορίνι Ουγγαρίας",
+      "symbol_native": "Ft",
+      "symbol": "Ft",
+      "code": "HUF",
+      "name_plural": "Hungarian forints",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "PLN": {
+      "name": "Ζλότι Πολωνίας",
+      "symbol_native": "zł",
+      "symbol": "zł",
+      "code": "PLN",
+      "name_plural": "Polish zlotys",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "RON": {
+      "name": "Λέου Ρουμανίας",
+      "symbol_native": "RON",
+      "symbol": "RON",
+      "code": "RON",
+      "name_plural": "Romanian lei",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "SEK": {
+      "name": "Κορόνα Σουηδίας",
+      "symbol_native": "kr",
+      "symbol": "Skr",
+      "code": "SEK",
+      "name_plural": "Swedish kronor",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "CHF": {
+      "name": "Φράγκο Ελβετίας",
+      "symbol_native": "CHF",
+      "symbol": "CHF",
+      "code": "CHF",
+      "name_plural": "Swiss francs",
+      "rounding": 0.05,
+      "decimal_digits": 2
+    },
+    "ISK": {
+      "name": "Κορόνα Ισλανδίας",
+      "symbol_native": "kr",
+      "symbol": "Ikr",
+      "code": "ISK",
+      "name_plural": "Icelandic krónur",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "NOK": {
+      "name": "Κορόνα Νορβηγίας",
+      "symbol_native": "kr",
+      "symbol": "Nkr",
+      "code": "NOK",
+      "name_plural": "Norwegian kroner",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "TRY": {
+      "name": "Λίρα Τουρκίας",
+      "symbol_native": "₺",
+      "symbol": "TL",
+      "code": "TRY",
+      "name_plural": "Turkish Lira",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "AUD": {
+      "name": "Δολάριο Αυστραλίας",
+      "symbol_native": "$",
+      "symbol": "AU$",
+      "code": "AUD",
+      "name_plural": "Australian dollars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "BRL": {
+      "name": "Ρεάλ Βραζιλίας",
+      "symbol_native": "R$",
+      "symbol": "R$",
+      "code": "BRL",
+      "name_plural": "Brazilian reals",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "CAD": {
+      "name": "Δολάριο Καναδά",
+      "symbol_native": "$",
+      "symbol": "CA$",
+      "code": "CAD",
+      "name_plural": "Canadian dollars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "CNY": {
+      "name": "Γουάν Κίνας",
+      "symbol_native": "CN¥",
+      "symbol": "CN¥",
+      "code": "CNY",
+      "name_plural": "Chinese yuan",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "HKD": {
+      "name": "Δολάριο Χονγκ Κονγκ",
+      "symbol_native": "$",
+      "symbol": "HK$",
+      "code": "HKD",
+      "name_plural": "Hong Kong dollars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "IDR": {
+      "name": "Ρουπία Ινδονησίας",
+      "symbol_native": "Rp",
+      "symbol": "Rp",
+      "code": "IDR",
+      "name_plural": "Indonesian rupiahs",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "ILS": {
+      "name": "Νέο Σέκελ Ισραήλ",
+      "symbol_native": "₪",
+      "symbol": "₪",
+      "code": "ILS",
+      "name_plural": "Israeli new sheqels",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "INR": {
+      "name": "Ρουπία Ινδίας",
+      "symbol_native": "টকা",
+      "symbol": "Rs",
+      "code": "INR",
+      "name_plural": "Indian rupees",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "KRW": {
+      "name": "Γουόν Νότιας Κορέας",
+      "symbol_native": "₩",
+      "symbol": "₩",
+      "code": "KRW",
+      "name_plural": "South Korean won",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "MKD": {
+      "name": "Δηνάριο ΠΓΔΜ",
+      "symbol_native": "MKD",
+      "symbol": "MKD",
+      "code": "MKD",
+      "name_plural": "Macedonian denari",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "MXN": {
+      "name": "Πέσο Μεξικού",
+      "symbol_native": "$",
+      "symbol": "MX$",
+      "code": "MXN",
+      "name_plural": "Mexican pesos",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "MYR": {
+      "name": "Ρινγκίτ Μαλαισίας",
+      "symbol_native": "RM",
+      "symbol": "RM",
+      "code": "MYR",
+      "name_plural": "Malaysian ringgits",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "NZD": {
+      "name": "Δολάριο Νέας Ζηλανδίας",
+      "symbol_native": "$",
+      "symbol": "NZ$",
+      "code": "NZD",
+      "name_plural": "New Zealand dollars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "PHP": {
+      "name": "Πέσο Φιλιππίνων",
+      "symbol_native": "₱",
+      "symbol": "₱",
+      "code": "PHP",
+      "name_plural": "Philippine pesos",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "SGD": {
+      "name": "Δολάριο Σιγκαπούρης",
+      "symbol_native": "$",
+      "symbol": "S$",
+      "code": "SGD",
+      "name_plural": "Singapore dollars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "THB": {
+      "name": "Μπατ Ταϊλάνδης",
+      "symbol_native": "฿",
+      "symbol": "฿",
+      "code": "THB",
+      "name_plural": "Thai baht",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "VND": {
+      "name": "Ντονγκ Βιετνάμ",
+      "symbol_native": "₫",
+      "symbol": "₫",
+      "code": "VND",
+      "name_plural": "Vietnamese dong",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "ZAR": {
+      "name": "Ραντ Νότιας Αφρικής",
+      "symbol_native": "R",
+      "symbol": "R",
+      "code": "ZAR",
+      "name_plural": "South African rand",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "COP": {
+      "name": "Πέσο Κολομβίας",
+      "symbol_native": "$",
+      "symbol": "CO$",
+      "code": "COP",
+      "name_plural": "Colombian pesos",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "MAD": {
+      "name": "Ντιράμ Μαρόκου",
+      "symbol_native": "د.م.‏",
+      "symbol": "MAD",
+      "code": "MAD",
+      "name_plural": "Moroccan dirhams",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "AED": {
+      "name": "Ντιράμ Ηνωμένων Αραβικών Εμιράτων",
+      "symbol_native": "د.إ.‏",
+      "symbol": "AED",
+      "code": "AED",
+      "name_plural": "UAE dirhams",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "AFN": {
+      "name": "Αφγάνι Αφγανιστάν",
+      "symbol_native": "؋",
+      "symbol": "Af",
+      "code": "AFN",
+      "name_plural": "Afghan Afghanis",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "ALL": {
+      "name": "Λεκ Αλβανίας",
+      "symbol_native": "Lek",
+      "symbol": "ALL",
+      "code": "ALL",
+      "name_plural": "Albanian lekë",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "AMD": {
+      "name": "Ντραμ Αρμενίας",
+      "symbol_native": "դր.",
+      "symbol": "AMD",
+      "code": "AMD",
+      "name_plural": "Armenian drams",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "ARS": {
+      "name": "Πέσο Αργεντινής",
+      "symbol_native": "$",
+      "symbol": "AR$",
+      "code": "ARS",
+      "name_plural": "Argentine pesos",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "AZN": {
+      "name": "Μανάτ Αζερμπαϊτζάν",
+      "symbol_native": "ман.",
+      "symbol": "man.",
+      "code": "AZN",
+      "name_plural": "Azerbaijani manats",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "BAM": {
+      "name": "Μετατρέψιμο Μάρκο Βοσνίας-Ερζεγοβίνης",
+      "symbol_native": "KM",
+      "symbol": "KM",
+      "code": "BAM",
+      "name_plural": "Bosnia-Herzegovina convertible marks",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "BDT": {
+      "name": "Τάκα Μπαγκλαντές",
+      "symbol_native": "৳",
+      "symbol": "Tk",
+      "code": "BDT",
+      "name_plural": "Bangladeshi takas",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "BHD": {
+      "name": "Δηνάριο Μπαχρέιν",
+      "symbol_native": "د.ب.‏",
+      "symbol": "BD",
+      "code": "BHD",
+      "name_plural": "Bahraini dinars",
+      "rounding": 0,
+      "decimal_digits": 3
+    },
+    "BIF": {
+      "name": "Φράγκο Μπουρούντι",
+      "symbol_native": "FBu",
+      "symbol": "FBu",
+      "code": "BIF",
+      "name_plural": "Burundian francs",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "BND": {
+      "name": "Δολάριο Μπρουνέι",
+      "symbol_native": "$",
+      "symbol": "BN$",
+      "code": "BND",
+      "name_plural": "Brunei dollars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "BOB": {
+      "name": "Μπολιβιάνο Βολιβίας",
+      "symbol_native": "Bs",
+      "symbol": "Bs",
+      "code": "BOB",
+      "name_plural": "Bolivian bolivianos",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "BWP": {
+      "name": "Πούλα Μποτσουάνας",
+      "symbol_native": "P",
+      "symbol": "BWP",
+      "code": "BWP",
+      "name_plural": "Botswanan pulas",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "BYN": {
+      "name": "Ρούβλι Λευκορωσίας",
+      "symbol_native": "руб.",
+      "symbol": "Br",
+      "code": "BYN",
+      "name_plural": "Belarusian rubles",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "BZD": {
+      "name": "Δολάριο Μπελίζ",
+      "symbol_native": "$",
+      "symbol": "BZ$",
+      "code": "BZD",
+      "name_plural": "Belize dollars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "CDF": {
+      "name": "Φράγκο Κονγκό",
+      "symbol_native": "FrCD",
+      "symbol": "CDF",
+      "code": "CDF",
+      "name_plural": "Congolese francs",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "CLP": {
+      "name": "Πέσο Χιλής",
+      "symbol_native": "$",
+      "symbol": "CL$",
+      "code": "CLP",
+      "name_plural": "Chilean pesos",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "CRC": {
+      "name": "Κολόν Κόστα Ρίκα",
+      "symbol_native": "₡",
+      "symbol": "₡",
+      "code": "CRC",
+      "name_plural": "Costa Rican colóns",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "CVE": {
+      "name": "Εσκούδο Πράσινου Ακρωτηρίου",
+      "symbol_native": "CV$",
+      "symbol": "CV$",
+      "code": "CVE",
+      "name_plural": "Cape Verdean escudos",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "DJF": {
+      "name": "Φράγκο Τζιμπουτί",
+      "symbol_native": "Fdj",
+      "symbol": "Fdj",
+      "code": "DJF",
+      "name_plural": "Djiboutian francs",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "DOP": {
+      "name": "Πέσο Δομινικανής Δημοκρατίας",
+      "symbol_native": "RD$",
+      "symbol": "RD$",
+      "code": "DOP",
+      "name_plural": "Dominican pesos",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "DZD": {
+      "name": "Δηνάριο Αλγερίας",
+      "symbol_native": "د.ج.‏",
+      "symbol": "DA",
+      "code": "DZD",
+      "name_plural": "Algerian dinars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "EGP": {
+      "name": "Λίρα Αιγύπτου",
+      "symbol_native": "ج.م.‏",
+      "symbol": "EGP",
+      "code": "EGP",
+      "name_plural": "Egyptian pounds",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "ERN": {
+      "name": "Νάκφα Ερυθραίας",
+      "symbol_native": "Nfk",
+      "symbol": "Nfk",
+      "code": "ERN",
+      "name_plural": "Eritrean nakfas",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "ETB": {
+      "name": "Μπιρ Αιθιοπίας",
+      "symbol_native": "Br",
+      "symbol": "Br",
+      "code": "ETB",
+      "name_plural": "Ethiopian birrs",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "GEL": {
+      "name": "Λάρι Γεωργίας",
+      "symbol_native": "GEL",
+      "symbol": "GEL",
+      "code": "GEL",
+      "name_plural": "Georgian laris",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "GHS": {
+      "name": "Σέντι Γκάνας",
+      "symbol_native": "GH₵",
+      "symbol": "GH₵",
+      "code": "GHS",
+      "name_plural": "Ghanaian cedis",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "GNF": {
+      "name": "Φράγκο Γουινέας",
+      "symbol_native": "FG",
+      "symbol": "FG",
+      "code": "GNF",
+      "name_plural": "Guinean francs",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "GTQ": {
+      "name": "Κουετσάλ Γουατεμάλας",
+      "symbol_native": "Q",
+      "symbol": "GTQ",
+      "code": "GTQ",
+      "name_plural": "Guatemalan quetzals",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "HNL": {
+      "name": "Λεμπίρα Ονδούρας",
+      "symbol_native": "L",
+      "symbol": "HNL",
+      "code": "HNL",
+      "name_plural": "Honduran lempiras",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "IQD": {
+      "name": "Δηνάριο Ιράκ",
+      "symbol_native": "د.ع.‏",
+      "symbol": "IQD",
+      "code": "IQD",
+      "name_plural": "Iraqi dinars",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "IRR": {
+      "name": "Ριάλ Ιράν",
+      "symbol_native": "﷼",
+      "symbol": "IRR",
+      "code": "IRR",
+      "name_plural": "Iranian rials",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "JMD": {
+      "name": "Δολάριο Τζαμάικας",
+      "symbol_native": "$",
+      "symbol": "J$",
+      "code": "JMD",
+      "name_plural": "Jamaican dollars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "JOD": {
+      "name": "Δηνάριο Ιορδανίας",
+      "symbol_native": "د.أ.‏",
+      "symbol": "JD",
+      "code": "JOD",
+      "name_plural": "Jordanian dinars",
+      "rounding": 0,
+      "decimal_digits": 3
+    },
+    "KES": {
+      "name": "Σελίνι Κένυας",
+      "symbol_native": "Ksh",
+      "symbol": "Ksh",
+      "code": "KES",
+      "name_plural": "Kenyan shillings",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "KHR": {
+      "name": "Ρίελ Καμπότζης",
+      "symbol_native": "៛",
+      "symbol": "KHR",
+      "code": "KHR",
+      "name_plural": "Cambodian riels",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "KMF": {
+      "name": "Φράγκο Κομορών",
+      "symbol_native": "FC",
+      "symbol": "CF",
+      "code": "KMF",
+      "name_plural": "Comorian francs",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "KWD": {
+      "name": "Δηνάριο Κουβέιτ",
+      "symbol_native": "د.ك.‏",
+      "symbol": "KD",
+      "code": "KWD",
+      "name_plural": "Kuwaiti dinars",
+      "rounding": 0,
+      "decimal_digits": 3
+    },
+    "KZT": {
+      "name": "Τένγκε Καζακστάν",
+      "symbol_native": "тңг.",
+      "symbol": "KZT",
+      "code": "KZT",
+      "name_plural": "Kazakhstani tenges",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "LBP": {
+      "name": "Λίρα Λιβάνου",
+      "symbol_native": "ل.ل.‏",
+      "symbol": "LB£",
+      "code": "LBP",
+      "name_plural": "Lebanese pounds",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "LKR": {
+      "name": "Ρουπία Σρι Λάνκα",
+      "symbol_native": "SL Re",
+      "symbol": "SLRs",
+      "code": "LKR",
+      "name_plural": "Sri Lankan rupees",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "LYD": {
+      "name": "Δηνάριο Λιβύης",
+      "symbol_native": "د.ل.‏",
+      "symbol": "LD",
+      "code": "LYD",
+      "name_plural": "Libyan dinars",
+      "rounding": 0,
+      "decimal_digits": 3
+    },
+    "MDL": {
+      "name": "Λέου Μολδαβίας",
+      "symbol_native": "MDL",
+      "symbol": "MDL",
+      "code": "MDL",
+      "name_plural": "Moldovan lei",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "MGA": {
+      "name": "Αριάρι Μαδαγασκάρης",
+      "symbol_native": "MGA",
+      "symbol": "MGA",
+      "code": "MGA",
+      "name_plural": "Malagasy Ariaries",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "MMK": {
+      "name": "Κιάτ Μιανμάρ",
+      "symbol_native": "K",
+      "symbol": "MMK",
+      "code": "MMK",
+      "name_plural": "Myanma kyats",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "MOP": {
+      "name": "Πατάκα Μακάο",
+      "symbol_native": "MOP$",
+      "symbol": "MOP$",
+      "code": "MOP",
+      "name_plural": "Macanese patacas",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "MUR": {
+      "name": "Ρουπία Μαυρικίου",
+      "symbol_native": "MURs",
+      "symbol": "MURs",
+      "code": "MUR",
+      "name_plural": "Mauritian rupees",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "MZN": {
+      "name": "Μετικάλ Μοζαμβίκης",
+      "symbol_native": "MTn",
+      "symbol": "MTn",
+      "code": "MZN",
+      "name_plural": "Mozambican meticals",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "NAD": {
+      "name": "Δολάριο Ναμίμπια",
+      "symbol_native": "N$",
+      "symbol": "N$",
+      "code": "NAD",
+      "name_plural": "Namibian dollars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "NGN": {
+      "name": "Νάιρα Νιγηρίας",
+      "symbol_native": "₦",
+      "symbol": "₦",
+      "code": "NGN",
+      "name_plural": "Nigerian nairas",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "NIO": {
+      "name": "Χρυσή Κόρδοβα Νικαράγουας",
+      "symbol_native": "C$",
+      "symbol": "C$",
+      "code": "NIO",
+      "name_plural": "Nicaraguan córdobas",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "NPR": {
+      "name": "Ρουπία Νεπάλ",
+      "symbol_native": "नेरू",
+      "symbol": "NPRs",
+      "code": "NPR",
+      "name_plural": "Nepalese rupees",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "OMR": {
+      "name": "Ριάλ Ομάν",
+      "symbol_native": "ر.ع.‏",
+      "symbol": "OMR",
+      "code": "OMR",
+      "name_plural": "Omani rials",
+      "rounding": 0,
+      "decimal_digits": 3
+    },
+    "PAB": {
+      "name": "Μπαλμπόα Παναμά",
+      "symbol_native": "B/.",
+      "symbol": "B/.",
+      "code": "PAB",
+      "name_plural": "Panamanian balboas",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "PEN": {
+      "name": "Σολ Περού",
+      "symbol_native": "S/.",
+      "symbol": "S/.",
+      "code": "PEN",
+      "name_plural": "Peruvian nuevos soles",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "PKR": {
+      "name": "Ρουπία Πακιστάν",
+      "symbol_native": "₨",
+      "symbol": "PKRs",
+      "code": "PKR",
+      "name_plural": "Pakistani rupees",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "PYG": {
+      "name": "Γκουαρανί Παραγουάης",
+      "symbol_native": "₲",
+      "symbol": "₲",
+      "code": "PYG",
+      "name_plural": "Paraguayan guaranis",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "QAR": {
+      "name": "Ριάλ Κατάρ",
+      "symbol_native": "ر.ق.‏",
+      "symbol": "QR",
+      "code": "QAR",
+      "name_plural": "Qatari rials",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "RSD": {
+      "name": "Δηνάριο Σερβίας",
+      "symbol_native": "дин.",
+      "symbol": "din.",
+      "code": "RSD",
+      "name_plural": "Serbian dinars",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "RUB": {
+      "name": "Ρούβλι Ρωσίας",
+      "symbol_native": "₽.",
+      "symbol": "RUB",
+      "code": "RUB",
+      "name_plural": "Russian rubles",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "RWF": {
+      "name": "Φράγκο Ρουάντας",
+      "symbol_native": "FR",
+      "symbol": "RWF",
+      "code": "RWF",
+      "name_plural": "Rwandan francs",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "SAR": {
+      "name": "Ριάλ Σαουδικής Αραβίας",
+      "symbol_native": "ر.س.‏",
+      "symbol": "SR",
+      "code": "SAR",
+      "name_plural": "Saudi riyals",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "SDG": {
+      "name": "Λίρα Σουδάν",
+      "symbol_native": "SDG",
+      "symbol": "SDG",
+      "code": "SDG",
+      "name_plural": "Sudanese pounds",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "SOS": {
+      "name": "Σελίνι Σομαλίας",
+      "symbol_native": "Ssh",
+      "symbol": "Ssh",
+      "code": "SOS",
+      "name_plural": "Somali shillings",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "SYP": {
+      "name": "Λίρα Συρίας",
+      "symbol_native": "ل.س.‏",
+      "symbol": "SY£",
+      "code": "SYP",
+      "name_plural": "Syrian pounds",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "TND": {
+      "name": "Δηνάριο Τυνησίας",
+      "symbol_native": "د.ت.‏",
+      "symbol": "DT",
+      "code": "TND",
+      "name_plural": "Tunisian dinars",
+      "rounding": 0,
+      "decimal_digits": 3
+    },
+    "TOP": {
+      "name": "Παάγκα νήσων Τόγκα",
+      "symbol_native": "T$",
+      "symbol": "T$",
+      "code": "TOP",
+      "name_plural": "Tongan paʻanga",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "TTD": {
+      "name": "Δολάριο Τρινιντάντ και Τομπάγκο",
+      "symbol_native": "$",
+      "symbol": "TT$",
+      "code": "TTD",
+      "name_plural": "Trinidad and Tobago dollars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "TWD": {
+      "name": "Νέο δολάριο Ταϊβάν",
+      "symbol_native": "NT$",
+      "symbol": "NT$",
+      "code": "TWD",
+      "name_plural": "New Taiwan dollars",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "TZS": {
+      "name": "Σελίνι Τανζανίας",
+      "symbol_native": "TSh",
+      "symbol": "TSh",
+      "code": "TZS",
+      "name_plural": "Tanzanian shillings",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "UAH": {
+      "name": "Γρίβνα Ουκρανίας",
+      "symbol_native": "₴",
+      "symbol": "₴",
+      "code": "UAH",
+      "name_plural": "Ukrainian hryvnias",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "UGX": {
+      "name": "Σελίνι Ουγκάντας",
+      "symbol_native": "USh",
+      "symbol": "USh",
+      "code": "UGX",
+      "name_plural": "Ugandan shillings",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "UYU": {
+      "name": "Πέσο Ουρουγουάης",
+      "symbol_native": "$",
+      "symbol": "$U",
+      "code": "UYU",
+      "name_plural": "Uruguayan pesos",
+      "rounding": 0,
+      "decimal_digits": 2
+    },
+    "UZS": {
+      "name": "Σομ Ουζμπεκιστάν",
+      "symbol_native": "UZS",
+      "symbol": "UZS",
+      "code": "UZS",
+      "name_plural": "Uzbekistan som",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "XAF": {
+      "name": "Φράγκο CFA Κεντρικής Αφρικής",
+      "symbol_native": "FCFA",
+      "symbol": "FCFA",
+      "code": "XAF",
+      "name_plural": "CFA francs BEAC",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "XOF": {
+      "name": "Φράγκο CFA Δυτικής Αφρικής",
+      "symbol_native": "CFA",
+      "symbol": "CFA",
+      "code": "XOF",
+      "name_plural": "CFA francs BCEAO",
+      "rounding": 0,
+      "decimal_digits": 0
+    },
+    "YER": {
+      "name": "Ριάλ Υεμένης",
+      "symbol_native": "ر.ي.‏",
+      "symbol": "YR",
+      "code": "YER",
+      "name_plural": "Yemeni rials",
+      "rounding": 0,
+      "decimal_digits": 0
+    }
+  },
   "et": {
     "USD": {
       "name": "USA dollar",
