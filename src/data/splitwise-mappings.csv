@@ -1,0 +1,132 @@
+type,language,key,label,targetGrouping,targetName,targetId
+header,de,date,Datum,,,
+header,de,description,Beschreibung,,,
+header,de,description,Memo,,,
+header,de,category,Kategorie,,,
+header,de,cost,Kosten,,,
+header,de,cost,Betrag,,,
+header,de,currency,Währung,,,
+header,en,date,Date,,,
+header,en,date,Datum,,,
+header,en,date,Fecha,,,
+header,en,description,Description,,,
+header,en,description,Memo,,,
+header,en,description,Notes,,,
+header,en,category,Category,,,
+header,en,category,Kategorie,,,
+header,en,cost,Cost,,,
+header,en,cost,Amount,,,
+header,en,cost,Total,,,
+header,en,currency,Currency,,,
+group,de,Entertainment,Unterhaltung,,,
+group,de,Food and Drink,Essen und Trinken,,,
+group,de,Home,Zuhause,,,
+group,de,Life,Leben,,,
+group,de,Transportation,Verkehrsmittel,,,
+group,de,Uncategorized,Unkategorisiert,,,
+group,de,Utilities,Nebenkosten,,,
+group,en,Entertainment,Entertainment,,,
+group,en,Food and Drink,Food and drink,,,
+group,en,Home,Home,,,
+group,en,Life,Life,,,
+group,en,Transportation,Transportation,,,
+group,en,Uncategorized,Uncategorized,,,
+group,en,Utilities,Utilities,,,
+category,de,Uncategorized/General,Allgemein,Uncategorized,General,0
+category,de,Uncategorized/Payment,Zahlung,Uncategorized,Payment,1
+category,de,Entertainment/Entertainment,Unterhaltung,Entertainment,Entertainment,2
+category,de,Entertainment/Games,Spiele,Entertainment,Games,3
+category,de,Entertainment/Movies,Kino,Entertainment,Movies,4
+category,de,Entertainment/Music,Musik,Entertainment,Music,5
+category,de,Entertainment/Sports,Sport,Entertainment,Sports,6
+category,de,Food and Drink/Food and Drink,Essen und Trinken,Food and Drink,Food and Drink,7
+category,de,Food and Drink/Dining Out,Restaurant,Food and Drink,Dining Out,8
+category,de,Food and Drink/Groceries,Lebensmittel,Food and Drink,Groceries,9
+category,de,Food and Drink/Liquor,Alkohol,Food and Drink,Liquor,10
+category,de,Food and Drink/Other,Essen und Trinken - Sonstiges,Food and Drink,Other,7
+category,de,Home/Home,Zuhause,Home,Home,11
+category,de,Home/Electronics,Elektronik,Home,Electronics,12
+category,de,Home/Furniture,Möbel,Home,Furniture,13
+category,de,Home/Household Supplies,Haushaltsgegenstände,Home,Household Supplies,14
+category,de,Home/Maintenance,Instandhaltung,Home,Maintenance,15
+category,de,Home/Mortgage,Zinsen,Home,Mortgage,16
+category,de,Home/Pets,Haustiere,Home,Pets,17
+category,de,Home/Rent,Miete,Home,Rent,18
+category,de,Home/Services,Dienstleistungen,Home,Services,19
+category,de,Home/Other,Zuhause - Sonstiges,Home,Other,11
+category,de,Life/Childcare,Kinderbetreuung,Life,Childcare,20
+category,de,Life/Clothing,Kleidung,Life,Clothing,21
+category,de,Life/Donation,Spende,Life,Donation,43
+category,de,Life/Education,Bildung,Life,Education,22
+category,de,Life/Gifts,Geschenke,Life,Gifts,23
+category,de,Life/Insurance,Versicherung,Life,Insurance,24
+category,de,Life/Medical Expenses,Medikamente,Life,Medical Expenses,25
+category,de,Life/Taxes,Steuern,Life,Taxes,26
+category,de,Life/Other,Leben - Sonstiges,Life,Other,0
+category,de,Transportation/Transportation,Verkehrsmittel,Transportation,Transportation,27
+category,de,Transportation/Bicycle,Fahrrad,Transportation,Bicycle,28
+category,de,Transportation/Bus/Train,Bus/Zug,Transportation,Bus,29
+category,de,Transportation/Car,Auto,Transportation,Car,30
+category,de,Transportation/Gas/Fuel,Treibstoff,Transportation,Gas,31
+category,de,Transportation/Hotel,Hotel,Transportation,Hotel,32
+category,de,Transportation/Parking,Parken,Transportation,Parking,33
+category,de,Transportation/Plane,Flugzeug,Transportation,Plane,34
+category,de,Transportation/Taxi,Taxi,Transportation,Taxi,35
+category,de,Transportation/Other,Verkehrsmittel - Sonstiges,Transportation,Other,27
+category,de,Utilities/Utilities,Nebenkosten,Utilities,Utilities,36
+category,de,Utilities/Cleaning,Reinigung,Utilities,Cleaning,37
+category,de,Utilities/Electricity,Elektrizität,Utilities,Electricity,38
+category,de,Utilities/Heat/Gas,Heizung/Gas,Utilities,Heat,39
+category,de,Utilities/Trash,Müll,Utilities,Trash,40
+category,de,Utilities/TV/Phone/Internet,Fernsehen/Telefon/Internet,Utilities,TV,41
+category,de,Utilities/Water,Wasser,Utilities,Water,42
+category,de,Utilities/Other,Nebenkosten - Sonstiges,Utilities,Other,36
+category,en,Uncategorized/General,General,Uncategorized,General,0
+category,en,Uncategorized/Payment,Payment,Uncategorized,Payment,1
+category,en,Entertainment/Entertainment,Entertainment,Entertainment,Entertainment,2
+category,en,Entertainment/Games,Games,Entertainment,Games,3
+category,en,Entertainment/Movies,Movies,Entertainment,Movies,4
+category,en,Entertainment/Music,Music,Entertainment,Music,5
+category,en,Entertainment/Sports,Sports,Entertainment,Sports,6
+category,en,Food and Drink/Food and Drink,Food and drink,Food and Drink,Food and Drink,7
+category,en,Food and Drink/Dining Out,Dining out,Food and Drink,Dining Out,8
+category,en,Food and Drink/Groceries,Groceries,Food and Drink,Groceries,9
+category,en,Food and Drink/Liquor,Liquor,Food and Drink,Liquor,10
+category,en,Food and Drink/Other,Other,Food and Drink,Other,7
+category,en,Home/Home,Home,Home,Home,11
+category,en,Home/Electronics,Electronics,Home,Electronics,12
+category,en,Home/Furniture,Furniture,Home,Furniture,13
+category,en,Home/Household Supplies,Household supplies,Home,Household Supplies,14
+category,en,Home/Maintenance,Maintenance,Home,Maintenance,15
+category,en,Home/Mortgage,Mortgage,Home,Mortgage,16
+category,en,Home/Pets,Pets,Home,Pets,17
+category,en,Home/Rent,Rent,Home,Rent,18
+category,en,Home/Services,Services,Home,Services,19
+category,en,Home/Other,Other,Home,Other,11
+category,en,Life/Childcare,Childcare,Life,Childcare,20
+category,en,Life/Clothing,Clothing,Life,Clothing,21
+category,en,Life/Donation,Donation,Life,Donation,43
+category,en,Life/Education,Education,Life,Education,22
+category,en,Life/Gifts,Gifts,Life,Gifts,23
+category,en,Life/Insurance,Insurance,Life,Insurance,24
+category,en,Life/Medical Expenses,Medical expenses,Life,Medical Expenses,25
+category,en,Life/Taxes,Taxes,Life,Taxes,26
+category,en,Life/Other,Other,Life,Other,0
+category,en,Transportation/Transportation,Transportation,Transportation,Transportation,27
+category,en,Transportation/Bicycle,Bicycle,Transportation,Bicycle,28
+category,en,Transportation/Bus/Train,Bus/train,Transportation,Bus,29
+category,en,Transportation/Car,Car,Transportation,Car,30
+category,en,Transportation/Gas/Fuel,Gas/fuel,Transportation,Gas,31
+category,en,Transportation/Hotel,Hotel,Transportation,Hotel,32
+category,en,Transportation/Parking,Parking,Transportation,Parking,33
+category,en,Transportation/Plane,Plane,Transportation,Plane,34
+category,en,Transportation/Taxi,Taxi,Transportation,Taxi,35
+category,en,Transportation/Other,Other,Transportation,Other,27
+category,en,Utilities/Utilities,Utilities,Utilities,Utilities,36
+category,en,Utilities/Cleaning,Cleaning,Utilities,Cleaning,37
+category,en,Utilities/Electricity,Electricity,Utilities,Electricity,38
+category,en,Utilities/Heat/Gas,Heat/gas,Utilities,Heat,39
+category,en,Utilities/Trash,Trash,Utilities,Trash,40
+category,en,Utilities/TV/Phone/Internet,TV/Phone/Internet,Utilities,TV,41
+category,en,Utilities/Water,Water,Utilities,Water,42
+category,en,Utilities/Other,Other,Utilities,Other,36

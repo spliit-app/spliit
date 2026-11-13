@@ -101,7 +101,12 @@
     },
     "createGroup": "Neue Gruppe erstellen",
     "loadError": "Deine Gruppen konnten nicht geladen werden. Bitte erneut versuchen.",
-    "retry": "Wiederholen"
+    "retry": "Wiederholen",
+    "CreateOptions": {
+      "openMenu": "Erstelloptionen öffnen",
+      "newGroup": "Neue Gruppe",
+      "importFromFile": "Aus Datei importieren"
+    }
   },
   "GroupForm": {
     "title": "Gruppeninformationen",
@@ -354,6 +359,9 @@
       "markAsPaid": "Als bezahlt markieren"
     }
   },
+  "SplitwiseImport": {
+    "reimbursementTitle": "{payer} zahlt {receiver}"
+  },
   "Stats": {
     "title": "Statistiken",
     "Totals": {
@@ -597,5 +605,51 @@
     "groupTitle": "Gruppe konnte nicht geladen werden",
     "generic": "Bitte erneut versuchen. Aktualisiere die Seite, wenn es wiederholt auftritt.",
     "reference": "Referenz: {digest}"
+  },
+  "FileImport": {
+    "title": "Gruppe aus Datei importieren",
+    "buttonLabel": "Import-Dialog öffnen",
+    "errorTitle": "Fehler",
+    "processing": "Verarbeite…",
+    "fileLabel": "Datei auswählen",
+    "uploadDragTitle": "Datei hier ablegen oder klicken, um auszuwählen",
+    "uploadDragDescription": "Unterstützt: JSON (Spliit-JSON) und Debug-Dateien",
+    "fileReadError": "Die ausgewählte Datei konnte nicht gelesen werden.",
+    "newGroupNameLabel": "Name der neuen Gruppe",
+    "newGroupNamePlaceholder": "Gruppennamen eingeben (optional)",
+    "analysisAwaiting": "Warte auf Datei-Analyse…",
+    "analysisExplanation": "Wähle eine Datei, um sie vor dem Import zu analysieren.",
+    "previewErrorTitle": "Die Datei konnte nicht analysiert werden",
+    "generalInfoTitle": "Allgemeine Informationen",
+    "generalInfoFormat": "Format",
+    "generalInfoRows": "Zeilen",
+    "generalInfoInvalidRows": "Ungültige Zeilen",
+    "generalInfoTotal": "Gesamtbetrag",
+    "generalInfoParticipantNames": "Teilnehmende",
+    "generalInfoParticipants": "Teilnehmer und Salden",
+    "generalInfoParticipantsEmpty": "Keine Teilnehmerinformationen erkannt.",
+    "generalInfoUnknown": "Unbekannt",
+    "analysisHeaderTitle": "Probleme im Header",
+    "analysisGeneralWarningsTitle": "Allgemeine Warnungen",
+    "analysisCategoryTitle": "Kategorie-Zuordnungswarnungen",
+    "analysisErrorsTitle": "Zeilenfehler",
+    "analysisFatalHint": "Behebe diese Fehler, um den Import zu aktivieren.",
+    "import": "Importieren",
+    "importing": "Importiere…",
+    "importProgressLabel": "Importiere Ausgaben",
+    "importCancel": "Import abbrechen",
+    "importCanceling": "Breche ab…",
+    "importResultCompleted": "{created} von {total} Zeilen importiert",
+    "importResultCancelledSimple": "Import abgebrochen. Die teilweise importierte Gruppe bleibt in deiner Gruppenübersicht erhalten.",
+    "importResultConfirm": "Weiter",
+    "recurrenceWarning": "Wiederkehrende Ausgaben werden als einzelne Ausgaben ohne Wiederholung importiert. Der Export kennzeichnet aktive Serien nicht. Aktiviere die Wiederholung bei Bedarf manuell bei der neuesten Ausgabe.",
+    "roundingWarning": "Einzelne Salden können nach dem Import um kleinste Währungseinheiten abweichen. Prüfe die Salden vor der Nutzung.",
+    "historyWarning": "Der Aktivitätsverlauf wird nicht importiert; Spliit-JSON-Exporte enthalten keine Dokumentanhänge."
+  },
+  "FileImportErrors": {
+    "noParticipants": "Keine Teilnehmer in der Datei definiert.",
+    "fileEmpty": "Die hochgeladene Datei war leer.",
+    "invalidAmount": "Ungültiger Betrag in einer oder mehreren Zeilen.",
+    "invalidDate": "Ungültiges Ausgabedatum in einer oder mehreren Zeilen."
   }
 }

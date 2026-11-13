@@ -10,6 +10,7 @@ const createJestConfig = nextJest({
 const config: Config = {
   // jsdom, with the process timezone pinned per project (see below).
   testEnvironment: '<rootDir>/jest.environment.ts',
+  moduleNameMapper: { '^@/(.*)$': '<rootDir>/src/$1' },
   // Jest's default testMatch would pick up the Playwright specs in e2e/, which
   // must be run with `npx playwright test` instead.
   testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/e2e/'],

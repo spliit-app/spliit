@@ -101,7 +101,12 @@
     },
     "createGroup": "Créer un groupe",
     "loadError": "Vos groupes n'ont pas pu être chargés. Essayez à nouveau.",
-    "retry": "Réessayer"
+    "retry": "Réessayer",
+    "CreateOptions": {
+      "openMenu": "Ouvrir les options de création",
+      "newGroup": "Nouveau groupe",
+      "importFromFile": "Importer depuis un fichier"
+    }
   },
   "GroupForm": {
     "title": "Informations sur le groupe",
@@ -568,5 +573,50 @@
     "generic": "Veuillez réessayer. Si le problème persiste, actualisez la page.",
     "reference": "Référence : {digest}",
     "retry": "Essayer à nouveau"
+  },
+  "FileImport": {
+    "title": "Importer un groupe depuis un fichier",
+    "buttonLabel": "Ouvrir la boîte d'import",
+    "errorTitle": "Erreur",
+    "processing": "Traitement…",
+    "fileLabel": "Sélectionner un fichier",
+    "uploadDragTitle": "Déposez un fichier ici ou cliquez pour sélectionner",
+    "uploadDragDescription": "Pris en charge : JSON (Spliit‑JSON) et fichiers de débogage",
+    "fileReadError": "Impossible de lire le fichier sélectionné.",
+    "newGroupNameLabel": "Nom du nouveau groupe",
+    "newGroupNamePlaceholder": "Entrez un nom de groupe (optionnel)",
+    "analysisAwaiting": "En attente de l'analyse du fichier…",
+    "analysisExplanation": "Sélectionnez un fichier pour analyser son contenu avant l'import.",
+    "previewErrorTitle": "Nous n'avons pas pu analyser votre fichier",
+    "generalInfoTitle": "Informations générales",
+    "generalInfoFormat": "Format",
+    "generalInfoRows": "Lignes",
+    "generalInfoInvalidRows": "Lignes invalides",
+    "generalInfoTotal": "Montant total",
+    "generalInfoParticipants": "Participants et soldes",
+    "generalInfoParticipantsEmpty": "Aucune information de participant détectée.",
+    "generalInfoUnknown": "Inconnu",
+    "analysisHeaderTitle": "Problèmes d'en‑tête",
+    "analysisGeneralWarningsTitle": "Avertissements généraux",
+    "analysisCategoryTitle": "Avertissements de catégorisation",
+    "analysisErrorsTitle": "Erreurs de lignes",
+    "analysisFatalHint": "Corrigez ces erreurs pour activer l'import.",
+    "import": "Importer",
+    "importing": "Importation…",
+    "importProgressLabel": "Import des dépenses",
+    "importCancel": "Annuler l'import",
+    "importCanceling": "Annulation…",
+    "importResultCompleted": "{created} sur {total} lignes importées",
+    "importResultCancelledSimple": "Importation annulée. Le groupe partiellement importé reste dans vos groupes.",
+    "importResultConfirm": "Continuer",
+    "recurrenceWarning": "Les dépenses récurrentes sont importées comme des dépenses individuelles sans récurrence. L’export ne permet pas d’identifier les séries actives. Si nécessaire, activez manuellement la récurrence sur la dépense la plus récente.",
+    "roundingWarning": "Les soldes individuels peuvent différer de quelques unités minimales après importation. Vérifiez les soldes.",
+    "historyWarning": "L’historique des activités n’est pas importé ; les exports JSON Spliit ne contiennent pas les pièces jointes."
+  },
+  "FileImportErrors": {
+    "noParticipants": "Aucun participant défini dans le fichier.",
+    "fileEmpty": "Le fichier téléchargé était vide.",
+    "invalidAmount": "Montant invalide dans une ou plusieurs lignes.",
+    "invalidDate": "Date de dépense invalide dans une ou plusieurs lignes."
   }
 }

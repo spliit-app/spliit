@@ -1,0 +1,1398 @@
+{
+  "headerAliasesByLanguage": {
+    "de": {
+      "date": ["Datum"],
+      "description": ["Beschreibung", "Memo"],
+      "category": ["Kategorie"],
+      "cost": ["Kosten", "Betrag"],
+      "currency": ["Währung"]
+    },
+    "en": {
+      "date": ["Date", "Datum", "Fecha"],
+      "description": ["Description", "Memo", "Notes"],
+      "category": ["Category", "Kategorie"],
+      "cost": ["Cost", "Amount", "Total"],
+      "currency": ["Currency"]
+    },
+    "unknown": {}
+  },
+  "categoryTranslationsByLanguage": {
+    "de": {
+      "allgemein": {
+        "grouping": "Uncategorized",
+        "name": "General",
+        "id": 0,
+        "label": "Allgemein",
+        "key": "Uncategorized/General"
+      },
+      "zahlung": {
+        "grouping": "Uncategorized",
+        "name": "Payment",
+        "id": 1,
+        "label": "Zahlung",
+        "key": "Uncategorized/Payment"
+      },
+      "unterhaltung": {
+        "grouping": "Entertainment",
+        "name": "Entertainment",
+        "id": 2,
+        "label": "Unterhaltung",
+        "key": "Entertainment/Entertainment"
+      },
+      "spiele": {
+        "grouping": "Entertainment",
+        "name": "Games",
+        "id": 3,
+        "label": "Spiele",
+        "key": "Entertainment/Games"
+      },
+      "kino": {
+        "grouping": "Entertainment",
+        "name": "Movies",
+        "id": 4,
+        "label": "Kino",
+        "key": "Entertainment/Movies"
+      },
+      "musik": {
+        "grouping": "Entertainment",
+        "name": "Music",
+        "id": 5,
+        "label": "Musik",
+        "key": "Entertainment/Music"
+      },
+      "sport": {
+        "grouping": "Entertainment",
+        "name": "Sports",
+        "id": 6,
+        "label": "Sport",
+        "key": "Entertainment/Sports"
+      },
+      "essen und trinken": {
+        "grouping": "Food and Drink",
+        "name": "Food and Drink",
+        "id": 7,
+        "label": "Essen und Trinken",
+        "key": "Food and Drink/Food and Drink"
+      },
+      "restaurant": {
+        "grouping": "Food and Drink",
+        "name": "Dining Out",
+        "id": 8,
+        "label": "Restaurant",
+        "key": "Food and Drink/Dining Out"
+      },
+      "lebensmittel": {
+        "grouping": "Food and Drink",
+        "name": "Groceries",
+        "id": 9,
+        "label": "Lebensmittel",
+        "key": "Food and Drink/Groceries"
+      },
+      "alkohol": {
+        "grouping": "Food and Drink",
+        "name": "Liquor",
+        "id": 10,
+        "label": "Alkohol",
+        "key": "Food and Drink/Liquor"
+      },
+      "essen und trinken - sonstiges": {
+        "grouping": "Food and Drink",
+        "name": "Other",
+        "id": 7,
+        "label": "Essen und Trinken - Sonstiges",
+        "key": "Food and Drink/Other"
+      },
+      "zuhause": {
+        "grouping": "Home",
+        "name": "Home",
+        "id": 11,
+        "label": "Zuhause",
+        "key": "Home/Home"
+      },
+      "elektronik": {
+        "grouping": "Home",
+        "name": "Electronics",
+        "id": 12,
+        "label": "Elektronik",
+        "key": "Home/Electronics"
+      },
+      "möbel": {
+        "grouping": "Home",
+        "name": "Furniture",
+        "id": 13,
+        "label": "Möbel",
+        "key": "Home/Furniture"
+      },
+      "haushaltsgegenstände": {
+        "grouping": "Home",
+        "name": "Household Supplies",
+        "id": 14,
+        "label": "Haushaltsgegenstände",
+        "key": "Home/Household Supplies"
+      },
+      "instandhaltung": {
+        "grouping": "Home",
+        "name": "Maintenance",
+        "id": 15,
+        "label": "Instandhaltung",
+        "key": "Home/Maintenance"
+      },
+      "zinsen": {
+        "grouping": "Home",
+        "name": "Mortgage",
+        "id": 16,
+        "label": "Zinsen",
+        "key": "Home/Mortgage"
+      },
+      "haustiere": {
+        "grouping": "Home",
+        "name": "Pets",
+        "id": 17,
+        "label": "Haustiere",
+        "key": "Home/Pets"
+      },
+      "miete": {
+        "grouping": "Home",
+        "name": "Rent",
+        "id": 18,
+        "label": "Miete",
+        "key": "Home/Rent"
+      },
+      "dienstleistungen": {
+        "grouping": "Home",
+        "name": "Services",
+        "id": 19,
+        "label": "Dienstleistungen",
+        "key": "Home/Services"
+      },
+      "zuhause - sonstiges": {
+        "grouping": "Home",
+        "name": "Other",
+        "id": 11,
+        "label": "Zuhause - Sonstiges",
+        "key": "Home/Other"
+      },
+      "kinderbetreuung": {
+        "grouping": "Life",
+        "name": "Childcare",
+        "id": 20,
+        "label": "Kinderbetreuung",
+        "key": "Life/Childcare"
+      },
+      "kleidung": {
+        "grouping": "Life",
+        "name": "Clothing",
+        "id": 21,
+        "label": "Kleidung",
+        "key": "Life/Clothing"
+      },
+      "spende": {
+        "grouping": "Life",
+        "name": "Donation",
+        "id": 43,
+        "label": "Spende",
+        "key": "Life/Donation"
+      },
+      "bildung": {
+        "grouping": "Life",
+        "name": "Education",
+        "id": 22,
+        "label": "Bildung",
+        "key": "Life/Education"
+      },
+      "geschenke": {
+        "grouping": "Life",
+        "name": "Gifts",
+        "id": 23,
+        "label": "Geschenke",
+        "key": "Life/Gifts"
+      },
+      "versicherung": {
+        "grouping": "Life",
+        "name": "Insurance",
+        "id": 24,
+        "label": "Versicherung",
+        "key": "Life/Insurance"
+      },
+      "medikamente": {
+        "grouping": "Life",
+        "name": "Medical Expenses",
+        "id": 25,
+        "label": "Medikamente",
+        "key": "Life/Medical Expenses"
+      },
+      "steuern": {
+        "grouping": "Life",
+        "name": "Taxes",
+        "id": 26,
+        "label": "Steuern",
+        "key": "Life/Taxes"
+      },
+      "leben - sonstiges": {
+        "grouping": "Life",
+        "name": "Other",
+        "id": 0,
+        "label": "Leben - Sonstiges",
+        "key": "Life/Other"
+      },
+      "verkehrsmittel": {
+        "grouping": "Transportation",
+        "name": "Transportation",
+        "id": 27,
+        "label": "Verkehrsmittel",
+        "key": "Transportation/Transportation"
+      },
+      "fahrrad": {
+        "grouping": "Transportation",
+        "name": "Bicycle",
+        "id": 28,
+        "label": "Fahrrad",
+        "key": "Transportation/Bicycle"
+      },
+      "bus/zug": {
+        "grouping": "Transportation",
+        "name": "Bus",
+        "id": 29,
+        "label": "Bus/Zug",
+        "key": "Transportation/Bus/Train"
+      },
+      "auto": {
+        "grouping": "Transportation",
+        "name": "Car",
+        "id": 30,
+        "label": "Auto",
+        "key": "Transportation/Car"
+      },
+      "treibstoff": {
+        "grouping": "Transportation",
+        "name": "Gas",
+        "id": 31,
+        "label": "Treibstoff",
+        "key": "Transportation/Gas/Fuel"
+      },
+      "hotel": {
+        "grouping": "Transportation",
+        "name": "Hotel",
+        "id": 32,
+        "label": "Hotel",
+        "key": "Transportation/Hotel"
+      },
+      "parken": {
+        "grouping": "Transportation",
+        "name": "Parking",
+        "id": 33,
+        "label": "Parken",
+        "key": "Transportation/Parking"
+      },
+      "flugzeug": {
+        "grouping": "Transportation",
+        "name": "Plane",
+        "id": 34,
+        "label": "Flugzeug",
+        "key": "Transportation/Plane"
+      },
+      "taxi": {
+        "grouping": "Transportation",
+        "name": "Taxi",
+        "id": 35,
+        "label": "Taxi",
+        "key": "Transportation/Taxi"
+      },
+      "verkehrsmittel - sonstiges": {
+        "grouping": "Transportation",
+        "name": "Other",
+        "id": 27,
+        "label": "Verkehrsmittel - Sonstiges",
+        "key": "Transportation/Other"
+      },
+      "nebenkosten": {
+        "grouping": "Utilities",
+        "name": "Utilities",
+        "id": 36,
+        "label": "Nebenkosten",
+        "key": "Utilities/Utilities"
+      },
+      "reinigung": {
+        "grouping": "Utilities",
+        "name": "Cleaning",
+        "id": 37,
+        "label": "Reinigung",
+        "key": "Utilities/Cleaning"
+      },
+      "elektrizität": {
+        "grouping": "Utilities",
+        "name": "Electricity",
+        "id": 38,
+        "label": "Elektrizität",
+        "key": "Utilities/Electricity"
+      },
+      "heizung/gas": {
+        "grouping": "Utilities",
+        "name": "Heat",
+        "id": 39,
+        "label": "Heizung/Gas",
+        "key": "Utilities/Heat/Gas"
+      },
+      "müll": {
+        "grouping": "Utilities",
+        "name": "Trash",
+        "id": 40,
+        "label": "Müll",
+        "key": "Utilities/Trash"
+      },
+      "fernsehen/telefon/internet": {
+        "grouping": "Utilities",
+        "name": "TV",
+        "id": 41,
+        "label": "Fernsehen/Telefon/Internet",
+        "key": "Utilities/TV/Phone/Internet"
+      },
+      "wasser": {
+        "grouping": "Utilities",
+        "name": "Water",
+        "id": 42,
+        "label": "Wasser",
+        "key": "Utilities/Water"
+      },
+      "nebenkosten - sonstiges": {
+        "grouping": "Utilities",
+        "name": "Other",
+        "id": 36,
+        "label": "Nebenkosten - Sonstiges",
+        "key": "Utilities/Other"
+      }
+    },
+    "en": {
+      "general": {
+        "grouping": "Uncategorized",
+        "name": "General",
+        "id": 0,
+        "label": "General",
+        "key": "Uncategorized/General"
+      },
+      "payment": {
+        "grouping": "Uncategorized",
+        "name": "Payment",
+        "id": 1,
+        "label": "Payment",
+        "key": "Uncategorized/Payment"
+      },
+      "entertainment": {
+        "grouping": "Entertainment",
+        "name": "Entertainment",
+        "id": 2,
+        "label": "Entertainment",
+        "key": "Entertainment/Entertainment"
+      },
+      "games": {
+        "grouping": "Entertainment",
+        "name": "Games",
+        "id": 3,
+        "label": "Games",
+        "key": "Entertainment/Games"
+      },
+      "movies": {
+        "grouping": "Entertainment",
+        "name": "Movies",
+        "id": 4,
+        "label": "Movies",
+        "key": "Entertainment/Movies"
+      },
+      "music": {
+        "grouping": "Entertainment",
+        "name": "Music",
+        "id": 5,
+        "label": "Music",
+        "key": "Entertainment/Music"
+      },
+      "sports": {
+        "grouping": "Entertainment",
+        "name": "Sports",
+        "id": 6,
+        "label": "Sports",
+        "key": "Entertainment/Sports"
+      },
+      "food and drink": {
+        "grouping": "Food and Drink",
+        "name": "Food and Drink",
+        "id": 7,
+        "label": "Food and drink",
+        "key": "Food and Drink/Food and Drink"
+      },
+      "dining out": {
+        "grouping": "Food and Drink",
+        "name": "Dining Out",
+        "id": 8,
+        "label": "Dining out",
+        "key": "Food and Drink/Dining Out"
+      },
+      "groceries": {
+        "grouping": "Food and Drink",
+        "name": "Groceries",
+        "id": 9,
+        "label": "Groceries",
+        "key": "Food and Drink/Groceries"
+      },
+      "liquor": {
+        "grouping": "Food and Drink",
+        "name": "Liquor",
+        "id": 10,
+        "label": "Liquor",
+        "key": "Food and Drink/Liquor"
+      },
+      "other": {
+        "grouping": "Utilities",
+        "name": "Other",
+        "id": 36,
+        "label": "Other",
+        "key": "Utilities/Other"
+      },
+      "home": {
+        "grouping": "Home",
+        "name": "Home",
+        "id": 11,
+        "label": "Home",
+        "key": "Home/Home"
+      },
+      "electronics": {
+        "grouping": "Home",
+        "name": "Electronics",
+        "id": 12,
+        "label": "Electronics",
+        "key": "Home/Electronics"
+      },
+      "furniture": {
+        "grouping": "Home",
+        "name": "Furniture",
+        "id": 13,
+        "label": "Furniture",
+        "key": "Home/Furniture"
+      },
+      "household supplies": {
+        "grouping": "Home",
+        "name": "Household Supplies",
+        "id": 14,
+        "label": "Household supplies",
+        "key": "Home/Household Supplies"
+      },
+      "maintenance": {
+        "grouping": "Home",
+        "name": "Maintenance",
+        "id": 15,
+        "label": "Maintenance",
+        "key": "Home/Maintenance"
+      },
+      "mortgage": {
+        "grouping": "Home",
+        "name": "Mortgage",
+        "id": 16,
+        "label": "Mortgage",
+        "key": "Home/Mortgage"
+      },
+      "pets": {
+        "grouping": "Home",
+        "name": "Pets",
+        "id": 17,
+        "label": "Pets",
+        "key": "Home/Pets"
+      },
+      "rent": {
+        "grouping": "Home",
+        "name": "Rent",
+        "id": 18,
+        "label": "Rent",
+        "key": "Home/Rent"
+      },
+      "services": {
+        "grouping": "Home",
+        "name": "Services",
+        "id": 19,
+        "label": "Services",
+        "key": "Home/Services"
+      },
+      "childcare": {
+        "grouping": "Life",
+        "name": "Childcare",
+        "id": 20,
+        "label": "Childcare",
+        "key": "Life/Childcare"
+      },
+      "clothing": {
+        "grouping": "Life",
+        "name": "Clothing",
+        "id": 21,
+        "label": "Clothing",
+        "key": "Life/Clothing"
+      },
+      "donation": {
+        "grouping": "Life",
+        "name": "Donation",
+        "id": 43,
+        "label": "Donation",
+        "key": "Life/Donation"
+      },
+      "education": {
+        "grouping": "Life",
+        "name": "Education",
+        "id": 22,
+        "label": "Education",
+        "key": "Life/Education"
+      },
+      "gifts": {
+        "grouping": "Life",
+        "name": "Gifts",
+        "id": 23,
+        "label": "Gifts",
+        "key": "Life/Gifts"
+      },
+      "insurance": {
+        "grouping": "Life",
+        "name": "Insurance",
+        "id": 24,
+        "label": "Insurance",
+        "key": "Life/Insurance"
+      },
+      "medical expenses": {
+        "grouping": "Life",
+        "name": "Medical Expenses",
+        "id": 25,
+        "label": "Medical expenses",
+        "key": "Life/Medical Expenses"
+      },
+      "taxes": {
+        "grouping": "Life",
+        "name": "Taxes",
+        "id": 26,
+        "label": "Taxes",
+        "key": "Life/Taxes"
+      },
+      "transportation": {
+        "grouping": "Transportation",
+        "name": "Transportation",
+        "id": 27,
+        "label": "Transportation",
+        "key": "Transportation/Transportation"
+      },
+      "bicycle": {
+        "grouping": "Transportation",
+        "name": "Bicycle",
+        "id": 28,
+        "label": "Bicycle",
+        "key": "Transportation/Bicycle"
+      },
+      "bus/train": {
+        "grouping": "Transportation",
+        "name": "Bus",
+        "id": 29,
+        "label": "Bus/train",
+        "key": "Transportation/Bus/Train"
+      },
+      "car": {
+        "grouping": "Transportation",
+        "name": "Car",
+        "id": 30,
+        "label": "Car",
+        "key": "Transportation/Car"
+      },
+      "gas/fuel": {
+        "grouping": "Transportation",
+        "name": "Gas",
+        "id": 31,
+        "label": "Gas/fuel",
+        "key": "Transportation/Gas/Fuel"
+      },
+      "hotel": {
+        "grouping": "Transportation",
+        "name": "Hotel",
+        "id": 32,
+        "label": "Hotel",
+        "key": "Transportation/Hotel"
+      },
+      "parking": {
+        "grouping": "Transportation",
+        "name": "Parking",
+        "id": 33,
+        "label": "Parking",
+        "key": "Transportation/Parking"
+      },
+      "plane": {
+        "grouping": "Transportation",
+        "name": "Plane",
+        "id": 34,
+        "label": "Plane",
+        "key": "Transportation/Plane"
+      },
+      "taxi": {
+        "grouping": "Transportation",
+        "name": "Taxi",
+        "id": 35,
+        "label": "Taxi",
+        "key": "Transportation/Taxi"
+      },
+      "utilities": {
+        "grouping": "Utilities",
+        "name": "Utilities",
+        "id": 36,
+        "label": "Utilities",
+        "key": "Utilities/Utilities"
+      },
+      "cleaning": {
+        "grouping": "Utilities",
+        "name": "Cleaning",
+        "id": 37,
+        "label": "Cleaning",
+        "key": "Utilities/Cleaning"
+      },
+      "electricity": {
+        "grouping": "Utilities",
+        "name": "Electricity",
+        "id": 38,
+        "label": "Electricity",
+        "key": "Utilities/Electricity"
+      },
+      "heat/gas": {
+        "grouping": "Utilities",
+        "name": "Heat",
+        "id": 39,
+        "label": "Heat/gas",
+        "key": "Utilities/Heat/Gas"
+      },
+      "trash": {
+        "grouping": "Utilities",
+        "name": "Trash",
+        "id": 40,
+        "label": "Trash",
+        "key": "Utilities/Trash"
+      },
+      "tv/phone/internet": {
+        "grouping": "Utilities",
+        "name": "TV",
+        "id": 41,
+        "label": "TV/Phone/Internet",
+        "key": "Utilities/TV/Phone/Internet"
+      },
+      "water": {
+        "grouping": "Utilities",
+        "name": "Water",
+        "id": 42,
+        "label": "Water",
+        "key": "Utilities/Water"
+      }
+    },
+    "unknown": {}
+  },
+  "categoryTranslationsByKey": {
+    "de": {
+      "Uncategorized/General": {
+        "grouping": "Uncategorized",
+        "name": "General",
+        "id": 0,
+        "label": "Allgemein",
+        "key": "Uncategorized/General"
+      },
+      "Uncategorized/Payment": {
+        "grouping": "Uncategorized",
+        "name": "Payment",
+        "id": 1,
+        "label": "Zahlung",
+        "key": "Uncategorized/Payment"
+      },
+      "Entertainment/Entertainment": {
+        "grouping": "Entertainment",
+        "name": "Entertainment",
+        "id": 2,
+        "label": "Unterhaltung",
+        "key": "Entertainment/Entertainment"
+      },
+      "Entertainment/Games": {
+        "grouping": "Entertainment",
+        "name": "Games",
+        "id": 3,
+        "label": "Spiele",
+        "key": "Entertainment/Games"
+      },
+      "Entertainment/Movies": {
+        "grouping": "Entertainment",
+        "name": "Movies",
+        "id": 4,
+        "label": "Kino",
+        "key": "Entertainment/Movies"
+      },
+      "Entertainment/Music": {
+        "grouping": "Entertainment",
+        "name": "Music",
+        "id": 5,
+        "label": "Musik",
+        "key": "Entertainment/Music"
+      },
+      "Entertainment/Sports": {
+        "grouping": "Entertainment",
+        "name": "Sports",
+        "id": 6,
+        "label": "Sport",
+        "key": "Entertainment/Sports"
+      },
+      "Food and Drink/Food and Drink": {
+        "grouping": "Food and Drink",
+        "name": "Food and Drink",
+        "id": 7,
+        "label": "Essen und Trinken",
+        "key": "Food and Drink/Food and Drink"
+      },
+      "Food and Drink/Dining Out": {
+        "grouping": "Food and Drink",
+        "name": "Dining Out",
+        "id": 8,
+        "label": "Restaurant",
+        "key": "Food and Drink/Dining Out"
+      },
+      "Food and Drink/Groceries": {
+        "grouping": "Food and Drink",
+        "name": "Groceries",
+        "id": 9,
+        "label": "Lebensmittel",
+        "key": "Food and Drink/Groceries"
+      },
+      "Food and Drink/Liquor": {
+        "grouping": "Food and Drink",
+        "name": "Liquor",
+        "id": 10,
+        "label": "Alkohol",
+        "key": "Food and Drink/Liquor"
+      },
+      "Food and Drink/Other": {
+        "grouping": "Food and Drink",
+        "name": "Other",
+        "id": 7,
+        "label": "Essen und Trinken - Sonstiges",
+        "key": "Food and Drink/Other"
+      },
+      "Home/Home": {
+        "grouping": "Home",
+        "name": "Home",
+        "id": 11,
+        "label": "Zuhause",
+        "key": "Home/Home"
+      },
+      "Home/Electronics": {
+        "grouping": "Home",
+        "name": "Electronics",
+        "id": 12,
+        "label": "Elektronik",
+        "key": "Home/Electronics"
+      },
+      "Home/Furniture": {
+        "grouping": "Home",
+        "name": "Furniture",
+        "id": 13,
+        "label": "Möbel",
+        "key": "Home/Furniture"
+      },
+      "Home/Household Supplies": {
+        "grouping": "Home",
+        "name": "Household Supplies",
+        "id": 14,
+        "label": "Haushaltsgegenstände",
+        "key": "Home/Household Supplies"
+      },
+      "Home/Maintenance": {
+        "grouping": "Home",
+        "name": "Maintenance",
+        "id": 15,
+        "label": "Instandhaltung",
+        "key": "Home/Maintenance"
+      },
+      "Home/Mortgage": {
+        "grouping": "Home",
+        "name": "Mortgage",
+        "id": 16,
+        "label": "Zinsen",
+        "key": "Home/Mortgage"
+      },
+      "Home/Pets": {
+        "grouping": "Home",
+        "name": "Pets",
+        "id": 17,
+        "label": "Haustiere",
+        "key": "Home/Pets"
+      },
+      "Home/Rent": {
+        "grouping": "Home",
+        "name": "Rent",
+        "id": 18,
+        "label": "Miete",
+        "key": "Home/Rent"
+      },
+      "Home/Services": {
+        "grouping": "Home",
+        "name": "Services",
+        "id": 19,
+        "label": "Dienstleistungen",
+        "key": "Home/Services"
+      },
+      "Home/Other": {
+        "grouping": "Home",
+        "name": "Other",
+        "id": 11,
+        "label": "Zuhause - Sonstiges",
+        "key": "Home/Other"
+      },
+      "Life/Childcare": {
+        "grouping": "Life",
+        "name": "Childcare",
+        "id": 20,
+        "label": "Kinderbetreuung",
+        "key": "Life/Childcare"
+      },
+      "Life/Clothing": {
+        "grouping": "Life",
+        "name": "Clothing",
+        "id": 21,
+        "label": "Kleidung",
+        "key": "Life/Clothing"
+      },
+      "Life/Donation": {
+        "grouping": "Life",
+        "name": "Donation",
+        "id": 43,
+        "label": "Spende",
+        "key": "Life/Donation"
+      },
+      "Life/Education": {
+        "grouping": "Life",
+        "name": "Education",
+        "id": 22,
+        "label": "Bildung",
+        "key": "Life/Education"
+      },
+      "Life/Gifts": {
+        "grouping": "Life",
+        "name": "Gifts",
+        "id": 23,
+        "label": "Geschenke",
+        "key": "Life/Gifts"
+      },
+      "Life/Insurance": {
+        "grouping": "Life",
+        "name": "Insurance",
+        "id": 24,
+        "label": "Versicherung",
+        "key": "Life/Insurance"
+      },
+      "Life/Medical Expenses": {
+        "grouping": "Life",
+        "name": "Medical Expenses",
+        "id": 25,
+        "label": "Medikamente",
+        "key": "Life/Medical Expenses"
+      },
+      "Life/Taxes": {
+        "grouping": "Life",
+        "name": "Taxes",
+        "id": 26,
+        "label": "Steuern",
+        "key": "Life/Taxes"
+      },
+      "Life/Other": {
+        "grouping": "Life",
+        "name": "Other",
+        "id": 0,
+        "label": "Leben - Sonstiges",
+        "key": "Life/Other"
+      },
+      "Transportation/Transportation": {
+        "grouping": "Transportation",
+        "name": "Transportation",
+        "id": 27,
+        "label": "Verkehrsmittel",
+        "key": "Transportation/Transportation"
+      },
+      "Transportation/Bicycle": {
+        "grouping": "Transportation",
+        "name": "Bicycle",
+        "id": 28,
+        "label": "Fahrrad",
+        "key": "Transportation/Bicycle"
+      },
+      "Transportation/Bus/Train": {
+        "grouping": "Transportation",
+        "name": "Bus",
+        "id": 29,
+        "label": "Bus/Zug",
+        "key": "Transportation/Bus/Train"
+      },
+      "Transportation/Car": {
+        "grouping": "Transportation",
+        "name": "Car",
+        "id": 30,
+        "label": "Auto",
+        "key": "Transportation/Car"
+      },
+      "Transportation/Gas/Fuel": {
+        "grouping": "Transportation",
+        "name": "Gas",
+        "id": 31,
+        "label": "Treibstoff",
+        "key": "Transportation/Gas/Fuel"
+      },
+      "Transportation/Hotel": {
+        "grouping": "Transportation",
+        "name": "Hotel",
+        "id": 32,
+        "label": "Hotel",
+        "key": "Transportation/Hotel"
+      },
+      "Transportation/Parking": {
+        "grouping": "Transportation",
+        "name": "Parking",
+        "id": 33,
+        "label": "Parken",
+        "key": "Transportation/Parking"
+      },
+      "Transportation/Plane": {
+        "grouping": "Transportation",
+        "name": "Plane",
+        "id": 34,
+        "label": "Flugzeug",
+        "key": "Transportation/Plane"
+      },
+      "Transportation/Taxi": {
+        "grouping": "Transportation",
+        "name": "Taxi",
+        "id": 35,
+        "label": "Taxi",
+        "key": "Transportation/Taxi"
+      },
+      "Transportation/Other": {
+        "grouping": "Transportation",
+        "name": "Other",
+        "id": 27,
+        "label": "Verkehrsmittel - Sonstiges",
+        "key": "Transportation/Other"
+      },
+      "Utilities/Utilities": {
+        "grouping": "Utilities",
+        "name": "Utilities",
+        "id": 36,
+        "label": "Nebenkosten",
+        "key": "Utilities/Utilities"
+      },
+      "Utilities/Cleaning": {
+        "grouping": "Utilities",
+        "name": "Cleaning",
+        "id": 37,
+        "label": "Reinigung",
+        "key": "Utilities/Cleaning"
+      },
+      "Utilities/Electricity": {
+        "grouping": "Utilities",
+        "name": "Electricity",
+        "id": 38,
+        "label": "Elektrizität",
+        "key": "Utilities/Electricity"
+      },
+      "Utilities/Heat/Gas": {
+        "grouping": "Utilities",
+        "name": "Heat",
+        "id": 39,
+        "label": "Heizung/Gas",
+        "key": "Utilities/Heat/Gas"
+      },
+      "Utilities/Trash": {
+        "grouping": "Utilities",
+        "name": "Trash",
+        "id": 40,
+        "label": "Müll",
+        "key": "Utilities/Trash"
+      },
+      "Utilities/TV/Phone/Internet": {
+        "grouping": "Utilities",
+        "name": "TV",
+        "id": 41,
+        "label": "Fernsehen/Telefon/Internet",
+        "key": "Utilities/TV/Phone/Internet"
+      },
+      "Utilities/Water": {
+        "grouping": "Utilities",
+        "name": "Water",
+        "id": 42,
+        "label": "Wasser",
+        "key": "Utilities/Water"
+      },
+      "Utilities/Other": {
+        "grouping": "Utilities",
+        "name": "Other",
+        "id": 36,
+        "label": "Nebenkosten - Sonstiges",
+        "key": "Utilities/Other"
+      }
+    },
+    "en": {
+      "Uncategorized/General": {
+        "grouping": "Uncategorized",
+        "name": "General",
+        "id": 0,
+        "label": "General",
+        "key": "Uncategorized/General"
+      },
+      "Uncategorized/Payment": {
+        "grouping": "Uncategorized",
+        "name": "Payment",
+        "id": 1,
+        "label": "Payment",
+        "key": "Uncategorized/Payment"
+      },
+      "Entertainment/Entertainment": {
+        "grouping": "Entertainment",
+        "name": "Entertainment",
+        "id": 2,
+        "label": "Entertainment",
+        "key": "Entertainment/Entertainment"
+      },
+      "Entertainment/Games": {
+        "grouping": "Entertainment",
+        "name": "Games",
+        "id": 3,
+        "label": "Games",
+        "key": "Entertainment/Games"
+      },
+      "Entertainment/Movies": {
+        "grouping": "Entertainment",
+        "name": "Movies",
+        "id": 4,
+        "label": "Movies",
+        "key": "Entertainment/Movies"
+      },
+      "Entertainment/Music": {
+        "grouping": "Entertainment",
+        "name": "Music",
+        "id": 5,
+        "label": "Music",
+        "key": "Entertainment/Music"
+      },
+      "Entertainment/Sports": {
+        "grouping": "Entertainment",
+        "name": "Sports",
+        "id": 6,
+        "label": "Sports",
+        "key": "Entertainment/Sports"
+      },
+      "Food and Drink/Food and Drink": {
+        "grouping": "Food and Drink",
+        "name": "Food and Drink",
+        "id": 7,
+        "label": "Food and drink",
+        "key": "Food and Drink/Food and Drink"
+      },
+      "Food and Drink/Dining Out": {
+        "grouping": "Food and Drink",
+        "name": "Dining Out",
+        "id": 8,
+        "label": "Dining out",
+        "key": "Food and Drink/Dining Out"
+      },
+      "Food and Drink/Groceries": {
+        "grouping": "Food and Drink",
+        "name": "Groceries",
+        "id": 9,
+        "label": "Groceries",
+        "key": "Food and Drink/Groceries"
+      },
+      "Food and Drink/Liquor": {
+        "grouping": "Food and Drink",
+        "name": "Liquor",
+        "id": 10,
+        "label": "Liquor",
+        "key": "Food and Drink/Liquor"
+      },
+      "Food and Drink/Other": {
+        "grouping": "Food and Drink",
+        "name": "Other",
+        "id": 7,
+        "label": "Other",
+        "key": "Food and Drink/Other"
+      },
+      "Home/Home": {
+        "grouping": "Home",
+        "name": "Home",
+        "id": 11,
+        "label": "Home",
+        "key": "Home/Home"
+      },
+      "Home/Electronics": {
+        "grouping": "Home",
+        "name": "Electronics",
+        "id": 12,
+        "label": "Electronics",
+        "key": "Home/Electronics"
+      },
+      "Home/Furniture": {
+        "grouping": "Home",
+        "name": "Furniture",
+        "id": 13,
+        "label": "Furniture",
+        "key": "Home/Furniture"
+      },
+      "Home/Household Supplies": {
+        "grouping": "Home",
+        "name": "Household Supplies",
+        "id": 14,
+        "label": "Household supplies",
+        "key": "Home/Household Supplies"
+      },
+      "Home/Maintenance": {
+        "grouping": "Home",
+        "name": "Maintenance",
+        "id": 15,
+        "label": "Maintenance",
+        "key": "Home/Maintenance"
+      },
+      "Home/Mortgage": {
+        "grouping": "Home",
+        "name": "Mortgage",
+        "id": 16,
+        "label": "Mortgage",
+        "key": "Home/Mortgage"
+      },
+      "Home/Pets": {
+        "grouping": "Home",
+        "name": "Pets",
+        "id": 17,
+        "label": "Pets",
+        "key": "Home/Pets"
+      },
+      "Home/Rent": {
+        "grouping": "Home",
+        "name": "Rent",
+        "id": 18,
+        "label": "Rent",
+        "key": "Home/Rent"
+      },
+      "Home/Services": {
+        "grouping": "Home",
+        "name": "Services",
+        "id": 19,
+        "label": "Services",
+        "key": "Home/Services"
+      },
+      "Home/Other": {
+        "grouping": "Home",
+        "name": "Other",
+        "id": 11,
+        "label": "Other",
+        "key": "Home/Other"
+      },
+      "Life/Childcare": {
+        "grouping": "Life",
+        "name": "Childcare",
+        "id": 20,
+        "label": "Childcare",
+        "key": "Life/Childcare"
+      },
+      "Life/Clothing": {
+        "grouping": "Life",
+        "name": "Clothing",
+        "id": 21,
+        "label": "Clothing",
+        "key": "Life/Clothing"
+      },
+      "Life/Donation": {
+        "grouping": "Life",
+        "name": "Donation",
+        "id": 43,
+        "label": "Donation",
+        "key": "Life/Donation"
+      },
+      "Life/Education": {
+        "grouping": "Life",
+        "name": "Education",
+        "id": 22,
+        "label": "Education",
+        "key": "Life/Education"
+      },
+      "Life/Gifts": {
+        "grouping": "Life",
+        "name": "Gifts",
+        "id": 23,
+        "label": "Gifts",
+        "key": "Life/Gifts"
+      },
+      "Life/Insurance": {
+        "grouping": "Life",
+        "name": "Insurance",
+        "id": 24,
+        "label": "Insurance",
+        "key": "Life/Insurance"
+      },
+      "Life/Medical Expenses": {
+        "grouping": "Life",
+        "name": "Medical Expenses",
+        "id": 25,
+        "label": "Medical expenses",
+        "key": "Life/Medical Expenses"
+      },
+      "Life/Taxes": {
+        "grouping": "Life",
+        "name": "Taxes",
+        "id": 26,
+        "label": "Taxes",
+        "key": "Life/Taxes"
+      },
+      "Life/Other": {
+        "grouping": "Life",
+        "name": "Other",
+        "id": 0,
+        "label": "Other",
+        "key": "Life/Other"
+      },
+      "Transportation/Transportation": {
+        "grouping": "Transportation",
+        "name": "Transportation",
+        "id": 27,
+        "label": "Transportation",
+        "key": "Transportation/Transportation"
+      },
+      "Transportation/Bicycle": {
+        "grouping": "Transportation",
+        "name": "Bicycle",
+        "id": 28,
+        "label": "Bicycle",
+        "key": "Transportation/Bicycle"
+      },
+      "Transportation/Bus/Train": {
+        "grouping": "Transportation",
+        "name": "Bus",
+        "id": 29,
+        "label": "Bus/train",
+        "key": "Transportation/Bus/Train"
+      },
+      "Transportation/Car": {
+        "grouping": "Transportation",
+        "name": "Car",
+        "id": 30,
+        "label": "Car",
+        "key": "Transportation/Car"
+      },
+      "Transportation/Gas/Fuel": {
+        "grouping": "Transportation",
+        "name": "Gas",
+        "id": 31,
+        "label": "Gas/fuel",
+        "key": "Transportation/Gas/Fuel"
+      },
+      "Transportation/Hotel": {
+        "grouping": "Transportation",
+        "name": "Hotel",
+        "id": 32,
+        "label": "Hotel",
+        "key": "Transportation/Hotel"
+      },
+      "Transportation/Parking": {
+        "grouping": "Transportation",
+        "name": "Parking",
+        "id": 33,
+        "label": "Parking",
+        "key": "Transportation/Parking"
+      },
+      "Transportation/Plane": {
+        "grouping": "Transportation",
+        "name": "Plane",
+        "id": 34,
+        "label": "Plane",
+        "key": "Transportation/Plane"
+      },
+      "Transportation/Taxi": {
+        "grouping": "Transportation",
+        "name": "Taxi",
+        "id": 35,
+        "label": "Taxi",
+        "key": "Transportation/Taxi"
+      },
+      "Transportation/Other": {
+        "grouping": "Transportation",
+        "name": "Other",
+        "id": 27,
+        "label": "Other",
+        "key": "Transportation/Other"
+      },
+      "Utilities/Utilities": {
+        "grouping": "Utilities",
+        "name": "Utilities",
+        "id": 36,
+        "label": "Utilities",
+        "key": "Utilities/Utilities"
+      },
+      "Utilities/Cleaning": {
+        "grouping": "Utilities",
+        "name": "Cleaning",
+        "id": 37,
+        "label": "Cleaning",
+        "key": "Utilities/Cleaning"
+      },
+      "Utilities/Electricity": {
+        "grouping": "Utilities",
+        "name": "Electricity",
+        "id": 38,
+        "label": "Electricity",
+        "key": "Utilities/Electricity"
+      },
+      "Utilities/Heat/Gas": {
+        "grouping": "Utilities",
+        "name": "Heat",
+        "id": 39,
+        "label": "Heat/gas",
+        "key": "Utilities/Heat/Gas"
+      },
+      "Utilities/Trash": {
+        "grouping": "Utilities",
+        "name": "Trash",
+        "id": 40,
+        "label": "Trash",
+        "key": "Utilities/Trash"
+      },
+      "Utilities/TV/Phone/Internet": {
+        "grouping": "Utilities",
+        "name": "TV",
+        "id": 41,
+        "label": "TV/Phone/Internet",
+        "key": "Utilities/TV/Phone/Internet"
+      },
+      "Utilities/Water": {
+        "grouping": "Utilities",
+        "name": "Water",
+        "id": 42,
+        "label": "Water",
+        "key": "Utilities/Water"
+      },
+      "Utilities/Other": {
+        "grouping": "Utilities",
+        "name": "Other",
+        "id": 36,
+        "label": "Other",
+        "key": "Utilities/Other"
+      }
+    },
+    "unknown": {}
+  },
+  "groupLabelTranslations": {
+    "de": {
+      "unterhaltung": "Entertainment",
+      "essen und trinken": "Food and Drink",
+      "zuhause": "Home",
+      "leben": "Life",
+      "verkehrsmittel": "Transportation",
+      "unkategorisiert": "Uncategorized",
+      "nebenkosten": "Utilities"
+    },
+    "en": {
+      "entertainment": "Entertainment",
+      "food and drink": "Food and Drink",
+      "home": "Home",
+      "life": "Life",
+      "transportation": "Transportation",
+      "uncategorized": "Uncategorized",
+      "utilities": "Utilities"
+    },
+    "unknown": {}
+  }
+}
