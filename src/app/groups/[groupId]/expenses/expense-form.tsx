@@ -273,7 +273,7 @@ export function ExpenseForm({
                 : undefined,
             ],
             isReimbursement: true,
-            splitMode: defaultSplittingOptions.splitMode,
+            splitMode: 'EVENLY',
             saveDefaultSplittingOptions: false,
             documents: [],
             notes: '',
