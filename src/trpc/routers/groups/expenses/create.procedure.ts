@@ -1,6 +1,7 @@
-import { createExpense } from '@/lib/api'
+import { createExpense, EXPENSE_ID_EXISTS } from '@/lib/api'
 import { expenseFormSchema } from '@/lib/schemas'
 import { baseProcedure } from '@/trpc/init'
+import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
 
 export const createGroupExpenseProcedure = baseProcedure
@@ -22,12 +23,19 @@ export const createGroupExpenseProcedure = baseProcedure
     async ({
       input: { groupId, expenseFormValues, participantId, expenseId },
     }) => {
-      const expense = await createExpense(
-        expenseFormValues,
-        groupId,
-        participantId,
-        expenseId,
-      )
-      return { expenseId: expense.id }
+      try {
+        const expense = await createExpense(
+          expenseFormValues,
+          groupId,
+          participantId,
+          expenseId,
+        )
+        return { expenseId: expense.id }
+      } catch (error) {
+        // A replayed offline expense: the client reads this as "saved".
+        if (error instanceof Error && error.message === EXPENSE_ID_EXISTS)
+          throw new TRPCError({ code: 'CONFLICT', message: EXPENSE_ID_EXISTS })
+        throw error
+      }
     },
   )

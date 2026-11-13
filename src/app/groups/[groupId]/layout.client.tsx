@@ -1,6 +1,7 @@
 'use client'
 
 import { DeleteGroupNotice } from '@/app/groups/[groupId]/delete-group-notice'
+import { OfflineSync } from '@/components/offline-sync'
 import { useToast } from '@/components/ui/use-toast'
 import { trpc } from '@/trpc/client'
 import { useTranslations } from 'next-intl'
@@ -34,6 +35,7 @@ export function GroupLayoutClient({
   if (isLoading) {
     return (
       <CurrentGroupProvider {...props}>
+        <OfflineSync groupId={groupId} />
         <GroupHeader />
         {children}
       </CurrentGroupProvider>
@@ -42,6 +44,7 @@ export function GroupLayoutClient({
 
   return (
     <CurrentGroupProvider {...props}>
+      <OfflineSync groupId={groupId} />
       <GroupHeader />
       <DeleteGroupNotice />
       {children}

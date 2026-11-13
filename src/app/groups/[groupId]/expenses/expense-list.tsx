@@ -18,6 +18,7 @@ import { forwardRef, useEffect, useMemo, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useDebounce } from 'use-debounce'
 import { useCurrentGroup } from '../current-group-context'
+import { OfflineQueuedExpenses } from '../offline-queued-expenses'
 
 const PAGE_SIZE = 20
 
@@ -55,6 +56,8 @@ export function ExpenseList() {
         maxLength={200}
         onValueChange={(value) => setSearchText(value)}
       />
+      {/* Added offline, not on the server yet (src/lib/offline-queue.ts). */}
+      <OfflineQueuedExpenses />
       <ExpenseListForSearch
         groupId={groupId}
         searchText={debouncedSearchText}

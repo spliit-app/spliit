@@ -1,6 +1,13 @@
 import { Page } from '@playwright/test'
-import { addExpense, createGroup, uniqueSuffix } from './app'
+import {
+  addExpense,
+  createGroup,
+  expenseCard,
+  EXPENSES_URL,
+  uniqueSuffix,
+} from './app'
 import { expect, test } from './fixtures'
+import { fillStable, selectRadixOption } from './ui'
 
 /**
  * The worker registers only in a production build (see
@@ -91,4 +98,50 @@ test('caches static assets but never API responses', async ({ page }) => {
   // Non-vacuous: the assertion below is only meaningful if caching happened.
   expect(paths.some((path) => path.startsWith('/_next/static/'))).toBe(true)
   expect(paths.filter((path) => path.startsWith('/api/'))).toEqual([])
+})
+
+test('adds an expense offline and sends it once back online', async ({
+  page,
+  context,
+}) => {
+  const groupId = await createGroup(page, {
+    name: `E2E Offline ${uniqueSuffix()}`,
+    participants: ['Alice', 'Bob'],
+  })
+  await waitForServiceWorker(page)
+
+  // While online, the group layout asks the worker to cache the expense list
+  // and the create form, and the group and categories are saved for offline.
+  await expect
+    .poll(() => cachedPaths(page), { timeout: 30_000 })
+    .toContain(`/groups/${groupId}/expenses/create`)
+  await expect
+    .poll(
+      () =>
+        page.evaluate(() => localStorage.getItem('spliit-query-cache') ?? ''),
+      { timeout: 10_000 },
+    )
+    .toContain('"categories"')
+
+  await context.setOffline(true)
+  try {
+    await page.goto(`/groups/${groupId}/expenses/create`)
+    const submit = page.getByRole('button', { name: 'Create', exact: true })
+    await expect(submit).toBeVisible({ timeout: 30_000 })
+    await fillStable(page.locator('input[name="title"]'), 'Offline coffee')
+    await fillStable(page.locator('input[name="amount"]'), '4.50')
+    await selectRadixOption(page, page.getByTestId('paid-by'), 'Alice')
+    await submit.click()
+
+    await page.waitForURL(EXPENSES_URL, { timeout: 30_000 })
+    await expect(page.getByText('Waiting to sync')).toBeVisible()
+  } finally {
+    await context.setOffline(false)
+  }
+
+  // The `online` event replays the queue.
+  await expect(expenseCard(page, 'Offline coffee')).toBeVisible({
+    timeout: 30_000,
+  })
+  await expect(page.getByText('Waiting to sync')).toHaveCount(0)
 })
