@@ -134,7 +134,7 @@ describe('calculateShare', () => {
     },
   )
 
-  it('agrees with the balances tab across randomised expenses', () => {
+  it('stays within one minor unit of the balances tab across randomised expenses', () => {
     const random = makeRandom(20260811)
 
     for (let run = 0; run < 500; run++) {
@@ -156,8 +156,11 @@ describe('calculateShare', () => {
       )
       const balances = getBalances([expense])
 
+      // The expense's own split is in whole minor units; the balance rounds
+      // the exact share once. They differ by less than one minor unit.
       for (const id of participants) {
-        expect(calculateShare(id, expense)).toBe(balances[id]?.paidFor ?? 0)
+        const gap = calculateShare(id, expense) - (balances[id]?.paidFor ?? 0)
+        expect(Math.abs(gap)).toBeLessThanOrEqual(1)
       }
     }
   })
@@ -189,6 +192,24 @@ describe('getTotalActiveUserShare', () => {
     )
 
     expect(total).toBe(getTotalGroupSpending(expenses))
+  })
+
+  it('adds the exact shares before rounding', () => {
+    // Four expenses of 2.93 split four ways: 0.7325 each time, so exactly
+    // 2.93 per person in total rather than 2.92 or 2.94.
+    const people: [string, number][] = [
+      ['alice', 1],
+      ['bob', 1],
+      ['carol', 1],
+      ['dave', 1],
+    ]
+    const expenses = ['e1', 'e2', 'e3', 'e4'].map((id) =>
+      splitExpense(id, 293, people),
+    )
+
+    for (const [id] of people) {
+      expect(getTotalActiveUserShare(id, expenses)).toBe(293)
+    }
   })
 
   it('is zero for someone who is not part of any expense', () => {

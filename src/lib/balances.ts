@@ -1,6 +1,14 @@
 import { Participant } from '@/generated/prisma/browser'
 import { getGroupExpenses } from '@/lib/api'
-import { getExpenseShares } from '@/lib/shares'
+import {
+  addFractions,
+  Fraction,
+  fraction,
+  FRACTION_ZERO,
+  roundPreservingSum,
+  subtractFractions,
+} from '@/lib/fraction'
+import { getExactExpenseShares } from '@/lib/shares'
 
 export type Balances = Record<
   Participant['id'],
@@ -13,47 +21,63 @@ export type Reimbursement = {
   amount: number
 }
 
+/**
+ * What each participant paid, what they owe, and their balance (`paid -
+ * paidFor`), in minor units.
+ *
+ * Shares are added up exactly (see `getExactExpenseShares`) and every balance
+ * is rounded once, at the end. Rounding expense by expense instead lets each
+ * participant's balance drift by up to one minor unit per uneven expense, a
+ * few cents over the life of a group; rounding once keeps every balance
+ * within one minor unit of the exact amount. The rounding preserves the sum,
+ * so the balances still add up to exactly zero.
+ */
 export function getBalances(
   expenses: NonNullable<Awaited<ReturnType<typeof getGroupExpenses>>>,
 ): Balances {
-  const balances: Balances = {}
+  const paid = new Map<string, number>()
+  const owed = new Map<string, Fraction>()
+  const touch = (participantId: string) => {
+    if (!paid.has(participantId)) paid.set(participantId, 0)
+    if (!owed.has(participantId)) owed.set(participantId, FRACTION_ZERO)
+  }
 
   for (const expense of expenses) {
     const paidBy = expense.paidBy.id
+    touch(paidBy)
+    paid.set(paidBy, paid.get(paidBy)! + expense.amount)
 
-    if (!balances[paidBy]) balances[paidBy] = { paid: 0, paidFor: 0, total: 0 }
-    balances[paidBy].paid += expense.amount
-
-    const dividedAmounts = getExpenseShares({
-      id: expense.id,
+    const shares = getExactExpenseShares({
       amount: expense.amount,
       splitMode: expense.splitMode,
       paidFor: expense.paidFor.map(({ participant, shares }) => ({
         participantId: participant.id,
-        shares,
+        shares: Number(shares),
       })),
     })
-
-    dividedAmounts.forEach((dividedAmount, participantId) => {
-      if (!balances[participantId])
-        balances[participantId] = { paid: 0, paidFor: 0, total: 0 }
-
-      balances[participantId].paidFor += dividedAmount
+    shares.forEach((share, participantId) => {
+      touch(participantId)
+      owed.set(participantId, addFractions(owed.get(participantId)!, share))
     })
   }
 
-  // Every share is apportioned as a whole minor unit, so the rounding below is
-  // a no-op and only kept as a guard. It is what used to break the books: the
-  // accumulated float totals were rounded per participant, which does not
-  // preserve a sum, and the residue ended up in the group's total balance.
-  for (const participantId in balances) {
-    // add +0 to avoid negative zeros
-    balances[participantId].paidFor =
-      Math.round(balances[participantId].paidFor) + 0
-    balances[participantId].paid = Math.round(balances[participantId].paid) + 0
+  const exactTotals = new Map(
+    Array.from(paid.entries()).map(([participantId, amount]) => [
+      participantId,
+      subtractFractions(fraction(amount), owed.get(participantId)!),
+    ]),
+  )
+  const totals = roundPreservingSum(exactTotals, 'towardZero')
 
-    balances[participantId].total =
-      balances[participantId].paid - balances[participantId].paidFor
+  const balances: Balances = {}
+  for (const [participantId, amount] of paid) {
+    // add +0 to avoid negative zeros
+    const total = totals.get(participantId)! + 0
+    balances[participantId] = {
+      paid: amount + 0,
+      paidFor: amount - total + 0,
+      total,
+    }
   }
   return balances
 }
