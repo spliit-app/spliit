@@ -105,6 +105,7 @@ export async function addExpense(
     /** Participant names. Omit to leave every participant checked. */
     paidFor?: string[]
     splitMode?: SplitMode
+    saveDefault?: boolean
     /** Participant name -> share value. Set one for every checked participant. */
     shares?: Record<string, string>
     /** YYYY-MM-DD. Defaults to today. */
@@ -170,9 +171,11 @@ export async function addExpense(
   if (splitMode !== 'EVENLY') {
     // Radix Collapsible unmounts its content, so the Split mode select does
     // not exist in the DOM until this is opened.
-    await page
-      .getByRole('button', { name: /Advanced splitting options/ })
-      .click()
+    if (!(await page.getByTestId('split-mode').isVisible())) {
+      await page
+        .getByRole('button', { name: /Advanced splitting options/ })
+        .click()
+    }
     await selectRadixOption(
       page,
       page.getByTestId('split-mode'),
@@ -193,6 +196,16 @@ export async function addExpense(
     }
   }
 
+  if (expense.saveDefault) {
+    if (
+      !(await page.getByText('Save as default splitting options').isVisible())
+    ) {
+      await page
+        .getByRole('button', { name: /Advanced splitting options/ })
+        .click()
+    }
+    await page.getByText('Save as default splitting options').click()
+  }
   await submit.click()
   await page.waitForURL(EXPENSES_URL, { timeout: 30_000 })
 }

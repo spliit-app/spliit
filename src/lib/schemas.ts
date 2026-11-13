@@ -227,7 +227,7 @@ export type ExpenseFormValues = z.output<typeof expenseFormSchema>
 export type ExpenseFormInput = z.input<typeof expenseFormSchema>
 
 export type SplittingOptions = {
-  // Used for saving default splitting options in localStorage
+  // Used for saving group-wide default splitting options
   splitMode: SplitMode
   paidFor: ExpenseFormValues['paidFor'] | null
 }
