@@ -11,7 +11,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Currency } from '@/lib/currency'
 import { formatCurrency, formatDateOnly } from '@/lib/utils'
 import { ChevronRight } from 'lucide-react'
-import { useLocale } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { ReactNode } from 'react'
 
@@ -20,6 +20,7 @@ export type DialogExpense = {
   title: string
   amount: number
   expenseDate: Date
+  paidByName: string
 }
 
 type Props = {
@@ -52,15 +53,19 @@ export function ExpensesDialog({
   isLoading,
 }: Props) {
   const locale = useLocale()
+  const t = useTranslations('Stats.ExpensesDialog')
 
   return (
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
-      <DialogContent className="max-h-[80vh] gap-0 overflow-hidden p-0">
-        <DialogHeader className="space-y-1.5 border-b p-6">
+      <DialogContent className="flex max-h-[80vh] flex-col gap-0 overflow-hidden p-0">
+        <DialogHeader className="shrink-0 space-y-1.5 border-b p-6">
           <DialogTitle className="flex items-center gap-2">{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
-        <div className="overflow-y-auto">
+        {/* The dialog is capped at 80vh; this flex child must be allowed to
+            shrink (`min-h-0`) so the full list scrolls instead of being
+            clipped by the dialog's `overflow-hidden`. */}
+        <div className="min-h-0 flex-1 overflow-y-auto">
           {isLoading || !expenses ? (
             <div className="flex flex-col gap-3 p-6">
               {[0, 1, 2].map((index) => (
@@ -82,7 +87,8 @@ export function ExpensesDialog({
                       <div className="text-xs text-muted-foreground">
                         {formatDateOnly(expense.expenseDate, locale, {
                           dateStyle: 'medium',
-                        })}
+                        })}{' '}
+                        · {t('paidBy', { name: expense.paidByName })}
                       </div>
                     </div>
                     <div className="flex shrink-0 items-center gap-1">

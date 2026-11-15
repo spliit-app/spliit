@@ -128,6 +128,7 @@ test('drills down from a category into its expenses', async ({ page }) => {
   // The dialog lists the category's own expenses and nothing else.
   const dialog = page.getByRole('dialog')
   await expect(dialog).toContainText('Weekly shop')
+  await expect(dialog).toContainText('Paid by Alice')
   await expect(dialog).toContainText(money(40))
   await expect(dialog).not.toContainText('Cab home')
 })
@@ -156,6 +157,7 @@ test('drills down from a month into its expenses', async ({ page }) => {
 
   const dialog = page.getByRole('dialog')
   await expect(dialog).toContainText('Long ago')
+  await expect(dialog).toContainText('Paid by Bob')
   await expect(dialog).toContainText(money(15))
   await expect(dialog).not.toContainText('This month')
 })

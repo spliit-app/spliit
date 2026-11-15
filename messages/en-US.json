@@ -359,6 +359,9 @@
   },
   "Stats": {
     "title": "Stats",
+    "ExpensesDialog": {
+      "paidBy": "Paid by {name}"
+    },
     "range": {
       "label": "Period",
       "all": "All time",
