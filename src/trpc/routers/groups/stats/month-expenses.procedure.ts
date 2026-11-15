@@ -29,6 +29,7 @@ export const getStatsMonthExpensesProcedure = baseProcedure
         title: expense.title,
         amount: expense.amount,
         expenseDate: expense.expenseDate,
+        paidByName: expense.paidBy.name,
       })),
     }
   })
