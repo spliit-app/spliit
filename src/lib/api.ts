@@ -118,15 +118,17 @@ export async function deleteExpense(
   participantId?: string,
 ) {
   const existingExpense = await getExpense(groupId, expenseId)
+  if (!existingExpense) throw new Error('Expense not found')
+
+  const { count } = await prisma.expense.deleteMany({
+    where: { id: expenseId, groupId },
+  })
+  if (count === 0) throw new Error('Expense not found')
+
   await logActivity(groupId, ActivityType.DELETE_EXPENSE, {
     participantId,
     expenseId,
-    data: existingExpense?.title,
-  })
-
-  await prisma.expense.delete({
-    where: { id: expenseId },
-    include: { paidFor: true, paidBy: true },
+    data: existingExpense.title,
   })
 }
 
@@ -403,6 +405,51 @@ export async function getGroup(groupId: string) {
   })
 }
 
+export async function getGroupExport(groupId: string) {
+  return prisma.group.findUnique({
+    where: { id: groupId },
+    select: {
+      id: true,
+      name: true,
+      information: true,
+      currency: true,
+      currencyCode: true,
+      expenses: {
+        select: {
+          id: true,
+          createdAt: true,
+          expenseDate: true,
+          title: true,
+          category: { select: { grouping: true, name: true } },
+          amount: true,
+          originalAmount: true,
+          originalCurrency: true,
+          conversionRate: true,
+          paidById: true,
+          paidFor: { select: { participantId: true, shares: true } },
+          isReimbursement: true,
+          splitMode: true,
+          recurrenceRule: true,
+          notes: true,
+        },
+        orderBy: [{ expenseDate: 'asc' }, { createdAt: 'asc' }],
+      },
+      participants: { select: { id: true, name: true } },
+      activities: {
+        select: {
+          id: true,
+          time: true,
+          activityType: true,
+          participantId: true,
+          expenseId: true,
+          data: true,
+        },
+        orderBy: { time: 'asc' },
+      },
+    },
+  })
+}
+
 export async function getCategories() {
   return prisma.category.findMany()
 }
@@ -487,8 +534,8 @@ export async function getActiveRecurringExpenses(groupId: string) {
 }
 
 export async function getExpense(groupId: string, expenseId: string) {
-  return prisma.expense.findUnique({
-    where: { id: expenseId },
+  return prisma.expense.findFirst({
+    where: { id: expenseId, groupId },
     include: {
       paidBy: true,
       paidFor: true,

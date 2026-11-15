@@ -12,6 +12,7 @@
     "start": "next start",
     "lint": "oxlint",
     "check-types": "tsc --noEmit",
+    "mcp:smoke": "tsx src/mcp/smoke.mts",
     "check-formatting": "prettier -c src e2e perf playwright.config.ts",
     "prettier": "prettier -w src e2e perf playwright.config.ts",
     "postinstall": "prisma migrate deploy && prisma generate",
@@ -37,6 +38,7 @@
     "@formatjs/intl-localematcher": "^0.9.0",
     "@hookform/resolvers": "^5",
     "@json2csv/plainjs": "^7.0.8",
+    "@modelcontextprotocol/server": "^2.4.0",
     "@prisma/adapter-pg": "^7.10.0",
     "@prisma/client": "^7.10.0",
     "@radix-ui/react-checkbox": "^1.3.11",
@@ -94,6 +96,7 @@
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.7.1",
+    "@modelcontextprotocol/client": "^2.4.0",
     "@playwright/test": "^1.63.0",
     "@tailwindcss/postcss": "^4.3.2",
     "@testing-library/dom": "^10.4.2",

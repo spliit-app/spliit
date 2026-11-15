@@ -1,4 +1,9 @@
-import { getGroupExpenses, updateExpense } from './api'
+import {
+  deleteExpense,
+  getExpense,
+  getGroupExpenses,
+  updateExpense,
+} from './api'
 import { prisma } from './prisma'
 import { ExpenseFormValues } from './schemas'
 
@@ -6,7 +11,13 @@ jest.mock('./prisma', () => ({
   prisma: {
     $transaction: jest.fn(),
     activity: { create: jest.fn() },
-    expense: { findMany: jest.fn(), findUnique: jest.fn(), update: jest.fn() },
+    expense: {
+      findMany: jest.fn(),
+      findUnique: jest.fn(),
+      findFirst: jest.fn(),
+      update: jest.fn(),
+      deleteMany: jest.fn(),
+    },
     group: { findUnique: jest.fn() },
     recurringExpenseLink: { findMany: jest.fn() },
   },
@@ -258,7 +269,7 @@ describe('updateExpense', () => {
       participants: [{ id: 'participant-1' }],
     } as never)
     jest
-      .mocked(prisma.expense.findUnique)
+      .mocked(prisma.expense.findFirst)
       .mockResolvedValue(existingExpense as never)
     await updateExpense('group-1', 'expense-1', values)
     return jest.mocked(prisma.expense.update).mock.calls[0][0].data
@@ -313,6 +324,44 @@ describe('updateExpense', () => {
     expect(link?.update).toEqual({
       nextExpenseDate: new Date(Date.UTC(2025, 0, 22)),
       anchorDay: null,
+    })
+  })
+})
+
+describe('expense group scoping', () => {
+  beforeEach(() => jest.clearAllMocks())
+
+  it('looks up an expense within the requested group', async () => {
+    jest.mocked(prisma.expense.findFirst).mockResolvedValue(null)
+
+    await expect(getExpense('group-a', 'expense-b')).resolves.toBeNull()
+
+    expect(prisma.expense.findFirst).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: { id: 'expense-b', groupId: 'group-a' },
+      }),
+    )
+  })
+
+  it('refuses to delete an expense outside the requested group', async () => {
+    jest.mocked(prisma.expense.findFirst).mockResolvedValue(null)
+
+    await expect(deleteExpense('group-a', 'expense-b')).rejects.toThrow(
+      'Expense not found',
+    )
+    expect(prisma.expense.deleteMany).not.toHaveBeenCalled()
+  })
+
+  it('deletes only within the requested group', async () => {
+    jest.mocked(prisma.expense.findFirst).mockResolvedValue({
+      title: 'Group B secret',
+    } as never)
+    jest.mocked(prisma.expense.deleteMany).mockResolvedValue({ count: 1 })
+
+    await deleteExpense('group-a', 'expense-b')
+
+    expect(prisma.expense.deleteMany).toHaveBeenCalledWith({
+      where: { id: 'expense-b', groupId: 'group-a' },
     })
   })
 })
