@@ -4,7 +4,7 @@ import { timingSafeEqual } from 'node:crypto'
  * Whether an Authorization header is `Bearer <secret>`, as Vercel Cron sends it
  * when CRON_SECRET is set. Compared in constant time.
  */
-export function isValidCronAuthorization(
+export function isValidBearerAuthorization(
   authorization: string | null,
   secret: string,
 ) {

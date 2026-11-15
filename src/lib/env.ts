@@ -89,6 +89,11 @@ const envSchema = z
       interpretBlankEnvVarAsUndefined,
       z.string().trim().optional(),
     ),
+    // Bearer token required by /api/mcp. The endpoint is disabled while unset.
+    MCP_API_KEY: z.preprocess(
+      interpretBlankEnvVarAsUndefined,
+      z.string().trim().optional(),
+    ),
     NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT: z.preprocess(
       interpretEnvVarAsBool,
       z.boolean().default(false),

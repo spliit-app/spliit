@@ -10,3 +10,4 @@ export const appRouter = createTRPCRouter({
 
 export type AppRouter = typeof appRouter
 export type AppRouterOutput = inferRouterOutputs<AppRouter>
+export type AppRouterCaller = ReturnType<typeof appRouter.createCaller>

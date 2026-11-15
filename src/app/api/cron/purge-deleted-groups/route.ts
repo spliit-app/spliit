@@ -1,4 +1,4 @@
-import { isValidCronAuthorization } from '@/lib/cron'
+import { isValidBearerAuthorization } from '@/lib/cron'
 import { env } from '@/lib/env'
 import { purgeScheduledGroups } from '@/lib/group-deletion'
 
@@ -8,7 +8,7 @@ import { purgeScheduledGroups } from '@/lib/group-deletion'
 export async function GET(request: Request) {
   if (!env.CRON_SECRET) return new Response(null, { status: 404 })
   const authorization = request.headers.get('authorization')
-  if (!isValidCronAuthorization(authorization, env.CRON_SECRET))
+  if (!isValidBearerAuthorization(authorization, env.CRON_SECRET))
     return new Response(null, { status: 401 })
 
   const result = await purgeScheduledGroups()
