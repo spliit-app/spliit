@@ -274,7 +274,7 @@ export async function updateExpense(
   )
 
   return prisma.expense.update({
-    where: { id: expenseId },
+    where: { id: expenseId, groupId },
     data: {
       expenseDate: expenseFormValues.expenseDate,
       amount: expenseFormValues.amount,
@@ -488,7 +488,7 @@ export async function getActiveRecurringExpenses(groupId: string) {
 
 export async function getExpense(groupId: string, expenseId: string) {
   return prisma.expense.findUnique({
-    where: { id: expenseId },
+    where: { id: expenseId, groupId },
     include: {
       paidBy: true,
       paidFor: true,
