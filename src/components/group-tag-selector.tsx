@@ -24,8 +24,8 @@ export const GroupTagSelector = forwardRef<HTMLButtonElement, Props>(
       <TagSelector
         {...props}
         ref={ref}
-        onDelete={async (name) => {
-          await mutateAsync({ groupId, name })
+        onDelete={async (tag) => {
+          await mutateAsync({ groupId, tagId: tag.id })
           await Promise.all([
             utils.groups.tags.invalidate({ groupId }),
             utils.groups.expenses.invalidate(),
@@ -38,8 +38,7 @@ export const GroupTagSelector = forwardRef<HTMLButtonElement, Props>(
 )
 GroupTagSelector.displayName = 'GroupTagSelector'
 
-type ExpenseProps = Omit<Props, 'options' | 'value' | 'onValueChange'> & {
-  options: ExpenseTag[]
+type ExpenseProps = Omit<Props, 'value' | 'onValueChange'> & {
   value: ExpenseTag[]
   onValueChange: (value: ExpenseTag[]) => void
 }
@@ -49,7 +48,7 @@ export const ExpenseTagSelector = forwardRef<HTMLButtonElement, ExpenseProps>(
     <GroupTagSelector
       {...props}
       ref={ref}
-      options={options.map((tag) => tag.name)}
+      options={options}
       value={value.map((tag) => tag.name)}
       onValueChange={(names) =>
         onValueChange(resolveExpenseTagSelection(names, value, options))

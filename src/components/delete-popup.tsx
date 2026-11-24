@@ -18,6 +18,7 @@ export function DeletePopup({
   className,
   open,
   onOpenChange,
+  onCloseAutoFocus,
   showTrigger = true,
   copy,
 }: {
@@ -25,6 +26,7 @@ export function DeletePopup({
   className?: string
   open?: boolean
   onOpenChange?: (open: boolean) => void
+  onCloseAutoFocus?: (event: Event) => void
   showTrigger?: boolean
   copy?: {
     title: string
@@ -51,7 +53,7 @@ export function DeletePopup({
           </Button>
         </DialogTrigger>
       )}
-      <DialogContent>
+      <DialogContent onCloseAutoFocus={onCloseAutoFocus}>
         <DialogTitle>{copy?.title ?? t('title')}</DialogTitle>
         <DialogDescription>
           {copy?.description ?? t('description')}

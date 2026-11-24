@@ -20,14 +20,16 @@ import { useMediaQuery } from '@/lib/hooks'
 import { normalizeTagName, tagNameSchema } from '@/lib/tags'
 import { ChevronDown, Trash2, X } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { forwardRef, useState } from 'react'
+import { forwardRef, useImperativeHandle, useRef, useState } from 'react'
+
+type TagOption = { id: string; name: string }
 
 type Props = {
-  options: string[]
+  options: TagOption[]
   value: string[]
   onValueChange: (value: string[]) => void
   allowCreate?: boolean
-  onDelete?: (name: string) => Promise<void>
+  onDelete?: (tag: TagOption) => Promise<void>
   maxTags?: number
   disabled?: boolean
   id?: string
@@ -51,14 +53,20 @@ export const TagSelector = forwardRef<HTMLButtonElement, Props>(
   ) => {
     const t = useTranslations('Tags')
     const label = t(allowCreate ? 'selectOrAdd' : 'select')
+    const searchLabel = t(allowCreate ? 'searchOrAdd' : 'search')
     const [open, setOpen] = useState(false)
     const [search, setSearch] = useState('')
-    const [deletingTag, setDeletingTag] = useState<string | null>(null)
+    const [deletingTag, setDeletingTag] = useState<TagOption | null>(null)
+    const triggerRef = useRef<HTMLButtonElement>(null)
+    useImperativeHandle(ref, () => triggerRef.current!)
     const isDesktop = useMediaQuery('(min-width: 768px)')
     const normalizedSearch = normalizeTagName(search)
     const available = [
       ...new Map(
-        [...options, ...value].map((name) => [normalizeTagName(name), name]),
+        [...options.map((tag) => tag.name), ...value].map((name) => [
+          normalizeTagName(name),
+          name,
+        ]),
       ).values(),
     ]
     const selected = new Set(value.map(normalizeTagName))
@@ -83,7 +91,7 @@ export const TagSelector = forwardRef<HTMLButtonElement, Props>(
     const trigger = (
       <Button
         {...props}
-        ref={ref}
+        ref={triggerRef}
         type="button"
         variant="outline"
         aria-expanded={open}
@@ -101,8 +109,8 @@ export const TagSelector = forwardRef<HTMLButtonElement, Props>(
         <Input
           value={search}
           onChange={(event) => setSearch(event.target.value)}
-          placeholder={t('search')}
-          aria-label={t('search')}
+          placeholder={searchLabel}
+          aria-label={searchLabel}
           className="text-base"
         />
         <div
@@ -110,24 +118,24 @@ export const TagSelector = forwardRef<HTMLButtonElement, Props>(
           role="group"
           aria-label={label}
         >
-          {visible.map((name) => (
-            <div
-              key={normalizeTagName(name)}
-              className="flex items-center gap-2 rounded-sm px-2 py-1 text-sm hover:bg-accent"
-            >
-              <label className="flex min-w-0 flex-1 items-center gap-2">
-                <Checkbox
-                  checked={selected.has(normalizeTagName(name))}
-                  disabled={atLimit && !selected.has(normalizeTagName(name))}
-                  onCheckedChange={() => select(name)}
-                />
-                <TagBadge name={name} />
-              </label>
-              {onDelete &&
-                options.some(
-                  (option) =>
-                    normalizeTagName(option) === normalizeTagName(name),
-                ) && (
+          {visible.map((name) => {
+            const option = options.find(
+              (tag) => normalizeTagName(tag.name) === normalizeTagName(name),
+            )
+            return (
+              <div
+                key={normalizeTagName(name)}
+                className="flex items-center gap-2 rounded-sm px-2 py-1 text-sm hover:bg-accent"
+              >
+                <label className="flex min-w-0 flex-1 items-center gap-2">
+                  <Checkbox
+                    checked={selected.has(normalizeTagName(name))}
+                    disabled={atLimit && !selected.has(normalizeTagName(name))}
+                    onCheckedChange={() => select(name)}
+                  />
+                  <TagBadge name={name} />
+                </label>
+                {onDelete && option && (
                   <Button
                     type="button"
                     variant="ghost"
@@ -137,14 +145,15 @@ export const TagSelector = forwardRef<HTMLButtonElement, Props>(
                     disabled={props.disabled}
                     onClick={() => {
                       setOpen(false)
-                      setDeletingTag(name)
+                      setDeletingTag(option)
                     }}
                   >
                     <Trash2 aria-hidden className="h-4 w-4" />
                   </Button>
                 )}
-            </div>
-          ))}
+              </div>
+            )
+          })}
           {visible.length === 0 && !canCreate && (
             <p className="p-2 text-sm text-muted-foreground">{t('empty')}</p>
           )}
@@ -179,8 +188,12 @@ export const TagSelector = forwardRef<HTMLButtonElement, Props>(
           onOpenChange={(open) => {
             if (!open) setDeletingTag(null)
           }}
+          onCloseAutoFocus={(event) => {
+            event.preventDefault()
+            triggerRef.current?.focus()
+          }}
           copy={{
-            title: t('deleteTitle', { name: deletingTag ?? '' }),
+            title: t('deleteTitle', { name: deletingTag?.name ?? '' }),
             description: t('deleteDescription'),
             yes: t('deleteConfirm'),
             cancel: t('deleteCancel'),
@@ -192,7 +205,7 @@ export const TagSelector = forwardRef<HTMLButtonElement, Props>(
             onValueChange(
               value.filter(
                 (name) =>
-                  normalizeTagName(name) !== normalizeTagName(deletingTag),
+                  normalizeTagName(name) !== normalizeTagName(deletingTag.name),
               ),
             )
             setDeletingTag(null)

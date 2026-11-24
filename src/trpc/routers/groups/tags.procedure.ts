@@ -1,5 +1,4 @@
 import { deleteGroupTag, getGroupTags } from '@/lib/api'
-import { tagNameSchema } from '@/lib/tags'
 import { baseProcedure } from '@/trpc/init'
 import { z } from 'zod'
 
@@ -10,8 +9,13 @@ export const listGroupTagsProcedure = baseProcedure
   }))
 
 export const deleteGroupTagProcedure = baseProcedure
-  .input(z.object({ groupId: z.string().min(1).max(64), name: tagNameSchema }))
-  .mutation(async ({ input: { groupId, name } }) => {
-    await deleteGroupTag(groupId, name)
+  .input(
+    z.object({
+      groupId: z.string().min(1).max(64),
+      tagId: z.string().min(1).max(64),
+    }),
+  )
+  .mutation(async ({ input: { groupId, tagId } }) => {
+    await deleteGroupTag(groupId, tagId)
     return {}
   })

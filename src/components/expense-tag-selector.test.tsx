@@ -1,6 +1,6 @@
 import { ExpenseTagSelector } from '@/components/group-tag-selector'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
-import { ExpenseTag, expenseTagsSchema } from '@/lib/tags'
+import { expenseTagsSchema } from '@/lib/tags'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -59,7 +59,7 @@ function Harness({
   options = [],
 }: {
   save: (value: unknown) => void
-  options?: ExpenseTag[]
+  options?: { id: string; name: string }[]
 }) {
   const form = useForm<
     z.input<typeof schema>,
@@ -102,7 +102,7 @@ it('saves an expense form after adding a new tag', async () => {
   const save = jest.fn()
   render(<Harness save={save} />)
   fireEvent.click(screen.getByRole('button', { name: 'Select or add tag' }))
-  fireEvent.change(screen.getByPlaceholderText('Search tags'), {
+  fireEvent.change(screen.getByPlaceholderText('Search or add tags'), {
     target: { value: 'taiwan trip' },
   })
   fireEvent.click(screen.getByRole('button', { name: 'Create “taiwan trip”' }))

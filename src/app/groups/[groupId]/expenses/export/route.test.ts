@@ -87,6 +87,25 @@ describe('expense exports with tags', () => {
     expect(JSON.parse(parseRow(lines[2]).at(-1)!)).toEqual([])
   })
 
+  it('keeps participant amounts and tags distinct when their CSV labels collide', async () => {
+    jest.mocked(prisma.group.findUnique).mockResolvedValueOnce({
+      ...group,
+      participants: [
+        { id: 'alice', name: 'Tags' },
+        { id: 'bob', name: 'Tags (2)' },
+      ],
+    } as never)
+    const response = await exportCsv(new Request('http://localhost/'), params)
+    const lines = (await response.text()).replace(/^\uFEFF/, '').split(/\r?\n/)
+    const headers = parseRow(lines[0])
+    expect(new Set(headers).size).toBe(headers.length)
+    expect(headers.at(-1)).toBe('Tags (3)')
+    const cells = parseRow(lines[1])
+    expect(Number(cells[headers.indexOf('Tags')])).toBe(30)
+    expect(Number(cells[headers.indexOf('Tags (2)')])).toBe(-30)
+    expect(JSON.parse(cells.at(-1)!)).toEqual([...names].sort())
+  })
+
   it('exports arrays of names in JSON and retains untagged reimbursement records', async () => {
     const response = await exportJson(new Request('http://localhost/'), params)
     const data = (await response.json()) as {

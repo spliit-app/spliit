@@ -43,7 +43,7 @@ export function TagBreakdown({
   )
   const name = (tag: TagSpending) =>
     tag.tagId === null ? t('untagged') : tag.name
-  const max = Math.max(0, ...(tags?.map((tag) => tag.total) ?? []))
+  const max = Math.max(0, ...(tags?.map((tag) => Math.abs(tag.total)) ?? []))
 
   return (
     <Card className="mb-4">
@@ -80,7 +80,7 @@ export function TagBreakdown({
                   </span>
                 </div>
                 <StatBar
-                  value={tag.total}
+                  value={Math.abs(tag.total)}
                   max={max}
                   color={
                     tag.tagId === null

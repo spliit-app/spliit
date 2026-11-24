@@ -55,7 +55,7 @@ it('selects multiple tags without closing the menu', () => {
   expect(screen.getByRole('menu')).toBeInTheDocument()
 })
 
-it('keeps untagged and named tags exclusive and supports clearing', () => {
+it('combines untagged and named tags and supports clearing', () => {
   render(<Filter />)
   fireEvent.pointerDown(
     screen.getByRole('button', { name: 'Filter by tags' }),
@@ -65,14 +65,14 @@ it('keeps untagged and named tags exclusive and supports clearing', () => {
   fireEvent.click(screen.getByRole('menuitemcheckbox', { name: 'Untagged' }))
   expect(
     screen.getByRole('menuitemcheckbox', { name: 'Food' }),
-  ).toHaveAttribute('aria-checked', 'false')
+  ).toHaveAttribute('aria-checked', 'true')
   expect(
     screen.getByRole('menuitemcheckbox', { name: 'Untagged' }),
   ).toHaveAttribute('aria-checked', 'true')
   fireEvent.click(screen.getByRole('menuitemcheckbox', { name: 'Transport' }))
   expect(
     screen.getByRole('menuitemcheckbox', { name: 'Untagged' }),
-  ).toHaveAttribute('aria-checked', 'false')
+  ).toHaveAttribute('aria-checked', 'true')
   fireEvent.click(screen.getByRole('menuitem', { name: 'Clear filters' }))
   fireEvent.pointerDown(
     screen.getByRole('button', { name: 'Filter by tags' }),

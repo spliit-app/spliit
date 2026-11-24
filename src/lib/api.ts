@@ -35,9 +35,9 @@ export async function createGroup(groupFormValues: GroupFormValues) {
   })
 }
 
-export async function deleteGroupTag(groupId: string, name: string) {
+export async function deleteGroupTag(groupId: string, tagId: string) {
   return prisma.tag.deleteMany({
-    where: { groupId, normalizedName: normalizeTagName(name) },
+    where: { groupId, id: tagId },
   })
 }
 
@@ -56,14 +56,24 @@ async function saveExpenseTags(
 ) {
   const tags = expenseTagsSchema.parse(selections)
   if (tags.length === 0) return []
-  const newTags = tags.filter((tag) => tag.id === undefined)
+  // Insert names in the same order to avoid deadlocks between expense saves.
+  const newTags = tags
+    .filter((tag) => tag.id === undefined)
+    .map(({ name }) => ({ name, normalizedName: normalizeTagName(name) }))
+    .sort((a, b) =>
+      a.normalizedName < b.normalizedName
+        ? -1
+        : a.normalizedName > b.normalizedName
+          ? 1
+          : 0,
+    )
   if (newTags.length > 0)
     await transaction.tag.createMany({
-      data: newTags.map(({ name }) => ({
+      data: newTags.map(({ name, normalizedName }) => ({
         id: randomId(),
         groupId,
         name,
-        normalizedName: normalizeTagName(name),
+        normalizedName,
       })),
       skipDuplicates: true,
     })
@@ -74,7 +84,7 @@ async function saveExpenseTags(
         { id: { in: tags.flatMap((tag) => (tag.id ? [tag.id] : [])) } },
         {
           normalizedName: {
-            in: newTags.map((tag) => normalizeTagName(tag.name)),
+            in: newTags.map((tag) => tag.normalizedName),
           },
         },
       ],
@@ -484,6 +494,12 @@ export async function getGroupExpenses(
 ) {
   await createRecurringExpenses()
 
+  const tagFilters: Prisma.ExpenseWhereInput[] = []
+  if (options?.tagIds?.length) {
+    tagFilters.push({ tags: { some: { id: { in: options.tagIds }, groupId } } })
+  }
+  if (options?.untagged) tagFilters.push({ tags: { none: {} } })
+
   const expenses = await prisma.expense.findMany({
     select: {
       amount: true,
@@ -511,11 +527,7 @@ export async function getGroupExpenses(
     },
     where: {
       groupId,
-      tags: options?.untagged
-        ? { none: {} }
-        : options?.tagIds?.length
-          ? { some: { id: { in: options.tagIds }, groupId } }
-          : undefined,
+      AND: tagFilters.length ? [{ OR: tagFilters }] : undefined,
       // Text search and tag membership filters are combined before pagination.
       OR: options?.filter
         ? [
@@ -524,7 +536,9 @@ export async function getGroupExpenses(
             {
               tags: {
                 some: {
-                  name: { contains: options.filter, mode: 'insensitive' },
+                  normalizedName: {
+                    contains: normalizeTagName(options.filter),
+                  },
                 },
               },
             },

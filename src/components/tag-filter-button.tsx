@@ -63,7 +63,7 @@ export function TagFilterButton({
                   checked
                     ? [...value, tag.id].sort()
                     : value.filter((id) => id !== tag.id),
-                  false,
+                  untagged,
                 )
               }
               className="break-all"
@@ -76,7 +76,7 @@ export function TagFilterButton({
         <DropdownMenuCheckboxItem
           checked={untagged}
           onSelect={(event) => event.preventDefault()}
-          onCheckedChange={(checked) => onValueChange([], checked)}
+          onCheckedChange={(checked) => onValueChange(value, checked)}
         >
           {t('untagged')}
         </DropdownMenuCheckboxItem>

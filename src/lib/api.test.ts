@@ -427,6 +427,30 @@ describe('expense tags', () => {
     )
   })
 
+  it('inserts overlapping new tags in the same normalized order for either selection order', async () => {
+    for (const names of [
+      ['Ｗｏｒｋ', 'Summer trip'],
+      ['summer trip', 'WORK'],
+    ]) {
+      await createExpense(
+        { ...values, tags: names.map((name) => ({ name })) },
+        'group-1',
+      )
+    }
+    const inserts = jest.mocked(prisma.tag.createMany).mock.calls
+    expect(inserts).toHaveLength(2)
+    for (const [input] of inserts) {
+      expect(input).toEqual(
+        expect.objectContaining({
+          data: [
+            expect.objectContaining({ normalizedName: 'summer trip' }),
+            expect.objectContaining({ normalizedName: 'work' }),
+          ],
+        }),
+      )
+    }
+  })
+
   it('does not recreate deleted or foreign-group IDs when saving stale selections', async () => {
     await updateExpense('group-1', 'expense-1', {
       ...values,
@@ -476,6 +500,24 @@ describe('expense tags', () => {
     )
   })
 
+  it.each(['Café', 'Cafe\u0301', ' ＣＡＦÉ '])(
+    'normalizes tag search %s while preserving title and notes search',
+    async (filter) => {
+      await getGroupExpenses('group-1', { filter })
+      expect(prisma.expense.findMany).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          where: expect.objectContaining({
+            OR: [
+              { title: { contains: filter, mode: 'insensitive' } },
+              { notes: { contains: filter, mode: 'insensitive' } },
+              { tags: { some: { normalizedName: { contains: 'café' } } } },
+            ],
+          }),
+        }),
+      )
+    },
+  )
+
   it('combines group ownership, any-tag membership and text search before pagination', async () => {
     await getGroupExpenses('group-1', {
       offset: 20,
@@ -487,11 +529,21 @@ describe('expense tags', () => {
       expect.objectContaining({
         where: {
           groupId: 'group-1',
-          tags: { some: { id: { in: ['trip', 'work'] }, groupId: 'group-1' } },
+          AND: [
+            {
+              OR: [
+                {
+                  tags: {
+                    some: { id: { in: ['trip', 'work'] }, groupId: 'group-1' },
+                  },
+                },
+              ],
+            },
+          ],
           OR: expect.arrayContaining([
             {
               tags: {
-                some: { name: { contains: 'trip', mode: 'insensitive' } },
+                some: { normalizedName: { contains: 'trip' } },
               },
             },
           ]),
@@ -501,10 +553,40 @@ describe('expense tags', () => {
       }),
     )
 
+    await getGroupExpenses('group-1', {
+      tagIds: ['trip'],
+      untagged: true,
+      filter: 'dinner',
+    })
+    expect(prisma.expense.findMany).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        where: {
+          groupId: 'group-1',
+          AND: [
+            {
+              OR: [
+                {
+                  tags: { some: { id: { in: ['trip'] }, groupId: 'group-1' } },
+                },
+                { tags: { none: {} } },
+              ],
+            },
+          ],
+          OR: expect.arrayContaining([
+            { title: { contains: 'dinner', mode: 'insensitive' } },
+          ]),
+        },
+      }),
+    )
+
     await getGroupExpenses('group-1', { untagged: true })
     expect(prisma.expense.findMany).toHaveBeenLastCalledWith(
       expect.objectContaining({
-        where: { groupId: 'group-1', tags: { none: {} }, OR: undefined },
+        where: {
+          groupId: 'group-1',
+          AND: [{ OR: [{ tags: { none: {} } }] }],
+          OR: undefined,
+        },
       }),
     )
   })

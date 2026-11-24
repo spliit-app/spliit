@@ -1,7 +1,7 @@
 import { TagSelector } from '@/components/tag-selector'
 import '@testing-library/jest-dom'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import { useState } from 'react'
+import { createRef, useState } from 'react'
 
 let mockIsDesktop = true
 jest.mock('@/lib/hooks', () => ({ useMediaQuery: () => mockIsDesktop }))
@@ -41,15 +41,20 @@ function Selector({
   allowCreate = true,
   maxTags = 10,
   onDelete,
+  options = [
+    { id: 'trip', name: 'Summer trip' },
+    { id: 'work', name: 'Work' },
+  ],
 }: {
   allowCreate?: boolean
-  onDelete?: (name: string) => Promise<void>
+  onDelete?: (tag: { id: string; name: string }) => Promise<void>
+  options?: { id: string; name: string }[]
   maxTags?: number
 }) {
   const [value, setValue] = useState<string[]>([])
   return (
     <TagSelector
-      options={['Summer trip', 'Work']}
+      options={options}
       value={value}
       onValueChange={setValue}
       allowCreate={allowCreate}
@@ -77,7 +82,7 @@ describe('TagSelector', () => {
   it('creates only after an explicit selection and reuses case-equivalent names', () => {
     render(<Selector />)
     fireEvent.click(screen.getByRole('button', { name: 'Select or add tag' }))
-    const search = screen.getByPlaceholderText('Search tags')
+    const search = screen.getByPlaceholderText('Search or add tags')
     fireEvent.change(search, { target: { value: 'New event' } })
     expect(
       screen.queryByRole('button', { name: 'Remove New event' }),
@@ -140,14 +145,19 @@ it.each([true, false])(
     mockIsDesktop = desktop
     const onDelete = jest.fn().mockResolvedValue(undefined)
     render(<Selector onDelete={onDelete} />)
-    fireEvent.click(screen.getByRole('button', { name: 'Select or add tag' }))
+    const trigger = screen.getByRole('button', { name: 'Select or add tag' })
+    trigger.focus()
+    fireEvent.click(trigger)
     fireEvent.click(screen.getByRole('checkbox', { name: 'Work' }))
-    fireEvent.click(screen.getByRole('button', { name: 'Delete tag Work' }))
+    const trash = screen.getByRole('button', { name: 'Delete tag Work' })
+    trash.focus()
+    fireEvent.click(trash)
     expect(screen.getByRole('dialog')).toHaveTextContent(
       'remove it from every expense',
     )
     expect(onDelete).not.toHaveBeenCalled()
     fireEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+    await waitFor(() => expect(trigger).toHaveFocus())
     expect(onDelete).not.toHaveBeenCalled()
     expect(
       screen.getByRole('button', { name: 'Remove Work' }),
@@ -155,26 +165,70 @@ it.each([true, false])(
     fireEvent.click(screen.getByRole('button', { name: 'Select or add tag' }))
     fireEvent.click(screen.getByRole('button', { name: 'Delete tag Work' }))
     fireEvent.click(screen.getByRole('button', { name: 'Delete tag' }))
-    await waitFor(() => expect(onDelete).toHaveBeenCalledWith('Work'))
+    await waitFor(() =>
+      expect(onDelete).toHaveBeenCalledWith({ id: 'work', name: 'Work' }),
+    )
     await waitFor(() =>
       expect(
         screen.queryByRole('button', { name: 'Remove Work' }),
       ).not.toBeInTheDocument(),
     )
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    await waitFor(() => expect(trigger).toHaveFocus())
   },
 )
+
+it('keeps the forwarded ref on the trigger when the responsive layout changes', () => {
+  const ref = createRef<HTMLButtonElement>()
+  const selector = () => (
+    <TagSelector
+      ref={ref}
+      options={[]}
+      value={[]}
+      onValueChange={jest.fn()}
+      allowCreate
+    />
+  )
+  const { rerender } = render(selector())
+  const desktopTrigger = ref.current
+  expect(ref.current).toBe(
+    screen.getByRole('button', { name: 'Select or add tag' }),
+  )
+  mockIsDesktop = false
+  rerender(selector())
+  expect(ref.current).not.toBe(desktopTrigger)
+  expect(ref.current).toBe(
+    screen.getByRole('button', { name: 'Select or add tag' }),
+  )
+})
 
 it('does not offer group deletion for an unsaved tag', () => {
   render(<Selector onDelete={jest.fn()} />)
   fireEvent.click(screen.getByRole('button', { name: 'Select or add tag' }))
-  fireEvent.change(screen.getByPlaceholderText('Search tags'), {
+  fireEvent.change(screen.getByPlaceholderText('Search or add tags'), {
     target: { value: 'Unsaved' },
   })
   fireEvent.click(screen.getByRole('button', { name: 'Create “Unsaved”' }))
   expect(
     screen.queryByRole('button', { name: 'Delete tag Unsaved' }),
   ).not.toBeInTheDocument()
+})
+
+it('keeps the original tag ID when options change during confirmation', async () => {
+  const onDelete = jest.fn().mockResolvedValue(undefined)
+  const { rerender } = render(<Selector onDelete={onDelete} />)
+  fireEvent.click(screen.getByRole('button', { name: 'Select or add tag' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Delete tag Work' }))
+  rerender(
+    <Selector
+      onDelete={onDelete}
+      options={[{ id: 'replacement', name: 'Work' }]}
+    />,
+  )
+  fireEvent.click(screen.getByRole('button', { name: 'Delete tag' }))
+  await waitFor(() =>
+    expect(onDelete).toHaveBeenCalledWith({ id: 'work', name: 'Work' }),
+  )
 })
 
 it('keeps the confirmation and selection when deletion fails', async () => {

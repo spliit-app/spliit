@@ -157,7 +157,12 @@ const ExpenseListForSearch = ({
     return (
       <div className="px-6 py-6 text-sm">
         <p>{tTags('noResults')}</p>
-        <Button type="button" variant="link" onClick={onClearFilters}>
+        <Button
+          type="button"
+          variant="link"
+          className="px-0"
+          onClick={onClearFilters}
+        >
           {tTags('clear')}
         </Button>
       </div>

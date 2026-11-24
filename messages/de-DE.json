@@ -602,10 +602,11 @@
   },
   "Tags": {
     "label": "Tags",
-    "description": "Optionale Zusammenhänge wie Reisen, Veranstaltungen oder Projekte. Tags ändern keine Salden.",
+    "description": "Zusätzlicher Kontext, etwa bestimmte Veranstaltungen",
     "select": "Tags auswählen",
     "selectOrAdd": "Tag auswählen oder hinzufügen",
     "search": "Tags suchen",
+    "searchOrAdd": "Tags suchen oder hinzufügen",
     "empty": "Keine passenden Tags.",
     "create": "„{name}“ erstellen",
     "selected": "{name}, ausgewählt",
@@ -617,17 +618,17 @@
     "clear": "Filter zurücksetzen",
     "noResults": "Keine Ausgaben entsprechen diesen Filtern.",
     "spending": "Ausgaben nach Tag",
-    "overlap": "Eine Ausgabe zählt für jeden ihrer Tags. Die Tag-Summen überschneiden sich und dürfen nicht addiert werden. Wähle einen Tag aus, um seine Ausgaben zu sehen.",
+    "overlap": "Eine Ausgabe zählt für jedes ihrer Tags. Wähle ein Tag aus, um seine Ausgaben zu sehen.",
     "noSpending": "In diesem Zeitraum gibt es keine Ausgaben.",
     "showExpenses": "Ausgaben für {name} anzeigen",
-    "details": "Ausgaben mit diesem Tag im ausgewählten Zeitraum. Rückzahlungen sind ausgeschlossen.",
+    "details": "Ausgaben mit diesem Tag im ausgewählten Zeitraum.",
     "loadError": "Ausgaben konnten nicht geladen werden. Schließe dieses Fenster und versuche es erneut.",
     "delete": "Tag {name} löschen",
     "deleteTitle": "Tag „{name}“ löschen?",
-    "deleteDescription": "Dieser Tag wird dauerhaft aus der Gruppe und von allen Ausgaben entfernt. Die Ausgaben und ihre Beträge bleiben erhalten.",
+    "deleteDescription": "Dieses Tag wird dauerhaft aus der Gruppe und von allen Ausgaben entfernt. Die Ausgaben und ihre Beträge bleiben erhalten.",
     "deleteConfirm": "Tag löschen",
     "deleteCancel": "Abbrechen",
     "deleting": "Wird gelöscht…",
-    "deleteError": "Der Tag konnte nicht gelöscht werden. Bitte versuche es erneut."
+    "deleteError": "Das Tag konnte nicht gelöscht werden. Bitte versuche es erneut."
   }
 }

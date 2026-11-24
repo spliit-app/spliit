@@ -107,6 +107,14 @@ export async function GET(
 
   */
 
+  const participantLabels = new Set(
+    group.participants.map((participant) => escapeCsvFormula(participant.name)),
+  )
+  let tagsLabel = 'Tags'
+  for (let suffix = 2; participantLabels.has(tagsLabel); suffix++) {
+    tagsLabel = `Tags (${suffix})`
+  }
+
   const fields = [
     { label: 'Date', value: 'date' },
     { label: 'Description', value: 'title' },
@@ -123,7 +131,7 @@ export async function GET(
       value: (row: { participantAmounts: Record<string, number> }) =>
         row.participantAmounts[participant.id],
     })),
-    { label: 'Tags', value: 'tags' },
+    { label: tagsLabel, value: 'tags' },
   ]
 
   const currency = getCurrencyFromGroup(group)
