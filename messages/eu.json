@@ -367,7 +367,9 @@
     "paidForMin1": "Gastua gutxienez kide batek ordaindu behar du.",
     "noZeroShares": "Parte guztiek zero baino handiagoak izan behar dute.",
     "amountSum": "Zenbatekoen baturak gastuaren zenbatekoa berdindu behar du.",
-    "percentageSum": "Ehunekoen baturak 100 izan behar du."
+    "percentageSum": "Ehunekoen baturak 100 izan behar du.",
+    "invalidTagName": "Erabili 1–50 karaktere, lerro-jauzirik edo kontrol-karaktererik gabe.",
+    "tooManyTags": "Gastu batek gehienez 10 etiketa izan ditzake."
   },
   "Categories": {
     "search": "Bilatu kategoria...",
@@ -455,5 +457,35 @@
     "updateTitle": "Eguneraketa eskuragarri",
     "updateDescription": "Spliit-en bertsio berri bat eskuragarri dago.",
     "reload": "Birkargatu"
+  },
+  "Tags": {
+    "label": "Etiketak",
+    "description": "Aukerako testuinguruak, hala nola bidaiak, ekitaldiak edo proiektuak. Etiketek ez dituzte saldoak aldatzen.",
+    "select": "Hautatu etiketak",
+    "selectOrAdd": "Hautatu edo gehitu etiketa",
+    "search": "Bilatu etiketak",
+    "empty": "Ez dago bat datorren etiketarik.",
+    "create": "Sortu «{name}»",
+    "selected": "{name}, hautatuta",
+    "remove": "Kendu {name}",
+    "invalidName": "Erabili 1–50 karaktere, lerro-jauzirik edo kontrol-karaktererik gabe.",
+    "limit": "Gehienez {count} etiketa hauta ditzakezu.",
+    "untagged": "Etiketarik gabe",
+    "filter": "Iragazi etiketen arabera",
+    "clear": "Garbitu iragazkiak",
+    "noResults": "Ez dago iragazki hauekin bat datorren gasturik.",
+    "spending": "Gastuak etiketaren arabera",
+    "overlap": "Gastu bat bere etiketa guztietan zenbatzen da. Guztizkoak gainjarri egiten dira eta ez dira batu behar. Hautatu etiketa bat haren gastuak ikusteko.",
+    "noSpending": "Ez dago gasturik epe honetan.",
+    "showExpenses": "Erakutsi {name} etiketaren gastuak",
+    "details": "Etiketa hau duten gastuak hautatutako epean. Itzulketak ez dira sartzen.",
+    "loadError": "Ezin izan dira gastuak kargatu. Itxi leiho hau eta saiatu berriro.",
+    "delete": "Ezabatu {name} etiketa",
+    "deleteTitle": "Ezabatu «{name}» etiketa?",
+    "deleteDescription": "Etiketa hau behin betiko ezabatuko da taldetik eta gastu guztietatik kenduko da. Gastuak eta haien zenbatekoak mantenduko dira.",
+    "deleteConfirm": "Ezabatu etiketa",
+    "deleteCancel": "Utzi",
+    "deleting": "Ezabatzen…",
+    "deleteError": "Ezin izan da etiketa ezabatu. Saiatu berriro."
   }
 }

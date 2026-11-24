@@ -1,6 +1,7 @@
 'use client'
 
 import { ExpenseCard } from '@/app/groups/[groupId]/expenses/expense-card'
+import { TagFilterButton } from '@/components/tag-filter-button'
 import { Button } from '@/components/ui/button'
 import { SearchBar } from '@/components/ui/search-bar'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -24,6 +25,17 @@ const PAGE_SIZE = 20
 export function ExpenseList() {
   const { groupId, group } = useCurrentGroup()
   const [searchText, setSearchText] = useState('')
+  const [searchReset, setSearchReset] = useState(0)
+  const [tagIds, setTagIds] = useState<string[]>([])
+  const [untagged, setUntagged] = useState(false)
+  const { data: tagsData } = trpc.groups.tags.useQuery({ groupId })
+  const tags = tagsData?.tags ?? []
+  const clearFilters = () => {
+    setSearchText('')
+    setSearchReset((value) => value + 1)
+    setTagIds([])
+    setUntagged(false)
+  }
   const [debouncedSearchText] = useDebounce(searchText, 300)
 
   const participants = group?.participants
@@ -51,13 +63,29 @@ export function ExpenseList() {
 
   return (
     <>
-      <SearchBar
-        maxLength={200}
-        onValueChange={(value) => setSearchText(value)}
-      />
+      <div className="mx-4 flex items-center gap-2 sm:mx-6">
+        <SearchBar
+          key={searchReset}
+          maxLength={200}
+          containerClassName="mx-0 min-w-0 flex-1 sm:mx-0"
+          onValueChange={(value) => setSearchText(value)}
+        />
+        <TagFilterButton
+          tags={tags}
+          value={tagIds}
+          untagged={untagged}
+          onValueChange={(ids, onlyUntagged) => {
+            setTagIds(ids)
+            setUntagged(onlyUntagged)
+          }}
+        />
+      </div>
       <ExpenseListForSearch
         groupId={groupId}
         searchText={debouncedSearchText}
+        tagIds={tagIds}
+        untagged={untagged}
+        onClearFilters={clearFilters}
       />
     </>
   )
@@ -66,9 +94,15 @@ export function ExpenseList() {
 const ExpenseListForSearch = ({
   groupId,
   searchText,
+  tagIds,
+  untagged,
+  onClearFilters,
 }: {
   groupId: string
   searchText: string
+  tagIds: string[]
+  untagged: boolean
+  onClearFilters: () => void
 }) => {
   const utils = trpc.useUtils()
   const { group } = useCurrentGroup()
@@ -77,9 +111,11 @@ const ExpenseListForSearch = ({
     // Until we use tRPC more widely and can invalidate the cache on expense
     // update, it's easier and safer to invalidate the cache on page load.
     utils.groups.expenses.invalidate()
+    utils.groups.tags.invalidate()
   }, [utils])
 
   const t = useTranslations('Expenses')
+  const tTags = useTranslations('Tags')
   const locale = useLocale()
   const weekStartsOn = getWeekStartsOn(locale)
   const { ref: loadingRef, inView } = useInView()
@@ -89,8 +125,11 @@ const ExpenseListForSearch = ({
     isLoading: expensesAreLoading,
     fetchNextPage,
   } = trpc.groups.expenses.list.useInfiniteQuery(
-    { groupId, limit: PAGE_SIZE, filter: searchText },
-    { getNextPageParam: ({ nextCursor }) => nextCursor },
+    { groupId, limit: PAGE_SIZE, filter: searchText, tagIds, untagged },
+    {
+      getNextPageParam: ({ hasMore, nextCursor }) =>
+        hasMore ? nextCursor : undefined,
+    },
   )
   // Memoised so the bucketing below is only redone when a page arrives, not on
   // every render (a fresh `flatMap` array would defeat its `useMemo`).
@@ -113,6 +152,16 @@ const ExpenseListForSearch = ({
   )
 
   if (isLoading) return <ExpensesLoading />
+
+  if (expenses.length === 0 && (searchText || tagIds.length > 0 || untagged))
+    return (
+      <div className="px-6 py-6 text-sm">
+        <p>{tTags('noResults')}</p>
+        <Button type="button" variant="link" onClick={onClearFilters}>
+          {tTags('clear')}
+        </Button>
+      </div>
+    )
 
   if (expenses.length === 0)
     return (

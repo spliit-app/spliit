@@ -4,6 +4,7 @@ import {
   getGroupExpenses,
 } from '@/lib/api'
 import { getMonthlyCategorySpending } from '@/lib/monthly-spending'
+import { getSpendingByTag } from '@/lib/tags'
 import {
   filterExpensesByDateRange,
   getRecurringSpending,
@@ -41,7 +42,7 @@ export const getStatsOverviewProcedure = baseProcedure
     // each other (the second is a no-op once the first has materialized).
     const [group, allExpenses] = await Promise.all([
       getGroup(groupId),
-      getGroupExpenses(groupId),
+      getGroupExpenses(groupId, { includeTags: true }),
     ])
     const recurringExpenses = await getActiveRecurringExpenses(groupId)
 
@@ -67,6 +68,7 @@ export const getStatsOverviewProcedure = baseProcedure
       }),
       participants: getSpendingByParticipant(participants, expenses),
       categories: getSpendingByCategory(expenses),
+      tags: getSpendingByTag(expenses),
       recurring: getRecurringSpending(recurringExpenses),
     }
   })

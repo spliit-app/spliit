@@ -391,7 +391,9 @@
     "percentageSum": "A százalékos értékek összege {sum}%, ami {difference}%-kal {direction, select, over {több} other {kevesebb}}, mint 100%.",
     "max10000": "Maximum 10 000 karaktert adhatsz meg.",
     "max5000": "Maximum 5 000 karaktert adhatsz meg.",
-    "max200": "Maximum 200 karaktert adhatsz meg."
+    "max200": "Maximum 200 karaktert adhatsz meg.",
+    "invalidTagName": "Használj 1–50 karaktert sortörések és vezérlőkarakterek nélkül.",
+    "tooManyTags": "Egy kiadáshoz legfeljebb 10 címke tartozhat."
   },
   "Categories": {
     "search": "Keresés kategóriák közt...",
@@ -481,5 +483,35 @@
     "generic": "Kérjük próbáld újra! Ha továbbra is ez történik, töltsd újra az oldalt.",
     "groupTitle": "Nem sikerült betölteni a csoportot",
     "title": "Valami elromlott"
+  },
+  "Tags": {
+    "label": "Címkék",
+    "description": "Opcionális kontextusok, például utazások, események vagy projektek. A címkék nem módosítják az egyenlegeket.",
+    "select": "Címkék kiválasztása",
+    "selectOrAdd": "Címke kiválasztása vagy hozzáadása",
+    "search": "Címkék keresése",
+    "empty": "Nincs megfelelő címke.",
+    "create": "„{name}” létrehozása",
+    "selected": "{name}, kiválasztva",
+    "remove": "{name} eltávolítása",
+    "invalidName": "Használj 1–50 karaktert sortörések és vezérlőkarakterek nélkül.",
+    "limit": "Legfeljebb {count} címkét választhatsz ki.",
+    "untagged": "Címke nélkül",
+    "filter": "Szűrés címkék szerint",
+    "clear": "Szűrők törlése",
+    "noResults": "Nincs a szűrőknek megfelelő kiadás.",
+    "spending": "Kiadások címkénként",
+    "overlap": "Egy kiadás minden hozzá tartozó címkébe beleszámít. Az összegek átfedik egymást, ezért nem adhatók össze. Válassz ki egy címkét a kiadásai megtekintéséhez.",
+    "noSpending": "Ebben az időszakban nincsenek kiadások.",
+    "showExpenses": "A(z) {name} kiadásainak megjelenítése",
+    "details": "Az ezzel a címkével ellátott kiadások a kiválasztott időszakban. A visszafizetések nem számítanak bele.",
+    "loadError": "Nem sikerült betölteni a kiadásokat. Zárd be ezt az ablakot, és próbáld újra.",
+    "delete": "A(z) {name} címke törlése",
+    "deleteTitle": "Törlöd a(z) „{name}” címkét?",
+    "deleteDescription": "Ez véglegesen törli a címkét a csoportból, és eltávolítja az összes kiadásról. A kiadások és összegeik megmaradnak.",
+    "deleteConfirm": "Címke törlése",
+    "deleteCancel": "Mégse",
+    "deleting": "Törlés…",
+    "deleteError": "Nem sikerült törölni a címkét. Próbáld újra."
   }
 }

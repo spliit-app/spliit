@@ -367,7 +367,9 @@
     "noZeroShares": "Tüm paylar 0'dan büyük olmalıdır.",
     "amountSum": "Tutarların toplamı masraf tutarına eşit olmalıdır.",
     "percentageSum": "Yüzdelerin toplamı 100 olmalıdır.",
-    "ratePositive": "Kur sıfırdan büyük olmalı."
+    "ratePositive": "Kur sıfırdan büyük olmalı.",
+    "invalidTagName": "Satır sonu veya kontrol karakteri içermeyen 1–50 karakter kullanın.",
+    "tooManyTags": "Bir harcamanın en fazla 10 etiketi olabilir."
   },
   "Categories": {
     "search": "Kategori ara...",
@@ -455,5 +457,35 @@
     "updateTitle": "Güncelleme mevcut",
     "updateDescription": "Spliit'in yeni bir sürümü mevcut.",
     "reload": "Yeniden yükle"
+  },
+  "Tags": {
+    "label": "Etiketler",
+    "description": "Seyahat, etkinlik veya proje gibi isteğe bağlı bağlamlar. Etiketler bakiyeleri değiştirmez.",
+    "select": "Etiket seç",
+    "selectOrAdd": "Etiket seç veya ekle",
+    "search": "Etiket ara",
+    "empty": "Eşleşen etiket yok.",
+    "create": "“{name}” oluştur",
+    "selected": "{name}, seçili",
+    "remove": "{name} etiketini kaldır",
+    "invalidName": "Satır sonu veya kontrol karakteri içermeyen 1–50 karakter kullanın.",
+    "limit": "En fazla {count} etiket seçebilirsiniz.",
+    "untagged": "Etiketsiz",
+    "filter": "Etikete göre filtrele",
+    "clear": "Filtreleri temizle",
+    "noResults": "Bu filtrelerle eşleşen harcama yok.",
+    "spending": "Etikete göre harcamalar",
+    "overlap": "Bir harcama, tüm etiketlerinde sayılır. Etiket toplamları örtüşür ve bir araya toplanmamalıdır. Harcamalarını görmek için bir etiket seçin.",
+    "noSpending": "Bu dönemde harcama yok.",
+    "showExpenses": "{name} için harcamaları göster",
+    "details": "Seçilen dönemde bu etikete sahip harcamalar. Geri ödemeler dahil değildir.",
+    "loadError": "Harcamalar yüklenemedi. Bu pencereyi kapatıp tekrar deneyin.",
+    "delete": "{name} etiketini sil",
+    "deleteTitle": "“{name}” etiketi silinsin mi?",
+    "deleteDescription": "Bu etiket gruptan kalıcı olarak silinecek ve tüm harcamalardan kaldırılacaktır. Harcamalar ve tutarları korunacaktır.",
+    "deleteConfirm": "Etiketi sil",
+    "deleteCancel": "İptal",
+    "deleting": "Siliniyor…",
+    "deleteError": "Etiket silinemedi. Lütfen tekrar deneyin."
   }
 }

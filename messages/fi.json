@@ -308,7 +308,9 @@
     "paidForMin1": "Valitse vähintään yksi osallistuja.",
     "noZeroShares": "Jokaisen osuuden täytyy olla suurempi kuin 0.",
     "amountSum": "Osuuksien summan täytyy vastata kulun summaa.",
-    "percentageSum": "Prosenttiosuuksien summan täytyy olla 100."
+    "percentageSum": "Prosenttiosuuksien summan täytyy olla 100.",
+    "invalidTagName": "Käytä 1–50 merkkiä ilman rivinvaihtoja tai ohjausmerkkejä.",
+    "tooManyTags": "Kululla voi olla enintään 10 tunnistetta."
   },
   "Categories": {
     "search": "Etsi kategoriaa...",
@@ -382,5 +384,35 @@
     "updateTitle": "Päivitys saatavilla",
     "updateDescription": "Spliitistä on saatavilla uusi versio.",
     "reload": "Lataa uudelleen"
+  },
+  "Tags": {
+    "label": "Tunnisteet",
+    "description": "Valinnaiset yhteydet, kuten matkat, tapahtumat tai projektit. Tunnisteet eivät muuta saldoja.",
+    "select": "Valitse tunnisteet",
+    "selectOrAdd": "Valitse tai lisää tunniste",
+    "search": "Hae tunnisteita",
+    "empty": "Vastaavia tunnisteita ei löytynyt.",
+    "create": "Luo ”{name}”",
+    "selected": "{name}, valittu",
+    "remove": "Poista {name}",
+    "invalidName": "Käytä 1–50 merkkiä ilman rivinvaihtoja tai ohjausmerkkejä.",
+    "limit": "Voit valita enintään {count} tunnistetta.",
+    "untagged": "Ilman tunnisteita",
+    "filter": "Suodata tunnisteilla",
+    "clear": "Tyhjennä suodattimet",
+    "noResults": "Mikään kulu ei vastaa näitä suodattimia.",
+    "spending": "Kulut tunnisteittain",
+    "overlap": "Kulu lasketaan mukaan jokaiseen tunnisteeseensa. Summat ovat päällekkäisiä, eikä niitä pidä laskea yhteen. Valitse tunniste nähdäksesi sen kulut.",
+    "noSpending": "Tällä ajanjaksolla ei ole kuluja.",
+    "showExpenses": "Näytä tunnisteen {name} kulut",
+    "details": "Tällä tunnisteella merkityt kulut valitulla ajanjaksolla. Takaisinmaksuja ei lasketa mukaan.",
+    "loadError": "Kulujen lataaminen epäonnistui. Sulje tämä ikkuna ja yritä uudelleen.",
+    "delete": "Poista tunniste {name}",
+    "deleteTitle": "Poistetaanko tunniste ”{name}”?",
+    "deleteDescription": "Tunniste poistetaan pysyvästi ryhmästä ja kaikista kuluista. Kulut ja niiden summat säilytetään.",
+    "deleteConfirm": "Poista tunniste",
+    "deleteCancel": "Peruuta",
+    "deleting": "Poistetaan…",
+    "deleteError": "Tunnisteen poistaminen epäonnistui. Yritä uudelleen."
   }
 }

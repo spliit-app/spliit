@@ -473,7 +473,9 @@
     "percentageSum": "Procentai susisumuoja iki {sum}%, {difference}% {kryptis, pasirinkite, daugiau {more} mažiau {less}} nei 100%.",
     "max200": "Įveskite ne daugiau kaip 200 simbolių.",
     "max5000": "Įveskite ne daugiau kaip 5000 simbolių.",
-    "max10000": "Įveskite ne daugiau kaip 10 000 simbolių."
+    "max10000": "Įveskite ne daugiau kaip 10 000 simbolių.",
+    "invalidTagName": "Naudokite 1–50 simbolių be eilučių lūžių ar valdymo simbolių.",
+    "tooManyTags": "Išlaidos gali turėti iki 10 žymų."
   },
   "Categories": {
     "search": "Ieškoti kategorijos…",
@@ -568,5 +570,35 @@
     "updateTitle": "Galimas atnaujinimas",
     "updateDescription": "Išleista nauja „Spliit“ versija.",
     "reload": "Įkelti iš naujo"
+  },
+  "Tags": {
+    "label": "Žymos",
+    "description": "Pasirenkami kontekstai, pvz., kelionės, renginiai ar projektai. Žymos nekeičia likučių.",
+    "select": "Pasirinkti žymas",
+    "selectOrAdd": "Pasirinkti arba pridėti žymą",
+    "search": "Ieškoti žymų",
+    "empty": "Atitinkančių žymų nėra.",
+    "create": "Sukurti „{name}“",
+    "selected": "{name}, pasirinkta",
+    "remove": "Pašalinti {name}",
+    "invalidName": "Naudokite 1–50 simbolių be eilučių lūžių ar valdymo simbolių.",
+    "limit": "Galite pasirinkti iki {count} žymų.",
+    "untagged": "Be žymų",
+    "filter": "Filtruoti pagal žymas",
+    "clear": "Išvalyti filtrus",
+    "noResults": "Jokios išlaidos neatitinka šių filtrų.",
+    "spending": "Išlaidos pagal žymą",
+    "overlap": "Išlaidos įskaičiuojamos į kiekvieną joms priskirtą žymą. Sumos persidengia, todėl jų negalima sudėti. Pasirinkite žymą, kad matytumėte jos išlaidas.",
+    "noSpending": "Šiuo laikotarpiu išlaidų nėra.",
+    "showExpenses": "Rodyti žymos {name} išlaidas",
+    "details": "Išlaidos su šia žyma pasirinktu laikotarpiu. Grąžinimai neįtraukiami.",
+    "loadError": "Nepavyko įkelti išlaidų. Uždarykite šį langą ir bandykite dar kartą.",
+    "delete": "Ištrinti žymą {name}",
+    "deleteTitle": "Ištrinti žymą „{name}“?",
+    "deleteDescription": "Ši žyma bus visam laikui ištrinta iš grupės ir pašalinta iš visų išlaidų. Išlaidos ir jų sumos bus išsaugotos.",
+    "deleteConfirm": "Ištrinti žymą",
+    "deleteCancel": "Atšaukti",
+    "deleting": "Trinama…",
+    "deleteError": "Nepavyko ištrinti žymos. Bandykite dar kartą."
   }
 }

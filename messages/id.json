@@ -380,7 +380,9 @@
     "paidForMin1": "Pengeluaran harus dibayarkan untuk setidaknya satu peserta.",
     "noZeroShares": "Semua porsi harus lebih tinggi dari 0.",
     "amountSum": "Total harus sama dengan jumlah pengeluaran.",
-    "percentageSum": "Total persentase harus sama dengan 100."
+    "percentageSum": "Total persentase harus sama dengan 100.",
+    "invalidTagName": "Gunakan 1–50 karakter tanpa baris baru atau karakter kontrol.",
+    "tooManyTags": "Satu pengeluaran dapat memiliki hingga 10 tag."
   },
   "Categories": {
     "search": "Cari kategori...",
@@ -455,5 +457,35 @@
     "updateTitle": "Pembaruan tersedia",
     "updateDescription": "Versi baru Spliit tersedia.",
     "reload": "Muat ulang"
+  },
+  "Tags": {
+    "label": "Tag",
+    "description": "Konteks opsional seperti perjalanan, acara, atau proyek. Tag tidak mengubah saldo.",
+    "select": "Pilih tag",
+    "selectOrAdd": "Pilih atau tambahkan tag",
+    "search": "Cari tag",
+    "empty": "Tidak ada tag yang cocok.",
+    "create": "Buat “{name}”",
+    "selected": "{name}, dipilih",
+    "remove": "Hapus {name}",
+    "invalidName": "Gunakan 1–50 karakter tanpa baris baru atau karakter kontrol.",
+    "limit": "Anda dapat memilih hingga {count} tag.",
+    "untagged": "Tanpa tag",
+    "filter": "Filter berdasarkan tag",
+    "clear": "Hapus filter",
+    "noResults": "Tidak ada pengeluaran yang cocok dengan filter ini.",
+    "spending": "Pengeluaran per tag",
+    "overlap": "Pengeluaran dihitung dalam setiap tagnya. Total tag saling tumpang tindih dan tidak boleh dijumlahkan. Pilih tag untuk melihat pengeluarannya.",
+    "noSpending": "Tidak ada pengeluaran dalam periode ini.",
+    "showExpenses": "Tampilkan pengeluaran untuk {name}",
+    "details": "Pengeluaran dengan tag ini dalam periode yang dipilih. Pembayaran kembali tidak disertakan.",
+    "loadError": "Pengeluaran tidak dapat dimuat. Tutup jendela ini dan coba lagi.",
+    "delete": "Hapus tag {name}",
+    "deleteTitle": "Hapus tag “{name}”?",
+    "deleteDescription": "Tag ini akan dihapus secara permanen dari grup dan dari semua pengeluaran. Pengeluaran dan jumlahnya tetap disimpan.",
+    "deleteConfirm": "Hapus tag",
+    "deleteCancel": "Batal",
+    "deleting": "Menghapus…",
+    "deleteError": "Tag tidak dapat dihapus. Coba lagi."
   }
 }

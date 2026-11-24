@@ -21,6 +21,7 @@ model Group {
   currencyCode String?
   participants Participant[]
   expenses     Expense[]
+  tags         Tag[]
   activities   Activity[]
   createdAt    DateTime      @default(now())
   deleteAt     DateTime?
@@ -62,10 +63,22 @@ model Expense {
   createdAt        DateTime          @default(now())
   documents        ExpenseDocument[]
   notes            String?
+  tags             Tag[]
 
   recurrenceRule         RecurrenceRule?       @default(NONE)
   recurringExpenseLink   RecurringExpenseLink?
   recurringExpenseLinkId String?
+}
+
+model Tag {
+  id             String    @id
+  group          Group     @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  groupId        String
+  name           String
+  normalizedName String
+  expenses       Expense[]
+
+  @@unique([groupId, normalizedName])
 }
 
 model ExpenseDocument {

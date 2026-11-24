@@ -426,7 +426,9 @@
     "noZeroShares": "所有份额必须大于0。",
     "amountSum": "金额之和必须等于消费的金额。",
     "percentageSum": "百分比之和必须等于100。",
-    "ratePositive": "汇率必须为正数（大于0）。"
+    "ratePositive": "汇率必须为正数（大于0）。",
+    "invalidTagName": "请输入 1–50 个字符，不得包含换行符或控制字符。",
+    "tooManyTags": "每笔支出最多可有 10 个标签。"
   },
   "Categories": {
     "search": "搜寻类别……",
@@ -514,5 +516,35 @@
     "updateTitle": "有可用更新",
     "updateDescription": "Spliit 有新版本可用。",
     "reload": "重新加载"
+  },
+  "Tags": {
+    "label": "标签",
+    "description": "可选的上下文，例如旅行、活动或项目。标签不会改变余额。",
+    "select": "选择标签",
+    "selectOrAdd": "选择或添加标签",
+    "search": "搜索标签",
+    "empty": "没有匹配的标签。",
+    "create": "创建“{name}”",
+    "selected": "{name}，已选择",
+    "remove": "移除 {name}",
+    "invalidName": "请输入 1–50 个字符，不得包含换行符或控制字符。",
+    "limit": "最多可选择 {count} 个标签。",
+    "untagged": "无标签",
+    "filter": "按标签筛选",
+    "clear": "清除筛选条件",
+    "noResults": "没有符合这些筛选条件的支出。",
+    "spending": "按标签统计支出",
+    "overlap": "一笔支出会计入其所有标签。各标签的总额存在重叠，不应相加。选择标签可查看对应支出。",
+    "noSpending": "此期间没有支出。",
+    "showExpenses": "查看 {name} 的支出",
+    "details": "所选期间内带有此标签的支出。不包括还款。",
+    "loadError": "无法加载支出。请关闭此窗口后重试。",
+    "delete": "删除标签 {name}",
+    "deleteTitle": "删除标签“{name}”？",
+    "deleteDescription": "此标签将从群组中永久删除，并从所有支出中移除。支出及其金额将保留。",
+    "deleteConfirm": "删除标签",
+    "deleteCancel": "取消",
+    "deleting": "正在删除…",
+    "deleteError": "无法删除标签，请重试。"
   }
 }

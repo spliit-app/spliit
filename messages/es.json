@@ -434,7 +434,9 @@
     "noZeroShares": "Todas las partes deben ser mayor que 0.",
     "amountSum": "La suma de los importes debe ser igual al importe del gasto total.",
     "percentageSum": "Suma de porcentajes debe ser igual a 100.",
-    "ratePositive": "La tasa debe ser mayor a cero."
+    "ratePositive": "La tasa debe ser mayor a cero.",
+    "invalidTagName": "Usa entre 1 y 50 caracteres, sin saltos de línea ni caracteres de control.",
+    "tooManyTags": "Un gasto puede tener hasta 10 etiquetas."
   },
   "Categories": {
     "search": "Buscar categoría...",
@@ -522,5 +524,35 @@
     "updateTitle": "Actualización disponible",
     "updateDescription": "Hay una nueva versión de Spliit disponible.",
     "reload": "Recargar"
+  },
+  "Tags": {
+    "label": "Etiquetas",
+    "description": "Contextos opcionales como viajes, eventos o proyectos. Las etiquetas no modifican los saldos.",
+    "select": "Seleccionar etiquetas",
+    "selectOrAdd": "Seleccionar o añadir una etiqueta",
+    "search": "Buscar etiquetas",
+    "empty": "No hay etiquetas coincidentes.",
+    "create": "Crear «{name}»",
+    "selected": "{name}, seleccionada",
+    "remove": "Quitar {name}",
+    "invalidName": "Usa entre 1 y 50 caracteres, sin saltos de línea ni caracteres de control.",
+    "limit": "Puedes seleccionar hasta {count} etiquetas.",
+    "untagged": "Sin etiquetas",
+    "filter": "Filtrar por etiquetas",
+    "clear": "Borrar filtros",
+    "noResults": "Ningún gasto coincide con estos filtros.",
+    "spending": "Gastos por etiqueta",
+    "overlap": "Un gasto se cuenta en cada una de sus etiquetas. Los totales se solapan y no deben sumarse. Selecciona una etiqueta para ver sus gastos.",
+    "noSpending": "No hay gastos en este período.",
+    "showExpenses": "Mostrar gastos de {name}",
+    "details": "Gastos con esta etiqueta en el período seleccionado. Se excluyen los reembolsos.",
+    "loadError": "No se pueden cargar los gastos. Cierra esta ventana e inténtalo de nuevo.",
+    "delete": "Eliminar la etiqueta {name}",
+    "deleteTitle": "¿Eliminar la etiqueta «{name}»?",
+    "deleteDescription": "Esta etiqueta se eliminará permanentemente del grupo y de todos los gastos. Los gastos y sus importes se conservarán.",
+    "deleteConfirm": "Eliminar etiqueta",
+    "deleteCancel": "Cancelar",
+    "deleting": "Eliminando…",
+    "deleteError": "No se pudo eliminar la etiqueta. Inténtalo de nuevo."
   }
 }

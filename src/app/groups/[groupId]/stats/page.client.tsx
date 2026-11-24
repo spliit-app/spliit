@@ -13,6 +13,7 @@ import {
 } from '@/app/groups/[groupId]/stats/stats-range'
 import { StatsRangeSelector } from '@/app/groups/[groupId]/stats/stats-range-selector'
 import { SummaryStats } from '@/app/groups/[groupId]/stats/summary-stats'
+import { TagBreakdown } from '@/app/groups/[groupId]/stats/tag-breakdown'
 import { Totals } from '@/app/groups/[groupId]/stats/totals'
 import {
   Card,
@@ -92,6 +93,15 @@ export function TotalsPageClient() {
         from={range.from}
         to={range.to}
       />
+      {data?.tags.some((tag) => tag.tagId !== null) && (
+        <TagBreakdown
+          groupId={groupId}
+          tags={data.tags}
+          currency={currency}
+          from={range.from}
+          to={range.to}
+        />
+      )}
       <RecurringSpendingStats recurring={data?.recurring} currency={currency} />
     </>
   )

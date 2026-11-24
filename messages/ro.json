@@ -318,7 +318,9 @@
     "paidForMin1": "Cheltuiala trebuie plătită pentru cel puțin un membru.",
     "noZeroShares": "Toate părțile trebuie să fie mai mari de 0.",
     "amountSum": "Suma valorilor trebuie să fie egală cu suma cheltuielilor.",
-    "percentageSum": "Suma procentajelor trebuie să fie egală cu 100."
+    "percentageSum": "Suma procentajelor trebuie să fie egală cu 100.",
+    "invalidTagName": "Folosește între 1 și 50 de caractere, fără întreruperi de linie sau caractere de control.",
+    "tooManyTags": "O cheltuială poate avea cel mult 10 etichete."
   },
   "Categories": {
     "search": "Căutați categorie…",
@@ -392,5 +394,35 @@
     "updateTitle": "Actualizare disponibilă",
     "updateDescription": "O nouă versiune de Spliit este disponibilă.",
     "reload": "Reîncarcă"
+  },
+  "Tags": {
+    "label": "Etichete",
+    "description": "Contexte opționale, precum călătorii, evenimente sau proiecte. Etichetele nu modifică soldurile.",
+    "select": "Selectează etichete",
+    "selectOrAdd": "Selectează sau adaugă o etichetă",
+    "search": "Caută etichete",
+    "empty": "Nu există etichete potrivite.",
+    "create": "Creează „{name}”",
+    "selected": "{name}, selectată",
+    "remove": "Elimină {name}",
+    "invalidName": "Folosește între 1 și 50 de caractere, fără întreruperi de linie sau caractere de control.",
+    "limit": "Poți selecta cel mult {count} etichete.",
+    "untagged": "Fără etichete",
+    "filter": "Filtrează după etichete",
+    "clear": "Șterge filtrele",
+    "noResults": "Nicio cheltuială nu corespunde acestor filtre.",
+    "spending": "Cheltuieli după etichetă",
+    "overlap": "O cheltuială este inclusă în fiecare dintre etichetele sale. Totalurile se suprapun și nu trebuie adunate. Selectează o etichetă pentru a vedea cheltuielile sale.",
+    "noSpending": "Nu există cheltuieli în această perioadă.",
+    "showExpenses": "Arată cheltuielile pentru {name}",
+    "details": "Cheltuieli cu această etichetă în perioada selectată. Rambursările sunt excluse.",
+    "loadError": "Cheltuielile nu au putut fi încărcate. Închide această fereastră și încearcă din nou.",
+    "delete": "Șterge eticheta {name}",
+    "deleteTitle": "Ștergi eticheta „{name}”?",
+    "deleteDescription": "Această etichetă va fi ștearsă definitiv din grup și eliminată din toate cheltuielile. Cheltuielile și sumele lor vor fi păstrate.",
+    "deleteConfirm": "Șterge eticheta",
+    "deleteCancel": "Anulează",
+    "deleting": "Se șterge…",
+    "deleteError": "Eticheta nu a putut fi ștearsă. Încearcă din nou."
   }
 }

@@ -451,7 +451,9 @@
     "noZeroShares": "Todas as partes devem ser maiores que 0.",
     "amountSum": "A soma dos valores deve ser igual ao valor da despesa.",
     "percentageSum": "A soma das porcentagens deve ser igual a 100.",
-    "ratePositive": "A taxa deve ser maior que zero."
+    "ratePositive": "A taxa deve ser maior que zero.",
+    "invalidTagName": "Use de 1 a 50 caracteres, sem quebras de linha ou caracteres de controle.",
+    "tooManyTags": "Uma despesa pode ter até 10 etiquetas."
   },
   "Categories": {
     "search": "Pesquisar categoria...",
@@ -545,5 +547,35 @@
     "groupTitle": "Não foi possível carregar esse grupo",
     "generic": "Por favor tente novamente. Caso o erro continue, recarregue a página.",
     "retry": "Tente novamente"
+  },
+  "Tags": {
+    "label": "Etiquetas",
+    "description": "Contextos opcionais como viagens, eventos ou projetos. As etiquetas não alteram os saldos.",
+    "select": "Selecionar etiquetas",
+    "selectOrAdd": "Selecionar ou adicionar uma etiqueta",
+    "search": "Buscar etiquetas",
+    "empty": "Nenhuma etiqueta correspondente.",
+    "create": "Criar “{name}”",
+    "selected": "{name}, selecionada",
+    "remove": "Remover {name}",
+    "invalidName": "Use de 1 a 50 caracteres, sem quebras de linha ou caracteres de controle.",
+    "limit": "Você pode selecionar até {count} etiquetas.",
+    "untagged": "Sem etiquetas",
+    "filter": "Filtrar por etiquetas",
+    "clear": "Limpar filtros",
+    "noResults": "Nenhuma despesa corresponde a estes filtros.",
+    "spending": "Despesas por etiqueta",
+    "overlap": "Uma despesa é contabilizada em cada uma de suas etiquetas. Os totais se sobrepõem e não devem ser somados. Selecione uma etiqueta para ver suas despesas.",
+    "noSpending": "Não há despesas neste período.",
+    "showExpenses": "Mostrar despesas de {name}",
+    "details": "Despesas com esta etiqueta no período selecionado. Os reembolsos são excluídos.",
+    "loadError": "Não foi possível carregar as despesas. Feche esta janela e tente novamente.",
+    "delete": "Excluir a etiqueta {name}",
+    "deleteTitle": "Excluir a etiqueta “{name}”?",
+    "deleteDescription": "Esta etiqueta será excluída permanentemente do grupo e removida de todas as despesas. As despesas e seus valores serão mantidos.",
+    "deleteConfirm": "Excluir etiqueta",
+    "deleteCancel": "Cancelar",
+    "deleting": "Excluindo…",
+    "deleteError": "Não foi possível excluir a etiqueta. Tente novamente."
   }
 }

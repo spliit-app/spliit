@@ -473,7 +473,9 @@
     "ratePositive": "Il tasso deve essere strettamente maggiore di zero.",
     "max200": "Inserisci al massimo 200 caratteri.",
     "max5000": "Inserisci al massimo 5.000 caratteri.",
-    "max10000": "Inserisci al massimo 10.000 caratteri."
+    "max10000": "Inserisci al massimo 10.000 caratteri.",
+    "invalidTagName": "Usa da 1 a 50 caratteri senza interruzioni di riga o caratteri di controllo.",
+    "tooManyTags": "Una spesa può avere fino a 10 etichette."
   },
   "Categories": {
     "search": "Cerca categoria...",
@@ -568,5 +570,35 @@
     "generic": "Riprova. Se il problema persiste, ricarica la pagina.",
     "reference": "Riferimento: {digest}",
     "retry": "Riprova"
+  },
+  "Tags": {
+    "label": "Etichette",
+    "description": "Contesti facoltativi come viaggi, eventi o progetti. Le etichette non modificano i saldi.",
+    "select": "Seleziona etichette",
+    "selectOrAdd": "Seleziona o aggiungi un’etichetta",
+    "search": "Cerca etichette",
+    "empty": "Nessuna etichetta corrispondente.",
+    "create": "Crea «{name}»",
+    "selected": "{name}, selezionata",
+    "remove": "Rimuovi {name}",
+    "invalidName": "Usa da 1 a 50 caratteri senza interruzioni di riga o caratteri di controllo.",
+    "limit": "Puoi selezionare fino a {count} etichette.",
+    "untagged": "Senza etichette",
+    "filter": "Filtra per etichette",
+    "clear": "Cancella filtri",
+    "noResults": "Nessuna spesa corrisponde a questi filtri.",
+    "spending": "Spese per etichetta",
+    "overlap": "Una spesa viene conteggiata in ciascuna delle sue etichette. I totali si sovrappongono e non devono essere sommati. Seleziona un’etichetta per vedere le relative spese.",
+    "noSpending": "Non ci sono spese in questo periodo.",
+    "showExpenses": "Mostra le spese per {name}",
+    "details": "Spese con questa etichetta nel periodo selezionato. I rimborsi sono esclusi.",
+    "loadError": "Impossibile caricare le spese. Chiudi questa finestra e riprova.",
+    "delete": "Elimina l’etichetta {name}",
+    "deleteTitle": "Eliminare l’etichetta «{name}»?",
+    "deleteDescription": "Questa etichetta verrà eliminata definitivamente dal gruppo e rimossa da tutte le spese. Le spese e i relativi importi verranno conservati.",
+    "deleteConfirm": "Elimina etichetta",
+    "deleteCancel": "Annulla",
+    "deleting": "Eliminazione…",
+    "deleteError": "Impossibile eliminare l’etichetta. Riprova."
   }
 }

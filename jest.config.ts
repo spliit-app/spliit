@@ -13,6 +13,7 @@ const config: Config = {
   // Jest's default testMatch would pick up the Playwright specs in e2e/, which
   // must be run with `npx playwright test` instead.
   testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/e2e/'],
+  moduleNameMapper: { '^@/(.*)$': '<rootDir>/src/$1' },
   // Add more setup options before each test is run
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 }

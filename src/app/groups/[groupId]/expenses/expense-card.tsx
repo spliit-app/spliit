@@ -3,6 +3,7 @@
 import { ActiveUserBalance } from '@/app/groups/[groupId]/expenses/active-user-balance'
 import { CategoryIcon } from '@/app/groups/[groupId]/expenses/category-icon'
 import { DocumentsCount } from '@/app/groups/[groupId]/expenses/documents-count'
+import { TagBadge } from '@/components/tag-badge'
 import { Button } from '@/components/ui/button'
 import { Locale } from '@/i18n/request'
 import { getGroupExpenses } from '@/lib/api'
@@ -90,10 +91,17 @@ export function ExpenseCard({
         category={expense.category}
         className="w-4 h-4 mr-2 mt-0.5 text-muted-foreground"
       />
-      <div className="flex-1">
+      <div className="min-w-0 flex-1">
         <div className={cn('mb-1', expense.isReimbursement && 'italic')}>
           {expense.title}
         </div>
+        {expense.tags.length > 0 && (
+          <div className="mb-1 flex flex-wrap gap-1">
+            {expense.tags.map((tag) => (
+              <TagBadge key={tag.id} name={tag.name} />
+            ))}
+          </div>
+        )}
         <div className="text-xs text-muted-foreground">
           <Participants expense={expense} participantCount={participantCount} />
         </div>

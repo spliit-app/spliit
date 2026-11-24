@@ -428,7 +428,9 @@
     "paidForMin1": "Wydatek musi zostać opłacony za co najmniej jednego uczestnika.",
     "noZeroShares": "Wszystkie udziały muszą być większe niż 0.",
     "amountSum": "Suma udziałów musi być równa wydatkowi.",
-    "percentageSum": "Suma procentów musi być równa 100."
+    "percentageSum": "Suma procentów musi być równa 100.",
+    "invalidTagName": "Użyj od 1 do 50 znaków, bez podziałów wiersza ani znaków sterujących.",
+    "tooManyTags": "Wydatek może mieć maksymalnie 10 tagów."
   },
   "Categories": {
     "search": "Szukaj kategorii…",
@@ -509,5 +511,35 @@
     "groupTitle": "Nie udało się załadować tej grupy",
     "generic": "Spróbuj ponownie. Jeśli problem będzie się powtarzał, odśwież stronę.",
     "retry": "Spróbuj ponownie"
+  },
+  "Tags": {
+    "label": "Tagi",
+    "description": "Opcjonalne konteksty, takie jak podróże, wydarzenia lub projekty. Tagi nie zmieniają sald.",
+    "select": "Wybierz tagi",
+    "selectOrAdd": "Wybierz lub dodaj tag",
+    "search": "Szukaj tagów",
+    "empty": "Brak pasujących tagów.",
+    "create": "Utwórz „{name}”",
+    "selected": "{name}, wybrany",
+    "remove": "Usuń {name}",
+    "invalidName": "Użyj od 1 do 50 znaków, bez podziałów wiersza ani znaków sterujących.",
+    "limit": "Możesz wybrać maksymalnie {count} tagów.",
+    "untagged": "Bez tagów",
+    "filter": "Filtruj według tagów",
+    "clear": "Wyczyść filtry",
+    "noResults": "Żaden wydatek nie pasuje do tych filtrów.",
+    "spending": "Wydatki według tagów",
+    "overlap": "Wydatek jest liczony w każdym ze swoich tagów. Sumy nakładają się i nie należy ich dodawać. Wybierz tag, aby zobaczyć jego wydatki.",
+    "noSpending": "W tym okresie nie ma wydatków.",
+    "showExpenses": "Pokaż wydatki dla {name}",
+    "details": "Wydatki z tym tagiem w wybranym okresie. Spłaty są wykluczone.",
+    "loadError": "Nie można wczytać wydatków. Zamknij to okno i spróbuj ponownie.",
+    "delete": "Usuń tag {name}",
+    "deleteTitle": "Usunąć tag „{name}”?",
+    "deleteDescription": "Ten tag zostanie trwale usunięty z grupy i ze wszystkich wydatków. Wydatki i ich kwoty zostaną zachowane.",
+    "deleteConfirm": "Usuń tag",
+    "deleteCancel": "Anuluj",
+    "deleting": "Usuwanie…",
+    "deleteError": "Nie udało się usunąć tagu. Spróbuj ponownie."
   }
 }

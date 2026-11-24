@@ -473,7 +473,9 @@
     "ratePositive": "Le taux de change doit être strictement supérieur à zéro.",
     "max200": "Entrez au maximum 200 caractères.",
     "max5000": "Entrez au maximum 5 000 caractères.",
-    "max10000": "Saisissez au maximum 10 000 caractères."
+    "max10000": "Saisissez au maximum 10 000 caractères.",
+    "invalidTagName": "Utilisez 1 à 50 caractères sans saut de ligne ni caractère de contrôle.",
+    "tooManyTags": "Une dépense peut avoir jusqu’à 10 étiquettes."
   },
   "Categories": {
     "search": "Rechercher une catégorie…",
@@ -568,5 +570,35 @@
     "generic": "Veuillez réessayer. Si le problème persiste, actualisez la page.",
     "reference": "Référence : {digest}",
     "retry": "Essayer à nouveau"
+  },
+  "Tags": {
+    "label": "Étiquettes",
+    "description": "Contextes facultatifs comme des voyages, des événements ou des projets. Les étiquettes ne modifient pas les soldes.",
+    "select": "Sélectionner des étiquettes",
+    "selectOrAdd": "Sélectionner ou ajouter une étiquette",
+    "search": "Rechercher des étiquettes",
+    "empty": "Aucune étiquette correspondante.",
+    "create": "Créer « {name} »",
+    "selected": "{name}, sélectionnée",
+    "remove": "Retirer {name}",
+    "invalidName": "Utilisez 1 à 50 caractères sans saut de ligne ni caractère de contrôle.",
+    "limit": "Vous pouvez sélectionner jusqu’à {count} étiquettes.",
+    "untagged": "Sans étiquette",
+    "filter": "Filtrer par étiquette",
+    "clear": "Effacer les filtres",
+    "noResults": "Aucune dépense ne correspond à ces filtres.",
+    "spending": "Dépenses par étiquette",
+    "overlap": "Une dépense est comptée dans chacune de ses étiquettes. Les totaux se chevauchent et ne doivent pas être additionnés. Sélectionnez une étiquette pour voir ses dépenses.",
+    "noSpending": "Aucune dépense sur cette période.",
+    "showExpenses": "Afficher les dépenses pour {name}",
+    "details": "Dépenses avec cette étiquette sur la période sélectionnée. Les remboursements sont exclus.",
+    "loadError": "Impossible de charger les dépenses. Fermez cette fenêtre et réessayez.",
+    "delete": "Supprimer l’étiquette {name}",
+    "deleteTitle": "Supprimer l’étiquette « {name} » ?",
+    "deleteDescription": "Cette étiquette sera définitivement supprimée du groupe et retirée de toutes les dépenses. Les dépenses et leurs montants seront conservés.",
+    "deleteConfirm": "Supprimer l’étiquette",
+    "deleteCancel": "Annuler",
+    "deleting": "Suppression…",
+    "deleteError": "Impossible de supprimer l’étiquette. Veuillez réessayer."
   }
 }
