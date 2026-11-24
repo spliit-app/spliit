@@ -505,7 +505,9 @@
     "paidForMin1": "The expense must be paid for at least one participant.",
     "noZeroShares": "All shares must be higher than 0.",
     "amountSum": "The amounts add up to {sum}, {difference} {direction, select, over {more} other {less}} than the expense amount ({amount}).",
-    "percentageSum": "The percentages add up to {sum}%, {difference}% {direction, select, over {more} other {less}} than 100%."
+    "percentageSum": "The percentages add up to {sum}%, {difference}% {direction, select, over {more} other {less}} than 100%.",
+    "invalidTagName": "Use 1–50 characters without line breaks or control characters.",
+    "tooManyTags": "An expense can have up to 10 tags."
   },
   "Categories": {
     "search": "Search category...",
@@ -593,5 +595,36 @@
     "updateTitle": "Update available",
     "updateDescription": "A new version of Spliit is available.",
     "reload": "Reload"
+  },
+  "Tags": {
+    "label": "Tags",
+    "description": "Extra context, such as specific events",
+    "select": "Select tags",
+    "selectOrAdd": "Select or add tag",
+    "search": "Search tags",
+    "searchOrAdd": "Search or add tags",
+    "empty": "No matching tags.",
+    "create": "Create “{name}”",
+    "selected": "{name}, selected",
+    "remove": "Remove {name}",
+    "invalidName": "Use 1–50 characters without line breaks or control characters.",
+    "limit": "You can select up to {count} tags.",
+    "untagged": "Untagged",
+    "filter": "Filter by tags",
+    "clear": "Clear filters",
+    "noResults": "No expenses match these filters.",
+    "spending": "Spending by tag",
+    "overlap": "An expense counts in each of its tags. Select a tag to see its expenses.",
+    "noSpending": "There are no expenses in this period.",
+    "showExpenses": "Show expenses for {name}",
+    "details": "Expenses with this tag in the selected period.",
+    "loadError": "Unable to load expenses. Close this dialog and try again.",
+    "delete": "Delete tag {name}",
+    "deleteTitle": "Delete tag “{name}”?",
+    "deleteDescription": "This will permanently delete this tag from the group and remove it from every expense. The expenses and their amounts will not be deleted.",
+    "deleteConfirm": "Delete tag",
+    "deleteCancel": "Cancel",
+    "deleting": "Deleting…",
+    "deleteError": "Could not delete the tag. Please try again."
   }
 }

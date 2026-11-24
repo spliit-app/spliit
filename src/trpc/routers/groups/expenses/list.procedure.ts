@@ -9,21 +9,30 @@ export const listGroupExpensesProcedure = baseProcedure
       cursor: z.number().int().min(0).optional(),
       limit: z.number().int().min(1).max(100).optional(),
       filter: z.string().max(200).optional(),
+      tagIds: z.array(z.string().min(1).max(64)).max(200).optional(),
+      untagged: z.boolean().optional(),
     }),
   )
-  .query(async ({ input: { groupId, cursor = 0, limit = 10, filter } }) => {
-    const expenses = await getGroupExpenses(groupId, {
-      offset: cursor,
-      length: limit + 1,
-      filter,
-    })
-    return {
-      expenses: expenses.slice(0, limit).map((expense) => ({
-        ...expense,
-        createdAt: new Date(expense.createdAt),
-        expenseDate: new Date(expense.expenseDate),
-      })),
-      hasMore: !!expenses[limit],
-      nextCursor: cursor + limit,
-    }
-  })
+  .query(
+    async ({
+      input: { groupId, cursor = 0, limit = 10, filter, tagIds, untagged },
+    }) => {
+      const expenses = await getGroupExpenses(groupId, {
+        offset: cursor,
+        length: limit + 1,
+        filter,
+        includeTags: true,
+        tagIds,
+        untagged,
+      })
+      return {
+        expenses: expenses.slice(0, limit).map((expense) => ({
+          ...expense,
+          createdAt: new Date(expense.createdAt),
+          expenseDate: new Date(expense.expenseDate),
+        })),
+        hasMore: !!expenses[limit],
+        nextCursor: cursor + limit,
+      }
+    },
+  )

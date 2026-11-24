@@ -50,6 +50,7 @@ export function EditExpenseForm({
         })
         utils.groups.expenses.invalidate()
         utils.groups.stats.invalidate()
+        utils.groups.tags.invalidate()
         router.push(`/groups/${group.id}`)
       }}
       onDelete={async (participantId) => {
@@ -60,6 +61,7 @@ export function EditExpenseForm({
         })
         utils.groups.expenses.invalidate()
         utils.groups.stats.invalidate()
+        utils.groups.tags.invalidate()
         router.push(`/groups/${group.id}`)
       }}
       runtimeFeatureFlags={runtimeFeatureFlags}

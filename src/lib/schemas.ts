@@ -1,4 +1,5 @@
 import { RecurrenceRule, SplitMode } from '@/generated/prisma/browser'
+import { expenseTagsSchema } from '@/lib/tags'
 import Decimal from 'decimal.js'
 import * as z from 'zod'
 
@@ -61,6 +62,7 @@ export const expenseFormSchema = z
       .min(2, 'min2')
       .max(200, 'max200'),
     category: z.coerce.number().default(0),
+    tags: expenseTagsSchema.optional(),
     amount: z
       .union(
         [

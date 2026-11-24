@@ -502,7 +502,9 @@
     "ratePositive": "Der Wechselkurs muss unbedingt größer als Null sein.",
     "max200": "Gib höchstens 200 Zeichen ein.",
     "max5000": "Gib höchstens 5.000 Zeichen ein.",
-    "max10000": "Gib höchstens 10.000 Zeichen ein."
+    "max10000": "Gib höchstens 10.000 Zeichen ein.",
+    "invalidTagName": "Verwende 1–50 Zeichen ohne Zeilenumbrüche oder Steuerzeichen.",
+    "tooManyTags": "Eine Ausgabe kann bis zu 10 Tags haben."
   },
   "Categories": {
     "search": "Kategorie suchen...",
@@ -597,5 +599,36 @@
     "groupTitle": "Gruppe konnte nicht geladen werden",
     "generic": "Bitte erneut versuchen. Aktualisiere die Seite, wenn es wiederholt auftritt.",
     "reference": "Referenz: {digest}"
+  },
+  "Tags": {
+    "label": "Tags",
+    "description": "Zusätzlicher Kontext, etwa bestimmte Veranstaltungen",
+    "select": "Tags auswählen",
+    "selectOrAdd": "Tag auswählen oder hinzufügen",
+    "search": "Tags suchen",
+    "searchOrAdd": "Tags suchen oder hinzufügen",
+    "empty": "Keine passenden Tags.",
+    "create": "„{name}“ erstellen",
+    "selected": "{name}, ausgewählt",
+    "remove": "{name} entfernen",
+    "invalidName": "Verwende 1–50 Zeichen ohne Zeilenumbrüche oder Steuerzeichen.",
+    "limit": "Du kannst bis zu {count} Tags auswählen.",
+    "untagged": "Ohne Tags",
+    "filter": "Nach Tags filtern",
+    "clear": "Filter zurücksetzen",
+    "noResults": "Keine Ausgaben entsprechen diesen Filtern.",
+    "spending": "Ausgaben nach Tag",
+    "overlap": "Eine Ausgabe zählt für jedes ihrer Tags. Wähle ein Tag aus, um seine Ausgaben zu sehen.",
+    "noSpending": "In diesem Zeitraum gibt es keine Ausgaben.",
+    "showExpenses": "Ausgaben für {name} anzeigen",
+    "details": "Ausgaben mit diesem Tag im ausgewählten Zeitraum.",
+    "loadError": "Ausgaben konnten nicht geladen werden. Schließe dieses Fenster und versuche es erneut.",
+    "delete": "Tag {name} löschen",
+    "deleteTitle": "Tag „{name}“ löschen?",
+    "deleteDescription": "Dieses Tag wird dauerhaft aus der Gruppe und von allen Ausgaben entfernt. Die Ausgaben und ihre Beträge bleiben erhalten.",
+    "deleteConfirm": "Tag löschen",
+    "deleteCancel": "Abbrechen",
+    "deleting": "Wird gelöscht…",
+    "deleteError": "Das Tag konnte nicht gelöscht werden. Bitte versuche es erneut."
   }
 }

@@ -1,12 +1,18 @@
-import { getGroupExpenses, updateExpense } from './api'
+import { createExpense, getGroupExpenses, updateExpense } from './api'
 import { prisma } from './prisma'
 import { ExpenseFormValues } from './schemas'
 
 jest.mock('./prisma', () => ({
   prisma: {
     $transaction: jest.fn(),
+    tag: { findMany: jest.fn(), createMany: jest.fn() },
     activity: { create: jest.fn() },
-    expense: { findMany: jest.fn(), findUnique: jest.fn(), update: jest.fn() },
+    expense: {
+      findMany: jest.fn(),
+      findUnique: jest.fn(),
+      update: jest.fn(),
+      create: jest.fn(),
+    },
     group: { findUnique: jest.fn() },
     recurringExpenseLink: { findMany: jest.fn() },
   },
@@ -41,6 +47,7 @@ describe('getGroupExpenses', () => {
         { expenseId: 'expense-1', participantId: 'participant-1', shares: 1 },
       ],
       documents: [document],
+      tags: [{ id: 'trip' }],
     }
 
     const createExpense = jest.fn(async ({ data }) => ({
@@ -73,6 +80,9 @@ describe('getGroupExpenses', () => {
     await getGroupExpenses('group-1')
 
     expect(createExpense).toHaveBeenCalledTimes(1)
+    expect(createExpense.mock.calls[0][0].data.tags).toEqual({
+      connect: [{ id: 'trip' }],
+    })
     const { documents } = createExpense.mock.calls[0][0].data
     expect(documents).toEqual({
       createMany: {
@@ -120,6 +130,7 @@ describe('createRecurringExpenses', () => {
       paidBy: { id: 'participant-1' },
       paidFor: [],
       documents: [],
+      tags: [],
     }
     const createExpense = jest.fn(async ({ data }) => ({
       ...currentFrameExpense,
@@ -260,6 +271,10 @@ describe('updateExpense', () => {
     jest
       .mocked(prisma.expense.findUnique)
       .mockResolvedValue(existingExpense as never)
+    jest
+      .mocked(prisma.$transaction)
+      .mockImplementation((async (callback: (tx: unknown) => unknown) =>
+        callback(prisma)) as never)
     await updateExpense('group-1', 'expense-1', values)
     return jest.mocked(prisma.expense.update).mock.calls[0][0].data
       .recurringExpenseLink
@@ -314,5 +329,265 @@ describe('updateExpense', () => {
       nextExpenseDate: new Date(Date.UTC(2025, 0, 22)),
       anchorDay: null,
     })
+  })
+})
+
+describe('expense tags', () => {
+  const values = {
+    expenseDate: new Date('2026-07-01T00:00:00Z'),
+    title: 'Dinner',
+    amount: 6000,
+    category: 0,
+    paidBy: 'alice',
+    paidFor: [{ participant: 'alice', shares: 1 }],
+    splitMode: 'EVENLY',
+    isReimbursement: false,
+    saveDefaultSplittingOptions: false,
+    documents: [],
+    recurrenceRule: 'NONE',
+  } as ExpenseFormValues
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+    jest
+      .mocked(prisma.$transaction)
+      .mockImplementation((async (callback: (tx: unknown) => unknown) =>
+        callback(prisma)) as never)
+    jest.mocked(prisma.group.findUnique).mockResolvedValue({
+      id: 'group-1',
+      participants: [{ id: 'alice' }],
+    } as never)
+    jest.mocked(prisma.expense.findUnique).mockResolvedValue({
+      id: 'expense-1',
+      groupId: 'group-1',
+      ...values,
+      paidFor: [],
+      documents: [],
+      recurringExpenseLink: null,
+    } as never)
+    jest.mocked(prisma.recurringExpenseLink.findMany).mockResolvedValue([])
+    jest.mocked(prisma.expense.findMany).mockResolvedValue([])
+    jest.mocked(prisma.tag.findMany).mockResolvedValue([])
+    jest
+      .mocked(prisma.expense.create)
+      .mockResolvedValue({ id: 'expense-1' } as never)
+  })
+
+  it('creates tags only in the expense group and reuses equivalent names', async () => {
+    jest
+      .mocked(prisma.tag.findMany)
+      .mockResolvedValueOnce([{ id: 'trip' }, { id: 'work' }] as never)
+
+    await createExpense(
+      {
+        ...values,
+        tags: [
+          { name: ' Summer trip ' },
+          { name: 'summer TRIP' },
+          { name: 'Work' },
+        ],
+      },
+      'group-1',
+    )
+
+    expect(prisma.tag.createMany).toHaveBeenCalledWith({
+      data: [
+        {
+          id: expect.any(String),
+          groupId: 'group-1',
+          name: 'Summer trip',
+          normalizedName: 'summer trip',
+        },
+        {
+          id: expect.any(String),
+          groupId: 'group-1',
+          name: 'Work',
+          normalizedName: 'work',
+        },
+      ],
+      skipDuplicates: true,
+    })
+    expect(prisma.tag.findMany).toHaveBeenLastCalledWith({
+      where: {
+        groupId: 'group-1',
+        OR: [
+          { id: { in: [] } },
+          { normalizedName: { in: ['summer trip', 'work'] } },
+        ],
+      },
+      select: { id: true },
+    })
+    expect(prisma.expense.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          tags: { connect: [{ id: 'trip' }, { id: 'work' }] },
+          amount: 6000,
+        }),
+      }),
+    )
+  })
+
+  it('inserts overlapping new tags in the same normalized order for either selection order', async () => {
+    for (const names of [
+      ['Ｗｏｒｋ', 'Summer trip'],
+      ['summer trip', 'WORK'],
+    ]) {
+      await createExpense(
+        { ...values, tags: names.map((name) => ({ name })) },
+        'group-1',
+      )
+    }
+    const inserts = jest.mocked(prisma.tag.createMany).mock.calls
+    expect(inserts).toHaveLength(2)
+    for (const [input] of inserts) {
+      expect(input).toEqual(
+        expect.objectContaining({
+          data: [
+            expect.objectContaining({ normalizedName: 'summer trip' }),
+            expect.objectContaining({ normalizedName: 'work' }),
+          ],
+        }),
+      )
+    }
+  })
+
+  it('does not recreate deleted or foreign-group IDs when saving stale selections', async () => {
+    await updateExpense('group-1', 'expense-1', {
+      ...values,
+      tags: [
+        { id: 'deleted', name: 'Work' },
+        { id: 'foreign', name: 'Trip' },
+      ],
+    })
+    expect(prisma.tag.createMany).not.toHaveBeenCalled()
+    expect(prisma.tag.findMany).toHaveBeenLastCalledWith({
+      where: {
+        groupId: 'group-1',
+        OR: [
+          { id: { in: ['deleted', 'foreign'] } },
+          { normalizedName: { in: [] } },
+        ],
+      },
+      select: { id: true },
+    })
+    expect(prisma.expense.update).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({ tags: { set: [] } }),
+      }),
+    )
+  })
+
+  it('preserves assignments when tags are omitted and clears only when explicitly empty', async () => {
+    await updateExpense('group-1', 'expense-1', values)
+    expect(prisma.expense.update).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        where: { id: 'expense-1', groupId: 'group-1' },
+        data: expect.objectContaining({ tags: undefined }),
+      }),
+    )
+    expect(prisma.tag.createMany).not.toHaveBeenCalled()
+
+    await updateExpense('group-1', 'expense-1', { ...values, tags: [] })
+    expect(prisma.expense.update).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({ tags: { set: [] } }),
+      }),
+    )
+    expect(prisma.expense.findUnique).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: { id: 'expense-1', groupId: 'group-1' },
+      }),
+    )
+  })
+
+  it.each(['Café', 'Cafe\u0301', ' ＣＡＦÉ '])(
+    'normalizes tag search %s while preserving title and notes search',
+    async (filter) => {
+      await getGroupExpenses('group-1', { filter })
+      expect(prisma.expense.findMany).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          where: expect.objectContaining({
+            OR: [
+              { title: { contains: filter, mode: 'insensitive' } },
+              { notes: { contains: filter, mode: 'insensitive' } },
+              { tags: { some: { normalizedName: { contains: 'café' } } } },
+            ],
+          }),
+        }),
+      )
+    },
+  )
+
+  it('combines group ownership, any-tag membership and text search before pagination', async () => {
+    await getGroupExpenses('group-1', {
+      offset: 20,
+      length: 21,
+      filter: 'trip',
+      tagIds: ['trip', 'work'],
+    })
+    expect(prisma.expense.findMany).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        where: {
+          groupId: 'group-1',
+          AND: [
+            {
+              OR: [
+                {
+                  tags: {
+                    some: { id: { in: ['trip', 'work'] }, groupId: 'group-1' },
+                  },
+                },
+              ],
+            },
+          ],
+          OR: expect.arrayContaining([
+            {
+              tags: {
+                some: { normalizedName: { contains: 'trip' } },
+              },
+            },
+          ]),
+        },
+        skip: 20,
+        take: 21,
+      }),
+    )
+
+    await getGroupExpenses('group-1', {
+      tagIds: ['trip'],
+      untagged: true,
+      filter: 'dinner',
+    })
+    expect(prisma.expense.findMany).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        where: {
+          groupId: 'group-1',
+          AND: [
+            {
+              OR: [
+                {
+                  tags: { some: { id: { in: ['trip'] }, groupId: 'group-1' } },
+                },
+                { tags: { none: {} } },
+              ],
+            },
+          ],
+          OR: expect.arrayContaining([
+            { title: { contains: 'dinner', mode: 'insensitive' } },
+          ]),
+        },
+      }),
+    )
+
+    await getGroupExpenses('group-1', { untagged: true })
+    expect(prisma.expense.findMany).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        where: {
+          groupId: 'group-1',
+          AND: [{ OR: [{ tags: { none: {} } }] }],
+          OR: undefined,
+        },
+      }),
+    )
   })
 })

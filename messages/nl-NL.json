@@ -432,7 +432,9 @@
     "noZeroShares": "Een deel mag niet 0 zijn.",
     "amountSum": "Het totaalbedrag moet gelijk zijn aan het uitgavebedrag.",
     "percentageSum": "Het totaalpercentage moet gelijk zijn aan 100%.",
-    "ratePositive": "De koers moet groter dan nul zijn."
+    "ratePositive": "De koers moet groter dan nul zijn.",
+    "invalidTagName": "Gebruik 1–50 tekens zonder regeleinden of besturingstekens.",
+    "tooManyTags": "Een uitgave kan maximaal 10 tags hebben."
   },
   "Categories": {
     "search": "Categorie zoeken…",
@@ -520,5 +522,36 @@
     "updateTitle": "Update beschikbaar",
     "updateDescription": "Er is een nieuwe versie van Spliit beschikbaar.",
     "reload": "Opnieuw laden"
+  },
+  "Tags": {
+    "label": "Tags",
+    "description": "Extra context, zoals specifieke evenementen",
+    "select": "Tags selecteren",
+    "selectOrAdd": "Tag selecteren of toevoegen",
+    "search": "Tags zoeken",
+    "searchOrAdd": "Tags zoeken of toevoegen",
+    "empty": "Geen overeenkomende tags.",
+    "create": "‘{name}’ aanmaken",
+    "selected": "{name}, geselecteerd",
+    "remove": "{name} verwijderen",
+    "invalidName": "Gebruik 1–50 tekens zonder regeleinden of besturingstekens.",
+    "limit": "Je kunt maximaal {count} tags selecteren.",
+    "untagged": "Zonder tags",
+    "filter": "Filteren op tags",
+    "clear": "Filters wissen",
+    "noResults": "Geen uitgaven komen overeen met deze filters.",
+    "spending": "Uitgaven per tag",
+    "overlap": "Een uitgave telt mee bij elke bijbehorende tag. Selecteer een tag om de uitgaven te bekijken.",
+    "noSpending": "Er zijn geen uitgaven in deze periode.",
+    "showExpenses": "Uitgaven voor {name} tonen",
+    "details": "Uitgaven met deze tag in de geselecteerde periode.",
+    "loadError": "De uitgaven kunnen niet worden geladen. Sluit dit venster en probeer het opnieuw.",
+    "delete": "Tag {name} verwijderen",
+    "deleteTitle": "Tag ‘{name}’ verwijderen?",
+    "deleteDescription": "Hiermee verwijder je deze tag definitief uit de groep en van alle uitgaven. De uitgaven en hun bedragen blijven behouden.",
+    "deleteConfirm": "Tag verwijderen",
+    "deleteCancel": "Annuleren",
+    "deleting": "Verwijderen…",
+    "deleteError": "De tag kon niet worden verwijderd. Probeer het opnieuw."
   }
 }

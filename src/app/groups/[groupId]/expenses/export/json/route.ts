@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import { getExportTagNames } from '@/lib/tags'
 import { create as contentDisposition } from 'content-disposition'
 import { NextResponse } from 'next/server'
 
@@ -32,6 +33,7 @@ export async function GET(
           splitMode: true,
           recurrenceRule: true,
           notes: true,
+          tags: { select: { name: true } },
         },
         orderBy: [{ expenseDate: 'asc' }, { createdAt: 'asc' }],
       },
@@ -54,10 +56,19 @@ export async function GET(
 
   const date = new Date().toISOString().split('T')[0]
   const filename = `Spliit Export - ${date}`
-  return NextResponse.json(group, {
-    headers: {
-      'content-type': 'application/json',
-      'content-disposition': contentDisposition(`${filename}.json`),
+  return NextResponse.json(
+    {
+      ...group,
+      expenses: group.expenses.map((expense) => ({
+        ...expense,
+        tags: getExportTagNames(expense.tags),
+      })),
     },
-  })
+    {
+      headers: {
+        'content-type': 'application/json',
+        'content-disposition': contentDisposition(`${filename}.json`),
+      },
+    },
+  )
 }

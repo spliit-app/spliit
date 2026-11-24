@@ -1,6 +1,7 @@
 import {
   ActivityType,
   Expense,
+  Prisma,
   RecurrenceRule,
   RecurringExpenseLink,
 } from '@/generated/prisma/client'
@@ -8,6 +9,7 @@ import { prisma } from '@/lib/prisma'
 import { randomId } from '@/lib/random'
 import { nextRecurringDate, usesAnchorDay } from '@/lib/recurrence'
 import { ExpenseFormValues, GroupFormValues } from '@/lib/schemas'
+import { ExpenseTag, expenseTagsSchema, normalizeTagName } from '@/lib/tags'
 
 // Re-exported for backwards compatibility with existing server-side importers.
 export { randomId }
@@ -30,6 +32,64 @@ export async function createGroup(groupFormValues: GroupFormValues) {
       },
     },
     include: { participants: true },
+  })
+}
+
+export async function deleteGroupTag(groupId: string, tagId: string) {
+  return prisma.tag.deleteMany({
+    where: { groupId, id: tagId },
+  })
+}
+
+export async function getGroupTags(groupId: string) {
+  return prisma.tag.findMany({
+    where: { groupId },
+    select: { id: true, name: true },
+    orderBy: { name: 'asc' },
+  })
+}
+
+async function saveExpenseTags(
+  transaction: Prisma.TransactionClient,
+  groupId: string,
+  selections: ExpenseTag[],
+) {
+  const tags = expenseTagsSchema.parse(selections)
+  if (tags.length === 0) return []
+  // Insert names in the same order to avoid deadlocks between expense saves.
+  const newTags = tags
+    .filter((tag) => tag.id === undefined)
+    .map(({ name }) => ({ name, normalizedName: normalizeTagName(name) }))
+    .sort((a, b) =>
+      a.normalizedName < b.normalizedName
+        ? -1
+        : a.normalizedName > b.normalizedName
+          ? 1
+          : 0,
+    )
+  if (newTags.length > 0)
+    await transaction.tag.createMany({
+      data: newTags.map(({ name, normalizedName }) => ({
+        id: randomId(),
+        groupId,
+        name,
+        normalizedName,
+      })),
+      skipDuplicates: true,
+    })
+  return transaction.tag.findMany({
+    where: {
+      groupId,
+      OR: [
+        { id: { in: tags.flatMap((tag) => (tag.id ? [tag.id] : [])) } },
+        {
+          normalizedName: {
+            in: newTags.map((tag) => tag.normalizedName),
+          },
+        },
+      ],
+    },
+    select: { id: true },
   })
 }
 
@@ -67,48 +127,55 @@ export async function createExpense(
     groupId,
   )
 
-  return prisma.expense.create({
-    data: {
-      id: expenseId,
-      groupId,
-      expenseDate: expenseFormValues.expenseDate,
-      categoryId: expenseFormValues.category,
-      amount: expenseFormValues.amount,
-      originalAmount: expenseFormValues.originalAmount,
-      originalCurrency: expenseFormValues.originalCurrency,
-      conversionRate: expenseFormValues.conversionRate,
-      title: expenseFormValues.title,
-      paidById: expenseFormValues.paidBy,
-      splitMode: expenseFormValues.splitMode,
-      recurrenceRule: expenseFormValues.recurrenceRule,
-      recurringExpenseLink: {
-        ...(isCreateRecurrence
-          ? {
-              create: recurringExpenseLinkPayload,
-            }
-          : {}),
-      },
-      paidFor: {
-        createMany: {
-          data: expenseFormValues.paidFor.map((paidFor) => ({
-            participantId: paidFor.participant,
-            shares: paidFor.shares,
-          })),
+  return prisma.$transaction(async (transaction) => {
+    const tags =
+      expenseFormValues.tags === undefined
+        ? undefined
+        : await saveExpenseTags(transaction, groupId, expenseFormValues.tags)
+    return transaction.expense.create({
+      data: {
+        id: expenseId,
+        groupId,
+        expenseDate: expenseFormValues.expenseDate,
+        categoryId: expenseFormValues.category,
+        amount: expenseFormValues.amount,
+        originalAmount: expenseFormValues.originalAmount,
+        originalCurrency: expenseFormValues.originalCurrency,
+        conversionRate: expenseFormValues.conversionRate,
+        title: expenseFormValues.title,
+        paidById: expenseFormValues.paidBy,
+        splitMode: expenseFormValues.splitMode,
+        recurrenceRule: expenseFormValues.recurrenceRule,
+        recurringExpenseLink: {
+          ...(isCreateRecurrence
+            ? {
+                create: recurringExpenseLinkPayload,
+              }
+            : {}),
         },
-      },
-      isReimbursement: expenseFormValues.isReimbursement,
-      documents: {
-        createMany: {
-          data: expenseFormValues.documents.map((doc) => ({
-            id: randomId(),
-            url: doc.url,
-            width: doc.width,
-            height: doc.height,
-          })),
+        paidFor: {
+          createMany: {
+            data: expenseFormValues.paidFor.map((paidFor) => ({
+              participantId: paidFor.participant,
+              shares: paidFor.shares,
+            })),
+          },
         },
+        isReimbursement: expenseFormValues.isReimbursement,
+        documents: {
+          createMany: {
+            data: expenseFormValues.documents.map((doc) => ({
+              id: randomId(),
+              url: doc.url,
+              width: doc.width,
+              height: doc.height,
+            })),
+          },
+        },
+        notes: expenseFormValues.notes,
+        tags: tags === undefined ? undefined : { connect: tags },
       },
-      notes: expenseFormValues.notes,
-    },
+    })
   })
 }
 
@@ -273,84 +340,91 @@ export async function updateExpense(
     updatedAnchorDay,
   )
 
-  return prisma.expense.update({
-    where: { id: expenseId },
-    data: {
-      expenseDate: expenseFormValues.expenseDate,
-      amount: expenseFormValues.amount,
-      originalAmount: expenseFormValues.originalAmount,
-      originalCurrency: expenseFormValues.originalCurrency,
-      conversionRate: expenseFormValues.conversionRate,
-      title: expenseFormValues.title,
-      categoryId: expenseFormValues.category,
-      paidById: expenseFormValues.paidBy,
-      splitMode: expenseFormValues.splitMode,
-      recurrenceRule: expenseFormValues.recurrenceRule,
-      paidFor: {
-        create: expenseFormValues.paidFor
-          .filter(
-            (p) =>
-              !existingExpense.paidFor.some(
-                (pp) => pp.participantId === p.participant,
-              ),
-          )
-          .map((paidFor) => ({
-            participantId: paidFor.participant,
-            shares: paidFor.shares,
-          })),
-        update: expenseFormValues.paidFor.map((paidFor) => ({
-          where: {
-            expenseId_participantId: {
-              expenseId,
+  return prisma.$transaction(async (transaction) => {
+    const tags =
+      expenseFormValues.tags === undefined
+        ? undefined
+        : await saveExpenseTags(transaction, groupId, expenseFormValues.tags)
+    return transaction.expense.update({
+      where: { id: expenseId, groupId },
+      data: {
+        expenseDate: expenseFormValues.expenseDate,
+        amount: expenseFormValues.amount,
+        originalAmount: expenseFormValues.originalAmount,
+        originalCurrency: expenseFormValues.originalCurrency,
+        conversionRate: expenseFormValues.conversionRate,
+        title: expenseFormValues.title,
+        categoryId: expenseFormValues.category,
+        paidById: expenseFormValues.paidBy,
+        splitMode: expenseFormValues.splitMode,
+        recurrenceRule: expenseFormValues.recurrenceRule,
+        paidFor: {
+          create: expenseFormValues.paidFor
+            .filter(
+              (p) =>
+                !existingExpense.paidFor.some(
+                  (pp) => pp.participantId === p.participant,
+                ),
+            )
+            .map((paidFor) => ({
               participantId: paidFor.participant,
-            },
-          },
-          data: {
-            shares: paidFor.shares,
-          },
-        })),
-        deleteMany: existingExpense.paidFor.filter(
-          (paidFor) =>
-            !expenseFormValues.paidFor.some(
-              (pf) => pf.participant === paidFor.participantId,
-            ),
-        ),
-      },
-      recurringExpenseLink: {
-        ...(isCreateRecurrenceExpenseLink
-          ? {
-              create: newRecurringExpenseLink,
-            }
-          : {}),
-        ...(isUpdateRecurrenceExpenseLink
-          ? {
-              update: {
-                nextExpenseDate: updatedRecurrenceExpenseLinkNextExpenseDate,
-                anchorDay: updatedAnchorDay,
+              shares: paidFor.shares,
+            })),
+          update: expenseFormValues.paidFor.map((paidFor) => ({
+            where: {
+              expenseId_participantId: {
+                expenseId,
+                participantId: paidFor.participant,
               },
-            }
-          : {}),
-        delete: isDeleteRecurrenceExpenseLink,
-      },
-      isReimbursement: expenseFormValues.isReimbursement,
-      documents: {
-        connectOrCreate: expenseFormValues.documents.map((doc) => ({
-          create: doc,
-          where: { id: doc.id },
-        })),
-        deleteMany: existingExpense.documents
-          .filter(
-            (existingDoc) =>
-              !expenseFormValues.documents.some(
-                (doc) => doc.id === existingDoc.id,
-              ),
-          )
-          .map((doc) => ({
-            id: doc.id,
+            },
+            data: {
+              shares: paidFor.shares,
+            },
           })),
+          deleteMany: existingExpense.paidFor.filter(
+            (paidFor) =>
+              !expenseFormValues.paidFor.some(
+                (pf) => pf.participant === paidFor.participantId,
+              ),
+          ),
+        },
+        recurringExpenseLink: {
+          ...(isCreateRecurrenceExpenseLink
+            ? {
+                create: newRecurringExpenseLink,
+              }
+            : {}),
+          ...(isUpdateRecurrenceExpenseLink
+            ? {
+                update: {
+                  nextExpenseDate: updatedRecurrenceExpenseLinkNextExpenseDate,
+                  anchorDay: updatedAnchorDay,
+                },
+              }
+            : {}),
+          delete: isDeleteRecurrenceExpenseLink,
+        },
+        isReimbursement: expenseFormValues.isReimbursement,
+        documents: {
+          connectOrCreate: expenseFormValues.documents.map((doc) => ({
+            create: doc,
+            where: { id: doc.id },
+          })),
+          deleteMany: existingExpense.documents
+            .filter(
+              (existingDoc) =>
+                !expenseFormValues.documents.some(
+                  (doc) => doc.id === existingDoc.id,
+                ),
+            )
+            .map((doc) => ({
+              id: doc.id,
+            })),
+        },
+        notes: expenseFormValues.notes,
+        tags: tags === undefined ? undefined : { set: tags },
       },
-      notes: expenseFormValues.notes,
-    },
+    })
   })
 }
 
@@ -409,14 +483,30 @@ export async function getCategories() {
 
 export async function getGroupExpenses(
   groupId: string,
-  options?: { offset?: number; length?: number; filter?: string },
+  options?: {
+    offset?: number
+    length?: number
+    filter?: string
+    tagIds?: string[]
+    untagged?: boolean
+    includeTags?: boolean
+  },
 ) {
   await createRecurringExpenses()
 
-  return prisma.expense.findMany({
+  const tagFilters: Prisma.ExpenseWhereInput[] = []
+  if (options?.tagIds?.length) {
+    tagFilters.push({ tags: { some: { id: { in: options.tagIds }, groupId } } })
+  }
+  if (options?.untagged) tagFilters.push({ tags: { none: {} } })
+
+  const expenses = await prisma.expense.findMany({
     select: {
       amount: true,
       category: true,
+      tags: options?.includeTags
+        ? { select: { id: true, name: true }, orderBy: { name: 'asc' } }
+        : false,
       createdAt: true,
       expenseDate: true,
       id: true,
@@ -437,11 +527,21 @@ export async function getGroupExpenses(
     },
     where: {
       groupId,
-      // Search matches the title or the notes (#601).
+      AND: tagFilters.length ? [{ OR: tagFilters }] : undefined,
+      // Text search and tag membership filters are combined before pagination.
       OR: options?.filter
         ? [
             { title: { contains: options.filter, mode: 'insensitive' } },
             { notes: { contains: options.filter, mode: 'insensitive' } },
+            {
+              tags: {
+                some: {
+                  normalizedName: {
+                    contains: normalizeTagName(options.filter),
+                  },
+                },
+              },
+            },
           ]
         : undefined,
     },
@@ -449,6 +549,7 @@ export async function getGroupExpenses(
     skip: options && options.offset,
     take: options && options.length,
   })
+  return expenses.map((expense) => ({ ...expense, tags: expense.tags ?? [] }))
 }
 
 export async function getGroupExpenseCount(groupId: string) {
@@ -488,11 +589,12 @@ export async function getActiveRecurringExpenses(groupId: string) {
 
 export async function getExpense(groupId: string, expenseId: string) {
   return prisma.expense.findUnique({
-    where: { id: expenseId },
+    where: { id: expenseId, groupId },
     include: {
       paidBy: true,
       paidFor: true,
       category: true,
+      tags: { select: { id: true, name: true }, orderBy: { name: 'asc' } },
       documents: true,
       recurringExpenseLink: true,
     },
@@ -571,6 +673,7 @@ async function createRecurringExpenses() {
             paidBy: true,
             paidFor: true,
             category: true,
+            tags: { select: { id: true } },
             documents: true,
           },
         },
@@ -608,6 +711,7 @@ async function createRecurringExpenses() {
         paidBy,
         paidFor,
         documents,
+        tags,
         ...destructeredCurrentExpenseRecord
       } = currentExpenseRecord
 
@@ -619,6 +723,7 @@ async function createRecurringExpenses() {
             data: {
               ...destructeredCurrentExpenseRecord,
               categoryId: currentExpenseRecord.categoryId,
+              tags: { connect: tags.map(({ id }) => ({ id })) },
               paidById: currentExpenseRecord.paidById,
               paidFor: {
                 createMany: {
@@ -656,6 +761,7 @@ async function createRecurringExpenses() {
               paidFor: true,
               documents: true,
               category: true,
+              tags: { select: { id: true } },
               paidBy: true,
             },
           })

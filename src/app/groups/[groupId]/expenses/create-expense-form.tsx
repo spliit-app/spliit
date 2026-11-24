@@ -56,6 +56,7 @@ export function CreateExpenseForm({
         }
         utils.groups.expenses.invalidate()
         utils.groups.stats.invalidate()
+        utils.groups.tags.invalidate()
         router.push(`/groups/${group.id}`)
       }}
       runtimeFeatureFlags={runtimeFeatureFlags}

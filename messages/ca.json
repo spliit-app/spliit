@@ -428,7 +428,9 @@
     "noZeroShares": "Totes les participacions han de ser superiors a 0.",
     "amountSum": "La suma dels imports ha de ser igual a l'import de la despesa.",
     "percentageSum": "La suma dels percentatges ha de ser igual a 100.",
-    "ratePositive": "La taxa ha de ser estrictament major que zero."
+    "ratePositive": "La taxa ha de ser estrictament major que zero.",
+    "invalidTagName": "Fes servir entre 1 i 50 caràcters, sense salts de línia ni caràcters de control.",
+    "tooManyTags": "Una despesa pot tenir fins a 10 etiquetes."
   },
   "Categories": {
     "search": "Cerca una categoria...",
@@ -516,5 +518,36 @@
     "updateTitle": "Actualització disponible",
     "updateDescription": "Hi ha una nova versió de Spliit disponible.",
     "reload": "Torna a carregar"
+  },
+  "Tags": {
+    "label": "Etiquetes",
+    "description": "Context addicional, com ara esdeveniments concrets",
+    "select": "Selecciona etiquetes",
+    "selectOrAdd": "Selecciona o afegeix una etiqueta",
+    "search": "Cerca etiquetes",
+    "searchOrAdd": "Cerca o afegeix etiquetes",
+    "empty": "No hi ha etiquetes coincidents.",
+    "create": "Crea «{name}»",
+    "selected": "{name}, seleccionada",
+    "remove": "Treu {name}",
+    "invalidName": "Fes servir entre 1 i 50 caràcters, sense salts de línia ni caràcters de control.",
+    "limit": "Pots seleccionar fins a {count} etiquetes.",
+    "untagged": "Sense etiquetes",
+    "filter": "Filtra per etiquetes",
+    "clear": "Esborra els filtres",
+    "noResults": "Cap despesa coincideix amb aquests filtres.",
+    "spending": "Despeses per etiqueta",
+    "overlap": "Una despesa es compta en cadascuna de les seves etiquetes. Selecciona una etiqueta per veure’n les despeses.",
+    "noSpending": "No hi ha despeses en aquest període.",
+    "showExpenses": "Mostra les despeses de {name}",
+    "details": "Despeses amb aquesta etiqueta en el període seleccionat.",
+    "loadError": "No es poden carregar les despeses. Tanca aquesta finestra i torna-ho a provar.",
+    "delete": "Suprimeix l’etiqueta {name}",
+    "deleteTitle": "Vols suprimir l’etiqueta «{name}»?",
+    "deleteDescription": "Aquesta etiqueta se suprimirà permanentment del grup i de totes les despeses. Les despeses i els seus imports es conservaran.",
+    "deleteConfirm": "Suprimeix l’etiqueta",
+    "deleteCancel": "Cancel·la",
+    "deleting": "S’està suprimint…",
+    "deleteError": "No s’ha pogut suprimir l’etiqueta. Torna-ho a provar."
   }
 }

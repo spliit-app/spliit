@@ -1,6 +1,7 @@
 import { CategorySelector } from '@/components/category-selector'
 import { CurrencySelector } from '@/components/currency-selector'
 import { ExpenseDocumentsInput } from '@/components/expense-documents-input'
+import { ExpenseTagSelector } from '@/components/group-tag-selector'
 import { SubmitButton } from '@/components/submit-button'
 import { Button } from '@/components/ui/button'
 import {
@@ -53,6 +54,7 @@ import {
   SplittingOptions,
 } from '@/lib/schemas'
 import { distributeAmount } from '@/lib/shares'
+import { EXPENSE_TAGS_MAX } from '@/lib/tags'
 import { calculateShare } from '@/lib/totals'
 import {
   amountAsDecimal,
@@ -62,6 +64,7 @@ import {
   formatCurrency,
   getCurrencyFromGroup,
 } from '@/lib/utils'
+import { trpc } from '@/trpc/client'
 import { AppRouterOutput } from '@/trpc/routers/_app'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ChevronRight, Save } from 'lucide-react'
@@ -191,6 +194,8 @@ export function ExpenseForm({
   runtimeFeatureFlags: RuntimeFeatureFlags
 }) {
   const t = useTranslations('ExpenseForm')
+  const tTags = useTranslations('Tags')
+  const { data: tagsData } = trpc.groups.tags.useQuery({ groupId: group.id })
   const locale = useLocale() as Locale
   const isCreate = expense === undefined
   const searchParams = useSearchParams()
@@ -247,6 +252,7 @@ export function ExpenseForm({
           isReimbursement: expense.isReimbursement,
           documents: expense.documents,
           notes: expense.notes ?? '',
+          tags: expense.tags,
           recurrenceRule: expense.recurrenceRule ?? undefined,
         }
       : isRepayment
@@ -277,6 +283,7 @@ export function ExpenseForm({
             saveDefaultSplittingOptions: false,
             documents: [],
             notes: '',
+            tags: [],
             recurrenceRule: RecurrenceRule.NONE,
           }
         : {
@@ -308,6 +315,7 @@ export function ExpenseForm({
                 ]
               : [],
             notes: '',
+            tags: [],
             recurrenceRule: RecurrenceRule.NONE,
           },
   })
@@ -730,8 +738,8 @@ export function ExpenseForm({
             <div
               className={cn(
                 convertFromGroupCurrency ? 'sm:order-5' : 'sm:order-4',
-                !conversionRequired && 'max-sm:hidden sm:invisible',
-                'col-span-2 md:col-span-1 space-y-2',
+                !conversionRequired && 'hidden',
+                'col-span-2 md:col-span-1 min-w-0 space-y-2',
               )}
             >
               <FormField
@@ -956,7 +964,9 @@ export function ExpenseForm({
               control={form.control}
               name="paidBy"
               render={({ field }) => (
-                <FormItem className="sm:order-5">
+                <FormItem
+                  className={conversionRequired ? 'sm:order-6' : 'sm:order-5'}
+                >
                   <FormLabel>{t(`${sExpense}.paidByField.label`)}</FormLabel>
                   <Select
                     onValueChange={field.onChange}
@@ -984,9 +994,39 @@ export function ExpenseForm({
             />
             <FormField
               control={form.control}
+              name="tags"
+              render={({ field }) => (
+                <FormItem
+                  className={conversionRequired ? 'sm:order-8' : 'sm:order-6'}
+                >
+                  <FormLabel>{tTags('label')}</FormLabel>
+                  <FormControl>
+                    <ExpenseTagSelector
+                      groupId={group.id}
+                      {...field}
+                      value={field.value ?? []}
+                      options={tagsData?.tags ?? []}
+                      onValueChange={field.onChange}
+                      allowCreate
+                      maxTags={EXPENSE_TAGS_MAX}
+                    />
+                  </FormControl>
+                  <FormDescription>{tTags('description')}</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="notes"
               render={({ field }) => (
-                <FormItem className="sm:order-6">
+                <FormItem
+                  className={
+                    conversionRequired
+                      ? 'sm:order-9'
+                      : 'sm:order-8 md:col-span-2'
+                  }
+                >
                   <FormLabel>{t('notesField.label')}</FormLabel>
                   <FormControl>
                     <Textarea
@@ -1003,7 +1043,7 @@ export function ExpenseForm({
               control={form.control}
               name="recurrenceRule"
               render={({ field }) => (
-                <FormItem className="sm:order-5">
+                <FormItem className="sm:order-7">
                   <FormLabel>{t(`${sExpense}.recurrenceRule.label`)}</FormLabel>
                   <Select
                     onValueChange={(value) => {

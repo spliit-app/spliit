@@ -365,7 +365,9 @@
     "paidForMin1": "Kostnaden måste betalas för minst en deltagare.",
     "noZeroShares": "Alla delningar måste vara högre än 0.",
     "amountSum": "Summan av beloppen måste vara lika med utgiftsbeloppet.",
-    "percentageSum": "Summan av procentsatserna måste vara lika med 100."
+    "percentageSum": "Summan av procentsatserna måste vara lika med 100.",
+    "invalidTagName": "Använd 1–50 tecken utan radbrytningar eller kontrolltecken.",
+    "tooManyTags": "En utgift kan ha upp till 10 taggar."
   },
   "Categories": {
     "search": "Sök kategori...",
@@ -448,5 +450,36 @@
     "other": {
       "heading": "Andra valutor"
     }
+  },
+  "Tags": {
+    "label": "Taggar",
+    "description": "Extra sammanhang, till exempel specifika evenemang",
+    "select": "Välj taggar",
+    "selectOrAdd": "Välj eller lägg till en tagg",
+    "search": "Sök taggar",
+    "searchOrAdd": "Sök eller lägg till taggar",
+    "empty": "Inga matchande taggar.",
+    "create": "Skapa ”{name}”",
+    "selected": "{name}, vald",
+    "remove": "Ta bort {name}",
+    "invalidName": "Använd 1–50 tecken utan radbrytningar eller kontrolltecken.",
+    "limit": "Du kan välja upp till {count} taggar.",
+    "untagged": "Utan taggar",
+    "filter": "Filtrera efter taggar",
+    "clear": "Rensa filter",
+    "noResults": "Inga utgifter matchar dessa filter.",
+    "spending": "Utgifter per tagg",
+    "overlap": "En utgift räknas i var och en av sina taggar. Välj en tagg för att se dess utgifter.",
+    "noSpending": "Det finns inga utgifter under den här perioden.",
+    "showExpenses": "Visa utgifter för {name}",
+    "details": "Utgifter med den här taggen under den valda perioden.",
+    "loadError": "Det gick inte att läsa in utgifterna. Stäng det här fönstret och försök igen.",
+    "delete": "Radera taggen {name}",
+    "deleteTitle": "Radera taggen ”{name}”?",
+    "deleteDescription": "Taggen raderas permanent från gruppen och tas bort från alla utgifter. Utgifterna och deras belopp behålls.",
+    "deleteConfirm": "Radera tagg",
+    "deleteCancel": "Avbryt",
+    "deleting": "Raderar…",
+    "deleteError": "Det gick inte att radera taggen. Försök igen."
   }
 }

@@ -1,6 +1,7 @@
 import { getCurrency } from '@/lib/currency'
 import { prisma } from '@/lib/prisma'
 import { getExpenseShares } from '@/lib/shares'
+import { getExportTagNames } from '@/lib/tags'
 import {
   dateOnlyToLocalDate,
   formatAmountAsDecimal,
@@ -69,6 +70,7 @@ export async function GET(
           paidFor: { select: { participantId: true, shares: true } },
           isReimbursement: true,
           splitMode: true,
+          tags: { select: { name: true } },
         },
       },
       participants: { select: { id: true, name: true } },
@@ -105,6 +107,14 @@ export async function GET(
 
   */
 
+  const participantLabels = new Set(
+    group.participants.map((participant) => escapeCsvFormula(participant.name)),
+  )
+  let tagsLabel = 'Tags'
+  for (let suffix = 2; participantLabels.has(tagsLabel); suffix++) {
+    tagsLabel = `Tags (${suffix})`
+  }
+
   const fields = [
     { label: 'Date', value: 'date' },
     { label: 'Description', value: 'title' },
@@ -118,8 +128,10 @@ export async function GET(
     { label: 'Split mode', value: 'splitMode' },
     ...group.participants.map((participant) => ({
       label: escapeCsvFormula(participant.name),
-      value: participant.name,
+      value: (row: { participantAmounts: Record<string, number> }) =>
+        row.participantAmounts[participant.id],
     })),
+    { label: tagsLabel, value: 'tags' },
   ]
 
   const currency = getCurrencyFromGroup(group)
@@ -145,7 +157,7 @@ export async function GET(
         : null,
       isReimbursement: expense.isReimbursement ? 'Yes' : 'No',
       splitMode: splitModeLabel[expense.splitMode],
-      ...Object.fromEntries(
+      participantAmounts: Object.fromEntries(
         group.participants.map((participant) => {
           const isPaidByParticipant = expense.paidById === participant.id
           // The same apportionment the balances tab uses, so a participant's
@@ -157,11 +169,12 @@ export async function GET(
           )
 
           return [
-            participant.name,
+            participant.id,
             participantAmountShare * (isPaidByParticipant ? 1 : -1),
           ]
         }),
       ),
+      tags: JSON.stringify(getExportTagNames(expense.tags)),
     }
   })
 

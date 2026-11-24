@@ -466,7 +466,9 @@
     "paidForMin1": "Kulu peab olema makstud vähemalt ühe osaleja eest.",
     "noZeroShares": "Kõik osad peavad olema suuremad kui 0.",
     "amountSum": "Summad annavad kokku {sum}, mis on {difference} {direction, select, over {rohkem} other {vähem}} kui kulu summa ({amount}).",
-    "percentageSum": "Protsendid annavad kokku {sum}%, mis on {difference}% {direction, select, over {rohkem} other {vähem}} kui 100%."
+    "percentageSum": "Protsendid annavad kokku {sum}%, mis on {difference}% {direction, select, over {rohkem} other {vähem}} kui 100%.",
+    "invalidTagName": "Kasuta 1–50 märki ilma reavahetuste või juhtmärkideta.",
+    "tooManyTags": "Kulul võib olla kuni 10 silti."
   },
   "Categories": {
     "search": "Otsi kategooriat...",
@@ -561,5 +563,36 @@
     "updateTitle": "Värskendus on saadaval",
     "updateDescription": "Spliiti uus versioon on saadaval.",
     "reload": "Lae uuesti"
+  },
+  "Tags": {
+    "label": "Sildid",
+    "description": "Lisakontekst, näiteks konkreetsed üritused",
+    "select": "Vali sildid",
+    "selectOrAdd": "Vali või lisa silt",
+    "search": "Otsi silte",
+    "searchOrAdd": "Otsi või lisa silte",
+    "empty": "Sobivaid silte ei leitud.",
+    "create": "Loo „{name}“",
+    "selected": "{name}, valitud",
+    "remove": "Eemalda {name}",
+    "invalidName": "Kasuta 1–50 märki ilma reavahetuste või juhtmärkideta.",
+    "limit": "Saad valida kuni {count} silti.",
+    "untagged": "Siltideta",
+    "filter": "Filtreeri siltide järgi",
+    "clear": "Tühjenda filtrid",
+    "noResults": "Ükski kulu ei vasta nendele filtritele.",
+    "spending": "Kulud siltide kaupa",
+    "overlap": "Kulu arvestatakse iga selle sildi alla. Vali silt, et näha selle kulusid.",
+    "noSpending": "Sellel ajavahemikul pole kulusid.",
+    "showExpenses": "Näita sildi {name} kulusid",
+    "details": "Selle sildiga kulud valitud ajavahemikul.",
+    "loadError": "Kulusid ei saanud laadida. Sulge see aken ja proovi uuesti.",
+    "delete": "Kustuta silt {name}",
+    "deleteTitle": "Kas kustutada silt „{name}“?",
+    "deleteDescription": "See silt kustutatakse jäädavalt rühmast ja eemaldatakse kõigilt kuludelt. Kulud ja nende summad säilivad.",
+    "deleteConfirm": "Kustuta silt",
+    "deleteCancel": "Tühista",
+    "deleting": "Kustutamine…",
+    "deleteError": "Silti ei saanud kustutada. Proovi uuesti."
   }
 }

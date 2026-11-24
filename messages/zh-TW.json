@@ -426,7 +426,9 @@
     "noZeroShares": "份額需大於 0。",
     "amountSum": "金額總計必須等於消費金額。",
     "percentageSum": "百分比加總必須等於 100。",
-    "ratePositive": "匯率必須嚴格大於零。"
+    "ratePositive": "匯率必須嚴格大於零。",
+    "invalidTagName": "請輸入 1–50 個字元，不得包含換行或控制字元。",
+    "tooManyTags": "每筆支出最多可有 10 個標籤。"
   },
   "Categories": {
     "search": "搜尋類別……",
@@ -514,5 +516,36 @@
     "updateTitle": "有可用更新",
     "updateDescription": "Spliit 有新版本可用。",
     "reload": "重新載入"
+  },
+  "Tags": {
+    "label": "標籤",
+    "description": "額外的情境資訊，例如特定活動",
+    "select": "選取標籤",
+    "selectOrAdd": "選取或新增標籤",
+    "search": "搜尋標籤",
+    "searchOrAdd": "搜尋或新增標籤",
+    "empty": "沒有符合的標籤。",
+    "create": "建立「{name}」",
+    "selected": "{name}，已選取",
+    "remove": "移除 {name}",
+    "invalidName": "請輸入 1–50 個字元，不得包含換行或控制字元。",
+    "limit": "最多可選取 {count} 個標籤。",
+    "untagged": "無標籤",
+    "filter": "依標籤篩選",
+    "clear": "清除篩選條件",
+    "noResults": "沒有符合這些篩選條件的支出。",
+    "spending": "依標籤統計支出",
+    "overlap": "一筆支出會計入其所有標籤。選取標籤可查看對應支出。",
+    "noSpending": "此期間沒有支出。",
+    "showExpenses": "查看 {name} 的支出",
+    "details": "所選期間內帶有此標籤的支出。",
+    "loadError": "無法載入支出。請關閉此視窗後重試。",
+    "delete": "刪除標籤 {name}",
+    "deleteTitle": "刪除標籤「{name}」？",
+    "deleteDescription": "此標籤將從群組中永久刪除，並從所有支出中移除。支出及其金額會保留。",
+    "deleteConfirm": "刪除標籤",
+    "deleteCancel": "取消",
+    "deleting": "正在刪除…",
+    "deleteError": "無法刪除標籤，請再試一次。"
   }
 }

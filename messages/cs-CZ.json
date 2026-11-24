@@ -466,7 +466,9 @@
     "noZeroShares": "Všechny podíly musí být větší než 0.",
     "amountSum": "Součet částek je {sum}, což je o {difference} {direction, select, over {více} other {méně}} než částka výdaje ({amount}).",
     "percentageSum": "Součet procent je {sum} %, což je o {difference} % {direction, select, over {více} other {méně}} než 100 %.",
-    "ratePositive": "Tato hodnota musí být jednoznačně větší než nula."
+    "ratePositive": "Tato hodnota musí být jednoznačně větší než nula.",
+    "invalidTagName": "Použijte 1–50 znaků bez zalomení řádků a řídicích znaků.",
+    "tooManyTags": "Výdaj může mít nejvýše 10 štítků."
   },
   "Categories": {
     "search": "Hledat kategorii...",
@@ -561,5 +563,36 @@
     "other": {
       "heading": "Ostatní měny"
     }
+  },
+  "Tags": {
+    "label": "Štítky",
+    "description": "Další kontext, například konkrétní události",
+    "select": "Vybrat štítky",
+    "selectOrAdd": "Vybrat nebo přidat štítek",
+    "search": "Hledat štítky",
+    "searchOrAdd": "Hledat nebo přidat štítky",
+    "empty": "Žádné odpovídající štítky.",
+    "create": "Vytvořit „{name}“",
+    "selected": "{name}, vybráno",
+    "remove": "Odebrat {name}",
+    "invalidName": "Použijte 1–50 znaků bez zalomení řádků a řídicích znaků.",
+    "limit": "Můžete vybrat až {count} štítků.",
+    "untagged": "Bez štítků",
+    "filter": "Filtrovat podle štítků",
+    "clear": "Vymazat filtry",
+    "noResults": "Těmto filtrům neodpovídají žádné výdaje.",
+    "spending": "Výdaje podle štítků",
+    "overlap": "Výdaj se započítá do každého ze svých štítků. Vyberte štítek a zobrazte jeho výdaje.",
+    "noSpending": "V tomto období nejsou žádné výdaje.",
+    "showExpenses": "Zobrazit výdaje pro {name}",
+    "details": "Výdaje s tímto štítkem ve vybraném období.",
+    "loadError": "Výdaje se nepodařilo načíst. Zavřete toto okno a zkuste to znovu.",
+    "delete": "Smazat štítek {name}",
+    "deleteTitle": "Smazat štítek „{name}“?",
+    "deleteDescription": "Tento štítek bude trvale smazán ze skupiny a odebrán ze všech výdajů. Výdaje a jejich částky zůstanou zachovány.",
+    "deleteConfirm": "Smazat štítek",
+    "deleteCancel": "Zrušit",
+    "deleting": "Mazání…",
+    "deleteError": "Štítek se nepodařilo smazat. Zkuste to znovu."
   }
 }
