@@ -1,6 +1,7 @@
 import {
   ActivityType,
   Expense,
+  Prisma,
   RecurrenceRule,
   RecurringExpenseLink,
 } from '@/generated/prisma/client'
@@ -407,9 +408,48 @@ export async function getCategories() {
   return prisma.category.findMany()
 }
 
+export type ExpenseSortBy = 'date' | 'amount' | 'title' | 'createdAt'
+export type ExpenseSortOrder = 'asc' | 'desc'
+
+const parseDateOnly = (value?: string) =>
+  value ? new Date(`${value}T00:00:00.000Z`) : undefined
+
+function getExpenseOrderBy(
+  sortBy: ExpenseSortBy = 'date',
+  sortOrder: ExpenseSortOrder = 'desc',
+): Prisma.ExpenseOrderByWithRelationInput[] {
+  // `id` is a final tie-breaker so offset pagination stays stable when many
+  // expenses share the same amount / title / date.
+  switch (sortBy) {
+    case 'amount':
+      return [{ amount: sortOrder }, { expenseDate: 'desc' }, { id: 'asc' }]
+    case 'title':
+      return [{ title: sortOrder }, { expenseDate: 'desc' }, { id: 'asc' }]
+    case 'createdAt':
+      return [{ createdAt: sortOrder }, { id: 'asc' }]
+    case 'date':
+    default:
+      return [
+        { expenseDate: sortOrder },
+        { createdAt: sortOrder },
+        { id: 'asc' },
+      ]
+  }
+}
+
 export async function getGroupExpenses(
   groupId: string,
-  options?: { offset?: number; length?: number; filter?: string },
+  options?: {
+    offset?: number
+    length?: number
+    filter?: string
+    sortBy?: ExpenseSortBy
+    sortOrder?: ExpenseSortOrder
+    /** Inclusive lower bound, formatted as YYYY-MM-DD. */
+    dateFrom?: string
+    /** Inclusive upper bound, formatted as YYYY-MM-DD. */
+    dateTo?: string
+  },
 ) {
   await createRecurringExpenses()
 
@@ -437,6 +477,13 @@ export async function getGroupExpenses(
     },
     where: {
       groupId,
+      expenseDate:
+        options?.dateFrom || options?.dateTo
+          ? {
+              gte: parseDateOnly(options.dateFrom),
+              lte: parseDateOnly(options.dateTo),
+            }
+          : undefined,
       // Search matches the title or the notes (#601).
       OR: options?.filter
         ? [
@@ -445,7 +492,7 @@ export async function getGroupExpenses(
           ]
         : undefined,
     },
-    orderBy: [{ expenseDate: 'desc' }, { createdAt: 'desc' }],
+    orderBy: getExpenseOrderBy(options?.sortBy, options?.sortOrder),
     skip: options && options.offset,
     take: options && options.length,
   })

@@ -32,6 +32,21 @@
     "exportJson": "Export to JSON",
     "exportCsv": "Export to CSV",
     "searchPlaceholder": "Search for an expense…",
+    "Filters": {
+      "sortBy": "Sort by",
+      "ascending": "Ascending",
+      "descending": "Descending",
+      "dateFrom": "From date",
+      "dateTo": "To date",
+      "clearDates": "Clear dates",
+      "noResults": "No expense matches your search or selected dates.",
+      "Sort": {
+        "date": "Expense date",
+        "amount": "Amount",
+        "title": "Title",
+        "createdAt": "Date added"
+      }
+    },
     "ActiveUserModal": {
       "title": "Who are you?",
       "description": "Tell us which participant you are to let us customize how the information is displayed.",
