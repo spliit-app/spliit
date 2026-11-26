@@ -1,11 +1,23 @@
 import { AppRouterOutput } from '@/trpc/routers/_app'
 import { createContext, PropsWithChildren, useContext } from 'react'
 
-type Group = NonNullable<AppRouterOutput['groups']['get']['group']>
+type GroupData = AppRouterOutput['groups']['get']
 
 type GroupContext =
-  | { isLoading: false; groupId: string; group: Group }
-  | { isLoading: true; groupId: string; group: undefined }
+  | {
+      isLoading: false
+      groupId: string
+      group: NonNullable<GroupData['group']>
+      role: GroupData['role']
+      participantId: GroupData['participantId']
+    }
+  | {
+      isLoading: true
+      groupId: string
+      group: undefined
+      role: undefined
+      participantId: undefined
+    }
 
 const CurrentGroupContext = createContext<GroupContext | null>(null)
 
@@ -16,6 +28,12 @@ export const useCurrentGroup = () => {
       'Missing context. Should be called inside a CurrentGroupProvider.',
     )
   return context
+}
+
+/** The viewer is the group's owner: structural edits and member management. */
+export const useIsGroupOwner = () => {
+  const { role } = useCurrentGroup()
+  return role === 'OWNER'
 }
 
 export const CurrentGroupProvider = ({

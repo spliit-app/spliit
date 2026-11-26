@@ -9,7 +9,10 @@
     }
   },
   "Header": {
-    "groups": "Groups"
+    "groups": "Groups",
+    "signIn": "Log in",
+    "signUp": "Sign up",
+    "signOut": "Log out"
   },
   "Errors": {
     "title": "Something went wrong",
@@ -32,6 +35,21 @@
     "exportJson": "Export to JSON",
     "exportCsv": "Export to CSV",
     "searchPlaceholder": "Search for an expense…",
+    "Filters": {
+      "sortBy": "Sort by",
+      "ascending": "Ascending",
+      "descending": "Descending",
+      "dateFrom": "From date",
+      "dateTo": "To date",
+      "clearDates": "Clear dates",
+      "noResults": "No expense matches your search or selected dates.",
+      "Sort": {
+        "date": "Expense date",
+        "amount": "Amount",
+        "title": "Title",
+        "createdAt": "Date added"
+      }
+    },
     "ActiveUserModal": {
       "title": "Who are you?",
       "description": "Tell us which participant you are to let us customize how the information is displayed.",
@@ -66,7 +84,8 @@
     "NoRecent": {
       "description": "You have not visited any group recently.",
       "create": "Create one",
-      "orAsk": "or ask a friend to send you the link to an existing one."
+      "orAsk": "or ask a friend to send you the link to an existing one.",
+      "claimedDescription": "These are the groups linked to your account. If you had a group before creating an account, open its link once and say who you are: it will appear here."
     },
     "GlobalBalance": {
       "title": "Your total balance",
@@ -134,13 +153,16 @@
     },
     "Participants": {
       "title": "Participants",
-      "description": "Enter the name for each participant.",
+      "description": "Enter a name for each participant. Add an account email to one and they get settle-up reminders; leave it empty for someone without an account.",
       "protectedParticipant": "This participant is part of expenses, and can not be removed.",
       "new": "New",
       "add": "Add participant",
       "John": "John",
       "Jane": "Jane",
-      "Jack": "Jack"
+      "Jack": "Jack",
+      "emailLabel": "Account email",
+      "emailPlaceholder": "Account email (optional)",
+      "linkedAccount": "Linked to an account: this person gets settle-up reminders."
     },
     "Settings": {
       "title": "Local settings",
@@ -155,7 +177,8 @@
       "saving": "Saving…",
       "create": "Create",
       "creating": "Creating…",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "error": "Something went wrong. Please try again."
     },
     "Delete": {
       "title": "Delete group",
@@ -354,7 +377,29 @@
       "description": "Here are suggestions for optimized reimbursements between participants.",
       "noImbursements": "It looks like your group doesn’t need any reimbursement 😁",
       "owes": "<strong>{from}</strong> owes <strong>{to}</strong>",
-      "markAsPaid": "Mark as paid"
+      "markAsPaid": "Mark as paid",
+      "askDueDate": "Ask to settle by",
+      "ask": "Ask",
+      "dueDateLabel": "Due date",
+      "dueDateSubmit": "Send settle-up request"
+    },
+    "PaymentDues": {
+      "title": "Settle-ups",
+      "description": "Payments with a deadline, so nobody has to remember who is late.",
+      "empty": "No settle-up requested yet.",
+      "owesYou": "{from} owes you",
+      "youOwe": "You owe {to}",
+      "dueOn": "Due {date}",
+      "dueSoon": "Due in {days, plural, one {# day} other {# days}}",
+      "dueToday": "Due today",
+      "overdueBy": "{days, plural, one {# day} other {# days}} late",
+      "settled": "Paid",
+      "cancelled": "Cancelled",
+      "superseded": "Replaced by a newer request",
+      "stale": "Outdated: the balances changed since this was requested",
+      "markAsPaid": "Mark as paid",
+      "cancel": "Cancel request",
+      "reimbursementTitle": "Reimbursement"
     }
   },
   "Stats": {
@@ -463,7 +508,10 @@
       "older": "Older"
     },
     "groupDeletionScheduled": "Group scheduled for deletion by <strong>{participant}</strong>.",
-    "groupRestored": "Group restored by <strong>{participant}</strong>."
+    "groupRestored": "Group restored by <strong>{participant}</strong>.",
+    "paymentDueCreated": "Settle-up requested by <strong>{participant}</strong>, due {date}.",
+    "paymentDueSettled": "Settle-up due {date} recorded as paid by <strong>{participant}</strong>.",
+    "paymentDueCancelled": "Settle-up due {date} cancelled by <strong>{participant}</strong>."
   },
   "Information": {
     "title": "Information",
@@ -471,20 +519,15 @@
     "empty": "No group information yet."
   },
   "Settings": {
-    "title": "Settings"
+    "title": "Settings",
+    "ownerOnlyTitle": "Only the group owner can change these settings",
+    "ownerOnlyDescription": "You can still add expenses and settle balances. Ask the owner if the name, currency or participants need to change."
   },
   "Share": {
     "title": "Share",
-    "description": "For other participants to see the group and add expenses, share its URL with them.",
-    "copyLink": "Copy link",
-    "shareLink": "Share link",
-    "warning": "Warning!",
-    "warningHelp": "Every person with the group URL will be able to see and edit expenses. Share with caution!",
-    "qrCode": {
-      "title": "Share via QR Code",
-      "description": "Scan this QR code to open the group on any device.",
-      "download": "Download QR Code"
-    }
+    "inviteTitle": "Invite people",
+    "inviteDescription": "Groups are private to their members now. Add somebody by their account email and they receive a link they can accept.",
+    "manageMembers": "Manage members"
   },
   "SchemaErrors": {
     "min1": "Enter at least one character.",
@@ -505,7 +548,8 @@
     "paidForMin1": "The expense must be paid for at least one participant.",
     "noZeroShares": "All shares must be higher than 0.",
     "amountSum": "The amounts add up to {sum}, {difference} {direction, select, over {more} other {less}} than the expense amount ({amount}).",
-    "percentageSum": "The percentages add up to {sum}%, {difference}% {direction, select, over {more} other {less}} than 100%."
+    "percentageSum": "The percentages add up to {sum}%, {difference}% {direction, select, over {more} other {less}} than 100%.",
+    "email": "Enter a valid email address."
   },
   "Categories": {
     "search": "Search category...",
@@ -593,5 +637,70 @@
     "updateTitle": "Update available",
     "updateDescription": "A new version of Spliit is available.",
     "reload": "Reload"
+  },
+  "Account": {
+    "label": "Account",
+    "signIn": "Log in",
+    "signUp": "Sign up",
+    "signOut": "Log out"
+  },
+  "Auth": {
+    "loginTitle": "Log in",
+    "loginDescription": "Log in to keep your groups and your settle-ups in sync.",
+    "loginSubmit": "Log in",
+    "registerTitle": "Create an account",
+    "registerDescription": "One account for every group you share.",
+    "registerSubmit": "Create account",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "noAccount": "No account yet?",
+    "haveAccount": "Already have an account?",
+    "registerLink": "Create one",
+    "loginLink": "Log in",
+    "error": "Something went wrong. Please try again."
+  },
+  "Notifications": {
+    "label": "Notifications",
+    "title": "Settle-ups",
+    "empty": "Nothing to settle up right now.",
+    "youOwe": "You owe {name} {amount}",
+    "owesYou": "{name} owes you {amount}",
+    "dueToday": "Due today",
+    "dueSoon": "Due in {days, plural, one {# day} other {# days}}",
+    "overdueBy": "{days, plural, one {# day} other {# days}} late"
+  },
+  "Members": {
+    "title": "Members",
+    "membersTitle": "Who can open this group",
+    "membersDescription": "Accounts with access to {name}.",
+    "owner": "Owner",
+    "you": "You",
+    "administrator": "not a participant",
+    "makeOwner": "Make owner",
+    "remove": "Remove from group",
+    "inviteTitle": "Invite somebody",
+    "inviteDescription": "They need an account with this exact email address. The invitation expires after 14 days.",
+    "emailPlaceholder": "account@example.com",
+    "roleMember": "Member",
+    "roleOwner": "Owner",
+    "invite": "Create invitation",
+    "expiresOn": "Expires {date}",
+    "copyLink": "Copy invitation link",
+    "revoke": "Revoke",
+    "accept": "Accept invitation",
+    "acceptTitle": "Group invitation",
+    "acceptDescription": "You have been invited to join {group}.",
+    "notFound": "This invitation does not exist.",
+    "invitedEmail": "Invited address",
+    "signedInAs": "Signed in as",
+    "acceptFailed": "Could not accept",
+    "notPending": "This invitation cannot be used",
+    "alreadyAccepted": "It has already been accepted.",
+    "wasRevoked": "It was revoked by the group owner.",
+    "wasExpired": "It has expired. Ask the owner for a new one.",
+    "wrongAccount": "Wrong account",
+    "wrongAccountHint": "This invitation was sent to a different address. Sign in with that address to accept it.",
+    "noMailNotice": "Spliit does not send email yet. Copy the invitation link and send it to them yourself."
   }
 }

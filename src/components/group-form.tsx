@@ -60,6 +60,15 @@ export type Props = {
   defaultCurrencyCode?: string
   /** Whether to offer deleting the group (ENABLE_GROUP_DELETION). */
   enableGroupDeletion?: boolean
+  /**
+   * The signed-in creator. Pre-fills the first participant row with their name
+   * and account email, so creating a group does not start with an empty roster
+   * the user has to add themselves to.
+   *
+   * Only used when creating: on the edit form the participants come from the
+   * group itself.
+   */
+  currentUser?: { name: string; email: string }
 }
 
 export function GroupForm({
@@ -68,6 +77,7 @@ export function GroupForm({
   protectedParticipantIds = [],
   defaultCurrencyCode = 'USD',
   enableGroupDeletion = false,
+  currentUser,
 }: Props) {
   const locale = useLocale()
   const t = useTranslations('GroupForm')
@@ -86,11 +96,22 @@ export function GroupForm({
           information: '',
           currency: '',
           currencyCode: defaultCurrencyCode, // TODO: derive from the locale when not configured
-          participants: [
-            { name: t('Participants.John') },
-            { name: t('Participants.Jane') },
-            { name: t('Participants.Jack') },
-          ],
+          participants: currentUser
+            ? [
+                // The creator, already linked to their account: they are a
+                // participant in nearly every group, and the old form made them
+                // retype their own name and address to become one. Editable and
+                // removable for the case where they really are only keeping
+                // somebody else's books.
+                { name: currentUser.name, email: currentUser.email },
+                { name: t('Participants.Jane') },
+                { name: t('Participants.Jack') },
+              ]
+            : [
+                { name: t('Participants.John') },
+                { name: t('Participants.Jane') },
+                { name: t('Participants.Jack') },
+              ],
         },
   })
   const { fields, append, remove } = useFieldArray({
@@ -100,6 +121,7 @@ export function GroupForm({
   })
   const sendEvent = useAnalytics()
 
+  const [submitError, setSubmitError] = useState<string | null>(null)
   const [activeUser, setActiveUser] = useState<string | null>(null)
   useEffect(() => {
     if (activeUser === null) {
@@ -129,6 +151,7 @@ export function GroupForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(async (values) => {
+          setSubmitError(null)
           if (group) {
             sendEvent(
               { event: 'group: update', props: {} },
@@ -137,11 +160,20 @@ export function GroupForm({
           } else {
             sendEvent({ event: 'group: create', props: {} }, `/groups`)
           }
-          await onSubmit(
-            values,
-            group?.participants.find((p) => p.name === activeUser)?.id ??
-              undefined,
-          )
+          try {
+            await onSubmit(
+              values,
+              group?.participants.find((p) => p.name === activeUser)?.id ??
+                undefined,
+            )
+          } catch (error) {
+            // Linking a participant to an account can be refused by the server
+            // (no such account, or already used in this group). Swallowing that
+            // would look like a broken save.
+            setSubmitError(
+              error instanceof Error ? error.message : t('Settings.error'),
+            )
+          }
         })}
       >
         <Card className="mb-4">
@@ -314,6 +346,34 @@ export function GroupForm({
                           </div>
                         </FormControl>
                         <FormMessage />
+                        {group?.participants.find((p) => p.id === item.id)
+                          ?.userId ? (
+                          <p className="text-xs text-muted-foreground">
+                            {t('Participants.linkedAccount')}
+                          </p>
+                        ) : null}
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name={`participants.${index}.email`}
+                    render={({ field }) => (
+                      <FormItem className="mt-1">
+                        <FormLabel className="sr-only">
+                          {t('Participants.emailLabel')}
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            value={field.value ?? ''}
+                            type="email"
+                            autoComplete="off"
+                            className="text-sm"
+                            placeholder={t('Participants.emailPlaceholder')}
+                          />
+                        </FormControl>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -381,6 +441,11 @@ export function GroupForm({
           </CardContent>
         </Card>
         <div className="flex mt-4 gap-2">
+          {submitError ? (
+            <p className="mr-auto text-sm text-red-600" role="alert">
+              {submitError}
+            </p>
+          ) : null}
           <SubmitButton
             loadingContent={t(group ? 'Settings.saving' : 'Settings.creating')}
             onClick={updateActiveUser}

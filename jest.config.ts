@@ -13,6 +13,10 @@ const config: Config = {
   // Jest's default testMatch would pick up the Playwright specs in e2e/, which
   // must be run with `npx playwright test` instead.
   testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/e2e/'],
+  // A previous `next build` leaves a copy of package.json in .next/standalone,
+  // and jest-haste-map then refuses to start with a "spliit2" naming collision.
+  // Build output is never a test root, so keep the crawler out of it entirely.
+  modulePathIgnorePatterns: ['<rootDir>/.next/'],
   // Add more setup options before each test is run
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 }

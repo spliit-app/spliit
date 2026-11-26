@@ -1,3 +1,4 @@
+import { getSessionFromRequest } from '@/lib/auth-server'
 import { getCurrency } from '@/lib/currency'
 import { prisma } from '@/lib/prisma'
 import { getExpenseShares } from '@/lib/shares'
@@ -46,6 +47,11 @@ export async function GET(
   { params }: { params: Promise<{ groupId: string }> },
 ) {
   const { groupId } = await params
+
+  if (!(await getSessionFromRequest(req))) {
+    return new Response(null, { status: 401 })
+  }
+
   const group = await prisma.group.findUnique({
     where: { id: groupId },
     select: {

@@ -23,6 +23,12 @@ services:
       POSTGRES_PRISMA_URL: postgresql://postgres:e2e@db:5432/spliit_e2e
       POSTGRES_URL_NON_POOLING: postgresql://postgres:e2e@db:5432/spliit_e2e
       NEXT_TELEMETRY_DISABLED: '1'
+      # Sessions are signed with this. Fixed and throwable-away: this stack is
+      # recreated from scratch on every run, and it must never be reused.
+      BETTER_AUTH_SECRET: e2e-only-secret-not-for-any-real-deployment
+      BETTER_AUTH_URL: http://localhost:${E2E_HOST_PORT:-3000}
+      # The suite authenticates far more often than a person does.
+      AUTH_RATE_LIMIT_MAX: '1000'
     restart: 'no'
     depends_on:
       db:

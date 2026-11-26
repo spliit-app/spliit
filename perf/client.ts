@@ -82,14 +82,80 @@ const recordingFetch: typeof fetch = async (input, init) => {
 
 const url = `${baseUrl}/api/trpc`
 
+/**
+ * The whole /groups area is behind a login wall, so the benchmark signs in
+ * before the first step. `headers` is a function because the cookie only exists
+ * after `signIn()` has run, which happens once the app is ready -- the clients
+ * are constructed at import time.
+ */
+let sessionCookie: string | null = null
+
+const authHeaders = (): Record<string, string> =>
+  sessionCookie ? { cookie: sessionCookie } : {}
+
+const PERF_USER = {
+  name: 'Perf Runner',
+  email: 'perf@example.test',
+  password: 'perf-password-1',
+}
+
+async function authRequest(path: string, body: unknown) {
+  const response = await fetch(`${baseUrl}/api/auth/${path}`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(body),
+  })
+  if (!response.ok) return null
+  const cookie = response.headers
+    .getSetCookie()
+    .map((value) => value.split(';')[0])
+    .join('; ')
+  return cookie || null
+}
+
+/**
+ * Signs in, creating the benchmark account on first run. Same address every
+ * time so repeated runs (and the four-way e2e suite) do not litter the database.
+ */
+export async function signIn(): Promise<void> {
+  if (sessionCookie) return
+
+  sessionCookie =
+    (await authRequest('sign-in/email', {
+      email: PERF_USER.email,
+      password: PERF_USER.password,
+    })) ??
+    (await authRequest('sign-up/email', {
+      email: PERF_USER.email,
+      password: PERF_USER.password,
+      name: PERF_USER.name,
+    }))
+
+  if (!sessionCookie) {
+    throw new Error('Could not sign in the perf user (rate limited?)')
+  }
+}
+
 export const batched = createTRPCClient<AppRouter>({
   links: [
-    httpBatchLink({ transformer: superjson, url, fetch: recordingFetch }),
+    httpBatchLink({
+      transformer: superjson,
+      url,
+      fetch: recordingFetch,
+      headers: authHeaders,
+    }),
   ],
 })
 
 export const single = createTRPCClient<AppRouter>({
-  links: [httpLink({ transformer: superjson, url, fetch: recordingFetch })],
+  links: [
+    httpLink({
+      transformer: superjson,
+      url,
+      fetch: recordingFetch,
+      headers: authHeaders,
+    }),
+  ],
 })
 
 /** Runs `fn` while recording its HTTP traffic. Not re-entrant; steps run serially. */

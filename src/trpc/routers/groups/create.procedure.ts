@@ -1,15 +1,20 @@
 import { createGroup } from '@/lib/api'
 import { groupFormSchema } from '@/lib/schemas'
-import { baseProcedure } from '@/trpc/init'
+import { asGroupFormError } from '@/lib/trpc-errors'
+import { protectedProcedure } from '@/trpc/init'
 import { z } from 'zod'
 
-export const createGroupProcedure = baseProcedure
+export const createGroupProcedure = protectedProcedure
   .input(
     z.object({
       groupFormValues: groupFormSchema,
     }),
   )
-  .mutation(async ({ input: { groupFormValues } }) => {
-    const group = await createGroup(groupFormValues)
-    return { groupId: group.id }
+  .mutation(async ({ ctx, input: { groupFormValues } }) => {
+    try {
+      const group = await createGroup(groupFormValues, ctx.user.id)
+      return { groupId: group.id }
+    } catch (error) {
+      throw asGroupFormError(error)
+    }
   })

@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test'
+import { AUTH_STATE_PATH } from './e2e/auth-state'
 
 /**
  * The app under test is started by scripts/e2e.sh (docker compose), not by
@@ -8,6 +9,8 @@ import { defineConfig, devices } from '@playwright/test'
  */
 export default defineConfig({
   testDir: './e2e',
+  // One sign-in for the whole run: see e2e/global-setup.ts.
+  globalSetup: './e2e/global-setup.ts',
   outputDir: './test-results',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
@@ -29,6 +32,9 @@ export default defineConfig({
       ],
   use: {
     baseURL: process.env.E2E_BASE_URL ?? 'http://localhost:3000',
+    // The whole /groups area is behind a login wall. Specs that exercise
+    // signing in override this with `SIGNED_OUT_STATE`.
+    storageState: AUTH_STATE_PATH,
     navigationTimeout: 30_000,
     // retain-on-failure rather than on-first-retry: with retries in CI, a test
     // that fails then passes would otherwise leave no evidence behind.

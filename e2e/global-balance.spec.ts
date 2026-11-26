@@ -73,8 +73,9 @@ test('reports being settled up when every balance is zero', async ({
 test('stays hidden until you say who you are', async ({ page }) => {
   // A visited group with no active user: there is nobody to aggregate for, so
   // the card must not appear at all rather than render an empty shell.
+  const groupName = `E2E Global Anonymous ${uniqueSuffix()}`
   const groupId = await createGroup(page, {
-    name: `E2E Global Anonymous ${uniqueSuffix()}`,
+    name: groupName,
     participants: ['Alice', 'Bob'],
   })
   await addExpense(page, groupId, {
@@ -86,8 +87,8 @@ test('stays hidden until you say who you are', async ({ page }) => {
   await page.goto('/groups')
 
   await expect(
-    page.getByRole('link', { name: /E2E Global Anonymous/ }),
-  ).toBeVisible()
+    page.getByRole('link', { name: groupName, exact: true }),
+  ).toBeVisible({ timeout: 30_000 })
   await expect(
     page.getByRole('heading', { name: CARD_TITLE, exact: true }),
   ).toHaveCount(0)

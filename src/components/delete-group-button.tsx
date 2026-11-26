@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/popover'
 import { useToast } from '@/components/ui/use-toast'
 import { Group } from '@/generated/prisma/client'
-import { useActiveUser } from '@/lib/hooks'
 import { trpc } from '@/trpc/client'
 import { Loader2, Trash2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
@@ -25,7 +24,6 @@ export function DeleteGroupButton({ group }: Props) {
   const utils = trpc.useUtils()
   const t = useTranslations('DeleteGroupButton')
   const { toast } = useToast()
-  const activeUserId = useActiveUser(group.id)
   const [inputValue, setInputValue] = useState('')
   // Covers the redirect as well as the mutation.
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -52,7 +50,6 @@ export function DeleteGroupButton({ group }: Props) {
               await mutateAsync({
                 groupId: group.id,
                 groupName: inputValue,
-                participantId: activeUserId ?? undefined,
               })
             } catch {
               toast({

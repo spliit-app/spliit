@@ -26,10 +26,25 @@ export function GroupLayoutClient({
     }
   }, [data])
 
+  // A non-member is answered with NOT_FOUND by the server, which is why this
+  // renders "group not found" rather than a permission error: the id itself is
+  // not confirmed to exist.
   const props =
     isLoading || !data?.group
-      ? { isLoading: true as const, groupId, group: undefined }
-      : { isLoading: false as const, groupId, group: data.group }
+      ? {
+          isLoading: true as const,
+          groupId,
+          group: undefined,
+          role: undefined,
+          participantId: undefined,
+        }
+      : {
+          isLoading: false as const,
+          groupId,
+          group: data.group,
+          role: data.role,
+          participantId: data.participantId,
+        }
 
   if (isLoading) {
     return (

@@ -6,10 +6,13 @@ Spliit is a free and open source alternative to Splitwise. You can either use th
 
 ## Features
 
+- [x] Create an account with an email address and password
 - [x] Create a group and share it with friends
 - [x] Create expenses with description
 - [x] Display group balances
 - [x] Create reimbursement expenses
+- [x] Give a reimbursement a due date and see in-app reminders when it is late
+- [x] Link a participant to an existing account so they get those reminders
 - [x] Progressive Web App
 - [x] Select all/no participant for expenses
 - [x] Split expenses unevenly [(#6)](https://github.com/spliit-app/spliit/issues/6)
@@ -35,7 +38,7 @@ Spliit is a free and open source alternative to Splitwise. You can either use th
 
 ## Contribute
 
-The project is open to contributions. Feel free to open an issue or even a pull-request! 
+The project is open to contributions. Feel free to open an issue or even a pull-request!
 Join the discussion in [the Spliit Discord server](https://discord.gg/YSyVXbwvSY).
 
 ### Contribute financially
@@ -52,13 +55,75 @@ the project.
 
 ### Translation
 
-The project's translations are managed using [our Weblate project](https://hosted.weblate.org/projects/spliit/spliit/). 
+The project's translations are managed using [our Weblate project](https://hosted.weblate.org/projects/spliit/spliit/).
 You can easily add missing translations to the project or even add a new language!
 Here is the current state of translation:
 
 <a href="https://hosted.weblate.org/engage/spliit/">
 <img src="https://hosted.weblate.org/widget/spliit/spliit/multi-auto.svg" alt="Translation status" />
 </a>
+
+## Accounts
+
+Everything under `/groups` requires an account. Groups used to be reachable by
+URL alone; they now sit behind a login wall, and a shared link sends a visitor
+through `/login?next=…` so they land back on the group they clicked.
+
+Set `BETTER_AUTH_SECRET` in the environment of a real deployment — sessions are
+signed with it, and better-auth refuses to start in production without one
+(`openssl rand -base64 32`). `BETTER_AUTH_URL` is only needed when the public URL
+differs from the one the request arrives on. Sessions are rows in Postgres, so
+signing somebody out is a delete, not a key rotation.
+
+### Access is a membership, not a link
+
+Two ideas that used to be one are now separate:
+
+- **`GroupMembership`** decides _who may open the group_. It holds a role
+  (`OWNER` or `MEMBER`) and a status (`ACTIVE` or `REMOVED`).
+- **`Participant.userId`** decides _which name at the table is you_. It is
+  optional, because most participants have no account at all.
+
+Splitting them is what makes revocation possible. Removing somebody touches the
+membership only: their participant row, the expenses they paid and the shares
+they owe all stay exactly where they were, so the group's history stays true. The
+financial foreign keys are `ON DELETE RESTRICT` for the same reason — deleting a
+participant is refused rather than cascading a ledger into oblivion. Removing
+somebody who has expenses therefore reports it instead of silently deleting
+their spending.
+
+**Every group procedure checks membership.** Knowing a group id is no longer
+permission: a signed-in non-member is answered with `NOT_FOUND` (not `FORBIDDEN`,
+which would confirm that the id names a real group). The creator owns the group,
+and only the owner may rename it, change its currency, edit the roster, delete it
+or manage members. Members can add expenses and settle up, which is what a shared
+ledger is for.
+
+The creator is pre-filled as the first participant when they create a group, so
+the common case needs no retyping. Leaving that row out is still allowed: an
+administrator keeping somebody else's books can manage a ledger they are not part
+of.
+
+### Invitations
+
+Access is granted by an invitation, not by forwarding the URL. `GroupInvite`
+holds an address, a single-use token, a role and a 14-day expiry; accepting it at
+`/invite/<token>` requires being signed in **as the invited address**. The token
+is therefore not a bearer capability — forwarding the email grants nothing.
+
+Spliit does not send mail yet, so the members page (`/groups/<id>/members`)
+shows the link for the owner to pass on. Accepting creates the membership, and
+links the invitee to an existing participant of the same name if there is exactly
+one, so somebody who was already named in the ledger keeps their balance instead
+of starting a second, empty identity.
+
+Which groups you see comes from the account. The browser only remembers
+starred/archived flags, ordering and which participant is "you" for display;
+the server re-resolves that from the membership, so a client cannot act as
+somebody else by claiming a different participant id.
+
+Not there yet: password reset (needs SMTP), email verification, and sending the
+invitation email itself.
 
 ## Run locally
 
@@ -82,6 +147,11 @@ npm run e2e
 That builds the image, starts app + PostgreSQL from `compose.e2e.yaml`, waits
 for `/api/health/readiness`, runs the suite and tears everything down. It never
 touches your development stack or `./postgres-data`.
+
+The suite signs in once (`e2e/global-setup.ts`) and reuses that session, because
+better-auth rate-limits its own endpoints. Specs that exercise signing in set
+`test.use({ storageState: SIGNED_OUT_STATE })`; `e2e/auth-state.ts` holds the
+credentials.
 
 While writing tests it is quicker to keep the stack up:
 
@@ -126,9 +196,9 @@ name: spliit
 services:
   app:
     image: ghcr.io/spliit-app/spliit:latest
-    user: "1000:1000" # change to your user id or remove if you want root
+    user: '1000:1000' # change to your user id or remove if you want root
     ports:
-      - "8080:3000/tcp"
+      - '8080:3000/tcp'
     environment:
       POSTGRES_PRISMA_URL: postgresql://spliit:spliit@database:5432/spliit
       POSTGRES_URL_NON_POOLING: postgresql://spliit:spliit@database:5432/spliit
@@ -141,7 +211,7 @@ services:
 
   database:
     image: postgres:17.3
-    user: "1000:1000" # same as above
+    user: '1000:1000' # same as above
     environment:
       POSTGRES_USER: spliit
       POSTGRES_PASSWORD: spliit

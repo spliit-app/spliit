@@ -16,6 +16,17 @@ export const groupFormSchema = z
         z.object({
           id: z.string().max(64).optional(),
           name: z.string().min(2, 'min2').max(50, 'max50'),
+          // Optional link to an existing account, so this participant can be
+          // notified when a settle-up names them. Empty means "someone without
+          // an account", which stays the normal case.
+          // `''` is what an emptied input submits, so it is a valid value that
+          // means "no account" rather than a missing one.
+          email: z
+            .union([
+              z.literal(''),
+              z.string().trim().toLowerCase().email('email').max(100),
+            ])
+            .optional(),
         }),
       )
       .min(1)

@@ -7,8 +7,11 @@ import { useRouter } from 'next/navigation'
 
 export const CreateGroup = ({
   defaultCurrencyCode,
+  currentUser,
 }: {
   defaultCurrencyCode: string
+  /** The signed-in creator, pre-filled as the first participant. */
+  currentUser?: { name: string; email: string }
 }) => {
   const { mutateAsync } = trpc.groups.create.useMutation()
   const utils = trpc.useUtils()
@@ -17,6 +20,7 @@ export const CreateGroup = ({
   return (
     <GroupForm
       defaultCurrencyCode={defaultCurrencyCode}
+      currentUser={currentUser}
       onSubmit={async (groupFormValues) => {
         const { groupId } = await mutateAsync({ groupFormValues })
         // Saved here rather than only once the group page has loaded it, so the
