@@ -7,7 +7,7 @@
  */
 import { writeFileSync } from 'node:fs'
 import { budgets, type Budget } from './budgets'
-import { waitForApp } from './client'
+import { signIn, waitForApp } from './client'
 import { baseUrl, config } from './config'
 import { runStep, type StepResult } from './harness'
 import { listGroups } from './scenarios/list-groups'
@@ -135,6 +135,8 @@ async function main() {
   )
 
   await waitForApp()
+  // The app is behind a login wall; the tRPC steps need a session cookie.
+  await signIn()
 
   const results: StepResult[] = []
   for (const step of selected) {

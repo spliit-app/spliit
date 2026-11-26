@@ -2,9 +2,11 @@ import { Button } from '@/components/ui/button'
 import { Participant } from '@/generated/prisma/browser'
 import { Reimbursement } from '@/lib/balances'
 import { Currency } from '@/lib/currency'
+import { useActiveParticipant } from '@/lib/use-active-participant'
 import { formatCurrency } from '@/lib/utils'
 import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
+import { AskSettleUpButton } from './payment-dues/ask-settle-up-button'
 
 type Props = {
   reimbursements: Reimbursement[]
@@ -21,6 +23,7 @@ export function ReimbursementList({
 }: Props) {
   const locale = useLocale()
   const t = useTranslations('Balances.Reimbursements')
+  const activeUser = useActiveParticipant(groupId, participants)
   if (reimbursements.length === 0) {
     return <p className="text-sm pb-6">{t('noImbursements')}</p>
   }
@@ -51,6 +54,16 @@ export function ReimbursementList({
                 {t('markAsPaid')}
               </Link>
             </Button>
+            <AskSettleUpButton
+              groupId={groupId}
+              from={reimbursement.from}
+              fromName={getParticipant(reimbursement.from)?.name ?? ''}
+              to={reimbursement.to}
+              toName={getParticipant(reimbursement.to)?.name ?? ''}
+              amount={reimbursement.amount}
+              currency={currency}
+              participantId={activeUser}
+            />
           </div>
           <div>{formatCurrency(currency, reimbursement.amount, locale)}</div>
         </div>

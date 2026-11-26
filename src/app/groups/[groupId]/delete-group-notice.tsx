@@ -9,20 +9,20 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { useToast } from '@/components/ui/use-toast'
-import { useActiveUser } from '@/lib/hooks'
 import { formatDate } from '@/lib/utils'
 import { trpc } from '@/trpc/client'
 import { Loader2 } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import { useState } from 'react'
-import { useCurrentGroup } from './current-group-context'
+import { useCurrentGroup, useIsGroupOwner } from './current-group-context'
 
 export const DeleteGroupNotice = () => {
-  const { group, groupId } = useCurrentGroup()
+  const { group } = useCurrentGroup()
+  // Only an owner can schedule a deletion, and only an owner can undo one.
+  const isOwner = useIsGroupOwner()
   const t = useTranslations('DeleteGroupNotice')
   const locale = useLocale()
   const { toast } = useToast()
-  const activeUserId = useActiveUser(groupId)
   const { mutateAsync } = trpc.groups.restore.useMutation()
   const utils = trpc.useUtils()
   const [isRestoring, setIsRestoring] = useState(false)
@@ -37,10 +37,7 @@ export const DeleteGroupNotice = () => {
   const restore = async () => {
     setIsRestoring(true)
     try {
-      await mutateAsync({
-        groupId: group.id,
-        participantId: activeUserId ?? undefined,
-      })
+      await mutateAsync({ groupId: group.id })
       await utils.groups.invalidate()
     } catch {
       toast({
@@ -65,7 +62,7 @@ export const DeleteGroupNotice = () => {
             : t('pastDeadline')}
         </CardDescription>
       </CardHeader>
-      {canRestore && (
+      {canRestore && isOwner && (
         <CardContent>
           <Button
             variant="destructive"

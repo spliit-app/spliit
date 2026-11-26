@@ -18,7 +18,9 @@ import {
 } from '@/components/ui/drawer'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { authClient } from '@/lib/auth-client'
 import { useMediaQuery } from '@/lib/hooks'
+import { useClaimParticipant } from '@/lib/use-claim-participant'
 import { cn } from '@/lib/utils'
 import { trpc } from '@/trpc/client'
 import { AppRouterOutput } from '@/trpc/routers/_app'
@@ -30,6 +32,7 @@ export function ActiveUserModal({ groupId }: { groupId: string }) {
   const [open, setOpen] = useState(false)
   const isDesktop = useMediaQuery('(min-width: 768px)')
   const { data: groupData } = trpc.groups.get.useQuery({ groupId })
+  const { data: session } = authClient.useSession()
 
   const group = groupData?.group
 
@@ -38,10 +41,23 @@ export function ActiveUserModal({ groupId }: { groupId: string }) {
 
     const tempUser = localStorage.getItem(`newGroup-activeUser`)
     const activeUser = localStorage.getItem(`${group.id}-activeUser`)
-    if (!tempUser && !activeUser) {
-      setOpen(true)
+    if (tempUser || activeUser) return
+
+    // The account may already own a participant in this group (linked by email,
+    // or claimed earlier on another device). Asking again would be noise, and
+    // would make the answer browser-local when the server already knows it.
+    const mine = session
+      ? group.participants.find(
+          (participant) => participant.userId === session.user.id,
+        )
+      : undefined
+    if (mine) {
+      localStorage.setItem(`${group.id}-activeUser`, mine.id)
+      return
     }
-  }, [group])
+
+    setOpen(true)
+  }, [group, session])
 
   function updateOpen(open: boolean) {
     if (!group) return
@@ -103,6 +119,7 @@ function ActiveUserForm({
 }) {
   const t = useTranslations('Expenses.ActiveUserModal')
   const [selected, setSelected] = useState('None')
+  const claimParticipant = useClaimParticipant(group?.id ?? '')
 
   return (
     <form
@@ -112,6 +129,7 @@ function ActiveUserForm({
 
         event.preventDefault()
         localStorage.setItem(`${group.id}-activeUser`, selected)
+        claimParticipant(selected)
         close()
       }}
     >

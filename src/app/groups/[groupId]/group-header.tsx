@@ -23,7 +23,7 @@ export const GroupHeader = () => {
 
       <div className="flex gap-2 justify-between">
         <GroupTabs groupId={groupId} />
-        {group && <ShareButton group={group} />}
+        {group && <ShareButton />}
       </div>
     </div>
   )

@@ -1,53 +1,52 @@
 'use client'
 
-import { CopyButton } from '@/components/copy-button'
-import { ShareQrCodeDialog } from '@/components/share-qr-code-dialog'
-import { ShareUrlButton } from '@/components/share-url-button'
+import {
+  useCurrentGroup,
+  useIsGroupOwner,
+} from '@/app/groups/[groupId]/current-group-context'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { Group } from '@/generated/prisma/browser'
-import { useBaseUrl } from '@/lib/hooks'
-import { Share } from 'lucide-react'
+import { UserPlus } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import { useRouter } from 'next/navigation'
 
-type Props = {
-  group: Group
-}
-
-export function ShareButton({ group }: Props) {
+/**
+ * Entry point for adding people.
+ *
+ * This used to copy the group's URL into the clipboard, which worked because
+ * knowing the id *was* the permission. It no longer is: a non-member gets
+ * NOT_FOUND, so a pasted link would be a dead end. Access is granted by an
+ * invitation bound to an email address, which the members page hands out.
+ */
+export function ShareButton() {
   const t = useTranslations('Share')
-  const baseUrl = useBaseUrl()
-  const url = baseUrl && `${baseUrl}/groups/${group.id}/expenses?ref=share`
+  const isOwner = useIsGroupOwner()
+  const { groupId } = useCurrentGroup()
+  const router = useRouter()
+
+  if (!isOwner) return null
 
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button title={t('title')} size="icon" className="flex-shrink-0">
-          <Share className="w-4 h-4" />
+        <Button
+          title={t('inviteTitle')}
+          size="icon"
+          className="flex-shrink-0"
+          aria-label={t('inviteTitle')}
+        >
+          <UserPlus className="w-4 h-4" />
         </Button>
       </PopoverTrigger>
       <PopoverContent align="end" className="[&_p]:text-sm flex flex-col gap-3">
-        <p>{t('description')}</p>
-        {url && (
-          <div className="flex gap-2">
-            <Input className="flex-1" defaultValue={url} readOnly />
-            <CopyButton text={url} title={t('copyLink')} />
-            <ShareUrlButton
-              text={`Join my group ${group.name} on Spliit`}
-              url={url}
-              title={t('shareLink')}
-            />
-            <ShareQrCodeDialog url={url} groupName={group.name} />
-          </div>
-        )}
-        <p>
-          <strong>{t('warning')}</strong> {t('warningHelp')}
-        </p>
+        <p>{t('inviteDescription')}</p>
+        <Button onClick={() => router.push(`/groups/${groupId}/members`)}>
+          {t('manageMembers')}
+        </Button>
       </PopoverContent>
     </Popover>
   )

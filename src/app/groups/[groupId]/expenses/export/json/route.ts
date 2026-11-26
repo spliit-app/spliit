@@ -1,3 +1,4 @@
+import { getSessionFromRequest } from '@/lib/auth-server'
 import { prisma } from '@/lib/prisma'
 import { create as contentDisposition } from 'content-disposition'
 import { NextResponse } from 'next/server'
@@ -6,6 +7,12 @@ export async function GET(
   req: Request,
   { params }: { params: Promise<{ groupId: string }> },
 ) {
+  // Route handlers are not wrapped by the groups layout, so the login wall has
+  // to be enforced here too: an export is the whole ledger in one file.
+  if (!(await getSessionFromRequest(req))) {
+    return new Response(null, { status: 401 })
+  }
+
   const { groupId } = await params
   const group = await prisma.group.findUnique({
     where: { id: groupId },

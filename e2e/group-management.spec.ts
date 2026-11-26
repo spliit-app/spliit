@@ -56,7 +56,7 @@ test('renames a group and adds a participant afterwards', async ({ page }) => {
   await expectBalance(page, 'Dave', 60)
 })
 
-test('lists visited groups under Recent groups', async ({ page }) => {
+test('lists the groups created by this account', async ({ page }) => {
   const first = `E2E Recent A ${uniqueSuffix()}`
   const second = `E2E Recent B ${uniqueSuffix()}`
 
@@ -71,13 +71,26 @@ test('lists visited groups under Recent groups', async ({ page }) => {
   await expect(page.getByRole('link', { name: second })).toBeVisible()
 })
 
-test('shows no recent groups in a fresh browser profile', async ({ page }) => {
-  // Recent groups live in localStorage, so a new context must start empty even
-  // though other tests have created groups on the same database.
-  await page.goto('/groups')
-  await expect(
-    page.getByText('You have not visited any group recently.'),
-  ).toBeVisible()
+test('shows the account groups in a fresh browser profile', async ({
+  page,
+}) => {
+  // The list belongs to the account, not to the browser: a brand-new context
+  // with no localStorage still lists the groups this account created. It used
+  // to be the opposite, which is what made a second account inherit them.
+  const name = `E2E Fresh Profile ${uniqueSuffix()}`
+  await createGroup(page, { name, participants: ['Alice', 'Bob'] })
+
+  const fresh = await page
+    .context()
+    .browser()!
+    .newContext({
+      baseURL: new URL(page.url()).origin,
+      storageState: await page.context().storageState(),
+    })
+  const freshPage = await fresh.newPage()
+  await freshPage.goto('/groups')
+  await expect(freshPage.getByRole('link', { name })).toBeVisible()
+  await fresh.close()
 })
 
 test('records group and expense changes in the activity log', async ({

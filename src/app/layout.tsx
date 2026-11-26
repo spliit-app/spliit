@@ -1,5 +1,7 @@
 import { ApplePwaSplash } from '@/app/apple-pwa-splash'
+import { AccountMenu } from '@/components/account-menu'
 import { LocaleSwitcher } from '@/components/locale-switcher'
+import { NotificationsBell } from '@/components/notifications-bell'
 import { ProgressBar } from '@/components/progress-bar'
 import { ServiceWorkerRegistration } from '@/components/service-worker-registration'
 import { ThemeProvider } from '@/components/theme-provider'
@@ -27,11 +29,11 @@ export async function generateMetadata(): Promise<Metadata> {
       template: '%s · Spliit',
     },
     description:
-      'Spliit is a minimalist web application to share expenses with friends and family. No ads, no account, no problem.',
+      'Spliit is a minimalist web application to share expenses with friends and family. No ads, no problem.',
     openGraph: {
       title: t('metaTitle'),
       description:
-        'Spliit is a minimalist web application to share expenses with friends and family. No ads, no account, no problem.',
+        'Spliit is a minimalist web application to share expenses with friends and family. No ads, no problem.',
       images: `/banner.png`,
       type: 'website',
       url: '/',
@@ -43,7 +45,7 @@ export async function generateMetadata(): Promise<Metadata> {
       images: `/banner.png`,
       title: t('metaTitle'),
       description:
-        'Spliit is a minimalist web application to share expenses with friends and family. No ads, no account, no problem.',
+        'Spliit is a minimalist web application to share expenses with friends and family. No ads, no problem.',
     },
     appleWebApp: {
       capable: true,
@@ -101,10 +103,16 @@ function Content({ children }: { children: React.ReactNode }) {
               </Button>
             </li>
             <li>
+              <NotificationsBell />
+            </li>
+            <li>
               <LocaleSwitcher />
             </li>
             <li>
               <ThemeToggle />
+            </li>
+            <li>
+              <AccountMenu />
             </li>
           </ul>
         </div>
