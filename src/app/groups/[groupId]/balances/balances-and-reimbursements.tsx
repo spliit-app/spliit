@@ -1,6 +1,7 @@
 'use client'
 
 import { BalancesList } from '@/app/groups/[groupId]/balances-list'
+import { PaymentDuesCard } from '@/app/groups/[groupId]/payment-dues/payment-dues-card'
 import { ReimbursementList } from '@/app/groups/[groupId]/reimbursement-list'
 import {
   Card,
@@ -75,6 +76,7 @@ export default function BalancesAndReimbursements() {
           )}
         </CardContent>
       </Card>
+      <PaymentDuesCard />
     </>
   )
 }

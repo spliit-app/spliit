@@ -80,11 +80,22 @@ async function purgeGroup(groupId: string, now: Date) {
   }
 
   // Deleting the group cascades to its participants, expenses and activities,
-  // but documents are only detached from their expense, so they go explicitly.
+  // but the ledger rows now reference participants with ON DELETE RESTRICT
+  // (see the migration), so the order matters: expenses and obligations have to
+  // go before the participants they point at. Deleting the group alone would
+  // make Postgres cascade into `Participant` while `Expense` still references
+  // it, and the whole purge would fail.
   await prisma.$transaction([
     prisma.expenseDocument.deleteMany({
       where: { id: { in: documents.map((document) => document.id) } },
     }),
+    // Cascades to ExpensePaidFor and RecurringExpenseLink.
+    prisma.expense.deleteMany({ where: { groupId } }),
+    prisma.paymentDue.deleteMany({ where: { groupId } }),
+    prisma.activity.deleteMany({ where: { groupId } }),
+    prisma.participant.deleteMany({ where: { groupId } }),
+    prisma.groupInvite.deleteMany({ where: { groupId } }),
+    prisma.groupMembership.deleteMany({ where: { groupId } }),
     prisma.group.delete({ where: { id: groupId, deleteAt: { lte: now } } }),
   ])
 }

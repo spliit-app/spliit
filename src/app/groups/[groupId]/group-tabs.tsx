@@ -1,5 +1,6 @@
 'use client'
 
+import { useIsGroupOwner } from '@/app/groups/[groupId]/current-group-context'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
   Activity,
@@ -8,6 +9,7 @@ import {
   Receipt,
   Scale,
   Settings,
+  Users,
 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { usePathname, useRouter } from 'next/navigation'
@@ -20,6 +22,7 @@ type Props = {
 export function GroupTabs({ groupId }: Props) {
   const t = useTranslations()
   const pathname = usePathname()
+  const isOwner = useIsGroupOwner()
   const value =
     pathname.replace(/\/groups\/[^\/]+\/([^/]+).*/, '$1') || 'expenses'
   const router = useRouter()
@@ -30,7 +33,18 @@ export function GroupTabs({ groupId }: Props) {
     { value: 'information', label: t('Information.title'), Icon: Info },
     { value: 'stats', label: t('Stats.title'), Icon: BarChart3 },
     { value: 'activity', label: t('Activity.title'), Icon: Activity },
-    { value: 'edit', label: t('Settings.title'), Icon: Settings },
+    { value: 'members', label: t('Members.title'), Icon: Users },
+    // Settings is structural (name, currency, roster) and the server refuses it
+    // to non-owners, so the tab is not offered to them either.
+    ...(isOwner
+      ? [
+          {
+            value: 'edit',
+            label: t('Settings.title'),
+            Icon: Settings,
+          },
+        ]
+      : []),
   ]
 
   return (

@@ -51,3 +51,4 @@ postgres-data
 
 # performance suite output (perf/run.ts)
 /perf-report.json
+.auth/

@@ -9,6 +9,7 @@ import {
   getGroupedExpensesByDate,
   getWeekStartsOn,
 } from '@/lib/date-groups'
+import { useClaimParticipant } from '@/lib/use-claim-participant'
 import { getCurrencyFromGroup } from '@/lib/utils'
 import { trpc } from '@/trpc/client'
 import dayjs from 'dayjs'
@@ -27,6 +28,7 @@ export function ExpenseList() {
   const [debouncedSearchText] = useDebounce(searchText, 300)
 
   const participants = group?.participants
+  const claimParticipant = useClaimParticipant(groupId)
 
   useEffect(() => {
     if (!participants) return
@@ -44,10 +46,13 @@ export function ExpenseList() {
         )?.id
         if (userId) {
           localStorage.setItem(`${groupId}-activeUser`, userId)
+          // Also remember it server-side when signed in, so settle-up
+          // reminders can follow this person across devices.
+          claimParticipant(userId)
         }
       }
     }
-  }, [groupId, participants])
+  }, [groupId, participants, claimParticipant])
 
   return (
     <>

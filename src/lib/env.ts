@@ -83,6 +83,27 @@ const envSchema = z
       interpretEnvVarAsBool,
       z.boolean().default(false),
     ),
+    // Signs the session cookie. Optional so that an existing deployment keeps
+    // booting; better-auth refuses to run in production without it, which is the
+    // failure mode we want (loud at startup, not a forgeable cookie).
+    BETTER_AUTH_SECRET: z.preprocess(
+      interpretBlankEnvVarAsUndefined,
+      z.string().trim().optional(),
+    ),
+    // Requests allowed per window on the credential endpoints (sign-in,
+    // sign-up). Defaults to 10 per minute per IP. Test rigs raise it because
+    // they authenticate far more often than a person, and better-auth resets a
+    // bucket only after a *silent* window -- so a test suite can starve itself.
+    AUTH_RATE_LIMIT_MAX: z.preprocess(
+      interpretBlankEnvVarAsUndefined,
+      z.coerce.number().int().positive().optional(),
+    ),
+    // Public URL the auth routes are mounted at. Defaults to the request's own
+    // origin when unset.
+    BETTER_AUTH_URL: z.preprocess(
+      interpretBlankEnvVarAsUndefined,
+      z.string().trim().url().optional(),
+    ),
     // Bearer token the scheduled jobs under /api/cron must be called with.
     // They are disabled while it is unset. Vercel Cron sends it automatically.
     CRON_SECRET: z.preprocess(

@@ -39,12 +39,11 @@ export function CreateExpenseForm({
       group={group}
       categories={categories}
       expenseId={expenseId}
-      onSubmit={async (expenseFormValues, participantId) => {
+      onSubmit={async (expenseFormValues) => {
         try {
           await createExpenseMutateAsync({
             groupId,
             expenseFormValues,
-            participantId,
             expenseId,
           })
         } catch (error) {

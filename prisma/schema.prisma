@@ -22,8 +22,86 @@ model Group {
   participants Participant[]
   expenses     Expense[]
   activities   Activity[]
+  paymentDues  PaymentDue[]
+  memberships  GroupMembership[]
+  invites      GroupInvite[]
   createdAt    DateTime      @default(now())
   deleteAt     DateTime?
+
+  // Who created the group. Kept for display and for the "owner" of groups
+  // created before memberships existed; access itself is decided by
+  // `GroupMembership`, not by this column. Null for legacy groups.
+  createdBy   User?   @relation("GroupCreator", fields: [createdByUserId], references: [id], onDelete: SetNull)
+  createdByUserId String?
+
+  @@index([createdByUserId])
+}
+
+enum GroupRole {
+  OWNER
+  MEMBER
+}
+
+enum MembershipStatus {
+  ACTIVE
+  REMOVED
+}
+
+// Who may open a group.
+//
+// Deliberately separate from `Participant`: a participant is a ledger identity
+// (a name that owes money, possibly with no account at all), while a membership
+// is an access right for an account. Folding the two together would mean that
+// revoking access requires deleting the participant -- and deleting a
+// participant cascades into their expenses (see the RESTRICT notes there).
+model GroupMembership {
+  id      String @id
+  group   Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  groupId String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  String
+
+  role   GroupRole        @default(MEMBER)
+  status MembershipStatus @default(ACTIVE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // One membership per account per group. A REMOVED row is kept rather than
+  // deleted so the audit trail survives a revocation.
+  @@unique([groupId, userId])
+  @@index([userId])
+}
+
+// A pending invitation to an account that is not a member yet.
+//
+// The link-based model treated the group URL itself as the invitation. This is
+// the account-based replacement: a single-use token bound to one address, with
+// an expiry, that the recipient accepts while signed in as that address.
+model GroupInvite {
+  id      String @id
+  group   Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  groupId String
+
+  email String
+  role  GroupRole @default(MEMBER)
+  // Single use. Accepted invitations are kept for the audit trail.
+  token String    @unique
+
+  createdBy   User?   @relation("GroupInviteCreator", fields: [createdByUserId], references: [id], onDelete: SetNull)
+  createdByUserId String?
+
+  expiresAt DateTime
+
+  acceptedBy   User?    @relation("GroupInviteAcceptor", fields: [acceptedByUserId], references: [id], onDelete: SetNull)
+  acceptedByUserId String?
+  acceptedAt    DateTime?
+  revokedAt     DateTime?
+
+  createdAt DateTime @default(now())
+
+  @@index([groupId])
+  @@index([email])
 }
 
 model Participant {
@@ -33,6 +111,22 @@ model Participant {
   groupId         String
   expensesPaidBy  Expense[]
   expensesPaidFor ExpensePaidFor[]
+  paymentDuesOwed PaymentDue[]     @relation("PaymentDueDebtor")
+  paymentDuesDue  PaymentDue[]     @relation("PaymentDueCreditor")
+
+  // The account this ledger identity belongs to, when there is one. Optional on
+  // purpose: a participant is a name in a group, and most of them (the flatmate
+  // who will never install the app, a one-off trip) have no account.
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId String?
+
+  // Soft removal: a participant who leaves keeps their ledger identity, so the
+  // expenses they paid and owe still make sense. Hidden from the group UI.
+  removedAt DateTime?
+
+  // One account can only be one person per group. Postgres treats NULLs as
+  // distinct, so any number of unlinked participants still coexist.
+  @@unique([groupId, userId])
 }
 
 model Category {
@@ -53,7 +147,10 @@ model Expense {
   originalAmount   Int?
   originalCurrency String?
   conversionRate   Decimal?
-  paidBy           Participant       @relation(fields: [paidById], references: [id], onDelete: Cascade)
+  // RESTRICT, not CASCADE: deleting a participant used to silently delete every
+  // expense they paid. Removing someone from a group must never destroy the
+  // group's financial history, so the database refuses instead.
+  paidBy           Participant       @relation(fields: [paidById], references: [id], onDelete: Restrict)
   paidById         String
   paidFor          ExpensePaidFor[]
   groupId          String
@@ -66,6 +163,7 @@ model Expense {
   recurrenceRule         RecurrenceRule?       @default(NONE)
   recurringExpenseLink   RecurringExpenseLink?
   recurringExpenseLinkId String?
+  settledPaymentDue      PaymentDue?
 }
 
 model ExpenseDocument {
@@ -114,7 +212,9 @@ enum RecurrenceRule {
 
 model ExpensePaidFor {
   expense       Expense     @relation(fields: [expenseId], references: [id], onDelete: Cascade)
-  participant   Participant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  // RESTRICT for the same reason as `Expense.paidBy`: a participant's shares are
+  // part of history, and deleting the row would quietly rebalance the group.
+  participant   Participant @relation(fields: [participantId], references: [id], onDelete: Restrict)
   expenseId     String
   participantId String
   shares        Int         @default(1)
@@ -140,4 +240,123 @@ enum ActivityType {
   DELETE_EXPENSE
   SCHEDULE_GROUP_DELETION
   RESTORE_GROUP
+  CREATE_PAYMENT_DUE
+  SETTLE_PAYMENT_DUE
+  CANCEL_PAYMENT_DUE
+}
+
+// A settle-up request with a deadline: "Bob owes Alice 42.50 by 2026-03-01".
+//
+// Deliberately not `Expense.dueDate`: a participant's share is recomputed on
+// every expense edit (split mode, shares, participants), so an obligation tied
+// to an expense becomes a lie the first time somebody touches that expense.
+// Here the amount is a snapshot, and reconciliation with the *computed*
+// balances (`isPaymentDueStale`) decides whether it is still meaningful.
+model PaymentDue {
+  id     String @id
+  group  Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  groupId String
+
+  // The debtor: the one who has to pay.
+  // RESTRICT: an obligation is a record of a promise, so deleting the
+  // participant must not erase it.
+  fromParticipant   Participant @relation("PaymentDueDebtor", fields: [fromParticipantId], references: [id], onDelete: Restrict)
+  fromParticipantId String
+  // The creditor: the one waiting for the money.
+  toParticipant   Participant @relation("PaymentDueCreditor", fields: [toParticipantId], references: [id], onDelete: Restrict)
+  toParticipantId String
+
+  // Minor units, same convention as Expense.amount.
+  amount  Int
+  dueDate DateTime         @db.Date
+  status  PaymentDueStatus @default(PENDING)
+
+  // Set when the debtor (or the creditor) records the reimbursement expense
+  // that settles this obligation. Deleting that expense reopens the obligation.
+  settledByExpense   Expense?  @relation(fields: [settledByExpenseId], references: [id], onDelete: SetNull)
+  settledByExpenseId String?   @unique
+  settledAt          DateTime?
+
+  createdByParticipantId String?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  @@index([groupId, status])
+  @@index([groupId, status, dueDate])
+  @@index([fromParticipantId, status, dueDate])
+  @@index([toParticipantId, status, dueDate])
+}
+
+enum PaymentDueStatus {
+  PENDING
+  SETTLED
+  CANCELLED
+  SUPERSEDED
+}
+
+// --- Authentication -------------------------------------------------------
+// The core schema better-auth expects (see https://better-auth.com/docs). Field
+// names are part of its contract: the Prisma adapter addresses them directly,
+// so renaming one breaks sign-in rather than producing a type error.
+
+model User {
+  id            String        @id
+  name          String
+  email         String        @unique
+  emailVerified Boolean       @default(false)
+  image         String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+  participants  Participant[]
+  createdGroups Group[]       @relation("GroupCreator")
+
+  memberships      GroupMembership[]
+  invitesCreated   GroupInvite[]    @relation("GroupInviteCreator")
+  invitesAccepted  GroupInvite[]    @relation("GroupInviteAcceptor")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
 }

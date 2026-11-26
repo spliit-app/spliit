@@ -2,7 +2,8 @@
 
 import { Button } from '@/components/ui/button'
 import { ActivityType, Participant } from '@/generated/prisma/browser'
-import { cn, DateTimeStyle, formatDate } from '@/lib/utils'
+import { parsePaymentDueActivityData } from '@/lib/payment-due'
+import { cn, DateTimeStyle, formatDate, formatDateOnly } from '@/lib/utils'
 import { AppRouterOutput } from '@/trpc/routers/_app'
 import { ChevronRight } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
@@ -21,13 +22,23 @@ type Props = {
 
 function useSummary(activity: Activity, participantName?: string) {
   const t = useTranslations('Activity')
+  const locale = useLocale()
   const participant = participantName ?? t('someone')
   const expense = activity.data ?? ''
+  // Settle-up activities carry their deadline as JSON in `data`; expense ones
+  // carry the expense title. Missing or foreign payloads read as an empty date.
+  const dueDate = parsePaymentDueActivityData(activity.data)?.dueDate
+  const date = dueDate
+    ? formatDateOnly(new Date(`${dueDate}T00:00:00.000Z`), locale, {
+        dateStyle: 'medium',
+      })
+    : ''
 
   const tr = (key: string) =>
     t.rich(key, {
       expense,
       participant,
+      date,
       em: (chunks) => <em>&ldquo;{chunks}&rdquo;</em>,
       strong: (chunks) => <strong>{chunks}</strong>,
     })
@@ -44,6 +55,12 @@ function useSummary(activity: Activity, participantName?: string) {
     return <>{tr('groupDeletionScheduled')}</>
   } else if (activity.activityType == ActivityType.RESTORE_GROUP) {
     return <>{tr('groupRestored')}</>
+  } else if (activity.activityType == ActivityType.CREATE_PAYMENT_DUE) {
+    return <>{tr('paymentDueCreated')}</>
+  } else if (activity.activityType == ActivityType.SETTLE_PAYMENT_DUE) {
+    return <>{tr('paymentDueSettled')}</>
+  } else if (activity.activityType == ActivityType.CANCEL_PAYMENT_DUE) {
+    return <>{tr('paymentDueCancelled')}</>
   }
 }
 

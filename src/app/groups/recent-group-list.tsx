@@ -2,7 +2,6 @@
 
 import { AddGroupByUrlButton } from '@/app/groups/add-group-by-url-button'
 import {
-  forgetGroups,
   getArchivedGroups,
   getRecentGroups,
   getStarredGroups,
@@ -93,7 +92,7 @@ export function RecentGroupList() {
 
   return (
     <RecentGroupList_
-      groups={state.groups}
+      recentGroupIds={state.groups.map((group) => group.id)}
       starredGroups={state.starredGroups}
       archivedGroups={state.archivedGroups}
       refreshGroupsFromStorage={loadGroups}
@@ -102,35 +101,36 @@ export function RecentGroupList() {
 }
 
 function RecentGroupList_({
-  groups,
+  recentGroupIds,
   starredGroups,
   archivedGroups,
   refreshGroupsFromStorage,
 }: {
-  groups: RecentGroups
+  /** Recency hint from localStorage; it no longer decides membership. */
+  recentGroupIds: string[]
   starredGroups: string[]
   archivedGroups: string[]
   refreshGroupsFromStorage: () => void
 }) {
   const t = useTranslations('Groups')
-  const groupIds = useMemo(
-    () => groups.map((group) => group.id).slice(0, MAX_GROUPS_PER_QUERY),
-    [groups],
-  )
-  const { data, isLoading, isError, refetch } = trpc.groups.list.useQuery({
-    groupIds,
-  })
+  // Membership comes from the account (a linked participant), not from this
+  // browser: two accounts sharing a browser used to see each other's groups.
+  const { data, isLoading, isError, refetch } = trpc.groups.mine.useQuery()
 
-  // Groups that were requested but not returned have been deleted: forget
-  // them. Only the requested ones can be judged, as the query is capped.
-  useEffect(() => {
-    if (!data) return
-    const foundGroupIds = new Set(data.groups.map((group) => group.id))
-    const deletedGroupIds = groupIds.filter((id) => !foundGroupIds.has(id))
-    if (deletedGroupIds.length === 0) return
-    forgetGroups(deletedGroupIds)
-    refreshGroupsFromStorage()
-  }, [data, groupIds, refreshGroupsFromStorage])
+  const groups: RecentGroups = useMemo(() => {
+    if (!data) return []
+    const byId = new Map(data.groups.map((group) => [group.id, group]))
+    const stored = recentGroupIds
+      .filter((id) => byId.has(id))
+      .slice(0, MAX_GROUPS_PER_QUERY)
+    const rest = data.groups
+      .filter((group) => !stored.includes(group.id))
+      .map((group) => group.id)
+    return [...stored, ...rest].map((id) => ({
+      id,
+      name: byId.get(id)!.name,
+    }))
+  }, [data, recentGroupIds])
 
   if (isError) {
     return (
@@ -156,11 +156,14 @@ function RecentGroupList_({
     )
   }
 
-  if (data.groups.length === 0) {
+  if (groups.length === 0) {
     return (
       <GroupsPage reload={refreshGroupsFromStorage}>
         <div className="text-sm space-y-2">
           <p>{t('NoRecent.description')}</p>
+          <p className="text-muted-foreground">
+            {t('NoRecent.claimedDescription')}
+          </p>
           <p>
             <Button variant="link" asChild className="-m-4">
               <Link href={`/groups/create`}>{t('NoRecent.create')}</Link>
@@ -234,7 +237,7 @@ function GroupList({
   refreshGroupsFromStorage,
 }: {
   groups: RecentGroups
-  groupDetails?: AppRouterOutput['groups']['list']['groups']
+  groupDetails?: AppRouterOutput['groups']['mine']['groups']
   starredGroups: string[]
   archivedGroups: string[]
   refreshGroupsFromStorage: () => void
