@@ -74,6 +74,7 @@ import { match } from 'ts-pattern'
 import { DeletePopup } from '../../../../components/delete-popup'
 import { extractCategoryFromTitle } from '../../../../components/expense-form-actions'
 import { Textarea } from '../../../../components/ui/textarea'
+import { RecurrenceFields } from './recurrence-fields'
 
 /**
  * Keeps only what can be part of a number in the typed value. Given a
@@ -169,6 +170,14 @@ async function persistDefaultSplittingOptions(
   }
 }
 
+const defaultSeriesValues = {
+  seriesKind: 'RECURRING',
+  recurrenceEnd: 'NEVER',
+  recurrenceEndDate: undefined,
+  recurrenceOccurrences: undefined,
+  installmentAmountIsTotal: true,
+} as const
+
 export function ExpenseForm({
   group,
   categories,
@@ -208,9 +217,6 @@ export function ExpenseForm({
     return field?.value
   }
 
-  const getSelectedRecurrenceRule = (field?: { value?: string }) => {
-    return field?.value as RecurrenceRule
-  }
   const defaultSplittingOptions = getDefaultSplittingOptions(group)
   const groupCurrency = getCurrencyFromGroup(group)
   const form = useForm<ExpenseFormInput, any, ExpenseFormValues>({
@@ -248,6 +254,17 @@ export function ExpenseForm({
           documents: expense.documents,
           notes: expense.notes ?? '',
           recurrenceRule: expense.recurrenceRule ?? undefined,
+          seriesKind: expense.series?.kind ?? 'RECURRING',
+          recurrenceEnd: expense.series?.endDate
+            ? 'ON_DATE'
+            : expense.series?.occurrenceCount
+              ? 'AFTER_OCCURRENCES'
+              : 'NEVER',
+          recurrenceEndDate: expense.series?.endDate ?? undefined,
+          recurrenceOccurrences: expense.series?.occurrenceCount ?? undefined,
+          installmentAmountIsTotal: expense.series
+            ? expense.series.totalAmount != null
+            : true,
         }
       : isRepayment
         ? {
@@ -278,6 +295,7 @@ export function ExpenseForm({
             documents: [],
             notes: '',
             recurrenceRule: RecurrenceRule.NONE,
+            ...defaultSeriesValues,
           }
         : {
             title: searchParams.get('title') ?? '',
@@ -309,6 +327,7 @@ export function ExpenseForm({
               : [],
             notes: '',
             recurrenceRule: RecurrenceRule.NONE,
+            ...defaultSeriesValues,
           },
   })
   const [isCategoryLoading, setCategoryLoading] = useState(false)
@@ -999,48 +1018,16 @@ export function ExpenseForm({
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="recurrenceRule"
-              render={({ field }) => (
-                <FormItem className="sm:order-5">
-                  <FormLabel>{t(`${sExpense}.recurrenceRule.label`)}</FormLabel>
-                  <Select
-                    onValueChange={(value) => {
-                      form.setValue('recurrenceRule', value as RecurrenceRule)
-                    }}
-                    defaultValue={getSelectedRecurrenceRule(field)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="NONE" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="NONE">
-                        {t(`${sExpense}.recurrenceRule.none`)}
-                      </SelectItem>
-                      <SelectItem value="DAILY">
-                        {t(`${sExpense}.recurrenceRule.daily`)}
-                      </SelectItem>
-                      <SelectItem value="WEEKLY">
-                        {t(`${sExpense}.recurrenceRule.weekly`)}
-                      </SelectItem>
-                      <SelectItem value="MONTHLY">
-                        {t(`${sExpense}.recurrenceRule.monthly`)}
-                      </SelectItem>
-                      <SelectItem value="YEARLY">
-                        {t(`${sExpense}.recurrenceRule.yearly`)}
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>
-                    {t(`${sExpense}.recurrenceRule.description`)}
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
           </CardContent>
         </Card>
+
+        <RecurrenceFields
+          form={form}
+          expense={expense}
+          groupId={group.id}
+          groupCurrency={groupCurrency}
+          isIncome={isIncome}
+        />
 
         <Card className="mt-4">
           <CardHeader>

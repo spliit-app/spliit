@@ -54,7 +54,11 @@
     "everyone": "everyone",
     "receivedBy": "Received by <strong>{paidBy}</strong> for <paidFor></paidFor>",
     "yourBalance": "Your balance:",
-    "notInvolved": "You are not involved"
+    "notInvolved": "You are not involved",
+    "recurring": "Recurring expense",
+    "installmentOf": "Installment {number} of {count}",
+    "occurrenceOf": "Occurrence {number} of {count}",
+    "occurrence": "Occurrence {number}"
   },
   "Groups": {
     "myGroups": "My groups",
@@ -308,7 +312,54 @@
     "save": "Save",
     "saving": "Saving…",
     "cancel": "Cancel",
-    "reimbursement": "Reimbursement"
+    "reimbursement": "Reimbursement",
+    "Recurrence": {
+      "title": "Repeat or pay in installments",
+      "description": "Repeat this expense on a schedule, or split a purchase into monthly installments.",
+      "modes": {
+        "none": "Does not repeat",
+        "recurring": "Repeats",
+        "installments": "Installments"
+      },
+      "recurring": "Recurring expense",
+      "installments": "Installment plan",
+      "installmentOf": "Installment {number} of {count}",
+      "occurrenceOf": "Occurrence {number} of {count}",
+      "occurrence": "Occurrence {number}",
+      "pastOccurrence": "This occurrence is in the past: the repetition can only be changed from the latest one.",
+      "goToLatest": "Open the latest one",
+      "frequency": "Repeats",
+      "stopHere": "Stop repeating here",
+      "ends": "Ends",
+      "endsNever": "Never",
+      "endsOnDate": "On",
+      "endsAfter": "After",
+      "times": "times",
+      "installmentCount": "Number of installments",
+      "installmentCountSuffix": "installments",
+      "installmentCountDescription": "One installment per month, starting on the expense date (up to {max}).",
+      "amountIs": "The amount entered is",
+      "amountIsTotal": "the purchase total",
+      "amountIsEach": "the amount of each installment",
+      "editBecomesFirst": "Saving turns this expense into the 1st installment.",
+      "lastInstallment": "This is the last installment.",
+      "continueInstallments": "Keep recording the next installments",
+      "continueInstallmentsDescription": "Untick to stop the plan at this installment (a returned purchase, say).",
+      "thisMonth": "this month",
+      "more": "+{count} more",
+      "installmentsEven": "{count}x {amount}",
+      "installmentsUneven": "{count}x: 1st {first}, then {other}",
+      "purchaseTotal": "Total {amount}",
+      "firstAndLast": "1st on {first}, last on {last}",
+      "installmentsHowItWorks": "Each installment is recorded on its own date, so only this month's one counts in the balances now. The next ones show up as expected in the Monthly tab.",
+      "openEndedSummary": "{amount} each time, with no end date.",
+      "boundedSummary": "{count, plural, one {# time} other {# times}} in all, the last one on {last}: {total} from this one on.",
+      "recurringHowItWorks": "Each occurrence is recorded on its own date.",
+      "planSummary": "Purchase total {total} · recorded so far {recorded} · left {left}",
+      "stopped": "stopped",
+      "recurringSummary": "{count, plural, one {# occurrence} other {# occurrences}} recorded, {recorded} in all",
+      "splitHint": "“Paid for” below shows how the whole purchase is split: each installment is split the same way."
+    }
   },
   "ExpenseDocumentsInput": {
     "TooBigToast": {
@@ -505,7 +556,10 @@
     "paidForMin1": "The expense must be paid for at least one participant.",
     "noZeroShares": "All shares must be higher than 0.",
     "amountSum": "The amounts add up to {sum}, {difference} {direction, select, over {more} other {less}} than the expense amount ({amount}).",
-    "percentageSum": "The percentages add up to {sum}%, {difference}% {direction, select, over {more} other {less}} than 100%."
+    "percentageSum": "The percentages add up to {sum}%, {difference}% {direction, select, over {more} other {less}} than 100%.",
+    "occurrencesRange": "Enter a number between 2 and 360.",
+    "endDateRequired": "Choose the end date.",
+    "endDateBeforeStart": "The end date must not be before the expense date."
   },
   "Categories": {
     "search": "Search category...",
@@ -593,5 +647,58 @@
     "updateTitle": "Update available",
     "updateDescription": "A new version of Spliit is available.",
     "reload": "Reload"
+  },
+  "Monthly": {
+    "title": "Monthly",
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month",
+    "thisMonth": "This month",
+    "backToThisMonth": "Back to this month",
+    "total": "Spending this month",
+    "recordedAndExpected": "{recorded} recorded · {expected} expected",
+    "types": {
+      "installment": "Installments",
+      "recurring": "Recurring",
+      "oneOff": "One-off",
+      "reimbursement": "Reimbursements"
+    },
+    "entryCount": "{count, plural, =0 {none} one {# expense} other {# expenses}}",
+    "sections": {
+      "installment": "Installments",
+      "recurring": "Recurring expenses",
+      "oneOff": "One-off expenses",
+      "reimbursement": "Reimbursements"
+    },
+    "sectionDescriptions": {
+      "installment": "Only the installment of this month counts, not the whole purchase.",
+      "recurring": "Subscriptions, rent and other expenses that repeat.",
+      "oneOff": "Expenses that happen once.",
+      "reimbursement": "Money paid back between participants. Not counted as spending."
+    },
+    "expected": "expected",
+    "entryDetails": "{date} · paid by {paidBy}",
+    "remaining": "{count, plural, one {# left} other {# left}} ({amount})",
+    "lastInstallment": "last one",
+    "Settlement": {
+      "title": "Who owes whom this month",
+      "description": "Only what falls in this month. The Balances tab still covers the whole group.",
+      "includeExpected": "Count the expected expenses too",
+      "empty": "Nothing to settle this month.",
+      "participant": "Participant",
+      "paid": "Paid",
+      "share": "Their part",
+      "balance": "Balance",
+      "howToSettle": "To settle the month"
+    },
+    "Upcoming": {
+      "title": "Coming months",
+      "description": "What is already committed: installments still to pay, recurring expenses and anything already dated. Tap a month to open it."
+    },
+    "Plans": {
+      "title": "Installment plans in progress",
+      "empty": "No installment plan with installments left.",
+      "summary": "{amount} left to pay in {count, plural, one {# installment} other {# installments}}.",
+      "progress": "{recorded} of {count} recorded · {remaining} left · ends {last}"
+    }
   }
 }

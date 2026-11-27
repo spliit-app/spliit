@@ -8,7 +8,7 @@ import {
   uniqueSuffix,
 } from './app'
 import { expect, test } from './fixtures'
-import { fieldByLabel, selectRadixOption } from './ui'
+import { fillStable, selectRadixOption } from './ui'
 
 const PARTICIPANTS = ['Alice', 'Bob']
 
@@ -26,19 +26,55 @@ test('round-trips a recurrence rule through the form', async ({ page }) => {
   })
 
   await openExpense(page, 'Netflix')
-  const field = fieldByLabel(page, 'Expense Recurrence').getByRole('combobox')
+  const field = page.getByTestId('recurrence-rule')
   await expect(field).toContainText('Monthly')
 
   // Turning a recurring expense back off is a distinct branch in
   // src/lib/api.ts, so assert the transition persists.
-  await selectRadixOption(page, field, 'None')
+  await selectRadixOption(page, field, 'Stop repeating here')
   await page.getByRole('button', { name: 'Save', exact: true }).click()
   await page.waitForURL(EXPENSES_URL, { timeout: 30_000 })
 
   await openExpense(page, 'Netflix')
+  await expect(page.getByTestId('recurrence-rule')).toContainText(
+    'Stop repeating here',
+  )
+})
+
+test('stops a recurring expense after a number of occurrences', async ({
+  page,
+}) => {
+  const groupId = await createGroup(page, {
+    name: `E2E Recurrence end ${uniqueSuffix()}`,
+    participants: PARTICIPANTS,
+  })
+
+  await page.goto(`/groups/${groupId}/expenses/create`)
+  const submit = page.getByRole('button', { name: 'Create', exact: true })
+  await expect(submit).toBeVisible({ timeout: 30_000 })
+  await fillStable(page.locator('input[name="title"]'), 'Gym')
+  await fillStable(page.locator('input[name="amount"]'), '10')
+  await selectRadixOption(page, page.getByTestId('paid-by'), 'Alice')
+  await fillStable(page.locator('input[type="date"]').first(), daysAgo(5))
+  await page.getByTestId('recurrence-mode-RECURRING').click()
+  await selectRadixOption(page, page.getByTestId('recurrence-rule'), 'Daily')
+  await page.getByTestId('ends-after').click()
+  await fillStable(page.getByTestId('recurrence-occurrences'), '3')
+  await expect(page.getByTestId('recurrence-preview')).toContainText(
+    '3 times in all',
+  )
+  await submit.click()
+  await page.waitForURL(EXPENSES_URL, { timeout: 30_000 })
+
+  // Five days have passed, but the series ends after its third occurrence.
+  await expect
+    .poll(async () => await expenseCard(page, 'Gym').count(), {
+      timeout: 20_000,
+    })
+    .toBe(3)
   await expect(
-    fieldByLabel(page, 'Expense Recurrence').getByRole('combobox'),
-  ).toContainText('None')
+    expenseCard(page, 'Gym').getByTestId('series-badge').first(),
+  ).toHaveText('3/3')
 })
 
 test('materialises past occurrences of a daily expense', async ({ page }) => {
