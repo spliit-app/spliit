@@ -1,4 +1,5 @@
 import { RecurrenceRule, SplitMode } from '@/generated/prisma/browser'
+import { MAX_SERIES_OCCURRENCES } from '@/lib/series'
 import Decimal from 'decimal.js'
 import * as z from 'zod'
 
@@ -36,6 +37,13 @@ export const groupFormSchema = z
   })
 
 export type GroupFormValues = z.infer<typeof groupFormSchema>
+
+const emptyToUndefined = (value: unknown) =>
+  value === '' ||
+  value === null ||
+  (value instanceof Date && Number.isNaN(value.getTime()))
+    ? undefined
+    : value
 
 const inputCoercedToNumber = z.union([
   z.number(),
@@ -150,6 +158,66 @@ export const expenseFormSchema = z
       .default([]),
     notes: z.string().max(EXPENSE_NOTES_MAX, 'max5000').optional(),
     recurrenceRule: z.enum(RecurrenceRule).default('NONE'),
+    // How a repeating expense ends, and whether it is a purchase paid in
+    // installments (see src/lib/series.ts). Ignored when it does not repeat.
+    seriesKind: z.enum(['RECURRING', 'INSTALLMENTS']).default('RECURRING'),
+    recurrenceEnd: z
+      .enum(['NEVER', 'ON_DATE', 'AFTER_OCCURRENCES'])
+      .default('NEVER'),
+    recurrenceEndDate: z.preprocess(
+      emptyToUndefined,
+      z.coerce.date().optional(),
+    ),
+    recurrenceOccurrences: z.preprocess(
+      emptyToUndefined,
+      z.coerce.number().optional(),
+    ),
+    // Installments: whether the amount entered is the purchase total (split
+    // across the installments) or the amount of each installment.
+    installmentAmountIsTotal: z.boolean().default(true),
+  })
+  .superRefine((expense, ctx) => {
+    if (expense.recurrenceRule !== 'NONE') {
+      const needsCount =
+        expense.seriesKind === 'INSTALLMENTS' ||
+        expense.recurrenceEnd === 'AFTER_OCCURRENCES'
+      const occurrences = expense.recurrenceOccurrences
+      if (
+        needsCount &&
+        (occurrences === undefined ||
+          !Number.isInteger(occurrences) ||
+          occurrences < 2 ||
+          occurrences > MAX_SERIES_OCCURRENCES)
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'occurrencesRange',
+          path: ['recurrenceOccurrences'],
+        })
+      }
+      if (
+        expense.seriesKind === 'RECURRING' &&
+        expense.recurrenceEnd === 'ON_DATE'
+      ) {
+        const endDate = expense.recurrenceEndDate
+        if (!endDate || Number.isNaN(endDate.getTime())) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'endDateRequired',
+            path: ['recurrenceEndDate'],
+          })
+        } else if (
+          endDate.toISOString().slice(0, 10) <
+          expense.expenseDate.toISOString().slice(0, 10)
+        ) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'endDateBeforeStart',
+            path: ['recurrenceEndDate'],
+          })
+        }
+      }
+    }
   })
   .superRefine((expense, ctx) => {
     switch (expense.splitMode) {

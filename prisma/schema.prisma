@@ -24,6 +24,8 @@ model Group {
   activities   Activity[]
   createdAt    DateTime      @default(now())
   deleteAt     DateTime?
+
+  recurringSeries RecurringSeries[]
 }
 
 model Participant {
@@ -66,6 +68,49 @@ model Expense {
   recurrenceRule         RecurrenceRule?       @default(NONE)
   recurringExpenseLink   RecurringExpenseLink?
   recurringExpenseLinkId String?
+
+  // The recurring series or installment plan this expense is an occurrence
+  // of, and its position in it (1 for the expense the series started from).
+  series           RecurringSeries? @relation(fields: [seriesId], references: [id], onDelete: SetNull)
+  seriesId         String?
+  occurrenceNumber Int?
+
+  @@index([seriesId])
+}
+
+enum RecurringSeriesKind {
+  // A recurring expense (rent, a subscription): every occurrence repeats the
+  // previous one.
+  RECURRING
+  // A purchase paid in installments: a fixed number of monthly occurrences.
+  INSTALLMENTS
+}
+
+// What the occurrences of a recurring expense have in common: when the series
+// ends and, for installments entered as a purchase total, how that total is
+// split. The occurrences themselves are still materialized one at a time
+// through RecurringExpenseLink.
+model RecurringSeries {
+  id      String              @id
+  group   Group               @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  groupId String
+  kind    RecurringSeriesKind @default(RECURRING)
+
+  // Last day an occurrence may fall on, inclusive. Null: no end date.
+  endDate         DateTime? @db.Date
+  // How many occurrences the series has, the first one included. Null: no limit.
+  occurrenceCount Int?
+
+  // Installments entered as a purchase total, in minor units: the total is
+  // split across the occurrences, the leftover units going to the first ones.
+  // Null when every occurrence repeats the amount of the previous one.
+  totalAmount         Int?
+  totalOriginalAmount Int?
+
+  createdAt DateTime  @default(now())
+  expenses  Expense[]
+
+  @@index([groupId])
 }
 
 model ExpenseDocument {

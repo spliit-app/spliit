@@ -8,7 +8,8 @@ jest.mock('./prisma', () => ({
     activity: { create: jest.fn() },
     expense: { findMany: jest.fn(), findUnique: jest.fn(), update: jest.fn() },
     group: { findUnique: jest.fn() },
-    recurringExpenseLink: { findMany: jest.fn() },
+    recurringExpenseLink: { findMany: jest.fn(), deleteMany: jest.fn() },
+    recurringSeries: { create: jest.fn(), update: jest.fn() },
   },
 }))
 
@@ -218,6 +219,95 @@ describe('createRecurringExpenses', () => {
   })
 })
 
+describe('createRecurringExpenses with a series', () => {
+  const installmentFrame = (occurrenceNumber: number) => ({
+    id: `expense-${occurrenceNumber}`,
+    groupId: 'group-1',
+    title: 'Fridge',
+    amount: occurrenceNumber === 1 ? 501 : 500,
+    originalAmount: null,
+    categoryId: 0,
+    paidById: 'participant-1',
+    splitMode: 'EVENLY',
+    recurrenceRule: 'MONTHLY',
+    expenseDate: new Date(Date.UTC(2025, 0, 10)),
+    createdAt: new Date(),
+    seriesId: 'series-1',
+    occurrenceNumber,
+    series: {
+      id: 'series-1',
+      kind: 'INSTALLMENTS',
+      endDate: null,
+      occurrenceCount: 2,
+      totalAmount: 1001,
+      totalOriginalAmount: null,
+    },
+    category: null,
+    paidBy: { id: 'participant-1' },
+    paidFor: [
+      { expenseId: 'expense-1', participantId: 'participant-1', shares: 100 },
+    ],
+    documents: [],
+  })
+
+  function setUp(frame: ReturnType<typeof installmentFrame>) {
+    const createExpense = jest.fn(async ({ data }) => ({
+      ...frame,
+      ...data,
+      createdAt: new Date(),
+    }))
+    const transaction = {
+      expense: { create: createExpense },
+      recurringExpenseLink: { update: jest.fn() },
+    }
+    jest.mocked(prisma.recurringExpenseLink.findMany).mockResolvedValue([
+      {
+        id: 'link-1',
+        groupId: 'group-1',
+        currentFrameExpenseId: frame.id,
+        nextExpenseDate: new Date(Date.UTC(2025, 1, 10)),
+        nextExpenseCreatedAt: null,
+        anchorDay: 10,
+        currentFrameExpense: frame,
+      },
+    ] as never)
+    jest
+      .mocked(prisma.$transaction)
+      .mockImplementation((async (callback: (tx: unknown) => unknown) =>
+        callback(transaction)) as never)
+    jest.mocked(prisma.expense.findMany).mockResolvedValue([])
+    return { createExpense }
+  }
+
+  beforeEach(() => jest.clearAllMocks())
+
+  it('creates the last installment with its part of the total and no link', async () => {
+    const { createExpense } = setUp(installmentFrame(1))
+
+    await getGroupExpenses('group-1')
+
+    expect(createExpense).toHaveBeenCalledTimes(1)
+    const { data } = createExpense.mock.calls[0][0]
+    expect(data).toMatchObject({
+      amount: 500,
+      occurrenceNumber: 2,
+      seriesId: 'series-1',
+      recurringExpenseLink: undefined,
+    })
+  })
+
+  it('closes the link of a series that already ended', async () => {
+    const { createExpense } = setUp(installmentFrame(2))
+
+    await getGroupExpenses('group-1')
+
+    expect(createExpense).not.toHaveBeenCalled()
+    expect(prisma.recurringExpenseLink.deleteMany).toHaveBeenCalledWith({
+      where: { id: 'link-1', nextExpenseCreatedAt: null },
+    })
+  })
+})
+
 describe('updateExpense', () => {
   const existingExpense = {
     id: 'expense-1',
@@ -232,6 +322,20 @@ describe('updateExpense', () => {
       nextExpenseCreatedAt: null,
       nextExpenseDate: new Date(Date.UTC(2025, 1, 15)),
       anchorDay: 15,
+    },
+    seriesId: 'series-1',
+    occurrenceNumber: 2,
+    series: {
+      id: 'series-1',
+      kind: 'RECURRING',
+      endDate: null,
+      occurrenceCount: null,
+      totalAmount: null,
+      totalOriginalAmount: null,
+      expenses: [
+        { id: 'expense-0', occurrenceNumber: 1 },
+        { id: 'expense-1', occurrenceNumber: 2 },
+      ],
     },
   }
 
@@ -249,21 +353,30 @@ describe('updateExpense', () => {
       isReimbursement: false,
       documents: [],
       recurrenceRule: 'MONTHLY',
+      seriesKind: 'RECURRING',
+      recurrenceEnd: 'NEVER',
+      installmentAmountIsTotal: true,
       ...overrides,
     }) as ExpenseFormValues
 
-  async function linkUpdate(values: ExpenseFormValues) {
+  async function update(
+    values: ExpenseFormValues,
+    expense: object = existingExpense,
+  ) {
     jest.mocked(prisma.group.findUnique).mockResolvedValue({
       id: 'group-1',
       participants: [{ id: 'participant-1' }],
     } as never)
+    jest.mocked(prisma.expense.findUnique).mockResolvedValue(expense as never)
     jest
-      .mocked(prisma.expense.findUnique)
-      .mockResolvedValue(existingExpense as never)
+      .mocked(prisma.$transaction)
+      .mockImplementation((async (callback: (tx: unknown) => unknown) =>
+        callback(prisma)) as never)
     await updateExpense('group-1', 'expense-1', values)
     return jest.mocked(prisma.expense.update).mock.calls[0][0].data
-      .recurringExpenseLink
   }
+  const linkUpdate = async (values: ExpenseFormValues) =>
+    (await update(values)).recurringExpenseLink as any
 
   beforeEach(() => jest.clearAllMocks())
 
@@ -272,19 +385,21 @@ describe('updateExpense', () => {
       formValues({ expenseDate: new Date(Date.UTC(2025, 0, 31)) }),
     )
 
-    expect(link).toEqual({
-      update: {
-        nextExpenseDate: new Date(Date.UTC(2025, 1, 28)),
-        anchorDay: 31,
-      },
-      delete: false,
+    expect(link.upsert.update).toEqual({
+      nextExpenseDate: new Date(Date.UTC(2025, 1, 28)),
+      anchorDay: 31,
+      nextExpenseCreatedAt: null,
     })
   })
 
-  it('leaves the link alone when neither the date nor the rule changes', async () => {
+  it('keeps the stored schedule when neither the date nor the rule changes', async () => {
     const link = await linkUpdate(formValues({ title: 'New rent' }))
 
-    expect(link).toEqual({ delete: false })
+    expect(link.upsert.update).toEqual({
+      nextExpenseDate: new Date(Date.UTC(2025, 1, 15)),
+      anchorDay: 15,
+      nextExpenseCreatedAt: null,
+    })
   })
 
   it('only deletes the link when the rule is switched to NONE', async () => {
@@ -301,18 +416,78 @@ describe('updateExpense', () => {
   it('schedules the next occurrence a year later when switching to yearly', async () => {
     const link = await linkUpdate(formValues({ recurrenceRule: 'YEARLY' }))
 
-    expect(link?.update).toEqual({
+    expect(link.upsert.update).toEqual({
       nextExpenseDate: new Date(Date.UTC(2026, 0, 15)),
       anchorDay: 15,
+      nextExpenseCreatedAt: null,
     })
   })
 
   it('clears the anchor day when switching to weekly', async () => {
     const link = await linkUpdate(formValues({ recurrenceRule: 'WEEKLY' }))
 
-    expect(link?.update).toEqual({
+    expect(link.upsert.update).toEqual({
       nextExpenseDate: new Date(Date.UTC(2025, 0, 22)),
       anchorDay: null,
+      nextExpenseCreatedAt: null,
     })
+  })
+
+  it('saves a new end and closes the series when nothing follows', async () => {
+    const link = await linkUpdate(
+      formValues({
+        recurrenceEnd: 'AFTER_OCCURRENCES',
+        recurrenceOccurrences: 2,
+      }),
+    )
+
+    expect(prisma.recurringSeries.update).toHaveBeenCalledWith({
+      where: { id: 'series-1' },
+      data: { endDate: null, occurrenceCount: 2 },
+    })
+    expect(link).toEqual({ delete: true })
+  })
+
+  it('ignores a recurrence change on a past occurrence', async () => {
+    const data = await update(formValues({ recurrenceRule: 'NONE' }), {
+      ...existingExpense,
+      occurrenceNumber: 1,
+      recurringExpenseLink: {
+        ...existingExpense.recurringExpenseLink,
+        nextExpenseCreatedAt: new Date(),
+      },
+    })
+
+    expect(data.recurrenceRule).toBe('MONTHLY')
+    expect(data.recurringExpenseLink).toEqual({})
+    expect(prisma.recurringSeries.update).not.toHaveBeenCalled()
+  })
+
+  it('turns an expense that did not repeat into the first of its installments', async () => {
+    const data = await update(
+      formValues({
+        amount: 1001,
+        seriesKind: 'INSTALLMENTS',
+        recurrenceOccurrences: 2,
+      }),
+      {
+        ...existingExpense,
+        recurrenceRule: 'NONE',
+        recurringExpenseLink: null,
+        seriesId: null,
+        occurrenceNumber: null,
+        series: null,
+      },
+    )
+
+    expect(prisma.recurringSeries.create).toHaveBeenCalledWith({
+      data: expect.objectContaining({
+        kind: 'INSTALLMENTS',
+        occurrenceCount: 2,
+        totalAmount: 1001,
+      }),
+    })
+    expect(data).toMatchObject({ amount: 501, occurrenceNumber: 1 })
+    expect(data.recurringExpenseLink).toHaveProperty('upsert')
   })
 })

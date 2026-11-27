@@ -69,6 +69,8 @@ export async function GET(
           paidFor: { select: { participantId: true, shares: true } },
           isReimbursement: true,
           splitMode: true,
+          occurrenceNumber: true,
+          series: { select: { occurrenceCount: true } },
         },
       },
       participants: { select: { id: true, name: true } },
@@ -93,6 +95,7 @@ export async function GET(
   - Is Reimbursement: Whether the expense is a reimbursement or not.
   - Split mode: The method used to split the expense (e.g., Evenly, By shares, By percentage, By amount).
   - UserA, UserB: User-specific data or balances (e.g., amount owed or contributed by each user).
+  - Installment / occurrence: For an installment or a recurring expense, its number in the series ("2/5" for the second of five installments).
 
   Example Table:
   +------------+------------------+----------+----------+----------+---------------+-------------------+-----------------+------------------+----------------------+--------+-----------+
@@ -120,6 +123,8 @@ export async function GET(
       label: escapeCsvFormula(participant.name),
       value: participant.name,
     })),
+    // Last, so that the participant columns stay where importers expect them.
+    { label: 'Installment / occurrence', value: 'occurrence' },
   ]
 
   const currency = getCurrencyFromGroup(group)
@@ -145,6 +150,13 @@ export async function GET(
         : null,
       isReimbursement: expense.isReimbursement ? 'Yes' : 'No',
       splitMode: splitModeLabel[expense.splitMode],
+      // "2/5" for the second of five installments.
+      occurrence:
+        expense.occurrenceNumber == null
+          ? null
+          : expense.series?.occurrenceCount != null
+            ? `${expense.occurrenceNumber}/${expense.series.occurrenceCount}`
+            : String(expense.occurrenceNumber),
       ...Object.fromEntries(
         group.participants.map((participant) => {
           const isPaidByParticipant = expense.paidById === participant.id

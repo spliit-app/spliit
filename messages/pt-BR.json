@@ -47,7 +47,11 @@
     "receivedBy": "Recebido por <strong>{paidBy}</strong> para <paidFor></paidFor>",
     "yourBalance": "Seu saldo:",
     "everyone": "Todos",
-    "notInvolved": "Você não está envolvido"
+    "notInvolved": "Você não está envolvido",
+    "recurring": "Despesa recorrente",
+    "installmentOf": "Parcela {number} de {count}",
+    "occurrenceOf": "Ocorrência {number} de {count}",
+    "occurrence": "Ocorrência {number}"
   },
   "Groups": {
     "myGroups": "Meus grupos",
@@ -278,6 +282,53 @@
       "label": "Valor a converter",
       "repaymentLabel": "Valor a transferir",
       "repaymentDescription": "Convertido do valor acima, que é o que zera o saldo."
+    },
+    "Recurrence": {
+      "title": "Repetição ou parcelamento",
+      "description": "Repita esta despesa periodicamente ou divida uma compra em parcelas mensais.",
+      "modes": {
+        "none": "Não repete",
+        "recurring": "Recorrente",
+        "installments": "Parcelado"
+      },
+      "recurring": "Despesa recorrente",
+      "installments": "Compra parcelada",
+      "installmentOf": "Parcela {number} de {count}",
+      "occurrenceOf": "Ocorrência {number} de {count}",
+      "occurrence": "Ocorrência {number}",
+      "pastOccurrence": "Esta ocorrência já passou: a repetição só pode ser alterada a partir da mais recente.",
+      "goToLatest": "Abrir a mais recente",
+      "frequency": "Frequência",
+      "stopHere": "Parar de repetir aqui",
+      "ends": "Termina",
+      "endsNever": "Nunca",
+      "endsOnDate": "Em",
+      "endsAfter": "Depois de",
+      "times": "vezes",
+      "installmentCount": "Número de parcelas",
+      "installmentCountSuffix": "parcelas",
+      "installmentCountDescription": "Uma parcela por mês, a partir da data da despesa (até {max}).",
+      "amountIs": "O valor informado é",
+      "amountIsTotal": "o total da compra",
+      "amountIsEach": "o valor de cada parcela",
+      "editBecomesFirst": "Ao salvar, esta despesa vira a 1ª parcela.",
+      "lastInstallment": "Esta é a última parcela.",
+      "continueInstallments": "Continuar lançando as próximas parcelas",
+      "continueInstallmentsDescription": "Desmarque para encerrar o parcelamento nesta parcela (uma compra devolvida, por exemplo).",
+      "thisMonth": "este mês",
+      "more": "+{count}",
+      "installmentsEven": "{count}x de {amount}",
+      "installmentsUneven": "{count}x: 1ª de {first} e as demais de {other}",
+      "purchaseTotal": "Total {amount}",
+      "firstAndLast": "1ª em {first}, última em {last}",
+      "installmentsHowItWorks": "Cada parcela é lançada na data dela, então só a deste mês entra nos saldos agora. As próximas aparecem como previstas na aba Mensal.",
+      "openEndedSummary": "{amount} a cada vez, sem data para acabar.",
+      "boundedSummary": "{count, plural, one {# vez} other {# vezes}} no total, a última em {last}: {total} a partir desta.",
+      "recurringHowItWorks": "Cada ocorrência é lançada na data dela.",
+      "planSummary": "Total da compra {total} · lançado até agora {recorded} · falta {left}",
+      "stopped": "encerrado",
+      "recurringSummary": "{count, plural, one {# ocorrência lançada} other {# ocorrências lançadas}}, {recorded} no total",
+      "splitHint": "Em “Pago para”, abaixo, aparece a divisão da compra inteira: cada parcela é dividida na mesma proporção."
     }
   },
   "ExpenseDocumentsInput": {
@@ -451,7 +502,10 @@
     "noZeroShares": "Todas as partes devem ser maiores que 0.",
     "amountSum": "A soma dos valores deve ser igual ao valor da despesa.",
     "percentageSum": "A soma das porcentagens deve ser igual a 100.",
-    "ratePositive": "A taxa deve ser maior que zero."
+    "ratePositive": "A taxa deve ser maior que zero.",
+    "occurrencesRange": "Informe um número entre 2 e 360.",
+    "endDateRequired": "Escolha a data final.",
+    "endDateBeforeStart": "A data final não pode ser antes da data da despesa."
   },
   "Categories": {
     "search": "Pesquisar categoria...",
@@ -545,5 +599,58 @@
     "groupTitle": "Não foi possível carregar esse grupo",
     "generic": "Por favor tente novamente. Caso o erro continue, recarregue a página.",
     "retry": "Tente novamente"
+  },
+  "Monthly": {
+    "title": "Mensal",
+    "previousMonth": "Mês anterior",
+    "nextMonth": "Próximo mês",
+    "thisMonth": "Este mês",
+    "backToThisMonth": "Voltar para este mês",
+    "total": "Gastos do mês",
+    "recordedAndExpected": "{recorded} lançado · {expected} previsto",
+    "types": {
+      "installment": "Parcelas",
+      "recurring": "Recorrentes",
+      "oneOff": "Avulsas",
+      "reimbursement": "Reembolsos"
+    },
+    "entryCount": "{count, plural, =0 {nenhuma} one {# despesa} other {# despesas}}",
+    "sections": {
+      "installment": "Parcelas",
+      "recurring": "Despesas recorrentes",
+      "oneOff": "Despesas avulsas",
+      "reimbursement": "Reembolsos"
+    },
+    "sectionDescriptions": {
+      "installment": "Só entra a parcela deste mês, não a compra inteira.",
+      "recurring": "Assinaturas, aluguel e outras despesas que se repetem.",
+      "oneOff": "Despesas que acontecem uma vez.",
+      "reimbursement": "Dinheiro devolvido entre os participantes. Não conta como gasto."
+    },
+    "expected": "previsto",
+    "entryDetails": "{date} · pago por {paidBy}",
+    "remaining": "{count, plural, one {falta #} other {faltam #}} ({amount})",
+    "lastInstallment": "última",
+    "Settlement": {
+      "title": "Acerto do mês",
+      "description": "Só o que cai neste mês. A aba Saldos continua valendo para o grupo todo.",
+      "includeExpected": "Contar também as despesas previstas",
+      "empty": "Nada para acertar neste mês.",
+      "participant": "Participante",
+      "paid": "Pagou",
+      "share": "Parte dele",
+      "balance": "Saldo",
+      "howToSettle": "Para acertar o mês"
+    },
+    "Upcoming": {
+      "title": "Próximos meses",
+      "description": "O que já está comprometido: parcelas a pagar, despesas recorrentes e o que já tem data. Toque em um mês para abri-lo."
+    },
+    "Plans": {
+      "title": "Parcelamentos em andamento",
+      "empty": "Nenhum parcelamento com parcelas a vencer.",
+      "summary": "Faltam {amount} em {count, plural, one {# parcela} other {# parcelas}}.",
+      "progress": "{recorded} de {count} lançadas · faltam {remaining} · termina em {last}"
+    }
   }
 }

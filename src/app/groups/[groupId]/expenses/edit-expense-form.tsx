@@ -38,6 +38,9 @@ export function EditExpenseForm({
 
   return (
     <ExpenseForm
+      // A fresh form for each expense: moving between the occurrences of a
+      // series opens another expense on the same page.
+      key={expense.id}
       group={group}
       expense={expense}
       categories={categories}

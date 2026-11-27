@@ -157,3 +157,19 @@ export function distributeAmount(amount: number, count: number): number[] {
     0,
   )
 }
+
+/**
+ * Splits `amount` (in minor units) in proportion to `weights`, adding up to
+ * exactly `amount`. Ties for the leftover units go to the first weights.
+ */
+export function distributeAmountByWeights(
+  amount: number,
+  weights: number[],
+): number[] {
+  return apportion(
+    amount,
+    weights,
+    weights.reduce((sum, weight) => sum + weight, 0),
+    0,
+  )
+}

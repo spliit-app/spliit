@@ -8,7 +8,7 @@ import { Locale } from '@/i18n/request'
 import { getGroupExpenses } from '@/lib/api'
 import { Currency, getCurrency } from '@/lib/currency'
 import { cn, formatCurrency, formatDateOnly } from '@/lib/utils'
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight, CreditCard, Repeat } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -44,6 +44,61 @@ function Participants({
     forCount: expense.paidFor.length,
   })
   return <>{participants}</>
+}
+
+/**
+ * Marks an occurrence of a recurring expense or an installment plan, with its
+ * number: "2/5" for the second of five installments.
+ */
+export function SeriesBadge({
+  expense,
+  className,
+}: {
+  expense: {
+    occurrenceNumber: number | null
+    recurrenceRule: string | null
+    series: { kind: string; occurrenceCount: number | null } | null
+  }
+  className?: string
+}) {
+  const t = useTranslations('ExpenseCard')
+  const { series, occurrenceNumber } = expense
+  const isInstallment = series?.kind === 'INSTALLMENTS'
+  if (!series && (!expense.recurrenceRule || expense.recurrenceRule === 'NONE'))
+    return null
+
+  const Icon = isInstallment ? CreditCard : Repeat
+  const count = series?.occurrenceCount
+  const label =
+    occurrenceNumber == null
+      ? null
+      : count != null
+        ? `${occurrenceNumber}/${count}`
+        : `#${occurrenceNumber}`
+  const title =
+    occurrenceNumber == null
+      ? t('recurring')
+      : isInstallment
+        ? t('installmentOf', { number: occurrenceNumber, count: count ?? '?' })
+        : count != null
+          ? t('occurrenceOf', { number: occurrenceNumber, count })
+          : t('occurrence', { number: occurrenceNumber })
+
+  return (
+    <span
+      title={title}
+      aria-label={title}
+      data-testid="series-badge"
+      className={cn(
+        'inline-flex items-center gap-1 rounded-full border px-1.5 py-px text-[11px] font-medium not-italic text-muted-foreground tabular-nums align-middle',
+        isInstallment && 'border-primary/40 text-primary',
+        className,
+      )}
+    >
+      <Icon className="w-3 h-3" />
+      {label}
+    </span>
+  )
 }
 
 type Props = {
@@ -93,6 +148,7 @@ export function ExpenseCard({
       <div className="flex-1">
         <div className={cn('mb-1', expense.isReimbursement && 'italic')}>
           {expense.title}
+          <SeriesBadge expense={expense} className="ml-2" />
         </div>
         <div className="text-xs text-muted-foreground">
           <Participants expense={expense} participantCount={participantCount} />

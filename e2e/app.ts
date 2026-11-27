@@ -144,10 +144,11 @@ export async function addExpense(
     )
   }
 
-  if (expense.recurrence) {
+  if (expense.recurrence && expense.recurrence !== 'None') {
+    await page.getByTestId('recurrence-mode-RECURRING').click()
     await selectRadixOption(
       page,
-      fieldByLabel(page, 'Expense Recurrence').getByRole('combobox'),
+      page.getByTestId('recurrence-rule'),
       expense.recurrence,
     )
   }
